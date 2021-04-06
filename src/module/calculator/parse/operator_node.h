@@ -20,6 +20,7 @@ public:
         Plus,
         Minus,
         Multiply,
+        Power,
         Divide,
 
         Control,

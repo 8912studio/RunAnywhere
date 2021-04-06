@@ -23,6 +23,7 @@ bool IsBinaryOperator(OperatorNode::Type type) {
     case OperatorNode::Type::Minus:
     case OperatorNode::Type::Multiply:
     case OperatorNode::Type::Divide:
+    case OperatorNode::Type::Power:
         return true;
     default:
         return false;

@@ -129,6 +129,21 @@ public:
 };
 
 
+class PowerOperatorEvaluator : public BinaryOperatorEvaluator {
+public:
+    using BinaryOperatorEvaluator::BinaryOperatorEvaluator;
+
+    EvaluateStatus EvaluateValue(EvaluateResult& result) override {
+
+        result.decimal_value = boost::multiprecision::pow(
+            GetFirstChildValue().decimal_value, 
+            GetSecondChildValue().decimal_value);
+
+        return EvaluateStatus::Ok;
+    }
+};
+
+
 class DivideOperatorEvaluator : public BinaryOperatorEvaluator {
 public:
     using BinaryOperatorEvaluator::BinaryOperatorEvaluator;
@@ -162,6 +177,9 @@ std::shared_ptr<OperatorEvaluator> OperatorEvaluator::Create(
 
     case OperatorNode::Type::Multiply:
         return std::make_shared<MultiplyOperatorEvaluator>(operator_node);
+
+    case OperatorNode::Type::Power:
+        return std::make_shared<PowerOperatorEvaluator>(operator_node);
 
     case OperatorNode::Type::Divide:
         return std::make_shared<DivideOperatorEvaluator>(operator_node);

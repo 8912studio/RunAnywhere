@@ -23,9 +23,17 @@ public:
             type = OperatorNode::Type::Minus;
             break;
 
-        case L'*':
-            type = OperatorNode::Type::Multiply;
+        case L'*': {
+            context.Forward();
+            if (context.GetCurrentChar() == L'*') {
+                type = OperatorNode::Type::Power;
+            }
+            else {
+                context.Backward();
+                type = OperatorNode::Type::Multiply;
+            }
             break;
+        }
 
         case L'/':
             type = OperatorNode::Type::Divide;
