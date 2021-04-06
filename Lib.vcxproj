@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{211b556f-7bb3-4733-9a50-be64cda22d90}</ProjectGuid>
+    <RootNamespace>Lib</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>C:\Users\zplutor\Projects\zaf\src;C:\Users\zplutor\Projects\boost_1_75_0;$(SolutionDir)src;$(IncludePath)</IncludePath>
+    <IntDir>$(SolutionDir)int\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>C:\Users\zplutor\Projects\zaf\src;C:\Users\zplutor\Projects\boost_1_75_0;$(SolutionDir)src;$(IncludePath)</IncludePath>
+    <IntDir>$(SolutionDir)int\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="src\module\calculator\calculator_command.h" />
+    <ClInclude Include="src\module\calculator\calculator_module.h" />
+    <ClInclude Include="src\module\calculator\evaluate\evaluate_result.h" />
+    <ClInclude Include="src\module\calculator\evaluate\evaluate_status.h" />
+    <ClInclude Include="src\module\calculator\evaluate\evaluator.h" />
+    <ClInclude Include="src\module\calculator\evaluate\operand_evaluator.h" />
+    <ClInclude Include="src\module\calculator\evaluate\operator_evaluator.h" />
+    <ClInclude Include="src\module\calculator\parse\binary_expression_parser.h" />
+    <ClInclude Include="src\module\calculator\parse\command_parser.h" />
+    <ClInclude Include="src\module\calculator\parse\compound_parser.h" />
+    <ClInclude Include="src\module\calculator\parse\decimal_number_parser.h" />
+    <ClInclude Include="src\module\calculator\parse\common_option_set_parser.h" />
+    <ClInclude Include="src\module\calculator\parse\expression_parser.h" />
+    <ClInclude Include="src\module\calculator\parse\extend_option_set_parser.h" />
+    <ClInclude Include="src\module\calculator\parse\literal_parser.h" />
+    <ClInclude Include="src\module\calculator\parse\modifier.h" />
+    <ClInclude Include="src\module\calculator\parse\modifier_parser.h" />
+    <ClInclude Include="src\module\calculator\parse\non_decimal_number_parser.h" />
+    <ClInclude Include="src\module\calculator\parse\non_terminal_parser.h" />
+    <ClInclude Include="src\module\calculator\parse\number_parser.h" />
+    <ClInclude Include="src\module\calculator\parse\number_unit.h" />
+    <ClInclude Include="src\module\calculator\parse\octal_number_parser.h" />
+    <ClInclude Include="src\module\calculator\parse\operand_node.h" />
+    <ClInclude Include="src\module\calculator\parse\operator_node.h" />
+    <ClInclude Include="src\module\calculator\parse\parser.h" />
+    <ClInclude Include="src\module\calculator\parse\parse_context.h" />
+    <ClInclude Include="src\module\calculator\parse\parse_result.h" />
+    <ClInclude Include="src\module\calculator\parse\parse_status.h" />
+    <ClInclude Include="src\module\calculator\parse\syntax_node.h" />
+    <ClInclude Include="src\module\calculator\parse\terminal_parser.h" />
+    <ClInclude Include="src\module\calculator\parse\unary_expression_parser.h" />
+    <ClInclude Include="src\module\command.h" />
+    <ClInclude Include="src\module\meta\meta_command.h" />
+    <ClInclude Include="src\module\meta\meta_module.h" />
+    <ClInclude Include="src\module\module.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\module\calculator\calculator_command.cpp" />
+    <ClCompile Include="src\module\calculator\calculator_module.cpp" />
+    <ClCompile Include="src\module\calculator\evaluate\evaluator.cpp" />
+    <ClCompile Include="src\module\calculator\evaluate\operand_evaluator.cpp" />
+    <ClCompile Include="src\module\calculator\evaluate\operator_evaluator.cpp" />
+    <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp" />
+    <ClCompile Include="src\module\calculator\parse\command_parser.cpp" />
+    <ClCompile Include="src\module\calculator\parse\compound_parser.cpp" />
+    <ClCompile Include="src\module\calculator\parse\decimal_number_parser.cpp" />
+    <ClCompile Include="src\module\calculator\parse\common_option_set_parser.cpp" />
+    <ClCompile Include="src\module\calculator\parse\expression_parser.cpp" />
+    <ClCompile Include="src\module\calculator\parse\extend_option_set_parser.cpp" />
+    <ClCompile Include="src\module\calculator\parse\literal_parser.cpp" />
+    <ClCompile Include="src\module\calculator\parse\modifier_parser.cpp" />
+    <ClCompile Include="src\module\calculator\parse\non_decimal_number_parser.cpp" />
+    <ClCompile Include="src\module\calculator\parse\non_terminal_parser.cpp" />
+    <ClCompile Include="src\module\calculator\parse\number_parser.cpp" />
+    <ClCompile Include="src\module\calculator\parse\number_unit.cpp" />
+    <ClCompile Include="src\module\calculator\parse\octal_number_parser.cpp" />
+    <ClCompile Include="src\module\calculator\parse\parse_result.cpp" />
+    <ClCompile Include="src\module\calculator\parse\unary_expression_parser.cpp" />
+    <ClCompile Include="src\module\meta\meta_command.cpp" />
+    <ClCompile Include="src\module\meta\meta_module.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

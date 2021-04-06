@@ -1,0 +1,7 @@
+<OutputView FixedHeight="51" Layouter="VerticalLayouter">
+    <Control FixedHeight="1" BackgroundColor="#999999" />
+    <Label 
+        Name="outputLabel"
+        ParagraphAlignment="Center"
+        FontSize="20"/>
+</OutputView>

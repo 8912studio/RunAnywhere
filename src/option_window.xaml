@@ -1,0 +1,27 @@
+<OptionWindow Size="400,300" IsSizable="false" CanMaximize="false" Title="Option">
+    <OptionWindow.RootControl>
+        <VerticalBox Padding="20,20,20,20" />
+    </OptionWindow.RootControl>
+
+    <HorizontalBox FixedHeight="30">
+        <Label 
+            ParagraphAlignment="Center" 
+            Text="Show/hide hot key" />
+        <Label 
+            Name="hotKeyInvalidLabel"
+            ParagraphAlignment="Center"
+            TextColor="Red"
+            Text="Hot key is invalid"
+            IsVisible="false" />
+    </HorizontalBox>
+    <HotKeyBox 
+        Name="hotKeyBox" 
+        FixedHeight="30"  
+        ParagraphAlignment="Center" />
+    <CheckBox 
+        Name="autoRunCheckBox"
+        FixedHeight="30" 
+        Margin="0,20,0,0"
+        ParagraphAlignment="Center"
+        Text="Auto run on system boot" />
+</OptionWindow>

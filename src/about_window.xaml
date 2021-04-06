@@ -1,0 +1,33 @@
+<AboutWindow 
+    Size="400,300" 
+    IsSizable="false" 
+    CanMaximize="false"
+    Title="About RunAnywhere">
+    
+    <AboutWindow.RootControl>
+        <VerticalBox />
+    </AboutWindow.RootControl>
+
+    <Label 
+        FixedHeight="50"
+        Margin="0,40,0,0"
+        TextAlignment="Center" 
+        ParagraphAlignment="Center" 
+        FontSize="30"
+        Text="RunAnywhere" />
+
+    <Label 
+        FixedHeight="40"
+        TextAlignment="Center" 
+        ParagraphAlignment="Center" 
+        FontSize="14"
+        Text="develop version"/>
+
+    <Label 
+        FixedHeight="50"
+        Margin="0,70,0,0"
+        TextAlignment="Center" 
+        ParagraphAlignment="Center" 
+        FontSize="12"
+        Text="zplutor"/>
+</AboutWindow>

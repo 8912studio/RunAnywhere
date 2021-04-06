@@ -1,0 +1,22 @@
+<MainWindow 
+    IsPopup="true" 
+    IsSizable="false" 
+    HasTitleBar="false" 
+    IsToolWindow="true"
+    InitialRectStyle="CenterInScreen"
+    Size="500,50">
+    
+    <MainWindow.RootControl>
+        <VerticalBox Padding="15,0,15,0" BackgroundColor="White" />
+    </MainWindow.RootControl>
+    
+    <TextBox 
+        Name="inputTextBox"
+        FixedHeight="50" 
+        Border="0"
+        FontSize="20"
+        ParagraphAlignment="Center"
+        AcceptReturn="false" />
+
+    <OutputView Name="outputView" IsVisible="false" />
+</MainWindow>
