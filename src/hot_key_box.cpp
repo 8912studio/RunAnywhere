@@ -105,20 +105,11 @@ std::optional<HotKey> GenerateHotKeyFromKeyMessage(const zaf::KeyMessage& messag
 
 std::wstring GetKeyText(UINT virtual_key) {
 
-    auto ch = LOWORD(MapVirtualKey(virtual_key, MAPVK_VK_TO_CHAR));
-    if (ch != 0) {
-        return std::wstring(1, static_cast<wchar_t>(ch));
-    }
-
-    if (IsFunctionalKey(virtual_key)) {
-        return L"F" + std::to_wstring(virtual_key - VK_F1 + 1);
-    }
-
     static constexpr struct {
         UINT virtual_key;
         const wchar_t* text;
     } key_text_map[] = {
-    
+
         { VK_TAB, L"Tab" },
         { VK_SPACE, L"Space" },
         { VK_INSERT, L"Insert" },
@@ -134,10 +125,18 @@ std::wstring GetKeyText(UINT virtual_key) {
     };
 
     for (const auto& each_item : key_text_map) {
-
         if (virtual_key == each_item.virtual_key) {
             return each_item.text;
         }
+    }
+
+    auto ch = LOWORD(MapVirtualKey(virtual_key, MAPVK_VK_TO_CHAR));
+    if (ch != 0) {
+        return std::wstring(1, static_cast<wchar_t>(ch));
+    }
+
+    if (IsFunctionalKey(virtual_key)) {
+        return L"F" + std::to_wstring(virtual_key - VK_F1 + 1);
     }
 
     return std::wstring{};

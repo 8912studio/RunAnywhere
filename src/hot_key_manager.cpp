@@ -5,8 +5,7 @@
 namespace {
 
 constexpr const wchar_t* const RegistrySubKeyPath = L"Software\\RunAnywhere";
-constexpr const wchar_t* const ModifierValueName = L"HotKeyModifier";
-constexpr const wchar_t* const VirtualKeyValueName = L"HotKeyVirtualKey";
+constexpr const wchar_t* const HotKeyValueName = L"HotKey";
 
 constexpr int HotKeyID = 1;
 
@@ -23,6 +22,13 @@ HotKeyManager& HotKeyManager::Instance() {
 void HotKeyManager::Initialize() {
 
     ReadHotKeyFromRegistry();
+
+    //Reset to default hot key if it is invalid.
+    if (hot_key_.virtual_key == 0) {
+        hot_key_.modifier = HotKeyModifier::Control;
+        hot_key_.virtual_key = VK_SPACE;
+    }
+
     RegisterHotKey();
 }
 
@@ -33,14 +39,14 @@ void HotKeyManager::ReadHotKeyFromRegistry() {
 
         auto registry_key = zaf::Registry::CurrentUser().OpenSubKey(RegistrySubKeyPath);
 
-        hot_key_.modifier = 
-            static_cast<HotKeyModifier>(registry_key.GetDWordValue(ModifierValueName));
-        hot_key_.virtual_key = registry_key.GetDWordValue(VirtualKeyValueName);
+        ULARGE_INTEGER large_integer{};
+        large_integer.QuadPart = registry_key.GetQWordValue(HotKeyValueName);
+
+        hot_key_.modifier = static_cast<HotKeyModifier>(large_integer.HighPart);
+        hot_key_.virtual_key = large_integer.LowPart;
     }
     catch (const zaf::Error&) {
 
-        hot_key_.modifier = HotKeyModifier::None;
-        hot_key_.virtual_key = 0;
     }
 }
 
@@ -53,8 +59,11 @@ void HotKeyManager::WriteHotKeyToRegistry() {
             RegistrySubKeyPath,
             zaf::RegistryRights::Write);
 
-        registry_key.SetDWordValue(ModifierValueName, static_cast<DWORD>(hot_key_.modifier));
-        registry_key.SetDWordValue(VirtualKeyValueName, hot_key_.virtual_key);
+        ULARGE_INTEGER large_integer{};
+        large_integer.HighPart = static_cast<DWORD>(hot_key_.modifier);
+        large_integer.LowPart = hot_key_.virtual_key;
+
+        registry_key.SetQWordValue(HotKeyValueName, large_integer.QuadPart);
     }
     catch (const zaf::Error&) {
 
