@@ -22,8 +22,6 @@ public:
         Multiply,
         Power,
         Divide,
-
-        Control,
     };
 
     int GetPriority() const {
@@ -41,9 +39,6 @@ public:
         case Type::Plus:
         case Type::Minus:
             return 100;
-
-        case Type::Control:
-            return 99;
 
         default:
             return 0;

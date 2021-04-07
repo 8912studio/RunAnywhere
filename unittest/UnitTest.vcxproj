@@ -50,6 +50,7 @@
     <ClCompile Include="case\module\calculator\command_parser_test.cpp" />
     <ClCompile Include="case\module\calculator\decimal_number_parser_test.cpp" />
     <ClCompile Include="case\module\calculator\common_option_set_parser_test.cpp" />
+    <ClCompile Include="case\module\calculator\expression_parser_test.cpp" />
     <ClCompile Include="case\module\calculator\extend_option_set_parser_test.cpp" />
     <ClCompile Include="case\module\calculator\modifier_parser_test.cpp" />
     <ClCompile Include="case\module\calculator\non_decimal_number_parser_test.cpp" />

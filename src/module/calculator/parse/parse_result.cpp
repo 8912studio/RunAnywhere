@@ -58,7 +58,7 @@ void ParseResult::AddOperator(const std::shared_ptr<OperatorNode>& operator_node
     auto top_operator = operator_stack_.back();
 
     if (top_operator->type == OperatorNode::Type::LeftParenthesis ||
-        top_operator->GetPriority() <= operator_node->GetPriority()) {
+        top_operator->GetPriority() < operator_node->GetPriority()) {
         operator_stack_.push_back(operator_node);
         return;
     }
@@ -70,7 +70,7 @@ void ParseResult::AddOperator(const std::shared_ptr<OperatorNode>& operator_node
         if (top_operator->type == OperatorNode::Type::LeftParenthesis) {
             break;
         }
-        else if (top_operator->GetPriority() > operator_node->GetPriority()) {
+        else if (top_operator->GetPriority() >= operator_node->GetPriority()) {
             MergeTopOperator();
         }
         else {
@@ -112,9 +112,6 @@ void ParseResult::MergeTopOperator() {
     }
     else if (IsBinaryOperator(top_operator->type)) {
         operand_count = 2;
-    }
-    else if (top_operator->type == OperatorNode::Type::Control) {
-        operand_count = operand_stack_.size();
     }
 
     std::vector<std::shared_ptr<SyntaxNode>> operands;
