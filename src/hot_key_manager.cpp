@@ -83,7 +83,7 @@ void HotKeyManager::RegisterHotKey() {
 
         Subscriptions() +=
             hot_key_message_window_->ReceiveMessageEvent().Subscribe(
-                std::bind(&HotKeyManager::OnHotKeyPressed, this));
+                std::bind(&HotKeyManager::OnHotKeyMessage, this, std::placeholders::_1));
     }
 
     BOOL is_succeeded = ::RegisterHotKey(
@@ -107,9 +107,11 @@ void HotKeyManager::UnregisterHotKey() {
 }
 
 
-void HotKeyManager::OnHotKeyPressed() {
+void HotKeyManager::OnHotKeyMessage(const zaf::Message& message) {
 
-    hot_key_pressed_subject_.GetObserver().OnNext({});
+    if (message.id == WM_HOTKEY) {
+        hot_key_pressed_subject_.GetObserver().OnNext({});
+    }
 }
 
 

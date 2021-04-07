@@ -37,7 +37,7 @@ private:
     void WriteHotKeyToRegistry();
     void RegisterHotKey();
     void UnregisterHotKey();
-    void OnHotKeyPressed();
+    void OnHotKeyMessage(const zaf::Message& message);
 
 private:
     HotKey hot_key_;
