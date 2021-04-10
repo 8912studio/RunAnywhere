@@ -4,16 +4,18 @@
 #include <zaf/control/control_binder.h>
 #include <zaf/control/text_box.h>
 #include "context/desktop_context.h"
-#include "output_view.h"
 #include "module/module.h"
+#include "module/user_defined/user_defined_module.h"
+#include "output_view.h"
 
 class MainWindow : public zaf::Window {
 public:
     ZAF_DECLARE_REFLECTION_TYPE;
 
-    ~MainWindow();
+    static MainWindow& Instance();
 
     void ShowOnTop();
+    void ReloadUserDefinedCommands();
 
 protected:
     void AfterParsing() override;
@@ -35,6 +37,7 @@ private:
     ZAF_BIND_CONTROL(OutputView, outputView);
 
     float initial_height_{};
+    std::shared_ptr<UserDefinedModule> user_defined_module_;
     std::vector<std::shared_ptr<Module>> modules_;
 
     DesktopContext desktop_context_;

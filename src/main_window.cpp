@@ -16,8 +16,10 @@ ZAF_DEFINE_REFLECTION_TYPE(MainWindow)
     ZAF_DEFINE_RESOURCE_URI(L"res:///main_window.xaml")
 ZAF_DEFINE_END
 
-MainWindow::~MainWindow() {
+MainWindow& MainWindow::Instance() {
 
+    static auto instance = zaf::Create<MainWindow>();
+    return *instance;
 }
 
 
@@ -43,12 +45,11 @@ void MainWindow::InitializeTextBox() {
 
 void MainWindow::InitializeModules() {
 
+    user_defined_module_ = std::make_shared<UserDefinedModule>();
+    user_defined_module_->Reload();
+
     modules_.push_back(std::make_shared<MetaModule>());
-
-    auto user_defined_module = std::make_shared<UserDefinedModule>();
-    user_defined_module->Reload();
-    modules_.push_back(user_defined_module);
-
+    modules_.push_back(user_defined_module_);
     modules_.push_back(std::make_shared<CalculatorModule>());
 }
 
@@ -59,6 +60,14 @@ void MainWindow::ShowOnTop() {
 
     this->Show();
     SetForegroundWindow(this->GetHandle());
+}
+
+
+void MainWindow::ReloadUserDefinedCommands() {
+
+    if (user_defined_module_) {
+        user_defined_module_->Reload();
+    }
 }
 
 

@@ -14,7 +14,6 @@ namespace {
 zaf::Handle g_exclusive_mutex;
 std::unique_ptr<zaf::MessageOnlyWindow> g_tray_icon_message_window;
 HMENU g_menu{};
-std::shared_ptr<MainWindow> g_main_window;
 
 constexpr UINT WM_TRAY_ICON = WM_USER + 1;
 
@@ -30,14 +29,6 @@ bool CanApplicationRun() {
     }
 
     return true;
-}
-
-
-void ShowMainWindow() {
-
-    if (g_main_window) {
-        g_main_window->ShowOnTop();
-    }
 }
 
 
@@ -74,7 +65,7 @@ void ShowTryIcon() {
 
             switch (message.lparam) {
             case WM_LBUTTONDBLCLK:
-                ShowMainWindow();
+                MainWindow::Instance().ShowOnTop();
                 break;
 
             case WM_RBUTTONUP:
@@ -108,15 +99,13 @@ void InitializeHotKey() {
     zaf::Application::Instance().Subscriptions() += hot_key_manager.HotKeyPressedEvent().Subscribe(
         [](zaf::Dumb) {
     
-        if (!g_main_window) {
-            return;
-        }
+        auto& main_window = MainWindow::Instance();
 
-        if (IsWindowVisible(g_main_window->GetHandle())) {
-            g_main_window->Hide();
+        if (IsWindowVisible(main_window.GetHandle())) {
+            main_window.Hide();
         }
         else {
-            g_main_window->ShowOnTop();
+            main_window.ShowOnTop();
         }
     });
 }
@@ -127,18 +116,18 @@ void BeginRun(const zaf::ApplicationBeginRunInfo&) {
     ShowTryIcon();
     InitializeHotKey();
 
-    g_main_window = zaf::Create<MainWindow>();
+    //Access instance to create main window object.
+    auto& main_window = MainWindow::Instance();
 
 #ifndef NDEBUG
-    g_main_window->Show();
+    main_window.Show();
 #endif
 }
 
 
 void EndRun(const zaf::ApplicationEndRunInfo&) {
 
-    g_main_window->Close();
-    g_main_window.reset();
+    MainWindow::Instance().Close();
 
     RemoveTrayIcon();
 }
