@@ -13,6 +13,9 @@
     <Filter Include="case\module\calculator">
       <UniqueIdentifier>{15a004ce-aff7-4333-b46a-b41180099fc9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="case\module\user_defined">
+      <UniqueIdentifier>{b1ae2df2-d734-4e42-8d9f-73b3178fa70a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="case\module\calculator\decimal_number_parser_test.cpp">
@@ -44,6 +47,9 @@
     </ClCompile>
     <ClCompile Include="case\module\calculator\expression_parser_test.cpp">
       <Filter>case\module\calculator</Filter>
+    </ClCompile>
+    <ClCompile Include="case\module\user_defined\command_line_parsing_test.cpp">
+      <Filter>case\module\user_defined</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

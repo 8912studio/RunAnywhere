@@ -1,13 +1,16 @@
 #include "main_window.h"
 #include <zaf/base/log.h>
 #include <zaf/base/string/encoding_conversion.h>
+#include <zaf/base/string/trim.h>
 #include <zaf/control/layout/linear_layouter.h>
 #include <zaf/creation.h>
 #include <zaf/reflection/reflection_type_definition.h>
 #include <zaf/window/message/keyboard_message.h>
 #include <zaf/window/message/message.h>
+#include "context/desktop_context_discovering.h"
 #include "module/calculator/calculator_module.h"
 #include "module/meta/meta_module.h"
+#include "module/user_defined/user_defined_module.h"
 
 ZAF_DEFINE_REFLECTION_TYPE(MainWindow)
     ZAF_DEFINE_RESOURCE_URI(L"res:///main_window.xaml")
@@ -40,12 +43,19 @@ void MainWindow::InitializeTextBox() {
 
 void MainWindow::InitializeModules() {
 
-    runners_.push_back(std::make_shared<MetaModule>());
-    runners_.push_back(std::make_shared<CalculatorModule>());
+    modules_.push_back(std::make_shared<MetaModule>());
+
+    auto user_defined_module = std::make_shared<UserDefinedModule>();
+    user_defined_module->Reload();
+    modules_.push_back(user_defined_module);
+
+    modules_.push_back(std::make_shared<CalculatorModule>());
 }
 
 
 void MainWindow::ShowOnTop() {
+
+    desktop_context_ = DiscoverDesktopContext();
 
     this->Show();
     SetForegroundWindow(this->GetHandle());
@@ -53,14 +63,20 @@ void MainWindow::ShowOnTop() {
 
 
 void MainWindow::OnTextChanged(const zaf::TextualControlTextChangeInfo& event_info) {
+    InterpretCommand(event_info.textual_control->GetText());
+}
 
-    auto text = event_info.textual_control->GetText();
-    if (!text.empty()) {
 
-        for (const auto& each_runner : runners_) {
+void MainWindow::InterpretCommand(const std::wstring& input) {
 
-            auto command = each_runner->Interpret(text);
+    auto trimmed_input = zaf::ToTrimmed(input);
+    if (!trimmed_input.empty()) {
+
+        for (const auto& each_runner : modules_) {
+
+            auto command = each_runner->Interpret(trimmed_input);
             if (command) {
+                command->SetDesktopContext(desktop_context_);
                 current_command_ = command;
                 break;
             }
@@ -145,6 +161,8 @@ void MainWindow::OnWindowShown() {
     __super::OnWindowShown();
 
     inputTextBox->SetIsFocused(true);
+
+    InterpretCommand(inputTextBox->GetText());
 }
 
 

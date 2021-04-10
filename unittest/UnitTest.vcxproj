@@ -57,6 +57,7 @@
     <ClCompile Include="case\module\calculator\number_parser_test.cpp" />
     <ClCompile Include="case\module\calculator\number_parser_test_utility.cpp" />
     <ClCompile Include="case\module\calculator\octal_number_parser_test.cpp" />
+    <ClCompile Include="case\module\user_defined\command_line_parsing_test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="case\module\calculator\number_parser_test_utility.h" />

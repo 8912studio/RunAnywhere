@@ -147,6 +147,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\context\desktop_context_discovering.h" />
+    <ClInclude Include="src\context\desktop_context.h" />
+    <ClInclude Include="src\context\explorer_discovering.h" />
     <ClInclude Include="src\module\calculator\calculator_command.h" />
     <ClInclude Include="src\module\calculator\calculator_module.h" />
     <ClInclude Include="src\module\calculator\evaluate\evaluate_result.h" />
@@ -182,8 +185,15 @@
     <ClInclude Include="src\module\meta\meta_command.h" />
     <ClInclude Include="src\module\meta\meta_module.h" />
     <ClInclude Include="src\module\module.h" />
+    <ClInclude Include="src\module\user_defined\command_line_parsing.h" />
+    <ClInclude Include="src\module\user_defined\user_defined_command.h" />
+    <ClInclude Include="src\module\user_defined\user_defined_entry.h" />
+    <ClInclude Include="src\module\user_defined\user_defined_entry_reading.h" />
+    <ClInclude Include="src\module\user_defined\user_defined_module.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\context\desktop_context_discovering.cpp" />
+    <ClCompile Include="src\context\explorer_discovering.cpp" />
     <ClCompile Include="src\module\calculator\calculator_command.cpp" />
     <ClCompile Include="src\module\calculator\calculator_module.cpp" />
     <ClCompile Include="src\module\calculator\evaluate\evaluator.cpp" />
@@ -207,6 +217,10 @@
     <ClCompile Include="src\module\calculator\parse\unary_expression_parser.cpp" />
     <ClCompile Include="src\module\meta\meta_command.cpp" />
     <ClCompile Include="src\module\meta\meta_module.cpp" />
+    <ClCompile Include="src\module\user_defined\command_line_parsing.cpp" />
+    <ClCompile Include="src\module\user_defined\user_defined_command.cpp" />
+    <ClCompile Include="src\module\user_defined\user_defined_entry_reading.cpp" />
+    <ClCompile Include="src\module\user_defined\user_defined_module.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
