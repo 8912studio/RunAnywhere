@@ -6,7 +6,7 @@
 
 namespace {
 
-CComPtr<IWebBrowser2> FindForegroundExplorerWindow() {
+CComPtr<IWebBrowser2> FindForegroundExplorerWindow(HWND foreground_window_handle) {
 
     CComPtr<IShellWindows> shell_windows;
     HRESULT hresult = CoCreateInstance(
@@ -17,8 +17,6 @@ CComPtr<IWebBrowser2> FindForegroundExplorerWindow() {
         (void**)&shell_windows);
 
     ZAF_THROW_IF_COM_ERROR(hresult);
-
-    HWND foreground_window_handle = GetForegroundWindow();
 
     for (int index = 0; ; ++index) {
 
@@ -109,13 +107,13 @@ std::wstring GetSelectedItemName(IFolderView* folder_view, IPersistFolder2* pers
 
 }
 
-std::filesystem::path DiscoverFocusedPathFromExplorer() {
+std::filesystem::path DiscoverFocusedPathFromExplorer(HWND foreground_window_handle) {
 
     //Reference: https://devblogs.microsoft.com/oldnewthing/?p=38393
 
     try {
 
-        auto foreground_window = FindForegroundExplorerWindow();
+        auto foreground_window = FindForegroundExplorerWindow(foreground_window_handle);
         if (!foreground_window) {
             return {};
         }
