@@ -79,7 +79,8 @@ std::filesystem::path GetFocusedPathFromHosts(HWND foreground_window_handle) {
 
     g_temp_path.clear();
 
-    DWORD foreground_process_id = GetWindowThreadProcessId(foreground_window_handle, nullptr);
+    DWORD foreground_process_id{};
+    GetWindowThreadProcessId(foreground_window_handle, &foreground_process_id);
 
     //Enumerate all host windows.
     HWND host_window_handle{};
@@ -96,7 +97,8 @@ std::filesystem::path GetFocusedPathFromHosts(HWND foreground_window_handle) {
         }
 
         //Skip host windows that are not foreground windows.
-        DWORD host_process_id = GetWindowThreadProcessId(host_window_handle, nullptr);
+        DWORD host_process_id{};
+        GetWindowThreadProcessId(host_window_handle, &host_process_id);
         if (host_process_id != foreground_process_id) {
             continue;
         }

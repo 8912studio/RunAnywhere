@@ -1,7 +1,9 @@
 ﻿using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using System;
+using System.IO.Pipes;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading;
 using Task = System.Threading.Tasks.Task;
 
@@ -24,7 +26,7 @@ namespace VSExtension
     /// To get loaded into VS, the package must be referred by &lt;Asset Type="Microsoft.VisualStudio.VsPackage" ...&gt; in .vsixmanifest file.
     /// </para>
     /// </remarks>
-    [PackageRegistration(UseManagedResourcesOnly = true, AllowsBackgroundLoading = true)]
+    [PackageRegistration(UseManagedResourcesOnly = false, AllowsBackgroundLoading = true)]
     [ProvideAutoLoad(UIContextGuids.NoSolution, PackageAutoLoadFlags.BackgroundLoad)]
     [Guid(VSExtensionPackage.PackageGuidString)]
     public sealed class VSExtensionPackage : AsyncPackage
@@ -33,6 +35,12 @@ namespace VSExtension
         /// VSExtensionPackage GUID string.
         /// </summary>
         public const string PackageGuidString = "95b0c241-8b50-4bb3-ae25-a32dbbff0a44";
+
+        private static Win32.RequestFocusedPathCallback requestFocusedPathCallback = OnRequestFocusedPathCallback;
+        private static event Win32.RequestFocusedPathCallback requestFocusedPathEvent;
+
+        private EnvDTE.DTE dte;
+        private AnonymousPipeServerStream pipe;
 
         /// <summary>
         /// Initialization of the package; this method is called right after the package is sited, so this is the place
@@ -49,56 +57,49 @@ namespace VSExtension
 
             dte = await GetServiceAsync(typeof(EnvDTE.DTE)) as EnvDTE.DTE;
 
-            var windowClass = new Win32.WNDCLASSEXW();
-            windowClass.cbSize = Marshal.SizeOf(typeof(Win32.WNDCLASSEXW));
-            windowClass.lpszClassName = "Zplutor.RunAnywhere.VS.Host";
-            windowClass.lpfnWndProc = Marshal.GetFunctionPointerForDelegate(windowProcedure);
+            pipe = new AnonymousPipeServerStream(PipeDirection.Out);
 
-            ushort atom = Win32.RegisterClassExW(ref windowClass);
-            hostWindowHandle = Win32.CreateWindowExW(
-                0,
-                atom,
-                String.Empty,
-                0,
-                0,
-                0,
-                0,
-                0,
-                Win32.HWND_MESSAGE,
-                IntPtr.Zero,
-                IntPtr.Zero,
-                IntPtr.Zero);
+            Win32.RunAnywhereVSHost_Initialize(
+                pipe.ClientSafePipeHandle.DangerousGetHandle(),
+                Marshal.GetFunctionPointerForDelegate(requestFocusedPathCallback));
+
+            requestFocusedPathEvent += OnRequestFocusedPath;
         }
 
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
 
-            if (hostWindowHandle != IntPtr.Zero)
-            {
-                Win32.DestroyWindow(hostWindowHandle);
-            }
+            Win32.RunAnywhereVSHost_Uninitialize();
         }
 
-        private static IntPtr WindowProcedure(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam)
+        private static void OnRequestFocusedPathCallback()
         {
-            if (msg == Win32.WM_USER + 1)
-            {
-                string path = GetActiveDocumentPath();
-
-                var copyDataStruct = new Win32.COPYDATASTRUCT();
-                copyDataStruct.dwData = wParam;
-                copyDataStruct.cbData = (uint)path.Length * 2;
-                copyDataStruct.lpData = path;
-
-                Win32.SendMessageW(wParam, Win32.WM_COPYDATA, IntPtr.Zero, ref copyDataStruct);
-                return IntPtr.Zero;
-            }
-
-            return Win32.DefWindowProc(hWnd, msg, wParam, lParam);
+            requestFocusedPathEvent.Invoke();
         }
 
-        private static string GetActiveDocumentPath()
+        private void OnRequestFocusedPath()
+        {
+            SendBackFocusedPathAsync();
+        }
+
+        private async Task SendBackFocusedPathAsync()
+        {
+            await JoinableTaskFactory.SwitchToMainThreadAsync();
+
+            string path = GetActiveDocumentPath();
+
+            byte[] length_buffer = BitConverter.GetBytes(path.Length);
+            pipe.Write(length_buffer, 0, length_buffer.Length);
+
+            if (path.Length != 0)
+            {
+                byte[] path_buffer = Encoding.Unicode.GetBytes(path);
+                pipe.Write(path_buffer, 0, path_buffer.Length);
+            }
+        }
+
+        private string GetActiveDocumentPath()
         {
             if (dte == null)
             {
@@ -112,10 +113,5 @@ namespace VSExtension
 
             return dte.ActiveDocument.FullName;
         }
-
-        private static Win32.WndProc windowProcedure = WindowProcedure;
-        private static EnvDTE.DTE dte;
-
-        private IntPtr hostWindowHandle;
     }
 }
