@@ -25,6 +25,9 @@
     <Filter Include="src\context">
       <UniqueIdentifier>{610c95b6-d7dc-4115-88ad-3cd1bbb93294}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\module\user_defined\preview">
+      <UniqueIdentifier>{ed234d1b-b898-4c17-8f90-2781788a61ee}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\module\calculator\parse\binary_expression_parser.h">
@@ -159,6 +162,12 @@
     <ClInclude Include="src\context\vs_discovering.h">
       <Filter>src\context</Filter>
     </ClInclude>
+    <ClInclude Include="src\module\command_preview_control.h">
+      <Filter>src\module</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\user_defined\preview\user_defined_command_preview_control.h">
+      <Filter>src\module\user_defined\preview</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -251,5 +260,13 @@
     <ClCompile Include="src\context\vs_discovering.cpp">
       <Filter>src\context</Filter>
     </ClCompile>
+    <ClCompile Include="src\module\user_defined\preview\user_defined_command_preview_control.cpp">
+      <Filter>src\module\user_defined\preview</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="src\module\user_defined\preview\user_defined_command_preview_control.xaml">
+      <Filter>src\module\user_defined\preview</Filter>
+    </Page>
   </ItemGroup>
 </Project>

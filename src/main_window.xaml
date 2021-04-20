@@ -4,7 +4,7 @@
     HasTitleBar="false" 
     IsToolWindow="true"
     InitialRectStyle="CenterInScreen"
-    Size="500,50">
+    Size="600,50">
     
     <MainWindow.RootControl>
         <VerticalBox Padding="15,0,15,0" BackgroundColor="White" />
@@ -18,5 +18,5 @@
         ParagraphAlignment="Center"
         AcceptReturn="false" />
 
-    <OutputView Name="outputView" IsVisible="false" />
+    <PreviewView Name="previewView" IsVisible="false" />
 </MainWindow>

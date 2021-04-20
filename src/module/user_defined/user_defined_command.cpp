@@ -1,5 +1,7 @@
 #include "module/user_defined/user_defined_command.h"
 #include <Windows.h>
+#include <zaf/creation.h>
+#include "module/user_defined/preview/user_defined_command_preview_control.h"
 
 namespace {
 
@@ -31,10 +33,11 @@ UserDefinedCommand::UserDefinedCommand(
 }
 
 
-std::wstring UserDefinedCommand::GetPreviewText() {
+std::shared_ptr<CommandPreviewControl> UserDefinedCommand::GetPreviewControl() {
 
-    auto parse_result = ParseCommandLine();
-    return parse_result.command + L' ' + JoinArguments(parse_result.arguments);
+    auto control = zaf::Create<UserDefinedCommandPreviewControl>();
+    control->SetParseResult(ParseCommandLine());
+    return control;
 }
 
 

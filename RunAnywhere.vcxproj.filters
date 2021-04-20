@@ -12,9 +12,6 @@
     <ClCompile Include="src\main_window.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\output_view.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="src\about_window.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -30,12 +27,12 @@
     <ClCompile Include="src\hot_key_manager.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\preview_view.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\main_window.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\output_view.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
@@ -59,11 +56,11 @@
     <ClInclude Include="src\hot_key_manager.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="src\preview_view.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="src\output_view.xaml">
-      <Filter>src</Filter>
-    </Page>
     <Page Include="src\main_window.xaml">
       <Filter>src</Filter>
     </Page>
@@ -71,6 +68,9 @@
       <Filter>src</Filter>
     </Page>
     <Page Include="src\option_window.xaml">
+      <Filter>src</Filter>
+    </Page>
+    <Page Include="src\preview_view.xaml">
       <Filter>src</Filter>
     </Page>
   </ItemGroup>

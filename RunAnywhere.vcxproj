@@ -165,7 +165,7 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\main_window.cpp" />
     <ClCompile Include="src\option_window.cpp" />
-    <ClCompile Include="src\output_view.cpp" />
+    <ClCompile Include="src\preview_view.cpp" />
     <ClCompile Include="src\tray_icon.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -176,14 +176,14 @@
     <ClInclude Include="src\hot_key_manager.h" />
     <ClInclude Include="src\main_window.h" />
     <ClInclude Include="src\option_window.h" />
-    <ClInclude Include="src\output_view.h" />
+    <ClInclude Include="src\preview_view.h" />
     <ClInclude Include="src\tray_icon.h" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="src\about_window.xaml" />
     <Page Include="src\main_window.xaml" />
     <Page Include="src\option_window.xaml" />
-    <Page Include="src\output_view.xaml" />
+    <Page Include="src\preview_view.xaml" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="app.rc" />

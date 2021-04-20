@@ -2,6 +2,7 @@
 #include <zaf/base/log.h>
 #include <zaf/base/string/encoding_conversion.h>
 #include <zaf/base/string/trim.h>
+#include <zaf/control/label.h>
 #include <zaf/control/layout/linear_layouter.h>
 #include <zaf/creation.h>
 #include <zaf/reflection/reflection_type_definition.h>
@@ -96,33 +97,61 @@ void MainWindow::InterpretCommand(const std::wstring& input) {
         current_command_ = nullptr;
     }
 
-    ShowOutput();
+    ShowPreview();
 }
 
 
-void MainWindow::ShowOutput() {
+void MainWindow::ShowPreview() {
 
     auto window_size = this->GetSize();
 
     if (current_command_) {
-
-        outputView->SetText(current_command_->GetPreviewText());
-        outputView->SetIsVisible(true);
-
-        window_size.height = 0;
-        for (const auto& each_child : this->GetRootControl()->GetChildren()) {
-            window_size.height += each_child->GetHeight();
-        }
+        window_size.height = ShowCommandPreview();
     }
     else {
-
-        outputView->SetText({});
-        outputView->SetIsVisible(false);
-
-        window_size.height = initial_height_;
+        window_size.height = ShowEmptyPreview();
     }
 
     this->SetSize(window_size);
+}
+
+
+float MainWindow::ShowCommandPreview() {
+
+    auto preview_control = current_command_->GetPreviewControl();
+    if (!preview_control) {
+        preview_control = CreateDefaultPreviewControl(current_command_->GetPreviewText());
+    }
+
+    previewView->SetPreviewControl(preview_control);
+    previewView->SetIsVisible(true);
+
+    return initial_height_ + previewView->GetExpectedHeight();
+}
+
+
+std::shared_ptr<CommandPreviewControl> MainWindow::CreateDefaultPreviewControl(
+    const std::wstring& preview_text) {
+
+    auto label = zaf::Create<zaf::Label>();
+    label->SetFixedHeight(50);
+    label->SetTextAlignment(zaf::TextAlignment::Leading);
+    label->SetParagraphAlignment(zaf::ParagraphAlignment::Center);
+    label->SetFontSize(20);
+    label->SetText(preview_text);
+
+    auto result = zaf::Create<CommandPreviewControl>();
+    result->SetLayouter(zaf::Create<zaf::VerticalLayouter>());
+    result->AddChild(label);
+    return result;
+}
+
+
+float MainWindow::ShowEmptyPreview() {
+
+    previewView->ClearPreviewControl();
+    previewView->SetIsVisible(false);
+    return initial_height_;
 }
 
 

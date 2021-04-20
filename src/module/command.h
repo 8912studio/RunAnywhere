@@ -2,6 +2,7 @@
 
 #include <string>
 #include "context/desktop_context.h"
+#include "module/command_preview_control.h"
 
 class Command {
 public:
@@ -19,7 +20,14 @@ public:
         desktop_context_ = desktop_context;
     }
 
-    virtual std::wstring GetPreviewText() = 0;
+    virtual std::wstring GetPreviewText() {
+        return {};
+    }
+
+    virtual std::shared_ptr<CommandPreviewControl> GetPreviewControl() {
+        return nullptr;
+    }
+
     virtual void Execute() = 0;
 
 private:

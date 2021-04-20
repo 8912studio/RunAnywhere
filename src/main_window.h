@@ -4,9 +4,10 @@
 #include <zaf/control/control_binder.h>
 #include <zaf/control/text_box.h>
 #include "context/desktop_context.h"
+#include "module/command_preview_control.h"
 #include "module/module.h"
 #include "module/user_defined/user_defined_module.h"
-#include "output_view.h"
+#include "preview_view.h"
 
 class MainWindow : public zaf::Window {
 public:
@@ -29,12 +30,16 @@ private:
 
     void OnTextChanged(const zaf::TextualControlTextChangeInfo&);
     void InterpretCommand(const std::wstring& input);
-    void ShowOutput();
+    void ShowPreview();
+    float ShowCommandPreview();
+    std::shared_ptr<CommandPreviewControl> CreateDefaultPreviewControl(
+        const std::wstring& preview_text);
+    float ShowEmptyPreview();
     void ExecuteCommand();
 
 private:
     ZAF_BIND_CONTROL(zaf::TextBox, inputTextBox);
-    ZAF_BIND_CONTROL(OutputView, outputView);
+    ZAF_BIND_CONTROL(PreviewView, previewView);
 
     float initial_height_{};
     std::shared_ptr<UserDefinedModule> user_defined_module_;

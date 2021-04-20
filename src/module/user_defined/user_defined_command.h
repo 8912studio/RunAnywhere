@@ -11,7 +11,7 @@ public:
         const UserDefinedEntry& entry, 
         const std::vector<std::wstring>& input_arguments);
 
-    std::wstring GetPreviewText() override;
+    std::shared_ptr<CommandPreviewControl> GetPreviewControl() override;
     void Execute() override;
 
 private:
