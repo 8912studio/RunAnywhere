@@ -173,7 +173,12 @@ bool MainWindow::ReceiveMessage(const zaf::Message& message, LRESULT& result) {
         const auto& key_message = dynamic_cast<const zaf::KeyMessage&>(message);
         if (key_message.GetVirtualKey() == VK_ESCAPE) {
 
-            this->Hide();
+            if (inputTextBox->GetText().empty()) {
+                this->Hide();
+            }
+            else {
+                inputTextBox->SetText(std::wstring{});
+            }
             return true;
         }
 

@@ -118,10 +118,6 @@ void BeginRun(const zaf::ApplicationBeginRunInfo&) {
 
     //Access instance to create main window object.
     auto& main_window = MainWindow::Instance();
-
-#ifndef NDEBUG
-    main_window.Show();
-#endif
 }
 
 
