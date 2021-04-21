@@ -73,16 +73,16 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(SolutionDir)src;C:\Users\zplutor\Projects\zaf\src\;C:\Users\zplutor\Projects\boost_1_75_0\;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\zplutor\Projects\zaf\out\$(Configuration);$(OutDir);$(LibraryPath)</LibraryPath>
-    <ReferencePath>$(OutDir);$(ReferencePath)</ReferencePath>
-    <IntDir>$(SolutionDir)int\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir>$(SolutionDir)build\int\$(ProjectName)\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)build\out\$(Configuration)\</OutDir>
+    <LibraryPath>$(OutDir);C:\Users\zplutor\Projects\zaf\out\$(Configuration)\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>$(SolutionDir)src;C:\Users\zplutor\Projects\zaf\src\;C:\Users\zplutor\Projects\boost_1_75_0\;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\zplutor\Projects\zaf\out\$(Configuration);$(OutDir);$(LibraryPath)</LibraryPath>
-    <ReferencePath>$(OutDir);$(ReferencePath)</ReferencePath>
-    <IntDir>$(SolutionDir)int\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir>$(SolutionDir)build\int\$(ProjectName)\$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)build\out\$(Configuration)\</OutDir>
+    <LibraryPath>$(OutDir);C:\Users\zplutor\Projects\zaf\out\$(Configuration)\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -186,7 +186,7 @@
     <Page Include="src\preview_view.xaml" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="app.rc" />
+    <ResourceCompile Include="src\app.rc" />
     <ResourceCompile Include="src\res.rc" />
   </ItemGroup>
   <ItemGroup>

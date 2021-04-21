@@ -1,5 +1,5 @@
 #include "tray_icon.h"
-#include "../resource.h"
+#include "resource.h"
 
 #define ID_TRAY_ICON 1
 

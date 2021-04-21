@@ -35,7 +35,7 @@
     <ClInclude Include="src\main_window.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
+    <ClInclude Include="src\resource.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\about_window.h">
@@ -78,7 +78,7 @@
     <ResourceCompile Include="src\res.rc">
       <Filter>src</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="app.rc">
+    <ResourceCompile Include="src\app.rc">
       <Filter>src</Filter>
     </ResourceCompile>
   </ItemGroup>

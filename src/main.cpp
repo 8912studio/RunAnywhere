@@ -6,8 +6,8 @@
 #include "hot_key_manager.h"
 #include "main_window.h"
 #include "option_window.h"
+#include "resource.h"
 #include "tray_icon.h"
-#include "../resource.h"
 
 namespace {
 

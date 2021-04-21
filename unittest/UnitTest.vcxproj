@@ -34,9 +34,13 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IncludePath>$(SolutionDir)src;$(IncludePath)</IncludePath>
+    <OutDir>$(SolutionDir)build\out\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)build\int\$(ProjectName)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>$(SolutionDir)src;$(IncludePath)</IncludePath>
+    <OutDir>$(SolutionDir)build\out\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)build\int\$(ProjectName)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lib.vcxproj">
