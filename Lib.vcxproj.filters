@@ -168,6 +168,9 @@
     <ClInclude Include="src\module\user_defined\preview\user_defined_command_preview_control.h">
       <Filter>src\module\user_defined\preview</Filter>
     </ClInclude>
+    <ClInclude Include="src\module\user_defined\command_parameter_parsing.h">
+      <Filter>src\module\user_defined</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -262,6 +265,9 @@
     </ClCompile>
     <ClCompile Include="src\module\user_defined\preview\user_defined_command_preview_control.cpp">
       <Filter>src\module\user_defined\preview</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\user_defined\command_parameter_parsing.cpp">
+      <Filter>src\module\user_defined</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

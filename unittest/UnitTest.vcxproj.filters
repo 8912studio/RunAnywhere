@@ -51,6 +51,9 @@
     <ClCompile Include="case\module\user_defined\command_line_parsing_test.cpp">
       <Filter>case\module\user_defined</Filter>
     </ClCompile>
+    <ClCompile Include="case\module\user_defined\command_parameter_parsing_test.cpp">
+      <Filter>case\module\user_defined</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="case\module\calculator\number_parser_test_utility.h">
