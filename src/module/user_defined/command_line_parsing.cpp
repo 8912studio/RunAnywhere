@@ -7,32 +7,6 @@
 
 namespace {
 
-std::wstring GetBackwardedActivePath(
-    const std::filesystem::path& active_path, 
-    std::size_t backward_level) {
-
-    try {
-
-        auto backwarded = active_path;
-
-        if (backward_level >= 1) {
-            if (!std::filesystem::is_directory(backwarded)) {
-                backwarded = backwarded.parent_path();
-            }
-        }
-
-        for (std::size_t level = 2; level <= backward_level; ++level) {
-            backwarded = backwarded.parent_path();
-        }
-
-        return backwarded.wstring();
-    }
-    catch (const std::filesystem::filesystem_error&) {
-        return {};
-    }
-}
-
-
 std::wstring BuildActivePathArgument(
     std::wstring_view parameter_string,
     const CommandParameter& parameter,
@@ -125,7 +99,7 @@ std::vector<std::wstring> BuildArguments(
 
 ParseResult ParseCommandLine(
     const std::wstring& command_line,
-    const std::filesystem::path& focused_path,
+    const std::filesystem::path& active_path,
     const std::vector<std::wstring>& input_arguments) {
 
     ParseResult result;
@@ -142,10 +116,36 @@ ParseResult ParseCommandLine(
         result.arguments = BuildArguments(
             parameters, 
             parameter_count, 
-            focused_path, 
+            active_path,
             input_arguments);
     }
 
     LocalFree(parameters);
     return result;
+}
+
+
+std::wstring GetBackwardedActivePath(
+    const std::filesystem::path& active_path,
+    std::size_t backward_level) {
+
+    try {
+
+        auto backwarded = active_path;
+
+        if (backward_level >= 1) {
+            if (!std::filesystem::is_directory(backwarded)) {
+                backwarded = backwarded.parent_path();
+            }
+        }
+
+        for (std::size_t level = 2; level <= backward_level; ++level) {
+            backwarded = backwarded.parent_path();
+        }
+
+        return backwarded.wstring();
+    }
+    catch (const std::filesystem::filesystem_error&) {
+        return {};
+    }
 }

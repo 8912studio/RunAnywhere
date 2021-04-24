@@ -1,5 +1,6 @@
 #include "module/user_defined/user_defined_command.h"
 #include <Windows.h>
+#include <zaf/base/container/utility/range.h>
 #include <zaf/creation.h>
 #include "module/user_defined/preview/user_defined_command_preview_control.h"
 
@@ -19,6 +20,26 @@ std::wstring JoinArguments(const std::vector<std::wstring>& arguments) {
     }
 
     return result;
+}
+
+
+std::filesystem::path ModifyActivePath(
+    const std::filesystem::path& path, 
+    const std::wstring& modifier) {
+
+    std::size_t backward_level{};
+    for (std::size_t index = 1; index < modifier.length(); ++index) {
+
+        if (modifier[index] == L'.') {
+            ++backward_level;
+        }
+        else {
+            //Invalid char in modifier, return original path.
+            return path;
+        }
+    }
+
+    return GetBackwardedActivePath(path, backward_level);
 }
 
 }
@@ -57,9 +78,33 @@ void UserDefinedCommand::Execute() {
 
 ParseResult UserDefinedCommand::ParseCommandLine() {
 
-    return ::ParseCommandLine(
-        entry_.command_line,
-        GetDesktopContext().current_focused_path, 
-        input_arguments_);
+    std::filesystem::path modified_active_path;
+    std::vector<std::wstring> plain_arguments;
+    ParseArguments(modified_active_path, plain_arguments);
+
+    return ::ParseCommandLine(entry_.command_line, modified_active_path, plain_arguments);
 }
 
+
+void UserDefinedCommand::ParseArguments(
+    std::filesystem::path& modified_active_path,
+    std::vector<std::wstring>& plain_arguments) {
+
+    modified_active_path = GetDesktopContext().active_path;
+
+    if (input_arguments_.empty()) {
+        return;
+    }
+
+    const auto& first_argument = input_arguments_[0];
+    if (first_argument[0] == L'@') {
+        modified_active_path = ModifyActivePath(modified_active_path, first_argument);
+    }
+    else {
+        plain_arguments.push_back(first_argument);
+    }
+
+    for (std::size_t index = 1; index < input_arguments_.size(); ++index) {
+        plain_arguments.push_back(input_arguments_[index]);
+    }
+}

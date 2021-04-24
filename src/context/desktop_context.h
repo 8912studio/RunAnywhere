@@ -4,5 +4,5 @@
 
 class DesktopContext {
 public:
-    std::filesystem::path current_focused_path;
+    std::filesystem::path active_path;
 };

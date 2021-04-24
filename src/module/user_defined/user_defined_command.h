@@ -16,6 +16,9 @@ public:
 
 private:
     ParseResult ParseCommandLine();
+    void ParseArguments(
+        std::filesystem::path& modified_active_path, 
+        std::vector<std::wstring>& plain_arguments);
 
 private:
     UserDefinedEntry entry_;

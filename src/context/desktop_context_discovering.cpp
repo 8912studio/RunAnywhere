@@ -8,10 +8,10 @@ DesktopContext DiscoverDesktopContext() {
     HWND foreground_window = GetForegroundWindow();
 
     DesktopContext result;
-    result.current_focused_path = DiscoverFocusedPathFromVS(foreground_window);
+    result.active_path = DiscoverFocusedPathFromVS(foreground_window);
 
-    if (result.current_focused_path.empty()) {
-        result.current_focused_path = DiscoverFocusedPathFromExplorer(foreground_window);
+    if (result.active_path.empty()) {
+        result.active_path = DiscoverFocusedPathFromExplorer(foreground_window);
     }
 
     return result;
