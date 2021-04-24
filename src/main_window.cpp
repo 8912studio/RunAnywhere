@@ -6,6 +6,8 @@
 #include <zaf/control/layout/linear_layouter.h>
 #include <zaf/creation.h>
 #include <zaf/reflection/reflection_type_definition.h>
+#include <zaf/window/message/hit_test_message.h>
+#include <zaf/window/message/hit_test_result.h>
 #include <zaf/window/message/keyboard_message.h>
 #include <zaf/window/message/message.h>
 #include "context/desktop_context_discovering.h"
@@ -196,6 +198,22 @@ bool MainWindow::ReceiveMessage(const zaf::Message& message, LRESULT& result) {
     }
 
     return __super::ReceiveMessage(message, result);
+}
+
+
+std::optional<zaf::HitTestResult> MainWindow::HitTest(const zaf::HitTestMessage& message) {
+
+    auto mouse_position = message.GetMousePosition();
+
+    if (inputTextBox->GetAbsoluteRect().Contain(mouse_position)) {
+        return std::nullopt;
+    }
+
+    if (previewView->GetAbsoluteRect().Contain(mouse_position)) {
+        return std::nullopt;
+    }
+
+    return zaf::HitTestResult::TitleBar;
 }
 
 

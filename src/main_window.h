@@ -22,6 +22,7 @@ protected:
     void AfterParsing() override;
 
     bool ReceiveMessage(const zaf::Message& message, LRESULT& result) override;
+    std::optional<zaf::HitTestResult> HitTest(const zaf::HitTestMessage& message) override;
     void OnWindowShown() override;
 
 private:

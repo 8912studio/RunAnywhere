@@ -7,12 +7,12 @@
     Size="600,50">
     
     <MainWindow.RootControl>
-        <VerticalBox Padding="15,0,15,0" BackgroundColor="White" />
+        <VerticalBox Padding="15,10,15,10" BackgroundColor="White" />
     </MainWindow.RootControl>
     
     <TextBox 
         Name="inputTextBox"
-        FixedHeight="50" 
+        FixedHeight="30" 
         Border="0"
         FontSize="20"
         ParagraphAlignment="Center"
