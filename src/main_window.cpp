@@ -136,10 +136,10 @@ std::shared_ptr<CommandPreviewControl> MainWindow::CreateDefaultPreviewControl(
     const std::wstring& preview_text) {
 
     auto label = zaf::Create<zaf::Label>();
-    label->SetFixedHeight(50);
+    label->SetFixedHeight(40);
     label->SetTextAlignment(zaf::TextAlignment::Leading);
     label->SetParagraphAlignment(zaf::ParagraphAlignment::Center);
-    label->SetFontSize(20);
+    label->SetFontSize(14);
     label->SetText(preview_text);
 
     auto result = zaf::Create<CommandPreviewControl>();

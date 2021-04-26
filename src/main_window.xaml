@@ -4,19 +4,28 @@
     HasTitleBar="false" 
     IsToolWindow="true"
     InitialRectStyle="CenterInScreen"
-    Size="600,50">
+    Size="600,60">
     
     <MainWindow.RootControl>
-        <VerticalBox Padding="15,10,15,10" BackgroundColor="White" />
+        <VerticalBox BackgroundColor="White" />
     </MainWindow.RootControl>
-    
-    <TextBox 
-        Name="inputTextBox"
-        FixedHeight="30" 
-        Border="0"
-        FontSize="20"
-        ParagraphAlignment="Center"
-        AcceptReturn="false" />
+
+    <HorizontalBox FixedHeight="58" >
+        <Control 
+            FixedWidth="40" 
+            FixedHeight="40"
+            Margin="5,10,0,0"
+            BackgroundImage="res:///resource/logo/logo_40.png" 
+            BackgroundImageLayout="Center"/>
+        <TextBox 
+            Name="inputTextBox"
+            FixedHeight="40" 
+            Margin="4,10,15,0"
+            Border="0"
+            FontSize="22"
+            ParagraphAlignment="Center"
+            AcceptReturn="false" />
+    </HorizontalBox>
 
     <PreviewView Name="previewView" IsVisible="false" />
 </MainWindow>

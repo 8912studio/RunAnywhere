@@ -34,14 +34,13 @@ float PreviewView::GetExpectedHeight() {
         return 0;
     }
 
-    float result{};
-    for (const auto& each_child : GetChildren()) {
+    float result = preview_control_->GetPreferredSize().height;
 
-        result += each_child->GetPreferredSize().height;
+    const auto& preview_control_margin = preview_control_->GetMargin();
+    result += preview_control_margin.top + preview_control_margin.bottom;
 
-        const auto& margin = each_child->GetMargin();
-        result += margin.top + margin.bottom;
-    }
+    const auto& margin = this->GetMargin();
+    result += margin.top + margin.bottom;
 
     return result;
 }

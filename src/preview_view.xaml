@@ -1,3 +1,2 @@
-<PreviewView Layouter="VerticalLayouter">
-    <Control FixedHeight="1" BackgroundColor="#999999" />
+<PreviewView Margin="15,0,15,5"  Layouter="VerticalLayouter">
 </PreviewView>

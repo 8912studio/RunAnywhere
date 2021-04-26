@@ -35,9 +35,6 @@
     <ClInclude Include="src\main_window.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\resource.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="src\about_window.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -59,6 +56,7 @@
     <ClInclude Include="src\preview_view.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="src\main_window.xaml">

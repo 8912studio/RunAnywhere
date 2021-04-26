@@ -105,7 +105,7 @@
       <AdditionalOptions>/WHOLEARCHIVE:zaf %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <PreBuildEvent>
-      <Command>C:\Users\zplutor\Projects\zaf\out\Debug\zrcb.exe /o $(SolutionDir)src\res.rc /i /e .xaml $(SolutionDir)src</Command>
+      <Command>C:\Users\zplutor\Projects\zaf\out\Debug\zrcb.exe /o $(SolutionDir)src\res.rc /i /e .xaml.png $(SolutionDir)src</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -127,7 +127,7 @@
       <AdditionalOptions>/WHOLEARCHIVE:zaf %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <PreBuildEvent>
-      <Command>C:\Users\zplutor\Projects\zaf\out\Debug\zrcb.exe /o $(SolutionDir)src\res.rc /i /e .xaml $(SolutionDir)src</Command>
+      <Command>C:\Users\zplutor\Projects\zaf\out\Debug\zrcb.exe /o $(SolutionDir)src\res.rc /i /e .xaml.png $(SolutionDir)src</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
