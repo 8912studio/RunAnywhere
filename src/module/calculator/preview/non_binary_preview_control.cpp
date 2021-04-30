@@ -1,41 +1,12 @@
 #include "module/calculator/preview/non_binary_preview_control.h"
 #include <zaf/base/container/utility/range.h>
 #include <zaf/reflection/reflection_type_definition.h>
+#include "module/calculator/preview/numeric_text_formatting.h"
 #include "module/calculator/result_text_builder.h"
 
 namespace {
 
-std::wstring InsertSpaceToDecimalText(const std::wstring& text) {
-
-	auto result = text;
-	std::reverse(result.begin(), result.end());
-
-	std::size_t position{};
-	auto decimal_point_position = result.find(L'.');
-	if (decimal_point_position != std::wstring::npos) {
-		position = decimal_point_position + 1;
-	}
-
-	std::size_t digit_count{ 0 };
-	while (position < result.length()) {
-
-		++digit_count;
-
-		if (digit_count == 4) {
-
-			result.insert(position, 1, L' ');
-			digit_count = 1;
-			position += 2;
-		}
-		else {
-
-			++position;
-		}
-	}
-
-	std::reverse(result.begin(), result.end());
-	return result;
-}
+constexpr float DefaultFontSize = 32;
 
 }
 
@@ -52,41 +23,79 @@ void NonBinaryPreviewControl::AfterParsing() {
 
 void NonBinaryPreviewControl::Layout(const zaf::Rect& previous_rect) {
 
-	LayoutResultLabel();
-	LayoutEqualLabel();
+	ResizetLabelsToSuitableSize();
+	RePositionLabels();
 }
 
 
-void NonBinaryPreviewControl::LayoutResultLabel() {
+void NonBinaryPreviewControl::ResizetLabelsToSuitableSize() {
 
-	resultLabel->ResizeToPreferredSize();
+	auto content_size = GetContentSize();
+	if (content_size.width == 0) {
+		return;
+	}
+
+	if (resultLabel->GetText().length() == 0) {
+		return;
+	}
+
+	for (float font_size = DefaultFontSize; font_size > 0; --font_size) {
+
+		resultLabel->SetFontSize(font_size);
+		prefixLabel->SetFontSize(font_size);
+
+		auto result_label_size = resultLabel->GetPreferredSize();
+		auto result_label_margin = resultLabel->GetMargin();
+
+		auto prefix_label_size = prefixLabel->GetPreferredSize();
+		auto prefix_label_margin = prefixLabel->GetMargin();
+
+		auto total_width =
+			result_label_size.width +
+			result_label_margin.left +
+			result_label_margin.right +
+			prefix_label_size.width +
+			prefix_label_margin.left +
+			prefix_label_margin.right;
+
+		if (total_width <= content_size.width) {
+
+			resultLabel->ResizeToPreferredSize();
+			prefixLabel->ResizeToPreferredSize();
+			break;
+		}
+	}
+}
+
+
+void NonBinaryPreviewControl::RePositionLabels() {
 
 	auto content_size = this->GetContentSize();
 	const auto& result_label_size = resultLabel->GetSize();
 
+	//First, center result label.
 	zaf::Point result_label_position;
 	result_label_position.x = (content_size.width - result_label_size.width) / 2;
 	result_label_position.y = (content_size.height - result_label_size.height) / 2;
 
+	//Second, move prefix label in front of result label.
+	const auto& prefix_label_size = prefixLabel->GetSize();
+	zaf::Point prefix_label_position;
+	prefix_label_position.x =
+		result_label_position.x - prefix_label_size.width;
+	prefix_label_position.y =
+		result_label_position.y + result_label_size.height - prefix_label_size.height;
+
+	//Third, check if prefix label is exceeds content rect, and revise labels' positions.
+	if (prefix_label_position.x < 0) {
+
+		float revise_offset = 0 - prefix_label_position.x;
+		prefix_label_position.x += revise_offset;
+		result_label_position.x += revise_offset;
+	}
+
 	resultLabel->SetPosition(result_label_position);
-}
-
-
-void NonBinaryPreviewControl::LayoutEqualLabel() {
-
-	equalLabel->ResizeToPreferredSize();
-
-	const auto& result_label_rect = resultLabel->GetRect();
-	const auto& equal_label_size = equalLabel->GetSize();
-	constexpr float margin_to_result_label = 26;
-
-	zaf::Point equal_label_position;
-	equal_label_position.x = 
-		result_label_rect.position.x - equal_label_size.width - margin_to_result_label;
-	equal_label_position.y = 
-		result_label_rect.position.y + result_label_rect.size.height - equal_label_size.height;
-
-	equalLabel->SetPosition(equal_label_position);
+	prefixLabel->SetPosition(prefix_label_position);
 }
 
 
@@ -103,13 +112,23 @@ void NonBinaryPreviewControl::SetResult(
 
 void NonBinaryPreviewControl::UpdateResult() {
 
-	ResultTextBuilder text_builder(evaluate_result_, modifier_);
-	auto text = text_builder.Build();
-	if (modifier_.base == 10) {
-		text = InsertSpaceToDecimalText(text);
-	}
-
-	resultLabel->SetText(text);
+	SetTextToLabels();
 	NeedRelayout();
 }
 
+
+void NonBinaryPreviewControl::SetTextToLabels() {
+
+	ResultTextBuilder text_builder(evaluate_result_, modifier_);
+	auto result_text = text_builder.Build();
+
+	InsertSpaceToNumericText(result_text.content, modifier_.base);
+	resultLabel->SetText(result_text.content);
+
+	if (!result_text.prefix.empty()) {
+		prefixLabel->SetText(result_text.prefix + L' ');
+	}
+	else {
+		prefixLabel->SetText({});
+	}
+}

@@ -20,11 +20,12 @@ protected:
 
 private:
 	void UpdateResult();
-	void LayoutResultLabel();
-	void LayoutEqualLabel();
+	void SetTextToLabels();
+	void ResizetLabelsToSuitableSize();
+	void RePositionLabels();
 
 private:
-	ZAF_BIND_CONTROL(zaf::Label, equalLabel);
+	ZAF_BIND_CONTROL(zaf::Label, prefixLabel);
 	ZAF_BIND_CONTROL(zaf::Label, resultLabel);
 
 	calculator::EvaluateResult evaluate_result_;

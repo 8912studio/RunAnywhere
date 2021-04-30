@@ -3,6 +3,17 @@
 #include "module/calculator/evaluate/evaluate_result.h"
 #include "module/calculator/parse/modifier.h"
 
+class ResultText {
+public:
+	std::wstring GetCompleteText() const {
+		return prefix + content;
+	}
+
+public:
+	std::wstring prefix;
+	std::wstring content;
+};
+
 class ResultTextBuilder {
 public:
 	ResultTextBuilder(
@@ -12,7 +23,7 @@ public:
 	ResultTextBuilder(const ResultTextBuilder&) = delete;
 	ResultTextBuilder& operator=(const ResultTextBuilder&) = delete;
 
-	std::wstring Build() const;
+	ResultText Build() const;
 
 private:
 	std::wstring GetDecimalText() const;

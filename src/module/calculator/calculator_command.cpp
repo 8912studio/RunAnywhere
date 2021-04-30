@@ -30,10 +30,10 @@ void CalculatorCommand::Execute() {
     }
 
     ResultTextBuilder text_builder(evaluate_result_, modifier_);
-    auto text = text_builder.Build();
+    auto result_text = text_builder.Build();
 
     EmptyClipboard();
-    SetStringToClipboard(text);
+    SetStringToClipboard(result_text.GetCompleteText());
     CloseClipboard();
 }
 

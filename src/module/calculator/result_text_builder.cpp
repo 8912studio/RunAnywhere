@@ -4,6 +4,24 @@
 #include <zaf/base/string/encoding_conversion.h>
 #include <zaf/base/string/to_string.h>
 
+namespace {
+
+std::wstring GetBasePrefix(int base) {
+
+    switch (base) {
+    case 2:
+        return L"0b";
+    case 8:
+        return L"0";
+    case 16:
+        return L"0x";
+    default:
+        return {};
+    }
+}
+
+}
+
 ResultTextBuilder::ResultTextBuilder(
 	const calculator::EvaluateResult& evaluate_result,
 	const calculator::Modifier& modifier) 
@@ -14,14 +32,19 @@ ResultTextBuilder::ResultTextBuilder(
 }
 
 
-std::wstring ResultTextBuilder::Build() const {
+ResultText ResultTextBuilder::Build() const {
 
+    ResultText result;
+    result.prefix = GetBasePrefix(modifier_.base);
+    
     if (modifier_.base == 10) {
-        return GetDecimalText();
+        result.content = GetDecimalText();
     }
     else {
-        return GetNonDecimalText();
+        result.content = GetNonDecimalText();
     }
+
+    return result;
 }
 
 
@@ -76,20 +99,6 @@ std::wstring ResultTextBuilder::GetNonDecimalText() const {
 
     if (modifier_.use_upper_case) {
         zaf::Uppercase(result);
-    }
-
-    switch (modifier_.base) {
-    case 2:
-        result = L"0b" + result;
-        break;
-    case 8:
-        result = L"0" + result;
-        break;
-    case 16:
-        result = L"0x" + result;
-        break;
-    default:
-        break;
     }
 
     return result;

@@ -180,6 +180,9 @@
     <ClInclude Include="src\module\calculator\result_text_builder.h">
       <Filter>src\module\calculator</Filter>
     </ClInclude>
+    <ClInclude Include="src\module\calculator\preview\numeric_text_formatting.h">
+      <Filter>src\module\calculator\preview</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -283,6 +286,9 @@
     </ClCompile>
     <ClCompile Include="src\module\calculator\result_text_builder.cpp">
       <Filter>src\module\calculator</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\calculator\preview\numeric_text_formatting.cpp">
+      <Filter>src\module\calculator\preview</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
