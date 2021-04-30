@@ -1,5 +1,6 @@
 #include "module/calculator/preview/non_binary_preview_control.h"
 #include <zaf/base/container/utility/range.h>
+#include <zaf/graphic/font/font.h>
 #include <zaf/reflection/reflection_type_definition.h>
 #include "module/calculator/preview/numeric_text_formatting.h"
 #include "module/calculator/result_text_builder.h"
@@ -113,6 +114,7 @@ void NonBinaryPreviewControl::SetResult(
 void NonBinaryPreviewControl::UpdateResult() {
 
 	SetTextToLabels();
+	ShowHighlightBit();
 	NeedRelayout();
 }
 
@@ -131,4 +133,45 @@ void NonBinaryPreviewControl::SetTextToLabels() {
 	else {
 		prefixLabel->SetText({});
 	}
+}
+
+
+void NonBinaryPreviewControl::ShowHighlightBit() {
+
+	auto highlight_position = GetHighlightBitPositionInResultLabel();
+	if (!highlight_position) {
+		return;
+	}
+
+	resultLabel->SetTextColorAtRange(
+		zaf::Color::Red(),
+		zaf::TextRange{ *highlight_position, 1 });
+}
+
+
+std::optional<std::size_t> NonBinaryPreviewControl::GetHighlightBitPositionInResultLabel() {
+
+	if (!modifier_.highlight_bit || modifier_.base != 2) {
+		return std::nullopt;
+	}
+
+	auto text = resultLabel->GetText();
+
+	int current_bit = 0;
+	for (std::size_t position = text.length() - 1;
+		position >= 0 && position < text.length();
+		--position) {
+
+		if (text[position] == L' ') {
+			continue;
+		}
+
+		if (current_bit == *modifier_.highlight_bit) {
+			return position;
+		}
+
+		++current_bit;
+	}
+
+	return std::nullopt;
 }

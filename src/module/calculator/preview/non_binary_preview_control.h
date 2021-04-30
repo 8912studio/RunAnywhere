@@ -21,6 +21,8 @@ protected:
 private:
 	void UpdateResult();
 	void SetTextToLabels();
+	void ShowHighlightBit();
+	std::optional<std::size_t> GetHighlightBitPositionInResultLabel();
 	void ResizetLabelsToSuitableSize();
 	void RePositionLabels();
 
