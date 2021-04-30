@@ -174,13 +174,13 @@
     <ClInclude Include="src\module\user_defined\command_parameter_parsing.h">
       <Filter>src\module\user_defined</Filter>
     </ClInclude>
-    <ClInclude Include="src\module\calculator\preview\non_binary_preview_control.h">
-      <Filter>src\module\calculator\preview</Filter>
-    </ClInclude>
     <ClInclude Include="src\module\calculator\result_text_builder.h">
       <Filter>src\module\calculator</Filter>
     </ClInclude>
     <ClInclude Include="src\module\calculator\preview\numeric_text_formatting.h">
+      <Filter>src\module\calculator\preview</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\calculator\preview\calculator_preview_control.h">
       <Filter>src\module\calculator\preview</Filter>
     </ClInclude>
   </ItemGroup>
@@ -281,13 +281,13 @@
     <ClCompile Include="src\module\user_defined\command_parameter_parsing.cpp">
       <Filter>src\module\user_defined</Filter>
     </ClCompile>
-    <ClCompile Include="src\module\calculator\preview\non_binary_preview_control.cpp">
-      <Filter>src\module\calculator\preview</Filter>
-    </ClCompile>
     <ClCompile Include="src\module\calculator\result_text_builder.cpp">
       <Filter>src\module\calculator</Filter>
     </ClCompile>
     <ClCompile Include="src\module\calculator\preview\numeric_text_formatting.cpp">
+      <Filter>src\module\calculator\preview</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\calculator\preview\calculator_preview_control.cpp">
       <Filter>src\module\calculator\preview</Filter>
     </ClCompile>
   </ItemGroup>
@@ -295,7 +295,7 @@
     <Page Include="src\module\user_defined\preview\user_defined_command_preview_control.xaml">
       <Filter>src\module\user_defined\preview</Filter>
     </Page>
-    <Page Include="src\module\calculator\preview\non_binary_preview_control.xaml">
+    <Page Include="src\module\calculator\preview\calculator_preview_control.xaml">
       <Filter>src\module\calculator\preview</Filter>
     </Page>
   </ItemGroup>

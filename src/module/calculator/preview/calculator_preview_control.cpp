@@ -1,4 +1,4 @@
-#include "module/calculator/preview/non_binary_preview_control.h"
+#include "module/calculator/preview/calculator_preview_control.h"
 #include <zaf/base/container/utility/range.h>
 #include <zaf/graphic/font/font.h>
 #include <zaf/reflection/reflection_type_definition.h>
@@ -11,25 +11,25 @@ constexpr float DefaultFontSize = 32;
 
 }
 
-ZAF_DEFINE_REFLECTION_TYPE(NonBinaryPreviewControl)
-ZAF_DEFINE_RESOURCE_URI(L"res:///module/calculator/preview/non_binary_preview_control.xaml");
+ZAF_DEFINE_REFLECTION_TYPE(CalculatorPreviewControl)
+ZAF_DEFINE_RESOURCE_URI(L"res:///module/calculator/preview/calculator_preview_control.xaml");
 ZAF_DEFINE_END
 
 
-void NonBinaryPreviewControl::AfterParsing() {
+void CalculatorPreviewControl::AfterParsing() {
 
 	__super::AfterParsing();
 }
 
 
-void NonBinaryPreviewControl::Layout(const zaf::Rect& previous_rect) {
+void CalculatorPreviewControl::Layout(const zaf::Rect& previous_rect) {
 
 	ResizetLabelsToSuitableSize();
 	RePositionLabels();
 }
 
 
-void NonBinaryPreviewControl::ResizetLabelsToSuitableSize() {
+void CalculatorPreviewControl::ResizetLabelsToSuitableSize() {
 
 	auto content_size = GetContentSize();
 	if (content_size.width == 0) {
@@ -69,7 +69,7 @@ void NonBinaryPreviewControl::ResizetLabelsToSuitableSize() {
 }
 
 
-void NonBinaryPreviewControl::RePositionLabels() {
+void CalculatorPreviewControl::RePositionLabels() {
 
 	auto content_size = this->GetContentSize();
 	const auto& result_label_size = resultLabel->GetSize();
@@ -100,7 +100,7 @@ void NonBinaryPreviewControl::RePositionLabels() {
 }
 
 
-void NonBinaryPreviewControl::SetResult(
+void CalculatorPreviewControl::SetResult(
 	const calculator::EvaluateResult& evaluate_result,
 	const calculator::Modifier& modifier) {
 
@@ -111,7 +111,7 @@ void NonBinaryPreviewControl::SetResult(
 }
 
 
-void NonBinaryPreviewControl::UpdateResult() {
+void CalculatorPreviewControl::UpdateResult() {
 
 	SetTextToLabels();
 	ShowHighlightBit();
@@ -119,7 +119,7 @@ void NonBinaryPreviewControl::UpdateResult() {
 }
 
 
-void NonBinaryPreviewControl::SetTextToLabels() {
+void CalculatorPreviewControl::SetTextToLabels() {
 
 	ResultTextBuilder text_builder(evaluate_result_, modifier_);
 	auto result_text = text_builder.Build();
@@ -136,7 +136,7 @@ void NonBinaryPreviewControl::SetTextToLabels() {
 }
 
 
-void NonBinaryPreviewControl::ShowHighlightBit() {
+void CalculatorPreviewControl::ShowHighlightBit() {
 
 	auto highlight_position = GetHighlightBitPositionInResultLabel();
 	if (!highlight_position) {
@@ -149,7 +149,7 @@ void NonBinaryPreviewControl::ShowHighlightBit() {
 }
 
 
-std::optional<std::size_t> NonBinaryPreviewControl::GetHighlightBitPositionInResultLabel() {
+std::optional<std::size_t> CalculatorPreviewControl::GetHighlightBitPositionInResultLabel() {
 
 	if (!modifier_.highlight_bit || modifier_.base != 2) {
 		return std::nullopt;

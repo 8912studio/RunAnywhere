@@ -1,4 +1,0 @@
-<NonBinaryPreviewControl FixedHeight="90">
-    <Label Name="prefixLabel" />
-    <Label Name="resultLabel" />
-</NonBinaryPreviewControl>

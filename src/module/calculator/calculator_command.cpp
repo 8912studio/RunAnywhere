@@ -1,7 +1,7 @@
 #include "module/calculator/calculator_command.h"
 #include <strsafe.h>
 #include <zaf/creation.h>
-#include "module/calculator/preview/non_binary_preview_control.h"
+#include "module/calculator/preview/calculator_preview_control.h"
 #include "module/calculator/result_text_builder.h"
 
 CalculatorCommand::CalculatorCommand(
@@ -16,7 +16,7 @@ CalculatorCommand::CalculatorCommand(
 
 std::shared_ptr<CommandPreviewControl> CalculatorCommand::GetPreviewControl() {
 
-    auto control = zaf::Create<NonBinaryPreviewControl>();
+    auto control = zaf::Create<CalculatorPreviewControl>();
     control->SetResult(evaluate_result_, modifier_);
     return control;
 }

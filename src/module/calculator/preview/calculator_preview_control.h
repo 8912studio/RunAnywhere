@@ -6,7 +6,7 @@
 #include "module/calculator/parse/modifier.h"
 #include "module/command_preview_control.h"
 
-class NonBinaryPreviewControl : public CommandPreviewControl {
+class CalculatorPreviewControl : public CommandPreviewControl {
 public:
 	ZAF_DECLARE_REFLECTION_TYPE;
 
