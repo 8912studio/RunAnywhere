@@ -20,16 +20,17 @@ protected:
 
 private:
 	void UpdateResult();
-	void SetTextToLabels();
+	void SetTextToLabel();
 	void ShowHighlightBit();
 	std::optional<std::size_t> GetHighlightBitPositionInResultLabel();
-	void ResizetLabelsToSuitableSize();
-	void RePositionLabels();
+	void ResizetLabelToSuitableSize();
+	void RePositionLabel();
 
 private:
-	ZAF_BIND_CONTROL(zaf::Label, prefixLabel);
 	ZAF_BIND_CONTROL(zaf::Label, resultLabel);
 
 	calculator::EvaluateResult evaluate_result_;
 	calculator::Modifier modifier_;
+
+	std::size_t prefix_length_;
 };

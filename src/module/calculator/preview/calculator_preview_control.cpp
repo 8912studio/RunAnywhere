@@ -24,12 +24,12 @@ void CalculatorPreviewControl::AfterParsing() {
 
 void CalculatorPreviewControl::Layout(const zaf::Rect& previous_rect) {
 
-	ResizetLabelsToSuitableSize();
-	RePositionLabels();
+	ResizetLabelToSuitableSize();
+	RePositionLabel();
 }
 
 
-void CalculatorPreviewControl::ResizetLabelsToSuitableSize() {
+void CalculatorPreviewControl::ResizetLabelToSuitableSize() {
 
 	auto content_size = GetContentSize();
 	if (content_size.width == 0) {
@@ -40,63 +40,37 @@ void CalculatorPreviewControl::ResizetLabelsToSuitableSize() {
 		return;
 	}
 
-	for (float font_size = DefaultFontSize; font_size > 0; --font_size) {
+	for (float font_size = DefaultFontSize; font_size > 0; font_size -= 0.5) {
 
 		resultLabel->SetFontSize(font_size);
-		prefixLabel->SetFontSize(font_size);
 
 		auto result_label_size = resultLabel->GetPreferredSize();
 		auto result_label_margin = resultLabel->GetMargin();
 
-		auto prefix_label_size = prefixLabel->GetPreferredSize();
-		auto prefix_label_margin = prefixLabel->GetMargin();
-
 		auto total_width =
 			result_label_size.width +
 			result_label_margin.left +
-			result_label_margin.right +
-			prefix_label_size.width +
-			prefix_label_margin.left +
-			prefix_label_margin.right;
+			result_label_margin.right;
 
 		if (total_width <= content_size.width) {
 
 			resultLabel->ResizeToPreferredSize();
-			prefixLabel->ResizeToPreferredSize();
 			break;
 		}
 	}
 }
 
 
-void CalculatorPreviewControl::RePositionLabels() {
+void CalculatorPreviewControl::RePositionLabel() {
 
 	auto content_size = this->GetContentSize();
 	const auto& result_label_size = resultLabel->GetSize();
 
-	//First, center result label.
 	zaf::Point result_label_position;
 	result_label_position.x = (content_size.width - result_label_size.width) / 2;
 	result_label_position.y = (content_size.height - result_label_size.height) / 2;
 
-	//Second, move prefix label in front of result label.
-	const auto& prefix_label_size = prefixLabel->GetSize();
-	zaf::Point prefix_label_position;
-	prefix_label_position.x =
-		result_label_position.x - prefix_label_size.width;
-	prefix_label_position.y =
-		result_label_position.y + result_label_size.height - prefix_label_size.height;
-
-	//Third, check if prefix label is exceeds content rect, and revise labels' positions.
-	if (prefix_label_position.x < 0) {
-
-		float revise_offset = 0 - prefix_label_position.x;
-		prefix_label_position.x += revise_offset;
-		result_label_position.x += revise_offset;
-	}
-
 	resultLabel->SetPosition(result_label_position);
-	prefixLabel->SetPosition(prefix_label_position);
 }
 
 
@@ -113,26 +87,28 @@ void CalculatorPreviewControl::SetResult(
 
 void CalculatorPreviewControl::UpdateResult() {
 
-	SetTextToLabels();
+	SetTextToLabel();
 	ShowHighlightBit();
 	NeedRelayout();
 }
 
 
-void CalculatorPreviewControl::SetTextToLabels() {
+void CalculatorPreviewControl::SetTextToLabel() {
 
 	ResultTextBuilder text_builder(evaluate_result_, modifier_);
 	auto result_text = text_builder.Build();
 
-	InsertSpaceToNumericText(result_text.content, modifier_.base);
-	resultLabel->SetText(result_text.content);
+	auto label_text = result_text.content;
 
+	InsertSpaceToNumericText(label_text, modifier_.base);
+	
 	if (!result_text.prefix.empty()) {
-		prefixLabel->SetText(result_text.prefix + L' ');
+
+		label_text = result_text.prefix + L' ' + label_text;
+		prefix_length_ = result_text.prefix.length() + 1;
 	}
-	else {
-		prefixLabel->SetText({});
-	}
+
+	resultLabel->SetText(label_text);
 }
 
 
@@ -159,7 +135,7 @@ std::optional<std::size_t> CalculatorPreviewControl::GetHighlightBitPositionInRe
 
 	int current_bit = 0;
 	for (std::size_t position = text.length() - 1;
-		position >= 0 && position < text.length();
+		position >= prefix_length_ && position < text.length();
 		--position) {
 
 		if (text[position] == L' ') {

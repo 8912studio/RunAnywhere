@@ -1,4 +1,3 @@
 <CalculatorPreviewControl FixedHeight="90">
-    <Label Name="prefixLabel" />
     <Label Name="resultLabel" />
 </CalculatorPreviewControl>
