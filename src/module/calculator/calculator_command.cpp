@@ -1,9 +1,8 @@
 #include "module/calculator/calculator_command.h"
 #include <strsafe.h>
-#include <sstream>
-#include <zaf/base/string/case_conversion.h>
-#include <zaf/base/string/encoding_conversion.h>
-#include <zaf/base/string/to_string.h>
+#include <zaf/creation.h>
+#include "module/calculator/preview/non_binary_preview_control.h"
+#include "module/calculator/result_text_builder.h"
 
 CalculatorCommand::CalculatorCommand(
     const calculator::EvaluateResult& evaluate_result,
@@ -15,25 +14,11 @@ CalculatorCommand::CalculatorCommand(
 }
 
 
-std::wstring CalculatorCommand::GetPreviewText() {
+std::shared_ptr<CommandPreviewControl> CalculatorCommand::GetPreviewControl() {
 
-    auto value_text = GetValueText();
-
-    switch (modifier_.base) {
-    case 2:
-        value_text = L"0b" + value_text;
-        break;
-    case 8:
-        value_text = L"0" + value_text;
-        break;
-    case 16:
-        value_text = L"0x" + value_text;
-        break;
-    default:
-        break;
-    }
-
-    return L"= " + value_text;
+    auto control = zaf::Create<NonBinaryPreviewControl>();
+    control->SetResult(evaluate_result_, modifier_);
+    return control;
 }
 
 
@@ -44,8 +29,11 @@ void CalculatorCommand::Execute() {
         return;
     }
 
+    ResultTextBuilder text_builder(evaluate_result_, modifier_);
+    auto text = text_builder.Build();
+
     EmptyClipboard();
-    SetStringToClipboard(GetValueText());
+    SetStringToClipboard(text);
     CloseClipboard();
 }
 
@@ -89,72 +77,4 @@ DWORD CalculatorCommand::CopyStringToMemory(const std::wstring& string, HGLOBAL 
     }
 
     return ERROR_SUCCESS;
-}
-
-
-std::wstring CalculatorCommand::GetValueText() const {
-
-    if (modifier_.base == 10) {
-        return GetDecimalValueText();
-    }
-    else {
-        return GetNonDecimalValueText();
-    }
-}
-
-
-std::wstring CalculatorCommand::GetDecimalValueText() const {
-
-    auto value = evaluate_result_.decimal_value;
-
-    switch (modifier_.unit) {
-    case calculator::NumberUnit::Tera:
-        value /= 1024;
-    case calculator::NumberUnit::Giga:
-        value /= 1024;
-    case calculator::NumberUnit::Mega:
-        value /= 1024;
-    case calculator::NumberUnit::Kilo:
-        value /= 1024;
-    default:
-        break;
-    }
-
-    std::ostringstream stream;
-    stream << std::setprecision(20) << value;
-    return zaf::FromUtf8String(stream.str());
-}
-
-
-std::wstring CalculatorCommand::GetNonDecimalValueText() const {
-
-    const auto& value = evaluate_result_.decimal_value;
-
-    zaf::ToStringOptions to_string_options;
-    to_string_options.Base(modifier_.base);
-
-    std::wstring result;
-    switch (modifier_.bit_length) {
-    case 8:
-        result = zaf::ToWideString(value.convert_to<std::int8_t>(), to_string_options);
-        break;
-
-    case 16:
-        result = zaf::ToWideString(value.convert_to<std::int16_t>(), to_string_options);
-        break;
-
-    case 64:
-        result = zaf::ToWideString(value.convert_to<std::int64_t>(), to_string_options);
-        break;
-
-    default:
-        result = zaf::ToWideString(value.convert_to<std::int32_t>(), to_string_options);
-        break;
-    }
-
-    if (modifier_.use_upper_case) {
-        zaf::Uppercase(result);
-    }
-
-    return result;
 }

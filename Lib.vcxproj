@@ -160,6 +160,7 @@
     <ClInclude Include="src\module\calculator\evaluate\evaluator.h" />
     <ClInclude Include="src\module\calculator\evaluate\operand_evaluator.h" />
     <ClInclude Include="src\module\calculator\evaluate\operator_evaluator.h" />
+    <ClInclude Include="src\module\calculator\result_text_builder.h" />
     <ClInclude Include="src\module\calculator\parse\binary_expression_parser.h" />
     <ClInclude Include="src\module\calculator\parse\command_parser.h" />
     <ClInclude Include="src\module\calculator\parse\compound_parser.h" />
@@ -184,6 +185,7 @@
     <ClInclude Include="src\module\calculator\parse\syntax_node.h" />
     <ClInclude Include="src\module\calculator\parse\terminal_parser.h" />
     <ClInclude Include="src\module\calculator\parse\unary_expression_parser.h" />
+    <ClInclude Include="src\module\calculator\preview\non_binary_preview_control.h" />
     <ClInclude Include="src\module\command.h" />
     <ClInclude Include="src\module\command_preview_control.h" />
     <ClInclude Include="src\module\meta\meta_command.h" />
@@ -206,6 +208,7 @@
     <ClCompile Include="src\module\calculator\evaluate\evaluator.cpp" />
     <ClCompile Include="src\module\calculator\evaluate\operand_evaluator.cpp" />
     <ClCompile Include="src\module\calculator\evaluate\operator_evaluator.cpp" />
+    <ClCompile Include="src\module\calculator\result_text_builder.cpp" />
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp" />
     <ClCompile Include="src\module\calculator\parse\command_parser.cpp" />
     <ClCompile Include="src\module\calculator\parse\compound_parser.cpp" />
@@ -222,6 +225,7 @@
     <ClCompile Include="src\module\calculator\parse\octal_number_parser.cpp" />
     <ClCompile Include="src\module\calculator\parse\parse_result.cpp" />
     <ClCompile Include="src\module\calculator\parse\unary_expression_parser.cpp" />
+    <ClCompile Include="src\module\calculator\preview\non_binary_preview_control.cpp" />
     <ClCompile Include="src\module\meta\meta_command.cpp" />
     <ClCompile Include="src\module\meta\meta_module.cpp" />
     <ClCompile Include="src\module\user_defined\command_line_parsing.cpp" />
@@ -232,6 +236,7 @@
     <ClCompile Include="src\module\user_defined\user_defined_module.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="src\module\calculator\preview\non_binary_preview_control.xaml" />
     <Page Include="src\module\user_defined\preview\user_defined_command_preview_control.xaml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

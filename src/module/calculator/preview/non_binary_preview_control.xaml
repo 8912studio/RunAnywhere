@@ -1,0 +1,16 @@
+<NonBinaryPreviewControl FixedHeight="90">
+
+    <Label 
+        Name="equalLabel"
+        FontSize="32" 
+        TextAlignment="Center"
+        ParagraphAlignment="Center" 
+        Text="="/>
+
+    <Label 
+        Name="resultLabel" 
+        FontSize="32" 
+        TextAlignment="Center"
+        ParagraphAlignment="Center" />
+
+</NonBinaryPreviewControl>

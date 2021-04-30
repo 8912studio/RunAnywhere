@@ -11,14 +11,10 @@ public:
         const calculator::EvaluateResult& evaluate_result, 
         const calculator::Modifier& modifier);
 
-    std::wstring GetPreviewText() override;
+    std::shared_ptr<CommandPreviewControl> GetPreviewControl() override;
     void Execute() override;
 
 private:
-    std::wstring GetValueText() const;
-    std::wstring GetDecimalValueText() const;
-    std::wstring GetNonDecimalValueText() const;
-
     void SetStringToClipboard(const std::wstring& string);
     DWORD CopyStringToMemory(const std::wstring& string, HGLOBAL memory_handle);
 
