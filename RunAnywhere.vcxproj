@@ -72,17 +72,17 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)src;C:\Users\zplutor\Projects\zaf\src\;C:\Users\zplutor\Projects\boost_1_75_0\;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)src;$(SolutionDir)third_party\zaf\src\;$(SolutionDir)third_party\boost\include;$(IncludePath)</IncludePath>
     <IntDir>$(SolutionDir)build\int\$(ProjectName)\$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)build\out\$(Configuration)\</OutDir>
-    <LibraryPath>$(OutDir);C:\Users\zplutor\Projects\zaf\out\$(Configuration)\;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(OutDir);$(SolutionDir)third_party\zaf\out\$(Configuration)\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)src;C:\Users\zplutor\Projects\zaf\src\;C:\Users\zplutor\Projects\boost_1_75_0\;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)src;$(SolutionDir)third_party\zaf\src\;$(SolutionDir)third_party\boost\include;$(IncludePath)</IncludePath>
     <IntDir>$(SolutionDir)build\int\$(ProjectName)\$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)build\out\$(Configuration)\</OutDir>
-    <LibraryPath>$(OutDir);C:\Users\zplutor\Projects\zaf\out\$(Configuration)\;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(OutDir);$(SolutionDir)third_party\zaf\out\$(Configuration)\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -105,7 +105,7 @@
       <AdditionalOptions>/WHOLEARCHIVE:zaf %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <PreBuildEvent>
-      <Command>C:\Users\zplutor\Projects\zaf\out\Debug\zrcb.exe /o $(SolutionDir)src\res.rc /i /e .xaml.png $(SolutionDir)src</Command>
+      <Command>$(SolutionDir)third_party\zaf\out\Debug\zrcb.exe /o $(SolutionDir)src\res.rc /i /e .xaml.png $(SolutionDir)src</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -127,7 +127,7 @@
       <AdditionalOptions>/WHOLEARCHIVE:zaf %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <PreBuildEvent>
-      <Command>C:\Users\zplutor\Projects\zaf\out\Debug\zrcb.exe /o $(SolutionDir)src\res.rc /i /e .xaml.png $(SolutionDir)src</Command>
+      <Command>$(SolutionDir)third_party\zaf\out\Debug\zrcb.exe /o $(SolutionDir)src\res.rc /i /e .xaml.png $(SolutionDir)src</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
