@@ -4,6 +4,8 @@
 #include <string_view>
 #include <vector>
 
+namespace ra::module::user_defined {
+
 class CommandParameter {
 public:
 	enum class Type {
@@ -25,3 +27,5 @@ public:
 
 
 std::vector<CommandParameter> ParseParameter(std::wstring_view parameter);
+
+}

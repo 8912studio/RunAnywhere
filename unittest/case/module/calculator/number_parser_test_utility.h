@@ -3,12 +3,12 @@
 #include "module/calculator/parse/parser.h"
 
 bool TestNumberParserSuccess(
-    calculator::Parser& parser,
+    ra::module::calculator::Parser& parser,
     const std::wstring& input, 
     const std::wstring& expected_output,
     int expected_base);
 
 bool TestNumberParserFailure(
-    calculator::Parser& parser,
+    ra::module::calculator::Parser& parser,
     const std::wstring& input,
-    calculator::ParseStatus expected_status);
+    ra::module::calculator::ParseStatus expected_status);

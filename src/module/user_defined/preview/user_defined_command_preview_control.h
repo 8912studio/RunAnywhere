@@ -5,6 +5,8 @@
 #include "module/command_preview_control.h"
 #include "module/user_defined/command_line_parsing.h"
 
+namespace ra::module::user_defined {
+
 class UserDefinedCommandPreviewControl : public CommandPreviewControl {
 public:
     ZAF_DECLARE_REFLECTION_TYPE;
@@ -22,3 +24,5 @@ private:
     ZAF_BIND_CONTROL(zaf::Label, commandLabel);
     ZAF_BIND_CONTROL(zaf::Control, argumentContainer);
 };
+
+}

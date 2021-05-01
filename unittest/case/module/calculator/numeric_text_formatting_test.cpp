@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
 #include "module/calculator/preview/numeric_text_formatting.h"
 
+using namespace ra::module::calculator;
+
 TEST(NumericTextFormattingTest, Decimal) {
 
 	auto test = [](const std::wstring& input, const std::wstring& expected) {

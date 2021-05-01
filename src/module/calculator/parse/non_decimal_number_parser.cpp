@@ -4,7 +4,7 @@
 
 using namespace std::string_literals;
 
-namespace calculator {
+namespace ra::module::calculator {
 
 NonDecimalNumberParser* NonDecimalNumberParser::Binary() {
     static NonDecimalNumberParser parser{ { L"0b", L"b" }, L"01", 2 };

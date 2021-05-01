@@ -65,7 +65,7 @@ void ShowTryIcon() {
 
             switch (message.lparam) {
             case WM_LBUTTONDBLCLK:
-                MainWindow::Instance().ShowOnTop();
+                ra::MainWindow::Instance().ShowOnTop();
                 break;
 
             case WM_RBUTTONUP:
@@ -81,25 +81,25 @@ void ShowTryIcon() {
                 break;
 
             case ID_TRAYICON_OPTION:
-                OptionWindow::ShowInstance();
+                ra::OptionWindow::ShowInstance();
                 break;
             }
         }
     });
 
-    AddTrayIcon(g_tray_icon_message_window->GetHandle(), WM_TRAY_ICON);
+    ra::AddTrayIcon(g_tray_icon_message_window->GetHandle(), WM_TRAY_ICON);
 }
 
 
 void InitializeHotKey() {
 
-    auto& hot_key_manager = HotKeyManager::Instance();
+    auto& hot_key_manager = ra::HotKeyManager::Instance();
     hot_key_manager.Initialize();
 
     zaf::Application::Instance().Subscriptions() += hot_key_manager.HotKeyPressedEvent().Subscribe(
         [](zaf::Dumb) {
     
-        auto& main_window = MainWindow::Instance();
+        auto& main_window = ra::MainWindow::Instance();
 
         if (IsWindowVisible(main_window.GetHandle())) {
             main_window.Hide();
@@ -117,15 +117,15 @@ void BeginRun(const zaf::ApplicationBeginRunInfo&) {
     InitializeHotKey();
 
     //Access instance to create main window object.
-    auto& main_window = MainWindow::Instance();
+    auto& main_window = ra::MainWindow::Instance();
 }
 
 
 void EndRun(const zaf::ApplicationEndRunInfo&) {
 
-    MainWindow::Instance().Close();
+    ra::MainWindow::Instance().Close();
 
-    RemoveTrayIcon();
+    ra::RemoveTrayIcon();
 }
 
 }

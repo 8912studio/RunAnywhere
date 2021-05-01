@@ -5,6 +5,8 @@
 #include "module/calculator/parse/modifier.h"
 #include "module/command.h"
 
+namespace ra::module::calculator {
+
 class CalculatorCommand : public Command {
 public:
     CalculatorCommand(
@@ -22,3 +24,5 @@ private:
     calculator::EvaluateResult evaluate_result_;
     calculator::Modifier modifier_;
 };
+
+}

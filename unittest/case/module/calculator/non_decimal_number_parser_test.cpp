@@ -2,23 +2,25 @@
 #include "number_parser_test_utility.h"
 #include "module/calculator/parse/non_decimal_number_parser.h"
 
+using namespace ra::module::calculator;
+
 TEST(NonDecimalNumberParserTest, BinaryFailure) {
 
-    auto test = [](const std::wstring& input, calculator::ParseStatus expected_status) {
+    auto test = [](const std::wstring& input, ParseStatus expected_status) {
 
         return TestNumberParserFailure(
-            *calculator::NonDecimalNumberParser::Binary(),
+            *NonDecimalNumberParser::Binary(),
             input,
             expected_status);
     };
 
-    ASSERT_TRUE(test(L"10384", calculator::ParseStatus::Mismatched));
-    ASSERT_TRUE(test(L"896", calculator::ParseStatus::Mismatched));
-    ASSERT_TRUE(test(L"0", calculator::ParseStatus::Mismatched));
-    ASSERT_TRUE(test(L"0b", calculator::ParseStatus::Error));
-    ASSERT_TRUE(test(L"b", calculator::ParseStatus::Error));
-    ASSERT_TRUE(test(L"0B", calculator::ParseStatus::Error));
-    ASSERT_TRUE(test(L"B", calculator::ParseStatus::Error));
+    ASSERT_TRUE(test(L"10384", ParseStatus::Mismatched));
+    ASSERT_TRUE(test(L"896", ParseStatus::Mismatched));
+    ASSERT_TRUE(test(L"0", ParseStatus::Mismatched));
+    ASSERT_TRUE(test(L"0b", ParseStatus::Error));
+    ASSERT_TRUE(test(L"b", ParseStatus::Error));
+    ASSERT_TRUE(test(L"0B", ParseStatus::Error));
+    ASSERT_TRUE(test(L"B", ParseStatus::Error));
 }
 
 
@@ -27,7 +29,7 @@ TEST(NonDecimalNumberParserTest, HexSuccess) {
     auto test = [](const std::wstring& input, const std::wstring& expected_output) {
 
         return TestNumberParserSuccess(
-            *calculator::NonDecimalNumberParser::Hex(),
+            *NonDecimalNumberParser::Hex(),
             input,
             expected_output,
             16);
@@ -42,19 +44,19 @@ TEST(NonDecimalNumberParserTest, HexSuccess) {
 
 TEST(NonDecimalNumberParserTest, HexFailure) {
 
-    auto test = [](const std::wstring& input, calculator::ParseStatus expected_status) {
+    auto test = [](const std::wstring& input, ParseStatus expected_status) {
 
         return TestNumberParserFailure(
-            *calculator::NonDecimalNumberParser::Hex(),
+            *NonDecimalNumberParser::Hex(),
             input,
             expected_status);
     };
 
-    ASSERT_TRUE(test(L"ab3e22", calculator::ParseStatus::Mismatched));
-    ASSERT_TRUE(test(L"896", calculator::ParseStatus::Mismatched));
-    ASSERT_TRUE(test(L"0", calculator::ParseStatus::Mismatched));
-    ASSERT_TRUE(test(L"0x", calculator::ParseStatus::Error));
-    ASSERT_TRUE(test(L"x", calculator::ParseStatus::Error));
-    ASSERT_TRUE(test(L"0X", calculator::ParseStatus::Error));
-    ASSERT_TRUE(test(L"X", calculator::ParseStatus::Error));
+    ASSERT_TRUE(test(L"ab3e22", ParseStatus::Mismatched));
+    ASSERT_TRUE(test(L"896", ParseStatus::Mismatched));
+    ASSERT_TRUE(test(L"0", ParseStatus::Mismatched));
+    ASSERT_TRUE(test(L"0x", ParseStatus::Error));
+    ASSERT_TRUE(test(L"x", ParseStatus::Error));
+    ASSERT_TRUE(test(L"0X", ParseStatus::Error));
+    ASSERT_TRUE(test(L"X", ParseStatus::Error));
 }

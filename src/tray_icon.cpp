@@ -1,10 +1,11 @@
 #include "tray_icon.h"
 #include "resource.h"
 
+namespace ra {
+
 #define ID_TRAY_ICON 1
 
 NOTIFYICONDATA g_iconData = { 0 };
-
 
 
 void AddTrayIcon(HWND hwnd, UINT message_id) {
@@ -22,12 +23,10 @@ void AddTrayIcon(HWND hwnd, UINT message_id) {
 }
 
 
-
 void RemoveTrayIcon() {
 
 	Shell_NotifyIcon(NIM_DELETE, &g_iconData);
 }
-
 
 
 void ShowBalloonTips(LPCTSTR content, DWORD iconFlag) {
@@ -41,8 +40,9 @@ void ShowBalloonTips(LPCTSTR content, DWORD iconFlag) {
 }
 
 
-
 void KillTrayIconFocus() {
 
 	Shell_NotifyIcon(NIM_SETFOCUS, &g_iconData);
+}
+
 }

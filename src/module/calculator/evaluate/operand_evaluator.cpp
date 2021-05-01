@@ -5,7 +5,7 @@
 #include "module/calculator/evaluate/evaluate_result.h"
 #include "module/calculator/parse/operand_node.h"
 
-namespace calculator {
+namespace ra::module::calculator {
 
 EvaluateStatus OperandEvaluator::Evaluate(EvaluateResult& result) {
 

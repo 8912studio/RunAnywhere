@@ -2,7 +2,7 @@
 
 #include <string>
 
-namespace calculator {
+namespace ra::module::calculator {
 
 class ParseContext {
 public:

@@ -4,6 +4,7 @@
 #include <zaf/base/string/encoding_conversion.h>
 #include <zaf/base/string/to_string.h>
 
+namespace ra::module::calculator {
 namespace {
 
 std::wstring GetBasePrefix(int base) {
@@ -102,4 +103,6 @@ std::wstring ResultTextBuilder::GetNonDecimalText() const {
     }
 
     return result;
+}
+
 }

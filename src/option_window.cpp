@@ -3,10 +3,11 @@
 #include <zaf/reflection/reflection_type_definition.h>
 #include "hot_key_manager.h"
 
+namespace ra {
 namespace {
 
-constexpr const wchar_t* const AutoRunRegistryPath = 
-    L"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run";
+constexpr const wchar_t* const AutoRunRegistryPath =
+L"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run";
 
 constexpr const wchar_t* const AutoRunValueName = L"RunAnywhere";
 
@@ -99,7 +100,7 @@ void OptionWindow::SetAutoRunToRegistry(bool set) {
     try {
 
         auto key = zaf::Registry::CurrentUser().OpenSubKey(
-            AutoRunRegistryPath, 
+            AutoRunRegistryPath,
             zaf::RegistryRights::Write);
 
         if (set) {
@@ -113,6 +114,8 @@ void OptionWindow::SetAutoRunToRegistry(bool set) {
         }
     }
     catch (const zaf::Error&) {
-       
+
     }
+}
+
 }

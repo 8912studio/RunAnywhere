@@ -4,7 +4,7 @@
 #include <vector>
 #include "module/calculator/parse/parser.h"
 
-namespace calculator {
+namespace ra::module::calculator {
 
 class CompoundParser : public Parser {
 public:

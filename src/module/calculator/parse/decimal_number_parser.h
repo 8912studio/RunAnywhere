@@ -3,7 +3,7 @@
 #include "module/calculator/parse/terminal_parser.h"
 #include "module/calculator/parse/number_unit.h"
 
-namespace calculator {
+namespace ra::module::calculator {
 
 class DecimalNumberParser : public TerminalParser {
 public:

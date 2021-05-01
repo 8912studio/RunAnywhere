@@ -1,6 +1,6 @@
 #include "module/calculator/parse/non_terminal_parser.h"
 
-namespace calculator {
+namespace ra::module::calculator {
 
 void NonTerminalParser::AddParsers(const std::vector<Parser*>& parsers) {
 

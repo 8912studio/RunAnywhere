@@ -5,6 +5,8 @@
 #include <zaf/rx/subject.h>
 #include "hot_key.h"
 
+namespace ra {
+
 class HotKeyBox : public zaf::ClickableControl {
 public:
     ZAF_DECLARE_REFLECTION_TYPE;
@@ -36,3 +38,5 @@ private:
 
     zaf::Subject<HotKey> hot_key_changed_subject_;
 };
+
+}

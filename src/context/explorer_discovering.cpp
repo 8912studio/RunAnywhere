@@ -4,14 +4,15 @@
 #include <shlobj.h>
 #include <zaf/base/error/com_error.h>
 
+namespace ra::context {
 namespace {
 
 CComPtr<IWebBrowser2> FindForegroundExplorerWindow(HWND foreground_window_handle) {
 
     CComPtr<IShellWindows> shell_windows;
     HRESULT hresult = CoCreateInstance(
-        CLSID_ShellWindows, 
-        NULL, 
+        CLSID_ShellWindows,
+        NULL,
         CLSCTX_ALL,
         IID_IShellWindows,
         (void**)&shell_windows);
@@ -95,12 +96,12 @@ std::wstring GetSelectedItemName(IFolderView* folder_view, IPersistFolder2* pers
 
     std::wstring result;
     if (SUCCEEDED(hresult)) {
-    
+
         wchar_t buffer[MAX_PATH]{};
         StrRetToBuf(&strret, item_pidl, buffer, MAX_PATH);
         result = buffer;
     }
-    
+
     CoTaskMemFree(item_pidl);
     return result;
 }
@@ -136,7 +137,7 @@ std::filesystem::path DiscoverFocusedPathFromExplorer(HWND foreground_window_han
 
         CComPtr<IPersistFolder2> persist_folder;
         hresult = folder_view->GetFolder(
-            IID_IPersistFolder2, 
+            IID_IPersistFolder2,
             reinterpret_cast<void**>(&persist_folder));
         ZAF_THROW_IF_COM_ERROR(hresult);
 
@@ -151,4 +152,6 @@ std::filesystem::path DiscoverFocusedPathFromExplorer(HWND foreground_window_han
     catch (const zaf::Error&) {
         return {};
     }
+}
+
 }

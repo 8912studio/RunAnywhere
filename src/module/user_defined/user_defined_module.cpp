@@ -3,6 +3,8 @@
 #include "module/user_defined/user_defined_command.h"
 #include "module/user_defined/user_defined_entry_reading.h"
 
+namespace ra::module::user_defined {
+
 void UserDefinedModule::Reload() {
 
     entries_ = ReadUserDefinedEntries();
@@ -47,4 +49,6 @@ std::optional<UserDefinedEntry> UserDefinedModule::FindEntry(std::wstring_view k
     }
 
     return std::nullopt;
+}
+
 }

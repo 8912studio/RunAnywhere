@@ -2,6 +2,7 @@
 #include <zaf/base/error/error.h>
 #include <zaf/base/registry/registry.h>
 
+namespace ra {
 namespace {
 
 constexpr const wchar_t* const RegistrySubKeyPath = L"Software\\RunAnywhere";
@@ -123,4 +124,6 @@ void HotKeyManager::SetNewHotKey(const HotKey& new_hot_key) {
 
     WriteHotKeyToRegistry();
     RegisterHotKey();
+}
+
 }

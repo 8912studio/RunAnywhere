@@ -5,6 +5,7 @@
 #include "module/calculator/preview/numeric_text_formatting.h"
 #include "module/calculator/result_text_builder.h"
 
+namespace ra::module::calculator {
 namespace {
 
 constexpr float DefaultFontSize = 32;
@@ -101,7 +102,7 @@ void CalculatorPreviewControl::SetTextToLabel() {
 	auto label_text = result_text.content;
 
 	InsertSpaceToNumericText(label_text, modifier_.base);
-	
+
 	if (!result_text.prefix.empty()) {
 
 		label_text = result_text.prefix + L' ' + label_text;
@@ -150,4 +151,6 @@ std::optional<std::size_t> CalculatorPreviewControl::GetHighlightBitPositionInRe
 	}
 
 	return std::nullopt;
+}
+
 }

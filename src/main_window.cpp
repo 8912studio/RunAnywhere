@@ -15,8 +15,10 @@
 #include "module/meta/meta_module.h"
 #include "module/user_defined/user_defined_module.h"
 
+namespace ra {
+
 ZAF_DEFINE_REFLECTION_TYPE(MainWindow)
-    ZAF_DEFINE_RESOURCE_URI(L"res:///main_window.xaml")
+ZAF_DEFINE_RESOURCE_URI(L"res:///main_window.xaml")
 ZAF_DEFINE_END
 
 MainWindow& MainWindow::Instance() {
@@ -29,7 +31,7 @@ MainWindow& MainWindow::Instance() {
 void MainWindow::AfterParsing() {
 
     __super::AfterParsing();
-    
+
     initial_height_ = this->GetHeight();
 
     InitializeTextBox();
@@ -40,26 +42,26 @@ void MainWindow::AfterParsing() {
 void MainWindow::InitializeTextBox() {
 
     Subscriptions() += inputTextBox->TextChangeEvent().Subscribe(std::bind(
-        &MainWindow::OnTextChanged, 
-        this, 
+        &MainWindow::OnTextChanged,
+        this,
         std::placeholders::_1));
 }
 
 
 void MainWindow::InitializeModules() {
 
-    user_defined_module_ = std::make_shared<UserDefinedModule>();
+    user_defined_module_ = std::make_shared<module::user_defined::UserDefinedModule>();
     user_defined_module_->Reload();
 
-    modules_.push_back(std::make_shared<MetaModule>());
+    modules_.push_back(std::make_shared<module::meta::MetaModule>());
     modules_.push_back(user_defined_module_);
-    modules_.push_back(std::make_shared<CalculatorModule>());
+    modules_.push_back(std::make_shared<module::calculator::CalculatorModule>());
 }
 
 
 void MainWindow::ShowOnTop() {
 
-    desktop_context_ = DiscoverDesktopContext();
+    desktop_context_ = context::DiscoverDesktopContext();
 
     this->Show();
     SetForegroundWindow(this->GetHandle());
@@ -132,7 +134,7 @@ float MainWindow::ShowCommandPreview() {
 }
 
 
-std::shared_ptr<CommandPreviewControl> MainWindow::CreateDefaultPreviewControl(
+std::shared_ptr<module::CommandPreviewControl> MainWindow::CreateDefaultPreviewControl(
     const std::wstring& preview_text) {
 
     auto label = zaf::Create<zaf::Label>();
@@ -142,7 +144,7 @@ std::shared_ptr<CommandPreviewControl> MainWindow::CreateDefaultPreviewControl(
     label->SetFontSize(14);
     label->SetText(preview_text);
 
-    auto result = zaf::Create<CommandPreviewControl>();
+    auto result = zaf::Create<module::CommandPreviewControl>();
     result->SetLayouter(zaf::Create<zaf::VerticalLayouter>());
     result->AddChild(label);
     return result;
@@ -226,4 +228,4 @@ void MainWindow::OnWindowShown() {
     InterpretCommand(inputTextBox->GetText());
 }
 
-
+}

@@ -5,7 +5,7 @@
 #include "module/calculator/parse/operator_node.h"
 #include "module/calculator/parse/parse_result.h"
 
-namespace calculator {
+namespace ra::module::calculator {
 
 class UnaryOperatorParser : public TerminalParser {
 public:

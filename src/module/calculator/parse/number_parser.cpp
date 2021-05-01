@@ -3,7 +3,7 @@
 #include "module/calculator/parse/non_decimal_number_parser.h"
 #include "module/calculator/parse/octal_number_parser.h"
 
-namespace calculator {
+namespace ra::module::calculator {
 
 NumberParser* NumberParser::Instance() {
 

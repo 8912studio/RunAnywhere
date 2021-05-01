@@ -6,6 +6,7 @@
 #include <zaf/base/string/encoding_conversion.h>
 #include <zaf/base/string/trim.h>
 
+namespace ra::module::user_defined {
 namespace {
 
 std::filesystem::path GetUserDefinedFilePath() {
@@ -67,4 +68,6 @@ std::vector<UserDefinedEntry> ReadUserDefinedEntries() {
     }
 
     return result;
+}
+
 }

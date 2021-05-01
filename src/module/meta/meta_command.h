@@ -2,6 +2,8 @@
 
 #include "module/command.h"
 
+namespace ra::module::meta{
+
 class MetaCommand : public Command {
 public:
     MetaCommand(const std::wstring& command_text);
@@ -12,3 +14,5 @@ public:
 private:
     std::wstring command_text_;
 };
+
+}

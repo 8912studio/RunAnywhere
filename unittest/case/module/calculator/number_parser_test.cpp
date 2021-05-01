@@ -2,6 +2,8 @@
 #include "number_parser_test_utility.h"
 #include "module/calculator/parse/number_parser.h"
 
+using namespace ra::module::calculator;
+
 TEST(NumberParseTest, Parse) {
 
     auto test = [](
@@ -10,7 +12,7 @@ TEST(NumberParseTest, Parse) {
         int expected_base) {
 
         return TestNumberParserSuccess(
-            *calculator::NumberParser::Instance(),
+            *NumberParser::Instance(),
             input, 
             expected_output, 
             expected_base);

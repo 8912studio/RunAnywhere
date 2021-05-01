@@ -6,6 +6,8 @@
 #include <zaf/rx/subscription_host.h>
 #include "hot_key.h"
 
+namespace ra {
+
 class HotKeyManager : public zaf::SubscriptionHost {
 public:
     static HotKeyManager& Instance();
@@ -46,3 +48,5 @@ private:
     std::unique_ptr<zaf::MessageOnlyWindow> hot_key_message_window_;
     zaf::Subject<zaf::Dumb> hot_key_pressed_subject_;
 };
+
+}

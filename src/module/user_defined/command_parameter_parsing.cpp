@@ -1,5 +1,6 @@
 #include "module/user_defined/command_parameter_parsing.h"
 
+namespace ra::module::user_defined {
 namespace {
 
 CommandParameter ParseSingleParameter(std::wstring_view parameter, std::size_t position) {
@@ -33,7 +34,7 @@ CommandParameter ParseSingleParameter(std::wstring_view parameter, std::size_t p
 		result.type = CommandParameter::Type::Unknown;
 		result.length = 1;
 	}
-	
+
 	return result;
 }
 
@@ -87,4 +88,6 @@ std::vector<CommandParameter> ParseParameter(std::wstring_view parameter_string)
 	}
 
 	return result;
+}
+
 }

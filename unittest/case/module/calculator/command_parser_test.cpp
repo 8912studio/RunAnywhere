@@ -1,13 +1,15 @@
 #include <gtest/gtest.h>
 #include "module/calculator/parse/command_parser.h"
 
+using namespace ra::module::calculator;
+
 TEST(CommandParserTest, Success) {
 
     auto test = [](const std::wstring& input) {
 
-        calculator::ParseContext parse_context{ input };
-        calculator::ParseResult parse_result;
+        ParseContext parse_context{ input };
+        ParseResult parse_result;
 
-        calculator::CommandParser::Instance()->Parse(parse_context, parse_result);
+        CommandParser::Instance()->Parse(parse_context, parse_result);
     };
 }

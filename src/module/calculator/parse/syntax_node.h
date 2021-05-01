@@ -3,7 +3,7 @@
 #include <memory>
 #include <vector>
 
-namespace calculator {
+namespace ra::module::calculator {
 
 class SyntaxNode {
 public:

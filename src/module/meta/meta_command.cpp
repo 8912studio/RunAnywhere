@@ -5,6 +5,7 @@
 #include "main_window.h"
 #include "option_window.h"
 
+namespace ra::module::meta {
 namespace {
 
 constexpr const wchar_t* const ReloadCommand = L"reload";
@@ -25,7 +26,7 @@ std::wstring MetaCommand::GetPreviewText() {
         const wchar_t* command;
         const wchar_t* text;
     } map[] = {
-    
+
         { ReloadCommand, L"Reload user-defined commands" },
         { ShowAboutCommand, L"Show about window" },
         { ShowOptionCommand, L"Show option window" },
@@ -53,4 +54,6 @@ void MetaCommand::Execute() {
     else if (command_text_ == ShowOptionCommand) {
         OptionWindow::ShowInstance();
     }
+}
+
 }

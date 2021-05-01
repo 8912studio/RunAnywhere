@@ -3,7 +3,7 @@
 #include "module/calculator/parse/command_parser.h"
 #include "module/calculator/evaluate/evaluator.h"
 
-using namespace calculator;
+namespace ra::module::calculator {
 
 std::shared_ptr<Command> CalculatorModule::Interpret(const std::wstring& command_text) {
 
@@ -24,4 +24,6 @@ std::shared_ptr<Command> CalculatorModule::Interpret(const std::wstring& command
     }
 
     return std::make_shared<CalculatorCommand>(evaluate_result, parse_result.GetModifier());
+}
+
 }

@@ -4,6 +4,8 @@
 #include <cstdint>
 #include <zaf/base/flag_enum.h>
 
+namespace ra {
+
 enum class HotKeyModifier {
     None = 0,
     Control = MOD_CONTROL,
@@ -19,3 +21,5 @@ public:
     HotKeyModifier modifier{ HotKeyModifier::None };
     std::uint32_t virtual_key{};
 };
+
+}

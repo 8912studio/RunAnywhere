@@ -2,7 +2,7 @@
 
 #include "module/calculator/parse/non_terminal_parser.h"
 
-namespace calculator {
+namespace ra::module::calculator {
 
 class CommandParser : public NonTerminalParser {
 public:

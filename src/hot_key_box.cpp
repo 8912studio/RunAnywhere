@@ -2,6 +2,7 @@
 #include <zaf/reflection/reflection_type_definition.h>
 #include <zaf/window/message/keyboard_message.h>
 
+namespace ra {
 namespace {
 
 HotKeyModifier GetModifier() {
@@ -183,7 +184,7 @@ void HotKeyBox::Initialize() {
     SetPadding(zaf::Frame{ 8, 0, 8, 0 });
     SetBorder(1);
     SetBorderColorPicker([this](const zaf::Control&) {
-    
+
         if (is_waiting_input_) {
             return zaf::Color::FromRGB(0x0587FF);
         }
@@ -273,4 +274,6 @@ void HotKeyBox::UpdateText() {
         text = GenerateTextByHotKey(hot_key_);
     }
     this->SetText(text);
+}
+
 }

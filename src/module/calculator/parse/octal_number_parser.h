@@ -2,7 +2,7 @@
 
 #include "module/calculator/parse/terminal_parser.h"
 
-namespace calculator {
+namespace ra::module::calculator {
 
 class OctalNumberParser : public TerminalParser {
 public:

@@ -1,6 +1,7 @@
 #include "module/user_defined/preview/user_defined_command_preview_control.h"
 #include <zaf/reflection/reflection_type_definition.h>
 
+namespace ra::module::user_defined {
 namespace {
 
 constexpr float LabelHeight = 25;
@@ -71,4 +72,6 @@ void UserDefinedCommandPreviewControl::ResetFixedHeight() {
     }
 
     this->SetFixedHeight(height);
+}
+
 }

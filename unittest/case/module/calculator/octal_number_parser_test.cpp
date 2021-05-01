@@ -2,12 +2,14 @@
 #include "number_parser_test_utility.h"
 #include "module/calculator/parse/octal_number_parser.h"
 
+using namespace ra::module::calculator;
+
 TEST(OctalNumberParserTest, Success) {
 
     auto test = [](const std::wstring& input, const std::wstring& expected_output) {
 
         return TestNumberParserSuccess(
-            *calculator::OctalNumberParser::Instance(),
+            *OctalNumberParser::Instance(),
             input,
             expected_output,
             8);
@@ -22,19 +24,19 @@ TEST(OctalNumberParserTest, Success) {
 
 TEST(OctalNumberParserTest, Failure) {
 
-    auto test = [](const std::wstring& input, calculator::ParseStatus expected_status) {
+    auto test = [](const std::wstring& input, ParseStatus expected_status) {
 
         return TestNumberParserFailure(
-            *calculator::OctalNumberParser::Instance(),
+            *OctalNumberParser::Instance(),
             input,
             expected_status);
     };
 
-    ASSERT_TRUE(test(L"10384", calculator::ParseStatus::Mismatched));
-    ASSERT_TRUE(test(L"896", calculator::ParseStatus::Mismatched));
-    ASSERT_TRUE(test(L"0", calculator::ParseStatus::Mismatched));
-    ASSERT_TRUE(test(L"082", calculator::ParseStatus::Error));
-    ASSERT_TRUE(test(L"0b001", calculator::ParseStatus::Mismatched));
-    ASSERT_TRUE(test(L"0xffe", calculator::ParseStatus::Mismatched));
-    ASSERT_TRUE(test(L"0jkl", calculator::ParseStatus::Mismatched));
+    ASSERT_TRUE(test(L"10384", ParseStatus::Mismatched));
+    ASSERT_TRUE(test(L"896", ParseStatus::Mismatched));
+    ASSERT_TRUE(test(L"0", ParseStatus::Mismatched));
+    ASSERT_TRUE(test(L"082", ParseStatus::Error));
+    ASSERT_TRUE(test(L"0b001", ParseStatus::Mismatched));
+    ASSERT_TRUE(test(L"0xffe", ParseStatus::Mismatched));
+    ASSERT_TRUE(test(L"0jkl", ParseStatus::Mismatched));
 }

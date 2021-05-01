@@ -2,6 +2,7 @@
 #include <Windows.h>
 #include <zaf/base/error/system_error.h>
 
+namespace ra::context {
 namespace {
 
 constexpr const wchar_t* const HostWindowClassName = L"Zplutor.RunAnywhere.VS.Host";
@@ -21,7 +22,7 @@ LRESULT CALLBACK ClientWindowProcedure(HWND hwnd, UINT message, WPARAM wparam, L
         if (copy_data_struct->dwData == reinterpret_cast<ULONG_PTR>(g_client_window_handle)) {
 
             g_temp_path.assign(
-                reinterpret_cast<const wchar_t*>(copy_data_struct->lpData), 
+                reinterpret_cast<const wchar_t*>(copy_data_struct->lpData),
                 copy_data_struct->cbData / 2);
 
             return 0;
@@ -57,16 +58,16 @@ void TryToCreateClientWindow() {
     }
 
     g_client_window_handle = CreateWindow(
-        ClientWindowClassName, 
-        nullptr, 
-        0, 
-        0,
-        0, 
+        ClientWindowClassName,
+        nullptr,
         0,
         0,
-        HWND_MESSAGE, 
-        nullptr, 
-        nullptr, 
+        0,
+        0,
+        0,
+        HWND_MESSAGE,
+        nullptr,
+        nullptr,
         nullptr);
 
     if (!g_client_window_handle) {
@@ -106,12 +107,12 @@ std::filesystem::path GetFocusedPathFromHosts(HWND foreground_window_handle) {
         //Send a message to host window to request the focused path.
         DWORD result{};
         SendMessageTimeout(
-            host_window_handle, 
-            WM_REQUEST_PATH, 
+            host_window_handle,
+            WM_REQUEST_PATH,
             reinterpret_cast<WPARAM>(g_client_window_handle),
             0,
-            SMTO_NORMAL, 
-            2000, 
+            SMTO_NORMAL,
+            2000,
             &result);
 
         break;
@@ -133,4 +134,6 @@ std::filesystem::path DiscoverFocusedPathFromVS(HWND foreground_window_handle) {
     catch (const zaf::Error&) {
         return {};
     }
+}
+
 }

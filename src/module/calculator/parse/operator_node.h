@@ -2,7 +2,7 @@
 
 #include "module/calculator/parse/syntax_node.h"
 
-namespace calculator {
+namespace ra::module::calculator {
 
 class OperatorNode : public SyntaxNode {
 public:

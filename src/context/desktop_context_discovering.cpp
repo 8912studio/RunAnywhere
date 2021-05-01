@@ -3,6 +3,8 @@
 #include "context/explorer_discovering.h"
 #include "context/vs_discovering.h"
 
+namespace ra::context {
+
 DesktopContext DiscoverDesktopContext() {
 
     HWND foreground_window = GetForegroundWindow();
@@ -15,4 +17,6 @@ DesktopContext DiscoverDesktopContext() {
     }
 
     return result;
+}
+
 }

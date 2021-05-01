@@ -3,6 +3,8 @@
 #include "module/calculator/evaluate/evaluate_result.h"
 #include "module/calculator/parse/modifier.h"
 
+namespace ra::module::calculator {
+
 class ResultText {
 public:
 	std::wstring GetCompleteText() const {
@@ -33,3 +35,5 @@ private:
 	const calculator::EvaluateResult& evaluate_result_;
 	const calculator::Modifier& modifier_;
 };
+
+}

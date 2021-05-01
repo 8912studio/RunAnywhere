@@ -5,6 +5,7 @@
 #include <zaf/base/string/replace.h>
 #include "module/user_defined/command_parameter_parsing.h"
 
+namespace ra::module::user_defined {
 namespace {
 
 std::wstring BuildActivePathArgument(
@@ -44,7 +45,7 @@ std::wstring BuildArgumentFromParameter(
 
 
 std::wstring BuildArgument(
-    std::wstring_view parameter_string, 
+    std::wstring_view parameter_string,
     const std::filesystem::path& active_path,
     const std::vector<std::wstring>& input_arguments) {
 
@@ -55,13 +56,13 @@ std::wstring BuildArgument(
     for (const auto& each_parameter : parsed_parameters) {
 
         result += parameter_string.substr(
-            current_position, 
+            current_position,
             each_parameter.position - current_position);
 
         result += BuildArgumentFromParameter(
-            parameter_string, 
-            each_parameter, 
-            active_path, 
+            parameter_string,
+            each_parameter,
+            active_path,
             input_arguments);
 
         current_position = each_parameter.position + each_parameter.length;
@@ -114,8 +115,8 @@ ParseResult ParseCommandLine(
 
         result.command = parameters[0];
         result.arguments = BuildArguments(
-            parameters, 
-            parameter_count, 
+            parameters,
+            parameter_count,
             active_path,
             input_arguments);
     }
@@ -148,4 +149,6 @@ std::wstring GetBackwardedActivePath(
     catch (const std::filesystem::filesystem_error&) {
         return {};
     }
+}
+
 }

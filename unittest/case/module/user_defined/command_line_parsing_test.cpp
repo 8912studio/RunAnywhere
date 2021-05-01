@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
 #include "module/user_defined/command_line_parsing.h"
 
+using namespace ra::module::user_defined;
+
 TEST(CommandLineParsingTest, ReplaceActivePath) {
 
     //Empty path

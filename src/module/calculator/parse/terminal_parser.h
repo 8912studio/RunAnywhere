@@ -2,7 +2,7 @@
 
 #include "module/calculator/parse/parser.h"
 
-namespace calculator {
+namespace ra::module::calculator {
 
 class TerminalParser : public Parser {
 public:

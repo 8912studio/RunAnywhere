@@ -3,7 +3,7 @@
 #include <cstdint>
 #include <boost/multiprecision/cpp_dec_float.hpp>
 
-namespace calculator {
+namespace ra::module::calculator {
 
 class EvaluateResult {
 public:

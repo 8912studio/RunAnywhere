@@ -4,6 +4,8 @@
 #include "module/calculator/preview/calculator_preview_control.h"
 #include "module/calculator/result_text_builder.h"
 
+namespace ra::module::calculator {
+
 CalculatorCommand::CalculatorCommand(
     const calculator::EvaluateResult& evaluate_result,
     const calculator::Modifier& modifier)
@@ -77,4 +79,6 @@ DWORD CalculatorCommand::CopyStringToMemory(const std::wstring& string, HGLOBAL 
     }
 
     return ERROR_SUCCESS;
+}
+
 }

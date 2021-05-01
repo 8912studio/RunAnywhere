@@ -1,6 +1,7 @@
 #include "module/calculator/preview/numeric_text_formatting.h"
 #include <optional>
 
+namespace ra::module::calculator {
 namespace {
 
 void InsertSpaceToText(
@@ -50,4 +51,6 @@ void InsertSpaceToNumericText(std::wstring& text, int base) {
 	else if (base == 10) {
 		InsertSpaceToText(text, L'.', 3);
 	}
+}
+
 }

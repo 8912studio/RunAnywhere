@@ -2,12 +2,14 @@
 #include <zaf/base/error/check.h>
 #include <zaf/reflection/reflection_type_definition.h>
 
+namespace ra {
+
 ZAF_DEFINE_REFLECTION_TYPE(PreviewView)
-    ZAF_DEFINE_RESOURCE_URI(L"res:///preview_view.xaml");
+ZAF_DEFINE_RESOURCE_URI(L"res:///preview_view.xaml");
 ZAF_DEFINE_END
 
 
-void PreviewView::SetPreviewControl(const std::shared_ptr<CommandPreviewControl>& control) {
+void PreviewView::SetPreviewControl(const std::shared_ptr<module::CommandPreviewControl>& control) {
 
     ZAF_EXPECT(control);
 
@@ -43,4 +45,6 @@ float PreviewView::GetExpectedHeight() {
     result += margin.top + margin.bottom;
 
     return result;
+}
+
 }

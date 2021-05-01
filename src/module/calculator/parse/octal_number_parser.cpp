@@ -3,7 +3,7 @@
 
 using namespace std::string_literals;
 
-namespace calculator {
+namespace ra::module::calculator {
 
 OctalNumberParser* OctalNumberParser::Instance() {
 

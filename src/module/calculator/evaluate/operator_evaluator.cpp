@@ -2,7 +2,7 @@
 #include "module/calculator/evaluate/evaluate_result.h"
 #include "module/calculator/parse/operator_node.h"
 
-namespace calculator {
+namespace ra::module::calculator {
 
 class UnaryOperatorEvaluator : public OperatorEvaluator {
 public:

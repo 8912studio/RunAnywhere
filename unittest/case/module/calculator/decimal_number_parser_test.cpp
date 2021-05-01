@@ -2,7 +2,7 @@
 #include "number_parser_test_utility.h"
 #include "module/calculator/parse/decimal_number_parser.h"
 
-using namespace calculator;
+using namespace ra::module::calculator;
 
 TEST(DecimalNumberParserTest, Success) {
 
@@ -46,15 +46,15 @@ TEST(DecimalNumberParserTest, Unit) {
         const std::wstring& expected_output,
         NumberUnit expected_unit) {
 
-        calculator::ParseContext parse_context{ input };
-        calculator::ParseResult parse_result;
+        ParseContext parse_context{ input };
+        ParseResult parse_result;
 
         auto parse_status = DecimalNumberParser::Instance()->Parse(parse_context, parse_result);
-        if (parse_status != calculator::ParseStatus::Ok) {
+        if (parse_status != ParseStatus::Ok) {
             return false;
         }
 
-        auto operand_node = dynamic_cast<calculator::OperandNode*>(
+        auto operand_node = dynamic_cast<OperandNode*>(
             parse_result.GetExpressionRootNode().get());
 
         if (operand_node->text != expected_output) {

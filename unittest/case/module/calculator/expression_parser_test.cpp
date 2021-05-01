@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include "module/calculator/parse/expression_parser.h"
 
-using namespace calculator;
+using namespace ra::module::calculator;
 
 TEST(ExpressionParserTest, LeftToRightAssociativity) {
 

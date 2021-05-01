@@ -4,6 +4,7 @@
 #include <zaf/creation.h>
 #include "module/user_defined/preview/user_defined_command_preview_control.h"
 
+namespace ra::module::user_defined {
 namespace {
 
 std::wstring JoinArguments(const std::vector<std::wstring>& arguments) {
@@ -24,7 +25,7 @@ std::wstring JoinArguments(const std::vector<std::wstring>& arguments) {
 
 
 std::filesystem::path ModifyActivePath(
-    const std::filesystem::path& path, 
+    const std::filesystem::path& path,
     const std::wstring& modifier) {
 
     std::size_t backward_level{};
@@ -67,11 +68,11 @@ void UserDefinedCommand::Execute() {
     auto parse_result = ParseCommandLine();
 
     ShellExecute(
-        nullptr, 
-        nullptr, 
+        nullptr,
+        nullptr,
         parse_result.command.c_str(),
         JoinArguments(parse_result.arguments).c_str(),
-        nullptr, 
+        nullptr,
         SW_SHOWNORMAL);
 }
 
@@ -82,7 +83,10 @@ ParseResult UserDefinedCommand::ParseCommandLine() {
     std::vector<std::wstring> plain_arguments;
     ParseArguments(modified_active_path, plain_arguments);
 
-    return ::ParseCommandLine(entry_.command_line, modified_active_path, plain_arguments);
+    return user_defined::ParseCommandLine(
+        entry_.command_line,
+        modified_active_path, 
+        plain_arguments);
 }
 
 
@@ -107,4 +111,6 @@ void UserDefinedCommand::ParseArguments(
     for (std::size_t index = 1; index < input_arguments_.size(); ++index) {
         plain_arguments.push_back(input_arguments_[index]);
     }
+}
+
 }

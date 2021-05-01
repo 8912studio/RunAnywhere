@@ -6,12 +6,14 @@
 #include "module/calculator/parse/modifier.h"
 #include "module/command_preview_control.h"
 
+namespace ra::module::calculator {
+
 class CalculatorPreviewControl : public CommandPreviewControl {
 public:
 	ZAF_DECLARE_REFLECTION_TYPE;
 
 	void SetResult(
-		const calculator::EvaluateResult& evaluate_result, 
+		const calculator::EvaluateResult& evaluate_result,
 		const calculator::Modifier& modifier);
 
 protected:
@@ -34,3 +36,5 @@ private:
 
 	std::size_t prefix_length_;
 };
+
+}

@@ -4,6 +4,8 @@
 #include "context/desktop_context.h"
 #include "module/command_preview_control.h"
 
+namespace ra::module {
+
 class Command {
 public:
     Command() = default;
@@ -12,11 +14,11 @@ public:
     Command(const Command&) = delete;
     Command& operator=(const Command&) = delete;
 
-    const DesktopContext& GetDesktopContext() const {
+    const context::DesktopContext& GetDesktopContext() const {
         return desktop_context_;
     }
 
-    void SetDesktopContext(const DesktopContext& desktop_context) {
+    void SetDesktopContext(const context::DesktopContext& desktop_context) {
         desktop_context_ = desktop_context;
     }
 
@@ -31,5 +33,7 @@ public:
     virtual void Execute() = 0;
 
 private:
-    DesktopContext desktop_context_;
+    context::DesktopContext desktop_context_;
 };
+
+}

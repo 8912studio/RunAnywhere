@@ -6,6 +6,8 @@
 #include <zaf/window/dialog.h>
 #include "hot_key_box.h"
 
+namespace ra {
+
 class OptionWindow : public zaf::Dialog {
 public:
     ZAF_DECLARE_REFLECTION_TYPE;
@@ -29,3 +31,5 @@ private:
     ZAF_BIND_CONTROL(zaf::Label, hotKeyInvalidLabel);
     ZAF_BIND_CONTROL(zaf::CheckBox, autoRunCheckBox);
 };
+
+}

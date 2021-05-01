@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include "module/calculator/parse/common_option_set_parser.h"
 
-using namespace calculator;
+using namespace ra::module::calculator;
 
 TEST(CommonOptionSetParserTest, Empty) {
 
