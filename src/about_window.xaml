@@ -1,33 +1,58 @@
-<AboutWindow 
-    Size="400,300" 
+﻿<AboutWindow 
+    ClientSize="400,300" 
     IsSizable="false" 
     CanMaximize="false"
     Title="About RunAnywhere">
     
     <AboutWindow.RootControl>
-        <VerticalBox />
+        <VerticalBox BackgroundColor="White" />
     </AboutWindow.RootControl>
 
-    <Label 
-        FixedHeight="50"
-        Margin="0,40,0,0"
-        TextAlignment="Center" 
-        ParagraphAlignment="Center" 
-        FontSize="30"
-        Text="RunAnywhere" />
+    <HorizontalBox FixedHeight="64" Margin="70,61,0,0">
+        <Control 
+            FixedWidth="64"
+            FixedHeight="64"
+            BackgroundImage="res:///resource/logo/logo_64.png" 
+            BackgroundImageLayout="Center"/>
+        <Label 
+            TextAlignment="Leading" 
+            ParagraphAlignment="Center" 
+            Text="RunAnywhere">
+            <Label.Font Size="26" Weight="SemiBold" />
+        </Label>
+    </HorizontalBox>
 
     <Label 
-        FixedHeight="40"
+        Name="versionLabel"
+        FixedHeight="20"
+        Margin="0,10,0,0"
         TextAlignment="Center" 
         ParagraphAlignment="Center" 
         FontSize="14"
-        Text="develop version"/>
+        Text="0.0.0"/>
+
+    <Control FixedHeight="20" Margin="0,80,0,0">
+        <Control.Layouter>
+            <HorizontalLayouter ControlAlignment="Center" />
+        </Control.Layouter>
+        <Button 
+            Name="githubButton"
+            BackgroundColor="Transparent"
+            Border="0"
+            CanFocused="false"
+            TextAlignment="Center" 
+            ParagraphAlignment="Center" 
+            Text="Visit on github">
+            
+            <Button.Font Size="12" HasUnderline="true" />
+        </Button>
+    </Control>
 
     <Label 
-        FixedHeight="50"
-        Margin="0,70,0,0"
+        FixedHeight="20"
+        Margin="0,10,0,0"
         TextAlignment="Center" 
         ParagraphAlignment="Center" 
         FontSize="12"
-        Text="zplutor"/>
+        Text="Copyright © 2021 Zplutor. All rights reserved."/>
 </AboutWindow>
