@@ -52,7 +52,7 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_ICON1               ICON                    "icon.ico"
+IDI_APPICON             ICON                    "icon.ico"
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -60,11 +60,12 @@ IDI_ICON1               ICON                    "icon.ico"
 // Menu
 //
 
-IDR_MENU1 MENU
+IDR_APPMENU MENU
 BEGIN
     POPUP "TrayIcon"
     BEGIN
         MENUITEM "Option",                      ID_TRAYICON_OPTION
+        MENUITEM "About",                       ID_TRAYICON_ABOUT
         MENUITEM "Exit",                        ID_TRAYICON_EXIT
     END
 END
@@ -76,8 +77,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 0,1,0,1
- PRODUCTVERSION 0,1,0,3
+ FILEVERSION 0,1,0,4
+ PRODUCTVERSION 0,1,0,4
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -93,10 +94,10 @@ BEGIN
         BLOCK "080404b0"
         BEGIN
             VALUE "FileDescription", "RunAnywhere"
-            VALUE "FileVersion", "0.1.0.1"
+            VALUE "FileVersion", "0.1.0.4"
             VALUE "LegalCopyright", "Copyright (C) 2021"
             VALUE "ProductName", "RunAnywhere"
-            VALUE "ProductVersion", "0.1.0.3"
+            VALUE "ProductVersion", "0.1.0.4"
         END
     END
     BLOCK "VarFileInfo"

@@ -14,7 +14,7 @@ void AddTrayIcon(HWND hwnd, UINT message_id) {
 	g_iconData.hWnd = hwnd;
 	g_iconData.uID = ID_TRAY_ICON;
 	g_iconData.uFlags = NIF_ICON | NIF_MESSAGE | NIF_TIP;
-	g_iconData.hIcon = LoadIcon(GetModuleHandle(nullptr), MAKEINTRESOURCE(IDI_ICON1));
+	g_iconData.hIcon = LoadIcon(GetModuleHandle(nullptr), MAKEINTRESOURCE(IDI_APPICON));
 	g_iconData.uCallbackMessage = message_id;
 	g_iconData.uVersion = NOTIFYICON_VERSION;
 	wcscpy_s(g_iconData.szInfoTitle, L"RunAnywhere");

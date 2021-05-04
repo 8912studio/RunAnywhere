@@ -3,6 +3,7 @@
 #include <zaf/base/handle.h>
 #include <zaf/creation.h>
 #include <zaf/window/message_only_window.h>
+#include "about_window.h"
 #include "hot_key_manager.h"
 #include "main_window.h"
 #include "option_window.h"
@@ -35,7 +36,7 @@ bool CanApplicationRun() {
 void PopupMenu() {
 
     if (!g_menu) {
-        g_menu = LoadMenu(GetModuleHandle(nullptr), MAKEINTRESOURCE(IDR_MENU1));
+        g_menu = LoadMenu(GetModuleHandle(nullptr), MAKEINTRESOURCE(IDR_APPMENU));
         g_menu = GetSubMenu(g_menu, 0);
     }
 
@@ -82,6 +83,10 @@ void ShowTryIcon() {
 
             case ID_TRAYICON_OPTION:
                 ra::OptionWindow::ShowInstance();
+                break;
+
+            case ID_TRAYICON_ABOUT:
+                ra::AboutWindow::ShowInstance();
                 break;
             }
         }
@@ -144,7 +149,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
     zaf::InitializeParameters initialize_parameters;
     initialize_parameters.window_icon = LoadIcon(
         GetModuleHandle(nullptr),
-        MAKEINTRESOURCE(IDI_ICON1));
+        MAKEINTRESOURCE(IDI_APPICON));
 
     application.Initialize(initialize_parameters);
     application.Run();

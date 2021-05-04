@@ -29,6 +29,7 @@ void OptionWindow::ShowInstance() {
 
     instance->Show();
     SetForegroundWindow(instance->GetHandle());
+    BringWindowToTop(instance->GetHandle());
 }
 
 

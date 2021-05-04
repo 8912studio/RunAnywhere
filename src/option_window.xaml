@@ -1,6 +1,6 @@
 <OptionWindow Size="400,300" IsSizable="false" CanMaximize="false" Title="Option">
     <OptionWindow.RootControl>
-        <VerticalBox Padding="20,20,20,20" />
+        <VerticalBox Padding="20,20,20,20" BackgroundColor="White" />
     </OptionWindow.RootControl>
 
     <HorizontalBox FixedHeight="30">

@@ -66,6 +66,7 @@ void AboutWindow::ShowInstance() {
 
     instance->Show();
     SetForegroundWindow(instance->GetHandle());
+    BringWindowToTop(instance->GetHandle());
 }
 
 
