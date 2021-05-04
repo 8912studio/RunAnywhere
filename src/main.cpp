@@ -141,7 +141,12 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
     application.Subscriptions() += application.BeginRunEvent().Subscribe(BeginRun);
     application.Subscriptions() += application.EndRunEvent().Subscribe(EndRun);
 
-    application.Initialize({});
+    zaf::InitializeParameters initialize_parameters;
+    initialize_parameters.window_icon = LoadIcon(
+        GetModuleHandle(nullptr),
+        MAKEINTRESOURCE(IDI_ICON1));
+
+    application.Initialize(initialize_parameters);
     application.Run();
     return 0;
 }
