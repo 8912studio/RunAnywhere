@@ -157,7 +157,7 @@ std::wstring GetSelectedItemName(IFolderView* folder_view, IPersistFolder2* pers
     ZAF_THROW_IF_COM_ERROR(hresult);
 
     STRRET strret{};
-    hresult = shell_folder->GetDisplayNameOf(item_pidl, SHGDN_INFOLDER, &strret);
+    hresult = shell_folder->GetDisplayNameOf(item_pidl, SHGDN_INFOLDER | SHGDN_FORPARSING, &strret);
 
     std::wstring result;
     if (SUCCEEDED(hresult)) {
