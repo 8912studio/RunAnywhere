@@ -190,6 +190,7 @@
     <ClInclude Include="src\module\command.h" />
     <ClInclude Include="src\module\command_preview_control.h" />
     <ClInclude Include="src\module\meta\meta_command.h" />
+    <ClInclude Include="src\module\meta\meta_command_info.h" />
     <ClInclude Include="src\module\meta\meta_module.h" />
     <ClInclude Include="src\module\module.h" />
     <ClInclude Include="src\module\user_defined\command_line_parsing.h" />
@@ -228,7 +229,7 @@
     <ClCompile Include="src\module\calculator\parse\parse_result.cpp" />
     <ClCompile Include="src\module\calculator\parse\unary_expression_parser.cpp" />
     <ClCompile Include="src\module\calculator\preview\calculator_preview_control.cpp" />
-    <ClCompile Include="src\module\meta\meta_command.cpp" />
+    <ClCompile Include="src\module\meta\meta_command_info.cpp" />
     <ClCompile Include="src\module\meta\meta_module.cpp" />
     <ClCompile Include="src\module\user_defined\command_line_parsing.cpp" />
     <ClCompile Include="src\module\user_defined\command_parameter_parsing.cpp" />

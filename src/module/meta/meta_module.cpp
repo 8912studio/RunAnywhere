@@ -1,5 +1,6 @@
 #include "module/meta/meta_module.h"
 #include "module/meta/meta_command.h"
+#include "module/meta/meta_command_info.h"
 
 namespace ra::module::meta {
 
@@ -13,7 +14,14 @@ std::shared_ptr<Command> MetaModule::Interpret(const std::wstring& command_text)
         return nullptr;
     }
 
-    return std::make_shared<MetaCommand>(command_text.substr(1));
+    auto command = command_text.substr(1);
+
+    auto command_info = GetMetaCommand(command);
+    if (!command_info) {
+        return nullptr;
+    }
+
+    return std::make_shared<MetaCommand>(*command_info);
 }
 
 }
