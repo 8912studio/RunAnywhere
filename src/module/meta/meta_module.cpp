@@ -16,7 +16,7 @@ std::shared_ptr<Command> MetaModule::Interpret(const std::wstring& command_text)
 
     auto command = command_text.substr(1);
 
-    auto command_info = GetMetaCommand(command);
+    auto command_info = GetMetaCommandInfo(command);
     if (!command_info) {
         return nullptr;
     }

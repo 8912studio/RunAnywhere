@@ -1,5 +1,6 @@
 #include "module/meta/meta_command_info.h"
 #include <zaf/base/container/utility/sort.h>
+#include <zaf/base/string/case_conversion.h>
 #include "about_window.h"
 #include "main_window.h"
 #include "option_window.h"
@@ -50,14 +51,16 @@ const std::vector<MetaCommandInfo>& GetMetaCommandInfos() {
 }
 
 
-const MetaCommandInfo* GetMetaCommand(const std::wstring& command) {
+const MetaCommandInfo* GetMetaCommandInfo(const std::wstring& command) {
+
+    auto lower_command = zaf::ToLowercased(command);
 
     const auto& command_infos = GetMetaCommandInfos();
 
     auto iterator = std::lower_bound(
         command_infos.begin(), 
         command_infos.end(),
-        command, 
+        lower_command,
         [](const MetaCommandInfo& command_info, const std::wstring& command) {
     
         return command_info.command < command;
@@ -67,7 +70,7 @@ const MetaCommandInfo* GetMetaCommand(const std::wstring& command) {
         return nullptr;
     }
 
-    if (iterator->command != command) {
+    if (iterator->command != lower_command) {
         return nullptr;
     }
 

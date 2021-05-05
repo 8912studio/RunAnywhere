@@ -19,6 +19,9 @@
     <Filter Include="case\module\active_path">
       <UniqueIdentifier>{a21eaaaa-06c7-429b-bf4d-2550468e573c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="case\module\meta">
+      <UniqueIdentifier>{2a0718a0-8a2b-47a2-aab9-24a609300831}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="case\module\calculator\decimal_number_parser_test.cpp">
@@ -62,6 +65,9 @@
     </ClCompile>
     <ClCompile Include="case\module\active_path\active_path_option_parsing_test.cpp">
       <Filter>case\module\active_path</Filter>
+    </ClCompile>
+    <ClCompile Include="case\module\meta\meta_command_info_test.cpp">
+      <Filter>case\module\meta</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

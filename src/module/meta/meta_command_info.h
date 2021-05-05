@@ -12,6 +12,6 @@ public:
     std::function<void()> handler;
 };
 
-const MetaCommandInfo* GetMetaCommand(const std::wstring& command);
+const MetaCommandInfo* GetMetaCommandInfo(const std::wstring& command);
 
 }

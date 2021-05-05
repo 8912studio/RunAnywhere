@@ -36,11 +36,13 @@
     <IncludePath>$(SolutionDir)src;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)build\out\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)build\int\$(ProjectName)\$(Configuration)\</IntDir>
+    <LibraryPath>$(SolutionDir)third_party\zaf\out\$(Configuration)\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>$(SolutionDir)src;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)build\out\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)build\int\$(ProjectName)\$(Configuration)\</IntDir>
+    <LibraryPath>$(SolutionDir)third_party\zaf\out\$(Configuration)\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lib.vcxproj">
@@ -63,6 +65,7 @@
     <ClCompile Include="case\module\calculator\number_parser_test_utility.cpp" />
     <ClCompile Include="case\module\calculator\numeric_text_formatting_test.cpp" />
     <ClCompile Include="case\module\calculator\octal_number_parser_test.cpp" />
+    <ClCompile Include="case\module\meta\meta_command_info_test.cpp" />
     <ClCompile Include="case\module\user_defined\command_line_parsing_test.cpp" />
     <ClCompile Include="case\module\user_defined\command_parameter_parsing_test.cpp" />
   </ItemGroup>
@@ -88,6 +91,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
+      <AdditionalDependencies>version.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -120,6 +124,7 @@
       <SubSystem>Console</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <AdditionalDependencies>version.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
