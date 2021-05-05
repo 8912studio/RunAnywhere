@@ -13,7 +13,7 @@ DesktopContext DiscoverDesktopContext() {
     result.active_path = DiscoverFocusedPathFromVS(foreground_window);
 
     if (result.active_path.empty()) {
-        result.active_path = DiscoverFocusedPathFromExplorer(foreground_window);
+        result.active_path = DiscoverActivePathFromExplorer(foreground_window);
     }
 
     return result;
