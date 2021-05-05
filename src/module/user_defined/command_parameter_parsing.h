@@ -3,6 +3,7 @@
 #include <cstddef>
 #include <string_view>
 #include <vector>
+#include "module/active_path/active_path_option.h"
 
 namespace ra::module::user_defined {
 
@@ -21,8 +22,9 @@ public:
 	std::size_t length{};
 
 	std::size_t general_index{};
-	std::size_t backward_level{};
 	bool is_quoted{};
+
+	active_path::ActivePathOption active_path_option;
 };
 
 

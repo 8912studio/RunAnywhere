@@ -16,6 +16,9 @@
     <Filter Include="case\module\user_defined">
       <UniqueIdentifier>{b1ae2df2-d734-4e42-8d9f-73b3178fa70a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="case\module\active_path">
+      <UniqueIdentifier>{a21eaaaa-06c7-429b-bf4d-2550468e573c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="case\module\calculator\decimal_number_parser_test.cpp">
@@ -56,6 +59,9 @@
     </ClCompile>
     <ClCompile Include="case\module\calculator\numeric_text_formatting_test.cpp">
       <Filter>case\module\calculator</Filter>
+    </ClCompile>
+    <ClCompile Include="case\module\active_path\active_path_option_parsing_test.cpp">
+      <Filter>case\module\active_path</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

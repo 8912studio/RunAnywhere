@@ -1,38 +1,46 @@
 #include "module/user_defined/command_parameter_parsing.h"
+#include "module/active_path/active_path_option_parsing.h"
 
 namespace ra::module::user_defined {
 namespace {
 
 CommandParameter ParseSingleParameter(std::wstring_view parameter, std::size_t position) {
 
-	std::size_t backward_level{};
-
-	auto current_position = position + 1;
-	while (current_position < parameter.size() && parameter[current_position] == L'.') {
-		++backward_level;
-		++current_position;
-	}
-
 	CommandParameter result;
+	result.type = CommandParameter::Type::Unknown;
 	result.position = position;
+	result.length = 1;
 
-	auto current_char = parameter[current_position];
-	if (current_char == L'@') {
+	std::size_t option_length{};
 
-		result.type = CommandParameter::Type::ActivePath;
-		result.length = current_position - position + 1;
-		result.backward_level = backward_level;
-	}
-	else if ((L'1' <= current_char && current_char <= '9') && (backward_level == 0)) {
+	for (auto current_position = position + 1;
+		 current_position < parameter.length();
+		 ++current_position) {
 
-		result.type = CommandParameter::Type::General;
-		result.length = current_position - position + 1;
-		result.general_index = current_char - L'1' + 1;
-	}
-	else {
+		auto current_char = parameter[current_position];
 
-		result.type = CommandParameter::Type::Unknown;
-		result.length = 1;
+		if (current_char == L'@') {
+
+			result.type = CommandParameter::Type::ActivePath;
+			result.length = current_position - position + 1;
+
+			auto option_text = parameter.substr(position + 1, option_length);
+			result.active_path_option = active_path::ParseActivePathOption(option_text);
+			break;
+		}
+
+		if ((L'1' <= current_char && current_char <= '9')) {
+
+			if (option_length == 0) {
+
+				result.type = CommandParameter::Type::General;
+				result.length = current_position - position + 1;
+				result.general_index = current_char - L'1' + 1;
+			}
+			break;
+		}
+
+		option_length++;
 	}
 
 	return result;

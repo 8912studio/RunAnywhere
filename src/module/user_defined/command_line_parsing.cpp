@@ -3,6 +3,7 @@
 #include <filesystem>
 #include <zaf/base/container/utility/contain.h>
 #include <zaf/base/string/replace.h>
+#include "module/active_path/active_path_utility.h"
 #include "module/user_defined/command_parameter_parsing.h"
 
 namespace ra::module::user_defined {
@@ -17,7 +18,7 @@ std::wstring BuildActivePathArgument(
         return {};
     }
 
-    auto path = GetBackwardedActivePath(active_path, parameter.backward_level);
+    auto path = active_path::AdjustActivePathByOption(active_path, parameter.active_path_option);
     if (parameter.is_quoted) {
         return path;
     }
@@ -123,32 +124,6 @@ ParseResult ParseCommandLine(
 
     LocalFree(parameters);
     return result;
-}
-
-
-std::wstring GetBackwardedActivePath(
-    const std::filesystem::path& active_path,
-    std::size_t backward_level) {
-
-    try {
-
-        auto backwarded = active_path;
-
-        if (backward_level >= 1) {
-            if (!std::filesystem::is_directory(backwarded)) {
-                backwarded = backwarded.parent_path();
-            }
-        }
-
-        for (std::size_t level = 2; level <= backward_level; ++level) {
-            backwarded = backwarded.parent_path();
-        }
-
-        return backwarded.wstring();
-    }
-    catch (const std::filesystem::filesystem_error&) {
-        return {};
-    }
 }
 
 }

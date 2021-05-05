@@ -1,20 +1,12 @@
 #include "module/user_defined/preview/user_defined_command_preview_control.h"
 #include <zaf/reflection/reflection_type_definition.h>
+#include "utility/path_trimming.h"
 
 namespace ra::module::user_defined {
 namespace {
 
 constexpr float LabelHeight = 25;
 constexpr float LabelFontSize = 14;
-
-zaf::TextTrimming CreateTextTrimming() {
-
-    zaf::TextTrimming text_trimming;
-    text_trimming.granularity = zaf::TextTrimming::Granularity::Character;
-    text_trimming.delimiter = L'\\';
-    text_trimming.delimiter_count = 2;
-    return text_trimming;
-}
 
 }
 
@@ -28,7 +20,7 @@ void UserDefinedCommandPreviewControl::AfterParsing() {
     __super::AfterParsing();
 
     commandLabel->SetFixedHeight(LabelHeight);
-    commandLabel->SetTextTrimming(CreateTextTrimming());
+    commandLabel->SetTextTrimming(utility::CreateTextTrimmingForPath());
     commandLabel->SetFontSize(LabelFontSize);
 }
 
@@ -47,7 +39,7 @@ void UserDefinedCommandPreviewControl::BuildArgumentLabels(
     argumentContainer->RemoveAllChildren();
 
     std::wstring ident(4, L' ');
-    auto text_trimming = CreateTextTrimming();
+    auto text_trimming = utility::CreateTextTrimmingForPath();
 
     for (const auto& each_argument : arguments) {
 

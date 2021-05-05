@@ -2,6 +2,8 @@
 #include <Windows.h>
 #include <zaf/base/container/utility/range.h>
 #include <zaf/creation.h>
+#include "module/active_path/active_path_option_parsing.h"
+#include "module/active_path/active_path_utility.h"
 #include "module/user_defined/preview/user_defined_command_preview_control.h"
 
 namespace ra::module::user_defined {
@@ -28,19 +30,8 @@ std::filesystem::path ModifyActivePath(
     const std::filesystem::path& path,
     const std::wstring& modifier) {
 
-    std::size_t backward_level{};
-    for (std::size_t index = 1; index < modifier.length(); ++index) {
-
-        if (modifier[index] == L'.') {
-            ++backward_level;
-        }
-        else {
-            //Invalid char in modifier, return original path.
-            return path;
-        }
-    }
-
-    return GetBackwardedActivePath(path, backward_level);
+    auto option = active_path::ParseActivePathOption(modifier.substr(1));
+    return active_path::AdjustActivePathByOption(path, option);
 }
 
 }

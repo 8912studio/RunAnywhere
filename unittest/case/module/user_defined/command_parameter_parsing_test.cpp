@@ -27,7 +27,7 @@ TEST(CommandParameterParsingTest, ParseActivePath) {
 			parameter.type == CommandParameter::Type::ActivePath &&
 			parameter.position == 0 &&
 			parameter.length == string.size() &&
-			parameter.backward_level == string.size() - 2 &&
+			parameter.active_path_option.backward_level == string.size() - 2 &&
 			parameter.general_index == 0 &&
 			parameter.is_quoted == false;
 	};
@@ -56,7 +56,7 @@ TEST(CommandParameterParsingTest, ParseGeneral) {
 			parameter.position == 0 &&
 			parameter.length == string.size() &&
 			parameter.general_index == expected_index &&
-			parameter.backward_level == 0 &&
+			parameter.active_path_option.backward_level == 0 &&
 			parameter.is_quoted == false;
 	};
 
@@ -82,7 +82,7 @@ TEST(CommandParameterParsingTest, ParseQuoted) {
 	ASSERT_EQ(first.position, 1);
 	ASSERT_EQ(first.length, 5);
 	ASSERT_EQ(first.general_index, 0);
-	ASSERT_EQ(first.backward_level, 3);
+	ASSERT_EQ(first.active_path_option.backward_level, 3);
 	ASSERT_EQ(first.is_quoted, true);
 
 	const auto& second = result[1];
@@ -90,7 +90,7 @@ TEST(CommandParameterParsingTest, ParseQuoted) {
 	ASSERT_EQ(second.position, 7);
 	ASSERT_EQ(second.length, 2);
 	ASSERT_EQ(second.general_index, 2);
-	ASSERT_EQ(second.backward_level, 0);
+	ASSERT_EQ(second.active_path_option.backward_level, 0);
 	ASSERT_EQ(second.is_quoted, false);
 
 	const auto& third = result[2];
@@ -98,7 +98,7 @@ TEST(CommandParameterParsingTest, ParseQuoted) {
 	ASSERT_EQ(third.position, 10);
 	ASSERT_EQ(third.length, 2);
 	ASSERT_EQ(third.general_index, 1);
-	ASSERT_EQ(third.backward_level, 0);
+	ASSERT_EQ(third.active_path_option.backward_level, 0);
 	ASSERT_EQ(third.is_quoted, true);
 }
 
@@ -113,7 +113,7 @@ TEST(CommandParameterParsingTest, ParseCombine) {
 	ASSERT_EQ(first.position, 6);
 	ASSERT_EQ(first.length, 4);
 	ASSERT_EQ(first.general_index, 0);
-	ASSERT_EQ(first.backward_level, 2);
+	ASSERT_EQ(first.active_path_option.backward_level, 2);
 	ASSERT_EQ(first.is_quoted, false);
 
 	const auto& second = result[1];
@@ -121,7 +121,7 @@ TEST(CommandParameterParsingTest, ParseCombine) {
 	ASSERT_EQ(second.position, 11);
 	ASSERT_EQ(second.length, 2);
 	ASSERT_EQ(second.general_index, 1);
-	ASSERT_EQ(second.backward_level, 0);
+	ASSERT_EQ(second.active_path_option.backward_level, 0);
 	ASSERT_EQ(first.is_quoted, false);
 
 	const auto& third = result[2];
@@ -129,7 +129,7 @@ TEST(CommandParameterParsingTest, ParseCombine) {
 	ASSERT_EQ(third.position, 15);
 	ASSERT_EQ(third.length, 2);
 	ASSERT_EQ(third.general_index, 3);
-	ASSERT_EQ(third.backward_level, 0);
+	ASSERT_EQ(third.active_path_option.backward_level, 0);
 	ASSERT_EQ(first.is_quoted, false);
 
 	const auto& fourth = result[3];
@@ -137,7 +137,7 @@ TEST(CommandParameterParsingTest, ParseCombine) {
 	ASSERT_EQ(fourth.position, 17);
 	ASSERT_EQ(fourth.length, 2);
 	ASSERT_EQ(fourth.general_index, 4);
-	ASSERT_EQ(fourth.backward_level, 0);
+	ASSERT_EQ(fourth.active_path_option.backward_level, 0);
 	ASSERT_EQ(first.is_quoted, false);
 
 	const auto& fifth = result[4];
@@ -145,7 +145,7 @@ TEST(CommandParameterParsingTest, ParseCombine) {
 	ASSERT_EQ(fifth.position, 22);
 	ASSERT_EQ(fifth.length, 2);
 	ASSERT_EQ(fifth.general_index, 0);
-	ASSERT_EQ(fifth.backward_level, 0);
+	ASSERT_EQ(fifth.active_path_option.backward_level, 0);
 	ASSERT_EQ(fifth.is_quoted, true);
 }
 
@@ -160,12 +160,12 @@ TEST(CommandParameterParsingTest, ParseUnknown) {
 	ASSERT_EQ(first.position, 0);
 	ASSERT_EQ(first.length, 1);
 	ASSERT_EQ(first.general_index, 0);
-	ASSERT_EQ(first.backward_level, 0);
+	ASSERT_EQ(first.active_path_option.backward_level, 0);
 
 	const auto& second = result[1];
 	ASSERT_EQ(second.type, CommandParameter::Type::Unknown);
 	ASSERT_EQ(second.position, 3);
 	ASSERT_EQ(second.length, 1);
 	ASSERT_EQ(second.general_index, 0);
-	ASSERT_EQ(second.backward_level, 0);
+	ASSERT_EQ(second.active_path_option.backward_level, 0);
 }

@@ -56,7 +56,6 @@
     <ClInclude Include="src\preview_view.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h" />
     <ClInclude Include="src\resource.h" />
   </ItemGroup>
   <ItemGroup>

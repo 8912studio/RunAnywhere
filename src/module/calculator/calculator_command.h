@@ -17,10 +17,6 @@ public:
     void Execute() override;
 
 private:
-    void SetStringToClipboard(const std::wstring& string);
-    DWORD CopyStringToMemory(const std::wstring& string, HGLOBAL memory_handle);
-
-private:
     calculator::EvaluateResult evaluate_result_;
     calculator::Modifier modifier_;
 };

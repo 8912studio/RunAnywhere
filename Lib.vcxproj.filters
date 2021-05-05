@@ -31,6 +31,12 @@
     <Filter Include="src\module\calculator\preview">
       <UniqueIdentifier>{1b02be87-593d-40df-b8f7-bcea58006f20}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\module\active_path">
+      <UniqueIdentifier>{88427da5-45ee-45b1-beab-9af7c6f16dfe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\utility">
+      <UniqueIdentifier>{d3861a93-8807-4c4f-8653-c0a3368c30ca}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\module\calculator\parse\binary_expression_parser.h">
@@ -186,6 +192,27 @@
     <ClInclude Include="src\module\meta\meta_command_info.h">
       <Filter>src\module\meta</Filter>
     </ClInclude>
+    <ClInclude Include="src\module\active_path\active_path_module.h">
+      <Filter>src\module\active_path</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\active_path\active_path_command.h">
+      <Filter>src\module\active_path</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\active_path\active_path_option_parsing.h">
+      <Filter>src\module\active_path</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\active_path\active_path_utility.h">
+      <Filter>src\module\active_path</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\active_path\active_path_option.h">
+      <Filter>src\module\active_path</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\clipboard.h">
+      <Filter>src\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\path_trimming.h">
+      <Filter>src\utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -292,6 +319,24 @@
     </ClCompile>
     <ClCompile Include="src\module\meta\meta_command_info.cpp">
       <Filter>src\module\meta</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\active_path\active_path_module.cpp">
+      <Filter>src\module\active_path</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\active_path\active_path_command.cpp">
+      <Filter>src\module\active_path</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\active_path\active_path_utility.cpp">
+      <Filter>src\module\active_path</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\active_path\active_path_option_parsing.cpp">
+      <Filter>src\module\active_path</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\clipboard.cpp">
+      <Filter>src\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\path_trimming.cpp">
+      <Filter>src\utility</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

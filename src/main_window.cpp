@@ -11,9 +11,11 @@
 #include <zaf/window/message/keyboard_message.h>
 #include <zaf/window/message/message.h>
 #include "context/desktop_context_discovering.h"
+#include "module/active_path/active_path_module.h"
 #include "module/calculator/calculator_module.h"
 #include "module/meta/meta_module.h"
 #include "module/user_defined/user_defined_module.h"
+#include "utility/path_trimming.h"
 
 namespace ra {
 
@@ -54,6 +56,7 @@ void MainWindow::InitializeModules() {
     user_defined_module_->Reload();
 
     modules_.push_back(std::make_shared<module::meta::MetaModule>());
+    modules_.push_back(std::make_shared<module::active_path::ActivePathModule>());
     modules_.push_back(user_defined_module_);
     modules_.push_back(std::make_shared<module::calculator::CalculatorModule>());
 }
@@ -142,6 +145,7 @@ std::shared_ptr<module::CommandPreviewControl> MainWindow::CreateDefaultPreviewC
     label->SetTextAlignment(zaf::TextAlignment::Leading);
     label->SetParagraphAlignment(zaf::ParagraphAlignment::Center);
     label->SetFontSize(14);
+    label->SetTextTrimming(utility::CreateTextTrimmingForPath());
     label->SetText(preview_text);
 
     auto result = zaf::Create<module::CommandPreviewControl>();
