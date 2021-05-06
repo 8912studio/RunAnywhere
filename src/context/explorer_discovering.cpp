@@ -207,13 +207,17 @@ std::filesystem::path DiscoverActivePathFromExplorer(HWND foreground_window_hand
             reinterpret_cast<void**>(&persist_folder));
         ZAF_THROW_IF_COM_ERROR(hresult);
 
-        auto folder_path = GetFolderPath(persist_folder);
-        if (folder_path.empty()) {
+        std::filesystem::path path = GetFolderPath(persist_folder);
+        if (path.empty()) {
             return {};
         }
 
         auto selected_item_name = GetSelectedItemName(folder_view, persist_folder);
-        return std::filesystem::path(folder_path) / selected_item_name;
+        if (!selected_item_name.empty()) {
+            path /= selected_item_name;
+        }
+
+        return path;
     }
     catch (const zaf::Error&) {
         return {};
