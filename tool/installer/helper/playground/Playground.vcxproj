@@ -10,11 +10,14 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="playground.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{490377dc-d9df-48b9-8197-a702c1e9b17a}</ProjectGuid>
-    <RootNamespace>RunAnywhere</RootNamespace>
+    <ProjectGuid>{d3c73f01-3b3f-4568-a582-b3a13b389f15}</ProjectGuid>
+    <RootNamespace>Playground</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -45,17 +48,17 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)src;$(SolutionDir)third_party\zaf\src\;$(SolutionDir)third_party\boost\include;$(IncludePath)</IncludePath>
-    <IntDir>$(SolutionDir)build\int\$(ProjectName)\$(Configuration)\</IntDir>
-    <OutDir>$(SolutionDir)build\out\$(Configuration)\</OutDir>
-    <LibraryPath>$(OutDir);$(SolutionDir)third_party\zaf\out\$(Configuration)\;$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)..\..\..\build\out\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)..\..\..\build\int\$(ProjectName)\$(Configuration)\</IntDir>
+    <IncludePath>$(SolutionDir)src;$(IncludePath)</IncludePath>
+    <LibraryPath>$(OutDir);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)src;$(SolutionDir)third_party\zaf\src\;$(SolutionDir)third_party\boost\include;$(IncludePath)</IncludePath>
-    <IntDir>$(SolutionDir)build\int\$(ProjectName)\$(Configuration)\</IntDir>
-    <OutDir>$(SolutionDir)build\out\$(Configuration)\</OutDir>
-    <LibraryPath>$(OutDir);$(SolutionDir)third_party\zaf\out\$(Configuration)\;$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)..\..\..\build\out\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)..\..\..\build\int\$(ProjectName)\$(Configuration)\</IntDir>
+    <IncludePath>$(SolutionDir)src;$(IncludePath)</IncludePath>
+    <LibraryPath>$(OutDir);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -66,14 +69,10 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>zaf.lib;Lib.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalOptions>/WHOLEARCHIVE:zaf %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>InstallHelper.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <PreBuildEvent>
-      <Command>$(SolutionDir)third_party\zaf\out\Debug\zrcb.exe /o $(SolutionDir)src\res.rc /i /e .xaml.png $(SolutionDir)src</Command>
-    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -86,33 +85,13 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>zaf.lib;Lib.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalOptions>/WHOLEARCHIVE:zaf %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>InstallHelper.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <PreBuildEvent>
-      <Command>$(SolutionDir)third_party\zaf\out\Debug\zrcb.exe /o $(SolutionDir)src\res.rc /i /e .xaml.png $(SolutionDir)src</Command>
-    </PreBuildEvent>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="src\main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="src\resource.h" />
-    <ClInclude Include="src\version.h" />
-    <ClInclude Include="src\version_stringize.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="src\app.rc" />
-    <ResourceCompile Include="src\res.rc" />
-    <ResourceCompile Include="src\version.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="src\icon.ico" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

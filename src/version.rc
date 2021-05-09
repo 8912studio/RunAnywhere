@@ -1,0 +1,37 @@
+#include "version.h"
+#include "version_stringize.h"
+#include "winres.h"
+
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION MAJOR,MINOR,REVISION,BUILD
+ PRODUCTVERSION MAJOR,MINOR,REVISION,BUILD
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x40004L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "080404b0"
+        BEGIN
+            VALUE "FileDescription", "RunAnywhere"
+            VALUE "FileVersion", VERSION_STRING(MAJOR,MINOR,REVISION,BUILD)
+            VALUE "InternalName", "RunAnywh.exe"
+            VALUE "LegalCopyright", "Copyright (C) 2021 Zplutor"
+            VALUE "OriginalFilename", "RunAnywh.exe"
+            VALUE "ProductName", "RunAnywhere"
+            VALUE "ProductVersion", VERSION_STRING(MAJOR,MINOR,REVISION,BUILD)
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x804, 1200
+    END
+END
