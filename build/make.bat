@@ -23,6 +23,13 @@ echo #define BUILD %build% >> ..\src\version.h
 echo Update version of installer.
 echo #define MyAppVersion "%version%" > ..\tool\installer\version
 
+echo Build zaf.
+msbuild ..\third_party\zaf\zaf.sln -p:Configuration=Release
+if errorlevel 1 (
+	echo Build failed.
+	goto end
+)
+
 echo Build application.
 msbuild ..\RunAnywhere.sln -p:Configuration=Release
 if errorlevel 1 (
