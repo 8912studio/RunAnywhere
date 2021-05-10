@@ -69,6 +69,9 @@
     <ClCompile Include="case\module\meta\meta_command_info_test.cpp">
       <Filter>case\module\meta</Filter>
     </ClCompile>
+    <ClCompile Include="active_path_modifying_test.cpp">
+      <Filter>case\module\active_path</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="case\module\calculator\number_parser_test_utility.h">

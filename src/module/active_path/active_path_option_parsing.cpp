@@ -3,6 +3,17 @@
 namespace ra::module::active_path {
 namespace {
 
+std::size_t ParseUseWorkspace(std::wstring_view text, ActivePathOption& option) {
+
+	if (text.empty() || text.front() != L'~') {
+		return 0;
+	}
+
+	option.use_workspace_path = true;
+	return 1;
+}
+
+
 std::size_t ParseBackwardLevel(std::wstring_view text, ActivePathOption& option) {
 
 	for (auto each_char : text) {
@@ -20,13 +31,13 @@ std::size_t ParseBackwardLevel(std::wstring_view text, ActivePathOption& option)
 }
 
 
-std::size_t ParseNameOnly(std::wstring_view text, ActivePathOption& option) {
+std::size_t ParseUseName(std::wstring_view text, ActivePathOption& option) {
 
 	if (text.empty() || text.front() != L'n') {
 		return 0;
 	}
 
-	option.name_only = true;
+	option.use_name = true;
 	return 1;
 }
 
@@ -36,9 +47,9 @@ ActivePathOption ParseActivePathOption(std::wstring_view text) {
 
 	ActivePathOption result;
 
-	std::size_t backward_level_length = ParseBackwardLevel(text, result);
-
-	ParseNameOnly(text.substr(backward_level_length), result);
+	std::size_t parsed_length = ParseUseWorkspace(text, result);
+	parsed_length += ParseBackwardLevel(text.substr(parsed_length), result);
+	parsed_length += ParseUseName(text.substr(parsed_length), result);
 
 	return result;
 }

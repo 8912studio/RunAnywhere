@@ -1,6 +1,7 @@
 #include "context/vs_discovering.h"
 #include <Windows.h>
 #include <zaf/base/error/system_error.h>
+#include <zaf/base/string/split.h>
 
 namespace ra::context {
 namespace {
@@ -11,7 +12,7 @@ constexpr UINT WM_REQUEST_PATH = WM_USER + 1;
 
 ATOM g_client_window_class_atom{};
 HWND g_client_window_handle{};
-std::wstring g_temp_path{};
+std::wstring g_temp_paths{};
 
 
 LRESULT CALLBACK ClientWindowProcedure(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam) {
@@ -21,7 +22,7 @@ LRESULT CALLBACK ClientWindowProcedure(HWND hwnd, UINT message, WPARAM wparam, L
         auto copy_data_struct = reinterpret_cast<COPYDATASTRUCT*>(lparam);
         if (copy_data_struct->dwData == reinterpret_cast<ULONG_PTR>(g_client_window_handle)) {
 
-            g_temp_path.assign(
+            g_temp_paths.assign(
                 reinterpret_cast<const wchar_t*>(copy_data_struct->lpData),
                 copy_data_struct->cbData / 2);
 
@@ -76,9 +77,9 @@ void TryToCreateClientWindow() {
 }
 
 
-std::filesystem::path GetFocusedPathFromHosts(HWND foreground_window_handle) {
+std::wstring GetEncodedPathsFromHosts(HWND foreground_window_handle) {
 
-    g_temp_path.clear();
+    g_temp_paths.clear();
 
     DWORD foreground_process_id{};
     GetWindowThreadProcessId(foreground_window_handle, &foreground_process_id);
@@ -118,18 +119,31 @@ std::filesystem::path GetFocusedPathFromHosts(HWND foreground_window_handle) {
         break;
     }
 
-    return g_temp_path;
+    return g_temp_paths;
 }
 
 }
 
 
-std::filesystem::path DiscoverFocusedPathFromVS(HWND foreground_window_handle) {
+ActivePath DiscoverActivePathFromVS(HWND foreground_window_handle) {
 
     try {
+
         TryToRegisterClientWindowClass();
         TryToCreateClientWindow();
-        return GetFocusedPathFromHosts(foreground_window_handle);
+
+        auto encoded_paths = GetEncodedPathsFromHosts(foreground_window_handle);
+        auto paths = zaf::Split(encoded_paths, L'|');
+        if (paths.empty()) {
+            return {};
+        }
+
+        std::filesystem::path workspace_path;
+        if (paths.size() > 1) {
+            workspace_path = paths[1];
+        }
+
+        return ActivePath{ paths[0], workspace_path };
     }
     catch (const zaf::Error&) {
         return {};

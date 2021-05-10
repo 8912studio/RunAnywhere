@@ -3,7 +3,7 @@
 #include <filesystem>
 #include <zaf/base/container/utility/contain.h>
 #include <zaf/base/string/replace.h>
-#include "module/active_path/active_path_utility.h"
+#include "module/active_path/active_path_modifying.h"
 #include "module/user_defined/command_parameter_parsing.h"
 
 namespace ra::module::user_defined {
@@ -12,13 +12,17 @@ namespace {
 std::wstring BuildActivePathArgument(
     std::wstring_view parameter_string,
     const CommandParameter& parameter,
-    const std::filesystem::path& active_path) {
+    const context::ActivePath& active_path) {
 
-    if (active_path.empty()) {
+    if (active_path.IsEmpty()) {
         return {};
     }
 
-    auto path = active_path::AdjustActivePathByOption(active_path, parameter.active_path_option);
+    auto new_active_path = active_path::ModifyActivePathByOption(
+        active_path, 
+        parameter.active_path_option);
+
+    auto path = new_active_path.GetPath().wstring();
     if (parameter.is_quoted) {
         return path;
     }
@@ -34,7 +38,7 @@ std::wstring BuildActivePathArgument(
 std::wstring BuildArgumentFromParameter(
     std::wstring_view parameter_string,
     const CommandParameter& parameter,
-    const std::filesystem::path& active_path,
+    const context::ActivePath& active_path,
     const std::vector<std::wstring>& input_arguments) {
 
     if (parameter.type == CommandParameter::Type::ActivePath) {
@@ -47,7 +51,7 @@ std::wstring BuildArgumentFromParameter(
 
 std::wstring BuildArgument(
     std::wstring_view parameter_string,
-    const std::filesystem::path& active_path,
+    const context::ActivePath& active_path,
     const std::vector<std::wstring>& input_arguments) {
 
     auto parsed_parameters = ParseParameter(parameter_string);
@@ -80,7 +84,7 @@ std::wstring BuildArgument(
 std::vector<std::wstring> BuildArguments(
     wchar_t** parameters,
     int parameter_count,
-    const std::filesystem::path& active_path,
+    const context::ActivePath& active_path,
     const std::vector<std::wstring>& input_arguments) {
 
     std::vector<std::wstring> result;
@@ -101,7 +105,7 @@ std::vector<std::wstring> BuildArguments(
 
 ParseResult ParseCommandLine(
     const std::wstring& command_line,
-    const std::filesystem::path& active_path,
+    const context::ActivePath& active_path,
     const std::vector<std::wstring>& input_arguments) {
 
     ParseResult result;

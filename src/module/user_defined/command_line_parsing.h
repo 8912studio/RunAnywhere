@@ -3,6 +3,7 @@
 #include <filesystem>
 #include <string>
 #include <vector>
+#include "context/active_path.h"
 
 namespace ra::module::user_defined {
 
@@ -14,6 +15,6 @@ public:
 
 ParseResult ParseCommandLine(
     const std::wstring& command_line,
-    const std::filesystem::path& active_path,
+    const context::ActivePath& active_path,
     const std::vector<std::wstring>& input_arguments);
 }

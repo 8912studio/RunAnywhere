@@ -174,7 +174,7 @@ std::wstring GetSelectedItemName(IFolderView* folder_view, IPersistFolder2* pers
 }
 
 
-std::filesystem::path DiscoverActivePathFromExplorer(HWND foreground_window_handle) {
+ActivePath DiscoverActivePathFromExplorer(HWND foreground_window_handle) {
 
     //Reference: https://devblogs.microsoft.com/oldnewthing/?p=38393
 
@@ -217,7 +217,7 @@ std::filesystem::path DiscoverActivePathFromExplorer(HWND foreground_window_hand
             path /= selected_item_name;
         }
 
-        return path;
+        return ActivePath{ path };
     }
     catch (const zaf::Error&) {
         return {};

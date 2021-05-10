@@ -2,9 +2,10 @@
 
 #include <Windows.h>
 #include <filesystem>
+#include "context/active_path.h"
 
 namespace ra::context {
 
-std::filesystem::path DiscoverActivePathFromExplorer(HWND foreground_window_handle);
+ActivePath DiscoverActivePathFromExplorer(HWND foreground_window_handle);
 
 }

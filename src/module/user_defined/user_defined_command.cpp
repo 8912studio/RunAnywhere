@@ -2,8 +2,8 @@
 #include <Windows.h>
 #include <zaf/base/container/utility/range.h>
 #include <zaf/creation.h>
+#include "module/active_path/active_path_modifying.h"
 #include "module/active_path/active_path_option_parsing.h"
-#include "module/active_path/active_path_utility.h"
 #include "module/user_defined/preview/user_defined_command_preview_control.h"
 
 namespace ra::module::user_defined {
@@ -26,15 +26,16 @@ std::wstring JoinArguments(const std::vector<std::wstring>& arguments) {
 }
 
 
-std::filesystem::path ModifyActivePath(
-    const std::filesystem::path& path,
+context::ActivePath ModifyActivePath(
+    const context::ActivePath& active_path,
     const std::wstring& modifier) {
 
     auto option = active_path::ParseActivePathOption(modifier.substr(1));
-    return active_path::AdjustActivePathByOption(path, option);
+    return active_path::ModifyActivePathByOption(active_path, option);
 }
 
 }
+
 
 UserDefinedCommand::UserDefinedCommand(
     const UserDefinedEntry& entry, 
@@ -70,7 +71,7 @@ void UserDefinedCommand::Execute() {
 
 ParseResult UserDefinedCommand::ParseCommandLine() {
 
-    std::filesystem::path modified_active_path;
+    context::ActivePath modified_active_path;
     std::vector<std::wstring> plain_arguments;
     ParseArguments(modified_active_path, plain_arguments);
 
@@ -82,7 +83,7 @@ ParseResult UserDefinedCommand::ParseCommandLine() {
 
 
 void UserDefinedCommand::ParseArguments(
-    std::filesystem::path& modified_active_path,
+    context::ActivePath& modified_active_path,
     std::vector<std::wstring>& plain_arguments) {
 
     modified_active_path = GetDesktopContext().active_path;

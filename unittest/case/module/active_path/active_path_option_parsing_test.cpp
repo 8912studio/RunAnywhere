@@ -7,12 +7,25 @@ TEST(ActivePathOptionParsingTest, ParseInvalidTest) {
 
 	auto option = ParseActivePathOption(L"");
 	ASSERT_EQ(option.backward_level, 0);
+	ASSERT_EQ(option.use_name, false);
+	ASSERT_EQ(option.use_workspace_path, false);
 
 	option = ParseActivePathOption(L"??");
 	ASSERT_EQ(option.backward_level, 0);
+	ASSERT_EQ(option.use_name, false);
+	ASSERT_EQ(option.use_workspace_path, false);
 
 	option = ParseActivePathOption(L"m");
 	ASSERT_EQ(option.backward_level, 0);
+	ASSERT_EQ(option.use_name, false);
+	ASSERT_EQ(option.use_workspace_path, false);
+}
+
+
+TEST(ActivePathOptionParsingTest, ParseUseWorkspace) {
+
+	auto option = ParseActivePathOption(L"~");
+	ASSERT_EQ(option.use_workspace_path, true);
 }
 
 
@@ -32,25 +45,32 @@ TEST(ActivePathOptionParsingTest, ParseBackwardLevel) {
 }
 
 
-TEST(ActivePathOptionParsingTest, ParseNameOnly) {
+TEST(ActivePathOptionParsingTest, ParseUseName) {
 
-	auto option = ParseActivePathOption(L"");
-	ASSERT_EQ(option.name_only, false);
-
-	option = ParseActivePathOption(L"..");
-	ASSERT_EQ(option.name_only, false);
-
-	option = ParseActivePathOption(L"n");
-	ASSERT_EQ(option.name_only, true);
-
-	option = ParseActivePathOption(L".n");
-	ASSERT_EQ(option.name_only, true);
+	auto option = ParseActivePathOption(L"n");
+	ASSERT_EQ(option.use_name, true);
 }
 
 
 TEST(ActivePathOptionParsingTest, Combine) {
 
-	auto option = ParseActivePathOption(L"..n");
+	auto option = ParseActivePathOption(L"~..n");
 	ASSERT_EQ(option.backward_level, 2);
-	ASSERT_EQ(option.name_only, true);
+	ASSERT_EQ(option.use_name, true);
+	ASSERT_EQ(option.use_workspace_path, true);
+
+	option = ParseActivePathOption(L"~...");
+	ASSERT_EQ(option.backward_level, 3);
+	ASSERT_EQ(option.use_name, false);
+	ASSERT_EQ(option.use_workspace_path, true);
+
+	option = ParseActivePathOption(L"~n");
+	ASSERT_EQ(option.backward_level, 0);
+	ASSERT_EQ(option.use_name, true);
+	ASSERT_EQ(option.use_workspace_path, true);
+
+	option = ParseActivePathOption(L".n");
+	ASSERT_EQ(option.backward_level, 1);
+	ASSERT_EQ(option.use_name, true);
+	ASSERT_EQ(option.use_workspace_path, false);
 }

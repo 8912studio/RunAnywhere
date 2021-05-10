@@ -45,6 +45,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="active_path_modifying_test.cpp" />
     <ClCompile Include="case\module\active_path\active_path_option_parsing_test.cpp" />
     <ClCompile Include="case\module\calculator\command_parser_test.cpp" />
     <ClCompile Include="case\module\calculator\decimal_number_parser_test.cpp" />

@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using System;
+using System.IO;
 using System.IO.Pipes;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -87,16 +88,33 @@ namespace VSExtension
         {
             await JoinableTaskFactory.SwitchToMainThreadAsync();
 
-            string path = GetActiveDocumentPath();
+            string encoded_paths = GetEncodedPaths();
 
-            byte[] length_buffer = BitConverter.GetBytes(path.Length);
+            byte[] length_buffer = BitConverter.GetBytes(encoded_paths.Length);
             pipe.Write(length_buffer, 0, length_buffer.Length);
 
-            if (path.Length != 0)
+            if (encoded_paths.Length != 0)
             {
-                byte[] path_buffer = Encoding.Unicode.GetBytes(path);
+                byte[] path_buffer = Encoding.Unicode.GetBytes(encoded_paths);
                 pipe.Write(path_buffer, 0, path_buffer.Length);
             }
+        }
+
+        private string GetEncodedPaths()
+        {
+            string document_path = GetActiveDocumentPath();
+            if (document_path.Length == 0)
+            {
+                return String.Empty;
+            }
+
+            string solution_path = GetSolutionPath();
+            if (solution_path.Length == 0)
+            {
+                return document_path;
+            }
+
+            return document_path + '|' + solution_path;
         }
 
         private string GetActiveDocumentPath()
@@ -112,6 +130,21 @@ namespace VSExtension
             }
 
             return dte.ActiveDocument.FullName;
+        }
+
+        private string GetSolutionPath()
+        {
+            if (dte == null)
+            {
+                return String.Empty;
+            }
+
+            if (dte.Solution == null)
+            {
+                return String.Empty;
+            }
+
+            return Path.GetDirectoryName(dte.Solution.FullName);
         }
     }
 }

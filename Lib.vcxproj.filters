@@ -201,7 +201,7 @@
     <ClInclude Include="src\module\active_path\active_path_option_parsing.h">
       <Filter>src\module\active_path</Filter>
     </ClInclude>
-    <ClInclude Include="src\module\active_path\active_path_utility.h">
+    <ClInclude Include="src\module\active_path\active_path_modifying.h">
       <Filter>src\module\active_path</Filter>
     </ClInclude>
     <ClInclude Include="src\module\active_path\active_path_option.h">
@@ -236,6 +236,9 @@
     </ClInclude>
     <ClInclude Include="src\tray_icon.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\context\active_path.h">
+      <Filter>src\context</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -350,7 +353,7 @@
     <ClCompile Include="src\module\active_path\active_path_command.cpp">
       <Filter>src\module\active_path</Filter>
     </ClCompile>
-    <ClCompile Include="src\module\active_path\active_path_utility.cpp">
+    <ClCompile Include="src\module\active_path\active_path_modifying.cpp">
       <Filter>src\module\active_path</Filter>
     </ClCompile>
     <ClCompile Include="src\module\active_path\active_path_option_parsing.cpp">
