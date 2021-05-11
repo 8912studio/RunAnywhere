@@ -1,4 +1,4 @@
-# RunAnywhere
+# Introduction
 
 RunAnywhere is a tiny command line-style productivity tool on Windows.
 
