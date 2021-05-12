@@ -16,6 +16,8 @@ In explorer window, you can also use `log` command to show git logs of selected 
 
 RunAnywhere will support more applications in the future.
 
+For more information about how to define your own commands, see [here](https://github.com/Zplutor/RunAnywhere/wiki/User-defined-Command).
+
 ## Little tools
 
 There are also some little tools that are handy to developers integrated in RunAnywhere, sush as a calculator. As long as you input a math expression in RunAnywhere, it will show result of the expression. By pressing enter, you can copy the result into clipboard.
