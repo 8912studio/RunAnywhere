@@ -407,4 +407,7 @@
       <Filter>src</Filter>
     </Page>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
 </Project>

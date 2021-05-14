@@ -45,14 +45,14 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)src;$(SolutionDir)third_party\zaf\src\;$(SolutionDir)third_party\boost\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)src;$(SolutionDir)third_party\zaf\src\;$(IncludePath)</IncludePath>
     <IntDir>$(SolutionDir)build\int\$(ProjectName)\$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)build\out\$(Configuration)\</OutDir>
     <LibraryPath>$(OutDir);$(SolutionDir)third_party\zaf\out\$(Configuration)\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)src;$(SolutionDir)third_party\zaf\src\;$(SolutionDir)third_party\boost\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)src;$(SolutionDir)third_party\zaf\src\;$(IncludePath)</IncludePath>
     <IntDir>$(SolutionDir)build\int\$(ProjectName)\$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)build\out\$(Configuration)\</OutDir>
     <LibraryPath>$(OutDir);$(SolutionDir)third_party\zaf\out\$(Configuration)\;$(LibraryPath)</LibraryPath>
