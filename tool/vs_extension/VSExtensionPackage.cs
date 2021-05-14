@@ -103,15 +103,11 @@ namespace VSExtension
         private string GetEncodedPaths()
         {
             string document_path = GetActiveDocumentPath();
+            string solution_path = GetSolutionPath();
+
             if (document_path.Length == 0)
             {
-                return String.Empty;
-            }
-
-            string solution_path = GetSolutionPath();
-            if (solution_path.Length == 0)
-            {
-                return document_path;
+                document_path = solution_path;
             }
 
             return document_path + '|' + solution_path;

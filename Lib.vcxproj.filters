@@ -240,6 +240,9 @@
     <ClInclude Include="src\context\active_path.h">
       <Filter>src\context</Filter>
     </ClInclude>
+    <ClInclude Include="src\context\active_path_decoding.h">
+      <Filter>src\context</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -385,6 +388,9 @@
     </ClCompile>
     <ClCompile Include="src\tray_icon.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\context\active_path_decoding.cpp">
+      <Filter>src\context</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

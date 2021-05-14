@@ -1,7 +1,7 @@
 #include "context/vs_discovering.h"
 #include <Windows.h>
 #include <zaf/base/error/system_error.h>
-#include <zaf/base/string/split.h>
+#include "context/active_path_decoding.h"
 
 namespace ra::context {
 namespace {
@@ -132,18 +132,8 @@ ActivePath DiscoverActivePathFromVS(HWND foreground_window_handle) {
         TryToRegisterClientWindowClass();
         TryToCreateClientWindow();
 
-        auto encoded_paths = GetEncodedPathsFromHosts(foreground_window_handle);
-        auto paths = zaf::Split(encoded_paths, L'|');
-        if (paths.empty()) {
-            return {};
-        }
-
-        std::filesystem::path workspace_path;
-        if (paths.size() > 1) {
-            workspace_path = paths[1];
-        }
-
-        return ActivePath{ paths[0], workspace_path };
+        auto encoded_path = GetEncodedPathsFromHosts(foreground_window_handle);
+        return DecodeActivePath(encoded_path);
     }
     catch (const zaf::Error&) {
         return {};
