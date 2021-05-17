@@ -1,31 +1,12 @@
 #include "module/user_defined/user_defined_entry_reading.h"
-#include <shlobj_core.h>
 #include <filesystem>
 #include <fstream>
 #include <optional>
 #include <zaf/base/string/encoding_conversion.h>
 #include <zaf/base/string/trim.h>
+#include "module/user_defined/user_defined_file.h"
 
 namespace ra::module::user_defined {
-namespace {
-
-std::filesystem::path GetUserDefinedFilePath() {
-
-    wchar_t* buffer{};
-    HRESULT result = SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, nullptr, &buffer);
-    if (FAILED(result)) {
-        return {};
-    }
-
-    std::filesystem::path path{ buffer };
-    CoTaskMemFree(buffer);
-
-    path = path / "RunAnywhere" / "UserDefined.txt";
-    return path;
-}
-
-}
-
 
 std::vector<UserDefinedEntry> ReadUserDefinedEntries() {
 
