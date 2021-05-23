@@ -13,6 +13,9 @@ public:
     ParseResult(const ParseResult&) = delete;
     ParseResult& operator=(const ParseResult&) = delete;
 
+    ParseResult(ParseResult&&) = default;
+    ParseResult& operator=(ParseResult&&) = default;
+
     void AddOperator(const std::shared_ptr<OperatorNode>& operator_node);
     void AddOperand(const std::shared_ptr<OperandNode>& operand_node);
 

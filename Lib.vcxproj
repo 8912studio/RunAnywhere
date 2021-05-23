@@ -106,11 +106,14 @@
     <ClInclude Include="src\module\active_path\active_path_modifying.h" />
     <ClInclude Include="src\module\calculator\calculator_command.h" />
     <ClInclude Include="src\module\calculator\calculator_module.h" />
+    <ClInclude Include="src\module\calculator\command_parsing.h" />
     <ClInclude Include="src\module\calculator\evaluate\evaluate_result.h" />
     <ClInclude Include="src\module\calculator\evaluate\evaluate_status.h" />
     <ClInclude Include="src\module\calculator\evaluate\evaluator.h" />
     <ClInclude Include="src\module\calculator\evaluate\operand_evaluator.h" />
     <ClInclude Include="src\module\calculator\evaluate\operator_evaluator.h" />
+    <ClInclude Include="src\module\calculator\parse\parse_error_reason.h" />
+    <ClInclude Include="src\module\calculator\parse\parse_reader.h" />
     <ClInclude Include="src\module\calculator\preview\numeric_text_formatting.h" />
     <ClInclude Include="src\module\calculator\result_text_builder.h" />
     <ClInclude Include="src\module\calculator\parse\binary_expression_parser.h" />
@@ -173,9 +176,12 @@
     <ClCompile Include="src\module\active_path\active_path_modifying.cpp" />
     <ClCompile Include="src\module\calculator\calculator_command.cpp" />
     <ClCompile Include="src\module\calculator\calculator_module.cpp" />
+    <ClCompile Include="src\module\calculator\command_parsing.cpp" />
     <ClCompile Include="src\module\calculator\evaluate\evaluator.cpp" />
     <ClCompile Include="src\module\calculator\evaluate\operand_evaluator.cpp" />
     <ClCompile Include="src\module\calculator\evaluate\operator_evaluator.cpp" />
+    <ClCompile Include="src\module\calculator\parse\parse_context.cpp" />
+    <ClCompile Include="src\module\calculator\parse\parse_reader.cpp" />
     <ClCompile Include="src\module\calculator\preview\numeric_text_formatting.cpp" />
     <ClCompile Include="src\module\calculator\result_text_builder.cpp" />
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp" />

@@ -24,6 +24,7 @@ public:
         Divide,
     };
 
+public:
     int GetPriority() const {
 
         switch (type) {
@@ -45,6 +46,7 @@ public:
         }
     }
 
+public:
     Type type{ Type::None };
 };
 

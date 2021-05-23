@@ -11,4 +11,5 @@ bool TestNumberParserSuccess(
 bool TestNumberParserFailure(
     ra::module::calculator::Parser& parser,
     const std::wstring& input,
-    ra::module::calculator::ParseStatus expected_status);
+    ra::module::calculator::ParseStatus expected_status,
+    std::size_t expected_parsed_length);

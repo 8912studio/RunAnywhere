@@ -86,6 +86,8 @@ void MainWindow::OnTextChanged(const zaf::TextualControlTextChangeInfo& event_in
 
 void MainWindow::InterpretCommand(const std::wstring& input) {
 
+    current_command_ = nullptr;
+
     auto trimmed_input = zaf::ToTrimmed(input);
     if (!trimmed_input.empty()) {
 
@@ -98,10 +100,6 @@ void MainWindow::InterpretCommand(const std::wstring& input) {
                 break;
             }
         }
-    }
-    else {
-
-        current_command_ = nullptr;
     }
 
     ShowPreview();

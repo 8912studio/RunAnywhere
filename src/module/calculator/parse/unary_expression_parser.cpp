@@ -6,40 +6,42 @@
 #include "module/calculator/parse/parse_result.h"
 
 namespace ra::module::calculator {
+namespace {
 
 class UnaryOperatorParser : public TerminalParser {
 public:
     ParseStatus Parse(ParseContext& context, ParseResult& parse_result) override {
 
+        auto reader = context.BeginRead();
+
         OperatorNode::Type operator_type = OperatorNode::Type::None;
 
-        wchar_t current_char = context.GetCurrentChar();
-        switch (current_char) {
-
+        auto ch = reader.GetChar();
+        switch (ch) {
         case L'+':
             operator_type = OperatorNode::Type::Positive;
             break;
-
         case L'-':
             operator_type = OperatorNode::Type::Negative;
             break;
-
         case L'~':
             operator_type = OperatorNode::Type::Not;
             break;
-
         default:
             return ParseStatus::Mismatched;
         }
+
+        reader.Forward();
 
         auto operator_node = std::make_shared<OperatorNode>();
         operator_node->type = operator_type;
         parse_result.AddOperator(operator_node);
 
-        context.Forward();
         return ParseStatus::Ok;
     }
 };
+
+}
 
 
 UnaryExpressionParser* UnaryExpressionParser::Instance() {

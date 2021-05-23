@@ -20,8 +20,9 @@ private:
         const std::wstring& chars,
         int base);
 
-    ParseStatus ParsePrefix(ParseContext& context, std::size_t& prefix_length);
-    ParseStatus ParseNumber(ParseContext& context, std::wstring& number);
+    bool ParsePrefix(ParseReader& reader);
+    bool IsPrefixMatched(ParseReader& reader, std::wstring_view prefix);
+    bool ParseNumber(ParseReader& reader, std::wstring& number);
 
 private:
     std::vector<std::wstring> prefixes_;

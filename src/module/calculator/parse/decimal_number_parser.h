@@ -15,11 +15,16 @@ private:
     DecimalNumberParser() = default;
 
     ParseStatus ParseNumberParts(
-        ParseContext& context,
+        ParseReader& reader,
         std::wstring& integer_part,
         std::wstring& float_part);
 
-    ParseStatus ParseUnit(ParseContext& context, NumberUnit& unit);
+    void ParseUnit(ParseReader& reader, NumberUnit& unit);
+
+    std::shared_ptr<OperandNode> CreateOperandNode(
+        const std::wstring& integer_part,
+        const std::wstring& float_part, 
+        NumberUnit unit);
 };
 
 }

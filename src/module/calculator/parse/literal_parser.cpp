@@ -5,20 +5,25 @@ namespace ra::module::calculator {
 
 ParseStatus LiteralParser::Parse(ParseContext& context, ParseResult& parse_result) {
 
-    for (std::size_t index = 0; index < literal_.length(); ++index) {
+    auto reader = context.BeginRead();
 
-        if (context.GetCurrentChar() != literal_[index]) {
-            if (index == 0) {
-                return ParseStatus::Mismatched;
-            }
-            else {
-                return ParseStatus::Error;
-            }
+    std::size_t index{};
+    for (index = 0; index < literal_.length(); ++index) {
+
+        auto ch = reader.GetChar();
+        if (ch != literal_[index]) {
+            break;
         }
 
-        if (!context.Forward()) {
-            return ParseStatus::Error;
-        }
+        reader.Forward();
+    }
+
+    if (index == 0) {
+        return ParseStatus::Mismatched;
+    }
+
+    if (index != literal_.length()) {
+        return ParseStatus::Error;
     }
 
     return ParseStatus::Ok;

@@ -6,21 +6,26 @@ using namespace ra::module::calculator;
 
 TEST(NonDecimalNumberParserTest, BinaryFailure) {
 
-    auto test = [](const std::wstring& input, ParseStatus expected_status) {
+    auto test = [](
+        const std::wstring& input,
+        ParseStatus expected_status,
+        std::size_t expected_parsed_length) {
 
         return TestNumberParserFailure(
             *NonDecimalNumberParser::Binary(),
             input,
-            expected_status);
+            expected_status,
+            expected_parsed_length);
     };
 
-    ASSERT_TRUE(test(L"10384", ParseStatus::Mismatched));
-    ASSERT_TRUE(test(L"896", ParseStatus::Mismatched));
-    ASSERT_TRUE(test(L"0", ParseStatus::Mismatched));
-    ASSERT_TRUE(test(L"0b", ParseStatus::Error));
-    ASSERT_TRUE(test(L"b", ParseStatus::Error));
-    ASSERT_TRUE(test(L"0B", ParseStatus::Error));
-    ASSERT_TRUE(test(L"B", ParseStatus::Error));
+    ASSERT_TRUE(test(L"10384", ParseStatus::Mismatched, 0));
+    ASSERT_TRUE(test(L"896", ParseStatus::Mismatched, 0));
+    ASSERT_TRUE(test(L"0", ParseStatus::Mismatched, 0));
+    ASSERT_TRUE(test(L"0b", ParseStatus::Error, 2));
+    ASSERT_TRUE(test(L"b", ParseStatus::Error, 1));
+    ASSERT_TRUE(test(L"0B", ParseStatus::Error, 2));
+    ASSERT_TRUE(test(L"B", ParseStatus::Error, 1));
+    ASSERT_TRUE(test(L"0b23", ParseStatus::Error, 2));
 }
 
 
@@ -44,19 +49,24 @@ TEST(NonDecimalNumberParserTest, HexSuccess) {
 
 TEST(NonDecimalNumberParserTest, HexFailure) {
 
-    auto test = [](const std::wstring& input, ParseStatus expected_status) {
+    auto test = [](
+        const std::wstring& input,
+        ParseStatus expected_status,
+        std::size_t expected_parsed_length) {
 
         return TestNumberParserFailure(
             *NonDecimalNumberParser::Hex(),
             input,
-            expected_status);
+            expected_status,
+            expected_parsed_length);
     };
 
-    ASSERT_TRUE(test(L"ab3e22", ParseStatus::Mismatched));
-    ASSERT_TRUE(test(L"896", ParseStatus::Mismatched));
-    ASSERT_TRUE(test(L"0", ParseStatus::Mismatched));
-    ASSERT_TRUE(test(L"0x", ParseStatus::Error));
-    ASSERT_TRUE(test(L"x", ParseStatus::Error));
-    ASSERT_TRUE(test(L"0X", ParseStatus::Error));
-    ASSERT_TRUE(test(L"X", ParseStatus::Error));
+    ASSERT_TRUE(test(L"ab3e22", ParseStatus::Mismatched, 0));
+    ASSERT_TRUE(test(L"896", ParseStatus::Mismatched, 0));
+    ASSERT_TRUE(test(L"0", ParseStatus::Mismatched, 0));
+    ASSERT_TRUE(test(L"0x", ParseStatus::Error, 2));
+    ASSERT_TRUE(test(L"x", ParseStatus::Error, 1));
+    ASSERT_TRUE(test(L"0X", ParseStatus::Error, 2));
+    ASSERT_TRUE(test(L"X", ParseStatus::Error, 1));
+    ASSERT_TRUE(test(L"0xzz0", ParseStatus::Error, 2));
 }

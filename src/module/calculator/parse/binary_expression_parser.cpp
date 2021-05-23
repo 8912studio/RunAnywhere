@@ -12,80 +12,132 @@ class BinaryOperatorParser : public TerminalParser {
 public:
     ParseStatus Parse(ParseContext& context, ParseResult& parse_result) override {
 
-        OperatorNode::Type type = OperatorNode::Type::None;
+        auto reader = context.BeginRead();
 
-        switch (context.GetCurrentChar()) {
-        case L'+':
-            type = OperatorNode::Type::Plus;
-            break;
+        auto operator_type = ParseSimpleOperator(reader);
+        if (operator_type == OperatorNode::Type::None) {
 
-        case L'-':
-            type = OperatorNode::Type::Minus;
-            break;
+            operator_type = ParseComplexOperator(reader);
 
-        case L'*': {
-            context.Forward();
-            if (context.GetCurrentChar() == L'*') {
-                type = OperatorNode::Type::Power;
+            if (operator_type == OperatorNode::Type::None) {
+                return ParseStatus::Mismatched;
             }
-            else {
-                context.Backward();
-                type = OperatorNode::Type::Multiply;
-            }
-            break;
-        }
-
-        case L'/':
-            type = OperatorNode::Type::Divide;
-            break;
-
-        default:
-            return ParseStatus::Mismatched;
         }
 
         auto operator_node = std::make_shared<OperatorNode>();
-        operator_node->type = type;
+        operator_node->type = operator_type;
         parse_result.AddOperator(operator_node);
 
-        context.Forward();
+        return ParseStatus::Ok;
+    }
+
+private:
+    OperatorNode::Type ParseSimpleOperator(ParseReader& reader) {
+
+        OperatorNode::Type result{ OperatorNode::Type::None };
+
+        auto ch = reader.GetChar();
+        switch (ch) {
+        case L'+':
+            result = OperatorNode::Type::Plus;
+            break;
+        case L'-':
+            result = OperatorNode::Type::Minus;
+            break;
+        case L'/':
+            result = OperatorNode::Type::Divide;
+            break;
+        default:
+            break;
+        }
+
+        if (result != OperatorNode::Type::None) {
+            reader.Forward();
+        }
+
+        return result;
+    }
+
+    OperatorNode::Type ParseComplexOperator(ParseReader& reader) {
+
+        OperatorNode::Type result{ OperatorNode::Type::None };
+
+        auto ch = reader.GetChar();
+        if (ch == L'*') {
+
+            reader.Forward();
+
+            ch = reader.GetChar();
+            if (ch == L'*') {
+
+                reader.Forward();
+                result = OperatorNode::Type::Power;
+            }
+            else {
+                result = OperatorNode::Type::Multiply;
+            }
+        }
+
+        return result;
+    }
+};
+
+
+class HeadImplicitMultiplyOperatorParser : public TerminalParser {
+public:
+    ParseStatus Parse(ParseContext& context, ParseResult& parse_result) override {
+
+        auto current_char = context.GetCurrentChar();
+        if (current_char != L'(') {
+            return ParseStatus::Mismatched;
+        }
+
+        //No need to forward context.
+
+        auto operator_node = std::make_shared<OperatorNode>();
+        operator_node->type = OperatorNode::Type::Multiply;
+        parse_result.AddOperator(operator_node);
         return ParseStatus::Ok;
     }
 };
 
 
-class ImplicitMultiplyOperatorParser : public TerminalParser {
+class TailImplicitMultiplyOperatorParser : public NonTerminalParser {
 public:
-    ParseStatus Parse(ParseContext& context, ParseResult& parse_result) override {
+    ParseStatus Parse(ParseContext& context, ParseResult& result) override {
 
-        auto current_char = context.GetCurrentChar();
-        if (current_char == 0) {
+        auto previous_char = context.GetCharAtOffset(-1);
+        if (!previous_char) {
             return ParseStatus::Mismatched;
         }
 
-        if (current_char == L'(') {
-
-            auto operator_node = std::make_shared<OperatorNode>();
-            operator_node->type = OperatorNode::Type::Multiply;
-            parse_result.AddOperator(operator_node);
-            return ParseStatus::Ok;
+        if (*previous_char != L')') {
+            return ParseStatus::Mismatched;
         }
 
-        if (context.Backward()) {
-
-            auto previous_char = context.GetCurrentChar();
-            context.Forward();
-
-            if (previous_char == L')') {
-
-                auto operator_node = std::make_shared<OperatorNode>();
-                operator_node->type = OperatorNode::Type::Multiply;
-                parse_result.AddOperator(operator_node);
-
-                return ParseStatus::Ok;
-            }
+        ParseResult expression_parse_result;
+        auto parse_status = ExpressionParser::Instance()->Parse(context, expression_parse_result);
+        if (parse_status != ParseStatus::Ok) {
+            return parse_status;
         }
 
-        return ParseStatus::Mismatched;
+        auto operand_node = 
+            std::dynamic_pointer_cast<OperandNode>(expression_parse_result.GetExpressionRootNode());
+
+        if (!operand_node) {
+            return ParseStatus::Error;
+        }
+
+        auto operator_node = std::make_shared<OperatorNode>();
+        operator_node->type = OperatorNode::Type::Multiply;
+        result.AddOperator(operator_node);
+        result.AddOperand(operand_node);
+        return ParseStatus::Ok;
+    }
+
+protected:
+    void InitializeParsers() override {
+        //Do nothing.
     }
 };
 
@@ -104,8 +156,11 @@ void BinaryExpressionParser::InitializeParsers() {
     static BinaryOperatorParser binary_operator_parser;
     AddParsers({ &binary_operator_parser, ExpressionParser::Instance() });
 
-    static ImplicitMultiplyOperatorParser implicit_multiply_operator_parser;
-    AddParsers({ &implicit_multiply_operator_parser, ExpressionParser::Instance() });
+    static HeadImplicitMultiplyOperatorParser head_implicit_multiply_operator_parser;
+    AddParsers({ &head_implicit_multiply_operator_parser, ExpressionParser::Instance() });
+
+    static TailImplicitMultiplyOperatorParser tail_implicit_multiply_operator_parser;
+    AddParsers({ &tail_implicit_multiply_operator_parser });
 
     AddParsers({});
 }

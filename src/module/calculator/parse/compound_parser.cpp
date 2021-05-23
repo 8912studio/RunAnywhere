@@ -22,11 +22,7 @@ ParseStatus CompoundParser::Parse(ParseContext& context, ParseResult& result) {
             }
         }
 
-        while (std::isspace(context.GetCurrentChar())) {
-            if (!context.Forward()) {
-                break;
-            }
-        }
+        context.SkipWhiteSpaces();
     }
 
     return ParseStatus::Ok;

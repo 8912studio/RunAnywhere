@@ -13,19 +13,32 @@ class ParenthesisParser : public TerminalParser {
 public:
     ParenthesisParser(OperatorNode::Type operator_type) : operator_type_(operator_type) { }
 
-    ParseStatus Parse(ParseContext& context, ParseResult& builder) override {
+    ParseStatus Parse(ParseContext& context, ParseResult& parse_result) override {
 
-        if (context.GetCurrentChar() == GetParenthesisChar()) {
+        auto reader = context.BeginRead();
+        if (reader.GetChar() != GetParenthesisChar()) {
 
-            auto operator_node = std::make_shared<OperatorNode>();
-            operator_node->type = operator_type_;
-            builder.AddOperator(operator_node);
-            context.Forward();
-            return ParseStatus::Ok;
-        }
-        else {
+            if (operator_type_ == OperatorNode::Type::RightParenthesis) {
+                context.SetParseErrorReason(ParseErrorReason::MismatchedParenthesis);
+            }
+
             return ParseStatus::Mismatched;
         }
+
+        reader.Forward();
+
+        if (operator_type_ == OperatorNode::Type::LeftParenthesis) {
+            context.PushParenthesis();
+        }
+        else {
+            context.PopParenthesis();
+        }
+
+        auto operator_node = std::make_shared<OperatorNode>();
+        operator_node->type = operator_type_;
+        parse_result.AddOperator(operator_node);
+
+        return ParseStatus::Ok;
     }
 
 private:

@@ -24,7 +24,11 @@ TEST(ExtendOptionSetParserTest, Unit) {
             return false;
         }
 
-        return context.GetCurrentIndex() == context.GetLength();
+        if (context.GetCurrentIndex() != context.GetLength()) {
+            return false;
+        }
+        
+        return context.GetLastParsedLength() == input.length();
     };
 
     ASSERT_TRUE(test(L"'k", NumberUnit::Kilo ));
@@ -59,7 +63,11 @@ TEST(ExtendOptionSetParserTest, HighlightBit) {
             return false;
         }
 
-        return context.GetCurrentIndex() == context.GetLength();
+        if (context.GetCurrentIndex() != context.GetLength()) {
+            return false;
+        }
+
+        return context.GetLastParsedLength() == input.length();
     };
 
     ASSERT_TRUE(test(L"^0", 0));
@@ -71,7 +79,11 @@ TEST(ExtendOptionSetParserTest, HighlightBit) {
 
 TEST(ExtendOptionSetParserTest, Combine) {
 
-    auto test = [](const std::wstring& input, NumberUnit expected_unit, int expected_bit) {
+    auto test = [](
+        const std::wstring& input,
+        NumberUnit expected_unit, 
+        int expected_bit,
+        std::size_t expected_token_length) {
 
         ParseContext context{ input };
         ParseResult result;
@@ -90,12 +102,16 @@ TEST(ExtendOptionSetParserTest, Combine) {
             return false;
         }
 
-        return context.GetCurrentIndex() == context.GetLength();
+        if (context.GetCurrentIndex() != context.GetLength()) {
+            return false;
+        }
+
+        return context.GetLastParsedLength() == expected_token_length;
     };
 
-    ASSERT_TRUE(test(L"'g^9", NumberUnit::Giga, 9));
-    ASSERT_TRUE(test(L"^10'k", NumberUnit::Kilo, 10));
-    ASSERT_TRUE(test(L"^33  'M", NumberUnit::Mega, 33));
+    ASSERT_TRUE(test(L"'g^9", NumberUnit::Giga, 9, 2));
+    ASSERT_TRUE(test(L"^10'k", NumberUnit::Kilo, 10, 2));
+    ASSERT_TRUE(test(L"^33  'M", NumberUnit::Mega, 33, 2));
 }
 
 
@@ -120,7 +136,11 @@ TEST(ExtendOptionSetParserTest, Empty) {
             return false;
         }
 
-        return context.GetCurrentIndex() == 0;
+        if (context.GetCurrentIndex() != 0) {
+            return false;
+        }
+
+        return context.GetLastParsedLength() == 0;
     };
 
     ASSERT_TRUE(test(L""));
@@ -138,9 +158,15 @@ TEST(ExtendOptionSetParserTest, Error) {
         ParseResult result;
 
         auto status = ExtendOptionSetParser::Instance()->Parse(context, result);
-        return status == ParseStatus::Error;
+        if (status != ParseStatus::Error) {
+            return false;
+        }
+
+        return context.GetLastParsedLength() == 1;
     };
 
+    ASSERT_TRUE(test(L"'"));
+    ASSERT_TRUE(test(L"^"));
     ASSERT_TRUE(test(L"'d"));
     ASSERT_TRUE(test(L"^a"));
     ASSERT_TRUE(test(L"'g^b"));

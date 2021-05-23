@@ -16,6 +16,14 @@ bool TestNumberParserSuccess(
         return false;
     }
 
+    if (parse_context.GetCurrentIndex() != input.length()) {
+        return false;
+    }
+
+    if (parse_context.GetLastParsedLength() != input.length()) {
+        return false;
+    }
+
     auto operand_node = dynamic_cast<OperandNode*>(
         parse_result.GetExpressionRootNode().get());
 
@@ -34,7 +42,8 @@ bool TestNumberParserSuccess(
 bool TestNumberParserFailure(
     Parser& parser,
     const std::wstring& input,
-    ParseStatus expected_status) {
+    ParseStatus expected_status,
+    std::size_t expected_parsed_length) {
 
     ParseContext parse_context{ input };
     ParseResult parse_result;
@@ -48,11 +57,8 @@ bool TestNumberParserFailure(
         return false;
     }
 
-    //Parse position should not changed if it is mismatched.
-    if (parse_status == ParseStatus::Mismatched) {
-        if (parse_context.GetCurrentIndex() != 0) {
-            return false;
-        }
+    if (parse_context.GetLastParsedLength() != expected_parsed_length) {
+        return false;
     }
 
     return true;

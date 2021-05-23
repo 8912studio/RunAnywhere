@@ -78,6 +78,18 @@
     <ClCompile Include="case\module\active_path\active_path_modifying_test.cpp">
       <Filter>case\module\active_path</Filter>
     </ClCompile>
+    <ClCompile Include="case\module\calculator\binary_expression_parser_test.cpp">
+      <Filter>case\module\calculator</Filter>
+    </ClCompile>
+    <ClCompile Include="case\module\calculator\unary_expression_parser_test.cpp">
+      <Filter>case\module\calculator</Filter>
+    </ClCompile>
+    <ClCompile Include="case\module\calculator\literal_parser_test.cpp">
+      <Filter>case\module\calculator</Filter>
+    </ClCompile>
+    <ClCompile Include="case\module\calculator\command_parsing_test.cpp">
+      <Filter>case\module\calculator</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="case\module\calculator\number_parser_test_utility.h">

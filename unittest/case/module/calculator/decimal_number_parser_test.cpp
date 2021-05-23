@@ -22,20 +22,38 @@ TEST(DecimalNumberParserTest, Success) {
 }
 
 
+TEST(DecimalNumberParserTest, MultipleDecimalPoint) {
+
+    ParseContext context{ L"23.44.5" };
+    ParseResult result;
+    auto status = DecimalNumberParser::Instance()->Parse(context, result);
+    ASSERT_EQ(status, ParseStatus::Ok);
+    ASSERT_EQ(context.GetCurrentIndex(), 5);
+    ASSERT_EQ(context.GetLastParsedLength(), 5);
+
+    auto operand_node = std::dynamic_pointer_cast<OperandNode>(result.GetExpressionRootNode());
+    ASSERT_NE(operand_node, nullptr);
+    ASSERT_EQ(operand_node->text, L"23.44");
+}
+
+
 TEST(DecimalNumberParserTest, Failure) {
 
-    auto test = [](const std::wstring& input, ParseStatus expected_status) {
+    auto test = [](
+        const std::wstring& input, 
+        ParseStatus expected_status, 
+        std::size_t expected_parsed_length) {
     
         return TestNumberParserFailure(
             *DecimalNumberParser::Instance(),
             input, 
-            expected_status);
+            expected_status,
+            expected_parsed_length);
     };
 
-    ASSERT_TRUE(test(L"", ParseStatus::Mismatched));
-    ASSERT_TRUE(test(L"abce", ParseStatus::Mismatched));
-    ASSERT_TRUE(test(L".", ParseStatus::Error));
-    ASSERT_TRUE(test(L"23.44.5", ParseStatus::Error));
+    ASSERT_TRUE(test(L"", ParseStatus::Mismatched, 0));
+    ASSERT_TRUE(test(L"abce", ParseStatus::Mismatched, 0));
+    ASSERT_TRUE(test(L".", ParseStatus::Error, 1));
 }
 
 
@@ -65,7 +83,11 @@ TEST(DecimalNumberParserTest, Unit) {
             return false;
         }
 
-        return parse_context.GetCurrentIndex() == parse_context.GetLength();
+        if (parse_context.GetCurrentIndex() != parse_context.GetLength()) {
+            return false;
+        }
+
+        return parse_context.GetLastParsedLength() == input.length();
     };
 
     ASSERT_TRUE(test(L"8k", L"8", NumberUnit::Kilo));

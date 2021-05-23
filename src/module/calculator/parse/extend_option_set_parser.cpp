@@ -13,18 +13,19 @@ class UnitOptionParser : public TerminalParser {
 public:
     ParseStatus Parse(ParseContext& context, ParseResult& result) override {
 
-        if (context.GetCurrentChar() != L'\'') {
+        auto reader = context.BeginRead();
+        if (reader.GetChar() != L'\'') {
             return ParseStatus::Mismatched;
         }
 
-        context.Forward();
+        reader.Forward();
 
-        auto unit = GetNumberUnitByChar(context.GetCurrentChar());
+        auto unit = GetNumberUnitByChar(reader.GetChar());
         if (unit) {
 
             result.GetMutableModifier().unit = *unit;
 
-            context.Forward();
+            reader.Forward();
             return ParseStatus::Ok;
         }
 
@@ -37,18 +38,19 @@ class HighlightOptionParser : public TerminalParser {
 public:
     ParseStatus Parse(ParseContext& context, ParseResult& result) override {
 
-        if (context.GetCurrentChar() != L'^') {
+        auto reader = context.BeginRead();
+        if (reader.GetChar() != L'^') {
             return ParseStatus::Mismatched;
         }
 
-        context.Forward();
+        reader.Forward();
 
         static const auto digits = L"0123456789"s;
 
         std::wstring number;
         do {
 
-            auto ch = context.GetCurrentChar();
+            auto ch = reader.GetChar();
             if (zaf::Contain(digits, ch)) {
                 number.append(1, ch);
             }
@@ -56,7 +58,7 @@ public:
                 break;
             }
         } 
-        while (context.Forward());
+        while (reader.Forward());
 
         int value{};
         if (!zaf::TryToNumeric<int>(number, value)) {
@@ -107,11 +109,7 @@ ParseStatus ExtendOptionSetParser::Parse(ParseContext& context, ParseResult& res
             break;
         }
 
-        while (std::isspace(context.GetCurrentChar())) {
-            if (!context.Forward()) {
-                break;
-            }
-        }
+        context.SkipWhiteSpaces();
     }
 
     return ParseStatus::Ok;

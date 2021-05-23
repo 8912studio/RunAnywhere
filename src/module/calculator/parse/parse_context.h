@@ -1,16 +1,16 @@
 #pragma once
 
+#include <optional>
 #include <string>
+#include <string_view>
+#include "module/calculator/parse/parse_error_reason.h"
+#include "module/calculator/parse/parse_reader.h"
 
 namespace ra::module::calculator {
 
 class ParseContext {
 public:
-    ParseContext(const std::wstring& command_text) :
-        command_text_(command_text),
-        current_index_(0) {
-
-    }
+    ParseContext(std::wstring_view command_text);
 
     ParseContext(const ParseContext&) = delete;
     ParseContext& operator=(const ParseContext&) = delete;
@@ -27,31 +27,45 @@ public:
         return command_text_[current_index_];
     }
 
-    bool Forward() {
+    std::optional<wchar_t> GetCharAtOffset(int offset) const;
 
-        if (current_index_ < command_text_.length()) {
-            ++current_index_;
-            return true;
-        }
-        else {
-            return false;
-        }
+    void Forward(std::size_t length);
+
+    void SkipWhiteSpaces();
+
+    std::size_t GetLastParsedLength() const {
+        return last_parsed_length_;
     }
 
-    bool Backward(std::size_t count = 1) {
+    void PushParenthesis() {
+        ++parenthesis_deep;
+    }
 
-        if (current_index_ >= count) {
-            current_index_ -= count;
-            return true;
-        }
-        else {
-            return false;
-        }
+    void PopParenthesis() {
+        --parenthesis_deep;
+    }
+
+    int GetParenthesisDeep() const {
+        return parenthesis_deep;
+    }
+
+    ParseReader BeginRead();
+
+    ParseErrorReason GetParseErrorReason() const {
+        return error_reason_;
+    }
+
+    void SetParseErrorReason(ParseErrorReason reason) {
+        error_reason_ = reason;
     }
 
 private:
     std::wstring command_text_;
     std::size_t current_index_{};
+
+    std::size_t last_parsed_length_{};
+    int parenthesis_deep{};
+    ParseErrorReason error_reason_{ ParseErrorReason::Unspecified };
 };
 
 }

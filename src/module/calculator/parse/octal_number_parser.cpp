@@ -30,35 +30,43 @@ ParseStatus OctalNumberParser::Parse(ParseContext& context, ParseResult& parse_r
 
 ParseStatus OctalNumberParser::ParseNumber(ParseContext& context, std::wstring& number) {
 
-    if (context.GetCurrentChar() != L'0') {
+    auto reader = context.BeginRead();
+
+    //Check prefix.
+    auto ch = reader.GetChar();
+    if (ch != L'0') {
         return ParseStatus::Mismatched;
     }
 
-    if (!context.Forward()) {
-        return ParseStatus::Mismatched;
-    }
+    reader.Forward();
 
     static const std::wstring digits = L"01234567"s;
-
+    
+    bool has_syntax_error{};
     do {
 
-        wchar_t current_char = context.GetCurrentChar();
-        if (zaf::Contain(digits, current_char)) {
-            number.append(1, current_char);
+        ch = reader.GetChar();
+
+        if (zaf::Contain(digits, ch)) {
+            number.append(1, ch);
         }
-        else if (current_char == L'8' || current_char == L'9') {
-            return ParseStatus::Error;
+        else if (ch == L'8' || ch == L'9') {
+            has_syntax_error = true;
+            break;
         }
         else {
             break;
         }
     }
-    while (context.Forward());
+    while (reader.Forward());
 
-    if (number.empty()) {
-
-        context.Backward();
+    if (number.empty() && !has_syntax_error) {
+        reader.Discard();
         return ParseStatus::Mismatched;
+    }
+
+    if (has_syntax_error) {
+        return ParseStatus::Error;
     }
 
     return ParseStatus::Ok;

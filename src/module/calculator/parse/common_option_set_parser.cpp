@@ -11,7 +11,8 @@ public:
 
         auto& modifier = result.GetMutableModifier();
 
-        wchar_t current_char = context.GetCurrentChar();
+        auto reader = context.BeginRead();
+        wchar_t current_char = reader.GetChar();
         wchar_t lower_char = std::tolower(current_char);
         if (lower_char == L'b') {
             modifier.base = 2;
@@ -33,7 +34,7 @@ public:
             modifier.use_upper_case = true;
         }
 
-        context.Forward();
+        reader.Forward();
         return ParseStatus::Ok;
     }
 };
@@ -45,7 +46,8 @@ public:
 
         auto& modifier = result.GetMutableModifier();
 
-        auto ch = std::tolower(context.GetCurrentChar());
+        auto reader = context.BeginRead();
+        auto ch = std::tolower(reader.GetChar());
         if (ch == L'b') {
             modifier.bit_length = 8;
         }
@@ -62,7 +64,7 @@ public:
             return ParseStatus::Ok;
         }
 
-        context.Forward();
+        reader.Forward();
         return ParseStatus::Ok;
     }
 };

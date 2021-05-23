@@ -54,3 +54,40 @@ TEST(ExpressionParserTest, LeftToRightAssociativity) {
         ASSERT_EQ(second_child->text, L"1");
     }
 }
+
+
+TEST(ExpressionParserTest, Parenthesis) {
+
+    {
+        ParseContext parse_context{ L"(1)" };
+        ParseResult parse_result;
+        auto parse_status = ExpressionParser::Instance()->Parse(parse_context, parse_result);
+        ASSERT_EQ(parse_status, ParseStatus::Ok);
+
+        auto node = std::dynamic_pointer_cast<OperandNode>(parse_result.GetExpressionRootNode());
+        ASSERT_NE(node, nullptr);
+        ASSERT_EQ(node->text, L"1");
+    }
+
+    {
+        ParseContext parse_context{ L"((2))" };
+        ParseResult parse_result;
+        auto parse_status = ExpressionParser::Instance()->Parse(parse_context, parse_result);
+        ASSERT_EQ(parse_status, ParseStatus::Ok);
+
+        auto node = std::dynamic_pointer_cast<OperandNode>(parse_result.GetExpressionRootNode());
+        ASSERT_NE(node, nullptr);
+        ASSERT_EQ(node->text, L"2");
+    }
+
+    {
+        ParseContext parse_context{ L"(((3)))" };
+        ParseResult parse_result;
+        auto parse_status = ExpressionParser::Instance()->Parse(parse_context, parse_result);
+        ASSERT_EQ(parse_status, ParseStatus::Ok);
+
+        auto node = std::dynamic_pointer_cast<OperandNode>(parse_result.GetExpressionRootNode());
+        ASSERT_NE(node, nullptr);
+        ASSERT_EQ(node->text, L"3");
+    }
+}

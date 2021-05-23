@@ -32,20 +32,17 @@ NonDecimalNumberParser::NonDecimalNumberParser(
 
 ParseStatus NonDecimalNumberParser::Parse(ParseContext& context, ParseResult& parse_result) {
 
-    std::size_t prefix_length{};
-    auto parse_status = ParsePrefix(context, prefix_length);
-    if (parse_status != ParseStatus::Ok) {
-        return parse_status;
+    auto reader = context.BeginRead();
+
+    if (!ParsePrefix(reader)) {
+        reader.Discard();
+        return ParseStatus::Mismatched;
     }
 
     std::wstring number;
-    parse_status = ParseNumber(context, number);
-    if (parse_status != ParseStatus::Ok) {
-
-        if (parse_status == ParseStatus::Mismatched) {
-            context.Backward(prefix_length);
-        }
-        return parse_status;
+    bool is_succeeded = ParseNumber(reader, number);
+    if (!is_succeeded) {
+        return ParseStatus::Error;
     }
 
     auto operand_node = std::make_shared<OperandNode>();
@@ -57,60 +54,51 @@ ParseStatus NonDecimalNumberParser::Parse(ParseContext& context, ParseResult& pa
 }
 
 
-ParseStatus NonDecimalNumberParser::ParsePrefix(ParseContext& context, std::size_t& prefix_length) {
+bool NonDecimalNumberParser::ParsePrefix(ParseReader& reader) {
 
-    for (const auto& each_prefix : prefixes_) {
+     for (const auto& each_prefix : prefixes_) {
 
-        std::size_t index = 0;
-        for (; index < each_prefix.length(); ++index) {
-
-            if (std::tolower(context.GetCurrentChar()) != each_prefix[index]) {
-                break;
-            }
-
-            if (!context.Forward()) {
-
-                if (index == 0) {
-                    return ParseStatus::Mismatched;
-                }
-                else {
-                    return ParseStatus::Error;
-                }
-            }
-        }
-
-        if (index == each_prefix.length()) {
-            prefix_length = index;
-            return ParseStatus::Ok;
-        }
-
-        if (index > 0) {
-            context.Backward(index);
+        if (IsPrefixMatched(reader, each_prefix)) {
+            return true;
         }
     }
 
-    return ParseStatus::Mismatched;
+    return false;
 }
 
 
-ParseStatus NonDecimalNumberParser::ParseNumber(ParseContext& context, std::wstring& number) {
+bool NonDecimalNumberParser::IsPrefixMatched(
+    ParseReader& reader,
+    std::wstring_view prefix) {
 
-    do {
+    for (std::size_t index = 0; index < prefix.length(); ++index) {
 
-        wchar_t current_char = context.GetCurrentChar();
-        if (!zaf::Contain(chars_, std::tolower(current_char))) {
+        auto ch = reader.GetChar();
+        if (std::tolower(ch) != prefix[index]) {
+            return false;
+        }
+
+        reader.Forward();
+    }
+
+    return true;
+}
+
+
+bool NonDecimalNumberParser::ParseNumber(ParseReader& reader, std::wstring& number) {
+
+    while (true) {
+
+        auto ch = reader.GetChar();
+        if (!zaf::Contain(chars_, std::tolower(ch))) {
             break;
         }
 
-        number.append(1, current_char);
-    } 
-    while (context.Forward());
-
-    if (!number.empty()) {
-        return ParseStatus::Ok;
+        number.append(1, ch);
+        reader.Forward();
     }
 
-    return ParseStatus::Error;
+    return !number.empty();
 }
 
 }

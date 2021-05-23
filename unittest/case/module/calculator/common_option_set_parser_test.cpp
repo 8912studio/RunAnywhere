@@ -27,7 +27,11 @@ TEST(CommonOptionSetParserTest, Empty) {
             return false;
         }
 
-        return context.GetCurrentIndex() == 0;
+        if (context.GetCurrentIndex() != 0) {
+            return false;
+        }
+
+        return context.GetLastParsedLength() == 0;
     };
 
     ASSERT_TRUE(test(L""));
@@ -63,7 +67,11 @@ TEST(CommonOptionSetParserTest, BaseOnly) {
             return false;
         }
 
-        return context.GetCurrentIndex() == context.GetLength();
+        if (context.GetCurrentIndex() != context.GetLength()) {
+            return false;
+        }
+
+        return context.GetLastParsedLength() == 1;
     };
 
     ASSERT_TRUE(test(L"b", 2, false));
@@ -107,7 +115,11 @@ TEST(CommonOptionSetParserTest, Combine) {
             return false;
         }
 
-        return context.GetCurrentIndex() == context.GetLength();
+        if (context.GetCurrentIndex() != context.GetLength()) {
+            return false;
+        }
+
+        return context.GetLastParsedLength() == 1;
     };
 
     ASSERT_TRUE(test(L"bb", 2, 8, false));

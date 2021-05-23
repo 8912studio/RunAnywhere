@@ -246,6 +246,15 @@
     <ClInclude Include="src\module\user_defined\user_defined_file.h">
       <Filter>src\module\user_defined</Filter>
     </ClInclude>
+    <ClInclude Include="src\module\calculator\parse\parse_reader.h">
+      <Filter>src\module\calculator\parse</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\calculator\command_parsing.h">
+      <Filter>src\module\calculator</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\calculator\parse\parse_error_reason.h">
+      <Filter>src\module\calculator\parse</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -397,6 +406,15 @@
     </ClCompile>
     <ClCompile Include="src\module\user_defined\user_defined_file.cpp">
       <Filter>src\module\user_defined</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\calculator\parse\parse_context.cpp">
+      <Filter>src\module\calculator\parse</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\calculator\parse\parse_reader.cpp">
+      <Filter>src\module\calculator\parse</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\calculator\command_parsing.cpp">
+      <Filter>src\module\calculator</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
