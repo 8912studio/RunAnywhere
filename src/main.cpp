@@ -1,22 +1,30 @@
 #include <zaf/application.h>
 #include <zaf/base/error/system_error.h>
 #include <zaf/base/handle.h>
+#include <zaf/base/registry/registry.h>
 #include <zaf/creation.h>
 #include <zaf/window/message_only_window.h>
 #include "about_window.h"
 #include "hot_key_manager.h"
+#include "hot_key_utility.h"
 #include "main_window.h"
 #include "option_window.h"
+#include "registry_define.h"
 #include "resource.h"
 #include "tray_icon.h"
 
 namespace {
 
+constexpr UINT WM_TRAY_ICON = WM_USER + 1;
+
+constexpr const wchar_t* const HasShownWelcomeNotificationValueName = 
+    L"HasShownWelcomeNotification";
+
+
 zaf::Handle g_exclusive_mutex;
 std::unique_ptr<zaf::MessageOnlyWindow> g_tray_icon_message_window;
 HMENU g_menu{};
 
-constexpr UINT WM_TRAY_ICON = WM_USER + 1;
 
 bool CanApplicationRun() {
 
@@ -63,7 +71,7 @@ void ShowTryIcon() {
         g_tray_icon_message_window->ReceiveMessageEvent().Subscribe([](const zaf::Message& message) {
 
         if (message.id == WM_TRAY_ICON) {
-
+            
             switch (message.lparam) {
             case WM_LBUTTONDBLCLK:
                 ra::MainWindow::Instance().ShowOnTop();
@@ -71,6 +79,10 @@ void ShowTryIcon() {
 
             case WM_RBUTTONUP:
                 PopupMenu();
+                break;
+
+            case NIN_BALLOONUSERCLICK:
+                ra::OptionWindow::ShowInstance();
                 break;
             }
         }
@@ -96,6 +108,52 @@ void ShowTryIcon() {
 }
 
 
+bool HasShownWelcomeNotification() {
+
+    try {
+
+        auto register_key = zaf::Registry::CurrentUser().OpenSubKey(ra::RegistrySubKeyPath);
+
+        auto value = register_key.GetDWordValue(HasShownWelcomeNotificationValueName);
+        return !!value;
+    }
+    catch (const zaf::Error&) {
+        return false;
+    }
+}
+
+
+void SetHasShownWelcomeNotification() {
+
+    try {
+
+        auto register_key = zaf::Registry::CurrentUser().CreateSubKey(
+            ra::RegistrySubKeyPath,
+            zaf::RegistryRights::Write);
+
+        register_key.SetDWordValue(HasShownWelcomeNotificationValueName, 1);
+    }
+    catch (const zaf::Error&) {
+
+    }
+}
+
+
+void ShowWelcomeNotification() {
+
+    if (HasShownWelcomeNotification()) {
+        return;
+    }
+
+    std::wstring info{ L"Press \"" };
+    info += ra::GenerateTextByHotKey(ra::HotKeyManager::Instance().GetCurrentHotKey());
+    info += L"\" to call out";
+    ra::ShowBalloon(L"RunAnywhere is running", info.c_str());
+
+    SetHasShownWelcomeNotification();
+}
+
+
 void InitializeHotKey() {
 
     auto& hot_key_manager = ra::HotKeyManager::Instance();
@@ -113,6 +171,21 @@ void InitializeHotKey() {
             main_window.ShowOnTop();
         }
     });
+
+    //Show a notification tip if hot key is invalid.
+    if (!hot_key_manager.IsCurrentHotKeyValid()) {
+
+        std::wstring title{ L"Fail to register \"" };
+        title += ra::GenerateTextByHotKey(hot_key_manager.GetCurrentHotKey());
+        title += L'"';
+
+        ra::ShowBalloon(title, L"Please check the hot key setting");
+    }
+    //Show a welcome notification tip.
+    else {
+
+        ShowWelcomeNotification();
+    }
 }
 
 
@@ -122,7 +195,7 @@ void BeginRun(const zaf::ApplicationBeginRunInfo&) {
     InitializeHotKey();
 
     //Access instance to create main window object.
-    auto& main_window = ra::MainWindow::Instance();
+    ra::MainWindow::Instance();
 }
 
 

@@ -98,6 +98,7 @@
     <ClInclude Include="src\hot_key.h" />
     <ClInclude Include="src\hot_key_box.h" />
     <ClInclude Include="src\hot_key_manager.h" />
+    <ClInclude Include="src\hot_key_utility.h" />
     <ClInclude Include="src\main_window.h" />
     <ClInclude Include="src\module\active_path\active_path_command.h" />
     <ClInclude Include="src\module\active_path\active_path_option.h" />
@@ -157,6 +158,7 @@
     <ClInclude Include="src\module\user_defined\user_defined_module.h" />
     <ClInclude Include="src\option_window.h" />
     <ClInclude Include="src\preview_view.h" />
+    <ClInclude Include="src\registry_define.h" />
     <ClInclude Include="src\tray_icon.h" />
     <ClInclude Include="src\utility\clipboard.h" />
     <ClInclude Include="src\utility\path_trimming.h" />
@@ -169,6 +171,7 @@
     <ClCompile Include="src\context\vs_discovering.cpp" />
     <ClCompile Include="src\hot_key_box.cpp" />
     <ClCompile Include="src\hot_key_manager.cpp" />
+    <ClCompile Include="src\hot_key_utility.cpp" />
     <ClCompile Include="src\main_window.cpp" />
     <ClCompile Include="src\module\active_path\active_path_command.cpp" />
     <ClCompile Include="src\module\active_path\active_path_module.cpp" />

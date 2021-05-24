@@ -17,7 +17,7 @@ void AddTrayIcon(HWND hwnd, UINT message_id) {
 	g_iconData.hIcon = LoadIcon(GetModuleHandle(nullptr), MAKEINTRESOURCE(IDI_APPICON));
 	g_iconData.uCallbackMessage = message_id;
 	g_iconData.uVersion = NOTIFYICON_VERSION;
-	wcscpy_s(g_iconData.szInfoTitle, L"RunAnywhere");
+	wcscpy_s(g_iconData.szTip, L"RunAnywhere");
 
 	Shell_NotifyIcon(NIM_ADD, &g_iconData);
 }
@@ -29,14 +29,17 @@ void RemoveTrayIcon() {
 }
 
 
-void ShowBalloonTips(LPCTSTR content, DWORD iconFlag) {
+void ShowBalloon(const std::wstring& title, const std::wstring& info) {
 
-	g_iconData.uFlags |= NIF_INFO;
-	g_iconData.uTimeout = 3000;
-	g_iconData.dwInfoFlags = iconFlag;
-	wcscpy_s(g_iconData.szInfo, content);
+	auto icon_data = g_iconData;
 
-	Shell_NotifyIcon(NIM_MODIFY, &g_iconData);
+	icon_data.uFlags = NIF_INFO;
+	icon_data.dwInfoFlags = NIIF_INFO | NIIF_NOSOUND;
+	icon_data.uTimeout = 3000;
+	wcscpy_s(icon_data.szInfoTitle, title.c_str());
+	wcscpy_s(icon_data.szInfo, info.c_str());
+
+	Shell_NotifyIcon(NIM_MODIFY, &icon_data);
 }
 
 

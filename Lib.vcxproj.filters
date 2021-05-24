@@ -255,6 +255,12 @@
     <ClInclude Include="src\module\calculator\parse\parse_error_reason.h">
       <Filter>src\module\calculator\parse</Filter>
     </ClInclude>
+    <ClInclude Include="src\hot_key_utility.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\registry_define.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -415,6 +421,9 @@
     </ClCompile>
     <ClCompile Include="src\module\calculator\command_parsing.cpp">
       <Filter>src\module\calculator</Filter>
+    </ClCompile>
+    <ClCompile Include="src\hot_key_utility.cpp">
+      <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

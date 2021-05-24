@@ -1,11 +1,11 @@
 #include "hot_key_manager.h"
 #include <zaf/base/error/error.h>
 #include <zaf/base/registry/registry.h>
+#include "registry_define.h"
 
 namespace ra {
 namespace {
 
-constexpr const wchar_t* const RegistrySubKeyPath = L"Software\\RunAnywhere";
 constexpr const wchar_t* const HotKeyValueName = L"HotKey";
 
 constexpr int HotKeyID = 1;
