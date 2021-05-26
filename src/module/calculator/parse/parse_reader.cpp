@@ -1,4 +1,5 @@
 #include "module/calculator/parse/parse_reader.h"
+#include <cwctype>
 #include "module/calculator/parse/parse_context.h"
 
 namespace ra::module::calculator{
@@ -63,7 +64,7 @@ void ParseReader::SkipWhiteSpaces() {
 
 	do {
 
-		if (!std::isspace(GetChar())) {
+		if (!std::iswspace(GetChar())) {
 			break;
 		}
 	}
