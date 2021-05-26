@@ -25,3 +25,5 @@ There are also some little tools that are handy to developers integrated in RunA
 <img src="https://user-images.githubusercontent.com/1822051/117855720-546e2600-b2bd-11eb-9a2a-9093708f69aa.png" width="60%" height="60%">
 
 Supported by extended syntax, calculator in RunAnywhere also has practical features like converting numbers between different bases, etc.
+
+For more information about the calculator, see [here](https://github.com/Zplutor/RunAnywhere/wiki/Calculator).
