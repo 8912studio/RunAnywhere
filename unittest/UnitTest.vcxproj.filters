@@ -25,6 +25,9 @@
     <Filter Include="case\context">
       <UniqueIdentifier>{a203b8ac-7174-4b55-b116-97a41d7246b6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="case\module\date">
+      <UniqueIdentifier>{6aa5e497-be3c-4671-8493-ad5d6cc613fa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="case\module\calculator\decimal_number_parser_test.cpp">
@@ -89,6 +92,9 @@
     </ClCompile>
     <ClCompile Include="case\module\calculator\command_parsing_test.cpp">
       <Filter>case\module\calculator</Filter>
+    </ClCompile>
+    <ClCompile Include="case\module\date\date_command_parsing_test.cpp">
+      <Filter>case\module\date</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -1,0 +1,3 @@
+<DatePreviewControl Layouter="VerticalLayouter" FixedHeight="80">
+    <Label Name="label" FontSize="26" TextAlignment="Center" ParagraphAlignment="Center" />
+</DatePreviewControl>

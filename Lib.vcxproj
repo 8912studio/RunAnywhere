@@ -144,6 +144,11 @@
     <ClInclude Include="src\module\calculator\preview\calculator_preview_control.h" />
     <ClInclude Include="src\module\command.h" />
     <ClInclude Include="src\module\command_preview_control.h" />
+    <ClInclude Include="src\module\date\date_command.h" />
+    <ClInclude Include="src\module\date\date_command_parsing.h" />
+    <ClInclude Include="src\module\date\date_module.h" />
+    <ClInclude Include="src\module\date\date_command_parse_result.h" />
+    <ClInclude Include="src\module\date\date_preview_control.h" />
     <ClInclude Include="src\module\meta\meta_command.h" />
     <ClInclude Include="src\module\meta\meta_command_info.h" />
     <ClInclude Include="src\module\meta\meta_module.h" />
@@ -161,6 +166,7 @@
     <ClInclude Include="src\registry_define.h" />
     <ClInclude Include="src\tray_icon.h" />
     <ClInclude Include="src\utility\clipboard.h" />
+    <ClInclude Include="src\utility\command_line_arguments.h" />
     <ClInclude Include="src\utility\path_trimming.h" />
   </ItemGroup>
   <ItemGroup>
@@ -204,6 +210,10 @@
     <ClCompile Include="src\module\calculator\parse\parse_result.cpp" />
     <ClCompile Include="src\module\calculator\parse\unary_expression_parser.cpp" />
     <ClCompile Include="src\module\calculator\preview\calculator_preview_control.cpp" />
+    <ClCompile Include="src\module\date\date_command.cpp" />
+    <ClCompile Include="src\module\date\date_command_parsing.cpp" />
+    <ClCompile Include="src\module\date\date_module.cpp" />
+    <ClCompile Include="src\module\date\date_preview_control.cpp" />
     <ClCompile Include="src\module\meta\meta_command_info.cpp" />
     <ClCompile Include="src\module\meta\meta_module.cpp" />
     <ClCompile Include="src\module\user_defined\command_line_parsing.cpp" />
@@ -217,12 +227,14 @@
     <ClCompile Include="src\preview_view.cpp" />
     <ClCompile Include="src\tray_icon.cpp" />
     <ClCompile Include="src\utility\clipboard.cpp" />
+    <ClCompile Include="src\utility\command_line_arguments.cpp" />
     <ClCompile Include="src\utility\path_trimming.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="src\about_window.xaml" />
     <Page Include="src\main_window.xaml" />
     <Page Include="src\module\calculator\preview\calculator_preview_control.xaml" />
+    <Page Include="src\module\date\date_preview_control.xaml" />
     <Page Include="src\module\user_defined\preview\user_defined_command_preview_control.xaml" />
     <Page Include="src\option_window.xaml" />
     <Page Include="src\preview_view.xaml" />

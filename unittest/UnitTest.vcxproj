@@ -63,6 +63,7 @@
     <ClCompile Include="case\module\calculator\numeric_text_formatting_test.cpp" />
     <ClCompile Include="case\module\calculator\octal_number_parser_test.cpp" />
     <ClCompile Include="case\module\calculator\unary_expression_parser_test.cpp" />
+    <ClCompile Include="case\module\date\date_command_parsing_test.cpp" />
     <ClCompile Include="case\module\meta\meta_command_info_test.cpp" />
     <ClCompile Include="case\module\user_defined\command_line_parsing_test.cpp" />
     <ClCompile Include="case\module\user_defined\command_parameter_parsing_test.cpp" />
