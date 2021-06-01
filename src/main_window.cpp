@@ -44,6 +44,8 @@ void MainWindow::AfterParsing() {
 
 void MainWindow::InitializeTextBox() {
 
+    inputTextBox->SetAllowBeep(false);
+
     Subscriptions() += inputTextBox->TextChangeEvent().Subscribe(std::bind(
         &MainWindow::OnTextChanged,
         this,
