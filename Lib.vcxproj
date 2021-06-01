@@ -89,6 +89,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\about_window.h" />
+    <ClInclude Include="src\application_delegate.h" />
     <ClInclude Include="src\context\active_path.h" />
     <ClInclude Include="src\context\active_path_decoding.h" />
     <ClInclude Include="src\context\desktop_context_discovering.h" />
@@ -171,6 +172,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\about_window.cpp" />
+    <ClCompile Include="src\application_delegate.cpp" />
     <ClCompile Include="src\context\active_path_decoding.cpp" />
     <ClCompile Include="src\context\desktop_context_discovering.cpp" />
     <ClCompile Include="src\context\explorer_discovering.cpp" />
