@@ -27,6 +27,8 @@ void DatePreviewControl::AfterParsing() {
 
 	__super::AfterParsing();
 
+	InitializeTextBox();
+
 	if (parse_result_.value) {
 		time_value_ = *parse_result_.value;
 	}
@@ -34,10 +36,42 @@ void DatePreviewControl::AfterParsing() {
 		time_value_ = std::time(nullptr);
 	}
 
-	UpdateLabel();
+	UpdateTextBox();
 
 	//Start a timer to refresh current date time.
 	StartTimerIfNeeded();
+}
+
+
+void DatePreviewControl::InitializeTextBox() {
+
+	textBox->SetIsReadOnly(true);
+
+	Subscriptions() += textBox->FocusChangeEvent().Subscribe(
+		[this](const zaf::ControlFocusChangeInfo&) {
+	
+		if (!textBox->IsFocused()) {
+			textBox->SetSelectionRange(zaf::TextRange{});
+		}
+	});
+
+	Subscriptions() += textBox->DoubleClickEvent().Subscribe(
+		[this](const zaf::ControlDoubleClickInfo&) {
+	
+		textBox->SetSelectionRange(zaf::TextRange{ 0, textBox->GetTextLength() });
+	});
+
+	Subscriptions() += textBox->SelectionChangeEvent().Subscribe(
+		[this](const zaf::TextBoxSelectionChangeInfo&) {
+	
+		auto selection_range = textBox->GetSelectionRange();
+		if (selection_range.length <= 0) {
+			StartTimerIfNeeded();
+		}
+		else {
+			timer_subscription_.reset();
+		}
+	});
 }
 
 
@@ -47,19 +81,25 @@ void DatePreviewControl::StartTimerIfNeeded() {
 		return;
 	}
 
-	Subscriptions() +=
-		zaf::rx::Interval(1s, zaf::Scheduler::Main()).Subscribe([this](int) {
+	if (timer_subscription_.has_value()) {
+		return;
+	}
 
-			time_value_ = std::time(nullptr);
-			UpdateLabel();
-		});
+	timer_subscription_ = zaf::rx::Interval(1s, zaf::Scheduler::Main()).Subscribe([this](int) {
+
+		time_value_ = std::time(nullptr);
+		UpdateTextBox();
+	});
 }
 
 
-void DatePreviewControl::UpdateLabel() {
+void DatePreviewControl::UpdateTextBox() {
+
+	auto selection_range = textBox->GetSelectionRange();
 
 	auto time_text = GenerateTimeText();
-	label->SetText(time_text);
+	textBox->SetText(time_text);
+	textBox->SetSelectionRange(selection_range);
 }
 
 
@@ -69,7 +109,7 @@ std::wstring DatePreviewControl::GenerateTimeText() const {
 		return std::to_wstring(time_value_);
 	}
 
-	std::tm tm;
+	std::tm tm{};
 	auto error = localtime_s(&tm, &time_value_);
 	if (error) {
 		return L"Invalid value";
@@ -83,7 +123,7 @@ std::wstring DatePreviewControl::GenerateTimeText() const {
 
 
 std::wstring DatePreviewControl::GetText() const {
-	return label->GetText();
+	return textBox->GetText();
 }
 
 }

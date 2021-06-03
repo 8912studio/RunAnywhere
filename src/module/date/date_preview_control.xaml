@@ -1,3 +1,9 @@
 <DatePreviewControl Layouter="VerticalLayouter" FixedHeight="80">
-    <Label Name="label" FontSize="26" TextAlignment="Center" ParagraphAlignment="Center" />
+    <TextBox 
+        Name="textBox"
+        BackgroundColor="Transparent"
+        Border="0"
+        FontSize="26" 
+        TextAlignment="Center"
+        ParagraphAlignment="Center" />
 </DatePreviewControl>
