@@ -69,7 +69,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>zaf.lib;Lib.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalOptions>/WHOLEARCHIVE:zaf %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/WHOLEARCHIVE:zaf /WHOLEARCHIVE:Lib %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <PreBuildEvent>
       <Command>$(SolutionDir)third_party\zaf\out\Debug\zrcb.exe /o $(SolutionDir)src\res.rc /i /e .xaml.png $(SolutionDir)src</Command>
@@ -91,7 +91,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>zaf.lib;Lib.lib;Version.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalOptions>/WHOLEARCHIVE:zaf %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/WHOLEARCHIVE:zaf /WHOLEARCHIVE:Lib %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <PreBuildEvent>
       <Command>$(SolutionDir)third_party\zaf\out\Debug\zrcb.exe /o $(SolutionDir)src\res.rc /i /e .xaml.png $(SolutionDir)src</Command>

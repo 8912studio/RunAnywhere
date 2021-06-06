@@ -45,22 +45,6 @@ void DatePreviewControl::AfterParsing() {
 
 void DatePreviewControl::InitializeTextBox() {
 
-	textBox->SetIsReadOnly(true);
-
-	Subscriptions() += textBox->FocusChangeEvent().Subscribe(
-		[this](const zaf::ControlFocusChangeInfo&) {
-	
-		if (!textBox->IsFocused()) {
-			textBox->SetSelectionRange(zaf::TextRange{});
-		}
-	});
-
-	Subscriptions() += textBox->DoubleClickEvent().Subscribe(
-		[this](const zaf::ControlDoubleClickInfo&) {
-	
-		textBox->SetSelectionRange(zaf::TextRange{ 0, textBox->GetTextLength() });
-	});
-
 	Subscriptions() += textBox->SelectionChangeEvent().Subscribe(
 		[this](const zaf::TextBoxSelectionChangeInfo&) {
 	

@@ -169,6 +169,7 @@
     <ClInclude Include="src\utility\clipboard.h" />
     <ClInclude Include="src\utility\command_line_arguments.h" />
     <ClInclude Include="src\utility\path_trimming.h" />
+    <ClInclude Include="src\utility\preview_text_box.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\about_window.cpp" />
@@ -231,6 +232,7 @@
     <ClCompile Include="src\utility\clipboard.cpp" />
     <ClCompile Include="src\utility\command_line_arguments.cpp" />
     <ClCompile Include="src\utility\path_trimming.cpp" />
+    <ClCompile Include="src\utility\preview_text_box.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="src\about_window.xaml" />
