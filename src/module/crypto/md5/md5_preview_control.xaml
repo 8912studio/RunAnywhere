@@ -1,0 +1,39 @@
+<MD5PreviewControl Layouter="VerticalLayouter" FixedHeight="110" Padding="0,0,0,2">
+    <HorizontalBox FixedHeight="30" >
+        <Control 
+            Name="md5SourceIcon" 
+            FixedWidth="16"
+            Margin="0,0,0,2"
+            BackgroundImageLayout="Center" 
+        />
+        <Control Name="md5EncodingContainer" Margin="8,0,0,0">
+            <Control.Layouter>
+                <LinearLayouter Direction="TopToBottom" ControlAlignment="Center" />
+            </Control.Layouter>
+            <Label 
+                Name="md5EncodingControl" 
+                Border="1"
+                BorderColor="#808080"
+                Padding="1,0,1,0"
+                ParagraphAlignment="Center"
+                FontSize="10"
+                TextColor="#808080"
+            />
+        </Control>
+        <Label 
+            Name="md5SourceControl" 
+            Margin="8,0,0,0"
+            ParagraphAlignment="Center"
+            FontSize="14" 
+            TextColor="#808080" 
+        />
+    </HorizontalBox>
+    <PreviewTextBox Name="md5ResultControl" FontSize="26" IsVisible="false" />
+    <ProgressCircle Name="progressCircle" Padding="0,14,0,14" IsVisible="false" />
+    <Control 
+        Name="errorControl" 
+        BackgroundImage="res:///resource/error.png"
+        BackgroundImageLayout="Center"
+        IsVisible="false"
+    />
+</MD5PreviewControl>

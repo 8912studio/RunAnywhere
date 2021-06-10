@@ -2,6 +2,15 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="case\module\crypto\md5\md5_test_file1">
+      <Filter>case\module\crypto\md5</Filter>
+    </None>
+    <None Include="case\module\crypto\md5\md5_test_file2">
+      <Filter>case\module\crypto\md5</Filter>
+    </None>
+    <None Include="case\module\crypto\md5\md5_test_file3">
+      <Filter>case\module\crypto\md5</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="case">
@@ -27,6 +36,12 @@
     </Filter>
     <Filter Include="case\module\date">
       <UniqueIdentifier>{6aa5e497-be3c-4671-8493-ad5d6cc613fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="case\module\crypto">
+      <UniqueIdentifier>{d14d3205-1763-4c53-bfe9-d5fc7ee0d866}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="case\module\crypto\md5">
+      <UniqueIdentifier>{3092a1b4-897a-4af2-accc-ea2446284d2a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -96,6 +111,10 @@
     <ClCompile Include="case\module\date\date_command_parsing_test.cpp">
       <Filter>case\module\date</Filter>
     </ClCompile>
+    <ClCompile Include="case\module\crypto\md5\md5_calculating_test.cpp">
+      <Filter>case\module\crypto\md5</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="case\module\calculator\number_parser_test_utility.h">

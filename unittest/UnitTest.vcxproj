@@ -25,16 +25,18 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir)src;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)src;$(SolutionDir)third_party\zaf\src\;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)build\out\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)build\int\$(ProjectName)\$(Configuration)\</IntDir>
     <LibraryPath>$(SolutionDir)third_party\zaf\out\$(Configuration)\;$(LibraryPath)</LibraryPath>
+    <Microsoft-googletest-v140-windesktop-msvcstl-static-rt-dyn-Disable-gtest_main>true</Microsoft-googletest-v140-windesktop-msvcstl-static-rt-dyn-Disable-gtest_main>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(SolutionDir)src;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)src;$(SolutionDir)third_party\zaf\src\;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)build\out\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)build\int\$(ProjectName)\$(Configuration)\</IntDir>
     <LibraryPath>$(SolutionDir)third_party\zaf\out\$(Configuration)\;$(LibraryPath)</LibraryPath>
+    <Microsoft-googletest-v140-windesktop-msvcstl-static-rt-dyn-Disable-gtest_main>true</Microsoft-googletest-v140-windesktop-msvcstl-static-rt-dyn-Disable-gtest_main>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lib.vcxproj">
@@ -42,6 +44,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="case\module\crypto\md5\md5_test_file1" />
+    <None Include="case\module\crypto\md5\md5_test_file2" />
+    <None Include="case\module\crypto\md5\md5_test_file3" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -63,10 +68,12 @@
     <ClCompile Include="case\module\calculator\numeric_text_formatting_test.cpp" />
     <ClCompile Include="case\module\calculator\octal_number_parser_test.cpp" />
     <ClCompile Include="case\module\calculator\unary_expression_parser_test.cpp" />
+    <ClCompile Include="case\module\crypto\md5\md5_calculating_test.cpp" />
     <ClCompile Include="case\module\date\date_command_parsing_test.cpp" />
     <ClCompile Include="case\module\meta\meta_command_info_test.cpp" />
     <ClCompile Include="case\module\user_defined\command_line_parsing_test.cpp" />
     <ClCompile Include="case\module\user_defined\command_parameter_parsing_test.cpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="case\module\calculator\number_parser_test_utility.h" />
@@ -90,7 +97,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>version.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>version.lib;zaf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -108,7 +115,7 @@
       <SubSystem>Console</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <AdditionalDependencies>version.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>version.lib;zaf.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

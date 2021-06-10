@@ -40,6 +40,12 @@
     <Filter Include="src\module\date">
       <UniqueIdentifier>{9bffc24d-0901-48ff-b2ab-621c5ec32342}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\module\crypto">
+      <UniqueIdentifier>{2662516a-bbd6-4683-9ddb-3daa9e177f8d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\module\crypto\md5">
+      <UniqueIdentifier>{3d1ebd7b-812e-40de-a3cc-329b5321cf4e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\module\calculator\parse\binary_expression_parser.h">
@@ -288,6 +294,30 @@
     <ClInclude Include="src\utility\preview_text_box.h">
       <Filter>src\utility</Filter>
     </ClInclude>
+    <ClInclude Include="src\module\crypto\crypto_module.h">
+      <Filter>src\module\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\crypto\md5\md5_command.h">
+      <Filter>src\module\crypto\md5</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\crypto\md5\md5_preview_control.h">
+      <Filter>src\module\crypto\md5</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\crypto\md5\md5_calculating.h">
+      <Filter>src\module\crypto\md5</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\progress_circle.h">
+      <Filter>src\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\crypto\md5\md5_command_parsing.h">
+      <Filter>src\module\crypto\md5</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\crypto\md5\md5_command_parse_result.h">
+      <Filter>src\module\crypto\md5</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\crypto\md5\md5_encoding.h">
+      <Filter>src\module\crypto\md5</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -473,6 +503,24 @@
     <ClCompile Include="src\utility\preview_text_box.cpp">
       <Filter>src\utility</Filter>
     </ClCompile>
+    <ClCompile Include="src\module\crypto\crypto_module.cpp">
+      <Filter>src\module\crypto</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\crypto\md5\md5_command.cpp">
+      <Filter>src\module\crypto\md5</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\crypto\md5\md5_preview_control.cpp">
+      <Filter>src\module\crypto\md5</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\crypto\md5\md5_calculating.cpp">
+      <Filter>src\module\crypto\md5</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\progress_circle.cpp">
+      <Filter>src\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\crypto\md5\md5_command_parsing.cpp">
+      <Filter>src\module\crypto\md5</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Page Include="src\module\user_defined\preview\user_defined_command_preview_control.xaml">
@@ -495,6 +543,9 @@
     </Page>
     <Page Include="src\module\date\date_preview_control.xaml">
       <Filter>src\module\date</Filter>
+    </Page>
+    <Page Include="src\module\crypto\md5\md5_preview_control.xaml">
+      <Filter>src\module\crypto\md5</Filter>
     </Page>
   </ItemGroup>
   <ItemGroup>

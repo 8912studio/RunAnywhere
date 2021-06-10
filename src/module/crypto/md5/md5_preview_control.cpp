@@ -1,0 +1,138 @@
+#include "module/crypto/md5/md5_preview_control.h"
+#include <zaf/base/string/case_conversion.h>
+#include <zaf/graphic/image/image.h>
+#include <zaf/reflection/reflection_type_definition.h>
+#include <zaf/resource/resource_manager.h>
+#include <zaf/rx/scheduler.h>
+#include "module/crypto/md5/md5_calculating.h"
+#include "utility/path_trimming.h"
+
+namespace ra::module::crypto{
+
+ZAF_DEFINE_REFLECTION_TYPE(MD5PreviewControl)
+ZAF_DEFINE_RESOURCE_URI(L"res:///module/crypto/md5/md5_preview_control.xaml")
+ZAF_DEFINE_END;
+
+
+void MD5PreviewControl::AfterParsing() {
+
+	__super::AfterParsing();
+
+	md5SourceControl->SetTextTrimming(utility::CreateTextTrimmingForPath());
+}
+
+
+void MD5PreviewControl::SetSourceIcon(const std::wstring& uri) {
+
+	auto icon_image = zaf::Image::FromStream(zaf::GetResourceManager().LoadUri(uri));
+	md5SourceIcon->SetBackgroundImage(icon_image);
+}
+
+
+void MD5PreviewControl::ChangeLayout(LayoutType type) {
+
+	progressCircle->SetIsVisible(false);
+	errorControl->SetIsVisible(false);
+	md5ResultControl->SetIsVisible(false);
+
+	switch (type) {
+	case LayoutType::Progress:
+		progressCircle->SetIsVisible(true);
+		break;
+	case LayoutType::Error:
+		errorControl->SetIsVisible(true);
+		break;
+	case LayoutType::Result:
+		md5ResultControl->SetIsVisible(true);
+		break;
+	default:
+		break;
+	}
+}
+
+
+void MD5PreviewControl::ShowFileMD5(const std::filesystem::path& file_path) {
+
+	SetSourceIcon(L"res:///resource/file.png");
+	SetMD5Encoding(std::nullopt);
+	md5SourceControl->SetText(file_path.wstring());
+
+	ChangeLayout(LayoutType::Progress);
+
+	Subscriptions() += CalculateFileMD5(file_path).ObserveOn(zaf::Scheduler::Main()).Subscribe(
+		[this](const MD5Result& md5_result) {
+
+		if (md5_result.md5.empty()) {
+
+			progressCircle->SetMaxValue(md5_result.total_size);
+			progressCircle->SetValue(md5_result.current_size);
+		}
+		else {
+
+			SetMD5Text(md5_result.md5);
+			ChangeLayout(LayoutType::Result);
+		}
+	}, 
+	[this](const zaf::Error&) {
+		ChangeLayout(LayoutType::Error);
+	});
+}
+
+
+void MD5PreviewControl::ShowStringMD5(const std::wstring& string, MD5Encoding encoding) {
+
+	SetSourceIcon(L"res:///resource/string.png");
+	SetMD5Encoding(encoding);
+	md5SourceControl->SetText(string);
+
+	auto md5 = CalculateStringMD5(string, encoding);
+	SetMD5Text(md5);
+
+	ChangeLayout(LayoutType::Result);
+}
+
+
+void MD5PreviewControl::SetMD5Encoding(std::optional<MD5Encoding> encoding) {
+
+	if (!encoding) {
+		md5EncodingContainer->SetIsVisible(false);
+		return;
+	}
+
+	md5EncodingContainer->SetIsVisible(true);
+
+	if (encoding == MD5Encoding::UTF8) {
+		md5EncodingControl->SetText(L"UTF8");
+	}
+	else if (encoding == MD5Encoding::UTF16) {
+		md5EncodingControl->SetText(L"UTF16");
+	}
+	else {
+		md5EncodingContainer->SetIsVisible(false);
+		return;
+	}
+
+	auto preferred_size = md5EncodingControl->GetPreferredSize();
+	md5EncodingControl->SetFixedSize(preferred_size);
+
+	auto container_preferred_size = md5EncodingContainer->GetPreferredSize();
+	md5EncodingContainer->SetFixedWidth(container_preferred_size.width);
+}
+
+
+void MD5PreviewControl::SetMD5Text(const std::wstring& md5) {
+
+	if (use_upper_case_) {
+		md5ResultControl->SetText(zaf::ToUppercased(md5));
+	}
+	else {
+		md5ResultControl->SetText(md5);
+	}
+}
+
+
+std::wstring MD5PreviewControl::GetText() {
+	return md5ResultControl->GetText();
+}
+
+}

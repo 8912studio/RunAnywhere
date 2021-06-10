@@ -146,11 +146,8 @@
     <ClInclude Include="src\module\command.h" />
     <ClInclude Include="src\module\command_preview_control.h" />
     <ClInclude Include="src\module\crypto\crypto_module.h" />
-    <ClInclude Include="src\module\crypto\md5\md5_command_parse_result.h" />
-    <ClInclude Include="src\module\crypto\md5\md5_command_parsing.h" />
     <ClInclude Include="src\module\crypto\md5\md5_calculating.h" />
     <ClInclude Include="src\module\crypto\md5\md5_command.h" />
-    <ClInclude Include="src\module\crypto\md5\md5_encoding.h" />
     <ClInclude Include="src\module\crypto\md5\md5_preview_control.h" />
     <ClInclude Include="src\module\date\date_command.h" />
     <ClInclude Include="src\module\date\date_command_parsing.h" />
@@ -224,7 +221,6 @@
     <ClCompile Include="src\module\crypto\crypto_module.cpp" />
     <ClCompile Include="src\module\crypto\md5\md5_calculating.cpp" />
     <ClCompile Include="src\module\crypto\md5\md5_command.cpp" />
-    <ClCompile Include="src\module\crypto\md5\md5_command_parsing.cpp" />
     <ClCompile Include="src\module\crypto\md5\md5_preview_control.cpp" />
     <ClCompile Include="src\module\date\date_command.cpp" />
     <ClCompile Include="src\module\date\date_command_parsing.cpp" />
