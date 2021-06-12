@@ -24,7 +24,7 @@ void MD5PreviewControl::AfterParsing() {
 
 void MD5PreviewControl::SetSourceIcon(const std::wstring& uri) {
 
-	auto icon_image = zaf::Image::FromStream(zaf::GetResourceManager().LoadUri(uri));
+	auto icon_image = zaf::Image::FromURI(uri);
 	md5SourceIcon->SetBackgroundImage(icon_image);
 }
 
@@ -111,9 +111,6 @@ void MD5PreviewControl::SetMD5Encoding(std::optional<MD5Encoding> encoding) {
 		md5EncodingContainer->SetIsVisible(false);
 		return;
 	}
-
-	auto preferred_size = md5EncodingControl->GetPreferredSize();
-	md5EncodingControl->SetFixedSize(preferred_size);
 
 	auto container_preferred_size = md5EncodingContainer->GetPreferredSize();
 	md5EncodingContainer->SetFixedWidth(container_preferred_size.width);

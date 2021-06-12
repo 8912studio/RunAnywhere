@@ -36,7 +36,7 @@ float PreviewView::GetExpectedHeight() {
         return 0;
     }
 
-    float result = preview_control_->GetPreferredSize().height;
+    float result = preview_control_->GetMinimumHeight();
 
     const auto& preview_control_margin = preview_control_->GetMargin();
     result += preview_control_margin.top + preview_control_margin.bottom;
