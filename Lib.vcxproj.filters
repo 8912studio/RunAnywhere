@@ -46,6 +46,9 @@
     <Filter Include="src\module\crypto\md5">
       <UniqueIdentifier>{3d1ebd7b-812e-40de-a3cc-329b5321cf4e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\utility\log">
+      <UniqueIdentifier>{020003ac-6627-421b-adaa-066772574161}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\module\calculator\parse\binary_expression_parser.h">
@@ -318,6 +321,12 @@
     <ClInclude Include="src\module\crypto\md5\md5_encoding.h">
       <Filter>src\module\crypto\md5</Filter>
     </ClInclude>
+    <ClInclude Include="src\utility\log\log_manager.h">
+      <Filter>src\utility\log</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\log\log.h">
+      <Filter>src\utility\log</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -520,6 +529,9 @@
     </ClCompile>
     <ClCompile Include="src\module\crypto\md5\md5_command_parsing.cpp">
       <Filter>src\module\crypto\md5</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\log\log_manager.cpp">
+      <Filter>src\utility\log</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
