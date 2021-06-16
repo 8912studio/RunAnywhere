@@ -15,9 +15,9 @@ ZAF_DEFINE_RESOURCE_URI(L"res:///module/user_defined/preview/user_defined_comman
 ZAF_DEFINE_END
 
 
-void UserDefinedCommandPreviewControl::AfterParsing() {
+void UserDefinedCommandPreviewControl::AfterParse() {
 
-    __super::AfterParsing();
+    __super::AfterParse();
 
     commandLabel->SetFixedHeight(LabelHeight);
     commandLabel->SetTextTrimming(utility::CreateTextTrimmingForPath());
@@ -29,7 +29,6 @@ void UserDefinedCommandPreviewControl::SetParseResult(const ParseResult& parse_r
 
     commandLabel->SetText(parse_result.command);
     BuildArgumentLabels(parse_result.arguments);
-    ResetFixedHeight();
 }
 
 
@@ -52,18 +51,6 @@ void UserDefinedCommandPreviewControl::BuildArgumentLabels(
         
         argumentContainer->AddChild(label);
     }
-}
-
-
-void UserDefinedCommandPreviewControl::ResetFixedHeight() {
-
-    float height = commandLabel->GetPreferredSize().height;
-
-    for (const auto& each_child : argumentContainer->GetChildren()) {
-        height += each_child->GetPreferredSize().height;
-    }
-
-    this->SetFixedHeight(height);
 }
 
 }

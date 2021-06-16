@@ -26,7 +26,7 @@ public:
 	}
 
 protected:
-	void AfterParsing() override;
+	void AfterParse() override;
 
 private:
 	enum class LayoutType {

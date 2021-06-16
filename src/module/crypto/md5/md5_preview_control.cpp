@@ -14,9 +14,9 @@ ZAF_DEFINE_RESOURCE_URI(L"res:///module/crypto/md5/md5_preview_control.xaml")
 ZAF_DEFINE_END;
 
 
-void MD5PreviewControl::AfterParsing() {
+void MD5PreviewControl::AfterParse() {
 
-	__super::AfterParsing();
+	__super::AfterParse();
 
 	md5SourceControl->SetTextTrimming(utility::CreateTextTrimmingForPath());
 }

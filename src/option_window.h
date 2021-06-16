@@ -15,7 +15,7 @@ public:
     static void ShowInstance();
 
 protected:
-    void AfterParsing() override;
+    void AfterParse() override;
 
 private:
     void OnHotKeyChanged(const HotKey& hot_key);

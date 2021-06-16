@@ -17,12 +17,6 @@ ZAF_DEFINE_RESOURCE_URI(L"res:///module/calculator/preview/calculator_preview_co
 ZAF_DEFINE_END
 
 
-void CalculatorPreviewControl::AfterParsing() {
-
-	__super::AfterParsing();
-}
-
-
 void CalculatorPreviewControl::Layout(const zaf::Rect& previous_rect) {
 
 	ResizetLabelToSuitableSize();

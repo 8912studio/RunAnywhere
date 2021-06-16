@@ -70,9 +70,9 @@ void AboutWindow::ShowInstance() {
 }
 
 
-void AboutWindow::AfterParsing() {
+void AboutWindow::AfterParse() {
 
-    __super::AfterParsing();
+    __super::AfterParse();
 
     InitializeGithubLabel();
 

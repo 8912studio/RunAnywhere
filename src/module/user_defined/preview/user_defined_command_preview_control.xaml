@@ -1,6 +1,8 @@
 <UserDefinedCommandPreviewControl 
     Layouter="VerticalLayouter"
-    Margin="0,10,0,10">
+    Margin="0,10,0,10"
+    AutoHeight="true"
+>
     <Label Name="commandLabel" ParagraphAlignment="Center" />
-    <VerticalBox Name="argumentContainer" />
+    <VerticalBox Name="argumentContainer" AutoHeight="true" />
 </UserDefinedCommandPreviewControl>

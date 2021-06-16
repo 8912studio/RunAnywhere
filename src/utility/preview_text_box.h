@@ -9,7 +9,7 @@ public:
 	ZAF_DECLARE_REFLECTION_TYPE;
 
 protected:
-	void AfterParsing() override;
+	void AfterParse() override;
 };
 
 }

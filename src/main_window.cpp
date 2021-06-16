@@ -32,9 +32,9 @@ MainWindow& MainWindow::Instance() {
 }
 
 
-void MainWindow::AfterParsing() {
+void MainWindow::AfterParse() {
 
-    __super::AfterParsing();
+    __super::AfterParse();
 
     initial_height_ = this->GetHeight();
 
@@ -145,7 +145,6 @@ std::shared_ptr<module::CommandPreviewControl> MainWindow::CreateDefaultPreviewC
     const std::wstring& preview_text) {
 
     auto label = zaf::Create<zaf::Label>();
-    label->SetFixedHeight(40);
     label->SetTextAlignment(zaf::TextAlignment::Leading);
     label->SetParagraphAlignment(zaf::ParagraphAlignment::Center);
     label->SetFontSize(14);
@@ -154,6 +153,7 @@ std::shared_ptr<module::CommandPreviewControl> MainWindow::CreateDefaultPreviewC
 
     auto result = zaf::Create<module::CommandPreviewControl>();
     result->SetLayouter(zaf::Create<zaf::VerticalLayouter>());
+    result->SetFixedHeight(40);
     result->AddChild(label);
     return result;
 }

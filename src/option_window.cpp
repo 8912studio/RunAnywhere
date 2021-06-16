@@ -33,9 +33,9 @@ void OptionWindow::ShowInstance() {
 }
 
 
-void OptionWindow::AfterParsing() {
+void OptionWindow::AfterParse() {
 
-    __super::AfterParsing();
+    __super::AfterParse();
 
     hotKeyBox->SetHotKey(HotKeyManager::Instance().GetCurrentHotKey());
     CheckIfHotKeyValid();

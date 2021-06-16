@@ -23,9 +23,9 @@ DatePreviewControl::DatePreviewControl(const DateCommandParseResult& result) :
 }
 
 
-void DatePreviewControl::AfterParsing() {
+void DatePreviewControl::AfterParse() {
 
-	__super::AfterParsing();
+	__super::AfterParse();
 
 	InitializeTextBox();
 

@@ -14,7 +14,7 @@ public:
     void SetParseResult(const ParseResult& parse_result);
 
 protected:
-    void AfterParsing() override;
+    void AfterParse() override;
 
 private:
     void BuildArgumentLabels(const std::vector<std::wstring>& arguments);

@@ -7,9 +7,9 @@ namespace ra::utility {
 ZAF_DEFINE_REFLECTION_TYPE(PreviewTextBox)
 ZAF_DEFINE_END
 
-void PreviewTextBox::AfterParsing() {
+void PreviewTextBox::AfterParse() {
 
-	__super::AfterParsing();
+	__super::AfterParse();
 	
 	this->SetBackgroundColor(zaf::Color::Transparent());
 	this->SetBorder(0);

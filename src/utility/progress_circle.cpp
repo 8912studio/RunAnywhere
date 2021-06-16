@@ -34,9 +34,9 @@ ZAF_DEFINE_REFLECTION_TYPE(ProgressCircle)
 ZAF_DEFINE_END
 
 
-void ProgressCircle::AfterParsing() {
+void ProgressCircle::AfterParse() {
 
-	__super::AfterParsing();
+	__super::AfterParse();
 }
 
 

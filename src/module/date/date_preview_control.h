@@ -17,7 +17,7 @@ public:
 	std::wstring GetText() const;
 	 
 protected:
-	void AfterParsing() override;
+	void AfterParse() override;
 
 private:
 	void InitializeTextBox();

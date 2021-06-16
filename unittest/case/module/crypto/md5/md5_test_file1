@@ -13,7 +13,7 @@ public:
 	void SetMaxValue(std::size_t value);
 
 protected:
-	void AfterParsing() override;
+	void AfterParse() override;
 	void Paint(zaf::Canvas& canvas, const zaf::Rect& dirty_rect) override;
 
 private:

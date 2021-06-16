@@ -17,7 +17,6 @@ public:
 		const calculator::Modifier& modifier);
 
 protected:
-	void AfterParsing() override;
 	void Layout(const zaf::Rect& previous_rect) override;
 
 private:

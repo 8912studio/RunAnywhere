@@ -14,7 +14,7 @@ public:
     static void ShowInstance();
 
 protected:
-    void AfterParsing() override;
+    void AfterParse() override;
 
 private:
     void InitializeGithubLabel();

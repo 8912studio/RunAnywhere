@@ -21,7 +21,7 @@ public:
     void ReloadUserDefinedCommands();
 
 protected:
-    void AfterParsing() override;
+    void AfterParse() override;
 
     bool ReceiveMessage(const zaf::Message& message, LRESULT& result) override;
     std::optional<zaf::HitTestResult> HitTest(const zaf::HitTestMessage& message) override;

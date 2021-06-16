@@ -15,7 +15,7 @@
                 Border="1"
                 BorderColor="#808080"
                 Padding="1,0,1,0"
-                AutoResize="true"
+                AutoSize="true"
                 ParagraphAlignment="Center"
                 FontSize="10"
                 TextColor="#808080"
