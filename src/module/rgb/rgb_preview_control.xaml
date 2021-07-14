@@ -1,0 +1,13 @@
+<RGBPreviewControl FixedHeight="80">
+    <RGBPreviewControl.Layouter>
+        <HorizontalLayouter ControlAlignment="Center" AxisAlignment="Center" />
+    </RGBPreviewControl.Layouter>
+    <Control Name="colorControl" FixedSize="48,48" Border="1" BorderColor="Black" />
+    <Label 
+        Name="valueControl" 
+        Margin="12,0,0,0" 
+        AutoWidth="true" 
+        ParagraphAlignment="Center" 
+        FontSize="26" 
+    />
+</RGBPreviewControl>

@@ -1,4 +1,5 @@
 #include "module/date/date_preview_control.h"
+#include <sstream>
 #include <zaf/reflection/reflection_type_definition.h>
 #include <zaf/rx/scheduler.h>
 #include <zaf/rx/timer.h>

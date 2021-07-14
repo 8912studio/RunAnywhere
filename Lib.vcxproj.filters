@@ -49,6 +49,9 @@
     <Filter Include="src\utility\log">
       <UniqueIdentifier>{020003ac-6627-421b-adaa-066772574161}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\module\rgb">
+      <UniqueIdentifier>{a716d9b6-90be-4b3e-9ee0-4d530039e8d7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\module\calculator\parse\binary_expression_parser.h">
@@ -327,6 +330,21 @@
     <ClInclude Include="src\utility\log\log.h">
       <Filter>src\utility\log</Filter>
     </ClInclude>
+    <ClInclude Include="src\module\rgb\rgb_module.h">
+      <Filter>src\module\rgb</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\rgb\rgb_command.h">
+      <Filter>src\module\rgb</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\rgb\rgb_preview_control.h">
+      <Filter>src\module\rgb</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\rgb\rgb_command_parsing.h">
+      <Filter>src\module\rgb</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\rgb\rgb_command_parse_result.h">
+      <Filter>src\module\rgb</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -533,6 +551,18 @@
     <ClCompile Include="src\utility\log\log_manager.cpp">
       <Filter>src\utility\log</Filter>
     </ClCompile>
+    <ClCompile Include="src\module\rgb\rgb_module.cpp">
+      <Filter>src\module\rgb</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\rgb\rgb_command.cpp">
+      <Filter>src\module\rgb</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\rgb\rgb_preview_control.cpp">
+      <Filter>src\module\rgb</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\rgb\rgb_command_parsing.cpp">
+      <Filter>src\module\rgb</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Page Include="src\module\user_defined\preview\user_defined_command_preview_control.xaml">
@@ -558,6 +588,9 @@
     </Page>
     <Page Include="src\module\crypto\md5\md5_preview_control.xaml">
       <Filter>src\module\crypto\md5</Filter>
+    </Page>
+    <Page Include="src\module\rgb\rgb_preview_control.xaml">
+      <Filter>src\module\rgb</Filter>
     </Page>
   </ItemGroup>
   <ItemGroup>
