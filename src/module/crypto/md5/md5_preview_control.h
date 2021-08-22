@@ -14,7 +14,7 @@ namespace ra::module::crypto {
 
 class MD5PreviewControl : public CommandPreviewControl {
 public:
-	ZAF_DECLARE_REFLECTION_TYPE;
+	ZAF_DECLARE_TYPE;
 
 	void ShowFileMD5(const std::filesystem::path& file_path);
 	void ShowStringMD5(const std::wstring& string, MD5Encoding encoding);

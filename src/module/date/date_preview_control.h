@@ -9,7 +9,7 @@ namespace ra::module::date {
 
 class DatePreviewControl : public CommandPreviewControl {
 public:
-	ZAF_DECLARE_REFLECTION_TYPE;
+	ZAF_DECLARE_TYPE;
 
 	DatePreviewControl();
 	DatePreviewControl(const DateCommandParseResult& result);

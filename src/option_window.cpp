@@ -1,6 +1,6 @@
 #include "option_window.h"
 #include <zaf/base/registry/registry.h>
-#include <zaf/reflection/reflection_type_definition.h>
+#include <zaf/object/type_definition.h>
 #include "hot_key_manager.h"
 
 namespace ra {
@@ -13,9 +13,9 @@ constexpr const wchar_t* const AutoRunValueName = L"RunAnywhere";
 
 }
 
-ZAF_DEFINE_REFLECTION_TYPE(OptionWindow)
-ZAF_DEFINE_RESOURCE_URI(L"res:///option_window.xaml")
-ZAF_DEFINE_END
+ZAF_DEFINE_TYPE(OptionWindow)
+ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///option_window.xaml")
+ZAF_DEFINE_TYPE_END
 
 std::weak_ptr<OptionWindow> g_instance;
 
@@ -28,8 +28,8 @@ void OptionWindow::ShowInstance() {
     }
 
     instance->Show();
-    SetForegroundWindow(instance->GetHandle());
-    BringWindowToTop(instance->GetHandle());
+    SetForegroundWindow(instance->Handle());
+    BringWindowToTop(instance->Handle());
 }
 
 

@@ -1,6 +1,6 @@
 #include "about_window.h"
 #include <zaf/application.h>
-#include <zaf/reflection/reflection_type_definition.h>
+#include <zaf/object/type_definition.h>
 
 namespace ra {
 namespace {
@@ -50,9 +50,9 @@ std::wstring GetVersionString() {
 
 }
 
-ZAF_DEFINE_REFLECTION_TYPE(AboutWindow)
-ZAF_DEFINE_RESOURCE_URI(L"res:///about_window.xaml")
-ZAF_DEFINE_END
+ZAF_DEFINE_TYPE(AboutWindow)
+ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///about_window.xaml")
+ZAF_DEFINE_TYPE_END
 
 std::weak_ptr<AboutWindow> g_instance;
 
@@ -65,8 +65,8 @@ void AboutWindow::ShowInstance() {
     }
 
     instance->Show();
-    SetForegroundWindow(instance->GetHandle());
-    BringWindowToTop(instance->GetHandle());
+    SetForegroundWindow(instance->Handle());
+    BringWindowToTop(instance->Handle());
 }
 
 
@@ -98,7 +98,7 @@ void AboutWindow::InitializeGithubLabel() {
     Subscriptions() += githubButton->ClickEvent().Subscribe(std::bind([this]() {
     
         ShellExecute(
-            this->GetHandle(),
+            this->Handle(),
             L"open",
             L"https://github.com/zplutor/runanywhere", 
             nullptr, 

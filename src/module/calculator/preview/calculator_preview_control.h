@@ -10,7 +10,7 @@ namespace ra::module::calculator {
 
 class CalculatorPreviewControl : public CommandPreviewControl {
 public:
-	ZAF_DECLARE_REFLECTION_TYPE;
+	ZAF_DECLARE_TYPE;
 
 	void SetResult(
 		const calculator::EvaluateResult& evaluate_result,

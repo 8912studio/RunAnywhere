@@ -9,7 +9,7 @@ namespace ra::module::user_defined {
 
 class UserDefinedCommandPreviewControl : public CommandPreviewControl {
 public:
-    ZAF_DECLARE_REFLECTION_TYPE;
+    ZAF_DECLARE_TYPE;
 
     void SetParseResult(const ParseResult& parse_result);
 

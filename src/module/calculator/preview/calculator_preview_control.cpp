@@ -1,7 +1,7 @@
 #include "module/calculator/preview/calculator_preview_control.h"
 #include <zaf/base/container/utility/range.h>
 #include <zaf/graphic/font/font.h>
-#include <zaf/reflection/reflection_type_definition.h>
+#include <zaf/object/type_definition.h>
 #include "module/calculator/preview/numeric_text_formatting.h"
 #include "module/calculator/result_text_builder.h"
 
@@ -12,9 +12,9 @@ constexpr float DefaultFontSize = 32;
 
 }
 
-ZAF_DEFINE_REFLECTION_TYPE(CalculatorPreviewControl)
-ZAF_DEFINE_RESOURCE_URI(L"res:///module/calculator/preview/calculator_preview_control.xaml");
-ZAF_DEFINE_END
+ZAF_DEFINE_TYPE(CalculatorPreviewControl)
+ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/calculator/preview/calculator_preview_control.xaml");
+ZAF_DEFINE_TYPE_END
 
 
 void CalculatorPreviewControl::Layout(const zaf::Rect& previous_rect) {
@@ -26,12 +26,12 @@ void CalculatorPreviewControl::Layout(const zaf::Rect& previous_rect) {
 
 void CalculatorPreviewControl::ResizetLabelToSuitableSize() {
 
-	auto content_size = GetContentSize();
+	auto content_size = ContentSize();
 	if (content_size.width == 0) {
 		return;
 	}
 
-	if (resultLabel->GetText().length() == 0) {
+	if (resultLabel->Text().length() == 0) {
 		return;
 	}
 
@@ -40,7 +40,7 @@ void CalculatorPreviewControl::ResizetLabelToSuitableSize() {
 		resultLabel->SetFontSize(font_size);
 
 		auto result_label_size = resultLabel->GetPreferredSize();
-		auto result_label_margin = resultLabel->GetMargin();
+		auto result_label_margin = resultLabel->Margin();
 
 		auto total_width =
 			result_label_size.width +
@@ -58,8 +58,8 @@ void CalculatorPreviewControl::ResizetLabelToSuitableSize() {
 
 void CalculatorPreviewControl::RePositionLabel() {
 
-	auto content_size = this->GetContentSize();
-	const auto& result_label_size = resultLabel->GetSize();
+	auto content_size = this->ContentSize();
+	const auto& result_label_size = resultLabel->Size();
 
 	zaf::Point result_label_position;
 	result_label_position.x = (content_size.width - result_label_size.width) / 2;
@@ -126,7 +126,7 @@ std::optional<std::size_t> CalculatorPreviewControl::GetHighlightBitPositionInRe
 		return std::nullopt;
 	}
 
-	auto text = resultLabel->GetText();
+	auto text = resultLabel->Text();
 
 	int current_bit = 0;
 	for (std::size_t position = text.length() - 1;

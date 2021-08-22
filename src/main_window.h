@@ -13,7 +13,7 @@ namespace ra {
 
 class MainWindow : public zaf::Window {
 public:
-    ZAF_DECLARE_REFLECTION_TYPE;
+    ZAF_DECLARE_TYPE;
 
     static MainWindow& Instance();
 

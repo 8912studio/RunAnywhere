@@ -12,7 +12,7 @@ TEST(MD5CalculatingTest, File) {
 		const wchar_t* md5;
 	} test_items[] = {
 	
-		{ L"md5_test_file1", L"8E8CE1CE9254CEB3586FCA204C8803E7" },
+		{ L"md5_test_file1", L"BE70C81C90E0AFFB615D34AD2BFEC874" },
 		{ L"md5_test_file2", L"089B4F9ECD4DEFAA036039AD89044EA2" },
 		{ L"md5_test_file3", L"F39F3B6A346D3C6C44A8E49A265D8126" },
 	};

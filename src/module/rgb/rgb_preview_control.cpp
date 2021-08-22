@@ -1,7 +1,7 @@
 #include "module/rgb/rgb_preview_control.h"
 #include <sstream>
 #include <zaf/base/string/case_conversion.h>
-#include <zaf/reflection/reflection_type_definition.h>
+#include <zaf/object/type_definition.h>
 
 namespace ra::module::rgb {
 namespace {
@@ -22,9 +22,9 @@ std::wstring GetColorText(const zaf::Color& color) {
 
 }
 
-ZAF_DEFINE_REFLECTION_TYPE(RGBPreviewControl)
-ZAF_DEFINE_RESOURCE_URI(L"res:///module/rgb/rgb_preview_control.xaml")
-ZAF_DEFINE_END
+ZAF_DEFINE_TYPE(RGBPreviewControl)
+ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/rgb/rgb_preview_control.xaml")
+ZAF_DEFINE_TYPE_END
 
 
 RGBPreviewControl::RGBPreviewControl() {
@@ -48,7 +48,7 @@ void RGBPreviewControl::AfterParse() {
 
 
 std::wstring RGBPreviewControl::GetText() const {
-    return valueControl->GetText();
+    return valueControl->Text();
 }
 
 }

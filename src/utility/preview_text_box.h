@@ -6,7 +6,7 @@ namespace ra::utility {
 
 class PreviewTextBox : public zaf::TextBox {
 public:
-	ZAF_DECLARE_REFLECTION_TYPE;
+	ZAF_DECLARE_TYPE;
 
 protected:
 	void AfterParse() override;

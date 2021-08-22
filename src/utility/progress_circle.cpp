@@ -2,7 +2,7 @@
 #include <zaf/graphic/canvas.h>
 #include <zaf/graphic/matrix.h>
 #include <zaf/graphic/resource_factory.h>
-#include <zaf/reflection/reflection_type_definition.h>
+#include <zaf/object/type_definition.h>
 
 #undef max
 #undef min
@@ -30,8 +30,8 @@ zaf::PathGeometry MakeExcludedPath(
 
 }
 
-ZAF_DEFINE_REFLECTION_TYPE(ProgressCircle)
-ZAF_DEFINE_END
+ZAF_DEFINE_TYPE(ProgressCircle)
+ZAF_DEFINE_TYPE_END
 
 
 void ProgressCircle::AfterParse() {
@@ -44,8 +44,8 @@ void ProgressCircle::Paint(zaf::Canvas& canvas, const zaf::Rect& dirty_rect) {
 
 	__super::Paint(canvas, dirty_rect);
 
-	auto content_size = GetContentSize();
-	auto size = GetSize();
+	auto content_size = ContentSize();
+	auto size = Size();
 
 	zaf::Ellipse outer_ellipse;
 	outer_ellipse.x_radius = std::min(content_size.width, content_size.height) / 2;

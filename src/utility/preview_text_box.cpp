@@ -1,18 +1,18 @@
 #include "utility/preview_text_box.h"
 #include <zaf/graphic/color.h>
-#include <zaf/reflection/reflection_type_definition.h>
+#include <zaf/object/type_definition.h>
 
 namespace ra::utility {
 
-ZAF_DEFINE_REFLECTION_TYPE(PreviewTextBox)
-ZAF_DEFINE_END
+ZAF_DEFINE_TYPE(PreviewTextBox)
+ZAF_DEFINE_TYPE_END
 
 void PreviewTextBox::AfterParse() {
 
 	__super::AfterParse();
 	
 	this->SetBackgroundColor(zaf::Color::Transparent());
-	this->SetBorder(0);
+	this->SetBorder(zaf::Frame{ 0 });
 	this->SetIsReadOnly(true);
 	this->SetAllowBeep(false);
 	this->SetTextAlignment(zaf::TextAlignment::Center);

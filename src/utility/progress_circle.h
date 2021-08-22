@@ -7,7 +7,7 @@ namespace ra::utility {
 
 class ProgressCircle : public zaf::Control {
 public:
-	ZAF_DECLARE_REFLECTION_TYPE;
+	ZAF_DECLARE_TYPE;
 
 	void SetValue(std::uint64_t value);
 	void SetMaxValue(std::uint64_t value);

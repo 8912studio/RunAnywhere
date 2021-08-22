@@ -1,7 +1,7 @@
 #include "module/crypto/md5/md5_preview_control.h"
 #include <zaf/base/string/case_conversion.h>
 #include <zaf/graphic/image/image.h>
-#include <zaf/reflection/reflection_type_definition.h>
+#include <zaf/object/type_definition.h>
 #include <zaf/resource/resource_manager.h>
 #include <zaf/rx/scheduler.h>
 #include "module/crypto/md5/md5_calculating.h"
@@ -9,9 +9,9 @@
 
 namespace ra::module::crypto{
 
-ZAF_DEFINE_REFLECTION_TYPE(MD5PreviewControl)
-ZAF_DEFINE_RESOURCE_URI(L"res:///module/crypto/md5/md5_preview_control.xaml")
-ZAF_DEFINE_END;
+ZAF_DEFINE_TYPE(MD5PreviewControl)
+ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/crypto/md5/md5_preview_control.xaml")
+ZAF_DEFINE_TYPE_END;
 
 
 void MD5PreviewControl::AfterParse() {
@@ -129,7 +129,7 @@ void MD5PreviewControl::SetMD5Text(const std::wstring& md5) {
 
 
 std::wstring MD5PreviewControl::GetText() {
-	return md5ResultControl->GetText();
+	return md5ResultControl->Text();
 }
 
 }

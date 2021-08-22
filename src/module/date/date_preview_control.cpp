@@ -1,6 +1,6 @@
 #include "module/date/date_preview_control.h"
 #include <sstream>
-#include <zaf/reflection/reflection_type_definition.h>
+#include <zaf/object/type_definition.h>
 #include <zaf/rx/scheduler.h>
 #include <zaf/rx/timer.h>
 
@@ -8,9 +8,9 @@ using namespace std::literals;
 
 namespace ra::module::date {
 
-ZAF_DEFINE_REFLECTION_TYPE(DatePreviewControl)
-ZAF_DEFINE_RESOURCE_URI(L"res:///module/date/date_preview_control.xaml")
-ZAF_DEFINE_END
+ZAF_DEFINE_TYPE(DatePreviewControl)
+ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/date/date_preview_control.xaml")
+ZAF_DEFINE_TYPE_END
 
 
 DatePreviewControl::DatePreviewControl() {
@@ -108,7 +108,7 @@ std::wstring DatePreviewControl::GenerateTimeText() const {
 
 
 std::wstring DatePreviewControl::GetText() const {
-	return textBox->GetText();
+	return textBox->Text();
 }
 
 }

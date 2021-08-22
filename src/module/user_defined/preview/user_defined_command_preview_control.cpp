@@ -1,5 +1,5 @@
 #include "module/user_defined/preview/user_defined_command_preview_control.h"
-#include <zaf/reflection/reflection_type_definition.h>
+#include <zaf/object/type_definition.h>
 #include "utility/path_trimming.h"
 
 namespace ra::module::user_defined {
@@ -10,9 +10,9 @@ constexpr float LabelFontSize = 14;
 
 }
 
-ZAF_DEFINE_REFLECTION_TYPE(UserDefinedCommandPreviewControl)
-ZAF_DEFINE_RESOURCE_URI(L"res:///module/user_defined/preview/user_defined_command_preview_control.xaml")
-ZAF_DEFINE_END
+ZAF_DEFINE_TYPE(UserDefinedCommandPreviewControl)
+ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/user_defined/preview/user_defined_command_preview_control.xaml")
+ZAF_DEFINE_TYPE_END
 
 
 void UserDefinedCommandPreviewControl::AfterParse() {

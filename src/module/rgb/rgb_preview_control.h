@@ -9,7 +9,7 @@ namespace ra::module::rgb {
 
 class RGBPreviewControl : public CommandPreviewControl {
 public:
-    ZAF_DECLARE_REFLECTION_TYPE
+    ZAF_DECLARE_TYPE
 
     RGBPreviewControl();
     RGBPreviewControl(const RGBCommandParseResult& parse_result);

@@ -9,7 +9,7 @@ namespace ra {
 
 class HotKeyBox : public zaf::ClickableControl {
 public:
-    ZAF_DECLARE_REFLECTION_TYPE;
+    ZAF_DECLARE_TYPE;
 
     HotKey GetHotKey() const {
         return hot_key_;

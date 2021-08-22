@@ -74,7 +74,7 @@ void InitializeHotKey() {
 
         auto& main_window = ra::MainWindow::Instance();
 
-        if (IsWindowVisible(main_window.GetHandle())) {
+        if (IsWindowVisible(main_window.Handle())) {
             main_window.Hide();
         }
         else {

@@ -9,7 +9,7 @@ namespace ra {
 
 class AboutWindow : public zaf::Dialog {
 public:
-    ZAF_DECLARE_REFLECTION_TYPE;
+    ZAF_DECLARE_TYPE;
 
     static void ShowInstance();
 

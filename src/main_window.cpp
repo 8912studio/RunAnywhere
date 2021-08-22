@@ -5,7 +5,7 @@
 #include <zaf/control/label.h>
 #include <zaf/control/layout/linear_layouter.h>
 #include <zaf/creation.h>
-#include <zaf/reflection/reflection_type_definition.h>
+#include <zaf/object/type_definition.h>
 #include <zaf/window/message/hit_test_message.h>
 #include <zaf/window/message/hit_test_result.h>
 #include <zaf/window/message/keyboard_message.h>
@@ -22,9 +22,9 @@
 
 namespace ra {
 
-ZAF_DEFINE_REFLECTION_TYPE(MainWindow)
-ZAF_DEFINE_RESOURCE_URI(L"res:///main_window.xaml")
-ZAF_DEFINE_END
+ZAF_DEFINE_TYPE(MainWindow)
+ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///main_window.xaml")
+ZAF_DEFINE_TYPE_END
 
 MainWindow& MainWindow::Instance() {
 
@@ -37,7 +37,7 @@ void MainWindow::AfterParse() {
 
     __super::AfterParse();
 
-    initial_height_ = this->GetHeight();
+    initial_height_ = this->Height();
 
     InitializeTextBox();
     InitializeModules();
@@ -75,7 +75,7 @@ void MainWindow::ShowOnTop() {
     desktop_context_ = context::DiscoverDesktopContext();
 
     this->Show();
-    SetForegroundWindow(this->GetHandle());
+    SetForegroundWindow(this->Handle());
 }
 
 
@@ -88,7 +88,7 @@ void MainWindow::ReloadUserDefinedCommands() {
 
 
 void MainWindow::OnTextChanged(const zaf::TextualControlTextChangeInfo& event_info) {
-    InterpretCommand(event_info.textual_control->GetText());
+    InterpretCommand(event_info.textual_control->Text());
 }
 
 
@@ -116,7 +116,7 @@ void MainWindow::InterpretCommand(const std::wstring& input) {
 
 void MainWindow::ShowPreview() {
 
-    auto window_size = this->GetSize();
+    auto window_size = this->Size();
 
     if (current_command_) {
         window_size.height = ShowCommandPreview();
@@ -187,7 +187,7 @@ bool MainWindow::ReceiveMessage(const zaf::Message& message, LRESULT& result) {
         const auto& key_message = dynamic_cast<const zaf::KeyMessage&>(message);
         if (key_message.GetVirtualKey() == VK_ESCAPE) {
 
-            if (inputTextBox->GetText().empty()) {
+            if (inputTextBox->Text().empty()) {
                 this->Hide();
             }
             else {
@@ -217,11 +217,11 @@ std::optional<zaf::HitTestResult> MainWindow::HitTest(const zaf::HitTestMessage&
 
     auto mouse_position = message.GetMousePosition();
 
-    if (inputTextBox->GetAbsoluteRect().Contain(mouse_position)) {
+    if (inputTextBox->AbsoluteRect().Contain(mouse_position)) {
         return std::nullopt;
     }
 
-    if (previewView->GetAbsoluteRect().Contain(mouse_position)) {
+    if (previewView->AbsoluteRect().Contain(mouse_position)) {
         return std::nullopt;
     }
 
@@ -235,7 +235,7 @@ void MainWindow::OnWindowShown() {
 
     inputTextBox->SetIsFocused(true);
 
-    InterpretCommand(inputTextBox->GetText());
+    InterpretCommand(inputTextBox->Text());
 }
 
 }
