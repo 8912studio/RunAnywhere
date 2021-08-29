@@ -6,7 +6,7 @@ namespace ra::module::date {
 
 class DateModule : public Module {
 public:
-	std::shared_ptr<Command> Interpret(const std::wstring& command_text) override;
+	std::shared_ptr<Command> Interpret(const utility::CommandLine& command_line) override;
 };
 
 }

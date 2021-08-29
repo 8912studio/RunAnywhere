@@ -3,6 +3,7 @@
 #include <memory>
 #include <string>
 #include "module/command.h"
+#include "utility/command_line.h"
 
 namespace ra::module {
 
@@ -14,7 +15,7 @@ public:
     Module(const Module&) = delete;
     Module& operator=(const Module&) = delete;
 
-    virtual std::shared_ptr<Command> Interpret(const std::wstring& command_text) = 0;
+    virtual std::shared_ptr<Command> Interpret(const utility::CommandLine& command_line) = 0;
 };
 
 }

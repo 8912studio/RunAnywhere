@@ -4,9 +4,9 @@
 
 namespace ra::module::crypto {
 
-std::shared_ptr<Command> CryptoModule::Interpret(const std::wstring& command_text) {
+std::shared_ptr<Command> CryptoModule::Interpret(const utility::CommandLine& command_line) {
 
-	auto md5_parse_result = ParseMD5Command(command_text);
+	auto md5_parse_result = ParseMD5Command(command_line);
 	if (md5_parse_result) {
 		return std::make_shared<MD5Command>(*md5_parse_result);
 	}

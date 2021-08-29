@@ -179,7 +179,7 @@
     <ClInclude Include="src\registry_define.h" />
     <ClInclude Include="src\tray_icon.h" />
     <ClInclude Include="src\utility\clipboard.h" />
-    <ClInclude Include="src\utility\command_line_arguments.h" />
+    <ClInclude Include="src\utility\command_line.h" />
     <ClInclude Include="src\utility\log\log.h" />
     <ClInclude Include="src\utility\log\log_manager.h" />
     <ClInclude Include="src\utility\path_trimming.h" />
@@ -254,7 +254,7 @@
     <ClCompile Include="src\preview_view.cpp" />
     <ClCompile Include="src\tray_icon.cpp" />
     <ClCompile Include="src\utility\clipboard.cpp" />
-    <ClCompile Include="src\utility\command_line_arguments.cpp" />
+    <ClCompile Include="src\utility\command_line.cpp" />
     <ClCompile Include="src\utility\log\log_manager.cpp" />
     <ClCompile Include="src\utility\path_trimming.cpp" />
     <ClCompile Include="src\utility\preview_text_box.cpp" />

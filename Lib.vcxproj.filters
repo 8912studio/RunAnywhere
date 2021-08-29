@@ -288,9 +288,6 @@
     <ClInclude Include="src\module\date\date_command_parsing.h">
       <Filter>src\module\date</Filter>
     </ClInclude>
-    <ClInclude Include="src\utility\command_line_arguments.h">
-      <Filter>src\utility</Filter>
-    </ClInclude>
     <ClInclude Include="src\module\date\date_preview_control.h">
       <Filter>src\module\date</Filter>
     </ClInclude>
@@ -344,6 +341,9 @@
     </ClInclude>
     <ClInclude Include="src\module\rgb\rgb_command_parse_result.h">
       <Filter>src\module\rgb</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\command_line.h">
+      <Filter>src\utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -518,9 +518,6 @@
     <ClCompile Include="src\module\date\date_command_parsing.cpp">
       <Filter>src\module\date</Filter>
     </ClCompile>
-    <ClCompile Include="src\utility\command_line_arguments.cpp">
-      <Filter>src\utility</Filter>
-    </ClCompile>
     <ClCompile Include="src\module\date\date_preview_control.cpp">
       <Filter>src\module\date</Filter>
     </ClCompile>
@@ -562,6 +559,9 @@
     </ClCompile>
     <ClCompile Include="src\module\rgb\rgb_command_parsing.cpp">
       <Filter>src\module\rgb</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\command_line.cpp">
+      <Filter>src\utility</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

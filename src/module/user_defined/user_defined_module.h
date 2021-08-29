@@ -11,7 +11,7 @@ class UserDefinedModule : public Module {
 public:
     void Reload();
 
-    std::shared_ptr<Command> Interpret(const std::wstring& command_text) override;
+    std::shared_ptr<Command> Interpret(const utility::CommandLine& command_line) override;
 
 private:
     std::optional<UserDefinedEntry> FindEntry(std::wstring_view keyword);

@@ -1,31 +1,20 @@
 #include "module/crypto/md5/md5_command_parsing.h"
-#include "utility/command_line_arguments.h"
 
 namespace ra::module::crypto {
 
-std::optional<MD5CommandParseResult> ParseMD5Command(const std::wstring& command) {
+std::optional<MD5CommandParseResult> ParseMD5Command(const utility::CommandLine& command_line) {
 
-	auto arguments = utility::CommandLineArguments::Parse(command);
-	if (arguments.GetCount() <= 0) {
-		return std::nullopt;
-	}
-
-	if (arguments[0] != L"md5") {
+	if (command_line.Command() != L"md5") {
 		return std::nullopt;
 	}
 
 	MD5CommandParseResult result;
 
-	for (int index = 1; index < arguments.GetCount(); ++index) {
+	for (const auto& each_argument : command_line.Arguments()) {
 
-		auto argument = arguments[index];
-		if (argument.empty()) {
-			continue;
-		}
-
-		if (argument.front() == L'/') {
+		if (each_argument.front() == L'/') {
 			
-			auto switch_value = argument.substr(1);
+			auto switch_value = each_argument.substr(1);
 			if (switch_value == L"u8") {
 				result.encoding = MD5Encoding::UTF8;
 			}
@@ -37,7 +26,7 @@ std::optional<MD5CommandParseResult> ParseMD5Command(const std::wstring& command
 			}
 		}
 		else {
-			result.string = argument;
+			result.string = each_argument;
 		}
 	}
 

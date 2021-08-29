@@ -5,9 +5,9 @@
 
 namespace ra::module::calculator {
 
-std::shared_ptr<Command> CalculatorModule::Interpret(const std::wstring& command_text) {
+std::shared_ptr<Command> CalculatorModule::Interpret(const utility::CommandLine& command_line) {
 
-    auto parse_result = ParseCommand(command_text);
+    auto parse_result = ParseCommand(command_line.Text());
     if (!parse_result) {
         return nullptr;
     }

@@ -4,9 +4,9 @@
 
 namespace ra::module::rgb {
 
-std::shared_ptr<Command> RGBModule::Interpret(const std::wstring& command_text) {
+std::shared_ptr<Command> RGBModule::Interpret(const utility::CommandLine& command_line) {
 
-    auto parse_result = ParseRGBCommand(command_text);
+    auto parse_result = ParseRGBCommand(command_line);
     if (!parse_result) {
         return nullptr;
     }

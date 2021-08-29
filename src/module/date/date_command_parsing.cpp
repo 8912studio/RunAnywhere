@@ -1,9 +1,7 @@
 #include "module/date/date_command_parsing.h"
 #include <Windows.h>
-#include <zaf/base/container/utility/range.h>
 #include <zaf/base/string/case_conversion.h>
 #include <zaf/base/string/to_numeric.h>
-#include "utility/command_line_arguments.h"
 
 namespace ra::module::date {
 namespace {
@@ -45,21 +43,16 @@ bool ParseSingleArgument(const std::wstring& argument, DateCommandParseResult& r
 }
 
 
-std::optional<DateCommandParseResult> ParseDateCommand(const std::wstring& command) {
+std::optional<DateCommandParseResult> ParseDateCommand(const utility::CommandLine& command_line) {
 
-	auto arguments = utility::CommandLineArguments::Parse(command);
-	if (arguments.GetCount() <= 0) {
-		return std::nullopt;
-	}
-
-	if (arguments[0] != L"date") {
+	if (command_line.Command() != L"date") {
 		return std::nullopt;
 	}
 
 	DateCommandParseResult result;
-	for (auto index : zaf::Range(1, arguments.GetCount())) {
+	for (const auto& each_argument : command_line.Arguments()) {
 
-		if (!ParseSingleArgument(arguments[index], result)) {
+		if (!ParseSingleArgument(each_argument, result)) {
 			return std::nullopt;
 		}
 	}

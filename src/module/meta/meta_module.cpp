@@ -4,8 +4,9 @@
 
 namespace ra::module::meta {
 
-std::shared_ptr<Command> MetaModule::Interpret(const std::wstring& command_text) {
+std::shared_ptr<Command> MetaModule::Interpret(const utility::CommandLine& command_line) {
 
+    const auto& command_text = command_line.Text();
     if (command_text.empty()) {
         return nullptr;
     }

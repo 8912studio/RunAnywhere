@@ -3,7 +3,6 @@
 #include <zaf/base/string/split.h>
 #include <zaf/base/string/to_numeric.h>
 #include <zaf/base/string/trim.h>
-#include "utility/command_line_arguments.h"
 
 namespace ra::module::rgb {
 namespace {
@@ -30,21 +29,16 @@ zaf::Color ParseColor(const std::wstring& color_argument) {
 
 }
 
-std::optional<RGBCommandParseResult> ParseRGBCommand(const std::wstring& command_text) {
+std::optional<RGBCommandParseResult> ParseRGBCommand(const utility::CommandLine& command_line) {
 
-    auto arguments = utility::CommandLineArguments::Parse(command_text);
-    if (arguments.GetCount() <= 0) {
-        return std::nullopt;
-    }
-
-    if (arguments[0] != L"rgb") {
+    if (command_line.Command() != L"rgb") {
         return std::nullopt;
     }
 
     RGBCommandParseResult result;
     
-    if (arguments.GetCount() > 1) {
-        result.color = ParseColor(arguments[1]);
+    if (command_line.Arguments().size() > 1) {
+        result.color = ParseColor(command_line.Arguments()[0]);
     }
 
     return result;

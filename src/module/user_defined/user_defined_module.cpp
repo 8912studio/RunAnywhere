@@ -11,10 +11,10 @@ void UserDefinedModule::Reload() {
 }
 
 
-std::shared_ptr<Command> UserDefinedModule::Interpret(const std::wstring& command_text) {
+std::shared_ptr<Command> UserDefinedModule::Interpret(const utility::CommandLine& command_line) {
 
     int argument_count{};
-    auto arguments = CommandLineToArgvW(command_text.c_str(), &argument_count);
+    auto arguments = CommandLineToArgvW(command_line.Text().c_str(), &argument_count);
     if (!arguments) {
         return nullptr;
     }

@@ -99,9 +99,11 @@ void MainWindow::InterpretCommand(const std::wstring& input) {
     auto trimmed_input = zaf::ToTrimmed(input);
     if (!trimmed_input.empty()) {
 
+        utility::CommandLine command_line(trimmed_input);
+
         for (const auto& each_runner : modules_) {
 
-            auto command = each_runner->Interpret(trimmed_input);
+            auto command = each_runner->Interpret(command_line);
             if (command) {
                 command->SetDesktopContext(desktop_context_);
                 current_command_ = command;

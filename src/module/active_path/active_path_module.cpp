@@ -4,17 +4,18 @@
 
 namespace ra::module::active_path {
 
-std::shared_ptr<Command> ActivePathModule::Interpret(const std::wstring& command_text) {
+std::shared_ptr<Command> ActivePathModule::Interpret(const utility::CommandLine& command_line) {
 
-	if (command_text.empty()) {
+	const auto& command_line_text = command_line.Text();
+	if (command_line_text.empty()) {
 		return nullptr;
 	}
 
-	if (command_text.front() != L'@') {
+	if (command_line_text.empty() != L'@') {
 		return nullptr;
 	}
 
-	auto option = ParseActivePathOption(command_text.substr(1));
+	auto option = ParseActivePathOption(command_line_text.substr(1));
 	return std::make_shared<ActivePathCommand>(option);
 }
 

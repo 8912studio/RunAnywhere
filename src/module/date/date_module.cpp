@@ -4,9 +4,9 @@
 
 namespace ra::module::date {
 
-std::shared_ptr<Command> DateModule::Interpret(const std::wstring& command_text) {
+std::shared_ptr<Command> DateModule::Interpret(const utility::CommandLine& command_line) {
 
-	auto parse_result = ParseDateCommand(command_text);
+	auto parse_result = ParseDateCommand(command_line);
 	if (!parse_result) {
 		return nullptr;
 	}
