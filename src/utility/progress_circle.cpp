@@ -153,15 +153,15 @@ zaf::Geometry ProgressCircle::CreateEllipsePath(
 		ellipse.position);
 
 	zaf::ArcSegment arc_segment;
-	arc_segment.end_point = transform_matrix.TransformPoint(begin_point);
-	arc_segment.x_radius = ellipse.x_radius;
-	arc_segment.y_radius = ellipse.y_radius;
-	arc_segment.sweep_direction = 
-		is_for_sink ? zaf::SweepDirection::CounterClockwise : zaf::SweepDirection::Clockwise;
-	arc_segment.arc_size =
+	arc_segment.SetEndPoint(transform_matrix.TransformPoint(begin_point));
+	arc_segment.SetXRadius(ellipse.x_radius);
+	arc_segment.SetYRadius(ellipse.y_radius);
+	arc_segment.SetSweepDirection( 
+		is_for_sink ? zaf::SweepDirection::CounterClockwise : zaf::SweepDirection::Clockwise);
+	arc_segment.SetArcSize(
 		degress < 180 ?
 		is_for_sink ? zaf::ArcSize::Large : zaf::ArcSize::Small :
-		is_for_sink ? zaf::ArcSize::Small : zaf::ArcSize::Large;
+		is_for_sink ? zaf::ArcSize::Small : zaf::ArcSize::Large);
 
 	path_sink.AddArc(arc_segment);
 
