@@ -59,7 +59,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NOMINMAX;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <ConformanceMode>true</ConformanceMode>
@@ -75,7 +75,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NOMINMAX;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <ConformanceMode>true</ConformanceMode>
@@ -96,6 +96,17 @@
     <ClInclude Include="src\context\desktop_context.h" />
     <ClInclude Include="src\context\explorer_discovering.h" />
     <ClInclude Include="src\context\vs_discovering.h" />
+    <ClInclude Include="src\help\content\body_line.h" />
+    <ClInclude Include="src\help\content\content.h" />
+    <ClInclude Include="src\help\content\line.h" />
+    <ClInclude Include="src\help\content\single_text_line.h" />
+    <ClInclude Include="src\help\content\title_line.h" />
+    <ClInclude Include="src\help\content\two_parts_line.h" />
+    <ClInclude Include="src\help\content_layouter.h" />
+    <ClInclude Include="src\help\help_content_building.h" />
+    <ClInclude Include="src\help\help_content_control.h" />
+    <ClInclude Include="src\help\help_window.h" />
+    <ClInclude Include="src\help\content_layout_info.h" />
     <ClInclude Include="src\hot_key.h" />
     <ClInclude Include="src\hot_key_box.h" />
     <ClInclude Include="src\hot_key_manager.h" />
@@ -144,6 +155,7 @@
     <ClInclude Include="src\module\calculator\parse\unary_expression_parser.h" />
     <ClInclude Include="src\module\calculator\preview\calculator_preview_control.h" />
     <ClInclude Include="src\module\command.h" />
+    <ClInclude Include="src\module\command_brief.h" />
     <ClInclude Include="src\module\command_preview_control.h" />
     <ClInclude Include="src\module\crypto\crypto_module.h" />
     <ClInclude Include="src\module\crypto\md5\md5_command_parse_result.h" />
@@ -174,6 +186,7 @@
     <ClInclude Include="src\module\user_defined\user_defined_entry_reading.h" />
     <ClInclude Include="src\module\user_defined\user_defined_file.h" />
     <ClInclude Include="src\module\user_defined\user_defined_module.h" />
+    <ClInclude Include="src\module_manager.h" />
     <ClInclude Include="src\option_window.h" />
     <ClInclude Include="src\preview_view.h" />
     <ClInclude Include="src\registry_define.h" />
@@ -193,6 +206,10 @@
     <ClCompile Include="src\context\desktop_context_discovering.cpp" />
     <ClCompile Include="src\context\explorer_discovering.cpp" />
     <ClCompile Include="src\context\vs_discovering.cpp" />
+    <ClCompile Include="src\help\content_layouter.cpp" />
+    <ClCompile Include="src\help\help_content_building.cpp" />
+    <ClCompile Include="src\help\help_content_control.cpp" />
+    <ClCompile Include="src\help\help_window.cpp" />
     <ClCompile Include="src\hot_key_box.cpp" />
     <ClCompile Include="src\hot_key_manager.cpp" />
     <ClCompile Include="src\hot_key_utility.cpp" />
@@ -250,6 +267,7 @@
     <ClCompile Include="src\module\user_defined\user_defined_entry_reading.cpp" />
     <ClCompile Include="src\module\user_defined\user_defined_file.cpp" />
     <ClCompile Include="src\module\user_defined\user_defined_module.cpp" />
+    <ClCompile Include="src\module_manager.cpp" />
     <ClCompile Include="src\option_window.cpp" />
     <ClCompile Include="src\preview_view.cpp" />
     <ClCompile Include="src\tray_icon.cpp" />
@@ -262,6 +280,7 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="src\about_window.xaml" />
+    <Page Include="src\help\help_window.xaml" />
     <Page Include="src\main_window.xaml" />
     <Page Include="src\module\calculator\preview\calculator_preview_control.xaml" />
     <Page Include="src\module\crypto\md5\md5_preview_control.xaml" />

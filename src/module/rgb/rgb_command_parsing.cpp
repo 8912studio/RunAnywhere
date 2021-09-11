@@ -31,7 +31,7 @@ zaf::Color ParseColor(const std::wstring& color_argument) {
 
 std::optional<RGBCommandParseResult> ParseRGBCommand(const utility::CommandLine& command_line) {
 
-    if (command_line.Command() != L"rgb") {
+    if (command_line.Command() != RGBCommandLiteral) {
         return std::nullopt;
     }
 

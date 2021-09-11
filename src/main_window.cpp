@@ -6,11 +6,13 @@
 #include <zaf/control/layout/linear_layouter.h>
 #include <zaf/creation.h>
 #include <zaf/object/type_definition.h>
+#include <zaf/window/message/activate_message.h>
 #include <zaf/window/message/hit_test_message.h>
 #include <zaf/window/message/hit_test_result.h>
 #include <zaf/window/message/keyboard_message.h>
 #include <zaf/window/message/message.h>
 #include "context/desktop_context_discovering.h"
+#include "help/help_content_building.h"
 #include "module/active_path/active_path_module.h"
 #include "module/calculator/calculator_module.h"
 #include "module/crypto/crypto_module.h"
@@ -40,6 +42,7 @@ void MainWindow::AfterParse() {
     initial_height_ = this->Height();
 
     InitializeTextBox();
+    InitializeHelpButton();
     InitializeModules();
 }
 
@@ -55,18 +58,16 @@ void MainWindow::InitializeTextBox() {
 }
 
 
+void MainWindow::InitializeHelpButton() {
+
+    Subscriptions() += helpButton->ClickEvent().Subscribe(
+        std::bind(&MainWindow::OnHelpButtonClick, this));
+}
+
+
 void MainWindow::InitializeModules() {
 
-    user_defined_module_ = std::make_shared<module::user_defined::UserDefinedModule>();
-    user_defined_module_->Reload();
-
-    modules_.push_back(std::make_shared<module::meta::MetaModule>());
-    modules_.push_back(std::make_shared<module::active_path::ActivePathModule>());
-    modules_.push_back(std::make_shared<module::date::DateModule>());
-    modules_.push_back(std::make_shared<module::crypto::CryptoModule>());
-    modules_.push_back(std::make_shared<module::rgb::RGBModule>());
-    modules_.push_back(user_defined_module_);
-    modules_.push_back(std::make_shared<module::calculator::CalculatorModule>());
+    module_manager_.Initialize();
 }
 
 
@@ -81,35 +82,28 @@ void MainWindow::ShowOnTop() {
 
 void MainWindow::ReloadUserDefinedCommands() {
 
-    if (user_defined_module_) {
-        user_defined_module_->Reload();
-    }
+    module_manager_.ReloadUserDefinedCommands();
 }
 
 
 void MainWindow::OnTextChanged(const zaf::TextualControlTextChangeInfo& event_info) {
-    InterpretCommand(event_info.textual_control->Text());
+
+    UpdateCommandState();
+}
+
+
+void MainWindow::UpdateCommandState() {
+
+    InterpretCommand(inputTextBox->Text());
+    UpdateHelpWindowState();
 }
 
 
 void MainWindow::InterpretCommand(const std::wstring& input) {
 
-    current_command_ = nullptr;
-
-    auto trimmed_input = zaf::ToTrimmed(input);
-    if (!trimmed_input.empty()) {
-
-        utility::CommandLine command_line(trimmed_input);
-
-        for (const auto& each_runner : modules_) {
-
-            auto command = each_runner->Interpret(command_line);
-            if (command) {
-                command->SetDesktopContext(desktop_context_);
-                current_command_ = command;
-                break;
-            }
-        }
+    current_command_ = module_manager_.InterpretCommand(input);
+    if (current_command_) {
+        current_command_->SetDesktopContext(desktop_context_);
     }
 
     ShowPreview();
@@ -171,6 +165,66 @@ float MainWindow::ShowEmptyPreview() {
 }
 
 
+void MainWindow::OnHelpButtonClick() {
+
+    show_help_window_ = !show_help_window_;
+
+    std::wstring button_image_uri = 
+        show_help_window_ ? 
+        L"res:///resource/help_active.png" : 
+        L"res:///resource/help_inactive.png";
+
+    helpButton->SetBackgroundImage(zaf::Image::FromURI(button_image_uri));
+
+    UpdateHelpWindowState();
+}
+
+
+void MainWindow::UpdateHelpWindowState() {
+
+    if (show_help_window_) {
+        ShowHelpWindow();
+    }
+    else {
+        if (help_window_) {
+            help_window_->Hide();
+        }
+    }
+}
+
+
+void MainWindow::ShowHelpWindow() {
+
+    if (!help_window_) {
+        help_window_ = zaf::Create<help::HelpWindow>();
+        help_window_->SetOwner(this->shared_from_this());
+    }
+
+    auto suggested_commands = module_manager_.QuerySuggestedCommands(inputTextBox->Text());
+    auto help_content = help::BuildHelpContentFromSuggestedCommands(std::move(suggested_commands));
+    help_window_->SetContent(help_content);
+
+    UpdateHelpWindowPosition();
+    help_window_->Show();
+}
+
+
+void MainWindow::UpdateHelpWindowPosition() {
+
+    if (!help_window_) {
+        return;
+    }
+
+    auto main_window_rect = this->Rect();
+    zaf::Point help_window_position;
+    constexpr float window_gap = 4;
+    help_window_position.x = main_window_rect.position.x + main_window_rect.size.width + window_gap;
+    help_window_position.y = main_window_rect.position.y;
+
+    help_window_->SetPosition(help_window_position);
+}
+
+
 void MainWindow::ExecuteCommand() {
 
     if (current_command_) {
@@ -185,33 +239,104 @@ void MainWindow::ExecuteCommand() {
 bool MainWindow::ReceiveMessage(const zaf::Message& message, LRESULT& result) {
 
     if (message.id == WM_KEYDOWN) {
-
-        const auto& key_message = dynamic_cast<const zaf::KeyMessage&>(message);
-        if (key_message.GetVirtualKey() == VK_ESCAPE) {
-
-            if (inputTextBox->Text().empty()) {
-                this->Hide();
-            }
-            else {
-                inputTextBox->SetText(std::wstring{});
-            }
-            return true;
-        }
-
-        if (key_message.GetVirtualKey() == VK_RETURN) {
-
-            this->ExecuteCommand();
+        if (ReceiveKeyDownMessage(zaf::As<zaf::KeyMessage>(message))) {
             return true;
         }
     }
     else if (message.id == WM_ACTIVATE) {
 
-        if (LOWORD(message.wparam) == WA_INACTIVE) {
-            this->Hide();
+        const auto& activate_message = zaf::As<zaf::ActivateMessage>(message);
+        if (activate_message.State() == zaf::ActivateState::Inactive) {
+
+            bool should_hide{ true };
+
+            HWND current_hwnd = activate_message.EffectingWindowHandle();
+            while (current_hwnd) {
+
+                current_hwnd = GetWindow(current_hwnd, GW_OWNER);
+                if (current_hwnd == this->Handle()) {
+                    should_hide = false;
+                    break;
+                }
+            }
+
+            if (should_hide) {
+                this->Hide();
+            }
         }
+    }
+    else if (message.id == WM_SHOWWINDOW) {
+
+        if (!message.wparam) {
+            if (help_window_) {
+                help_window_->Hide();
+            }
+        }
+    }
+    else if (message.id == WM_MOVE) {
+
+        UpdateHelpWindowPosition();
     }
 
     return __super::ReceiveMessage(message, result);
+}
+
+
+bool MainWindow::ReceiveKeyDownMessage(const zaf::KeyMessage& message) {
+
+    if (message.GetVirtualKey() == VK_ESCAPE) {
+
+        if (inputTextBox->Text().empty()) {
+            this->Hide();
+        }
+        else {
+            inputTextBox->SetText(std::wstring{});
+        }
+        return true;
+    }
+
+    if (message.GetVirtualKey() == VK_RETURN) {
+        this->ExecuteCommand();
+        return true;
+    }
+
+    if (message.GetVirtualKey() == VK_OEM_2) {
+        if ((GetKeyState(VK_CONTROL) >> 15) != 0) {
+            OnHelpButtonClick();
+            return true;
+        }
+    }
+
+    return HandleHelpWindowScrollMessage(message);
+}
+
+
+bool MainWindow::HandleHelpWindowScrollMessage(const zaf::KeyMessage& message) {
+
+    if (!show_help_window_ || !help_window_) {
+        return false;
+    }
+
+    if ((GetKeyState(VK_CONTROL) >> 15) == 0) {
+        return false;
+    }
+
+    switch (message.GetVirtualKey()) {
+    case L'J':
+        help_window_->ScrollLine(false);
+        return true;
+    case L'K':
+        help_window_->ScrollLine(true);
+        return true;
+    case L'N':
+        help_window_->ScrollPage(false);
+        return true;
+    case L'U':
+        help_window_->ScrollPage(true);
+        return true;
+    default:
+        return false;
+    }
 }
 
 
@@ -237,7 +362,7 @@ void MainWindow::OnWindowShown() {
 
     inputTextBox->SetIsFocused(true);
 
-    InterpretCommand(inputTextBox->Text());
+    UpdateCommandState();
 }
 
 }

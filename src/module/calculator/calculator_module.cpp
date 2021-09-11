@@ -5,6 +5,20 @@
 
 namespace ra::module::calculator {
 
+std::vector<CommandBrief> CalculatorModule::QuerySuggestedCommands(
+    const std::wstring& command_text) {
+
+    if (command_text.empty()) {
+
+        return {
+            CommandBrief{ L"<math-expr>", L"Calculate the math expression" }
+        };
+    }
+
+    return {};
+}
+
+
 std::shared_ptr<Command> CalculatorModule::Interpret(const utility::CommandLine& command_line) {
 
     auto parse_result = ParseCommand(command_line.Text());

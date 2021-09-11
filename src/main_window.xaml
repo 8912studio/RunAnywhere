@@ -1,6 +1,8 @@
 <MainWindow 
     IsPopup="true" 
     IsSizable="false" 
+    CanMinimize="false"
+    CanMaximize="false"
     HasTitleBar="false" 
     IsToolWindow="true"
     InitialRectStyle="CenterInScreen"
@@ -10,21 +12,27 @@
         <VerticalBox BackgroundColor="White" />
     </MainWindow.RootControl>
 
-    <HorizontalBox FixedHeight="58" >
+    <HorizontalBox FixedHeight="58" Padding="5,10,15,0" >
         <Control 
             FixedWidth="40" 
             FixedHeight="40"
-            Margin="5,10,0,0"
             BackgroundImage="res:///resource/logo/logo_40.png" 
             BackgroundImageLayout="Center"/>
         <TextBox 
             Name="inputTextBox"
             FixedHeight="40" 
-            Margin="4,10,15,0"
+            Margin="4,0,0,0"
             Border="0"
             FontSize="22"
             ParagraphAlignment="Center"
             AcceptReturn="false" />
+        <Control 
+            Name="helpButton"
+            FixedWidth="20" 
+            FixedHeight="20"
+            Margin="15,9,0,0"
+            BackgroundImage="res:///resource/help_inactive.png"
+            CanClick="true" />
     </HorizontalBox>
 
     <PreviewView Name="previewView" IsVisible="false" />

@@ -4,7 +4,7 @@ namespace ra::module::crypto {
 
 std::optional<MD5CommandParseResult> ParseMD5Command(const utility::CommandLine& command_line) {
 
-	if (command_line.Command() != L"md5") {
+	if (command_line.Command() != MD5CommandLiteral) {
 		return std::nullopt;
 	}
 

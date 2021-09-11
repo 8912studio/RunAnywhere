@@ -11,6 +11,20 @@ void UserDefinedModule::Reload() {
 }
 
 
+std::vector<CommandBrief> UserDefinedModule::QuerySuggestedCommands(
+    const std::wstring& command_text) {
+
+    std::vector<CommandBrief> result;
+    for (const auto& each_entry : entries_) {
+
+        if (each_entry.keyword.find(command_text) == 0) {
+            result.emplace_back(each_entry.keyword, std::wstring{});
+        }
+    }
+    return result;
+}
+
+
 std::shared_ptr<Command> UserDefinedModule::Interpret(const utility::CommandLine& command_line) {
 
     int argument_count{};

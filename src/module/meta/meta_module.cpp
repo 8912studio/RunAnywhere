@@ -3,21 +3,62 @@
 #include "module/meta/meta_command_info.h"
 
 namespace ra::module::meta {
+namespace {
+
+constexpr wchar_t MetaCommandPrefix = L'!';
+
+std::optional<std::wstring> ExtractMetaCommand(const std::wstring& command_text) {
+
+    if (command_text.empty()) {
+        return std::nullopt;
+    }
+
+    if (command_text.front() != MetaCommandPrefix) {
+        return std::nullopt;
+    }
+
+    return command_text.substr(1);
+}
+
+}
+
+
+std::vector<CommandBrief> MetaModule::QuerySuggestedCommands(const std::wstring& command_text) {
+
+    std::wstring command;
+    if (!command_text.empty()) {
+
+        auto meta_command = ExtractMetaCommand(command_text);
+        if (!meta_command) {
+            return {};
+        }
+
+        command = *meta_command;
+    }
+
+    std::vector<CommandBrief> result;
+    
+    for (const auto& each_info : GetMetaCommandInfos()) {
+
+        if (each_info.command.find(command) != 0) {
+            continue;
+        }
+
+        result.emplace_back(MetaCommandPrefix + each_info.command, each_info.description);
+    }
+
+    return result;
+}
+
 
 std::shared_ptr<Command> MetaModule::Interpret(const utility::CommandLine& command_line) {
 
-    const auto& command_text = command_line.Text();
-    if (command_text.empty()) {
+    auto command = ExtractMetaCommand(command_line.Text());
+    if (!command || command->empty()) {
         return nullptr;
     }
 
-    if (command_text.front() != L'!') {
-        return nullptr;
-    }
-
-    auto command = command_text.substr(1);
-
-    auto command_info = GetMetaCommandInfo(command);
+    auto command_info = GetMetaCommandInfo(*command);
     if (!command_info) {
         return nullptr;
     }

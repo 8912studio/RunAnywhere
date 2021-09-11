@@ -12,6 +12,7 @@ public:
     std::function<void()> handler;
 };
 
+const std::vector<MetaCommandInfo>& GetMetaCommandInfos();
 const MetaCommandInfo* GetMetaCommandInfo(const std::wstring& command);
 
 }

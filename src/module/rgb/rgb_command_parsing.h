@@ -6,6 +6,8 @@
 
 namespace ra::module::rgb {
 
+constexpr const wchar_t* const RGBCommandLiteral = L"rgb";
+
 std::optional<RGBCommandParseResult> ParseRGBCommand(const utility::CommandLine& command_line);
 
 }

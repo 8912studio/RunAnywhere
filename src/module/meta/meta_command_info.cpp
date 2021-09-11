@@ -50,13 +50,13 @@ std::vector<MetaCommandInfo> CreateMetaCommandInfos() {
     return result;
 }
 
+}
+
 
 const std::vector<MetaCommandInfo>& GetMetaCommandInfos() {
 
     static std::vector<MetaCommandInfo> infos = CreateMetaCommandInfos();
     return infos;
-}
-
 }
 
 

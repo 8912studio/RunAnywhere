@@ -1,0 +1,20 @@
+<HelpWindow 
+    IsPopup="true" 
+    IsSizable="false" 
+    CanMinimize="false"
+    CanMaximize="false"
+    HasTitleBar="false" 
+    IsToolWindow="true"
+    Size="320,300"
+    InitialRectStyle="Custom"
+    ActivateOption="NoActivate">
+
+    <HelpWindow.RootControl>
+        <ScrollableControl 
+            BackgroundColor="White" 
+            Border="0,0,0,0"
+            AllowHorizontalScroll="false"
+            AutoHideScrollBars="true"
+        />
+    </HelpWindow.RootControl>
+</HelpWindow>

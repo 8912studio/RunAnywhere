@@ -45,7 +45,7 @@ bool ParseSingleArgument(const std::wstring& argument, DateCommandParseResult& r
 
 std::optional<DateCommandParseResult> ParseDateCommand(const utility::CommandLine& command_line) {
 
-	if (command_line.Command() != L"date") {
+	if (command_line.Command() != DateCommandLiteral) {
 		return std::nullopt;
 	}
 
