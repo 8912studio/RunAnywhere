@@ -118,6 +118,9 @@
     <ClCompile Include="case\module\meta\meta_module_test.cpp">
       <Filter>case\module\meta</Filter>
     </ClCompile>
+    <ClCompile Include="case\module\crypto\md5\md5_command_parsing_test.cpp">
+      <Filter>case\module\crypto\md5</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="case\module\calculator\number_parser_test_utility.h">

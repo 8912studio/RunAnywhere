@@ -5,7 +5,7 @@
     CanMaximize="false"
     HasTitleBar="false" 
     IsToolWindow="true"
-    InitialRectStyle="CenterInScreen"
+    InitialRectStyle="Custom"
     Size="600,60">
     
     <MainWindow.RootControl>

@@ -9,6 +9,23 @@ DateCommand::DateCommand(const DateCommandParseResult& parse_result) : parse_res
 }
 
 
+help::content::Content DateCommand::GetHelpContent() {
+
+	help::content::Content result;
+	result.AddTitleLine(L"Date command");
+	result.AddBodyLine(L"Convert between human readable date time string and UNIX timestamp.");
+
+	result.AddTitleLine(L"Usage");
+	result.AddBodyLine(L"date [timestamp] [switches]");
+	result.AddBodyLine(L"If `timestamp` is omitted, current date time would be used.");
+
+	result.AddTitleLine(L"Switches");
+	result.AddTwoPartsLine(L"/e", L"Show the result as UNIX timestamp.");
+
+	return result;
+}
+
+
 std::shared_ptr<CommandPreviewControl> DateCommand::GetPreviewControl() {
 
 	if (!preview_control_) {

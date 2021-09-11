@@ -12,7 +12,7 @@ void HelpContentControl::AfterParse() {
 
     __super::AfterParse();
 
-    this->SetPadding(zaf::Frame{ 12, 12, 12, 12 });
+    this->SetPadding(zaf::Frame{ 12, 12, 4, 12 });
 }
 
 

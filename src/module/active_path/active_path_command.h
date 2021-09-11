@@ -9,6 +9,7 @@ class ActivePathCommand : public Command {
 public:
     explicit ActivePathCommand(const ActivePathOption& option);
 
+    help::content::Content GetHelpContent() override;
     std::wstring GetPreviewText() override;
     void Execute() override;
 

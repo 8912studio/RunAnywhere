@@ -2,6 +2,7 @@
 
 #include <string>
 #include "context/desktop_context.h"
+#include "help/content/content.h"
 #include "module/command_preview_control.h"
 
 namespace ra::module {
@@ -20,6 +21,10 @@ public:
 
     void SetDesktopContext(const context::DesktopContext& desktop_context) {
         desktop_context_ = desktop_context;
+    }
+
+    virtual help::content::Content GetHelpContent() {
+        return {};
     }
 
     virtual std::wstring GetPreviewText() {

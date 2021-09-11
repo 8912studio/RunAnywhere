@@ -75,6 +75,20 @@ void MainWindow::ShowOnTop() {
 
     desktop_context_ = context::DiscoverDesktopContext();
 
+    //First show, center the window in screen
+    if (this->IsClosed()) {
+
+        auto size = this->Size();
+
+        int screen_width = GetSystemMetrics(SM_CXSCREEN);
+        int screen_height = GetSystemMetrics(SM_CYSCREEN);
+        zaf::Point position(
+            (screen_width - size.width) / 2,
+            (screen_height - size.height) / 2 - size.height * 2); //Make the window a bit higher
+
+        this->SetPosition(position);
+    }
+
     this->Show();
     SetForegroundWindow(this->Handle());
 }
@@ -200,12 +214,28 @@ void MainWindow::ShowHelpWindow() {
         help_window_->SetOwner(this->shared_from_this());
     }
 
-    auto suggested_commands = module_manager_.QuerySuggestedCommands(inputTextBox->Text());
-    auto help_content = help::BuildHelpContentFromSuggestedCommands(std::move(suggested_commands));
-    help_window_->SetContent(help_content);
+    help_window_->SetContent(GetHelpContent());
 
     UpdateHelpWindowPosition();
     help_window_->Show();
+}
+
+
+help::content::Content MainWindow::GetHelpContent() {
+
+    if (current_command_) {
+
+        auto result = current_command_->GetHelpContent();
+        if (result.Lines().empty()) {
+            result.AddBodyLine(L"No help information for this command");
+        }
+        return result;
+    }
+    else {
+
+        auto suggested_commands = module_manager_.QuerySuggestedCommands(inputTextBox->Text());
+        return help::BuildHelpContentFromSuggestedCommands(std::move(suggested_commands));
+    }
 }
 
 

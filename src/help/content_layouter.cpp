@@ -79,6 +79,8 @@ void ContentLayouter::Relayout() {
     current_y_ = 0;
     layout_infos_.clear();
 
+    first_part_width_ = CalculateFirstPartWidth();
+
     for (std::size_t index : zaf::Range(0u, content_.Lines().size())) {
 
         //Add line margin.
@@ -101,6 +103,31 @@ void ContentLayouter::Relayout() {
 
         current_y_ += height;
     }
+}
+
+
+float ContentLayouter::CalculateFirstPartWidth() {
+
+    constexpr float FirstPartMaxWidth = 100;
+    constexpr float FirstPartMargin = 10;
+
+    float result{};
+    for (const auto& each_line : content_.Lines()) {
+
+        auto two_parts_line = zaf::As<content::TwoPartsLine>(each_line);
+        if (!two_parts_line) {
+            continue;
+        }
+
+        auto first_part_text_layout = CreateTextLayout(
+            two_parts_line->FirstText(),
+            FirstPartMaxWidth,
+            LayoutProperties{});
+
+        float layout_width = first_part_text_layout.GetMetrics().Width();
+        result = std::max(result, layout_width);
+    }
+    return result + FirstPartMargin;
 }
 
 
@@ -146,26 +173,24 @@ std::vector<CellHorizontalLayoutInfo> ContentLayouter::CreateBodyLineLayoutInfos
 std::vector<CellHorizontalLayoutInfo> ContentLayouter::CreateTwoPartsLineLayoutInfos(
     const content::TwoPartsLine& two_parts_line) {
 
-    constexpr float PrimaryPartWidth = 100;
-
-    CellHorizontalLayoutInfo primary_part_layout_info;
-    primary_part_layout_info.text_layout = CreateTextLayout(
-        two_parts_line.PrimaryText(), 
-        PrimaryPartWidth,
+    CellHorizontalLayoutInfo first_part_layout_info;
+    first_part_layout_info.text_layout = CreateTextLayout(
+        two_parts_line.FirstText(), 
+        first_part_width_,
         LayoutProperties{});
 
-    CellHorizontalLayoutInfo secondly_part_layout_info;
-    secondly_part_layout_info.x = PrimaryPartWidth;
-    secondly_part_layout_info.color = zaf::Color::FromRGB(0x666666);
+    CellHorizontalLayoutInfo second_part_layout_info;
+    second_part_layout_info.x = first_part_width_;
+    second_part_layout_info.color = zaf::Color::FromRGB(0x666666);
 
-    LayoutProperties secondly_layout_properties;
-    secondly_layout_properties.is_italic = true;
-    secondly_part_layout_info.text_layout = CreateTextLayout(
-        two_parts_line.SecondlyText(), 
-        std::max(0.f, layout_width_ - PrimaryPartWidth), 
-        secondly_layout_properties);
+    LayoutProperties second_layout_properties;
+    second_layout_properties.is_italic = true;
+    second_part_layout_info.text_layout = CreateTextLayout(
+        two_parts_line.SecondText(), 
+        std::max(0.f, layout_width_ - first_part_width_),
+        second_layout_properties);
 
-    return { primary_part_layout_info, secondly_part_layout_info };
+    return { first_part_layout_info, second_part_layout_info };
 }
 
 }

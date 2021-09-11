@@ -37,7 +37,7 @@ std::optional<RGBCommandParseResult> ParseRGBCommand(const utility::CommandLine&
 
     RGBCommandParseResult result;
     
-    if (command_line.Arguments().size() > 1) {
+    if (!command_line.Arguments().empty()) {
         result.color = ParseColor(command_line.Arguments()[0]);
     }
 

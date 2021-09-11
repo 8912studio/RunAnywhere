@@ -10,6 +10,7 @@ class DateCommand : public Command {
 public:
     DateCommand(const DateCommandParseResult& parse_result);
 
+    help::content::Content GetHelpContent() override;
     std::shared_ptr<CommandPreviewControl> GetPreviewControl() override;
     void Execute() override;
 

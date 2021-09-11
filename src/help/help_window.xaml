@@ -5,7 +5,7 @@
     CanMaximize="false"
     HasTitleBar="false" 
     IsToolWindow="true"
-    Size="320,300"
+    Size="320,400"
     InitialRectStyle="Custom"
     ActivateOption="NoActivate">
 
@@ -14,7 +14,6 @@
             BackgroundColor="White" 
             Border="0,0,0,0"
             AllowHorizontalScroll="false"
-            AutoHideScrollBars="true"
         />
     </HelpWindow.RootControl>
 </HelpWindow>

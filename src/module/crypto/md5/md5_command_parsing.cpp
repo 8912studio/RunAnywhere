@@ -12,6 +12,10 @@ std::optional<MD5CommandParseResult> ParseMD5Command(const utility::CommandLine&
 
 	for (const auto& each_argument : command_line.Arguments()) {
 
+		if (each_argument.empty()) {
+			continue;
+		}
+
 		if (each_argument.front() == L'/') {
 			
 			auto switch_value = each_argument.substr(1);

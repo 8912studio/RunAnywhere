@@ -22,7 +22,7 @@ content::Content BuildHelpContentFromSuggestedCommands(
     );
 
     for (const auto& each_command : commands) {
-        help_content.AddTwoPartLine(each_command.Command(), each_command.Description());
+        help_content.AddTwoPartsLine(each_command.Command(), each_command.Description());
     }
 
     return help_content;

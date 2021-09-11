@@ -10,6 +10,7 @@ class RGBCommand : public Command {
 public:
     RGBCommand(const RGBCommandParseResult& parse_result);
 
+    help::content::Content GetHelpContent() override;
     std::shared_ptr<CommandPreviewControl> GetPreviewControl() override;
     void Execute() override;
 

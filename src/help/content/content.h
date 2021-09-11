@@ -20,7 +20,7 @@ public:
         lines_.push_back(std::make_shared<BodyLine>(text));
     }
 
-    void AddTwoPartLine(const std::wstring& primary_text, const std::wstring& secondly_text) {
+    void AddTwoPartsLine(const std::wstring& primary_text, const std::wstring& secondly_text) {
         lines_.push_back(std::make_shared<TwoPartsLine>(primary_text, secondly_text));
     }
 

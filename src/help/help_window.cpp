@@ -23,9 +23,12 @@ void HelpWindow::AfterParse() {
         std::bind(&HelpWindow::HelpWindow::OnNeedUpdateHeight, this, std::placeholders::_1));
 
     auto& scrollable_control = zaf::As<zaf::ScrollableControl>(*RootControl());
-    scrollable_control.SetScrollBarThickness(15);
-
-    scrollable_control.GetVerticalScrollBar()->SetSmallChange(16);
+    scrollable_control.SetScrollBarThickness(10);
+    
+    auto scroll_bar = scrollable_control.GetVerticalScrollBar();
+    scroll_bar->SetArrowLength(0);
+    scroll_bar->SetPadding(zaf::Frame{ 0, 2, 0, 2 });
+    scroll_bar->SetSmallChange(16);
 
     auto scroll_content_control = scrollable_control.ScrollContentControl();
     scroll_content_control->SetLayouter(zaf::Create<zaf::VerticalLayouter>());
@@ -42,7 +45,7 @@ void HelpWindow::OnNeedUpdateHeight(float new_height) {
     Subscriptions() += zaf::rx::Just(0).SubscribeOn(zaf::Scheduler::Main()).Subscribe(
         [this, new_height](int) {
 
-        constexpr float max_height = 300;
+        constexpr float max_height = 400;
         constexpr float min_height = 60;
 
         constexpr float window_border = 2;

@@ -43,6 +43,7 @@ private:
     void OnHelpButtonClick();
     void UpdateHelpWindowState();
     void ShowHelpWindow();
+    help::content::Content GetHelpContent();
     void UpdateHelpWindowPosition();
     void ExecuteCommand();
 

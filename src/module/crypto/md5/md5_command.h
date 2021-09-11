@@ -10,6 +10,7 @@ class MD5Command : public Command {
 public:
     MD5Command(const MD5CommandParseResult& parse_result);
 
+    help::content::Content GetHelpContent() override;
     std::shared_ptr<CommandPreviewControl> GetPreviewControl() override;
     void Execute() override;
 

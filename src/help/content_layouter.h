@@ -25,6 +25,7 @@ public:
 
 private:
     void Relayout();
+    float CalculateFirstPartWidth();
     std::vector<CellHorizontalLayoutInfo> CreateLineLayoutInfos(const content::Line& line);
     std::vector<CellHorizontalLayoutInfo> CreateTitleLineLayoutInfos(
         const content::TitleLine& title_line);
@@ -36,7 +37,7 @@ private:
 private:
     content::Content content_;
     float layout_width_{};
-
+    float first_part_width_{};
     float current_y_{};
     std::vector<CellVerticalLayoutInfo> layout_infos_;
 };
