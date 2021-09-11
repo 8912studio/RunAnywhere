@@ -390,6 +390,9 @@
     <ClInclude Include="src\help\help_content_building.h">
       <Filter>src\help</Filter>
     </ClInclude>
+    <ClInclude Include="src\module\meta\meta_command_prefix.h">
+      <Filter>src\module\meta</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -622,6 +625,9 @@
     </ClCompile>
     <ClCompile Include="src\help\help_content_building.cpp">
       <Filter>src\help</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\meta\meta_command.cpp">
+      <Filter>src\module\meta</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

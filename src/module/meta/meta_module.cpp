@@ -1,11 +1,10 @@
 #include "module/meta/meta_module.h"
 #include "module/meta/meta_command.h"
 #include "module/meta/meta_command_info.h"
+#include "module/meta/meta_command_prefix.h"
 
 namespace ra::module::meta {
 namespace {
-
-constexpr wchar_t MetaCommandPrefix = L'!';
 
 std::optional<std::wstring> ExtractMetaCommand(const std::wstring& command_text) {
 

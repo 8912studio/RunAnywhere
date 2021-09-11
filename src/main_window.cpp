@@ -196,7 +196,7 @@ void MainWindow::OnHelpButtonClick() {
 
 void MainWindow::UpdateHelpWindowState() {
 
-    if (show_help_window_) {
+    if (show_help_window_ && IsWindowVisible(this->Handle())) {
         ShowHelpWindow();
     }
     else {

@@ -11,6 +11,8 @@ public:
     
     }
 
+    help::content::Content GetHelpContent() override;
+
     std::wstring GetPreviewText() override {
         return command_info_.description;
     }

@@ -171,6 +171,7 @@
     <ClInclude Include="src\module\date\date_preview_control.h" />
     <ClInclude Include="src\module\meta\meta_command.h" />
     <ClInclude Include="src\module\meta\meta_command_info.h" />
+    <ClInclude Include="src\module\meta\meta_command_prefix.h" />
     <ClInclude Include="src\module\meta\meta_module.h" />
     <ClInclude Include="src\module\module.h" />
     <ClInclude Include="src\module\rgb\rgb_command.h" />
@@ -254,6 +255,7 @@
     <ClCompile Include="src\module\date\date_command_parsing.cpp" />
     <ClCompile Include="src\module\date\date_module.cpp" />
     <ClCompile Include="src\module\date\date_preview_control.cpp" />
+    <ClCompile Include="src\module\meta\meta_command.cpp" />
     <ClCompile Include="src\module\meta\meta_command_info.cpp" />
     <ClCompile Include="src\module\meta\meta_module.cpp" />
     <ClCompile Include="src\module\rgb\rgb_command.cpp" />
