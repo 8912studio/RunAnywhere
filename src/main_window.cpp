@@ -269,13 +269,13 @@ void MainWindow::ExecuteCommand() {
 bool MainWindow::ReceiveMessage(const zaf::Message& message, LRESULT& result) {
 
     if (message.id == WM_KEYDOWN) {
-        if (ReceiveKeyDownMessage(zaf::As<zaf::KeyMessage>(message))) {
+        if (ReceiveKeyDownMessage(zaf::KeyMessage{ message })) {
             return true;
         }
     }
     else if (message.id == WM_ACTIVATE) {
 
-        const auto& activate_message = zaf::As<zaf::ActivateMessage>(message);
+        zaf::ActivateMessage activate_message{ message };
         if (activate_message.State() == zaf::ActivateState::Inactive) {
 
             bool should_hide{ true };
@@ -314,7 +314,7 @@ bool MainWindow::ReceiveMessage(const zaf::Message& message, LRESULT& result) {
 
 bool MainWindow::ReceiveKeyDownMessage(const zaf::KeyMessage& message) {
 
-    if (message.GetVirtualKey() == VK_ESCAPE) {
+    if (message.VirtualKey() == VK_ESCAPE) {
 
         if (inputTextBox->Text().empty()) {
             this->Hide();
@@ -325,12 +325,12 @@ bool MainWindow::ReceiveKeyDownMessage(const zaf::KeyMessage& message) {
         return true;
     }
 
-    if (message.GetVirtualKey() == VK_RETURN) {
+    if (message.VirtualKey() == VK_RETURN) {
         this->ExecuteCommand();
         return true;
     }
 
-    if (message.GetVirtualKey() == VK_OEM_2) {
+    if (message.VirtualKey() == VK_OEM_2) {
         if ((GetKeyState(VK_CONTROL) >> 15) != 0) {
             OnHelpButtonClick();
             return true;
@@ -351,7 +351,7 @@ bool MainWindow::HandleHelpWindowScrollMessage(const zaf::KeyMessage& message) {
         return false;
     }
 
-    switch (message.GetVirtualKey()) {
+    switch (message.VirtualKey()) {
     case L'J':
         help_window_->ScrollLine(false);
         return true;
@@ -372,7 +372,7 @@ bool MainWindow::HandleHelpWindowScrollMessage(const zaf::KeyMessage& message) {
 
 std::optional<zaf::HitTestResult> MainWindow::HitTest(const zaf::HitTestMessage& message) {
 
-    auto mouse_position = message.GetMousePosition();
+    auto mouse_position = message.MousePosition();
 
     if (inputTextBox->AbsoluteRect().Contain(mouse_position)) {
         return std::nullopt;

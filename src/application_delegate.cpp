@@ -1,6 +1,7 @@
 #include "application_delegate.h"
 #include <zaf/application.h>
 #include <zaf/base/registry/registry.h>
+#include <zaf/creation.h>
 #include "about_window.h"
 #include "hot_key_manager.h"
 #include "hot_key_utility.h"
@@ -103,6 +104,9 @@ void InitializeHotKey() {
 
 void ApplicationDelegate::ApplicationBeginRun(const zaf::ApplicationBeginRunInfo&) {
 
+    task_bar_create_message_id_ = RegisterWindowMessage(L"TaskbarCreated");
+
+    InitializeTrayIconWindow();
 	ShowTryIcon();
 	InitializeHotKey();
 
@@ -111,16 +115,24 @@ void ApplicationDelegate::ApplicationBeginRun(const zaf::ApplicationBeginRunInfo
 }
 
 
-void ApplicationDelegate::ShowTryIcon() {
+void ApplicationDelegate::InitializeTrayIconWindow() {
 
-    tray_icon_message_window_ = std::make_unique<zaf::MessageOnlyWindow>();
+    tray_icon_window_ = zaf::Create<zaf::Window>();
+    tray_icon_window_->SetIsToolWindow(true);
+    tray_icon_window_->SetActivateOption(zaf::ActivateOption::NoActivate);
+    tray_icon_window_->SetInitialRectStyle(zaf::InitialRectStyle::Custom);
+    tray_icon_window_->SetRect(zaf::Rect{});
+    tray_icon_window_->CreateHandle();
 
-    Subscriptions() += tray_icon_message_window_->ReceiveMessageEvent().Subscribe(
-        [this](const zaf::Message& message) {
+    Subscriptions() += tray_icon_window_->ReceiveMessageEvent().Subscribe(
+        [this](const zaf::WindowReceiveMessageInfo& event_info) {
+    
+        if (event_info.message.id == task_bar_create_message_id_) {
+            ShowTryIcon();
+        }
+        else if (event_info.message.id == WM_TRAY_ICON) {
 
-        if (message.id == WM_TRAY_ICON) {
-
-            switch (message.lparam) {
+            switch (event_info.message.lparam) {
             case WM_LBUTTONDBLCLK:
                 ra::MainWindow::Instance().ShowOnTop();
                 break;
@@ -134,9 +146,9 @@ void ApplicationDelegate::ShowTryIcon() {
                 break;
             }
         }
-        else if (message.id == WM_COMMAND && message.lparam == 0) {
+        else if (event_info.message.id == WM_COMMAND && event_info.message.lparam == 0) {
 
-            switch (LOWORD(message.wparam)) {
+            switch (LOWORD(event_info.message.wparam)) {
             case ID_TRAYICON_EXIT:
                 zaf::Application::Instance().Terminate();
                 break;
@@ -151,8 +163,12 @@ void ApplicationDelegate::ShowTryIcon() {
             }
         }
     });
+}
 
-    ra::AddTrayIcon(tray_icon_message_window_->GetHandle(), WM_TRAY_ICON);
+
+void ApplicationDelegate::ShowTryIcon() {
+
+    ra::AddTrayIcon(tray_icon_window_->Handle(), WM_TRAY_ICON);
 }
 
 
@@ -166,7 +182,7 @@ void ApplicationDelegate::PopupMenu() {
     POINT current_position{};
     GetCursorPos(&current_position);
 
-    SetForegroundWindow(tray_icon_message_window_->GetHandle());
+    SetForegroundWindow(tray_icon_window_->Handle());
 
     TrackPopupMenu(
         menu_,
@@ -174,7 +190,7 @@ void ApplicationDelegate::PopupMenu() {
         current_position.x,
         current_position.y,
         0,
-        tray_icon_message_window_->GetHandle(),
+        tray_icon_window_->Handle(),
         nullptr);
 }
 

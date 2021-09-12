@@ -1,7 +1,7 @@
 #pragma once
 
 #include <zaf/application_delegate.h>
-#include <zaf/window/message_only_window.h>
+#include <zaf/window/window.h>
 
 namespace ra {
 
@@ -12,11 +12,13 @@ public:
 	void SessionEnded(const zaf::SessionEndedInfo&) override;
 
 private:
+	void InitializeTrayIconWindow();
 	void ShowTryIcon();
 	void PopupMenu();
 
 private:
-	std::unique_ptr<zaf::MessageOnlyWindow> tray_icon_message_window_;
+	UINT task_bar_create_message_id_{};
+	std::shared_ptr<zaf::Window> tray_icon_window_;
 	HMENU menu_{};
 };
 
