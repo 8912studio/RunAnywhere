@@ -47,6 +47,15 @@ UserDefinedCommand::UserDefinedCommand(
 }
 
 
+help::content::Content UserDefinedCommand::GetHelpContent() {
+
+    help::content::Content result;
+    result.AddTitleLine(entry_.keyword + L" command");
+    result.AddBodyLine(L"User-defined command.");
+    return result;
+}
+
+
 std::shared_ptr<CommandPreviewControl> UserDefinedCommand::GetPreviewControl() {
 
     auto control = zaf::Create<UserDefinedCommandPreviewControl>();
