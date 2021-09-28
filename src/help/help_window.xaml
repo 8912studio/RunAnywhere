@@ -16,4 +16,45 @@
             AllowHorizontalScroll="false"
         />
     </HelpWindow.RootControl>
+    <Control 
+        Name="scrollButtonContainer" 
+        AutoSize="true" 
+        Layouter="HorizontalLayouter"
+        IsVisible="false">
+        <Control 
+            Name="lineDownButton"
+            FixedWidth="24" 
+            FixedHeight="24"
+            BackgroundImage="res:///resource/line_down.png"
+            CanClick="true"
+            Tooltip="Scroll line down (Ctrl+J)"
+        />
+        <Control 
+            Name="lineUpButton"
+            FixedWidth="24" 
+            FixedHeight="24"
+            Margin="4,0,0,0"
+            BackgroundImage="res:///resource/line_up.png"
+            CanClick="true"
+            Tooltip="Scroll line up (Ctrl+K)"
+        />
+        <Control 
+            Name="pageDownButton"
+            FixedWidth="24" 
+            FixedHeight="24"
+            Margin="4,0,0,0"
+            BackgroundImage="res:///resource/page_down.png"
+            CanClick="true"
+            Tooltip="Scroll page down (Ctrl+N)"
+        />
+        <Control 
+            Name="pageUpButton"
+            FixedWidth="24" 
+            FixedHeight="24"
+            Margin="4,0,0,0"
+            BackgroundImage="res:///resource/page_up.png"
+            CanClick="true"
+            Tooltip="Scroll page up (Ctrl+U)"
+        />
+    </Control>
 </HelpWindow>

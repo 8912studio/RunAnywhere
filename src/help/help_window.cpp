@@ -33,6 +33,73 @@ void HelpWindow::AfterParse() {
     auto scroll_content_control = scrollable_control.ScrollContentControl();
     scroll_content_control->SetLayouter(zaf::Create<zaf::VerticalLayouter>());
     scroll_content_control->AddChild(content_control_);
+
+    InitializeScrollControls();
+}
+
+
+void HelpWindow::InitializeScrollControls() {
+
+    InitializeScrollButtonContainer();
+    InitializeScrollButtons();
+}
+
+
+void HelpWindow::InitializeScrollButtonContainer() {
+
+    const auto& root_control = this->RootControl();
+    Subscriptions() += root_control->RectChangeEvent().Subscribe(
+        std::bind(&HelpWindow::LayoutScrollButtonContainer, this));
+
+    Subscriptions() += root_control->MouseEnterEvent().Subscribe(std::bind([this]() {
+
+        scrollButtonContainer->SetIsVisible(true);
+    }));
+
+    Subscriptions() += root_control->MouseLeaveEvent().Subscribe(std::bind([this]() {
+
+        const auto& root_control = this->RootControl();
+        if (!root_control->IsMouseOver() && !root_control->IsMouseOverIndirectly()) {
+            scrollButtonContainer->SetIsVisible(false);
+        }
+    }));
+}
+
+
+void HelpWindow::InitializeScrollButtons() {
+
+    Subscriptions() += lineDownButton->ClickEvent().Subscribe(
+        std::bind(&HelpWindow::ScrollLine, this, false));
+
+    Subscriptions() += lineUpButton->ClickEvent().Subscribe(
+        std::bind(&HelpWindow::ScrollLine, this, true));
+
+    Subscriptions() += pageDownButton->ClickEvent().Subscribe(
+        std::bind(&HelpWindow::ScrollPage, this, false));
+
+    Subscriptions() += pageUpButton->ClickEvent().Subscribe(
+        std::bind(&HelpWindow::ScrollPage, this, true));
+}
+
+
+void HelpWindow::LayoutScrollButtonContainer() {
+
+    auto scrollable_control = zaf::As<zaf::ScrollableControl>(RootControl());
+    auto content_rect = scrollable_control->ContentRect();
+
+    constexpr float margin = 4;
+
+    zaf::Point container_position;
+
+    container_position.x =
+        content_rect.position.x + 
+        content_rect.size.width - scrollButtonContainer->Width() - 
+        scrollable_control->GetScrollBarThickness() - 
+        margin;
+
+    container_position.y = margin;
+
+    scrollButtonContainer->SetPosition(container_position);
 }
 
 

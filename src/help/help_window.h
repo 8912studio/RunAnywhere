@@ -20,9 +20,19 @@ protected:
     void AfterParse() override;
 
 private:
+    void InitializeScrollControls();
+    void InitializeScrollButtonContainer();
+    void InitializeScrollButtons();
+    void LayoutScrollButtonContainer();
     void OnNeedUpdateHeight(float new_height);
 
 private:
+    ZAF_BIND_CONTROL(zaf::Control, scrollButtonContainer);
+    ZAF_BIND_CONTROL(zaf::Control, lineDownButton);
+    ZAF_BIND_CONTROL(zaf::Control, lineUpButton);
+    ZAF_BIND_CONTROL(zaf::Control, pageDownButton);
+    ZAF_BIND_CONTROL(zaf::Control, pageUpButton);
+
     std::shared_ptr<HelpContentControl> content_control_;
 };
 

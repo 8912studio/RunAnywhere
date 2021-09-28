@@ -382,6 +382,10 @@ std::optional<zaf::HitTestResult> MainWindow::HitTest(const zaf::HitTestMessage&
         return std::nullopt;
     }
 
+    if (helpButton->AbsoluteRect().Contain(mouse_position)) {
+        return std::nullopt;
+    }
+
     return zaf::HitTestResult::TitleBar;
 }
 

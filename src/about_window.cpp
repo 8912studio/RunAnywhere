@@ -87,7 +87,7 @@ void AboutWindow::InitializeGithubLabel() {
 
     githubButton->SetTextColorPicker([](const zaf::Control& control) {
     
-        if (control.IsHovered()) {
+        if (control.IsMouseOver()) {
             return zaf::Color::FromRGB(0x2080ff);
         }
         else {
