@@ -7,16 +7,17 @@ namespace ra::module::rgb {
 class RGBCommandParseResult {
 public:
     enum class Format {
-        Hex,
-        DecimalInteger,
-        DecimalFloat,
+        ARGB,
+        DecimalIntegerComponents,
+        DecimalFloatComponents,
+        HexComponents,
     };
 
 public:
     zaf::Color color;
     bool has_alpha_part{};
     bool reserve_alpha{};
-    Format format{ Format::Hex };
+    Format format{ Format::ARGB };
 };
 
 }

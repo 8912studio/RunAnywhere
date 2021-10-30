@@ -21,10 +21,13 @@ constexpr std::size_t RGBAComponentCount = 4;
 void ParseSwitch(const std::wstring& argument, RGBCommandParseResult& result) {
 
     if (argument == L"/d") {
-        result.format = RGBCommandParseResult::Format::DecimalInteger;
+        result.format = RGBCommandParseResult::Format::DecimalIntegerComponents;
     }
     else if (argument == L"/f") {
-        result.format = RGBCommandParseResult::Format::DecimalFloat;
+        result.format = RGBCommandParseResult::Format::DecimalFloatComponents;
+    }
+    else if (argument == L"/h") {
+        result.format = RGBCommandParseResult::Format::HexComponents;
     }
     else if (argument == L"/a") {
         result.reserve_alpha = true;

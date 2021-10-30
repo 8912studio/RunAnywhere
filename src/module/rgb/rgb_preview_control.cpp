@@ -1,5 +1,6 @@
 #include "module/rgb/rgb_preview_control.h"
 #include <sstream>
+#include <zaf/base/container/utility/range.h>
 #include <zaf/base/string/case_conversion.h>
 #include <zaf/object/type_definition.h>
 #include <zaf/graphic/image/wic/imaging_factory.h>
@@ -92,55 +93,92 @@ zaf::Color RGBPreviewControl::GetRenderedColor() {
 std::wstring RGBPreviewControl::GetColorText(const zaf::Color& color) {
 
     switch (parse_result_.format) {
-    case RGBCommandParseResult::Format::DecimalInteger:
-        return GetColorDecimalIntegerText(color);
-    case RGBCommandParseResult::Format::DecimalFloat:
-        return GetColorDecimalFloatText(color);
+    case RGBCommandParseResult::Format::DecimalIntegerComponents:
+    case RGBCommandParseResult::Format::DecimalFloatComponents:
+    case RGBCommandParseResult::Format::HexComponents:
+        return GetColorTextInComponentsFormat(color);
     default:
-        return GetColorHexText(color);
+        return GetColorTextInARGBFormat(color);
     }
 }
 
 
-std::wstring RGBPreviewControl::GetColorHexText(const zaf::Color& color) {
-
-    COLORREF rgb_value = color.ToCOLORREF();
+std::wstring RGBPreviewControl::GetColorTextInARGBFormat(const zaf::Color& color) {
 
     std::wostringstream stream;
     stream << L'#' << std::hex;
 
     if (parse_result_.reserve_alpha) {
-        stream << std::setw(2) << std::setfill(L'0') << static_cast<int>(color.a * 255.f);
+        stream << std::setw(2) << std::setfill(L'0') << int(color.a * 255.f);
     }
 
     stream 
-        << std::setw(2) << std::setfill(L'0') << GetRValue(rgb_value)
-        << std::setw(2) << std::setfill(L'0') << GetGValue(rgb_value)
-        << std::setw(2) << std::setfill(L'0') << GetBValue(rgb_value);
+        << std::setw(2) << std::setfill(L'0') << int(color.r * 255.f)
+        << std::setw(2) << std::setfill(L'0') << int(color.g * 255.f)
+        << std::setw(2) << std::setfill(L'0') << int(color.b * 255.f);
 
     return zaf::ToUppercased(stream.str());
 }
 
 
-std::wstring RGBPreviewControl::GetColorDecimalIntegerText(const zaf::Color& color) {
+std::wstring RGBPreviewControl::GetColorTextInComponentsFormat(const zaf::Color& color) {
 
-    COLORREF rgb_value = color.ToCOLORREF();
+    std::vector<std::wstring> components;
 
-    std::wostringstream stream;
-    stream
-        << GetRValue(rgb_value) << L','
-        << GetGValue(rgb_value) << L','
-        << GetBValue(rgb_value);
+    switch (parse_result_.format) {
+    case RGBCommandParseResult::Format::DecimalIntegerComponents:
+        components = GetComponentTextInDecimalInteger(color);
+        break;
+    case RGBCommandParseResult::Format::DecimalFloatComponents:
+        components = GetComponentTextInDecimalFloat(color);
+        break;
+    case RGBCommandParseResult::Format::HexComponents:
+        components = GetComponentTextInHex(color);
+        break;
+    default:
+        break;
+    }
 
-    return stream.str();
+    std::wstring result;
+    for (auto index : zaf::Range(0u, components.size())) {
+
+        if (index != 0) {
+            result += L" , ";
+        }
+
+        result += components[index];
+    }
+    return result;
 }
 
 
-std::wstring RGBPreviewControl::GetColorDecimalFloatText(const zaf::Color& color) {
+std::vector<std::wstring> RGBPreviewControl::GetComponentTextInDecimalInteger(
+    const zaf::Color& color) {
+
+    std::vector<std::wstring> result{
+        std::to_wstring(int(color.r * 255.f)),
+        std::to_wstring(int(color.g * 255.f)),
+        std::to_wstring(int(color.b * 255.f)),
+    };
+
+    if (parse_result_.reserve_alpha) {
+        result.push_back(std::to_wstring(int(color.a * 255.f)));
+    }
+
+    return result;
+}
+
+
+std::vector<std::wstring> RGBPreviewControl::GetComponentTextInDecimalFloat(
+    const zaf::Color& color) {
 
     auto float_to_string = [](float value) {
     
-        auto string = std::to_wstring(value);
+        std::wostringstream stream;
+        stream.precision(5);
+        stream << value;
+
+        auto string = stream.str();
 
         auto erase_index = string.find_last_not_of(L'0');
         if (erase_index != std::wstring::npos) {
@@ -158,13 +196,40 @@ std::wstring RGBPreviewControl::GetColorDecimalFloatText(const zaf::Color& color
         return string;
     };
 
-    std::wostringstream stream;
-    stream
-        << float_to_string(color.r) << L','
-        << float_to_string(color.g) << L','
-        << float_to_string(color.b);
+    std::vector<std::wstring> result{
+        float_to_string(color.r),
+        float_to_string(color.g),
+        float_to_string(color.b),
+    };
 
-    return stream.str();
+    if (parse_result_.reserve_alpha) {
+        result.push_back(float_to_string(color.a));
+    }
+
+    return result;
+}
+
+
+std::vector<std::wstring> RGBPreviewControl::GetComponentTextInHex(const zaf::Color& color) {
+
+    auto to_hex_string = [](float value) {
+    
+        std::wostringstream stream;
+        stream << std::hex << int(value * 255.f);
+        return L"0x" + zaf::ToUppercased(stream.str());
+    };
+
+    std::vector<std::wstring> result{
+        to_hex_string(color.r),
+        to_hex_string(color.g),
+        to_hex_string(color.b),
+    };
+
+    if (parse_result_.reserve_alpha) {
+        result.push_back(to_hex_string(color.a));
+    }
+
+    return result;
 }
 
 

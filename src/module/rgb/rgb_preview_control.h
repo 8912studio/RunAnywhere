@@ -24,9 +24,11 @@ protected:
 private:
     zaf::Color GetRenderedColor();
     std::wstring GetColorText(const zaf::Color& color);
-    std::wstring GetColorHexText(const zaf::Color& color);
-    std::wstring GetColorDecimalIntegerText(const zaf::Color& color);
-    std::wstring GetColorDecimalFloatText(const zaf::Color& color);
+    std::wstring GetColorTextInARGBFormat(const zaf::Color& color);
+    std::wstring GetColorTextInComponentsFormat(const zaf::Color& color);
+    std::vector<std::wstring> GetComponentTextInDecimalInteger(const zaf::Color& color);
+    std::vector<std::wstring> GetComponentTextInDecimalFloat(const zaf::Color& color);
+    std::vector<std::wstring> GetComponentTextInHex(const zaf::Color& color);
 
 private:
     ZAF_BIND_CONTROL(zaf::Control, colorControl);
