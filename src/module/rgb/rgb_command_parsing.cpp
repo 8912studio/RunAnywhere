@@ -26,7 +26,7 @@ void ParseSwitch(const std::wstring& argument, RGBCommandParseResult& result) {
     else if (argument == L"/f") {
         result.format = RGBCommandParseResult::Format::DecimalFloatComponents;
     }
-    else if (argument == L"/h") {
+    else if (argument == L"/x") {
         result.format = RGBCommandParseResult::Format::HexComponents;
     }
     else if (argument == L"/a") {
