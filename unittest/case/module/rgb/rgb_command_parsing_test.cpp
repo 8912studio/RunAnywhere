@@ -185,3 +185,43 @@ TEST(RGBCommandParsingTest, ARGBFormat) {
 }
 
 
+TEST(RGBCommandParsingTest, AdditionalAlpha) {
+
+	std::vector<std::pair<std::wstring, std::uint32_t>> inputs{
+		{ L"rgb $", 0xff000000 },
+		{ L"rgb $0", 0x00000000 },
+		{ L"rgb $200", 0xc8000000 },
+		{ L"rgb $0.8", 0xcc000000 },
+		{ L"rgb $xab", 0xab000000 },
+		{ L"rgb $0xac", 0xac000000 },
+		{ L"rgb $x", 0x00000000 },
+		{ L"rgb $0x", 0x00000000 },
+		{ L"rgb #ccbbaa $x78", 0x78ccbbaa },
+		{ L"rgb 0x1,0x2,0x3,0x4 $0.5", 0x02010203 },
+	};
+
+	for (const auto& each_input : inputs) {
+
+		ra::utility::CommandLine command_line(each_input.first);
+		auto result = ParseRGBCommand(command_line);
+		ASSERT_TRUE(result.has_value());
+		ASSERT_EQ(result->color, zaf::Color::FromARGB(each_input.second));
+	}
+
+	std::vector<std::wstring> fail_inputs{
+		L"rgb $-1",
+		L"rgb $256",
+		L"rgb $-0.1",
+		L"rgb $1.1",
+		L"rgb $0x100",
+		L"rgb $b01",
+		L"rgb $abc",
+	};
+
+	for (const auto& each_input : fail_inputs) {
+
+		ra::utility::CommandLine command_line(each_input);
+		auto result = ParseRGBCommand(command_line);
+		ASSERT_FALSE(result.has_value());
+	}
+}

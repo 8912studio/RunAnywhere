@@ -19,8 +19,8 @@ help::content::Content RGBCommand::GetHelpContent() {
 
     result.AddTitleLine(L"Usage");
     result.AddBodyLine(
-        L"rgb <R,G,B>\r\n"
-        L"rgb <R,G,B,A>"
+        L"rgb R,G,B\r\n"
+        L"rgb R,G,B,A"
     );
     result.AddBodyLine(
         L"Show color specified with `R`, `G`, `B`, `A` components. Components can be following "
@@ -35,6 +35,11 @@ help::content::Content RGBCommand::GetHelpContent() {
         L"rgb #RRGGBB\r\n"
         L"rgb #AARRGGBB");
     result.AddBodyLine(L"Show color specified with hex RGB or ARGB format.");
+
+    result.AddBodyLine(
+        L"rgb <...> $A\r\n"
+        L"Specify additional alpha to the color. `A` can be integer, float or hex."
+    );
 
     result.AddTitleLine(L"Switchs");
     result.AddTwoPartsLine(L"/a", L"Reserve opacity.");

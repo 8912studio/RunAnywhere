@@ -15,7 +15,6 @@ public:
 
 public:
     zaf::Color color;
-    bool has_alpha_part{};
     bool reserve_alpha{};
     Format format{ Format::ARGB };
 };

@@ -17,6 +17,13 @@ namespace {
 
 constexpr std::size_t RGBAComponentCount = 4;
 
+class RGBCommandParseContext {
+public:
+    zaf::Color intermediate_color;
+    float additional_alpha{ 1.f };
+    RGBCommandParseResult result;
+};
+
 
 void ParseSwitch(const std::wstring& argument, RGBCommandParseResult& result) {
 
@@ -35,7 +42,7 @@ void ParseSwitch(const std::wstring& argument, RGBCommandParseResult& result) {
 }
 
 
-bool ParseColorFromARGBFormat(const std::wstring& argument, RGBCommandParseResult& result) {
+bool ParseColorFromARGBFormat(const std::wstring& argument, zaf::Color& color) {
 
     constexpr std::size_t long_notation_length = 9;
     constexpr std::size_t short_notation_length = 7;
@@ -55,8 +62,7 @@ bool ParseColorFromARGBFormat(const std::wstring& argument, RGBCommandParseResul
 
     try {
 
-        zaf::Color::Type->GetParser()->ParseFromAttribute(revised_notation, result.color);
-        result.has_alpha_part = revised_notation.length() == long_notation_length;
+        zaf::Color::Type->GetParser()->ParseFromAttribute(revised_notation, color);
         return true;
     }
     catch (const zaf::Error&) {
@@ -185,9 +191,7 @@ std::shared_ptr<calculator::OperandNode> ParseComponent(
 }
 
 
-bool ParseColorFromRGBAComponentFormat(
-    const std::wstring& argument, 
-    RGBCommandParseResult& result) {
+bool ParseColorFromRGBAComponentFormat(const std::wstring& argument, zaf::Color& color) {
 
     auto components = zaf::Split(argument, L',');
     if (components.empty() || components.size() > RGBAComponentCount) {
@@ -216,17 +220,45 @@ bool ParseColorFromRGBAComponentFormat(
         parsed_nodes[index] = node;
     }
 
-    auto color = ConvertColorFromComponentNodes(parsed_nodes);
-    if (!color) {
+    auto converted_color = ConvertColorFromComponentNodes(parsed_nodes);
+    if (!converted_color) {
         return false;
     }
 
-    result.color = *color;
+    color = *converted_color;
     return true;
 }
 
 
-bool ParseArgument(const std::wstring& argument, RGBCommandParseResult& result) {
+bool ParseAdditionalAlpha(const std::wstring& argument, float& additional_alpha) {
+
+    auto value_text = argument.substr(1);
+    if (value_text.empty()) {
+        additional_alpha = 1.f;
+        return true;
+    }
+
+    auto operand_node = ParseComponent(value_text, std::nullopt);
+    if (!operand_node) {
+        return false;
+    }
+
+    if (operand_node->base != 10 && operand_node->base != 16) {
+        return false;
+    }
+
+    bool use_float_format = zaf::Contain(operand_node->text, L'.');
+    auto value = ConvertValueFromComponentNode(*operand_node, operand_node->base, use_float_format);
+    if (!value) {
+        return false;
+    }
+
+    additional_alpha = *value;
+    return true;
+}
+
+
+bool ParseArgument(const std::wstring& argument, RGBCommandParseContext& context) {
 
     if (argument.empty()) {
         return false;
@@ -234,14 +266,17 @@ bool ParseArgument(const std::wstring& argument, RGBCommandParseResult& result) 
 
     auto prefix = argument.front();
     if (prefix == L'/') {
-        ParseSwitch(argument, result);
+        ParseSwitch(argument, context.result);
         return true;
     }
+    else if (prefix == L'$') {
+        return ParseAdditionalAlpha(argument, context.additional_alpha);
+    }
     else if (prefix == L'#') {
-        return ParseColorFromARGBFormat(argument, result);
+        return ParseColorFromARGBFormat(argument, context.intermediate_color);
     }
     else {
-        return ParseColorFromRGBAComponentFormat(argument, result);
+        return ParseColorFromRGBAComponentFormat(argument, context.intermediate_color);
     }
 }
 
@@ -253,16 +288,18 @@ std::optional<RGBCommandParseResult> ParseRGBCommand(const utility::CommandLine&
         return std::nullopt;
     }
 
-    RGBCommandParseResult result;
+    RGBCommandParseContext context;
     
     for (const auto& each_argument : command_line.Arguments()) {
 
-        if (!ParseArgument(each_argument, result)) {
+        if (!ParseArgument(each_argument, context)) {
             return std::nullopt;
         }
     }
 
-    return result;
+    context.result.color = context.intermediate_color;
+    context.result.color.a *= context.additional_alpha;
+    return context.result;
 }
 
 }
