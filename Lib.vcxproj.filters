@@ -58,6 +58,15 @@
     <Filter Include="src\help\content">
       <UniqueIdentifier>{51492167-9cbe-4df2-9b87-bc357631b2b9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="third_party">
+      <UniqueIdentifier>{e46e8735-35d7-4a25-8577-36ece8f2490a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="third_party\everything">
+      <UniqueIdentifier>{d7a797ff-2272-440e-83ad-5f1725003f63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="third_party\everything\ipc">
+      <UniqueIdentifier>{df9e5845-4dec-461c-be99-78c109c21d45}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\module\calculator\parse\binary_expression_parser.h">
@@ -393,6 +402,12 @@
     <ClInclude Include="src\module\meta\meta_command_prefix.h">
       <Filter>src\module\meta</Filter>
     </ClInclude>
+    <ClInclude Include="src\context\everything_discovering.h">
+      <Filter>src\context</Filter>
+    </ClInclude>
+    <ClInclude Include="third_party\everything\ipc\everything_ipc.h">
+      <Filter>third_party\everything\ipc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -628,6 +643,9 @@
     </ClCompile>
     <ClCompile Include="src\module\meta\meta_command.cpp">
       <Filter>src\module\meta</Filter>
+    </ClCompile>
+    <ClCompile Include="src\context\everything_discovering.cpp">
+      <Filter>src\context</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
