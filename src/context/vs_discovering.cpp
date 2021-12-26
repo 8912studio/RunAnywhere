@@ -106,7 +106,7 @@ std::wstring GetEncodedPathsFromHosts(HWND foreground_window_handle) {
         }
 
         //Send a message to host window to request the focused path.
-        DWORD result{};
+        DWORD_PTR result{};
         SendMessageTimeout(
             host_window_handle,
             WM_REQUEST_PATH,

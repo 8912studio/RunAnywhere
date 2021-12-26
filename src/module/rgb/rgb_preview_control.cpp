@@ -3,8 +3,8 @@
 #include <zaf/base/container/utility/range.h>
 #include <zaf/base/string/case_conversion.h>
 #include <zaf/object/type_definition.h>
+#include <zaf/graphic/graphic_factory.h>
 #include <zaf/graphic/image/wic/imaging_factory.h>
-#include <zaf/graphic/resource_factory.h>
 
 namespace ra::module::rgb {
 namespace {

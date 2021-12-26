@@ -4,7 +4,7 @@
 #include <zaf/base/container/utility/append.h>
 #include <zaf/base/container/utility/range.h>
 #include <zaf/graphic/font/font_weight.h>
-#include <zaf/graphic/resource_factory.h>
+#include <zaf/graphic/graphic_factory.h>
 #include <zaf/graphic/text/text_format_properties.h>
 #include <zaf/graphic/text/text_layout_properties.h>
 

@@ -1,7 +1,7 @@
 #include "utility/progress_circle.h"
 #include <zaf/graphic/canvas.h>
+#include <zaf/graphic/graphic_factory.h>
 #include <zaf/graphic/matrix.h>
-#include <zaf/graphic/resource_factory.h>
 #include <zaf/object/type_definition.h>
 
 #undef max

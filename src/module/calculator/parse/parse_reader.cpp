@@ -41,7 +41,7 @@ wchar_t ParseReader::GetChar() const {
 		return 0;
 	}
 
-	auto ch = context_->GetCharAtOffset(offset_);
+	auto ch = context_->GetCharAtOffset(static_cast<int>(offset_));
 	if (ch) {
 		return *ch;
 	}

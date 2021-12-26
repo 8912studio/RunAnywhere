@@ -29,7 +29,7 @@ DWORD CopyStringToMemory(const std::wstring& string, HGLOBAL memory_handle) {
 
 void InnerSetStringToClipboard(const std::wstring& string) {
 
-    int memory_size = (string.length() + 1) * sizeof(wchar_t);
+    auto memory_size = (string.length() + 1) * sizeof(wchar_t);
 
     HGLOBAL memory_handle = GlobalAlloc(GMEM_MOVEABLE, memory_size);
     if (memory_handle == NULL) {

@@ -130,7 +130,11 @@ std::optional<zaf::Color> ConvertColorFromComponentNodes(
             continue;
         }
 
-        auto value = ConvertValueFromComponentNode(*node, first_node->base, use_float_format);
+        auto value = ConvertValueFromComponentNode(
+            *node, 
+            static_cast<int>(first_node->base),
+            use_float_format);
+
         if (!value) {
             return std::nullopt;
         }
@@ -209,7 +213,7 @@ bool ParseColorFromRGBAComponentFormat(const std::wstring& argument, zaf::Color&
 
         std::optional<int> force_base;
         if (index != 0) {
-            force_base = parsed_nodes[0]->base;
+            force_base = static_cast<int>(parsed_nodes[0]->base);
         }
 
         auto node = ParseComponent(components[index], force_base);
@@ -248,7 +252,11 @@ bool ParseAdditionalAlpha(const std::wstring& argument, float& additional_alpha)
     }
 
     bool use_float_format = zaf::Contain(operand_node->text, L'.');
-    auto value = ConvertValueFromComponentNode(*operand_node, operand_node->base, use_float_format);
+    auto value = ConvertValueFromComponentNode(
+        *operand_node, 
+        static_cast<int>(operand_node->base), 
+        use_float_format);
+
     if (!value) {
         return false;
     }

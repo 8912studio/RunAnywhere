@@ -32,7 +32,7 @@ EvaluateStatus OperandEvaluator::Evaluate(EvaluateResult& result) {
         bool is_succeeded = zaf::TryToNumeric(
             operand_node_->text,
             integer_value,
-            zaf::ToNumericOptions().Base(operand_node_->base));
+            zaf::ToNumericOptions().Base(static_cast<int>(operand_node_->base)));
 
         if (!is_succeeded) {
             return EvaluateStatus::Overflow;
