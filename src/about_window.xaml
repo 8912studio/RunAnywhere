@@ -1,5 +1,5 @@
 ﻿<AboutWindow 
-    ClientSize="400,300" 
+    ContentSize="400,300" 
     IsSizable="false" 
     CanMaximize="false"
     Title="About RunAnywhere">
