@@ -127,12 +127,12 @@ void ApplicationDelegate::InitializeTrayIconWindow() {
     Subscriptions() += tray_icon_window_->ReceiveMessageEvent().Subscribe(
         [this](const zaf::WindowReceiveMessageInfo& event_info) {
     
-        if (event_info.message.id == task_bar_create_message_id_) {
+        if (event_info.Message().id == task_bar_create_message_id_) {
             ShowTryIcon();
         }
-        else if (event_info.message.id == WM_TRAY_ICON) {
+        else if (event_info.Message().id == WM_TRAY_ICON) {
 
-            switch (event_info.message.lparam) {
+            switch (event_info.Message().lparam) {
             case WM_LBUTTONDBLCLK:
                 ra::MainWindow::Instance().ShowOnTop();
                 break;
@@ -146,9 +146,9 @@ void ApplicationDelegate::InitializeTrayIconWindow() {
                 break;
             }
         }
-        else if (event_info.message.id == WM_COMMAND && event_info.message.lparam == 0) {
+        else if (event_info.Message().id == WM_COMMAND && event_info.Message().lparam == 0) {
 
-            switch (LOWORD(event_info.message.wparam)) {
+            switch (LOWORD(event_info.Message().wparam)) {
             case ID_TRAYICON_EXIT:
                 zaf::Application::Instance().Terminate();
                 break;
