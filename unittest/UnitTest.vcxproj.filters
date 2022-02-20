@@ -127,6 +127,9 @@
     <ClCompile Include="case\module\rgb\rgb_command_parsing_test.cpp">
       <Filter>case\module\rgb</Filter>
     </ClCompile>
+    <ClCompile Include="command_evaluating_test.cpp">
+      <Filter>case\module\calculator</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="case\module\calculator\number_parser_test_utility.h">

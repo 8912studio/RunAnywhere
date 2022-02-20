@@ -24,6 +24,11 @@ bool IsBinaryOperator(OperatorNode::Type type) {
     case OperatorNode::Type::Multiply:
     case OperatorNode::Type::Divide:
     case OperatorNode::Type::Power:
+    case OperatorNode::Type::And:
+    case OperatorNode::Type::Or:
+    case OperatorNode::Type::Xor:
+    case OperatorNode::Type::LeftShift:
+    case OperatorNode::Type::RightShift:
         return true;
     default:
         return false;

@@ -22,6 +22,11 @@ public:
         Multiply,
         Power,
         Divide,
+        And,
+        Or,
+        Xor,
+        LeftShift,
+        RightShift,
     };
 
 public:
@@ -40,6 +45,15 @@ public:
         case Type::Plus:
         case Type::Minus:
             return 100;
+
+        case Type::LeftShift:
+        case Type::RightShift:
+            return 99;
+
+        case Type::And:
+        case Type::Or:
+        case Type::Xor:
+            return 98;
 
         default:
             return 0;

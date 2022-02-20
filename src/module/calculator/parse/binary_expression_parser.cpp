@@ -47,6 +47,15 @@ private:
         case L'/':
             result = OperatorNode::Type::Divide;
             break;
+        case L'&':
+            result = OperatorNode::Type::And;
+            break;
+        case L'|':
+            result = OperatorNode::Type::Or;
+            break;
+        case L'^':
+            result = OperatorNode::Type::Xor;
+            break;
         default:
             break;
         }
@@ -75,6 +84,28 @@ private:
             }
             else {
                 result = OperatorNode::Type::Multiply;
+            }
+        }
+        else if (ch == L'<') {
+
+            reader.Forward();
+
+            ch = reader.GetChar();
+            if (ch == L'<') {
+
+                reader.Forward();
+                result = OperatorNode::Type::LeftShift;
+            }
+        }
+        else if (ch == L'>') {
+
+            reader.Forward();
+
+            ch = reader.GetChar();
+            if (ch == L'>') {
+
+                reader.Forward();
+                result = OperatorNode::Type::RightShift;
             }
         }
 

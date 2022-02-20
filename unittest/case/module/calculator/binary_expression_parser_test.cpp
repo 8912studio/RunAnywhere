@@ -50,6 +50,11 @@ TEST(BinaryExpressionParserTest, Normal) {
 	ASSERT_TRUE(test(L"*", OperatorNode::Type::Multiply));
 	ASSERT_TRUE(test(L"/", OperatorNode::Type::Divide));
 	ASSERT_TRUE(test(L"**", OperatorNode::Type::Power));
+	ASSERT_TRUE(test(L"&", OperatorNode::Type::And));
+	ASSERT_TRUE(test(L"|", OperatorNode::Type::Or));
+	ASSERT_TRUE(test(L"^", OperatorNode::Type::Xor));
+	ASSERT_TRUE(test(L"<<", OperatorNode::Type::LeftShift));
+	ASSERT_TRUE(test(L">>", OperatorNode::Type::RightShift));
 }
 
 
@@ -74,6 +79,11 @@ TEST(BinaryExpressionParserTest, TokenLength) {
 	ASSERT_TRUE(test(L"*"));
 	ASSERT_TRUE(test(L"/"));
 	ASSERT_TRUE(test(L"**"));
+	ASSERT_TRUE(test(L"&"));
+	ASSERT_TRUE(test(L"|"));
+	ASSERT_TRUE(test(L"^"));
+	ASSERT_TRUE(test(L"<<"));
+	ASSERT_TRUE(test(L">>"));
 }
 
 

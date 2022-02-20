@@ -156,6 +156,86 @@ public:
 };
 
 
+class AndOperatorEvaluator : public BinaryOperatorEvaluator {
+public:
+    using BinaryOperatorEvaluator::BinaryOperatorEvaluator;
+
+    EvaluateStatus EvaluateValue(EvaluateResult& result) override {
+
+        result.decimal_value =
+            GetFirstChildValue().decimal_value.convert_to<std::int64_t>()
+            &
+            GetSecondChildValue().decimal_value.convert_to<std::int64_t>();
+
+        return EvaluateStatus::Ok;
+    }
+};
+
+
+class OrOperatorEvaluator : public BinaryOperatorEvaluator {
+public:
+    using BinaryOperatorEvaluator::BinaryOperatorEvaluator;
+
+    EvaluateStatus EvaluateValue(EvaluateResult& result) override {
+
+        result.decimal_value =
+            GetFirstChildValue().decimal_value.convert_to<std::int64_t>()
+            |
+            GetSecondChildValue().decimal_value.convert_to<std::int64_t>();
+
+        return EvaluateStatus::Ok;
+    }
+};
+
+
+class XorOperatorEvaluator : public BinaryOperatorEvaluator {
+public:
+    using BinaryOperatorEvaluator::BinaryOperatorEvaluator;
+
+    EvaluateStatus EvaluateValue(EvaluateResult& result) override {
+
+        result.decimal_value =
+            GetFirstChildValue().decimal_value.convert_to<std::int64_t>()
+            ^
+            GetSecondChildValue().decimal_value.convert_to<std::int64_t>();
+
+        return EvaluateStatus::Ok;
+    }
+};
+
+
+class LeftShiftOperatorEvaluator : public BinaryOperatorEvaluator {
+public:
+    using BinaryOperatorEvaluator::BinaryOperatorEvaluator;
+
+    EvaluateStatus EvaluateValue(EvaluateResult& result) override {
+
+        result.decimal_value =
+            GetFirstChildValue().decimal_value.convert_to<std::int64_t>()
+            <<
+            GetSecondChildValue().decimal_value.convert_to<std::int64_t>();
+
+        return EvaluateStatus::Ok;
+    }
+};
+
+
+class RightShiftOperatorEvaluator : public BinaryOperatorEvaluator {
+public:
+    using BinaryOperatorEvaluator::BinaryOperatorEvaluator;
+
+    EvaluateStatus EvaluateValue(EvaluateResult& result) override {
+
+        result.decimal_value =
+            GetFirstChildValue().decimal_value.convert_to<std::int64_t>()
+            >>
+            GetSecondChildValue().decimal_value.convert_to<std::int64_t>();
+
+        return EvaluateStatus::Ok;
+    }
+};
+
+
 std::shared_ptr<OperatorEvaluator> OperatorEvaluator::Create(
     const std::shared_ptr<OperatorNode>& operator_node) {
 
@@ -183,6 +263,21 @@ std::shared_ptr<OperatorEvaluator> OperatorEvaluator::Create(
 
     case OperatorNode::Type::Divide:
         return std::make_shared<DivideOperatorEvaluator>(operator_node);
+
+    case OperatorNode::Type::And:
+        return std::make_shared<AndOperatorEvaluator>(operator_node);
+        
+    case OperatorNode::Type::Or:
+        return std::make_shared<OrOperatorEvaluator>(operator_node);
+
+    case OperatorNode::Type::Xor:
+        return std::make_shared<XorOperatorEvaluator>(operator_node);
+
+    case OperatorNode::Type::LeftShift:
+        return std::make_shared<LeftShiftOperatorEvaluator>(operator_node);
+
+    case OperatorNode::Type::RightShift:
+        return std::make_shared<RightShiftOperatorEvaluator>(operator_node);
 
     default:
         return nullptr;
