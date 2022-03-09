@@ -27,6 +27,7 @@ TEST(CommandEvaluatingTest, BinaryExpression) {
         return evaluate_result.decimal_value == expected_result;
     };
 
+    ASSERT_TRUE(test(L"10 * 2 ** 3", 80));
     ASSERT_TRUE(test(L"0xffffffff & 0x00ff00ff", 0x00ff00ff));
     ASSERT_TRUE(test(L"0x00f0ff0f | 0x00ff00ff", 0x00ffffff));
     ASSERT_TRUE(test(L"0x00f0ff0f ^ 0x00ff00ff", 0x000ffff0));

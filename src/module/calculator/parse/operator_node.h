@@ -36,6 +36,9 @@ public:
         case Type::Positive:
         case Type::Negative:
         case Type::Not:
+            return 103;
+
+        case Type::Power:
             return 102;
 
         case Type::Multiply:
