@@ -23,6 +23,8 @@ CommandLine::CommandLine(const std::wstring& text) : text_(text) {
             arguments_.push_back(parts[index]);
         }
     }
+
+    LocalFree(parts);
 }
 
 }
