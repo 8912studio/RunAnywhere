@@ -170,6 +170,12 @@
     <ClInclude Include="src\module\date\date_module.h" />
     <ClInclude Include="src\module\date\date_command_parse_result.h" />
     <ClInclude Include="src\module\date\date_preview_control.h" />
+    <ClInclude Include="src\module\extension\extension_command.h" />
+    <ClInclude Include="src\module\extension\extension_command_preview_control.h" />
+    <ClInclude Include="src\module\extension\extension_interface.h" />
+    <ClInclude Include="src\module\extension\extension_module.h" />
+    <ClInclude Include="src\module\extension\extension_module_manager.h" />
+    <ClInclude Include="src\module\extension\sdk\run_anywhere_extension_sdk.h" />
     <ClInclude Include="src\module\meta\meta_command.h" />
     <ClInclude Include="src\module\meta\meta_command_info.h" />
     <ClInclude Include="src\module\meta\meta_command_prefix.h" />
@@ -258,6 +264,10 @@
     <ClCompile Include="src\module\date\date_command_parsing.cpp" />
     <ClCompile Include="src\module\date\date_module.cpp" />
     <ClCompile Include="src\module\date\date_preview_control.cpp" />
+    <ClCompile Include="src\module\extension\extension_command.cpp" />
+    <ClCompile Include="src\module\extension\extension_command_preview_control.cpp" />
+    <ClCompile Include="src\module\extension\extension_module.cpp" />
+    <ClCompile Include="src\module\extension\extension_module_manager.cpp" />
     <ClCompile Include="src\module\meta\meta_command.cpp" />
     <ClCompile Include="src\module\meta\meta_command_info.cpp" />
     <ClCompile Include="src\module\meta\meta_module.cpp" />
@@ -290,6 +300,7 @@
     <Page Include="src\module\calculator\preview\calculator_preview_control.xaml" />
     <Page Include="src\module\crypto\md5\md5_preview_control.xaml" />
     <Page Include="src\module\date\date_preview_control.xaml" />
+    <Page Include="src\module\extension\extension_command_preview_control.xaml" />
     <Page Include="src\module\rgb\rgb_preview_control.xaml" />
     <Page Include="src\module\user_defined\preview\user_defined_command_preview_control.xaml" />
     <Page Include="src\option_window.xaml" />

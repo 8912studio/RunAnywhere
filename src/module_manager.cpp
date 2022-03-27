@@ -1,4 +1,5 @@
 #include "module_manager.h"
+#include <zaf/application.h>
 #include <zaf/base/container/utility/append.h>
 #include <zaf/base/string/trim.h>
 #include "module/active_path/active_path_module.h"
@@ -16,12 +17,17 @@ void ModuleManager::Initialize() {
     user_defined_module_ = std::make_shared<module::user_defined::UserDefinedModule>();
     user_defined_module_->Reload();
 
+    extension_module_manager_ = std::make_unique<module::extension::ExtensionModuleManager>(
+        zaf::Application::Instance().GetExeDirectoryPath() / L"Extensions");
+    extension_module_manager_->Load();
+
     modules_.push_back(std::make_shared<module::meta::MetaModule>());
     modules_.push_back(std::make_shared<module::active_path::ActivePathModule>());
     modules_.push_back(std::make_shared<module::date::DateModule>());
     modules_.push_back(std::make_shared<module::crypto::CryptoModule>());
     modules_.push_back(std::make_shared<module::rgb::RGBModule>());
     modules_.push_back(user_defined_module_);
+    zaf::Append(modules_, extension_module_manager_->GetAllModules());
     modules_.push_back(std::make_shared<module::calculator::CalculatorModule>());
 }
 

@@ -112,7 +112,7 @@ void MD5PreviewControl::SetMD5Encoding(std::optional<MD5Encoding> encoding) {
 		return;
 	}
 
-	auto container_preferred_size = md5EncodingContainer->GetPreferredSize();
+	auto container_preferred_size = md5EncodingContainer->CalculatePreferredSize();
 	md5EncodingContainer->SetFixedWidth(container_preferred_size.width);
 }
 

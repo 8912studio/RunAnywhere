@@ -82,7 +82,7 @@ void AboutWindow::AfterParse() {
 
 void AboutWindow::InitializeGithubLabel() {
 
-    auto preferred_size = githubButton->GetPreferredSize();
+    auto preferred_size = githubButton->CalculatePreferredSize();
     githubButton->SetFixedWidth(preferred_size.width);
 
     githubButton->SetTextColorPicker([](const zaf::Control& control) {

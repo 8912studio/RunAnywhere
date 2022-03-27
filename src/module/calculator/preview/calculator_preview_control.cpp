@@ -39,7 +39,7 @@ void CalculatorPreviewControl::ResizetLabelToSuitableSize() {
 
 		resultLabel->SetFontSize(font_size);
 
-		auto result_label_size = resultLabel->GetPreferredSize();
+		auto result_label_size = resultLabel->CalculatePreferredSize();
 		auto result_label_margin = resultLabel->Margin();
 
 		auto total_width =
@@ -49,7 +49,7 @@ void CalculatorPreviewControl::ResizetLabelToSuitableSize() {
 
 		if (total_width <= content_size.width) {
 
-			resultLabel->ResizeToPreferredSize();
+			resultLabel->SetSize(result_label_size);
 			break;
 		}
 	}

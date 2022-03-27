@@ -8,6 +8,10 @@
     <IntDir>$(SolutionDir)build\int\$(ProjectName)\$(Configuration)\</IntDir>
     <OutDir>$(SolutionDir)build\out\$(Configuration)\</OutDir>
   </PropertyGroup>
-  <ItemDefinitionGroup />
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <PreprocessorDefinitions>RUN_ANYWHERE_EXTENSION_HOST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
   <ItemGroup />
 </Project>

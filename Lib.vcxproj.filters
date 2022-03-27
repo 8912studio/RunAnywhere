@@ -67,6 +67,12 @@
     <Filter Include="third_party\everything\ipc">
       <UniqueIdentifier>{df9e5845-4dec-461c-be99-78c109c21d45}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\module\extension">
+      <UniqueIdentifier>{57d1be19-0b48-44c7-941c-15e07f87e315}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\module\extension\sdk">
+      <UniqueIdentifier>{ee1e888d-977a-4184-b43e-e468dc823511}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\module\calculator\parse\binary_expression_parser.h">
@@ -408,6 +414,24 @@
     <ClInclude Include="third_party\everything\ipc\everything_ipc.h">
       <Filter>third_party\everything\ipc</Filter>
     </ClInclude>
+    <ClInclude Include="src\module\extension\sdk\run_anywhere_extension_sdk.h">
+      <Filter>src\module\extension\sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\extension\extension_module.h">
+      <Filter>src\module\extension</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\extension\extension_command.h">
+      <Filter>src\module\extension</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\extension\extension_interface.h">
+      <Filter>src\module\extension</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\extension\extension_module_manager.h">
+      <Filter>src\module\extension</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\extension\extension_command_preview_control.h">
+      <Filter>src\module\extension</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -647,6 +671,18 @@
     <ClCompile Include="src\context\everything_discovering.cpp">
       <Filter>src\context</Filter>
     </ClCompile>
+    <ClCompile Include="src\module\extension\extension_module.cpp">
+      <Filter>src\module\extension</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\extension\extension_command.cpp">
+      <Filter>src\module\extension</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\extension\extension_module_manager.cpp">
+      <Filter>src\module\extension</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\extension\extension_command_preview_control.cpp">
+      <Filter>src\module\extension</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Page Include="src\module\user_defined\preview\user_defined_command_preview_control.xaml">
@@ -678,6 +714,9 @@
     </Page>
     <Page Include="src\help\help_window.xaml">
       <Filter>src\help</Filter>
+    </Page>
+    <Page Include="src\module\extension\extension_command_preview_control.xaml">
+      <Filter>src\module\extension</Filter>
     </Page>
   </ItemGroup>
   <ItemGroup>
