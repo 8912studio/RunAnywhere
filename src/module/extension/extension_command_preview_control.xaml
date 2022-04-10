@@ -6,8 +6,9 @@
     <ScrollableControl 
         Name="scrollControl" 
         Border="0" 
-        AllowHorizontalScroll="false">
-        <ScrollableControl.ScrollContentControl>
+        AllowHorizontalScroll="false"
+        ScrollBarThickness="12">
+        <ScrollableControl.ScrollContent>
             <TextBox 
                 Name="textBox" 
                 Border="0"
@@ -15,6 +16,6 @@
                 FontSize="14"
                 WordWrapping="Wrap"
             />
-        </ScrollableControl.ScrollContentControl>
+        </ScrollableControl.ScrollContent>
     </ScrollableControl>
 </ExtensionCommandPreviewControl>

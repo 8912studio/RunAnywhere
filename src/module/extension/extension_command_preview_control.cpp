@@ -1,4 +1,6 @@
 #include "module/extension/extension_command_preview_control.h"
+#include <zaf/base/string/trim.h>
+#include <zaf/control/scroll_bar.h>
 #include <zaf/object/type_definition.h>
 
 namespace ra::module::extension {
@@ -12,7 +14,7 @@ void ExtensionCommandPreviewControl::AfterParse() {
 
     __super::AfterParse();
 
-    scrollControl->SetScrollBarThickness(12);
+    scrollControl->VerticalScrollBar()->SetSmallChange(14);
 
     Subscriptions() += scrollControl->RectChangeEvent().Subscribe(
         [this](const zaf::ControlRectChangeInfo& event_info) {
@@ -27,7 +29,9 @@ void ExtensionCommandPreviewControl::AfterParse() {
 
 void ExtensionCommandPreviewControl::SetText(const std::wstring& text) {
 
-    textBox->SetText(text);
+    //A known bug of TextBox: if there is a line break in the end of text, vertical scroll bar can
+    //not reach the bottom. So do a trimming first. 
+    textBox->SetText(zaf::ToTrimmed(text));
     ResetTextBoxHeight();
 }
 
@@ -35,7 +39,7 @@ void ExtensionCommandPreviewControl::SetText(const std::wstring& text) {
 void ExtensionCommandPreviewControl::ResetTextBoxHeight() {
 
     zaf::Size max_size{ 
-        scrollControl->Width() - scrollControl->GetScrollBarThickness(),
+        scrollControl->Width() - scrollControl->ScrollBarThickness(),
         std::numeric_limits<float>::max() 
     };
 

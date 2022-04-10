@@ -25,12 +25,12 @@ void HelpWindow::AfterParse() {
     auto& scrollable_control = zaf::As<zaf::ScrollableControl>(*RootControl());
     scrollable_control.SetScrollBarThickness(10);
     
-    auto scroll_bar = scrollable_control.GetVerticalScrollBar();
+    auto scroll_bar = scrollable_control.VerticalScrollBar();
     scroll_bar->SetArrowLength(0);
     scroll_bar->SetPadding(zaf::Frame{ 0, 2, 0, 2 });
     scroll_bar->SetSmallChange(16);
 
-    auto scroll_content_control = scrollable_control.ScrollContentControl();
+    auto scroll_content_control = scrollable_control.ScrollContent();
     scroll_content_control->SetLayouter(zaf::Create<zaf::VerticalLayouter>());
     scroll_content_control->AddChild(content_control_);
 
@@ -94,7 +94,7 @@ void HelpWindow::LayoutScrollButtonContainer() {
     container_position.x =
         content_rect.position.x + 
         content_rect.size.width - scrollButtonContainer->Width() - 
-        scrollable_control->GetScrollBarThickness() - 
+        scrollable_control->ScrollBarThickness() - 
         margin;
 
     container_position.y = margin;
@@ -106,7 +106,7 @@ void HelpWindow::LayoutScrollButtonContainer() {
 void HelpWindow::OnNeedUpdateHeight(float new_height) {
 
     auto& scrollable_control = zaf::As<zaf::ScrollableControl>(*RootControl());
-    scrollable_control.SetScrollContentSize(zaf::Size{ 0, new_height });
+    scrollable_control.ScrollContent()->SetFixedHeight(new_height);
 
     //Set window height at next message loop to avoid re-enter issues.
     Subscriptions() += zaf::rx::Just(0).SubscribeOn(zaf::Scheduler::Main()).Subscribe(
@@ -135,7 +135,7 @@ void HelpWindow::SetContent(const content::Content& content) {
 void HelpWindow::ScrollLine(bool scroll_up) {
 
     auto& scrollable_control = zaf::As<zaf::ScrollableControl>(*RootControl());
-    auto scroll_bar = scrollable_control.GetVerticalScrollBar();
+    auto scroll_bar = scrollable_control.VerticalScrollBar();
 
     int small_change = scroll_bar->GetSmallChange();
     int new_value = scroll_bar->GetValue() + (scroll_up ? -small_change : small_change);
@@ -146,7 +146,7 @@ void HelpWindow::ScrollLine(bool scroll_up) {
 void HelpWindow::ScrollPage(bool scroll_up) {
 
     auto& scrollable_control = zaf::As<zaf::ScrollableControl>(*RootControl());
-    auto scroll_bar = scrollable_control.GetVerticalScrollBar();
+    auto scroll_bar = scrollable_control.VerticalScrollBar();
 
     int page_size = scroll_bar->GetPageSize();
     int new_value = scroll_bar->GetValue() + (scroll_up ? -page_size : page_size);
