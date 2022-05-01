@@ -5,6 +5,7 @@
 #include <zaf/control/label.h>
 #include <zaf/control/layout/linear_layouter.h>
 #include <zaf/creation.h>
+#include <zaf/graphic/dpi.h>
 #include <zaf/object/type_definition.h>
 #include <zaf/window/message/activate_message.h>
 #include <zaf/window/message/hit_test_message.h>
@@ -76,12 +77,13 @@ void MainWindow::ShowOnTop() {
     desktop_context_ = context::DiscoverDesktopContext();
 
     //First show, center the window in screen
-    if (this->IsClosed()) {
+    if (!this->Handle()) {
 
         auto size = this->Size();
+        auto dpi = GetDPI();
 
-        int screen_width = GetSystemMetrics(SM_CXSCREEN);
-        int screen_height = GetSystemMetrics(SM_CYSCREEN);
+        auto screen_width = zaf::ToDIPs(static_cast<float>(GetSystemMetrics(SM_CXSCREEN)), dpi);
+        auto screen_height = zaf::ToDIPs(static_cast<float>(GetSystemMetrics(SM_CYSCREEN)), dpi);
         zaf::Point position(
             (screen_width - size.width) / 2,
             (screen_height - size.height) / 2 - size.height * 2); //Make the window a bit higher

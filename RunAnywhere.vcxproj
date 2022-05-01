@@ -70,6 +70,9 @@
     <PreBuildEvent>
       <Command>$(ZafOutDir)zrcb.exe /o $(SolutionDir)src\res.rc /i /e .xaml.png $(SolutionDir)src</Command>
     </PreBuildEvent>
+    <Manifest>
+      <EnableDpiAwareness>PerMonitorHighDPIAware</EnableDpiAwareness>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -92,6 +95,9 @@
     <PreBuildEvent>
       <Command>$(ZafOutDir)zrcb.exe /o $(SolutionDir)src\res.rc /i /e .xaml.png $(SolutionDir)src</Command>
     </PreBuildEvent>
+    <Manifest>
+      <EnableDpiAwareness>PerMonitorHighDPIAware</EnableDpiAwareness>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />

@@ -5,7 +5,7 @@
     CanMaximize="false"
     HasTitleBar="false" 
     IsToolWindow="true"
-    Size="320,400"
+    ContentSize="320,400"
     InitialRectStyle="Custom"
     ActivateOption="NoActivate">
 

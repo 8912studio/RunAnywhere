@@ -6,7 +6,7 @@
     HasTitleBar="false" 
     IsToolWindow="true"
     InitialRectStyle="Custom"
-    Size="600,60">
+    ContentSize="600,60">
     
     <MainWindow.RootControl>
         <VerticalBox BackgroundColor="White" />
