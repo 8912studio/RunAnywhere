@@ -12,8 +12,8 @@
         <Control 
             FixedWidth="64"
             FixedHeight="64"
-            BackgroundImage="res:///resource/logo/logo_64.png" 
-            BackgroundImageLayout="Center"/>
+            BackgroundImage="res:///resource/logo_about.png" 
+            BackgroundImageLayout="Stretch"/>
         <Label 
             TextAlignment="Leading" 
             ParagraphAlignment="Center" 

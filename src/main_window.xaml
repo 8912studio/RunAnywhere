@@ -16,8 +16,8 @@
         <Control 
             FixedWidth="40" 
             FixedHeight="40"
-            BackgroundImage="res:///resource/logo/logo_40.png" 
-            BackgroundImageLayout="Center"/>
+            BackgroundImage="res:///resource/logo_main.png" 
+            BackgroundImageLayout="Stretch"/>
         <TextBox 
             Name="inputTextBox"
             FixedHeight="40" 
