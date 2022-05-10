@@ -350,3 +350,4 @@ MigrationBackup/
 .ionide/
 /third_party/boost/include/boost
 /build/deploy
+/src/res.rc
