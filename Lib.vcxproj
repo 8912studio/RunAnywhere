@@ -97,6 +97,7 @@
     <ClInclude Include="src\context\everything_discovering.h" />
     <ClInclude Include="src\context\explorer_discovering.h" />
     <ClInclude Include="src\context\vs_discovering.h" />
+    <ClInclude Include="src\environment_variable_manager.h" />
     <ClInclude Include="src\help\content\body_line.h" />
     <ClInclude Include="src\help\content\content.h" />
     <ClInclude Include="src\help\content\line.h" />
@@ -216,6 +217,7 @@
     <ClCompile Include="src\context\everything_discovering.cpp" />
     <ClCompile Include="src\context\explorer_discovering.cpp" />
     <ClCompile Include="src\context\vs_discovering.cpp" />
+    <ClCompile Include="src\environment_variable_manager.cpp" />
     <ClCompile Include="src\help\content_layouter.cpp" />
     <ClCompile Include="src\help\help_content_building.cpp" />
     <ClCompile Include="src\help\help_content_control.cpp" />

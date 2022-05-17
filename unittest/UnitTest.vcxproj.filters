@@ -130,6 +130,9 @@
     <ClCompile Include="command_evaluating_test.cpp">
       <Filter>case\module\calculator</Filter>
     </ClCompile>
+    <ClCompile Include="case\environment_variable_manager_test.cpp">
+      <Filter>case</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="case\module\calculator\number_parser_test_utility.h">

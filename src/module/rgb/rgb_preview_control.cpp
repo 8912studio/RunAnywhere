@@ -54,8 +54,8 @@ zaf::Color RGBPreviewControl::GetRenderedColor() {
 
     zaf::Size bitmap_size{ 1, 1 };
 
-    auto bitmap = zaf::GetImagingFactory().CreateBitmap(bitmap_size);
-    auto bitmap_renderer = zaf::GetGraphicFactory().CreateBitmapRenderer(bitmap, {});
+    auto bitmap = zaf::wic::ImagingFactory::Instance().CreateBitmap(bitmap_size);
+    auto bitmap_renderer = zaf::GraphicFactory::Instance().CreateBitmapRenderer(bitmap, {});
 
     bitmap_renderer.BeginDraw();
 

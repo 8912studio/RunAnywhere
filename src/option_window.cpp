@@ -1,4 +1,5 @@
 #include "option_window.h"
+#include <zaf/application.h>
 #include <zaf/base/registry/registry.h>
 #include <zaf/object/type_definition.h>
 #include "hot_key_manager.h"

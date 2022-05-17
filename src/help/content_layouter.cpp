@@ -26,7 +26,7 @@ zaf::TextFormat CreateTextFormat(const LayoutProperties& layout_properties) {
     text_format_properties.font_weight = 
         layout_properties.is_bold ? zaf::FontWeight::Bold : zaf::FontWeight::Regular;
 
-    auto text_format = zaf::GetGraphicFactory().CreateTextFormat(text_format_properties);
+    auto text_format = zaf::GraphicFactory::Instance().CreateTextFormat(text_format_properties);
     text_format.SetParagraphAlignment(zaf::ParagraphAlignment::Top);
     text_format.SetTextAlignment(
         layout_properties.is_right_alignment ? 
@@ -47,7 +47,7 @@ zaf::TextLayout CreateTextLayout(
     text_layout_properties.text = text;
     text_layout_properties.text_format = CreateTextFormat(layout_properties);
 
-    auto text_layout = zaf::GetGraphicFactory().CreateTextLayout(text_layout_properties);
+    auto text_layout = zaf::GraphicFactory::Instance().CreateTextLayout(text_layout_properties);
 
     text_layout.SetFontStyle(
         layout_properties.is_italic ? zaf::FontStyle::Italic : zaf::FontStyle::Normal,

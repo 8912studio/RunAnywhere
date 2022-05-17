@@ -432,6 +432,9 @@
     <ClInclude Include="src\module\extension\extension_command_preview_control.h">
       <Filter>src\module\extension</Filter>
     </ClInclude>
+    <ClInclude Include="src\environment_variable_manager.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -682,6 +685,9 @@
     </ClCompile>
     <ClCompile Include="src\module\extension\extension_command_preview_control.cpp">
       <Filter>src\module\extension</Filter>
+    </ClCompile>
+    <ClCompile Include="src\environment_variable_manager.cpp">
+      <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

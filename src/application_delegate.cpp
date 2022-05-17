@@ -3,6 +3,7 @@
 #include <zaf/base/registry/registry.h>
 #include <zaf/creation.h>
 #include "about_window.h"
+#include "environment_variable_manager.h"
 #include "hot_key_manager.h"
 #include "hot_key_utility.h"
 #include "main_window.h"
@@ -103,6 +104,8 @@ void InitializeHotKey() {
 
 
 void ApplicationDelegate::ApplicationBeginRun(const zaf::ApplicationBeginRunInfo&) {
+
+    EnvironmentVariableManager::Instance().Initialize();
 
     task_bar_create_message_id_ = RegisterWindowMessage(L"TaskbarCreated");
 

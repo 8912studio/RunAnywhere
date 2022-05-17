@@ -2,7 +2,6 @@
 #include <zaf/base/string/case_conversion.h>
 #include <zaf/graphic/image/image.h>
 #include <zaf/object/type_definition.h>
-#include <zaf/resource/resource_manager.h>
 #include <zaf/rx/scheduler.h>
 #include "module/crypto/md5/md5_calculating.h"
 #include "utility/path_trimming.h"

@@ -2,6 +2,7 @@
 #include <Windows.h>
 #include <zaf/base/container/utility/range.h>
 #include <zaf/creation.h>
+#include "environment_variable_manager.h"
 #include "module/active_path/active_path_modifying.h"
 #include "module/active_path/active_path_option_parsing.h"
 #include "module/user_defined/preview/user_defined_command_preview_control.h"
@@ -67,6 +68,9 @@ std::shared_ptr<CommandPreviewControl> UserDefinedCommand::GetPreviewControl() {
 void UserDefinedCommand::Execute() {
 
     auto parse_result = ParseCommandLine();
+
+    //Update current process' environment variables in order to inherit them in child process.
+    EnvironmentVariableManager::Instance().Update();
 
     ShellExecute(
         nullptr,
