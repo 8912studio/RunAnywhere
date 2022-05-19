@@ -24,4 +24,9 @@
         Margin="0,20,0,0"
         ParagraphAlignment="Center"
         Text="Auto run on system boot" />
+    <CheckBox
+        Name="autoHideCheckBox"
+        FixedHeight="30"
+        ParagraphAlignment="Center"
+        Text="Auto hide window on lost focus" />
 </OptionWindow>

@@ -72,11 +72,11 @@ void InitializeHotKey() {
     hot_key_manager.Initialize();
 
     zaf::Application::Instance().Subscriptions() += hot_key_manager.HotKeyPressedEvent().Subscribe(
-        [](zaf::Dumb) {
+        [](zaf::None) {
 
         auto& main_window = ra::MainWindow::Instance();
 
-        if (IsWindowVisible(main_window.Handle())) {
+        if (main_window.IsVisible() && main_window.IsFocused()) {
             main_window.Hide();
         }
         else {
@@ -127,8 +127,8 @@ void ApplicationDelegate::InitializeTrayIconWindow() {
     tray_icon_window_->SetRect(zaf::Rect{});
     tray_icon_window_->CreateHandle();
 
-    Subscriptions() += tray_icon_window_->ReceiveMessageEvent().Subscribe(
-        [this](const zaf::WindowReceiveMessageInfo& event_info) {
+    Subscriptions() += tray_icon_window_->HandleMessageEvent().Subscribe(
+        [this](const zaf::WindowHandleMessageInfo& event_info) {
     
         if (event_info.Message().id == task_bar_create_message_id_) {
             ShowTryIcon();

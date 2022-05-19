@@ -21,15 +21,19 @@ private:
     void OnHotKeyChanged(const HotKey& hot_key);
     void CheckIfHotKeyValid();
 
-    void CheckAutoRunCheckBoxState();
+    void UpdateAutoRunCheckBoxState();
     bool CheckIfSetAutoRun();
     void OnAutoRunCheckBoxStateChanged();
     void SetAutoRunToRegistry(bool set);
+
+    void UpdateAutoHideCheckBoxState();
+    void OnAutoHideCheckBoxStateChanged();
 
 private:
     ZAF_BIND_CONTROL(HotKeyBox, hotKeyBox);
     ZAF_BIND_CONTROL(zaf::Label, hotKeyInvalidLabel);
     ZAF_BIND_CONTROL(zaf::CheckBox, autoRunCheckBox);
+    ZAF_BIND_CONTROL(zaf::CheckBox, autoHideCheckBox);
 };
 
 }

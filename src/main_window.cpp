@@ -7,7 +7,6 @@
 #include <zaf/creation.h>
 #include <zaf/graphic/dpi.h>
 #include <zaf/object/type_definition.h>
-#include <zaf/window/message/activate_message.h>
 #include <zaf/window/message/hit_test_message.h>
 #include <zaf/window/message/hit_test_result.h>
 #include <zaf/window/message/keyboard_message.h>
@@ -21,6 +20,7 @@
 #include "module/meta/meta_module.h"
 #include "module/rgb/rgb_module.h"
 #include "module/user_defined/user_defined_module.h"
+#include "option_storage.h"
 #include "utility/path_trimming.h"
 
 namespace ra {
@@ -268,7 +268,7 @@ void MainWindow::ExecuteCommand() {
 }
 
 
-bool MainWindow::ReceiveMessage(const zaf::Message& message, LRESULT& result) {
+bool MainWindow::HandleMessage(const zaf::Message& message, LRESULT& result) {
 
     if (message.id == WM_KEYDOWN) {
         if (ReceiveKeyDownMessage(zaf::KeyMessage{ message })) {
@@ -276,26 +276,7 @@ bool MainWindow::ReceiveMessage(const zaf::Message& message, LRESULT& result) {
         }
     }
     else if (message.id == WM_ACTIVATE) {
-
-        zaf::ActivateMessage activate_message{ message };
-        if (activate_message.State() == zaf::ActivateState::Inactive) {
-
-            bool should_hide{ true };
-
-            HWND current_hwnd = activate_message.EffectingWindowHandle();
-            while (current_hwnd) {
-
-                current_hwnd = GetWindow(current_hwnd, GW_OWNER);
-                if (current_hwnd == this->Handle()) {
-                    should_hide = false;
-                    break;
-                }
-            }
-
-            if (should_hide) {
-                this->Hide();
-            }
-        }
+        HandleActivateMessage(zaf::ActivateMessage{ message });
     }
     else if (message.id == WM_SHOWWINDOW) {
 
@@ -310,7 +291,7 @@ bool MainWindow::ReceiveMessage(const zaf::Message& message, LRESULT& result) {
         UpdateHelpWindowPosition();
     }
 
-    return __super::ReceiveMessage(message, result);
+    return __super::HandleMessage(message, result);
 }
 
 
@@ -389,6 +370,34 @@ std::optional<zaf::HitTestResult> MainWindow::HitTest(const zaf::HitTestMessage&
     }
 
     return zaf::HitTestResult::TitleBar;
+}
+
+
+void MainWindow::HandleActivateMessage(const zaf::ActivateMessage& message) {
+
+    if (message.State() != zaf::ActivateState::Inactive) {
+        return;
+    }
+
+    if (!OptionStorage::Instance().AutoHideOnLostFocus()) {
+        return;
+    }
+
+    bool should_hide{ true };
+
+    HWND current_hwnd = message.EffectingWindowHandle();
+    while (current_hwnd) {
+
+        current_hwnd = GetWindow(current_hwnd, GW_OWNER);
+        if (current_hwnd == this->Handle()) {
+            should_hide = false;
+            break;
+        }
+    }
+
+    if (should_hide) {
+        this->Hide();
+    }
 }
 
 

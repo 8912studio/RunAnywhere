@@ -3,6 +3,7 @@
 #include <zaf/base/registry/registry.h>
 #include <zaf/object/type_definition.h>
 #include "hot_key_manager.h"
+#include "option_storage.h"
 
 namespace ra {
 namespace {
@@ -41,13 +42,17 @@ void OptionWindow::AfterParse() {
     hotKeyBox->SetHotKey(HotKeyManager::Instance().GetCurrentHotKey());
     CheckIfHotKeyValid();
 
-    CheckAutoRunCheckBoxState();
+    UpdateAutoRunCheckBoxState();
+    UpdateAutoHideCheckBoxState();
 
     Subscriptions() += hotKeyBox->HotKeyChangedEvent().Subscribe(
         std::bind(&OptionWindow::OnHotKeyChanged, this, std::placeholders::_1));
 
     Subscriptions() += autoRunCheckBox->CheckStateChangeEvent().Subscribe(
         std::bind(&OptionWindow::OnAutoRunCheckBoxStateChanged, this));
+
+    Subscriptions() += autoHideCheckBox->CheckStateChangeEvent().Subscribe(
+        std::bind(&OptionWindow::OnAutoHideCheckBoxStateChanged, this));
 }
 
 
@@ -68,7 +73,7 @@ void OptionWindow::OnHotKeyChanged(const HotKey& hot_key) {
 }
 
 
-void OptionWindow::CheckAutoRunCheckBoxState() {
+void OptionWindow::UpdateAutoRunCheckBoxState() {
 
     autoRunCheckBox->SetIsChecked(CheckIfSetAutoRun());
 }
@@ -93,7 +98,7 @@ bool OptionWindow::CheckIfSetAutoRun() {
 void OptionWindow::OnAutoRunCheckBoxStateChanged() {
 
     SetAutoRunToRegistry(autoRunCheckBox->IsChecked());
-    CheckAutoRunCheckBoxState();
+    UpdateAutoRunCheckBoxState();
 }
 
 
@@ -118,6 +123,18 @@ void OptionWindow::SetAutoRunToRegistry(bool set) {
     catch (const zaf::Error&) {
 
     }
+}
+
+
+void OptionWindow::UpdateAutoHideCheckBoxState() {
+
+    autoHideCheckBox->SetIsChecked(OptionStorage::Instance().AutoHideOnLostFocus());
+}
+
+
+void OptionWindow::OnAutoHideCheckBoxStateChanged() {
+
+    OptionStorage::Instance().SetAutoHideOnLostFocus(autoHideCheckBox->IsChecked());
 }
 
 }

@@ -5,6 +5,7 @@
     CanMaximize="false"
     HasTitleBar="false" 
     IsToolWindow="true"
+    IsTopmost="true"
     InitialRectStyle="Custom"
     ContentSize="600,60">
     

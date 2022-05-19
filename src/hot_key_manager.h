@@ -1,7 +1,7 @@
 #pragma once
 
+#include <zaf/base/none.h>
 #include <zaf/window/message_only_window.h>
-#include <zaf/rx/dumb.h>
 #include <zaf/rx/subject.h>
 #include <zaf/rx/subscription_host.h>
 #include "hot_key.h"
@@ -28,7 +28,7 @@ public:
         return is_hot_key_valid_;
     }
 
-    zaf::Observable<zaf::Dumb> HotKeyPressedEvent() {
+    zaf::Observable<zaf::None> HotKeyPressedEvent() {
         return hot_key_pressed_subject_.GetObservable();
     }
 
@@ -46,7 +46,7 @@ private:
     bool is_hot_key_valid_{};
 
     std::unique_ptr<zaf::MessageOnlyWindow> hot_key_message_window_;
-    zaf::Subject<zaf::Dumb> hot_key_pressed_subject_;
+    zaf::Subject<zaf::None> hot_key_pressed_subject_;
 };
 
 }

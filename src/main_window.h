@@ -1,8 +1,9 @@
 #pragma once
 
-#include <zaf/window/window.h>
 #include <zaf/control/control_binder.h>
 #include <zaf/control/text_box.h>
+#include <zaf/window/message/activate_message.h>
+#include <zaf/window/window.h>
 #include "context/desktop_context.h"
 #include "help/help_window.h"
 #include "module/command_preview_control.h"
@@ -23,7 +24,7 @@ public:
 protected:
     void AfterParse() override;
 
-    bool ReceiveMessage(const zaf::Message& message, LRESULT& result) override;
+    bool HandleMessage(const zaf::Message& message, LRESULT& result) override;
     std::optional<zaf::HitTestResult> HitTest(const zaf::HitTestMessage& message) override;
     void OnWindowShown() override;
 
@@ -49,6 +50,7 @@ private:
 
     bool ReceiveKeyDownMessage(const zaf::KeyMessage& message);
     bool HandleHelpWindowScrollMessage(const zaf::KeyMessage& message);
+    void HandleActivateMessage(const zaf::ActivateMessage& message);
 
 private:
     ZAF_BIND_CONTROL(zaf::TextBox, inputTextBox);

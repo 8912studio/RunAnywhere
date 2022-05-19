@@ -435,6 +435,9 @@
     <ClInclude Include="src\environment_variable_manager.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="src\option_storage.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -687,6 +690,9 @@
       <Filter>src\module\extension</Filter>
     </ClCompile>
     <ClCompile Include="src\environment_variable_manager.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\option_storage.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
