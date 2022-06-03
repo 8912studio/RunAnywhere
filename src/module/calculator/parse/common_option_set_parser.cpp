@@ -64,6 +64,10 @@ public:
             return ParseStatus::Ok;
         }
 
+        if (std::isupper(reader.GetChar())) {
+            modifier.use_unsigned_type = true;
+        }
+
         reader.Forward();
         return ParseStatus::Ok;
     }

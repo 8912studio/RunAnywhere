@@ -59,7 +59,7 @@ TEST(ModifierParserTest, Combine) {
     auto test = [](
         const std::wstring& input, 
         int expected_base, 
-        int expected_length,
+        std::optional<int> expected_length,
         NumberUnit unit,
         std::optional<int> highlight_bit) {
 
@@ -81,12 +81,12 @@ TEST(ModifierParserTest, Combine) {
         return context.GetCurrentIndex() == context.GetLength();
     };
 
-    ASSERT_TRUE(test(L";", 10, 32, NumberUnit::Normal, std::nullopt));
-    ASSERT_TRUE(test(L";b", 2, 32, NumberUnit::Normal, std::nullopt));
+    ASSERT_TRUE(test(L";", 10, std::nullopt, NumberUnit::Normal, std::nullopt));
+    ASSERT_TRUE(test(L";b", 2, std::nullopt, NumberUnit::Normal, std::nullopt));
     ASSERT_TRUE(test(L";xb", 16, 8, NumberUnit::Normal, std::nullopt));
     ASSERT_TRUE(test(L";oq", 8, 64, NumberUnit::Normal, std::nullopt));
-    ASSERT_TRUE(test(L"; ^3", 10, 32, NumberUnit::Normal, 3));
-    ASSERT_TRUE(test(L"; ^23 't", 10, 32, NumberUnit::Tera, 23));
-    ASSERT_TRUE(test(L";'G", 10, 32, NumberUnit::Giga, std::nullopt));
-    ASSERT_TRUE(test(L";'G^78", 10, 32, NumberUnit::Giga, 78));
+    ASSERT_TRUE(test(L"; ^3", 10, std::nullopt, NumberUnit::Normal, 3));
+    ASSERT_TRUE(test(L"; ^23 't", 10, std::nullopt, NumberUnit::Tera, 23));
+    ASSERT_TRUE(test(L";'G", 10, std::nullopt, NumberUnit::Giga, std::nullopt));
+    ASSERT_TRUE(test(L";'G^78", 10, std::nullopt, NumberUnit::Giga, 78));
 }

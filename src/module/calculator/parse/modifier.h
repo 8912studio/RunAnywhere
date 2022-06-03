@@ -8,7 +8,8 @@ namespace ra::module::calculator {
 class Modifier {
 public:
     int base{ 10 };
-    int bit_length{ 32 };
+    std::optional<int> bit_length;
+    bool use_unsigned_type{};
     bool use_upper_case{};
     NumberUnit unit{ NumberUnit::Normal };
     std::optional<int> highlight_bit;

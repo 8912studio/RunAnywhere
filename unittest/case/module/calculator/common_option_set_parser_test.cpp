@@ -15,23 +15,13 @@ TEST(CommonOptionSetParserTest, Empty) {
         }
 
         const auto& modifier = result.GetModifier();
-        if (modifier.base != 10) {
-            return false;
-        }
-
-        if (modifier.bit_length != 32) {
-            return false;
-        }
-
-        if (modifier.use_upper_case) {
-            return false;
-        }
-
-        if (context.GetCurrentIndex() != 0) {
-            return false;
-        }
-
-        return context.GetLastParsedLength() == 0;
+        return
+            modifier.base == 10 &&
+            !modifier.bit_length &&
+            !modifier.use_unsigned_type &&
+            !modifier.use_upper_case &&
+            context.GetCurrentIndex() == 0 &&
+            context.GetLastParsedLength() == 0;
     };
 
     ASSERT_TRUE(test(L""));
@@ -54,24 +44,13 @@ TEST(CommonOptionSetParserTest, BaseOnly) {
         }
 
         const auto& modifier = result.GetModifier();
-
-        if (modifier.base != expected_base) {
-            return false;
-        }
-
-        if (modifier.bit_length != 32) {
-            return false;
-        }
-
-        if (modifier.use_upper_case != use_upper_case) {
-            return false;
-        }
-
-        if (context.GetCurrentIndex() != context.GetLength()) {
-            return false;
-        }
-
-        return context.GetLastParsedLength() == 1;
+        return 
+            modifier.base == expected_base &&
+            !modifier.bit_length.has_value() &&
+            !modifier.use_unsigned_type &&
+            modifier.use_upper_case == use_upper_case &&
+            context.GetCurrentIndex() == context.GetLength() &&
+            context.GetLastParsedLength() == 1;
     };
 
     ASSERT_TRUE(test(L"b", 2, false));
@@ -91,8 +70,9 @@ TEST(CommonOptionSetParserTest, Combine) {
     auto test = [](
         const std::wstring& input,
         int expected_base, 
-        int expected_length, 
-        bool use_upper_case) {
+        int expected_bit_length, 
+        bool expected_use_unsigned_type,
+        bool expected_use_upper_case) {
 
         ParseContext context{ input };
         ParseResult result{};
@@ -102,30 +82,23 @@ TEST(CommonOptionSetParserTest, Combine) {
         }
 
         const auto& modifier = result.GetModifier();
-
-        if (modifier.base != expected_base) {
-            return false;
-        }
-
-        if (modifier.bit_length != expected_length) {
-            return false;
-        }
-
-        if (modifier.use_upper_case != use_upper_case) {
-            return false;
-        }
-
-        if (context.GetCurrentIndex() != context.GetLength()) {
-            return false;
-        }
-
-        return context.GetLastParsedLength() == 1;
+        return
+            modifier.base == expected_base &&
+            modifier.bit_length == expected_bit_length &&
+            modifier.use_unsigned_type == expected_use_unsigned_type &&
+            modifier.use_upper_case == expected_use_upper_case &&
+            context.GetCurrentIndex() == context.GetLength() &&
+            context.GetLastParsedLength() == 1;
     };
 
-    ASSERT_TRUE(test(L"bb", 2, 8, false));
-    ASSERT_TRUE(test(L"bq", 2, 64, false));
-    ASSERT_TRUE(test(L"Xw", 16, 16, true));
-    ASSERT_TRUE(test(L"dd", 10, 32, false));
+    ASSERT_TRUE(test(L"bb", 2, 8, false, false));
+    ASSERT_TRUE(test(L"bB", 2, 8, true, false));
+    ASSERT_TRUE(test(L"bq", 2, 64, false, false));
+    ASSERT_TRUE(test(L"bQ", 2, 64, true, false));
+    ASSERT_TRUE(test(L"Xw", 16, 16, false, true));
+    ASSERT_TRUE(test(L"XW", 16, 16, true, true));
+    ASSERT_TRUE(test(L"dd", 10, 32, false, false));
+    ASSERT_TRUE(test(L"dD", 10, 32, true, false));
 }
 
 

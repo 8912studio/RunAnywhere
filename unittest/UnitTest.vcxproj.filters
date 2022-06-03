@@ -133,6 +133,9 @@
     <ClCompile Include="case\environment_variable_manager_test.cpp">
       <Filter>case</Filter>
     </ClCompile>
+    <ClCompile Include="case\module\calculator\result_text_builder_test.cpp">
+      <Filter>case\module\calculator</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="case\module\calculator\number_parser_test_utility.h">

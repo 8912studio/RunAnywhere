@@ -66,9 +66,57 @@ std::wstring ResultTextBuilder::GetDecimalText() const {
         break;
     }
 
-    std::ostringstream stream;
-    stream << std::setprecision(20) << value;
-    return zaf::FromUtf8String(stream.str());
+    std::wstring result;
+    if (modifier_.bit_length) {
+
+        auto value_64 = value.convert_to<std::uint64_t>();
+
+        switch (*modifier_.bit_length) {
+        case 8:
+            if (modifier_.use_unsigned_type) {
+                result = zaf::ToWideString(static_cast<std::uint8_t>(value_64));
+            }
+            else {
+                result = zaf::ToWideString(static_cast<std::int8_t>(value_64));
+            }
+            break;
+        case 16:
+            if (modifier_.use_unsigned_type) {
+                result = zaf::ToWideString(static_cast<std::uint16_t>(value_64));
+            }
+            else {
+                result = zaf::ToWideString(static_cast<std::int16_t>(value_64));
+            }
+            break;
+        case 32:
+            if (modifier_.use_unsigned_type) {
+                result = zaf::ToWideString(static_cast<std::uint32_t>(value_64));
+            }
+            else {
+                result = zaf::ToWideString(static_cast<std::int32_t>(value_64));
+            }
+            break;
+        case 64:
+            if (modifier_.use_unsigned_type) {
+                result = zaf::ToWideString(static_cast<std::uint64_t>(value_64));
+            }
+            else {
+                result = zaf::ToWideString(static_cast<std::int64_t>(value_64));
+            }
+            break;
+        default:
+            assert(false);
+            break;
+        }
+    }
+    else {
+
+        std::ostringstream stream;
+        stream << std::setprecision(20) << value;
+        result = zaf::FromUtf8String(stream.str());
+    }
+
+    return result;
 }
 
 
@@ -80,22 +128,39 @@ std::wstring ResultTextBuilder::GetNonDecimalText() const {
     to_string_options.Base(modifier_.base);
 
     std::wstring result;
-    switch (modifier_.bit_length) {
-    case 8:
-        result = zaf::ToWideString(value.convert_to<std::int8_t>(), to_string_options);
-        break;
+    if (modifier_.bit_length) {
+        switch (*modifier_.bit_length) {
+        case 8:
+            result = zaf::ToWideString(value.convert_to<std::uint8_t>(), to_string_options);
+            break;
 
-    case 16:
-        result = zaf::ToWideString(value.convert_to<std::int16_t>(), to_string_options);
-        break;
+        case 16:
+            result = zaf::ToWideString(value.convert_to<std::uint16_t>(), to_string_options);
+            break;
 
-    case 64:
-        result = zaf::ToWideString(value.convert_to<std::int64_t>(), to_string_options);
-        break;
+        case 32:
+            result = zaf::ToWideString(value.convert_to<std::uint32_t>(), to_string_options);
+            break;
 
-    default:
-        result = zaf::ToWideString(value.convert_to<std::int32_t>(), to_string_options);
-        break;
+        case 64:
+            result = zaf::ToWideString(value.convert_to<std::uint64_t>(), to_string_options);
+            break;
+
+        default: 
+            assert(false);
+            break;
+        }
+    }
+    else {
+
+        auto value_64 = value.convert_to<std::uint64_t>();
+        if (value_64 > std::numeric_limits<std::uint32_t>::max()) {
+
+            result = zaf::ToWideString(value_64, to_string_options);
+        }
+        else {
+            result = zaf::ToWideString(static_cast<std::uint32_t>(value_64), to_string_options);
+        }
     }
 
     if (modifier_.use_upper_case) {
