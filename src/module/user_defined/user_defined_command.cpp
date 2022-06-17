@@ -39,7 +39,7 @@ context::ActivePath ModifyActivePath(
 
 
 UserDefinedCommand::UserDefinedCommand(
-    const UserDefinedEntry& entry, 
+    const UserDefinedEntryLegacy& entry,
     const std::vector<std::wstring>& input_arguments)
     :
     entry_(entry),

@@ -8,7 +8,7 @@
 
 namespace ra::module::user_defined {
 
-std::vector<UserDefinedEntry> ReadUserDefinedEntries() {
+std::vector<UserDefinedEntryLegacy> ReadUserDefinedEntries() {
 
     auto file_path = GetUserDefinedFilePath();
     std::ifstream file_stream(file_path, std::ios::in);
@@ -16,7 +16,7 @@ std::vector<UserDefinedEntry> ReadUserDefinedEntries() {
         return {};
     }
 
-    std::vector<UserDefinedEntry> result;
+    std::vector<UserDefinedEntryLegacy> result;
 
     std::string line;
     while (std::getline(file_stream, line)) {
@@ -42,7 +42,7 @@ std::vector<UserDefinedEntry> ReadUserDefinedEntries() {
             continue;
         }
 
-        UserDefinedEntry entry;
+        UserDefinedEntryLegacy entry;
         entry.keyword = zaf::FromUtf8String(line);
         entry.command_line = zaf::FromUtf8String(command_line);
         result.push_back(std::move(entry));

@@ -190,6 +190,9 @@
     <ClInclude Include="src\module\user_defined\command_line_parsing.h" />
     <ClInclude Include="src\module\user_defined\command_parameter_parsing.h" />
     <ClInclude Include="src\module\user_defined\preview\user_defined_command_preview_control.h" />
+    <ClInclude Include="src\module\user_defined\user_defined_bundle.h" />
+    <ClInclude Include="src\module\user_defined\user_defined_bundle_meta.h" />
+    <ClInclude Include="src\module\user_defined\user_defined_bundle_parser.h" />
     <ClInclude Include="src\module\user_defined\user_defined_command.h" />
     <ClInclude Include="src\module\user_defined\user_defined_entry.h" />
     <ClInclude Include="src\module\user_defined\user_defined_entry_reading.h" />
@@ -281,6 +284,7 @@
     <ClCompile Include="src\module\user_defined\command_line_parsing.cpp" />
     <ClCompile Include="src\module\user_defined\command_parameter_parsing.cpp" />
     <ClCompile Include="src\module\user_defined\preview\user_defined_command_preview_control.cpp" />
+    <ClCompile Include="src\module\user_defined\user_defined_bundle_parser.cpp" />
     <ClCompile Include="src\module\user_defined\user_defined_command.cpp" />
     <ClCompile Include="src\module\user_defined\user_defined_entry_reading.cpp" />
     <ClCompile Include="src\module\user_defined\user_defined_file.cpp" />

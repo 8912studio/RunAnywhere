@@ -5,6 +5,6 @@
 
 namespace ra::module::user_defined {
 
-std::vector<UserDefinedEntry> ReadUserDefinedEntries();
+std::vector<UserDefinedEntryLegacy> ReadUserDefinedEntries();
 
 }

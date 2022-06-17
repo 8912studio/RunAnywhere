@@ -53,7 +53,7 @@ std::shared_ptr<Command> UserDefinedModule::Interpret(const utility::CommandLine
 }
 
 
-std::optional<UserDefinedEntry> UserDefinedModule::FindEntry(std::wstring_view keyword) {
+std::optional<UserDefinedEntryLegacy> UserDefinedModule::FindEntry(std::wstring_view keyword) {
 
     for (const auto& each_entry : entries_) {
 

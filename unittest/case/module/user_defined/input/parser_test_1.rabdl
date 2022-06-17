@@ -1,0 +1,6 @@
+   ; TortoiseGit log
+[log]
+ Command =  "C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe" /command:log /path:%@
+
+ [  cmd ]
+Command=C:\Windows\System32\cmd.exe /k "cd %.@"

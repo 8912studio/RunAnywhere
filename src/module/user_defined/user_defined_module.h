@@ -15,10 +15,10 @@ public:
     std::shared_ptr<Command> Interpret(const utility::CommandLine& command_line) override;
 
 private:
-    std::optional<UserDefinedEntry> FindEntry(std::wstring_view keyword);
+    std::optional<UserDefinedEntryLegacy> FindEntry(std::wstring_view keyword);
 
 private:
-    std::vector<UserDefinedEntry> entries_;
+    std::vector<UserDefinedEntryLegacy> entries_;
 };
 
 }

@@ -77,6 +77,7 @@
     <ClCompile Include="case\module\rgb\rgb_command_parsing_test.cpp" />
     <ClCompile Include="case\module\user_defined\command_line_parsing_test.cpp" />
     <ClCompile Include="case\module\user_defined\command_parameter_parsing_test.cpp" />
+    <ClCompile Include="case\module\user_defined\user_defined_bundle_parser_test.cpp" />
     <ClCompile Include="command_evaluating_test.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
