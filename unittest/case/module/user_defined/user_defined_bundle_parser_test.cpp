@@ -32,4 +32,36 @@ TEST(UserDefinedBundleParserTest, Case1) {
     ASSERT_EQ(entries[1]->Command(), LR"(C:\Windows\System32\cmd.exe /k "cd %.@")");
 }
 
+
+TEST(UserDefinedBundleParseTest, Case2) {
+
+    auto input_path = GetInputFilePath("parser_test_2.rabdl");
+    UserDefinedBundleParser parser(input_path);
+
+    try {
+        parser.Parse();
+        GTEST_FAIL();
+    }
+    catch (const zaf::Error& error) {
+        ASSERT_EQ(error.Code(), std::io_errc::stream);
+    }
+}
+
+
+TEST(UserDefinedBundleParseTest, Case3) {
+
+    auto input_path = GetInputFilePath("parser_test_3.rabdl");
+    UserDefinedBundleParser parser(input_path);
+
+    try {
+        parser.Parse();
+        GTEST_FAIL();
+    }
+    catch (const UserDefinedBundleParser::ParseError& error) {
+        ASSERT_EQ(error.Code(), zaf::BasicErrc::InvalidValue);
+        ASSERT_EQ(error.ErrorLineNumber(), 5);
+        ASSERT_EQ(error.ErrorLine(), "error line");
+    }
+}
+
 }

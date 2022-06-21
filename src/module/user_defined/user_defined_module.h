@@ -3,6 +3,7 @@
 #include <optional>
 #include <vector>
 #include "module/module.h"
+#include "module/user_defined/user_defined_bundle.h"
 #include "module/user_defined/user_defined_entry.h"
 
 namespace ra::module::user_defined {
@@ -15,10 +16,11 @@ public:
     std::shared_ptr<Command> Interpret(const utility::CommandLine& command_line) override;
 
 private:
-    std::optional<UserDefinedEntryLegacy> FindEntry(std::wstring_view keyword);
+    void LoadBundle(const std::filesystem::path& bundle_path);
+    std::shared_ptr<UserDefinedEntry> FindEntry(std::wstring_view keyword);
 
 private:
-    std::vector<UserDefinedEntryLegacy> entries_;
+    std::vector<std::shared_ptr<UserDefinedBundle>> bundles_;
 };
 
 }

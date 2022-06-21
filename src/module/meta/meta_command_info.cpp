@@ -3,7 +3,6 @@
 #include <zaf/base/string/case_conversion.h>
 #include "about_window.h"
 #include "main_window.h"
-#include "module/user_defined/user_defined_file.h"
 #include "option_window.h"
 
 namespace ra::module::meta {
@@ -33,6 +32,7 @@ std::vector<MetaCommandInfo> CreateMetaCommandInfos() {
                 OptionWindow::ShowInstance();
             }
         },
+        /*
         {
             L"edit",
             L"Edit user-defined command script file",
@@ -41,6 +41,7 @@ std::vector<MetaCommandInfo> CreateMetaCommandInfos() {
                 ShellExecute(nullptr, L"open", path.c_str(), nullptr, nullptr, SW_SHOW);
             }
         }
+        */
     };
 
     zaf::Sort(result, [](const auto& info1, const auto& info2) {

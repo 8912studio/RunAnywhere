@@ -39,7 +39,7 @@ context::ActivePath ModifyActivePath(
 
 
 UserDefinedCommand::UserDefinedCommand(
-    const UserDefinedEntryLegacy& entry,
+    const std::shared_ptr<UserDefinedEntry>& entry,
     const std::vector<std::wstring>& input_arguments)
     :
     entry_(entry),
@@ -51,7 +51,7 @@ UserDefinedCommand::UserDefinedCommand(
 help::content::Content UserDefinedCommand::GetHelpContent() {
 
     help::content::Content result;
-    result.AddTitleLine(entry_.keyword + L" command");
+    result.AddTitleLine(entry_->Keyword() + L" command");
     result.AddBodyLine(L"User-defined command.");
     return result;
 }
@@ -89,7 +89,7 @@ ParseResult UserDefinedCommand::ParseCommandLine() {
     ParseArguments(modified_active_path, plain_arguments);
 
     return user_defined::ParseCommandLine(
-        entry_.command_line,
+        entry_->Command(),
         modified_active_path, 
         plain_arguments);
 }

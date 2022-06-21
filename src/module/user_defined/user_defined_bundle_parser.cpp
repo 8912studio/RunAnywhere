@@ -44,8 +44,13 @@ void SetPropertyToEntry(
     const std::string& key,
     const std::string& value) {
 
+    auto value_wstring = zaf::FromUtf8String(value);
+
     if (key == "Command") {
-        builder.SetCommand(zaf::FromUtf8String(value));
+        builder.SetCommand(value_wstring);
+    }
+    else if (key == "Description") {
+        builder.SetDescription(value_wstring);
     }
 }
 
@@ -61,7 +66,7 @@ std::shared_ptr<UserDefinedBundle> UserDefinedBundleParser::Parse() {
 
     std::ifstream file_stream(bundle_path_, std::ios::in);
     if (!file_stream) {
-        return nullptr;
+        throw zaf::Error(std::make_error_code(std::io_errc::stream));
     }
 
     UserDefinedBundle::Builder bundle_builder;
@@ -73,9 +78,11 @@ std::shared_ptr<UserDefinedBundle> UserDefinedBundleParser::Parse() {
 
     std::unique_ptr<UserDefinedEntry::Builder> current_entry_builder;
 
+    int line_number{};
     std::string line;
     while (std::getline(file_stream, line)) {
 
+        line_number++;
         zaf::Trim(line);
 
         //Ignore empty line.
@@ -126,7 +133,7 @@ std::shared_ptr<UserDefinedBundle> UserDefinedBundleParser::Parse() {
         }
 
         //Bad line.
-        return nullptr;
+        throw ParseError(line_number, line);
     }
 
     if (!meta) {

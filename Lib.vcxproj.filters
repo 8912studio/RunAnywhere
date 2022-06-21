@@ -186,9 +186,6 @@
     <ClInclude Include="src\module\user_defined\user_defined_entry.h">
       <Filter>src\module\user_defined</Filter>
     </ClInclude>
-    <ClInclude Include="src\module\user_defined\user_defined_entry_reading.h">
-      <Filter>src\module\user_defined</Filter>
-    </ClInclude>
     <ClInclude Include="src\module\user_defined\user_defined_command.h">
       <Filter>src\module\user_defined</Filter>
     </ClInclude>
@@ -278,9 +275,6 @@
     </ClInclude>
     <ClInclude Include="src\context\active_path_decoding.h">
       <Filter>src\context</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\user_defined\user_defined_file.h">
-      <Filter>src\module\user_defined</Filter>
     </ClInclude>
     <ClInclude Include="src\module\calculator\parse\parse_reader.h">
       <Filter>src\module\calculator\parse</Filter>
@@ -518,9 +512,6 @@
     <ClCompile Include="src\module\user_defined\user_defined_module.cpp">
       <Filter>src\module\user_defined</Filter>
     </ClCompile>
-    <ClCompile Include="src\module\user_defined\user_defined_entry_reading.cpp">
-      <Filter>src\module\user_defined</Filter>
-    </ClCompile>
     <ClCompile Include="src\module\user_defined\user_defined_command.cpp">
       <Filter>src\module\user_defined</Filter>
     </ClCompile>
@@ -595,9 +586,6 @@
     </ClCompile>
     <ClCompile Include="src\context\active_path_decoding.cpp">
       <Filter>src\context</Filter>
-    </ClCompile>
-    <ClCompile Include="src\module\user_defined\user_defined_file.cpp">
-      <Filter>src\module\user_defined</Filter>
     </ClCompile>
     <ClCompile Include="src\module\calculator\parse\parse_context.cpp">
       <Filter>src\module\calculator\parse</Filter>

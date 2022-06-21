@@ -24,8 +24,12 @@ public:
             result_->keyword_ = keyword;
         }
 
-        void SetCommand(const std::wstring& command_line) {
-            result_->command_ = command_line;
+        void SetCommand(const std::wstring& command) {
+            result_->command_ = command;
+        }
+
+        void SetDescription(const std::wstring& description) {
+            result_->description_ = description;
         }
 
         std::shared_ptr<UserDefinedEntry> Build() {
@@ -54,17 +58,15 @@ public:
         return command_;
     }
 
+    const std::wstring& Description() const {
+        return description_;
+    }
+
 private:
     std::shared_ptr<UserDefinedBundleMeta> bundle_meta_;
     std::wstring keyword_;
     std::wstring command_;
-};
-
-
-class UserDefinedEntryLegacy {
-public:
-    std::wstring keyword;
-    std::wstring command_line;
+    std::wstring description_;
 };
 
 }

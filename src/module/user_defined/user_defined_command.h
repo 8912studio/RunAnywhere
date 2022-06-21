@@ -11,7 +11,7 @@ namespace ra::module::user_defined {
 class UserDefinedCommand : public Command {
 public:
     UserDefinedCommand(
-        const UserDefinedEntryLegacy& entry,
+        const std::shared_ptr<UserDefinedEntry>& entry,
         const std::vector<std::wstring>& input_arguments);
 
     help::content::Content GetHelpContent() override;
@@ -25,7 +25,7 @@ private:
         std::vector<std::wstring>& plain_arguments);
 
 private:
-    UserDefinedEntryLegacy entry_;
+    std::shared_ptr<UserDefinedEntry> entry_;
     std::vector<std::wstring> input_arguments_;
 };
 
