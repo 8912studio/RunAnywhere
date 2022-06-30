@@ -113,6 +113,7 @@
     <ClInclude Include="src\hot_key_box.h" />
     <ClInclude Include="src\hot_key_manager.h" />
     <ClInclude Include="src\hot_key_utility.h" />
+    <ClInclude Include="src\ipc.h" />
     <ClInclude Include="src\main_window.h" />
     <ClInclude Include="src\module\active_path\active_path_command.h" />
     <ClInclude Include="src\module\active_path\active_path_option.h" />

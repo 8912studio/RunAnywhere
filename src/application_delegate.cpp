@@ -6,6 +6,7 @@
 #include "environment_variable_manager.h"
 #include "hot_key_manager.h"
 #include "hot_key_utility.h"
+#include "ipc.h"
 #include "main_window.h"
 #include "option_window.h"
 #include "registry_define.h"
@@ -120,17 +121,20 @@ void ApplicationDelegate::ApplicationBeginRun(const zaf::ApplicationBeginRunInfo
 
 void ApplicationDelegate::InitializeTrayIconWindow() {
 
-    tray_icon_window_ = zaf::Create<zaf::Window>();
-    tray_icon_window_->SetIsToolWindow(true);
-    tray_icon_window_->SetActivateOption(zaf::ActivateOption::NoActivate);
-    tray_icon_window_->SetInitialRectStyle(zaf::InitialRectStyle::Custom);
-    tray_icon_window_->SetRect(zaf::Rect{});
-    tray_icon_window_->CreateHandle();
+    message_window_ = zaf::Create<zaf::Window>(IPCWindowClassName);
+    message_window_->SetIsToolWindow(true);
+    message_window_->SetActivateOption(zaf::ActivateOption::NoActivate);
+    message_window_->SetInitialRectStyle(zaf::InitialRectStyle::Custom);
+    message_window_->SetRect(zaf::Rect{});
+    message_window_->CreateHandle();
 
-    Subscriptions() += tray_icon_window_->HandleMessageEvent().Subscribe(
+    Subscriptions() += message_window_->HandleMessageEvent().Subscribe(
         [this](const zaf::WindowHandleMessageInfo& event_info) {
     
-        if (event_info.Message().id == task_bar_create_message_id_) {
+        if (event_info.Message().id == WM_COPYDATA) {
+            HandleIPCMessage(event_info.Message());
+        }
+        else if (event_info.Message().id == task_bar_create_message_id_) {
             ShowTryIcon();
         }
         else if (event_info.Message().id == WM_TRAY_ICON) {
@@ -169,9 +173,23 @@ void ApplicationDelegate::InitializeTrayIconWindow() {
 }
 
 
+void ApplicationDelegate::HandleIPCMessage(const zaf::Message& message) {
+
+    auto copy_data_info = reinterpret_cast<const COPYDATASTRUCT*>(message.lparam);
+    if (copy_data_info->dwData != IPCMessageIdentifier) {
+        return;
+    }
+
+    std::wstring command_line(
+        reinterpret_cast<const wchar_t*>(copy_data_info->lpData), 
+        copy_data_info->cbData / sizeof(wchar_t));
+
+}
+
+
 void ApplicationDelegate::ShowTryIcon() {
 
-    ra::AddTrayIcon(tray_icon_window_->Handle(), WM_TRAY_ICON);
+    ra::AddTrayIcon(message_window_->Handle(), WM_TRAY_ICON);
 }
 
 
@@ -185,7 +203,7 @@ void ApplicationDelegate::PopupMenu() {
     POINT current_position{};
     GetCursorPos(&current_position);
 
-    SetForegroundWindow(tray_icon_window_->Handle());
+    SetForegroundWindow(message_window_->Handle());
 
     TrackPopupMenu(
         menu_,
@@ -193,7 +211,7 @@ void ApplicationDelegate::PopupMenu() {
         current_position.x,
         current_position.y,
         0,
-        tray_icon_window_->Handle(),
+        message_window_->Handle(),
         nullptr);
 }
 

@@ -13,12 +13,13 @@ public:
 
 private:
 	void InitializeTrayIconWindow();
+	void HandleIPCMessage(const zaf::Message& message);
 	void ShowTryIcon();
 	void PopupMenu();
 
 private:
 	UINT task_bar_create_message_id_{};
-	std::shared_ptr<zaf::Window> tray_icon_window_;
+	std::shared_ptr<zaf::Window> message_window_;
 	HMENU menu_{};
 };
 
