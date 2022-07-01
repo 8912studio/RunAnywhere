@@ -39,7 +39,7 @@ context::ActivePath ModifyActivePath(
 
 
 UserDefinedCommand::UserDefinedCommand(
-    const std::shared_ptr<UserDefinedEntry>& entry,
+    const std::shared_ptr<Entry>& entry,
     const std::vector<std::wstring>& input_arguments)
     :
     entry_(entry),

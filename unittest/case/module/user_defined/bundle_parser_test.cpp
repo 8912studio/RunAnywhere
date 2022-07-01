@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "module/user_defined/user_defined_bundle_parser.h"
+#include "module/user_defined/bundle_parser.h"
 
 using namespace ra::module::user_defined;
 
@@ -11,10 +11,10 @@ std::filesystem::path GetInputFilePath(const std::string& file_name) {
 }
 
 
-TEST(UserDefinedBundleParserTest, Case1) {
+TEST(BundleParserTest, Case1) {
 
     auto input_path = GetInputFilePath("parser_test_1.rabdl");
-    UserDefinedBundleParser parser(input_path);
+    BundleParser parser(input_path);
     auto bundle = parser.Parse();
     ASSERT_NE(bundle, nullptr);
 
@@ -33,10 +33,10 @@ TEST(UserDefinedBundleParserTest, Case1) {
 }
 
 
-TEST(UserDefinedBundleParseTest, Case2) {
+TEST(BundleParseTest, Case2) {
 
     auto input_path = GetInputFilePath("parser_test_2.rabdl");
-    UserDefinedBundleParser parser(input_path);
+    BundleParser parser(input_path);
 
     try {
         parser.Parse();
@@ -48,16 +48,16 @@ TEST(UserDefinedBundleParseTest, Case2) {
 }
 
 
-TEST(UserDefinedBundleParseTest, Case3) {
+TEST(BundleParseTest, Case3) {
 
     auto input_path = GetInputFilePath("parser_test_3.rabdl");
-    UserDefinedBundleParser parser(input_path);
+    BundleParser parser(input_path);
 
     try {
         parser.Parse();
         GTEST_FAIL();
     }
-    catch (const UserDefinedBundleParser::ParseError& error) {
+    catch (const BundleParser::ParseError& error) {
         ASSERT_EQ(error.Code(), zaf::BasicErrc::InvalidValue);
         ASSERT_EQ(error.ErrorLineNumber(), 5);
         ASSERT_EQ(error.ErrorLine(), "error line");

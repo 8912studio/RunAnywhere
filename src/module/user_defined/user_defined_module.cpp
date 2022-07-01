@@ -1,7 +1,7 @@
 #include "module/user_defined/user_defined_module.h"
 #include <Windows.h>
 #include <shlobj_core.h>
-#include "module/user_defined/user_defined_bundle_parser.h"
+#include "module/user_defined/bundle_parser.h"
 #include "module/user_defined/user_defined_command.h"
 
 namespace ra::module::user_defined {
@@ -54,7 +54,7 @@ void UserDefinedModule::Reload() {
 
 void UserDefinedModule::LoadBundle(const std::filesystem::path& bundle_path) {
 
-    UserDefinedBundleParser parser(bundle_path);
+    BundleParser parser(bundle_path);
 
     try {
 
@@ -67,11 +67,11 @@ void UserDefinedModule::LoadBundle(const std::filesystem::path& bundle_path) {
 }
 
 
-std::shared_ptr<UserDefinedBundle> UserDefinedModule::ParseImportedBundle(
+std::shared_ptr<Bundle> UserDefinedModule::ParseImportedBundle(
     const std::filesystem::path& bundle_path,
     ImportBundleResult& result) {
 
-    UserDefinedBundleParser parser(bundle_path);
+    BundleParser parser(bundle_path);
 
     try {
 

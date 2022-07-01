@@ -1,22 +1,22 @@
 #pragma once
 
 #include <string>
-#include "module/user_defined/user_defined_bundle_meta.h"
+#include "module/user_defined/bundle_meta.h"
 
 namespace ra::module::user_defined {
 
-class UserDefinedEntry {
+class Entry {
 public:
     class Builder {
     public:
-        Builder() : result_(std::make_shared<UserDefinedEntry>()) {
+        Builder() : result_(std::make_shared<Entry>()) {
 
         }
 
         Builder(const Builder&) = delete;
         Builder& operator=(const Builder&) = delete;
 
-        void SetBundleMeta(const std::shared_ptr<UserDefinedBundleMeta>& meta) {
+        void SetBundleMeta(const std::shared_ptr<BundleMeta>& meta) {
             result_->bundle_meta_ = meta;
         }
 
@@ -32,21 +32,21 @@ public:
             result_->description_ = description;
         }
 
-        std::shared_ptr<UserDefinedEntry> Build() {
+        std::shared_ptr<Entry> Build() {
             return std::move(result_);
         }
 
     private:
-        std::shared_ptr<UserDefinedEntry> result_;
+        std::shared_ptr<Entry> result_;
     };
 
 public:
-    UserDefinedEntry() = default;
+    Entry() = default;
 
-    UserDefinedEntry(const UserDefinedEntry&) = delete;
-    UserDefinedEntry& operator=(const UserDefinedEntry&) = delete;
+    Entry(const Entry&) = delete;
+    Entry& operator=(const Entry&) = delete;
 
-    const std::shared_ptr<UserDefinedBundleMeta>& BundleMeta() const {
+    const std::shared_ptr<BundleMeta>& BundleMeta() const {
         return bundle_meta_;
     }
 
@@ -63,7 +63,7 @@ public:
     }
 
 private:
-    std::shared_ptr<UserDefinedBundleMeta> bundle_meta_;
+    std::shared_ptr<user_defined::BundleMeta> bundle_meta_;
     std::wstring keyword_;
     std::wstring command_;
     std::wstring description_;

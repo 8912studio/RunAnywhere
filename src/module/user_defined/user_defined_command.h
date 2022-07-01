@@ -4,14 +4,14 @@
 #include "context/active_path.h"
 #include "module/command.h"
 #include "module/user_defined/command_line_parsing.h"
-#include "module/user_defined/user_defined_entry.h"
+#include "module/user_defined/entry.h"
 
 namespace ra::module::user_defined {
 
 class UserDefinedCommand : public Command {
 public:
     UserDefinedCommand(
-        const std::shared_ptr<UserDefinedEntry>& entry,
+        const std::shared_ptr<Entry>& entry,
         const std::vector<std::wstring>& input_arguments);
 
     help::content::Content GetHelpContent() override;
@@ -25,7 +25,7 @@ private:
         std::vector<std::wstring>& plain_arguments);
 
 private:
-    std::shared_ptr<UserDefinedEntry> entry_;
+    std::shared_ptr<Entry> entry_;
     std::vector<std::wstring> input_arguments_;
 };
 

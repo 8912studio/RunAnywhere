@@ -8,13 +8,13 @@ void BundleDepot::Clear() {
 }
 
 
-void BundleDepot::AddBundle(const std::shared_ptr<UserDefinedBundle>& bundle) {
+void BundleDepot::AddBundle(const std::shared_ptr<Bundle>& bundle) {
 
     bundles_.push_back(bundle);
 }
 
 
-std::shared_ptr<UserDefinedEntry> BundleDepot::FindEntry(std::wstring_view keyword) {
+std::shared_ptr<Entry> BundleDepot::FindEntry(std::wstring_view keyword) {
 
     for (const auto& each_bundle : bundles_) {
         for (const auto& each_entry : each_bundle->Entries()) {
@@ -29,10 +29,10 @@ std::shared_ptr<UserDefinedEntry> BundleDepot::FindEntry(std::wstring_view keywo
 }
 
 
-std::vector<std::shared_ptr<UserDefinedEntry>> BundleDepot::FindEntriesBeginWith(
+std::vector<std::shared_ptr<Entry>> BundleDepot::FindEntriesBeginWith(
     std::wstring_view keyword) {
 
-    std::vector<std::shared_ptr<UserDefinedEntry>> result;
+    std::vector<std::shared_ptr<Entry>> result;
 
     for (const auto& each_bundle : bundles_) {
         for (const auto& each_entry : each_bundle->Entries()) {

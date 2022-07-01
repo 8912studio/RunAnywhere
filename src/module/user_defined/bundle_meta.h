@@ -4,11 +4,11 @@
 
 namespace ra::module::user_defined {
 
-class UserDefinedBundleMeta {
+class BundleMeta {
 public:
     class Builder {
     public:
-        Builder() : result_(std::make_shared<UserDefinedBundleMeta>()) {
+        Builder() : result_(std::make_shared<BundleMeta>()) {
 
         }
 
@@ -19,19 +19,19 @@ public:
             result_->bundle_id_ = id;
         }
 
-        std::shared_ptr<UserDefinedBundleMeta> Build() {
+        std::shared_ptr<BundleMeta> Build() {
             return std::move(result_);
         }
 
     private:
-        std::shared_ptr<UserDefinedBundleMeta> result_;
+        std::shared_ptr<BundleMeta> result_;
     };
 
 public:
-    UserDefinedBundleMeta() = default;
+    BundleMeta() = default;
 
-    UserDefinedBundleMeta(const UserDefinedBundleMeta&) = delete;
-    UserDefinedBundleMeta& operator=(const UserDefinedBundleMeta&) = delete;
+    BundleMeta(const BundleMeta&) = delete;
+    BundleMeta& operator=(const BundleMeta&) = delete;
 
     const std::wstring& BundleID() const {
         return bundle_id_;

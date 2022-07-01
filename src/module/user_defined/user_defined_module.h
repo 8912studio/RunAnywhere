@@ -6,8 +6,8 @@
 #include "module/user_defined/bundle_depot.h"
 #include "module/user_defined/import_bundle_options.h"
 #include "module/user_defined/import_bundle_result.h"
-#include "module/user_defined/user_defined_bundle.h"
-#include "module/user_defined/user_defined_entry.h"
+#include "module/user_defined/bundle.h"
+#include "module/user_defined/entry.h"
 
 namespace ra::module::user_defined {
 
@@ -22,7 +22,7 @@ public:
 
 private:
     void LoadBundle(const std::filesystem::path& bundle_path);
-    std::shared_ptr<UserDefinedBundle> ParseImportedBundle(
+    std::shared_ptr<Bundle> ParseImportedBundle(
         const std::filesystem::path& bundle_path,
         ImportBundleResult& result);
 

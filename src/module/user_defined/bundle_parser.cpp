@@ -1,4 +1,4 @@
-#include "module/user_defined/user_defined_bundle_parser.h"
+#include "module/user_defined/bundle_parser.h"
 #include <fstream>
 #include <string>
 #include <zaf/base/string/encoding_conversion.h>
@@ -40,7 +40,7 @@ bool TryToParseProperty(const std::string& line, std::string& key, std::string& 
 
 
 void SetPropertyToEntry(
-    UserDefinedEntry::Builder& builder, 
+    Entry::Builder& builder, 
     const std::string& key,
     const std::string& value) {
 
@@ -56,27 +56,27 @@ void SetPropertyToEntry(
 
 }
 
-UserDefinedBundleParser::UserDefinedBundleParser(const std::filesystem::path& bundle_path) : 
+BundleParser::BundleParser(const std::filesystem::path& bundle_path) : 
     bundle_path_(bundle_path) {
 
 }
 
 
-std::shared_ptr<UserDefinedBundle> UserDefinedBundleParser::Parse() {
+std::shared_ptr<Bundle> BundleParser::Parse() {
 
     std::ifstream file_stream(bundle_path_, std::ios::in);
     if (!file_stream) {
         throw zaf::Error(std::make_error_code(std::io_errc::stream));
     }
 
-    UserDefinedBundle::Builder bundle_builder;
+    Bundle::Builder bundle_builder;
 
-    UserDefinedBundleMeta::Builder meta_builder;
+    BundleMeta::Builder meta_builder;
     meta_builder.SetBundleID(bundle_path_.stem());
 
-    std::shared_ptr<UserDefinedBundleMeta> meta;
+    std::shared_ptr<BundleMeta> meta;
 
-    std::unique_ptr<UserDefinedEntry::Builder> current_entry_builder;
+    std::unique_ptr<Entry::Builder> current_entry_builder;
 
     int line_number{};
     std::string line;
@@ -111,7 +111,7 @@ std::shared_ptr<UserDefinedBundle> UserDefinedBundleParser::Parse() {
             }
 
             //Start a new entry context.
-            current_entry_builder = std::make_unique<UserDefinedEntry::Builder>();
+            current_entry_builder = std::make_unique<Entry::Builder>();
             current_entry_builder->SetBundleMeta(meta);
             current_entry_builder->SetKeyword(zaf::FromUtf8String(keyword));
             continue;

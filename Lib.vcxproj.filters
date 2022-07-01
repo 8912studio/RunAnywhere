@@ -183,7 +183,7 @@
     <ClInclude Include="src\module\user_defined\user_defined_module.h">
       <Filter>src\module\user_defined</Filter>
     </ClInclude>
-    <ClInclude Include="src\module\user_defined\user_defined_entry.h">
+    <ClInclude Include="src\module\user_defined\entry.h">
       <Filter>src\module\user_defined</Filter>
     </ClInclude>
     <ClInclude Include="src\module\user_defined\user_defined_command.h">
@@ -432,13 +432,13 @@
     <ClInclude Include="src\option_storage.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\module\user_defined\user_defined_bundle_parser.h">
+    <ClInclude Include="src\module\user_defined\bundle_parser.h">
       <Filter>src\module\user_defined</Filter>
     </ClInclude>
-    <ClInclude Include="src\module\user_defined\user_defined_bundle.h">
+    <ClInclude Include="src\module\user_defined\bundle.h">
       <Filter>src\module\user_defined</Filter>
     </ClInclude>
-    <ClInclude Include="src\module\user_defined\user_defined_bundle_meta.h">
+    <ClInclude Include="src\module\user_defined\bundle_meta.h">
       <Filter>src\module\user_defined</Filter>
     </ClInclude>
     <ClInclude Include="src\ipc.h">
@@ -704,7 +704,7 @@
     <ClCompile Include="src\option_storage.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\module\user_defined\user_defined_bundle_parser.cpp">
+    <ClCompile Include="src\module\user_defined\bundle_parser.cpp">
       <Filter>src\module\user_defined</Filter>
     </ClCompile>
     <ClCompile Include="src\module\user_defined\bundle_depot.cpp">

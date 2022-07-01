@@ -3,11 +3,11 @@
 #include <filesystem>
 #include <zaf/base/error/basic_error.h>
 #include <zaf/base/error/error.h>
-#include "module/user_defined/user_defined_bundle.h"
+#include "module/user_defined/bundle.h"
 
 namespace ra::module::user_defined {
 
-class UserDefinedBundleParser {
+class BundleParser {
 public:
     class ParseError : public zaf::Error {
     public:
@@ -32,14 +32,14 @@ public:
     };
 
 public:
-    UserDefinedBundleParser(const std::filesystem::path& bundle_path);
+    BundleParser(const std::filesystem::path& bundle_path);
 
-    UserDefinedBundleParser(const UserDefinedBundleParser&) = delete;
-    UserDefinedBundleParser& operator=(const UserDefinedBundleParser&) = delete;
+    BundleParser(const BundleParser&) = delete;
+    BundleParser& operator=(const BundleParser&) = delete;
 
     //Throw zaf::Error if fail to open file.
     //Throw ParseError if fail to parse file content.
-    std::shared_ptr<UserDefinedBundle> Parse();
+    std::shared_ptr<Bundle> Parse();
 
 private:
     std::filesystem::path bundle_path_;
