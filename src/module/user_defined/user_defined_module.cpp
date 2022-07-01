@@ -23,9 +23,15 @@ std::filesystem::path GetBundleDirectoryPath() {
 
 }
 
+
+UserDefinedModule::UserDefinedModule() : bundle_depot_(std::make_unique<BundleDepot>()) {
+
+}
+
+
 void UserDefinedModule::Reload() {
 
-    bundles_.clear();
+    bundle_depot_->Clear();
 
     auto bundle_directory_path = GetBundleDirectoryPath();
 
@@ -53,7 +59,7 @@ void UserDefinedModule::LoadBundle(const std::filesystem::path& bundle_path) {
     try {
 
         auto bundle = parser.Parse();
-        bundles_.push_back(bundle);
+        bundle_depot_->AddBundle(bundle);
     }
     catch (const zaf::Error&) {
 
@@ -61,18 +67,30 @@ void UserDefinedModule::LoadBundle(const std::filesystem::path& bundle_path) {
 }
 
 
+std::shared_ptr<UserDefinedBundle> UserDefinedModule::ParseImportedBundle(
+    const std::filesystem::path& bundle_path,
+    ImportBundleResult& result) {
+
+    UserDefinedBundleParser parser(bundle_path);
+
+    try {
+
+        return parser.Parse();
+    }
+    catch (const zaf::Error&) {
+        return nullptr;
+    }
+}
+
+
 std::vector<CommandBrief> UserDefinedModule::QuerySuggestedCommands(
     const std::wstring& command_text) {
 
+    auto found_entries = bundle_depot_->FindEntriesBeginWith(command_text);
+
     std::vector<CommandBrief> result;
-
-    for (const auto& each_bundle : bundles_) {
-        for (const auto& each_entry : each_bundle->Entries()) {
-
-            if (each_entry->Keyword().find(command_text) == 0) {
-                result.emplace_back(each_entry->Keyword(), each_entry->Description());
-            }
-        }
+    for (const auto& each_entry : found_entries) {
+        result.emplace_back(each_entry->Keyword(), each_entry->Description());
     }
 
     return result;
@@ -90,7 +108,7 @@ std::shared_ptr<Command> UserDefinedModule::Interpret(const utility::CommandLine
     std::shared_ptr<Command> command;
     if (argument_count > 0) {
 
-        auto entry = FindEntry(arguments[0]);
+        auto entry = bundle_depot_->FindEntry(arguments[0]);
         if (entry) {
 
             std::vector<std::wstring> command_arguments;
@@ -104,21 +122,6 @@ std::shared_ptr<Command> UserDefinedModule::Interpret(const utility::CommandLine
 
     LocalFree(arguments);
     return command;
-}
-
-
-std::shared_ptr<UserDefinedEntry> UserDefinedModule::FindEntry(std::wstring_view keyword) {
-
-    for (const auto& each_bundle : bundles_) {
-        for (const auto& each_entry : each_bundle->Entries()) {
-
-            if (each_entry->Keyword() == keyword) {
-                return each_entry;
-            }
-        }
-    }
-
-    return nullptr;
 }
 
 }

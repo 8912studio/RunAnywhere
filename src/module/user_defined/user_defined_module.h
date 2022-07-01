@@ -3,6 +3,9 @@
 #include <optional>
 #include <vector>
 #include "module/module.h"
+#include "module/user_defined/bundle_depot.h"
+#include "module/user_defined/import_bundle_options.h"
+#include "module/user_defined/import_bundle_result.h"
 #include "module/user_defined/user_defined_bundle.h"
 #include "module/user_defined/user_defined_entry.h"
 
@@ -10,6 +13,8 @@ namespace ra::module::user_defined {
 
 class UserDefinedModule : public Module {
 public:
+    UserDefinedModule();
+
     void Reload();
 
     std::vector<CommandBrief> QuerySuggestedCommands(const std::wstring& command_text) override;
@@ -17,10 +22,12 @@ public:
 
 private:
     void LoadBundle(const std::filesystem::path& bundle_path);
-    std::shared_ptr<UserDefinedEntry> FindEntry(std::wstring_view keyword);
+    std::shared_ptr<UserDefinedBundle> ParseImportedBundle(
+        const std::filesystem::path& bundle_path,
+        ImportBundleResult& result);
 
 private:
-    std::vector<std::shared_ptr<UserDefinedBundle>> bundles_;
+    std::unique_ptr<BundleDepot> bundle_depot_;
 };
 
 }

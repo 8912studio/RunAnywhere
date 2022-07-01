@@ -72,7 +72,7 @@ std::shared_ptr<UserDefinedBundle> UserDefinedBundleParser::Parse() {
     UserDefinedBundle::Builder bundle_builder;
 
     UserDefinedBundleMeta::Builder meta_builder;
-    meta_builder.SetFilePath(bundle_path_);
+    meta_builder.SetBundleID(bundle_path_.stem());
 
     std::shared_ptr<UserDefinedBundleMeta> meta;
 

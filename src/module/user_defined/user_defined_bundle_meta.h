@@ -15,8 +15,8 @@ public:
         Builder(const Builder&) = delete;
         Builder& operator=(const Builder&) = delete;
 
-        void SetFilePath(const std::filesystem::path& file_path) {
-            result_->file_path_ = file_path;
+        void SetBundleID(const std::wstring& id) {
+            result_->bundle_id_ = id;
         }
 
         std::shared_ptr<UserDefinedBundleMeta> Build() {
@@ -33,12 +33,12 @@ public:
     UserDefinedBundleMeta(const UserDefinedBundleMeta&) = delete;
     UserDefinedBundleMeta& operator=(const UserDefinedBundleMeta&) = delete;
 
-    const std::filesystem::path& FilePath() const {
-        return file_path_;
+    const std::wstring& BundleID() const {
+        return bundle_id_;
     }
 
 private:
-    std::filesystem::path file_path_;
+    std::wstring bundle_id_;
 };
 
 }

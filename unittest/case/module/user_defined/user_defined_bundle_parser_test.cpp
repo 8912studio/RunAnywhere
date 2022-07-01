@@ -18,7 +18,7 @@ TEST(UserDefinedBundleParserTest, Case1) {
     auto bundle = parser.Parse();
     ASSERT_NE(bundle, nullptr);
 
-    ASSERT_EQ(bundle->Meta()->FilePath(), input_path);
+    ASSERT_EQ(bundle->Meta()->BundleID(), input_path.stem());
     
     const auto& entries = bundle->Entries();
     ASSERT_EQ(entries.size(), 2);
