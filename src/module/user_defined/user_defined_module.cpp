@@ -24,14 +24,14 @@ std::filesystem::path GetBundleDirectoryPath() {
 }
 
 
-UserDefinedModule::UserDefinedModule() : bundle_depot_(std::make_unique<BundleDepot>()) {
+UserDefinedModule::UserDefinedModule() {
 
 }
 
 
 void UserDefinedModule::Reload() {
 
-    bundle_depot_->Clear();
+    bundle_depot_ = std::make_shared<BundleDepot>();
 
     auto bundle_directory_path = GetBundleDirectoryPath();
 
@@ -86,6 +86,8 @@ std::shared_ptr<Bundle> UserDefinedModule::ParseImportedBundle(
 std::vector<CommandBrief> UserDefinedModule::QuerySuggestedCommands(
     const std::wstring& command_text) {
 
+    ZAF_EXPECT(bundle_depot_);
+
     auto found_entries = bundle_depot_->FindEntriesBeginWith(command_text);
 
     std::vector<CommandBrief> result;
@@ -98,6 +100,8 @@ std::vector<CommandBrief> UserDefinedModule::QuerySuggestedCommands(
 
 
 std::shared_ptr<Command> UserDefinedModule::Interpret(const utility::CommandLine& command_line) {
+
+    ZAF_EXPECT(bundle_depot_);
 
     int argument_count{};
     auto arguments = CommandLineToArgvW(command_line.Text().c_str(), &argument_count);

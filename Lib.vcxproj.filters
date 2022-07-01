@@ -453,6 +453,9 @@
     <ClInclude Include="src\module\user_defined\bundle_depot.h">
       <Filter>src\module\user_defined</Filter>
     </ClInclude>
+    <ClInclude Include="src\module\user_defined\bundle_importer.h">
+      <Filter>src\module\user_defined</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -708,6 +711,9 @@
       <Filter>src\module\user_defined</Filter>
     </ClCompile>
     <ClCompile Include="src\module\user_defined\bundle_depot.cpp">
+      <Filter>src\module\user_defined</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\user_defined\bundle_importer.cpp">
       <Filter>src\module\user_defined</Filter>
     </ClCompile>
   </ItemGroup>

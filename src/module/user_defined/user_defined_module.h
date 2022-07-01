@@ -27,7 +27,7 @@ private:
         ImportBundleResult& result);
 
 private:
-    std::unique_ptr<BundleDepot> bundle_depot_;
+    std::shared_ptr<BundleDepot> bundle_depot_;
 };
 
 }

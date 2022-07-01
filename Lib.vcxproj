@@ -189,6 +189,7 @@
     <ClInclude Include="src\module\rgb\rgb_module.h" />
     <ClInclude Include="src\module\rgb\rgb_preview_control.h" />
     <ClInclude Include="src\module\user_defined\bundle_depot.h" />
+    <ClInclude Include="src\module\user_defined\bundle_importer.h" />
     <ClInclude Include="src\module\user_defined\command_line_parsing.h" />
     <ClInclude Include="src\module\user_defined\command_parameter_parsing.h" />
     <ClInclude Include="src\module\user_defined\import_bundle_options.h" />
@@ -284,6 +285,7 @@
     <ClCompile Include="src\module\rgb\rgb_module.cpp" />
     <ClCompile Include="src\module\rgb\rgb_preview_control.cpp" />
     <ClCompile Include="src\module\user_defined\bundle_depot.cpp" />
+    <ClCompile Include="src\module\user_defined\bundle_importer.cpp" />
     <ClCompile Include="src\module\user_defined\command_line_parsing.cpp" />
     <ClCompile Include="src\module\user_defined\command_parameter_parsing.cpp" />
     <ClCompile Include="src\module\user_defined\preview\user_defined_command_preview_control.cpp" />

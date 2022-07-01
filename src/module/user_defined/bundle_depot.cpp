@@ -2,15 +2,22 @@
 
 namespace ra::module::user_defined {
 
-void BundleDepot::Clear() {
-
-    bundles_.clear();
-}
-
-
 void BundleDepot::AddBundle(const std::shared_ptr<Bundle>& bundle) {
 
     bundles_.push_back(bundle);
+}
+
+
+std::shared_ptr<Bundle> BundleDepot::FindBundle(const std::wstring& bundle_id) {
+
+    for (const auto& each_bundle : bundles_) {
+
+        if (each_bundle->Meta()->BundleID() == bundle_id) {
+            return each_bundle;
+        }
+    }
+
+    return nullptr;
 }
 
 
