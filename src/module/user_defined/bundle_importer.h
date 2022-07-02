@@ -12,26 +12,44 @@ public:
         Pending,
         Success,
         Fail,
+        OverrideConfirm,
+        ConflictConfirm,
+    };
+
+    enum class FailReason {
+        None,
+        CannotOpenFile,
+        ParseError,
+        NeedRetry,
+        NeedReload,
+        SaveError,
     };
 
 public:
-    explicit BundleImporter(
+    BundleImporter(
         const std::shared_ptr<BundleDepot>& depot,
         const std::filesystem::path& target_directory_path,
         const std::filesystem::path& bundle_path);
 
     void Import();
+    void Cofirm();
 
 private:
     bool ParseBundle();
-    void SaveBundle();
+    bool CheckIfCanSaveDirectly();
+    bool SaveBundle();
+    std::filesystem::path GetBundleSavePath() const;
+    void ChangeToFailState(FailReason reason);
 
 private:
     std::weak_ptr<BundleDepot> depot_;
-    std::filesystem::path target_directory_path_;
+    std::filesystem::path depot_directory_path_;
     std::filesystem::path bundle_path_;
+
     State state_{ State::Pending };
+    FailReason fail_reason_{ FailReason::None };
     std::shared_ptr<Bundle> parsed_bundle_;
+    std::vector<std::shared_ptr<Entry>> conflict_entries_;
 };
 
 }

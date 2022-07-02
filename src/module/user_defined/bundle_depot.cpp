@@ -1,4 +1,6 @@
 #include "module/user_defined/bundle_depot.h"
+#include <set>
+#include <zaf/base/container/utility/contain.h>
 
 namespace ra::module::user_defined {
 
@@ -45,6 +47,29 @@ std::vector<std::shared_ptr<Entry>> BundleDepot::FindEntriesBeginWith(
         for (const auto& each_entry : each_bundle->Entries()) {
 
             if (each_entry->Keyword().find(keyword) == 0) {
+                result.push_back(each_entry);
+            }
+        }
+    }
+
+    return result;
+}
+
+
+std::vector<std::shared_ptr<Entry>> BundleDepot::FindConflictEntries(
+    const Bundle& bundle) {
+
+    std::set<std::wstring> checked_keywords;
+    for (const auto& each_entry : bundle.Entries()) {
+        checked_keywords.insert(each_entry->Keyword());
+    }
+
+    std::vector<std::shared_ptr<Entry>> result;
+
+    for (const auto& each_bundle : bundles_) {
+        for (const auto& each_entry : each_bundle->Entries()) {
+
+            if (zaf::Contain(checked_keywords, each_entry->Keyword())) {
                 result.push_back(each_entry);
             }
         }

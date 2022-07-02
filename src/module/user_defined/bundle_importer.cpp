@@ -10,7 +10,7 @@ BundleImporter::BundleImporter(
     const std::filesystem::path& bundle_path) 
     :
     depot_(depot),
-    target_directory_path_(target_directory_path),
+    depot_directory_path_(target_directory_path),
     bundle_path_(bundle_path) {
 
 }
@@ -24,17 +24,15 @@ void BundleImporter::Import() {
         return;
     }
 
-    auto depot = depot_.lock();
-    if (!depot) {
+    if (!CheckIfCanSaveDirectly()) {
         return;
     }
 
-    auto found_bundle = depot->FindBundle(parsed_bundle_->Meta()->BundleID());
-    if (found_bundle) {
+    if (!SaveBundle()) {
         return;
     }
 
-    
+    state_ = State::Success;
 }
 
 
@@ -46,16 +44,106 @@ bool BundleImporter::ParseBundle() {
         parsed_bundle_ = parser.Parse();
         return true;
     }
+    catch (const BundleParser::ParseError& error) {
+
+        ChangeToFailState(FailReason::ParseError);
+        return false;
+    }
     catch (const zaf::Error& error) {
 
+        ChangeToFailState(FailReason::CannotOpenFile);
         return false;
     }
 }
 
 
-void BundleImporter::SaveBundle() {
+bool BundleImporter::CheckIfCanSaveDirectly() {
+
+    //The depot has changed, need to retry.
+    auto depot = depot_.lock();
+    if (!depot) {
+        ChangeToFailState(FailReason::NeedRetry);
+        return false;
+    }
+
+    auto bundle_save_path = GetBundleSavePath();
+
+    std::error_code error_code;
+    bool file_already_exist = std::filesystem::exists(bundle_save_path, error_code);
+
+    auto found_bundle = depot->FindBundle(parsed_bundle_->Meta()->BundleID());
+
+    //Loaded bundle and its file are inconsistent, a reload is needed.
+    if (file_already_exist != !!found_bundle) {
+        ChangeToFailState(FailReason::NeedReload);
+        return false;
+    }
+
+    if (file_already_exist) {
+        state_ = State::OverrideConfirm;
+        return false;
+    }
+
+    conflict_entries_ = depot->FindConflictEntries(*parsed_bundle_);
+    if (!conflict_entries_.empty()) {
+        state_ = State::ConflictConfirm;
+        return false;
+    }
+
+    return true;
+}
 
 
+bool BundleImporter::SaveBundle() {
+
+    auto depot = depot_.lock();
+    if (!depot) {
+        ChangeToFailState(FailReason::NeedRetry);
+        return false;
+    }
+
+    auto save_path = GetBundleSavePath();
+
+    std::error_code error_code;
+    bool copy_succeeded = std::filesystem::copy_file(
+        bundle_path_,
+        save_path,
+        std::filesystem::copy_options::overwrite_existing,
+        error_code);
+
+    if (!copy_succeeded) {
+        ChangeToFailState(FailReason::SaveError);
+        return false;
+    }
+
+    depot->AddBundle(parsed_bundle_);
+    return true;
+}
+
+
+void BundleImporter::Cofirm() {
+
+    ZAF_EXPECT(state_ == State::OverrideConfirm || state_ == State::ConflictConfirm);
+
+    if (!SaveBundle()) {
+        return;
+    }
+
+    state_ = State::Success;
+}
+
+
+std::filesystem::path BundleImporter::GetBundleSavePath() const {
+
+    auto file_name = parsed_bundle_->Meta()->BundleID() + L".rabdl";
+    return depot_directory_path_ / file_name;
+}
+
+
+void BundleImporter::ChangeToFailState(FailReason reason) {
+
+    state_ = State::Fail;
+    fail_reason_ = reason;
 }
 
 }

@@ -14,6 +14,7 @@ public:
 
     std::shared_ptr<Entry> FindEntry(std::wstring_view keyword);
     std::vector<std::shared_ptr<Entry>> FindEntriesBeginWith(std::wstring_view keyword);
+    std::vector<std::shared_ptr<Entry>> FindConflictEntries(const Bundle& bundle);
 
 private:
     std::vector<std::shared_ptr<Bundle>> bundles_;
