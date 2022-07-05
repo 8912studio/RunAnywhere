@@ -67,19 +67,13 @@ void UserDefinedModule::LoadBundle(const std::filesystem::path& bundle_path) {
 }
 
 
-std::shared_ptr<Bundle> UserDefinedModule::ParseImportedBundle(
-    const std::filesystem::path& bundle_path,
-    ImportBundleResult& result) {
+std::shared_ptr<BundleImporter> UserDefinedModule::BeginImportBundle(
+    const std::filesystem::path& bundle_path) {
 
-    BundleParser parser(bundle_path);
-
-    try {
-
-        return parser.Parse();
-    }
-    catch (const zaf::Error&) {
-        return nullptr;
-    }
+    return std::make_shared<BundleImporter>(
+        bundle_depot_,
+        GetBundleDirectoryPath(),
+        bundle_path);
 }
 
 

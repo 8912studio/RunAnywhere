@@ -54,6 +54,7 @@
     <ClCompile Include="case\module\active_path\active_path_modifying_test.cpp" />
     <ClCompile Include="case\module\active_path\active_path_option_parsing_test.cpp" />
     <ClCompile Include="case\module\calculator\binary_expression_parser_test.cpp" />
+    <ClCompile Include="case\module\calculator\command_evaluating_test.cpp" />
     <ClCompile Include="case\module\calculator\command_parser_test.cpp" />
     <ClCompile Include="case\module\calculator\command_parsing_test.cpp" />
     <ClCompile Include="case\module\calculator\decimal_number_parser_test.cpp" />
@@ -75,10 +76,10 @@
     <ClCompile Include="case\module\meta\meta_command_info_test.cpp" />
     <ClCompile Include="case\module\meta\meta_module_test.cpp" />
     <ClCompile Include="case\module\rgb\rgb_command_parsing_test.cpp" />
+    <ClCompile Include="case\module\user_defined\bundle_importer_test.cpp" />
     <ClCompile Include="case\module\user_defined\command_line_parsing_test.cpp" />
     <ClCompile Include="case\module\user_defined\command_parameter_parsing_test.cpp" />
     <ClCompile Include="case\module\user_defined\bundle_parser_test.cpp" />
-    <ClCompile Include="command_evaluating_test.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>

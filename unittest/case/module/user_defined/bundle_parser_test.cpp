@@ -7,7 +7,7 @@ namespace {
 
 std::filesystem::path GetInputFilePath(const std::string& file_name) {
     std::filesystem::path path(__FILE__);
-    return path.parent_path() / "input" / file_name;
+    return path.parent_path() / "bundle_parser_test_input" / file_name;
 }
 
 

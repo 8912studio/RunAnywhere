@@ -1,0 +1,8 @@
+[c]
+Command=cc
+
+[d]
+Command=dd
+
+[e]
+Command=ee

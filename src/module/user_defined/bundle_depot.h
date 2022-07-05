@@ -9,6 +9,7 @@ namespace ra::module::user_defined {
 class BundleDepot {
 public:
     void AddBundle(const std::shared_ptr<Bundle>& bundle);
+    void AddOrReplaceBundle(const std::shared_ptr<Bundle>& bundle);
 
     std::shared_ptr<Bundle> FindBundle(const std::wstring& bundle_id);
 

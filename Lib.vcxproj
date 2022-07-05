@@ -192,8 +192,6 @@
     <ClInclude Include="src\module\user_defined\bundle_importer.h" />
     <ClInclude Include="src\module\user_defined\command_line_parsing.h" />
     <ClInclude Include="src\module\user_defined\command_parameter_parsing.h" />
-    <ClInclude Include="src\module\user_defined\import_bundle_options.h" />
-    <ClInclude Include="src\module\user_defined\import_bundle_result.h" />
     <ClInclude Include="src\module\user_defined\preview\user_defined_command_preview_control.h" />
     <ClInclude Include="src\module\user_defined\bundle.h" />
     <ClInclude Include="src\module\user_defined\bundle_meta.h" />

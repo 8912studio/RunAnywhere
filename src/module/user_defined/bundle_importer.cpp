@@ -47,9 +47,10 @@ bool BundleImporter::ParseBundle() {
     catch (const BundleParser::ParseError& error) {
 
         ChangeToFailState(FailReason::ParseError);
+        parser_error_ = error;
         return false;
     }
-    catch (const zaf::Error& error) {
+    catch (const zaf::Error&) {
 
         ChangeToFailState(FailReason::CannotOpenFile);
         return false;
@@ -116,12 +117,12 @@ bool BundleImporter::SaveBundle() {
         return false;
     }
 
-    depot->AddBundle(parsed_bundle_);
+    depot->AddOrReplaceBundle(parsed_bundle_);
     return true;
 }
 
 
-void BundleImporter::Cofirm() {
+void BundleImporter::Confirm() {
 
     ZAF_EXPECT(state_ == State::OverrideConfirm || state_ == State::ConflictConfirm);
 

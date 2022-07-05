@@ -10,6 +10,20 @@ void BundleDepot::AddBundle(const std::shared_ptr<Bundle>& bundle) {
 }
 
 
+void BundleDepot::AddOrReplaceBundle(const std::shared_ptr<Bundle>& bundle) {
+
+    for (auto iterator = bundles_.begin(); iterator != bundles_.end(); ++iterator) {
+
+        if ((*iterator)->Meta()->BundleID() == bundle->Meta()->BundleID()) {
+            *iterator = bundle;
+            return;
+        }
+    }
+
+    AddBundle(bundle);
+}
+
+
 std::shared_ptr<Bundle> BundleDepot::FindBundle(const std::wstring& bundle_id) {
 
     for (const auto& each_bundle : bundles_) {

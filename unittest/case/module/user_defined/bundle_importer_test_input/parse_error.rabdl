@@ -1,0 +1,8 @@
+[success]
+Command=success
+
+[fail]
+Command*
+
+[end]
+Command=ee

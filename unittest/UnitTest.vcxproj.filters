@@ -127,9 +127,6 @@
     <ClCompile Include="case\module\rgb\rgb_command_parsing_test.cpp">
       <Filter>case\module\rgb</Filter>
     </ClCompile>
-    <ClCompile Include="command_evaluating_test.cpp">
-      <Filter>case\module\calculator</Filter>
-    </ClCompile>
     <ClCompile Include="case\environment_variable_manager_test.cpp">
       <Filter>case</Filter>
     </ClCompile>
@@ -137,6 +134,12 @@
       <Filter>case\module\calculator</Filter>
     </ClCompile>
     <ClCompile Include="case\module\user_defined\bundle_parser_test.cpp">
+      <Filter>case\module\user_defined</Filter>
+    </ClCompile>
+    <ClCompile Include="case\module\calculator\command_evaluating_test.cpp">
+      <Filter>case\module\calculator</Filter>
+    </ClCompile>
+    <ClCompile Include="case\module\user_defined\bundle_importer_test.cpp">
       <Filter>case\module\user_defined</Filter>
     </ClCompile>
   </ItemGroup>

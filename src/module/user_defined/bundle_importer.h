@@ -1,8 +1,10 @@
 #pragma once
 
 #include <filesystem>
+#include <optional>
 #include <zaf/base/non_copyable.h>
 #include "module/user_defined/bundle_depot.h"
+#include "module/user_defined/bundle_parser.h"
 
 namespace ra::module::user_defined {
 
@@ -32,7 +34,23 @@ public:
         const std::filesystem::path& bundle_path);
 
     void Import();
-    void Cofirm();
+    void Confirm();
+
+    State GetState() const {
+        return state_;
+    }
+
+    FailReason GetFailReason() const {
+        return fail_reason_;
+    }
+
+    const std::vector<std::shared_ptr<Entry>>& GetConflictEntries() const {
+        return conflict_entries_;
+    }
+
+    const BundleParser::ParseError* GetParseError() const {
+        return parser_error_ ? &parser_error_.value() : nullptr;
+    }
 
 private:
     bool ParseBundle();
@@ -50,6 +68,7 @@ private:
     FailReason fail_reason_{ FailReason::None };
     std::shared_ptr<Bundle> parsed_bundle_;
     std::vector<std::shared_ptr<Entry>> conflict_entries_;
+    std::optional<BundleParser::ParseError> parser_error_;
 };
 
 }

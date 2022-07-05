@@ -435,12 +435,6 @@
     <ClInclude Include="src\ipc.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\module\user_defined\import_bundle_options.h">
-      <Filter>src\module\user_defined</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\user_defined\import_bundle_result.h">
-      <Filter>src\module\user_defined</Filter>
-    </ClInclude>
     <ClInclude Include="src\module\user_defined\bundle_depot.h">
       <Filter>src\module\user_defined</Filter>
     </ClInclude>
