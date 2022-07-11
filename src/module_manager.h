@@ -12,7 +12,7 @@ class ModuleManager {
 public:
     void Initialize();
 
-    void ReloadUserDefinedCommands();
+    module::user_defined::UserDefinedModule& GetUserDefinedModule();
 
     std::vector<module::CommandBrief> QuerySuggestedCommands(const std::wstring& command_text);
 

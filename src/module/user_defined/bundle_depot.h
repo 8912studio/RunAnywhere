@@ -13,8 +13,8 @@ public:
 
     std::shared_ptr<Bundle> FindBundle(const std::wstring& bundle_id);
 
-    std::shared_ptr<Entry> FindEntry(std::wstring_view keyword);
-    std::vector<std::shared_ptr<Entry>> FindEntriesBeginWith(std::wstring_view keyword);
+    std::shared_ptr<Entry> FindEntry(const std::wstring& keyword);
+    std::vector<std::shared_ptr<Entry>> FindEntriesBeginWith(const std::wstring& keyword);
     std::vector<std::shared_ptr<Entry>> FindConflictEntries(const Bundle& bundle);
 
 private:

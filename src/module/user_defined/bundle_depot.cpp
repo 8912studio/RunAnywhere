@@ -1,6 +1,7 @@
 #include "module/user_defined/bundle_depot.h"
 #include <set>
 #include <zaf/base/container/utility/contain.h>
+#include <zaf/base/string/case_conversion.h>
 
 namespace ra::module::user_defined {
 
@@ -12,9 +13,13 @@ void BundleDepot::AddBundle(const std::shared_ptr<Bundle>& bundle) {
 
 void BundleDepot::AddOrReplaceBundle(const std::shared_ptr<Bundle>& bundle) {
 
+    auto checked_bundle_id = zaf::ToLowercased(bundle->Meta()->BundleID());
+
     for (auto iterator = bundles_.begin(); iterator != bundles_.end(); ++iterator) {
 
-        if ((*iterator)->Meta()->BundleID() == bundle->Meta()->BundleID()) {
+        auto lower_bundle_id = zaf::ToLowercased((*iterator)->Meta()->BundleID());
+        if (lower_bundle_id == checked_bundle_id) {
+
             *iterator = bundle;
             return;
         }
@@ -26,9 +31,12 @@ void BundleDepot::AddOrReplaceBundle(const std::shared_ptr<Bundle>& bundle) {
 
 std::shared_ptr<Bundle> BundleDepot::FindBundle(const std::wstring& bundle_id) {
 
+    auto checked_bundle_id = zaf::ToLowercased(bundle_id);
+
     for (const auto& each_bundle : bundles_) {
 
-        if (each_bundle->Meta()->BundleID() == bundle_id) {
+        auto lower_bundle_id = zaf::ToLowercased(each_bundle->Meta()->BundleID());
+        if (lower_bundle_id == checked_bundle_id) {
             return each_bundle;
         }
     }
@@ -37,12 +45,15 @@ std::shared_ptr<Bundle> BundleDepot::FindBundle(const std::wstring& bundle_id) {
 }
 
 
-std::shared_ptr<Entry> BundleDepot::FindEntry(std::wstring_view keyword) {
+std::shared_ptr<Entry> BundleDepot::FindEntry(const std::wstring& keyword) {
+
+    auto checked_keyword = zaf::ToLowercased(keyword);
 
     for (const auto& each_bundle : bundles_) {
         for (const auto& each_entry : each_bundle->Entries()) {
 
-            if (each_entry->Keyword() == keyword) {
+            auto lower_keyword = zaf::ToLowercased(each_entry->Keyword());
+            if (lower_keyword == checked_keyword) {
                 return each_entry;
             }
         }
@@ -53,14 +64,17 @@ std::shared_ptr<Entry> BundleDepot::FindEntry(std::wstring_view keyword) {
 
 
 std::vector<std::shared_ptr<Entry>> BundleDepot::FindEntriesBeginWith(
-    std::wstring_view keyword) {
+    const std::wstring& keyword) {
+
+    auto checked_keyword = zaf::ToLowercased(keyword);
 
     std::vector<std::shared_ptr<Entry>> result;
 
     for (const auto& each_bundle : bundles_) {
         for (const auto& each_entry : each_bundle->Entries()) {
 
-            if (each_entry->Keyword().find(keyword) == 0) {
+            auto lower_keyword = zaf::ToLowercased(each_entry->Keyword());
+            if (lower_keyword.find(checked_keyword) == 0) {
                 result.push_back(each_entry);
             }
         }
@@ -75,7 +89,7 @@ std::vector<std::shared_ptr<Entry>> BundleDepot::FindConflictEntries(
 
     std::set<std::wstring> checked_keywords;
     for (const auto& each_entry : bundle.Entries()) {
-        checked_keywords.insert(each_entry->Keyword());
+        checked_keywords.insert(zaf::ToLowercased(each_entry->Keyword()));
     }
 
     std::vector<std::shared_ptr<Entry>> result;
@@ -83,7 +97,8 @@ std::vector<std::shared_ptr<Entry>> BundleDepot::FindConflictEntries(
     for (const auto& each_bundle : bundles_) {
         for (const auto& each_entry : each_bundle->Entries()) {
 
-            if (zaf::Contain(checked_keywords, each_entry->Keyword())) {
+            auto lower_keyword = zaf::ToLowercased(each_entry->Keyword());
+            if (zaf::Contain(checked_keywords, lower_keyword)) {
                 result.push_back(each_entry);
             }
         }

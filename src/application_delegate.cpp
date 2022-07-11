@@ -8,10 +8,12 @@
 #include "hot_key_utility.h"
 #include "ipc.h"
 #include "main_window.h"
+#include "module/user_defined/import/import_bundle_window.h"
 #include "option_window.h"
 #include "registry_define.h"
 #include "resource.h"
 #include "tray_icon.h"
+#include "utility/command_line.h"
 
 namespace ra {
 namespace {
@@ -66,41 +68,19 @@ void ShowWelcomeNotification() {
     SetHasShownWelcomeNotification();
 }
 
-
-void InitializeHotKey() {
-
-    auto& hot_key_manager = ra::HotKeyManager::Instance();
-    hot_key_manager.Initialize();
-
-    zaf::Application::Instance().Subscriptions() += hot_key_manager.HotKeyPressedEvent().Subscribe(
-        [](zaf::None) {
-
-        auto& main_window = ra::MainWindow::Instance();
-
-        if (main_window.IsVisible() && main_window.IsFocused()) {
-            main_window.Hide();
-        }
-        else {
-            main_window.ShowOnTop();
-        }
-    });
-
-    //Show a notification tip if hot key is invalid.
-    if (!hot_key_manager.IsCurrentHotKeyValid()) {
-
-        std::wstring title{ L"Fail to register \"" };
-        title += ra::GenerateTextByHotKey(hot_key_manager.GetCurrentHotKey());
-        title += L'"';
-
-        ra::ShowBalloon(title, L"Please check the hot key setting");
-    }
-    //Show a welcome notification tip.
-    else {
-
-        ShowWelcomeNotification();
-    }
 }
 
+
+std::shared_ptr<ApplicationDelegate> ApplicationDelegate::GetFromApplication() {
+
+    return std::dynamic_pointer_cast<ApplicationDelegate>(
+        zaf::Application::Instance().GetDelegate());
+}
+
+
+void ApplicationDelegate::ReloadModules() {
+
+    module_manager_->GetUserDefinedModule().Reload();
 }
 
 
@@ -111,11 +91,13 @@ void ApplicationDelegate::ApplicationBeginRun(const zaf::ApplicationBeginRunInfo
     task_bar_create_message_id_ = RegisterWindowMessage(L"TaskbarCreated");
 
     InitializeTrayIconWindow();
-	ShowTryIcon();
-	InitializeHotKey();
+    ShowTryIcon();
+    InitializeHotKey();
 
-	//Access instance to create main window object.
-	ra::MainWindow::Instance();
+    module_manager_ = std::make_shared<ModuleManager>();
+    module_manager_->Initialize();
+
+    main_window_ = zaf::Create<MainWindow>(module_manager_);
 }
 
 
@@ -130,7 +112,7 @@ void ApplicationDelegate::InitializeTrayIconWindow() {
 
     Subscriptions() += message_window_->HandleMessageEvent().Subscribe(
         [this](const zaf::WindowHandleMessageInfo& event_info) {
-    
+
         if (event_info.Message().id == WM_COPYDATA) {
             HandleIPCMessage(event_info.Message());
         }
@@ -141,7 +123,7 @@ void ApplicationDelegate::InitializeTrayIconWindow() {
 
             switch (event_info.Message().lparam) {
             case WM_LBUTTONDBLCLK:
-                ra::MainWindow::Instance().ShowOnTop();
+                main_window_->ShowOnTop();
                 break;
 
             case WM_RBUTTONUP:
@@ -180,10 +162,24 @@ void ApplicationDelegate::HandleIPCMessage(const zaf::Message& message) {
         return;
     }
 
-    std::wstring command_line(
-        reinterpret_cast<const wchar_t*>(copy_data_info->lpData), 
+    std::wstring command_line_text(
+        reinterpret_cast<const wchar_t*>(copy_data_info->lpData),
         copy_data_info->cbData / sizeof(wchar_t));
 
+    utility::CommandLine command_line(command_line_text);
+    const auto& parts = command_line.AllParts();
+    if (parts.size() != 1) {
+        return;
+    }
+
+    std::filesystem::path bundle_path = parts[0];
+    if (bundle_path.extension() != L".rabdl") {
+        return;
+    }
+
+    auto importer = module_manager_->GetUserDefinedModule().BeginImportBundle(bundle_path);
+    auto import_window = zaf::Create<module::user_defined::ImportBundleWindow>(importer);
+    import_window->Show();
 }
 
 
@@ -216,9 +212,42 @@ void ApplicationDelegate::PopupMenu() {
 }
 
 
+void ApplicationDelegate::InitializeHotKey() {
+
+    auto& hot_key_manager = ra::HotKeyManager::Instance();
+    hot_key_manager.Initialize();
+
+    Subscriptions() += hot_key_manager.HotKeyPressedEvent().Subscribe([this](zaf::None) {
+
+        if (main_window_->IsVisible() && main_window_->IsFocused()) {
+            main_window_->Hide();
+        }
+        else {
+            main_window_->ShowOnTop();
+        }
+    });
+
+    //Show a notification tip if hot key is invalid.
+    if (!hot_key_manager.IsCurrentHotKeyValid()) {
+
+        std::wstring title{ L"Fail to register \"" };
+        title += ra::GenerateTextByHotKey(hot_key_manager.GetCurrentHotKey());
+        title += L'"';
+
+        ra::ShowBalloon(title, L"Please check the hot key setting");
+    }
+    //Show a welcome notification tip.
+    else {
+
+        ShowWelcomeNotification();
+    }
+}
+
+
 void ApplicationDelegate::ApplicationEndRun(const zaf::ApplicationEndRunInfo&) {
 
-	ra::MainWindow::Instance().Close();
+    main_window_->Close();
+    main_window_.reset();
 
 	ra::RemoveTrayIcon();
 }

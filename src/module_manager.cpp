@@ -32,11 +32,9 @@ void ModuleManager::Initialize() {
 }
 
 
-void ModuleManager::ReloadUserDefinedCommands() {
-
-    if (user_defined_module_) {
-        user_defined_module_->Reload();
-    }
+module::user_defined::UserDefinedModule& ModuleManager::GetUserDefinedModule() {
+    ZAF_EXPECT(user_defined_module_);
+    return *user_defined_module_;
 }
 
 

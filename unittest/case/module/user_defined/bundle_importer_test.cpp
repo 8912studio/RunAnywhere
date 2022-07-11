@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
-#include "module/user_defined/bundle_importer.h"
+#include <Windows.h>
+#include <zaf/base/handle.h>
 #include "module/user_defined/bundle_parser.h"
+#include "module/user_defined/import/bundle_importer.h"
 
 using namespace ra::module::user_defined;
 
@@ -79,7 +81,7 @@ TEST_F(BundleImporterTest, Success) {
 
 TEST_F(BundleImporterTest, Override) {
 
-    const auto bundle_in_depot = GetTestingDepotDirectoryPath() / "override.rabdl";
+    const auto bundle_in_depot = GetTestingDepotDirectoryPath() / "OVERRIDE.rabdl";
     std::filesystem::rename(GetTestingDepotDirectoryPath() / "default.rabdl", bundle_in_depot);
 
     auto depot = CreateDepot();
@@ -185,6 +187,47 @@ TEST_F(BundleImporterTest, ParseError) {
     ASSERT_EQ(importer.GetParseError()->ErrorLineNumber(), 5);
     ASSERT_EQ(depot->FindBundle(L"parse_error"), nullptr);
     ASSERT_FALSE(std::filesystem::exists(GetTestingDepotDirectoryPath() / "parse_error.rabdl"));
+}
+
+
+TEST_F(BundleImporterTest, SaveError) {
+
+    const auto bundle_file_in_depot = GetTestingDepotDirectoryPath() / "save_error.rabdl";
+    std::filesystem::rename(GetTestingDepotDirectoryPath() / "default.rabdl", bundle_file_in_depot);
+
+    auto depot = CreateDepot();
+
+    BundleImporter importer(
+        depot,
+        GetTestingDepotDirectoryPath(),
+        GetInputFilePath(L"save_error.rabdl"));
+
+    importer.Import();
+    ASSERT_EQ(importer.GetState(), BundleImporter::State::OverrideConfirm);
+
+    zaf::Handle file_handle{ CreateFile(
+        bundle_file_in_depot.c_str(), 
+        GENERIC_READ, 
+        FILE_SHARE_READ, 
+        nullptr, 
+        OPEN_EXISTING, 
+        FILE_ATTRIBUTE_NORMAL, 
+        nullptr) };
+
+    ASSERT_TRUE(file_handle.IsValid());
+
+    importer.Confirm();
+
+    ASSERT_EQ(importer.GetState(), BundleImporter::State::Fail);
+    ASSERT_EQ(importer.GetFailReason(), BundleImporter::FailReason::SaveError);
+    ASSERT_NE(importer.GetSaveError(), nullptr);
+
+    auto bundle = depot->FindBundle(L"save_error");
+    ASSERT_NE(bundle, nullptr);
+    ASSERT_EQ(bundle->Entries().size(), 2);
+    ASSERT_EQ(bundle->Entries()[0]->Keyword(), L"a");
+    ASSERT_EQ(bundle->Entries()[1]->Keyword(), L"b");
+    ASSERT_EQ(std::filesystem::file_size(bundle_file_in_depot), 34);
 }
 
 

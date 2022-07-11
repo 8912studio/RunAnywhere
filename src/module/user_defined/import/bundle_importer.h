@@ -36,6 +36,10 @@ public:
     void Import();
     void Confirm();
 
+    const std::filesystem::path& GetBundlePath() const {
+        return bundle_path_;
+    }
+
     State GetState() const {
         return state_;
     }
@@ -50,6 +54,10 @@ public:
 
     const BundleParser::ParseError* GetParseError() const {
         return parser_error_ ? &parser_error_.value() : nullptr;
+    }
+
+    const std::error_code* GetSaveError() const {
+        return save_error_ ? &save_error_.value() : nullptr;
     }
 
 private:
@@ -69,6 +77,7 @@ private:
     std::shared_ptr<Bundle> parsed_bundle_;
     std::vector<std::shared_ptr<Entry>> conflict_entries_;
     std::optional<BundleParser::ParseError> parser_error_;
+    std::optional<std::error_code> save_error_;
 };
 
 }

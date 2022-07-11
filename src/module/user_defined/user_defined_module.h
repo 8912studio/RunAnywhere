@@ -5,8 +5,8 @@
 #include "module/module.h"
 #include "module/user_defined/bundle.h"
 #include "module/user_defined/bundle_depot.h"
-#include "module/user_defined/bundle_importer.h"
 #include "module/user_defined/entry.h"
+#include "module/user_defined/import/bundle_importer.h"
 
 namespace ra::module::user_defined {
 

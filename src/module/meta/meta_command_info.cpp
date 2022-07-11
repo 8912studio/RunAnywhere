@@ -2,6 +2,7 @@
 #include <zaf/base/container/utility/sort.h>
 #include <zaf/base/string/case_conversion.h>
 #include "about_window.h"
+#include "application_delegate.h"
 #include "main_window.h"
 #include "option_window.h"
 
@@ -15,7 +16,7 @@ std::vector<MetaCommandInfo> CreateMetaCommandInfos() {
             L"reload",
             L"Reload user-defined commands",
             []() {
-                MainWindow::Instance().ReloadUserDefinedCommands();
+                ApplicationDelegate::GetFromApplication()->ReloadModules();
             }
         },
         {

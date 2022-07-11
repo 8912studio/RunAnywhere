@@ -1,4 +1,4 @@
-#include "module/user_defined/bundle_importer.h"
+#include "module/user_defined/import/bundle_importer.h"
 #include <zaf/base/error/check.h>
 #include "module/user_defined/bundle_parser.h"
 
@@ -114,6 +114,7 @@ bool BundleImporter::SaveBundle() {
 
     if (!copy_succeeded) {
         ChangeToFailState(FailReason::SaveError);
+        save_error_ = error_code;
         return false;
     }
 

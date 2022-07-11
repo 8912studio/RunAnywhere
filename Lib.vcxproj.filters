@@ -70,6 +70,9 @@
     <Filter Include="src\module\extension\sdk">
       <UniqueIdentifier>{ee1e888d-977a-4184-b43e-e468dc823511}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\module\user_defined\import">
+      <UniqueIdentifier>{6c1017d3-8298-47ef-822c-a576e1bf909c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\module\calculator\parse\binary_expression_parser.h">
@@ -438,8 +441,11 @@
     <ClInclude Include="src\module\user_defined\bundle_depot.h">
       <Filter>src\module\user_defined</Filter>
     </ClInclude>
-    <ClInclude Include="src\module\user_defined\bundle_importer.h">
-      <Filter>src\module\user_defined</Filter>
+    <ClInclude Include="src\module\user_defined\import\bundle_importer.h">
+      <Filter>src\module\user_defined\import</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\user_defined\import\import_bundle_window.h">
+      <Filter>src\module\user_defined\import</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -695,8 +701,11 @@
     <ClCompile Include="src\module\user_defined\bundle_depot.cpp">
       <Filter>src\module\user_defined</Filter>
     </ClCompile>
-    <ClCompile Include="src\module\user_defined\bundle_importer.cpp">
-      <Filter>src\module\user_defined</Filter>
+    <ClCompile Include="src\module\user_defined\import\bundle_importer.cpp">
+      <Filter>src\module\user_defined\import</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\user_defined\import\import_bundle_window.cpp">
+      <Filter>src\module\user_defined\import</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -732,6 +741,9 @@
     </Page>
     <Page Include="src\module\extension\extension_command_preview_control.xaml">
       <Filter>src\module\extension</Filter>
+    </Page>
+    <Page Include="src\module\user_defined\import\import_bundle_window.xaml">
+      <Filter>src\module\user_defined\import</Filter>
     </Page>
   </ItemGroup>
   <ItemGroup>

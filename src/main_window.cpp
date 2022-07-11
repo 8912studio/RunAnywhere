@@ -1,4 +1,5 @@
 #include "main_window.h"
+#include <cassert>
 #include <zaf/base/log.h>
 #include <zaf/base/string/encoding_conversion.h>
 #include <zaf/base/string/trim.h>
@@ -29,10 +30,14 @@ ZAF_DEFINE_TYPE(MainWindow)
 ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///main_window.xaml")
 ZAF_DEFINE_TYPE_END
 
-MainWindow& MainWindow::Instance() {
+MainWindow::MainWindow() {
+    assert(false);
+}
 
-    static auto instance = zaf::Create<MainWindow>();
-    return *instance;
+
+MainWindow::MainWindow(const std::shared_ptr<ModuleManager>& module_manager) : 
+    module_manager_(module_manager) {
+
 }
 
 
@@ -44,7 +49,6 @@ void MainWindow::AfterParse() {
 
     InitializeTextBox();
     InitializeHelpButton();
-    InitializeModules();
 }
 
 
@@ -63,12 +67,6 @@ void MainWindow::InitializeHelpButton() {
 
     Subscriptions() += helpButton->ClickEvent().Subscribe(
         std::bind(&MainWindow::OnHelpButtonClick, this));
-}
-
-
-void MainWindow::InitializeModules() {
-
-    module_manager_.Initialize();
 }
 
 
@@ -96,12 +94,6 @@ void MainWindow::ShowOnTop() {
 }
 
 
-void MainWindow::ReloadUserDefinedCommands() {
-
-    module_manager_.ReloadUserDefinedCommands();
-}
-
-
 void MainWindow::OnTextChanged(const zaf::TextualControlTextChangeInfo& event_info) {
 
     UpdateCommandState();
@@ -117,7 +109,7 @@ void MainWindow::UpdateCommandState() {
 
 void MainWindow::InterpretCommand(const std::wstring& input) {
 
-    current_command_ = module_manager_.InterpretCommand(input);
+    current_command_ = module_manager_->InterpretCommand(input);
     if (current_command_) {
         current_command_->SetDesktopContext(desktop_context_);
     }
@@ -235,7 +227,7 @@ help::content::Content MainWindow::GetHelpContent() {
     }
     else {
 
-        auto suggested_commands = module_manager_.QuerySuggestedCommands(inputTextBox->Text());
+        auto suggested_commands = module_manager_->QuerySuggestedCommands(inputTextBox->Text());
         return help::BuildHelpContentFromSuggestedCommands(std::move(suggested_commands));
     }
 }

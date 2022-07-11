@@ -16,10 +16,10 @@ class MainWindow : public zaf::Window {
 public:
     ZAF_DECLARE_TYPE;
 
-    static MainWindow& Instance();
+    MainWindow();
+    explicit MainWindow(const std::shared_ptr<ModuleManager>& module_manager);
 
     void ShowOnTop();
-    void ReloadUserDefinedCommands();
 
 protected:
     void AfterParse() override;
@@ -31,7 +31,6 @@ protected:
 private:
     void InitializeTextBox();
     void InitializeHelpButton();
-    void InitializeModules();
 
     void OnTextChanged(const zaf::TextualControlTextChangeInfo&);
     void UpdateCommandState();
@@ -59,7 +58,7 @@ private:
 
     float initial_height_{};
 
-    ModuleManager module_manager_;
+    std::shared_ptr<ModuleManager> module_manager_;
 
     context::DesktopContext desktop_context_;
     std::shared_ptr<module::Command> current_command_;
