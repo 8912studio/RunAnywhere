@@ -1,11 +1,11 @@
 #include "module/user_defined/import/import_bundle_window.h"
 #include <cassert>
-#include <zaf/base/assert.h>
+#include <zaf/base/error/check.h>
 #include <zaf/base/string/encoding_conversion.h>
 #include <zaf/object/type_definition.h>
+#include "module/user_defined/bundle_definition.h"
 
-
-namespace ra::module::user_defined{
+namespace ra::module::user_defined {
 
 ZAF_DEFINE_TYPE(ImportBundleWindow)
 ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/user_defined/import/import_bundle_window.xaml");
@@ -28,8 +28,11 @@ void ImportBundleWindow::AfterParse() {
     __super::AfterParse();
 
     InitializeControls();
+}
 
-    importer_->Import();
+
+void ImportBundleWindow::OnWindowCreated() {
+
     ShowImportState();
 }
 
@@ -39,8 +42,13 @@ void ImportBundleWindow::InitializeControls() {
     Subscriptions() += okButton->ClickEvent().Subscribe(std::bind([this]() {
 
         auto state = importer_->GetState();
-        if (state == BundleImporter::State::OverrideConfirm ||
-            state == BundleImporter::State::ConflictConfirm) {
+        if (state == BundleImporter::State::Pending) {
+
+            importer_->Import();
+            ShowImportState();
+        }
+        else if (state == BundleImporter::State::OverrideConfirm ||
+                 state == BundleImporter::State::ConflictConfirm) {
 
             importer_->Confirm();
             ShowImportState();
@@ -53,6 +61,9 @@ void ImportBundleWindow::InitializeControls() {
     Subscriptions() += cancelButton->ClickEvent().Subscribe(std::bind([this]() {
         this->Close();
     }));
+
+    Subscriptions() += container->RectChangeEvent().Subscribe(
+        std::bind(&ImportBundleWindow::UpdateWindowHeight, this));
 }
 
 
@@ -61,6 +72,9 @@ void ImportBundleWindow::ShowImportState() {
     ImportBundleWindow::ImportStateDisplayInfo display_info;
 
     switch (importer_->GetState()) {
+    case BundleImporter::State::Pending:
+        display_info = GetPendingStateDisplayInfo();
+        break;
     case BundleImporter::State::Success:
         display_info = GetSuccessStateDisplayInfo();
         break;
@@ -74,19 +88,58 @@ void ImportBundleWindow::ShowImportState() {
         display_info = GetErrorStateDisplayInfo();
         break;
     default:
-        ZAF_FAIL();
+        ZAF_NOT_REACHED();
     }
 
     iconImage->SetURI(display_info.icon_uri);
     titleLabel->SetText(display_info.title_text);
     messageLabel->SetText(display_info.message_text);
     messageLabel->SetIsVisible(!display_info.message_text.empty());
-    okButton->SetText(display_info.ok_button_text);
-    cancelButton->SetIsVisible(display_info.is_cancel_button_visible);
-    
-    this->SetDefaultButton(display_info.is_cancel_button_visible ? cancelButton : okButton);
 
-    UpdateWindowHeight();
+    ShowButtons(display_info.buttons_style);
+}
+
+
+void ImportBundleWindow::ShowButtons(ButtonsStyle style) {
+
+    std::wstring ok_button_text;
+    std::wstring cancel_button_text;
+    bool is_cancel_button_visible{ true };
+
+    switch (style) {
+    case ButtonsStyle::OK:
+        is_cancel_button_visible = false;
+        [[fallthrough]];
+    case ButtonsStyle::OKCancel:
+        ok_button_text = L"OK";
+        cancel_button_text = L"Cancel";
+        break;
+    case ButtonsStyle::YesNo:
+        ok_button_text = L"Yes";
+        cancel_button_text = L"No";
+        break;
+    default:
+        ZAF_NOT_REACHED();
+    }
+
+    okButton->SetText(ok_button_text);
+    cancelButton->SetText(cancel_button_text);
+    cancelButton->SetIsVisible(is_cancel_button_visible);
+
+    this->SetDefaultButton(is_cancel_button_visible ? cancelButton : okButton);
+}
+
+
+ImportBundleWindow::ImportStateDisplayInfo ImportBundleWindow::GetPendingStateDisplayInfo() const {
+
+    ImportStateDisplayInfo result;
+    result.icon_uri = L"res:///resource/question.png";
+    result.title_text =
+        L"Confirm to import " +
+        importer_->GetBundlePath().filename().wstring() +
+        L"?";
+    result.buttons_style = ButtonsStyle::YesNo;
+    return result;
 }
 
 
@@ -94,14 +147,11 @@ ImportBundleWindow::ImportStateDisplayInfo ImportBundleWindow::GetSuccessStateDi
     
     ImportStateDisplayInfo result;
     result.icon_uri = L"res:///resource/info.png";
-
     result.title_text = 
         L"Import " +
         importer_->GetBundlePath().filename().wstring() +
         L" succeeded";
-
-    result.ok_button_text = L"OK";
-    result.is_cancel_button_visible = false;
+    result.buttons_style = ButtonsStyle::OK;
     return result;
 }
 
@@ -113,8 +163,7 @@ ImportBundleWindow::ImportStateDisplayInfo
     result.icon_uri = L"res:///resource/warn.png";
     result.title_text = importer_->GetBundlePath().filename().wstring() + L" already exists";
     result.message_text = L"Confirm to override it?";
-    result.ok_button_text = L"Confirm";
-    result.is_cancel_button_visible = true;
+    result.buttons_style = ButtonsStyle::YesNo;
     return result;
 }
 
@@ -131,8 +180,7 @@ ImportBundleWindow::ImportStateDisplayInfo
 
     GetConflictMessageDisplayInfo(result);
 
-    result.ok_button_text = L"Confirm";
-    result.is_cancel_button_visible = true;
+    result.buttons_style = ButtonsStyle::YesNo;
     return result;
 }
 
@@ -149,7 +197,7 @@ void ImportBundleWindow::GetConflictMessageDisplayInfo(ImportStateDisplayInfo& i
         info.message_text += each_entries->Keyword();
         info.message_text += L'\"';
         info.message_text += L" in ";
-        info.message_text += each_entries->BundleMeta()->BundleID() + L".rabdl";
+        info.message_text += each_entries->BundleMeta()->BundleID() + BundleFileExtension;
         info.message_text += L'\n';
 
         current_display_entries++;
@@ -180,8 +228,7 @@ ImportBundleWindow::ImportStateDisplayInfo ImportBundleWindow::GetErrorStateDisp
 
     GetErrorMessageDisplayInfo(result);
 
-    result.ok_button_text = L"OK";
-    result.is_cancel_button_visible = false;
+    result.buttons_style = ButtonsStyle::OK;
     return result;
 }
 
@@ -240,9 +287,6 @@ void ImportBundleWindow::UpdateWindowHeight() {
         total_height += each_child->Height();
         total_height += each_child->Margin().Height();
     }
-
-    total_height += RootControl()->Padding().Height();
-    total_height += RootControl()->Margin().Height();
 
     this->SetContentHeight(total_height);
 }

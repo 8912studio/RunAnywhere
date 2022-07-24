@@ -29,4 +29,9 @@
         FixedHeight="30"
         ParagraphAlignment="Center"
         Text="Auto hide window on lost focus" />
+    <Button 
+        Name="registerFileAssociationButton" 
+        FixedSize="180,30"
+        Margin="0,20,0,0"
+        Text="Register file association" />
 </OptionWindow>

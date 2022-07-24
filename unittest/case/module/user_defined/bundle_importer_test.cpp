@@ -67,7 +67,7 @@ TEST_F(BundleImporterTest, Success) {
     BundleImporter importer(
         depot, 
         GetTestingDepotDirectoryPath(),
-        GetInputFilePath(L"success.rabdl"));
+        GetInputFilePath(L"success.ra-bundle"));
 
     ASSERT_EQ(importer.GetState(), BundleImporter::State::Pending);
 
@@ -75,21 +75,21 @@ TEST_F(BundleImporterTest, Success) {
 
     ASSERT_EQ(importer.GetState(), BundleImporter::State::Success);
     ASSERT_NE(depot->FindBundle(L"success"), nullptr);
-    ASSERT_TRUE(std::filesystem::exists(GetTestingDepotDirectoryPath() / "success.rabdl"));
+    ASSERT_TRUE(std::filesystem::exists(GetTestingDepotDirectoryPath() / "success.ra-bundle"));
 }
 
 
 TEST_F(BundleImporterTest, Override) {
 
-    const auto bundle_in_depot = GetTestingDepotDirectoryPath() / "OVERRIDE.rabdl";
-    std::filesystem::rename(GetTestingDepotDirectoryPath() / "default.rabdl", bundle_in_depot);
+    const auto bundle_in_depot = GetTestingDepotDirectoryPath() / "OVERRIDE.ra-bundle";
+    std::filesystem::rename(GetTestingDepotDirectoryPath() / "default.ra-bundle", bundle_in_depot);
 
     auto depot = CreateDepot();
 
     BundleImporter importer(
         depot, 
         GetTestingDepotDirectoryPath(),
-        GetInputFilePath(L"override.rabdl"));
+        GetInputFilePath(L"override.ra-bundle"));
 
     importer.Import();
 
@@ -123,7 +123,7 @@ TEST_F(BundleImporterTest, Conflict) {
     BundleImporter importer(
         depot,
         GetTestingDepotDirectoryPath(),
-        GetInputFilePath(L"conflict.rabdl"));
+        GetInputFilePath(L"conflict.ra-bundle"));
 
     importer.Import();
 
@@ -131,7 +131,7 @@ TEST_F(BundleImporterTest, Conflict) {
 
     auto bundle = depot->FindBundle(L"conflict");
     ASSERT_EQ(bundle, nullptr);
-    ASSERT_FALSE(std::filesystem::exists(GetTestingDepotDirectoryPath() / "conflict.rabdl"));
+    ASSERT_FALSE(std::filesystem::exists(GetTestingDepotDirectoryPath() / "conflict.ra-bundle"));
 
     const auto& conflict_entries = importer.GetConflictEntries();
     ASSERT_EQ(conflict_entries.size(), 2);
@@ -147,7 +147,7 @@ TEST_F(BundleImporterTest, Conflict) {
     ASSERT_EQ(bundle->Entries().size(), 2);
     ASSERT_EQ(bundle->Entries()[0]->Keyword(), L"a");
     ASSERT_EQ(bundle->Entries()[1]->Keyword(), L"b");
-    ASSERT_TRUE(std::filesystem::exists(GetTestingDepotDirectoryPath() / "conflict.rabdl"));
+    ASSERT_TRUE(std::filesystem::exists(GetTestingDepotDirectoryPath() / "conflict.ra-bundle"));
 }
 
 
@@ -158,14 +158,14 @@ TEST_F(BundleImporterTest, CannotOpenFile) {
     BundleImporter importer(
         depot,
         GetTestingDepotDirectoryPath(),
-        GetInputFilePath(L"inexistent.rabdl"));
+        GetInputFilePath(L"inexistent.ra-bundle"));
 
     importer.Import();
 
     ASSERT_EQ(importer.GetState(), BundleImporter::State::Fail);
     ASSERT_EQ(importer.GetFailReason(), BundleImporter::FailReason::CannotOpenFile);
     ASSERT_EQ(depot->FindBundle(L"inexistent"), nullptr);
-    ASSERT_FALSE(std::filesystem::exists(GetTestingDepotDirectoryPath() / "inexistent.rabdl"));
+    ASSERT_FALSE(std::filesystem::exists(GetTestingDepotDirectoryPath() / "inexistent.ra-bundle"));
 }
 
 
@@ -176,7 +176,7 @@ TEST_F(BundleImporterTest, ParseError) {
     BundleImporter importer(
         depot,
         GetTestingDepotDirectoryPath(),
-        GetInputFilePath(L"parse_error.rabdl"));
+        GetInputFilePath(L"parse_error.ra-bundle"));
 
     importer.Import();
 
@@ -186,21 +186,21 @@ TEST_F(BundleImporterTest, ParseError) {
     ASSERT_EQ(importer.GetParseError()->ErrorLine(), "Command*");
     ASSERT_EQ(importer.GetParseError()->ErrorLineNumber(), 5);
     ASSERT_EQ(depot->FindBundle(L"parse_error"), nullptr);
-    ASSERT_FALSE(std::filesystem::exists(GetTestingDepotDirectoryPath() / "parse_error.rabdl"));
+    ASSERT_FALSE(std::filesystem::exists(GetTestingDepotDirectoryPath() / "parse_error.ra-bundle"));
 }
 
 
 TEST_F(BundleImporterTest, SaveError) {
 
-    const auto bundle_file_in_depot = GetTestingDepotDirectoryPath() / "save_error.rabdl";
-    std::filesystem::rename(GetTestingDepotDirectoryPath() / "default.rabdl", bundle_file_in_depot);
+    const auto bundle_file_in_depot = GetTestingDepotDirectoryPath() / "save_error.ra-bundle";
+    std::filesystem::rename(GetTestingDepotDirectoryPath() / "default.ra-bundle", bundle_file_in_depot);
 
     auto depot = CreateDepot();
 
     BundleImporter importer(
         depot,
         GetTestingDepotDirectoryPath(),
-        GetInputFilePath(L"save_error.rabdl"));
+        GetInputFilePath(L"save_error.ra-bundle"));
 
     importer.Import();
     ASSERT_EQ(importer.GetState(), BundleImporter::State::OverrideConfirm);
@@ -238,7 +238,7 @@ TEST_F(BundleImporterTest, NeedRetry) {
     BundleImporter importer(
         depot,
         GetTestingDepotDirectoryPath(),
-        GetInputFilePath(L"success.rabdl"));
+        GetInputFilePath(L"success.ra-bundle"));
 
     depot.reset();
 
@@ -246,15 +246,15 @@ TEST_F(BundleImporterTest, NeedRetry) {
 
     ASSERT_EQ(importer.GetState(), BundleImporter::State::Fail);
     ASSERT_EQ(importer.GetFailReason(), BundleImporter::FailReason::NeedRetry);
-    ASSERT_FALSE(std::filesystem::exists(GetTestingDepotDirectoryPath() / "success.rabdl"));
+    ASSERT_FALSE(std::filesystem::exists(GetTestingDepotDirectoryPath() / "success.ra-bundle"));
 }
 
 
 //Bundle is in depot, but file is missing.
 TEST_F(BundleImporterTest, NeedReload1) {
 
-    const auto bundle_file_in_depot = GetTestingDepotDirectoryPath() / "need_reload1.rabdl";
-    std::filesystem::rename(GetTestingDepotDirectoryPath() / "default.rabdl", bundle_file_in_depot);
+    const auto bundle_file_in_depot = GetTestingDepotDirectoryPath() / "need_reload1.ra-bundle";
+    std::filesystem::rename(GetTestingDepotDirectoryPath() / "default.ra-bundle", bundle_file_in_depot);
 
     auto depot = CreateDepot();
     std::filesystem::remove(bundle_file_in_depot);
@@ -262,7 +262,7 @@ TEST_F(BundleImporterTest, NeedReload1) {
     BundleImporter importer(
         depot,
         GetTestingDepotDirectoryPath(),
-        GetInputFilePath(L"need_reload1.rabdl"));
+        GetInputFilePath(L"need_reload1.ra-bundle"));
 
     importer.Import();
 
@@ -278,13 +278,13 @@ TEST_F(BundleImporterTest, NeedReload2) {
 
     auto depot = CreateDepot();
 
-    const auto bundle_file_in_depot = GetTestingDepotDirectoryPath() / "need_reload2.rabdl";
-    std::filesystem::rename(GetTestingDepotDirectoryPath() / "default.rabdl", bundle_file_in_depot);
+    const auto bundle_file_in_depot = GetTestingDepotDirectoryPath() / "need_reload2.ra-bundle";
+    std::filesystem::rename(GetTestingDepotDirectoryPath() / "default.ra-bundle", bundle_file_in_depot);
 
     BundleImporter importer(
         depot,
         GetTestingDepotDirectoryPath(),
-        GetInputFilePath(L"need_reload2.rabdl"));
+        GetInputFilePath(L"need_reload2.ra-bundle"));
 
     importer.Import();
 

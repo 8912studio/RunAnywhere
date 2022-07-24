@@ -1,6 +1,7 @@
 #include "module/user_defined/user_defined_module.h"
 #include <Windows.h>
 #include <shlobj_core.h>
+#include "module/user_defined/bundle_definition.h"
 #include "module/user_defined/bundle_parser.h"
 #include "module/user_defined/user_defined_command.h"
 
@@ -41,7 +42,7 @@ void UserDefinedModule::Reload() {
              iterator != std::filesystem::directory_iterator(); 
              ++iterator) {
 
-            if (iterator->path().extension() == ".rabdl") {
+            if (iterator->path().extension() == BundleFileExtension) {
                 LoadBundle(iterator->path());
             }
         }

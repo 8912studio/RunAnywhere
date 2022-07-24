@@ -97,6 +97,11 @@
     <ClInclude Include="src\context\everything_discovering.h" />
     <ClInclude Include="src\context\explorer_discovering.h" />
     <ClInclude Include="src\context\vs_discovering.h" />
+    <ClInclude Include="src\entry\application_switches.h" />
+    <ClInclude Include="src\entry\entry_result.h" />
+    <ClInclude Include="src\entry\general_entry.h" />
+    <ClInclude Include="src\entry\main_entry.h" />
+    <ClInclude Include="src\entry\register_entry.h" />
     <ClInclude Include="src\environment_variable_manager.h" />
     <ClInclude Include="src\help\content\body_line.h" />
     <ClInclude Include="src\help\content\content.h" />
@@ -188,6 +193,7 @@
     <ClInclude Include="src\module\rgb\rgb_command_parsing.h" />
     <ClInclude Include="src\module\rgb\rgb_module.h" />
     <ClInclude Include="src\module\rgb\rgb_preview_control.h" />
+    <ClInclude Include="src\module\user_defined\bundle_definition.h" />
     <ClInclude Include="src\module\user_defined\bundle_depot.h" />
     <ClInclude Include="src\module\user_defined\command_line_parsing.h" />
     <ClInclude Include="src\module\user_defined\command_parameter_parsing.h" />
@@ -221,6 +227,10 @@
     <ClCompile Include="src\context\everything_discovering.cpp" />
     <ClCompile Include="src\context\explorer_discovering.cpp" />
     <ClCompile Include="src\context\vs_discovering.cpp" />
+    <ClCompile Include="src\entry\application_switches.cpp" />
+    <ClCompile Include="src\entry\general_entry.cpp" />
+    <ClCompile Include="src\entry\main_entry.cpp" />
+    <ClCompile Include="src\entry\register_entry.cpp" />
     <ClCompile Include="src\environment_variable_manager.cpp" />
     <ClCompile Include="src\help\content_layouter.cpp" />
     <ClCompile Include="src\help\help_content_building.cpp" />

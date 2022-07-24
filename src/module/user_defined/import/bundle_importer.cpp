@@ -1,5 +1,6 @@
 #include "module/user_defined/import/bundle_importer.h"
 #include <zaf/base/error/check.h>
+#include "module/user_defined/bundle_definition.h"
 #include "module/user_defined/bundle_parser.h"
 
 namespace ra::module::user_defined {
@@ -137,7 +138,7 @@ void BundleImporter::Confirm() {
 
 std::filesystem::path BundleImporter::GetBundleSavePath() const {
 
-    auto file_name = parsed_bundle_->Meta()->BundleID() + L".rabdl";
+    auto file_name = parsed_bundle_->Meta()->BundleID() + BundleFileExtension;
     return depot_directory_path_ / file_name;
 }
 

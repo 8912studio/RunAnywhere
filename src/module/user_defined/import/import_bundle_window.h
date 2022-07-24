@@ -18,21 +18,29 @@ public:
 
 protected:
     void AfterParse() override;
+    void OnWindowCreated() override;
 
 private:
+    enum class ButtonsStyle {
+        OK,
+        OKCancel,
+        YesNo,
+    };
+
     class ImportStateDisplayInfo {
     public:
         std::wstring icon_uri;
         std::wstring title_text;
         std::wstring message_text;
         zaf::TextTrimming message_text_trimming;
-        std::wstring ok_button_text;
-        bool is_cancel_button_visible{};
+        ButtonsStyle buttons_style{ ButtonsStyle::OK };
     };
 
 private:
     void InitializeControls();
     void ShowImportState();
+    void ShowButtons(ButtonsStyle style);
+    ImportStateDisplayInfo GetPendingStateDisplayInfo() const;
     ImportStateDisplayInfo GetSuccessStateDisplayInfo() const;
     ImportStateDisplayInfo GetOverrideConfirmStateDisplayInfo() const;
     ImportStateDisplayInfo GetConflictConfirmStateDisplayInfo() const;
@@ -43,6 +51,7 @@ private:
     void UpdateWindowHeight();
 
 private:
+    ZAF_BIND_CONTROL(zaf::Control, container);
     ZAF_BIND_CONTROL(zaf::ImageBox, iconImage);
     ZAF_BIND_CONTROL(zaf::Label, titleLabel);
     ZAF_BIND_CONTROL(zaf::Label, messageLabel);

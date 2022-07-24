@@ -8,12 +8,12 @@
 #include "hot_key_utility.h"
 #include "ipc.h"
 #include "main_window.h"
+#include "module/user_defined/bundle_definition.h"
 #include "module/user_defined/import/import_bundle_window.h"
 #include "option_window.h"
 #include "registry_define.h"
 #include "resource.h"
 #include "tray_icon.h"
-#include "utility/command_line.h"
 
 namespace ra {
 namespace {
@@ -78,6 +78,12 @@ std::shared_ptr<ApplicationDelegate> ApplicationDelegate::GetFromApplication() {
 }
 
 
+ApplicationDelegate::ApplicationDelegate(const entry::ApplicationSwithes& switches) : 
+    application_switches_(switches) {
+
+}
+
+
 void ApplicationDelegate::ReloadModules() {
 
     module_manager_->GetUserDefinedModule().Reload();
@@ -98,6 +104,8 @@ void ApplicationDelegate::ApplicationBeginRun(const zaf::ApplicationBeginRunInfo
     module_manager_->Initialize();
 
     main_window_ = zaf::Create<MainWindow>(module_manager_);
+
+    RunApplicationSwitches(application_switches_);
 }
 
 
@@ -166,20 +174,27 @@ void ApplicationDelegate::HandleIPCMessage(const zaf::Message& message) {
         reinterpret_cast<const wchar_t*>(copy_data_info->lpData),
         copy_data_info->cbData / sizeof(wchar_t));
 
-    utility::CommandLine command_line(command_line_text);
-    const auto& parts = command_line.AllParts();
-    if (parts.size() != 1) {
+    entry::ApplicationSwithes switches{ command_line_text };
+    RunApplicationSwitches(switches);
+}
+
+
+void ApplicationDelegate::RunApplicationSwitches(const entry::ApplicationSwithes& switches) {
+
+    auto imported_path = switches.GetSwitchValue(entry::ImportSwitchName);
+    if (!imported_path) {
         return;
     }
 
-    std::filesystem::path bundle_path = parts[0];
-    if (bundle_path.extension() != L".rabdl") {
+    std::filesystem::path bundle_path = *imported_path;
+    if (bundle_path.extension() != module::user_defined::BundleFileExtension) {
         return;
     }
 
     auto importer = module_manager_->GetUserDefinedModule().BeginImportBundle(bundle_path);
     auto import_window = zaf::Create<module::user_defined::ImportBundleWindow>(importer);
     import_window->Show();
+    SetForegroundWindow(import_window->Handle());
 }
 
 

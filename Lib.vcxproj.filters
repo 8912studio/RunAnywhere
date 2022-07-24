@@ -73,6 +73,9 @@
     <Filter Include="src\module\user_defined\import">
       <UniqueIdentifier>{6c1017d3-8298-47ef-822c-a576e1bf909c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\entry">
+      <UniqueIdentifier>{e3c470c9-4866-47aa-9f99-7b4d9e6ae16e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\module\calculator\parse\binary_expression_parser.h">
@@ -447,6 +450,24 @@
     <ClInclude Include="src\module\user_defined\import\import_bundle_window.h">
       <Filter>src\module\user_defined\import</Filter>
     </ClInclude>
+    <ClInclude Include="src\module\user_defined\bundle_definition.h">
+      <Filter>src\module\user_defined</Filter>
+    </ClInclude>
+    <ClInclude Include="src\entry\register_entry.h">
+      <Filter>src\entry</Filter>
+    </ClInclude>
+    <ClInclude Include="src\entry\general_entry.h">
+      <Filter>src\entry</Filter>
+    </ClInclude>
+    <ClInclude Include="src\entry\main_entry.h">
+      <Filter>src\entry</Filter>
+    </ClInclude>
+    <ClInclude Include="src\entry\application_switches.h">
+      <Filter>src\entry</Filter>
+    </ClInclude>
+    <ClInclude Include="src\entry\entry_result.h">
+      <Filter>src\entry</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -706,6 +727,18 @@
     </ClCompile>
     <ClCompile Include="src\module\user_defined\import\import_bundle_window.cpp">
       <Filter>src\module\user_defined\import</Filter>
+    </ClCompile>
+    <ClCompile Include="src\entry\register_entry.cpp">
+      <Filter>src\entry</Filter>
+    </ClCompile>
+    <ClCompile Include="src\entry\general_entry.cpp">
+      <Filter>src\entry</Filter>
+    </ClCompile>
+    <ClCompile Include="src\entry\main_entry.cpp">
+      <Filter>src\entry</Filter>
+    </ClCompile>
+    <ClCompile Include="src\entry\application_switches.cpp">
+      <Filter>src\entry</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

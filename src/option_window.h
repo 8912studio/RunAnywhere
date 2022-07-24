@@ -1,5 +1,6 @@
 #pragma once
 
+#include <zaf/control/button.h>
 #include <zaf/control/check_box.h>
 #include <zaf/control/control_binder.h>
 #include <zaf/control/label.h>
@@ -29,11 +30,14 @@ private:
     void UpdateAutoHideCheckBoxState();
     void OnAutoHideCheckBoxStateChanged();
 
+    void OnRegisterFileAssociationButtonClick();
+
 private:
     ZAF_BIND_CONTROL(HotKeyBox, hotKeyBox);
     ZAF_BIND_CONTROL(zaf::Label, hotKeyInvalidLabel);
     ZAF_BIND_CONTROL(zaf::CheckBox, autoRunCheckBox);
     ZAF_BIND_CONTROL(zaf::CheckBox, autoHideCheckBox);
+    ZAF_BIND_CONTROL(zaf::Button, registerFileAssociationButton);
 };
 
 }

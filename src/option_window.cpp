@@ -2,6 +2,7 @@
 #include <zaf/application.h>
 #include <zaf/base/registry/registry.h>
 #include <zaf/object/type_definition.h>
+#include "entry/register_entry.h"
 #include "hot_key_manager.h"
 #include "option_storage.h"
 
@@ -53,6 +54,9 @@ void OptionWindow::AfterParse() {
 
     Subscriptions() += autoHideCheckBox->CheckStateChangeEvent().Subscribe(
         std::bind(&OptionWindow::OnAutoHideCheckBoxStateChanged, this));
+
+    Subscriptions() += registerFileAssociationButton->ClickEvent().Subscribe(
+        std::bind(&OptionWindow::OnRegisterFileAssociationButtonClick, this));
 }
 
 
@@ -135,6 +139,26 @@ void OptionWindow::UpdateAutoHideCheckBoxState() {
 void OptionWindow::OnAutoHideCheckBoxStateChanged() {
 
     OptionStorage::Instance().SetAutoHideOnLostFocus(autoHideCheckBox->IsChecked());
+}
+
+
+void OptionWindow::OnRegisterFileAssociationButtonClick() {
+
+    auto result = entry::RunRegisterEntry();
+
+    std::wstring message;
+    UINT box_type = MB_OK;
+
+    if (result == entry::EntryResult::OK) {
+        message = L"Register succeeded";
+        box_type |= MB_ICONINFORMATION;
+    }
+    else {
+        message = L"Register failed";
+        box_type |= MB_ICONERROR;
+    }
+
+    MessageBox(this->Handle(), message.c_str(), L"Register file association", box_type);
 }
 
 }

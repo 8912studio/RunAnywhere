@@ -4,7 +4,7 @@
 #include <boost/uuid/detail/md5.hpp>
 #include <zaf/rx/creation.h>
 #include <zaf/rx/scheduler.h>
-#include <zaf/base/assert.h>
+#include <zaf/base/error/check.h>
 #include <zaf/base/string/case_conversion.h>
 #include <zaf/base/string/encoding_conversion.h>
 
@@ -101,7 +101,7 @@ std::wstring CalculateStringMD5(const std::wstring& string, MD5Encoding encoding
         md5.process_bytes(string.data(), string.length() * sizeof(wchar_t));
     }
     else {
-        ZAF_FAIL();
+        ZAF_NOT_REACHED();
     }
 
     return GetMD5String(md5);

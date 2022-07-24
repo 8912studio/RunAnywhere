@@ -13,7 +13,7 @@ std::filesystem::path GetInputFilePath(const std::string& file_name) {
 
 TEST(BundleParserTest, Case1) {
 
-    auto input_path = GetInputFilePath("parser_test_1.rabdl");
+    auto input_path = GetInputFilePath("parser_test_1.ra-bundle");
     BundleParser parser(input_path);
     auto bundle = parser.Parse();
     ASSERT_NE(bundle, nullptr);
@@ -35,7 +35,7 @@ TEST(BundleParserTest, Case1) {
 
 TEST(BundleParseTest, Case2) {
 
-    auto input_path = GetInputFilePath("parser_test_2.rabdl");
+    auto input_path = GetInputFilePath("parser_test_2.ra-bundle");
     BundleParser parser(input_path);
 
     try {
@@ -50,7 +50,7 @@ TEST(BundleParseTest, Case2) {
 
 TEST(BundleParseTest, Case3) {
 
-    auto input_path = GetInputFilePath("parser_test_3.rabdl");
+    auto input_path = GetInputFilePath("parser_test_3.ra-bundle");
     BundleParser parser(input_path);
 
     try {
