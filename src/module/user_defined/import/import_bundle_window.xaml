@@ -1,5 +1,5 @@
 <ImportBundleWindow 
-    IsSizable="true"
+    IsSizable="false"
     CanMaximize="false"
     ContentSize="400,160"
     Title="Import">
