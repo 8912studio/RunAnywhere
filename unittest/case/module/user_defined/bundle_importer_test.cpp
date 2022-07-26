@@ -28,12 +28,18 @@ std::shared_ptr<BundleDepot> CreateDepot() {
 
     auto result = std::make_shared<BundleDepot>();
 
-    for (std::filesystem::directory_iterator iterator(GetTestingDepotDirectoryPath());
-         iterator != std::filesystem::directory_iterator();
-         ++iterator) {
+    try {
 
-        BundleParser parser(iterator->path());
-        result->AddBundle(parser.Parse());
+        for (std::filesystem::directory_iterator iterator(GetTestingDepotDirectoryPath());
+            iterator != std::filesystem::directory_iterator();
+            ++iterator) {
+
+            BundleParser parser(iterator->path());
+            result->AddBundle(parser.Parse());
+        }
+    }
+    catch (const std::filesystem::filesystem_error&) {
+
     }
     
     return result;
@@ -70,6 +76,25 @@ TEST_F(BundleImporterTest, Success) {
         GetInputFilePath(L"success.ra-bundle"));
 
     ASSERT_EQ(importer.GetState(), BundleImporter::State::Pending);
+
+    importer.Import();
+
+    ASSERT_EQ(importer.GetState(), BundleImporter::State::Success);
+    ASSERT_NE(depot->FindBundle(L"success"), nullptr);
+    ASSERT_TRUE(std::filesystem::exists(GetTestingDepotDirectoryPath() / "success.ra-bundle"));
+}
+
+
+TEST_F(BundleImporterTest, SuccessWithCreatingDirectory) {
+
+    std::filesystem::remove_all(GetTestingDepotDirectoryPath());
+
+    auto depot = CreateDepot();
+
+    BundleImporter importer(
+        depot,
+        GetTestingDepotDirectoryPath(),
+        GetInputFilePath(L"success.ra-bundle"));
 
     importer.Import();
 
@@ -190,10 +215,12 @@ TEST_F(BundleImporterTest, ParseError) {
 }
 
 
-TEST_F(BundleImporterTest, SaveError) {
+TEST_F(BundleImporterTest, SaveErrorWithCopyFailed) {
 
     const auto bundle_file_in_depot = GetTestingDepotDirectoryPath() / "save_error.ra-bundle";
-    std::filesystem::rename(GetTestingDepotDirectoryPath() / "default.ra-bundle", bundle_file_in_depot);
+    std::filesystem::rename(
+        GetTestingDepotDirectoryPath() / "default.ra-bundle", 
+        bundle_file_in_depot);
 
     auto depot = CreateDepot();
 

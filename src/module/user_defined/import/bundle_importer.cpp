@@ -106,21 +106,24 @@ bool BundleImporter::SaveBundle() {
 
     auto save_path = GetBundleSavePath();
 
-    std::error_code error_code;
-    bool copy_succeeded = std::filesystem::copy_file(
-        bundle_path_,
-        save_path,
-        std::filesystem::copy_options::overwrite_existing,
-        error_code);
+    try {
 
-    if (!copy_succeeded) {
+        std::filesystem::create_directories(save_path.parent_path());
+
+        std::filesystem::copy_file(
+            bundle_path_,
+            save_path,
+            std::filesystem::copy_options::overwrite_existing);
+
+        depot->AddOrReplaceBundle(parsed_bundle_);
+        return true;
+    }
+    catch (const std::filesystem::filesystem_error& error) {
+
         ChangeToFailState(FailReason::SaveError);
-        save_error_ = error_code;
+        save_error_ = error.code();
         return false;
     }
-
-    depot->AddOrReplaceBundle(parsed_bundle_);
-    return true;
 }
 
 
