@@ -18,7 +18,13 @@ TEST(BundleParserTest, Case1) {
     auto bundle = parser.Parse();
     ASSERT_NE(bundle, nullptr);
 
-    ASSERT_EQ(bundle->Meta()->BundleID(), input_path.stem());
+    auto meta = bundle->Meta();
+    ASSERT_EQ(meta->BundleID(), input_path.stem());
+    ASSERT_EQ(meta->GlobalProperties().size(), 2);
+    ASSERT_EQ(meta->GlobalProperties()[0].first, L"AppPath");
+    ASSERT_EQ(meta->GlobalProperties()[0].second, L"C:\\Windows\\System32\\kv.exe");
+    ASSERT_EQ(meta->GlobalProperties()[1].first, L"AppReg");
+    ASSERT_EQ(meta->GlobalProperties()[1].second, L"HKCU\\Software\\ff");
     
     const auto& entries = bundle->Entries();
     ASSERT_EQ(entries.size(), 2);
@@ -26,10 +32,10 @@ TEST(BundleParserTest, Case1) {
     ASSERT_EQ(entries[0]->Keyword(), L"log");
     ASSERT_EQ(
         entries[0]->Command(), 
-        LR"("C:\Program Files\TortoiseGit\bin\TortoiseGitProc.exe" /command:log /path:%@)");
+        L"\"C:\\Program Files\\TortoiseGit\\bin\\TortoiseGitProc.exe\" /command:log /path:%@");
 
     ASSERT_EQ(entries[1]->Keyword(), L"cmd");
-    ASSERT_EQ(entries[1]->Command(), LR"(C:\Windows\System32\cmd.exe /k "cd %.@")");
+    ASSERT_EQ(entries[1]->Command(), L"C:\\Windows\\System32\\cmd.exe /k \"cd %.@\"");
 }
 
 

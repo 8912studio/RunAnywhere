@@ -123,7 +123,9 @@ std::shared_ptr<Bundle> BundleParser::Parse() {
 
             //Current in meta context, add to gloal property.
             if (!meta) {
-                //TODO:
+                meta_builder.AddGlobalProperty(
+                    zaf::FromUtf8String(key),
+                    zaf::FromUtf8String(value));
             }
             //Current in entry context, add to entry property.
             else if (current_entry_builder) {
