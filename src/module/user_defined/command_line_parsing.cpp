@@ -100,7 +100,6 @@ std::vector<std::wstring> BuildArguments(
     return result;
 }
 
-
 }
 
 ParseResult ParseCommandLine(

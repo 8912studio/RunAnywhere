@@ -76,6 +76,9 @@
     <Filter Include="src\entry">
       <UniqueIdentifier>{e3c470c9-4866-47aa-9f99-7b4d9e6ae16e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\module\user_defined\interpret">
+      <UniqueIdentifier>{b50d10ab-d480-4ed6-82cd-1f5f49941be3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\module\calculator\parse\binary_expression_parser.h">
@@ -468,6 +471,15 @@
     <ClInclude Include="src\entry\entry_result.h">
       <Filter>src\entry</Filter>
     </ClInclude>
+    <ClInclude Include="src\module\user_defined\interpreted_entry_command.h">
+      <Filter>src\module\user_defined</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\user_defined\entry_command_interpreter.h">
+      <Filter>src\module\user_defined</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\user_defined\interpret\variable_formatter.h">
+      <Filter>src\module\user_defined\interpret</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -739,6 +751,15 @@
     </ClCompile>
     <ClCompile Include="src\entry\application_switches.cpp">
       <Filter>src\entry</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\user_defined\interpreted_entry_command.cpp">
+      <Filter>src\module\user_defined</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\user_defined\entry_command_interpreter.cpp">
+      <Filter>src\module\user_defined</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\user_defined\interpret\variable_formatter.cpp">
+      <Filter>src\module\user_defined\interpret</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

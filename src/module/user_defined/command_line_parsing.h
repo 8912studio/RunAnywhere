@@ -17,4 +17,5 @@ ParseResult ParseCommandLine(
     const std::wstring& command_line,
     const context::ActivePath& active_path,
     const std::vector<std::wstring>& input_arguments);
+
 }

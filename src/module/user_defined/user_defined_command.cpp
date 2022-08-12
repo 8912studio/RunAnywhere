@@ -1,6 +1,7 @@
 #include "module/user_defined/user_defined_command.h"
 #include <Windows.h>
 #include <zaf/base/container/utility/range.h>
+#include <zaf/base/string/join.h>
 #include <zaf/creation.h>
 #include "environment_variable_manager.h"
 #include "module/active_path/active_path_modifying.h"
@@ -9,23 +10,6 @@
 
 namespace ra::module::user_defined {
 namespace {
-
-std::wstring JoinArguments(const std::vector<std::wstring>& arguments) {
-
-    std::wstring result;
-
-    for (std::size_t index = 0; index < arguments.size(); ++index) {
-
-        if (index != 0) {
-            result += L' ';
-        }
-
-        result += arguments[index];
-    }
-
-    return result;
-}
-
 
 context::ActivePath ModifyActivePath(
     const context::ActivePath& active_path,
@@ -76,7 +60,7 @@ void UserDefinedCommand::Execute() {
         nullptr,
         nullptr,
         parse_result.command.c_str(),
-        JoinArguments(parse_result.arguments).c_str(),
+        zaf::JoinAsWideString(parse_result.arguments).c_str(),
         nullptr,
         SW_SHOWNORMAL);
 }
