@@ -3,8 +3,8 @@
 #include <vector>
 #include "context/active_path.h"
 #include "module/command.h"
-#include "module/user_defined/command_line_parsing.h"
 #include "module/user_defined/entry.h"
+#include "module/user_defined/parse/entry_command_parsing.h"
 
 namespace ra::module::user_defined {
 
@@ -19,7 +19,7 @@ public:
     void Execute() override;
 
 private:
-    ParseResult ParseCommandLine();
+    EntryCommandParseResult ParseCommandLine();
     void ParseArguments(
         context::ActivePath& modified_active_path,
         std::vector<std::wstring>& plain_arguments);

@@ -7,14 +7,14 @@
 
 namespace ra::module::user_defined {
 
-class ParseResult {
+class EntryCommandParseResult {
 public:
     std::wstring command;
     std::vector<std::wstring> arguments;
 };
 
-ParseResult ParseCommandLine(
-    const std::wstring& command_line,
+EntryCommandParseResult ParseEntryCommand(
+    const std::wstring& entry_command,
     const context::ActivePath& active_path,
     const std::vector<std::wstring>& input_arguments);
 

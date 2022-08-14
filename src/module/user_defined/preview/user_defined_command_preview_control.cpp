@@ -25,7 +25,7 @@ void UserDefinedCommandPreviewControl::AfterParse() {
 }
 
 
-void UserDefinedCommandPreviewControl::SetParseResult(const ParseResult& parse_result) {
+void UserDefinedCommandPreviewControl::SetParseResult(const EntryCommandParseResult& parse_result) {
 
     commandLabel->SetText(parse_result.command);
     BuildArgumentLabels(parse_result.arguments);

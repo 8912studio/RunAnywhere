@@ -77,8 +77,8 @@
     <ClCompile Include="case\module\meta\meta_module_test.cpp" />
     <ClCompile Include="case\module\rgb\rgb_command_parsing_test.cpp" />
     <ClCompile Include="case\module\user_defined\bundle_importer_test.cpp" />
-    <ClCompile Include="case\module\user_defined\command_line_parsing_test.cpp" />
-    <ClCompile Include="case\module\user_defined\command_parameter_parsing_test.cpp" />
+    <ClCompile Include="case\module\user_defined\entry_command_parsing_test.cpp" />
+    <ClCompile Include="case\module\user_defined\entry_command_parameter_parsing_test.cpp" />
     <ClCompile Include="case\module\user_defined\bundle_parser_test.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>

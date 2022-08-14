@@ -7,12 +7,11 @@
 
 namespace ra::module::user_defined {
 
-class CommandParameter {
+class EntryCommandParameterPart {
 public:
 	enum class Type {
 		Unknown,
 		General,
-		ActivePath,
 	};
 
 public:
@@ -23,11 +22,9 @@ public:
 
 	std::size_t general_index{};
 	bool is_quoted{};
-
-	active_path::ActivePathOption active_path_option;
 };
 
 
-std::vector<CommandParameter> ParseParameter(std::wstring_view parameter);
+std::vector<EntryCommandParameterPart> ParseEntryCommandParameter(std::wstring_view parameter);
 
 }

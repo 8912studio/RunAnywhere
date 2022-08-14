@@ -76,8 +76,8 @@
     <Filter Include="src\entry">
       <UniqueIdentifier>{e3c470c9-4866-47aa-9f99-7b4d9e6ae16e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\module\user_defined\interpret">
-      <UniqueIdentifier>{b50d10ab-d480-4ed6-82cd-1f5f49941be3}</UniqueIdentifier>
+    <Filter Include="src\module\user_defined\parse">
+      <UniqueIdentifier>{699ad406-ec08-459c-bd23-f48a7c913022}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -204,9 +204,6 @@
     <ClInclude Include="src\context\explorer_discovering.h">
       <Filter>src\context</Filter>
     </ClInclude>
-    <ClInclude Include="src\module\user_defined\command_line_parsing.h">
-      <Filter>src\module\user_defined</Filter>
-    </ClInclude>
     <ClInclude Include="src\context\vs_discovering.h">
       <Filter>src\context</Filter>
     </ClInclude>
@@ -215,9 +212,6 @@
     </ClInclude>
     <ClInclude Include="src\module\user_defined\preview\user_defined_command_preview_control.h">
       <Filter>src\module\user_defined\preview</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\user_defined\command_parameter_parsing.h">
-      <Filter>src\module\user_defined</Filter>
     </ClInclude>
     <ClInclude Include="src\module\calculator\result_text_builder.h">
       <Filter>src\module\calculator</Filter>
@@ -471,14 +465,14 @@
     <ClInclude Include="src\entry\entry_result.h">
       <Filter>src\entry</Filter>
     </ClInclude>
-    <ClInclude Include="src\module\user_defined\interpreted_entry_command.h">
-      <Filter>src\module\user_defined</Filter>
+    <ClInclude Include="src\module\user_defined\parse\variable_formatter.h">
+      <Filter>src\module\user_defined\parse</Filter>
     </ClInclude>
-    <ClInclude Include="src\module\user_defined\entry_command_interpreter.h">
-      <Filter>src\module\user_defined</Filter>
+    <ClInclude Include="src\module\user_defined\parse\entry_command_parsing.h">
+      <Filter>src\module\user_defined\parse</Filter>
     </ClInclude>
-    <ClInclude Include="src\module\user_defined\interpret\variable_formatter.h">
-      <Filter>src\module\user_defined\interpret</Filter>
+    <ClInclude Include="src\module\user_defined\parse\entry_command_parameter_parsing.h">
+      <Filter>src\module\user_defined\parse</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -560,17 +554,11 @@
     <ClCompile Include="src\context\explorer_discovering.cpp">
       <Filter>src\context</Filter>
     </ClCompile>
-    <ClCompile Include="src\module\user_defined\command_line_parsing.cpp">
-      <Filter>src\module\user_defined</Filter>
-    </ClCompile>
     <ClCompile Include="src\context\vs_discovering.cpp">
       <Filter>src\context</Filter>
     </ClCompile>
     <ClCompile Include="src\module\user_defined\preview\user_defined_command_preview_control.cpp">
       <Filter>src\module\user_defined\preview</Filter>
-    </ClCompile>
-    <ClCompile Include="src\module\user_defined\command_parameter_parsing.cpp">
-      <Filter>src\module\user_defined</Filter>
     </ClCompile>
     <ClCompile Include="src\module\calculator\result_text_builder.cpp">
       <Filter>src\module\calculator</Filter>
@@ -752,14 +740,14 @@
     <ClCompile Include="src\entry\application_switches.cpp">
       <Filter>src\entry</Filter>
     </ClCompile>
-    <ClCompile Include="src\module\user_defined\interpreted_entry_command.cpp">
-      <Filter>src\module\user_defined</Filter>
+    <ClCompile Include="src\module\user_defined\parse\variable_formatter.cpp">
+      <Filter>src\module\user_defined\parse</Filter>
     </ClCompile>
-    <ClCompile Include="src\module\user_defined\entry_command_interpreter.cpp">
-      <Filter>src\module\user_defined</Filter>
+    <ClCompile Include="src\module\user_defined\parse\entry_command_parsing.cpp">
+      <Filter>src\module\user_defined\parse</Filter>
     </ClCompile>
-    <ClCompile Include="src\module\user_defined\interpret\variable_formatter.cpp">
-      <Filter>src\module\user_defined\interpret</Filter>
+    <ClCompile Include="src\module\user_defined\parse\entry_command_parameter_parsing.cpp">
+      <Filter>src\module\user_defined\parse</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

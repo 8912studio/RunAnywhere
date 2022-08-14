@@ -1,7 +1,9 @@
-#include "module/user_defined/interpret/variable_formatter.h"
+#include "module/user_defined/parse/variable_formatter.h"
 #include <zaf/base/error/error.h>
 #include <zaf/base/registry/registry.h>
 #include <zaf/base/string/case_conversion.h>
+#include "module/active_path/active_path_modifying.h"
+#include "module/active_path/active_path_option_parsing.h"
 
 namespace ra::module::user_defined {
 namespace {
@@ -38,6 +40,18 @@ bool SplitVariableParts(
 }
 
 }
+
+
+VariableFormatter::VariableFormatter(
+    const context::ActivePath& active_path,
+    const std::shared_ptr<BundleMeta>& bundle_meta)
+    :
+    active_path_(active_path),
+    bundle_meta_(bundle_meta) {
+
+    ZAF_EXPECT(bundle_meta_);
+}
+
 
 std::wstring VariableFormatter::Format(std::wstring_view input) {
 
@@ -90,7 +104,7 @@ std::wstring VariableFormatter::Format(std::wstring_view input) {
 
 std::optional<std::wstring> VariableFormatter::FormatVariable(
     std::wstring_view input, 
-    std::size_t& index) {
+    std::size_t& index) const {
 
     if (index >= input.size()) {
         return std::nullopt;
@@ -108,9 +122,34 @@ std::optional<std::wstring> VariableFormatter::FormatVariable(
     }
 
     auto variable_inner = input.substr(current_index);
+    if (variable_inner.front() == L'@') {
+        return FormatActivePathVariable(variable_inner);
+    }
+    else {
+        return FormatGeneralVariable(variable_inner);
+    }
+}
+
+
+std::optional<std::wstring> VariableFormatter::FormatActivePathVariable(
+    std::wstring_view variable) const {
+
+    auto active_path_option = active_path::ParseActivePathOption(variable.substr(1));
+
+    auto modified_active_path = active_path::ModifyActivePathByOption(
+        active_path_,
+        active_path_option);
+
+    return modified_active_path.GetPath().wstring();
+}
+
+
+std::optional<std::wstring> VariableFormatter::FormatGeneralVariable(
+    std::wstring_view variable) const {
+
     std::wstring_view name;
     std::wstring_view modifier;
-    if (!SplitVariableParts(variable_inner, name, modifier)) {
+    if (!SplitVariableParts(variable, name, modifier)) {
         return std::nullopt;
     }
 
@@ -119,7 +158,7 @@ std::optional<std::wstring> VariableFormatter::FormatVariable(
         return std::nullopt;
     }
 
-
+    return GetVariableContent(name, *variable_modifier);
 }
 
 
@@ -145,7 +184,7 @@ std::optional<VariableFormatter::VariableModifier> VariableFormatter::ParseVaria
 
 std::wstring VariableFormatter::GetVariableContent(
     std::wstring_view name, 
-    const VariableModifier& modifier) {
+    const VariableModifier& modifier) const {
 
     for (const auto& each_property : bundle_meta_->GlobalProperties()) {
 

@@ -66,13 +66,13 @@ void UserDefinedCommand::Execute() {
 }
 
 
-ParseResult UserDefinedCommand::ParseCommandLine() {
+EntryCommandParseResult UserDefinedCommand::ParseCommandLine() {
 
     context::ActivePath modified_active_path;
     std::vector<std::wstring> plain_arguments;
     ParseArguments(modified_active_path, plain_arguments);
 
-    return user_defined::ParseCommandLine(
+    return user_defined::ParseEntryCommand(
         entry_->Command(),
         modified_active_path, 
         plain_arguments);
