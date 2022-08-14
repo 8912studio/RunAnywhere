@@ -1,10 +1,40 @@
 #include "module/user_defined/interpret/variable_formatter.h"
+#include <zaf/base/error/error.h>
+#include <zaf/base/registry/registry.h>
+#include <zaf/base/string/case_conversion.h>
 
 namespace ra::module::user_defined {
 namespace {
 
-bool IsValidVariableChar(wchar_t ch) {
-    return !!std::isalnum(ch);
+bool IsValidVariableNameChar(wchar_t ch) {
+
+    if (!std::isalnum(ch)) {
+        return false;
+    }
+
+    return ch == L'_';
+}
+
+
+bool SplitVariableParts(
+    std::wstring_view variable_inner,
+    std::wstring_view& name,
+    std::wstring_view& modifier) {
+
+    std::size_t index{};
+    for (index = 0; index < variable_inner.size(); ++index) {
+        if (!IsValidVariableNameChar(variable_inner[index])) {
+            break;
+        }
+    }
+
+    name = variable_inner.substr(index);
+    if (name.empty()) {
+        return false;
+    }
+
+    modifier = variable_inner.substr(index);
+    return true;
 }
 
 }
@@ -68,10 +98,142 @@ std::optional<std::wstring> VariableFormatter::FormatVariable(
 
     std::size_t current_index = index;
     for ( ; current_index < input.size(); ++current_index) {
-
         if (input[current_index] == L'}') {
             break;
         }
+    }
+
+    if (current_index == input.size()) {
+        return std::nullopt;
+    }
+
+    auto variable_inner = input.substr(current_index);
+    std::wstring_view name;
+    std::wstring_view modifier;
+    if (!SplitVariableParts(variable_inner, name, modifier)) {
+        return std::nullopt;
+    }
+
+    auto variable_modifier = ParseVariableModifier(modifier);
+    if (!variable_modifier) {
+        return std::nullopt;
+    }
+
+
+}
+
+
+std::optional<VariableFormatter::VariableModifier> VariableFormatter::ParseVariableModifier(
+    std::wstring_view modifier) {
+
+    VariableModifier result;
+    for (auto each_ch : modifier) {
+
+        if (each_ch == L'!') {
+            result.do_not_expand = true;
+        }
+        else if (each_ch == L'?') {
+            result.do_not_check_existent = true;
+        }
+        else {
+            return std::nullopt;
+        }
+    }
+    return result;
+}
+
+
+std::wstring VariableFormatter::GetVariableContent(
+    std::wstring_view name, 
+    const VariableModifier& modifier) {
+
+    for (const auto& each_property : bundle_meta_->GlobalProperties()) {
+
+        if (each_property.first == name) {
+
+            auto content = ExpandVariableContent(each_property.second, modifier);
+            if (content) {
+                return *content;
+            }
+        }
+    }
+
+    return std::wstring{};
+}
+
+
+std::optional<std::wstring> VariableFormatter::ExpandVariableContent(
+    const std::wstring& content,
+    const VariableModifier& modifier) {
+
+    if (modifier.do_not_expand) {
+        return content;
+    }
+
+    std::wstring pending_content;
+
+    auto registry_content = TryToExpandRegistryContent(content);
+    if (registry_content) {
+        pending_content = *registry_content;
+    }
+    else {
+        pending_content = content;
+    }
+
+    if (modifier.do_not_check_existent) {
+        return pending_content;
+    }
+
+    std::filesystem::path path{ pending_content };
+    std::error_code error_code;
+    if (std::filesystem::exists(path, error_code)) {
+        return pending_content;
+    }
+
+    return std::nullopt;
+}
+
+
+std::optional<std::wstring> VariableFormatter::TryToExpandRegistryContent(
+    const std::wstring& content) {
+
+    auto first_delimiter = content.find(L'\\');
+    if (first_delimiter == std::wstring::npos) {
+        return std::nullopt;
+    }
+
+    auto root_key_name = content.substr(first_delimiter);
+    zaf::Lowercase(root_key_name);
+
+    zaf::RegistryKey root_key;
+    if (root_key_name == L"hkcu") {
+        root_key = zaf::Registry::CurrentUser();
+    }
+    else if (root_key_name == L"hklm") {
+        root_key = zaf::Registry::LocalMachine();
+    }
+    else {
+        return std::nullopt;
+    }
+
+    auto last_delimiter = content.find_last_of(L'@');
+    if (last_delimiter == std::wstring::npos) {
+        return std::nullopt;
+    }
+
+    auto sub_key_path = content.substr(
+        first_delimiter + 1,
+        last_delimiter - first_delimiter - 1);
+
+    auto value_name = content.substr(last_delimiter + 1);
+
+    try {
+
+        auto sub_key = root_key.OpenSubKey(sub_key_path);
+        return sub_key.GetStringValue(value_name);
+    }
+    catch (const zaf::Error&) {
+        return std::nullopt;
     }
 }
 
