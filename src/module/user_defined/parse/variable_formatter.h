@@ -12,10 +12,10 @@ namespace ra::module::user_defined {
 class VariableFormatter : zaf::NonCopyable {
 public:
     VariableFormatter(
-        const context::ActivePath& active_path,
-        const std::shared_ptr<BundleMeta>& bundle_meta);
+        const std::shared_ptr<BundleMeta>& bundle_meta,
+        const context::ActivePath& active_path);
 
-    std::wstring Format(std::wstring_view input);
+    std::wstring Format(std::wstring_view input) const;
 
 private:
     class VariableModifier {
@@ -38,8 +38,8 @@ private:
     std::wstring GetVariableContent(std::wstring_view name, const VariableModifier& modifier) const;
 
 private:
-    context::ActivePath active_path_;
     std::shared_ptr<BundleMeta> bundle_meta_;
+    context::ActivePath active_path_;
 };
 
 }

@@ -46,18 +46,18 @@ TEST(EntryCommandParameterParsingTest, ParseGeneral) {
 TEST(EntryCommandParameterParsingTest, ParseQuoted) {
 
 	auto result = ParseEntryCommandParameter(L"%2\"%1\"");
-	ASSERT_EQ(result.size(), 3);
+	ASSERT_EQ(result.size(), 2);
 
 	const auto& second = result[0];
 	ASSERT_EQ(second.type, EntryCommandParameterPart::Type::General);
-	ASSERT_EQ(second.position, 7);
+	ASSERT_EQ(second.position, 0);
 	ASSERT_EQ(second.length, 2);
 	ASSERT_EQ(second.general_index, 2);
 	ASSERT_EQ(second.is_quoted, false);
 
 	const auto& third = result[1];
 	ASSERT_EQ(third.type, EntryCommandParameterPart::Type::General);
-	ASSERT_EQ(third.position, 10);
+	ASSERT_EQ(third.position, 3);
 	ASSERT_EQ(third.length, 2);
 	ASSERT_EQ(third.general_index, 1);
 	ASSERT_EQ(third.is_quoted, true);
@@ -67,25 +67,25 @@ TEST(EntryCommandParameterParsingTest, ParseQuoted) {
 TEST(EntryCommandParameterParsingTest, ParseCombine) {
 
 	auto result = ParseEntryCommandParameter(L"/path:%1;;%3\"%4\"--");
-	ASSERT_EQ(result.size(), 5);
+	ASSERT_EQ(result.size(), 3);
 
 	const auto& second = result[0];
 	ASSERT_EQ(second.type, EntryCommandParameterPart::Type::General);
-	ASSERT_EQ(second.position, 11);
+	ASSERT_EQ(second.position, 6);
 	ASSERT_EQ(second.length, 2);
 	ASSERT_EQ(second.general_index, 1);
 	ASSERT_EQ(second.is_quoted, false);
 
 	const auto& third = result[1];
 	ASSERT_EQ(third.type, EntryCommandParameterPart::Type::General);
-	ASSERT_EQ(third.position, 15);
+	ASSERT_EQ(third.position, 10);
 	ASSERT_EQ(third.length, 2);
 	ASSERT_EQ(third.general_index, 3);
 	ASSERT_EQ(third.is_quoted, false);
 
 	const auto& fourth = result[2];
 	ASSERT_EQ(fourth.type, EntryCommandParameterPart::Type::General);
-	ASSERT_EQ(fourth.position, 17);
+	ASSERT_EQ(fourth.position, 13);
 	ASSERT_EQ(fourth.length, 2);
 	ASSERT_EQ(fourth.general_index, 4);
 	ASSERT_EQ(fourth.is_quoted, true);

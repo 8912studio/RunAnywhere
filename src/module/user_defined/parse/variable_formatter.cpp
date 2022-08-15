@@ -43,17 +43,17 @@ bool SplitVariableParts(
 
 
 VariableFormatter::VariableFormatter(
-    const context::ActivePath& active_path,
-    const std::shared_ptr<BundleMeta>& bundle_meta)
+    const std::shared_ptr<BundleMeta>& bundle_meta,
+    const context::ActivePath& active_path)
     :
-    active_path_(active_path),
-    bundle_meta_(bundle_meta) {
+    bundle_meta_(bundle_meta),
+    active_path_(active_path) {
 
     ZAF_EXPECT(bundle_meta_);
 }
 
 
-std::wstring VariableFormatter::Format(std::wstring_view input) {
+std::wstring VariableFormatter::Format(std::wstring_view input) const {
 
     std::wstring result;
 
@@ -64,34 +64,44 @@ std::wstring VariableFormatter::Format(std::wstring_view input) {
 
             ++index;
 
-            //Variable
-            if (input[index] != L'{') {
+            //Escape character
+            if (input[index] == L'{') {
 
-                auto formatted_variable = FormatVariable(input, index);
-                if (formatted_variable) {
-                    result += *formatted_variable;
-                }
-                else {
-                    break;
-                }
+                result += L'{';
+                ++index;
+                continue;
             }
 
-            //Escape character, fall through.
+            //Variable
+            auto formatted_variable = FormatVariable(input, index);
+            if (formatted_variable) {
+                result += *formatted_variable;
+                continue;
+            }
+
+            //Bad variable, interrupt.
+            break;
         }
         else if (input[index] == L'}') {
 
             ++index;
 
-            //Invalid character.
-            if (input[index] != L'}') {
-                break;
+            //Escape character.
+            if (input[index] == L'}') {
+
+                result += input[index];
+                ++index;
+                continue;
             }
 
-            //Escape character, fall through.
+            //Invalid character, interrupt.
+            break;
         }
+        else {
 
-        result += input[index];
-        ++index;
+            result += input[index];
+            ++index;
+        }
     }
 
     if (index < input.size()) {
@@ -121,13 +131,20 @@ std::optional<std::wstring> VariableFormatter::FormatVariable(
         return std::nullopt;
     }
 
-    auto variable_inner = input.substr(current_index);
+    std::optional<std::wstring> result;
+    auto variable_inner = input.substr(index, current_index - index);
     if (variable_inner.front() == L'@') {
-        return FormatActivePathVariable(variable_inner);
+        result = FormatActivePathVariable(variable_inner);
     }
     else {
-        return FormatGeneralVariable(variable_inner);
+        result = FormatGeneralVariable(variable_inner);
     }
+
+    if (result) {
+        index = current_index + 1; //+1 for pass '}'
+    }
+
+    return result;
 }
 
 

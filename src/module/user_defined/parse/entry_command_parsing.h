@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include "context/active_path.h"
+#include "module/user_defined/parse/variable_formatter.h"
 
 namespace ra::module::user_defined {
 
@@ -15,7 +16,7 @@ public:
 
 EntryCommandParseResult ParseEntryCommand(
     const std::wstring& entry_command,
-    const context::ActivePath& active_path,
+    const VariableFormatter& variable_formatter,
     const std::vector<std::wstring>& input_arguments);
 
 }

@@ -6,6 +6,7 @@
 #include "environment_variable_manager.h"
 #include "module/active_path/active_path_modifying.h"
 #include "module/active_path/active_path_option_parsing.h"
+#include "module/user_defined/parse/variable_formatter.h"
 #include "module/user_defined/preview/user_defined_command_preview_control.h"
 
 namespace ra::module::user_defined {
@@ -72,9 +73,11 @@ EntryCommandParseResult UserDefinedCommand::ParseCommandLine() {
     std::vector<std::wstring> plain_arguments;
     ParseArguments(modified_active_path, plain_arguments);
 
+    VariableFormatter variable_formatter{ entry_->BundleMeta(), modified_active_path };
+
     return user_defined::ParseEntryCommand(
         entry_->Command(),
-        modified_active_path, 
+        variable_formatter,
         plain_arguments);
 }
 
