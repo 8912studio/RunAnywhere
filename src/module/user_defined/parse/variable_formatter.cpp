@@ -9,12 +9,7 @@ namespace ra::module::user_defined {
 namespace {
 
 bool IsValidVariableNameChar(wchar_t ch) {
-
-    if (!std::isalnum(ch)) {
-        return false;
-    }
-
-    return ch == L'_';
+    return (ch == L'_') || std::isalnum(ch);
 }
 
 
@@ -23,19 +18,22 @@ bool SplitVariableParts(
     std::wstring_view& name,
     std::wstring_view& modifier) {
 
-    std::size_t index{};
-    for (index = 0; index < variable_inner.size(); ++index) {
-        if (!IsValidVariableNameChar(variable_inner[index])) {
+    std::size_t modifier_begin_index{};
+    for (modifier_begin_index = 0; 
+         modifier_begin_index < variable_inner.size(); 
+         ++modifier_begin_index) {
+
+        if (!IsValidVariableNameChar(variable_inner[modifier_begin_index])) {
             break;
         }
     }
 
-    name = variable_inner.substr(index);
+    name = variable_inner.substr(0, modifier_begin_index);
     if (name.empty()) {
         return false;
     }
 
-    modifier = variable_inner.substr(index);
+    modifier = variable_inner.substr(modifier_begin_index);
     return true;
 }
 
@@ -258,7 +256,7 @@ std::optional<std::wstring> VariableFormatter::TryToExpandRegistryContent(
         return std::nullopt;
     }
 
-    auto root_key_name = content.substr(first_delimiter);
+    auto root_key_name = content.substr(0, first_delimiter);
     zaf::Lowercase(root_key_name);
 
     zaf::RegistryKey root_key;

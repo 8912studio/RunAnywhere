@@ -80,6 +80,7 @@
     <ClCompile Include="case\module\user_defined\entry_command_parsing_test.cpp" />
     <ClCompile Include="case\module\user_defined\entry_command_parameter_parsing_test.cpp" />
     <ClCompile Include="case\module\user_defined\bundle_parser_test.cpp" />
+    <ClCompile Include="case\module\user_defined\parse\variable_formatter_test.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
