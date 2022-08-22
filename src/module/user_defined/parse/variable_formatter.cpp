@@ -62,37 +62,45 @@ std::wstring VariableFormatter::Format(std::wstring_view input) const {
 
             ++index;
 
-            //Escape character
-            if (input[index] == L'{') {
+            if (index < input.size()) {
 
-                result += L'{';
-                ++index;
-                continue;
+                //Escape character
+                if (input[index] == L'{') {
+
+                    result += L'{';
+                    ++index;
+                    continue;
+                }
+
+                //Variable
+                auto formatted_variable = FormatVariable(input, index);
+                if (formatted_variable) {
+                    result += *formatted_variable;
+                    continue;
+                }
             }
 
-            //Variable
-            auto formatted_variable = FormatVariable(input, index);
-            if (formatted_variable) {
-                result += *formatted_variable;
-                continue;
-            }
-
-            //Bad variable, interrupt.
+            //Bad variable, retain '{' and interrupt.
+            result += L'{';
             break;
         }
         else if (input[index] == L'}') {
 
             ++index;
 
-            //Escape character.
-            if (input[index] == L'}') {
+            if (index < input.size()) {
 
-                result += input[index];
-                ++index;
-                continue;
+                //Escape character.
+                if (input[index] == L'}') {
+
+                    result += input[index];
+                    ++index;
+                    continue;
+                }
             }
 
-            //Invalid character, interrupt.
+            //Invalid character, retain '}' interrupt.
+            result += L'}';
             break;
         }
         else {
@@ -131,6 +139,10 @@ std::optional<std::wstring> VariableFormatter::FormatVariable(
 
     std::optional<std::wstring> result;
     auto variable_inner = input.substr(index, current_index - index);
+    if (variable_inner.empty()) {
+        return std::nullopt;
+    }
+
     if (variable_inner.front() == L'@') {
         result = FormatActivePathVariable(variable_inner);
     }
@@ -284,7 +296,14 @@ std::optional<std::wstring> VariableFormatter::TryToExpandRegistryContent(
     try {
 
         auto sub_key = root_key.OpenSubKey(sub_key_path);
-        return sub_key.GetStringValue(value_name);
+        auto value = sub_key.GetValue(value_name);
+
+        //Only supports string value.
+        if (value.Type() == zaf::RegistryValueType::String) {
+            return value.ToString();
+        }
+
+        return std::wstring{};
     }
     catch (const zaf::Error&) {
         return std::nullopt;
