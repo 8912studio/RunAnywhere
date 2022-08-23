@@ -1,5 +1,6 @@
 #include "module/user_defined/user_defined_command.h"
 #include <Windows.h>
+#include <zaf/base/container/utility/contain.h>
 #include <zaf/base/container/utility/range.h>
 #include <zaf/base/string/join.h>
 #include <zaf/creation.h>
@@ -18,6 +19,18 @@ context::ActivePath ModifyActivePath(
 
     auto option = active_path::ParseActivePathOption(modifier.substr(1));
     return active_path::ModifyActivePathByOption(active_path, option);
+}
+
+
+std::wstring JoinArguments(const std::vector<std::wstring>& arguments) {
+
+    return zaf::JoinAsWideString(arguments, [](const std::wstring& argument) {
+    
+        if (zaf::Contain(argument, L' ')) {
+            return L'"' + argument + L'\"';
+        }
+        return argument;
+    });
 }
 
 }
@@ -61,7 +74,7 @@ void UserDefinedCommand::Execute() {
         nullptr,
         nullptr,
         parse_result.command.c_str(),
-        zaf::JoinAsWideString(parse_result.arguments).c_str(),
+        JoinArguments(parse_result.arguments).c_str(),
         nullptr,
         SW_SHOWNORMAL);
 }

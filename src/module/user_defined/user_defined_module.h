@@ -22,9 +22,11 @@ public:
     std::shared_ptr<Command> Interpret(const utility::CommandLine& command_line) override;
 
 private:
+    void TryToUpgradeLegacyEntries();
     void LoadBundle(const std::filesystem::path& bundle_path);
 
 private:
+    std::filesystem::path bundle_directory_path_;
     std::shared_ptr<BundleDepot> bundle_depot_;
 };
 

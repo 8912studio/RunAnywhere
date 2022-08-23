@@ -197,6 +197,10 @@
     <ClInclude Include="src\module\user_defined\bundle_depot.h" />
     <ClInclude Include="src\module\user_defined\import\bundle_importer.h" />
     <ClInclude Include="src\module\user_defined\import\import_bundle_window.h" />
+    <ClInclude Include="src\module\user_defined\legacy\legacy_entry.h" />
+    <ClInclude Include="src\module\user_defined\legacy\legacy_entry_file.h" />
+    <ClInclude Include="src\module\user_defined\legacy\legacy_entry_reading.h" />
+    <ClInclude Include="src\module\user_defined\legacy\legacy_entry_upgrading.h" />
     <ClInclude Include="src\module\user_defined\parse\entry_command_parsing.h" />
     <ClInclude Include="src\module\user_defined\parse\entry_command_parameter_parsing.h" />
     <ClInclude Include="src\module\user_defined\parse\variable_formatter.h" />
@@ -295,6 +299,9 @@
     <ClCompile Include="src\module\user_defined\bundle_depot.cpp" />
     <ClCompile Include="src\module\user_defined\import\bundle_importer.cpp" />
     <ClCompile Include="src\module\user_defined\import\import_bundle_window.cpp" />
+    <ClCompile Include="src\module\user_defined\legacy\legacy_entry_file.cpp" />
+    <ClCompile Include="src\module\user_defined\legacy\legacy_entry_reading.cpp" />
+    <ClCompile Include="src\module\user_defined\legacy\legacy_entry_upgrading.cpp" />
     <ClCompile Include="src\module\user_defined\parse\entry_command_parsing.cpp" />
     <ClCompile Include="src\module\user_defined\parse\entry_command_parameter_parsing.cpp" />
     <ClCompile Include="src\module\user_defined\parse\variable_formatter.cpp" />

@@ -3,6 +3,8 @@
 #include <shlobj_core.h>
 #include "module/user_defined/bundle_definition.h"
 #include "module/user_defined/bundle_parser.h"
+#include "module/user_defined/legacy/legacy_entry_file.h"
+#include "module/user_defined/legacy/legacy_entry_upgrading.h"
 #include "module/user_defined/user_defined_command.h"
 
 namespace ra::module::user_defined {
@@ -32,13 +34,15 @@ UserDefinedModule::UserDefinedModule() {
 
 void UserDefinedModule::Reload() {
 
-    bundle_depot_ = std::make_shared<BundleDepot>();
+    bundle_directory_path_ = GetBundleDirectoryPath();
 
-    auto bundle_directory_path = GetBundleDirectoryPath();
+    TryToUpgradeLegacyEntries();
+
+    bundle_depot_ = std::make_shared<BundleDepot>();
 
     try {
 
-        for (std::filesystem::directory_iterator iterator(bundle_directory_path); 
+        for (std::filesystem::directory_iterator iterator(bundle_directory_path_);
              iterator != std::filesystem::directory_iterator(); 
              ++iterator) {
 
@@ -46,6 +50,36 @@ void UserDefinedModule::Reload() {
                 LoadBundle(iterator->path());
             }
         }
+    }
+    catch (const std::filesystem::filesystem_error&) {
+
+    }
+}
+
+
+void UserDefinedModule::TryToUpgradeLegacyEntries() {
+
+    try {
+
+        auto legacy_entry_file_path = GetLegacyEntryFilePath();
+        if (!std::filesystem::exists(legacy_entry_file_path)) {
+            return;
+        }
+
+        auto default_bundle_file_path = bundle_directory_path_ / L"Default.ra-bundle";
+        if (std::filesystem::exists(default_bundle_file_path)) {
+            return;
+        }
+
+        std::filesystem::create_directories(bundle_directory_path_);
+
+        if (!UpgradeLegacyEntries(legacy_entry_file_path, default_bundle_file_path)) {
+            return;
+        }
+
+        std::filesystem::rename(
+            legacy_entry_file_path,
+            legacy_entry_file_path.parent_path() / L"UserDefined-Legacy.txt");
     }
     catch (const std::filesystem::filesystem_error&) {
 
@@ -73,7 +107,7 @@ std::shared_ptr<BundleImporter> UserDefinedModule::BeginImportBundle(
 
     return std::make_shared<BundleImporter>(
         bundle_depot_,
-        GetBundleDirectoryPath(),
+        bundle_directory_path_,
         bundle_path);
 }
 
