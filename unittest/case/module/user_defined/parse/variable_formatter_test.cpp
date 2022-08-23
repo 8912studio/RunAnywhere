@@ -150,3 +150,17 @@ TEST(VariableFormatterTest, FormatMultiNamesVariable) {
     result = formatter.Format(L"{File?}");
     ASSERT_EQ(result, L"File1");
 }
+
+
+TEST(VariableFormatterTest, FormatMultiVariables) {
+
+    BundleMeta::Builder bundle_meta_builder;
+    bundle_meta_builder.AddGlobalProperty(L"V1", L"v1");
+    bundle_meta_builder.AddGlobalProperty(L"V2", L"v2");
+    bundle_meta_builder.AddGlobalProperty(L"V3", L"v3");
+
+    VariableFormatter formatter{ bundle_meta_builder.Build(), ActivePath{} };
+
+    auto result = formatter.Format(L"this is {V1!}{V2!} and {V3!} ");
+    ASSERT_EQ(result, L"this is v1v2 and v3 ");
+}

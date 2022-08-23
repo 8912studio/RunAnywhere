@@ -81,12 +81,6 @@
     <ClCompile Include="case\module\calculator\expression_parser_test.cpp">
       <Filter>case\module\calculator</Filter>
     </ClCompile>
-    <ClCompile Include="case\module\user_defined\entry_command_parsing_test.cpp">
-      <Filter>case\module\user_defined</Filter>
-    </ClCompile>
-    <ClCompile Include="case\module\user_defined\entry_command_parameter_parsing_test.cpp">
-      <Filter>case\module\user_defined</Filter>
-    </ClCompile>
     <ClCompile Include="case\module\calculator\numeric_text_formatting_test.cpp">
       <Filter>case\module\calculator</Filter>
     </ClCompile>
@@ -146,6 +140,12 @@
       <Filter>case\module\user_defined</Filter>
     </ClCompile>
     <ClCompile Include="case\module\user_defined\parse\variable_formatter_test.cpp">
+      <Filter>case\module\user_defined\parse</Filter>
+    </ClCompile>
+    <ClCompile Include="case\module\user_defined\parse\entry_command_parameter_parsing_test.cpp">
+      <Filter>case\module\user_defined\parse</Filter>
+    </ClCompile>
+    <ClCompile Include="case\module\user_defined\parse\entry_command_parsing_test.cpp">
       <Filter>case\module\user_defined\parse</Filter>
     </ClCompile>
   </ItemGroup>

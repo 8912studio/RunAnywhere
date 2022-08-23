@@ -80,8 +80,8 @@ std::wstring VariableFormatter::Format(std::wstring_view input) const {
                 }
             }
 
-            //Bad variable, retain '{' and interrupt.
-            result += L'{';
+            //Bad variable, interrupt.
+            --index;
             break;
         }
         else if (input[index] == L'}') {
@@ -99,8 +99,8 @@ std::wstring VariableFormatter::Format(std::wstring_view input) const {
                 }
             }
 
-            //Invalid character, retain '}' interrupt.
-            result += L'}';
+            //Invalid character, interrupt.
+            --index;
             break;
         }
         else {
