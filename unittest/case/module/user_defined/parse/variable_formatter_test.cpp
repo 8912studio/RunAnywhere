@@ -63,6 +63,9 @@ TEST(VariableFormatterTest, FormatFileVariable) {
     result = formatter.Format(L"{ExistentFile?}");
     ASSERT_EQ(result, __FILEW__);
 
+    result = formatter.Format(L"{ExistentFile.}");
+    ASSERT_EQ(result, std::filesystem::path(__FILEW__).parent_path());
+
     result = formatter.Format(L"{InexistentFile}");
     ASSERT_EQ(result, L"");
 
@@ -71,6 +74,9 @@ TEST(VariableFormatterTest, FormatFileVariable) {
 
     result = formatter.Format(L"{InexistentFile?}");
     ASSERT_EQ(result, L"SomeFile");
+
+    result = formatter.Format(L"{InexistentFile.}");
+    ASSERT_EQ(result, L"");
 }
 
 
@@ -109,6 +115,9 @@ TEST(VariableFormatterTest, FormatRegistryVariable) {
     result = formatter.Format(L"{RegExistentFile?}");
     ASSERT_EQ(result, __FILEW__);
 
+    result = formatter.Format(L"{RegExistentFile.}");
+    ASSERT_EQ(result, std::filesystem::path(__FILEW__).parent_path());
+
     result = formatter.Format(L"{RegExistentFile!}");
     ASSERT_EQ(result, L"HKCU\\" + RegistryKeyPath + L"@GoodFile");
 
@@ -120,6 +129,9 @@ TEST(VariableFormatterTest, FormatRegistryVariable) {
 
     result = formatter.Format(L"{RegInexistentFile?}");
     ASSERT_EQ(result, L"RegistryFile");
+
+    result = formatter.Format(L"{RegInexistentFile.}");
+    ASSERT_EQ(result, L"");
 
     result = formatter.Format(L"{RegNonString}");
     ASSERT_EQ(result, L"");

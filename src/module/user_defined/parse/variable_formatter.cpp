@@ -201,6 +201,9 @@ std::optional<VariableFormatter::VariableModifier> VariableFormatter::ParseVaria
         else if (each_ch == L'?') {
             result.do_not_check_existent = true;
         }
+        else if (each_ch == L'.') {
+            result.expand_to_directory = true;
+        }
         else {
             return std::nullopt;
         }
@@ -252,11 +255,17 @@ std::optional<std::wstring> VariableFormatter::ExpandVariableContent(
 
     std::filesystem::path path{ pending_content };
     std::error_code error_code;
-    if (std::filesystem::exists(path, error_code)) {
-        return pending_content;
+    if (!std::filesystem::exists(path, error_code)) {
+        return std::nullopt;
     }
 
-    return std::nullopt;
+    if (modifier.expand_to_directory) {
+        if (std::filesystem::is_regular_file(path, error_code)) {
+            return path.parent_path();
+        }
+    }
+
+    return path;
 }
 
 

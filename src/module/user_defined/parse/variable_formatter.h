@@ -22,6 +22,7 @@ private:
     public:
         bool do_not_expand{};
         bool do_not_check_existent{};
+        bool expand_to_directory{};
     };
 
 private:
