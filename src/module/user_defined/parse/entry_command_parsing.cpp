@@ -60,7 +60,11 @@ std::vector<std::wstring> BuildArguments(
     for (const auto& each_parameter : entry_parameters) {
 
         auto argument = BuildArgument(each_parameter, input_arguments);
-        argument = variable_formatter.Format(argument);
+
+        VariableFormatOptions format_options;
+        format_options.auto_quote_variable = true;
+
+        argument = variable_formatter.Format(argument, format_options);
         if (!argument.empty()) {
             result.push_back(argument);
         }
@@ -79,7 +83,7 @@ EntryCommandParseResult ParseEntryCommand(
     utility::CommandLine command_line{ entry_command };
 
     EntryCommandParseResult result;
-    result.command = variable_formatter.Format(command_line.Command());
+    result.command = variable_formatter.Format(command_line.Command(), VariableFormatOptions{});
     result.arguments = BuildArguments(
         command_line.Arguments(), 
         variable_formatter,

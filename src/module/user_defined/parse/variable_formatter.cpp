@@ -8,6 +8,18 @@
 namespace ra::module::user_defined {
 namespace {
 
+bool IsStringQuoted(std::wstring_view string, std::size_t index, std::size_t end_index) {
+
+    if (index <= 0 || string.length() <= end_index) {
+        return false;
+    }   
+    
+    return
+        string[index - 1] == L'"' &&
+        string[end_index] == L'"';
+}
+
+
 bool IsValidVariableNameChar(wchar_t ch) {
     return (ch == L'_') || std::isalnum(ch);
 }
@@ -51,7 +63,9 @@ VariableFormatter::VariableFormatter(
 }
 
 
-std::wstring VariableFormatter::Format(std::wstring_view input) const {
+std::wstring VariableFormatter::Format(
+    std::wstring_view input,
+    const VariableFormatOptions& options) const {
 
     std::wstring result;
 
@@ -67,14 +81,15 @@ std::wstring VariableFormatter::Format(std::wstring_view input) const {
                 //Escape character
                 if (input[index] == L'{') {
 
-                    result += L'{';
+                    result += input[index];
                     ++index;
                     continue;
                 }
 
                 //Variable
-                auto formatted_variable = FormatVariable(input, index);
+                auto formatted_variable = FormatVariable(input, options, index);
                 if (formatted_variable) {
+
                     result += *formatted_variable;
                     continue;
                 }
@@ -120,6 +135,7 @@ std::wstring VariableFormatter::Format(std::wstring_view input) const {
 
 std::optional<std::wstring> VariableFormatter::FormatVariable(
     std::wstring_view input, 
+    const VariableFormatOptions& options,
     std::size_t& index) const {
 
     if (index >= input.size()) {
@@ -150,10 +166,19 @@ std::optional<std::wstring> VariableFormatter::FormatVariable(
         result = FormatGeneralVariable(variable_inner);
     }
 
-    if (result) {
-        index = current_index + 1; //+1 for pass '}'
+    if (!result) {
+        return std::nullopt;
     }
 
+    auto end_index = current_index + 1; // +1 to pass '}'
+
+    if (options.auto_quote_variable) {
+        if (!IsStringQuoted(input, index, end_index)) {
+            result = L'"' + *result + L'"';
+        }
+    }
+
+    index = end_index;
     return result;
 }
 

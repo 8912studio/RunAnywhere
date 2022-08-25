@@ -10,16 +10,16 @@ TEST(VariableFormatterTest, FormatBadVariable) {
     auto bundle_meta = std::make_shared<BundleMeta>();
     VariableFormatter formatter{ bundle_meta, ActivePath{} };
 
-    auto result = formatter.Format(L"{}");
+    auto result = formatter.Format(L"{}", {});
     ASSERT_EQ(result, L"{}");
 
-    result = formatter.Format(L"{");
+    result = formatter.Format(L"{", {});
     ASSERT_EQ(result, L"{");
 
-    result = formatter.Format(L"}");
+    result = formatter.Format(L"}", {});
     ASSERT_EQ(result, L"}");
 
-    result = formatter.Format(L"{  abc }");
+    result = formatter.Format(L"{  abc }", {});
     ASSERT_EQ(result, L"{  abc }");
 }
 
@@ -32,16 +32,16 @@ TEST(VariableFormatterTest, FormatActivePath) {
     ActivePath active_path{ current_path, current_path.parent_path().parent_path() };
 
     VariableFormatter formatter{ bundle_meta, active_path };
-    auto result = formatter.Format(L"{@}");
+    auto result = formatter.Format(L"{@}", {});
     ASSERT_EQ(result, active_path.GetPath());
 
-    result = formatter.Format(L"{@~}");
+    result = formatter.Format(L"{@~}", {});
     ASSERT_EQ(result, active_path.GetWorkspacePath());
 
-    result = formatter.Format(L"{@.}");
+    result = formatter.Format(L"{@.}", {});
     ASSERT_EQ(result, active_path.GetPath().parent_path());
 
-    result = formatter.Format(L"{@..}");
+    result = formatter.Format(L"{@..}", {});
     ASSERT_EQ(result, active_path.GetPath().parent_path().parent_path());
 }
 
@@ -54,28 +54,28 @@ TEST(VariableFormatterTest, FormatFileVariable) {
 
     VariableFormatter formatter{ bundle_meta_builder.Build(), ActivePath{} };
 
-    auto result = formatter.Format(L"{ExistentFile}");
+    auto result = formatter.Format(L"{ExistentFile}", {});
     ASSERT_EQ(result, __FILEW__);
 
-    result = formatter.Format(L"{ExistentFile!}");
+    result = formatter.Format(L"{ExistentFile!}", {});
     ASSERT_EQ(result, __FILEW__);
 
-    result = formatter.Format(L"{ExistentFile?}");
+    result = formatter.Format(L"{ExistentFile?}", {});
     ASSERT_EQ(result, __FILEW__);
 
-    result = formatter.Format(L"{ExistentFile.}");
+    result = formatter.Format(L"{ExistentFile.}", {});
     ASSERT_EQ(result, std::filesystem::path(__FILEW__).parent_path());
 
-    result = formatter.Format(L"{InexistentFile}");
+    result = formatter.Format(L"{InexistentFile}", {});
     ASSERT_EQ(result, L"");
 
-    result = formatter.Format(L"{InexistentFile!}");
+    result = formatter.Format(L"{InexistentFile!}", {});
     ASSERT_EQ(result, L"SomeFile");
 
-    result = formatter.Format(L"{InexistentFile?}");
+    result = formatter.Format(L"{InexistentFile?}", {});
     ASSERT_EQ(result, L"SomeFile");
 
-    result = formatter.Format(L"{InexistentFile.}");
+    result = formatter.Format(L"{InexistentFile.}", {});
     ASSERT_EQ(result, L"");
 }
 
@@ -109,37 +109,37 @@ TEST(VariableFormatterTest, FormatRegistryVariable) {
 
     VariableFormatter formatter{bundle_meta_builder.Build(), ActivePath{} };
 
-    auto result = formatter.Format(L"{RegExistentFile}");
+    auto result = formatter.Format(L"{RegExistentFile}", {});
     ASSERT_EQ(result, __FILEW__);
 
-    result = formatter.Format(L"{RegExistentFile?}");
+    result = formatter.Format(L"{RegExistentFile?}", {});
     ASSERT_EQ(result, __FILEW__);
 
-    result = formatter.Format(L"{RegExistentFile.}");
+    result = formatter.Format(L"{RegExistentFile.}", {});
     ASSERT_EQ(result, std::filesystem::path(__FILEW__).parent_path());
 
-    result = formatter.Format(L"{RegExistentFile!}");
+    result = formatter.Format(L"{RegExistentFile!}", {});
     ASSERT_EQ(result, L"HKCU\\" + RegistryKeyPath + L"@GoodFile");
 
-    result = formatter.Format(L"{RegInexistentFile}");
+    result = formatter.Format(L"{RegInexistentFile}", {});
     ASSERT_EQ(result, L"");
 
-    result = formatter.Format(L"{RegInexistentFile!}");
+    result = formatter.Format(L"{RegInexistentFile!}", {});
     ASSERT_EQ(result, L"HKCU\\" + RegistryKeyPath + L"@BadFile");
 
-    result = formatter.Format(L"{RegInexistentFile?}");
+    result = formatter.Format(L"{RegInexistentFile?}", {});
     ASSERT_EQ(result, L"RegistryFile");
 
-    result = formatter.Format(L"{RegInexistentFile.}");
+    result = formatter.Format(L"{RegInexistentFile.}", {});
     ASSERT_EQ(result, L"");
 
-    result = formatter.Format(L"{RegNonString}");
+    result = formatter.Format(L"{RegNonString}", {});
     ASSERT_EQ(result, L"");
 
-    result = formatter.Format(L"{RegNonString!}");
+    result = formatter.Format(L"{RegNonString!}", {});
     ASSERT_EQ(result, L"HKCU\\" + RegistryKeyPath + L"@DWord");
 
-    result = formatter.Format(L"{RegNonString?}");
+    result = formatter.Format(L"{RegNonString?}", {});
     ASSERT_EQ(result, L"");
 }
 
@@ -153,13 +153,13 @@ TEST(VariableFormatterTest, FormatMultiNamesVariable) {
 
     VariableFormatter formatter{ bundle_meta_builder.Build(), ActivePath{} };
 
-    auto result = formatter.Format(L"{File}");
+    auto result = formatter.Format(L"{File}", {});
     ASSERT_EQ(result, __FILEW__);
 
-    result = formatter.Format(L"{File!}");
+    result = formatter.Format(L"{File!}", {});
     ASSERT_EQ(result, L"File1");
 
-    result = formatter.Format(L"{File?}");
+    result = formatter.Format(L"{File?}", {});
     ASSERT_EQ(result, L"File1");
 }
 
@@ -173,6 +173,6 @@ TEST(VariableFormatterTest, FormatMultiVariables) {
 
     VariableFormatter formatter{ bundle_meta_builder.Build(), ActivePath{} };
 
-    auto result = formatter.Format(L"this is {V1!}{V2!} and {V3!} ");
+    auto result = formatter.Format(L"this is {V1!}{V2!} and {V3!} ", {});
     ASSERT_EQ(result, L"this is v1v2 and v3 ");
 }
