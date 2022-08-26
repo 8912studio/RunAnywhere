@@ -34,8 +34,9 @@ TEST(MD5CalculatingTest, File) {
 		
 				md5 = result.md5;
 			}, 
-			[&cv]() {
-		
+			[&cv, &lock]() {
+
+				std::scoped_lock<std::mutex> lock_guard(lock);
 				cv.notify_all();
 			}
 		);
