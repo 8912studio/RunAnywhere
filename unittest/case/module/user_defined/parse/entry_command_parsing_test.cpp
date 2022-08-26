@@ -45,7 +45,7 @@ TEST(EntryCommandParsingTest, ReplaceActivePath) {
         {});
     ASSERT_EQ(result.command, L"C:\\Window\\notepad.exe");
     ASSERT_EQ(result.arguments.size(), 1);
-    ASSERT_EQ(result.arguments[0], L"C:\\My Documents\\file.txt");
+    ASSERT_EQ(result.arguments[0], L"\"C:\\My Documents\\file.txt\"");
 
     //Parameter is quoted
     result = ParseEntryCommand(
@@ -54,7 +54,7 @@ TEST(EntryCommandParsingTest, ReplaceActivePath) {
         {});
     ASSERT_EQ(result.command, L"C:\\Window\\notepad.exe");
     ASSERT_EQ(result.arguments.size(), 1);
-    ASSERT_EQ(result.arguments[0], L"C:\\My Documents\\file.txt");
+    ASSERT_EQ(result.arguments[0], L"\"C:\\My Documents\\file.txt\"");
 
     //Active path is a part of parameter
     result = ParseEntryCommand(
@@ -64,6 +64,14 @@ TEST(EntryCommandParsingTest, ReplaceActivePath) {
     ASSERT_EQ(result.command, L"C:\\Window\\notepad.exe");
     ASSERT_EQ(result.arguments.size(), 1);
     ASSERT_EQ(result.arguments[0], L"/path:C:\\file.txt");
+
+    result = ParseEntryCommand(
+        L"C:\\Window\\notepad.exe /path:{@}",
+        VariableFormatterFromActivePath(L"C:\\my file.txt"),
+        {});
+    ASSERT_EQ(result.command, L"C:\\Window\\notepad.exe");
+    ASSERT_EQ(result.arguments.size(), 1);
+    ASSERT_EQ(result.arguments[0], L"/path:\"C:\\my file.txt\"");
 }
 
 

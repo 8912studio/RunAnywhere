@@ -1,4 +1,5 @@
 #include "module/user_defined/parse/variable_formatter.h"
+#include <zaf/base/container/utility/contain.h>
 #include <zaf/base/error/error.h>
 #include <zaf/base/registry/registry.h>
 #include <zaf/base/string/case_conversion.h>
@@ -173,7 +174,7 @@ std::optional<std::wstring> VariableFormatter::FormatVariable(
     auto end_index = current_index + 1; // +1 to pass '}'
 
     if (options.auto_quote_variable) {
-        if (!IsStringQuoted(input, index, end_index)) {
+        if (zaf::Contain(*result, L' ') && !IsStringQuoted(input, index, end_index)) {
             result = L'"' + *result + L'"';
         }
     }
