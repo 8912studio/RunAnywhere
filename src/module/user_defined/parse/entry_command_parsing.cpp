@@ -59,12 +59,12 @@ std::vector<std::wstring> BuildArguments(
 
     for (const auto& each_parameter : entry_parameters) {
 
-        auto argument = BuildArgument(each_parameter, input_arguments);
-
         VariableFormatOptions format_options;
         format_options.auto_quote_variable = true;
 
-        argument = variable_formatter.Format(argument, format_options);
+        auto formatted_parameter = variable_formatter.Format(each_parameter, format_options);
+
+        auto argument = BuildArgument(formatted_parameter, input_arguments);
         if (!argument.empty()) {
             result.push_back(argument);
         }
