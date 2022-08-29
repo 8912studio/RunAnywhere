@@ -27,6 +27,8 @@ void ImportBundleWindow::AfterParse() {
 
     __super::AfterParse();
 
+    iconImage->SetImageLayout(zaf::ImageLayout::Stretch);
+
     InitializeControls();
 }
 
