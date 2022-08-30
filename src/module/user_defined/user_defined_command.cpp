@@ -23,14 +23,7 @@ context::ActivePath ModifyActivePath(
 
 
 std::wstring JoinArguments(const std::vector<std::wstring>& arguments) {
-
-    return zaf::JoinAsWideString(arguments, [](const std::wstring& argument) {
-    
-        if (zaf::Contain(argument, L' ')) {
-            return L'"' + argument + L'\"';
-        }
-        return argument;
-    });
+    return zaf::JoinAsWideString(arguments);
 }
 
 }

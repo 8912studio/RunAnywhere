@@ -18,10 +18,6 @@ VariableFormatter VariableFormatterFromActivePath(const std::wstring& active_pat
 TEST(EntryCommandParsingTest, ReplaceActivePath) {
 
     //Empty path
-    VariableFormatter variable_formatter{ 
-        std::make_shared<BundleMeta>(),
-        ActivePath{} 
-    };
     auto result = ParseEntryCommand(
         L"C:\\Window\\notepad.exe {@}",
         VariableFormatterFromActivePath({}),
@@ -111,4 +107,46 @@ TEST(EntryCommandParsingTest, BackwardActivePath) {
         {});
     ASSERT_EQ(result.arguments.size(), 1);
     ASSERT_EQ(result.arguments[0], L"C:\\");
+}
+
+
+TEST(EntryCommandParsingTest, ReplaceGeneralParameter) {
+
+    VariableFormatter variable_formatter{
+        std::make_shared<BundleMeta>(),
+        ActivePath{}
+    };
+
+    std::vector<std::wstring> arguments{
+        L"1A",  
+        L"2B",
+        L"3C",
+        L"4D",
+        L"5E",
+        L"6F",
+        L"7G",
+        L"8H",
+        L"9I",
+    };
+    
+    auto result = ParseEntryCommand(
+        L"C:\\Windows\\notepad.exe %1 %2 %3 %4 %5 %6 %7 %8 %9",
+        variable_formatter,
+        arguments);
+    ASSERT_EQ(result.arguments, arguments);
+
+    result = ParseEntryCommand(L"C:\\Windows\\notepad.exe %1 %2 %3", variable_formatter, {
+        L"111",
+    });
+    ASSERT_EQ(result.arguments.size(), 1);
+    ASSERT_EQ(result.arguments[0], L"111");
+
+    result = ParseEntryCommand(L"C:\\Windows\\notepad.exe %1 \"%3\"", variable_formatter, {
+        L"1 1 1",
+        L"2",
+        L"3 3"
+    });
+    ASSERT_EQ(result.arguments.size(), 2);
+    ASSERT_EQ(result.arguments[0], L"\"1 1 1\"");
+    ASSERT_EQ(result.arguments[1], L"\"3 3\"");
 }

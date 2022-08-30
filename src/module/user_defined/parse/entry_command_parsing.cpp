@@ -15,8 +15,21 @@ std::wstring BuildArgumentFromParameter(
     const EntryCommandParameterPart& parameter_part,
     const std::vector<std::wstring>& input_arguments) {
 
-    //TODO: Replace with input arguments.
-    return {};
+    if (parameter_part.type != EntryCommandParameterPart::Type::General) {
+        return std::wstring{};
+    }
+
+    std::size_t argument_index = parameter_part.general_index - 1;
+    if (argument_index >= input_arguments.size()) {
+        return std::wstring{};
+    }
+
+    const auto& argument = input_arguments[argument_index];
+    if (zaf::Contain(argument, L' ') && !parameter_part.is_quoted) {
+        return L'"' + argument + L'"';
+    }
+
+    return argument;
 }
 
 
