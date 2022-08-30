@@ -59,6 +59,9 @@ std::shared_ptr<CommandPreviewControl> UserDefinedCommand::GetPreviewControl() {
 void UserDefinedCommand::Execute() {
 
     auto parse_result = ParseCommandLine();
+    if (parse_result.command.empty()) {
+        return;
+    }
 
     //Update current process' environment variables in order to inherit them in child process.
     EnvironmentVariableManager::Instance().Update();
