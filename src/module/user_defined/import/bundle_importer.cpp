@@ -108,12 +108,16 @@ bool BundleImporter::SaveBundle() {
 
     try {
 
-        std::filesystem::create_directories(save_path.parent_path());
+        //The imported file may just locate in the depot directory.
+        if (bundle_path_ != save_path) {
 
-        std::filesystem::copy_file(
-            bundle_path_,
-            save_path,
-            std::filesystem::copy_options::overwrite_existing);
+            std::filesystem::create_directories(save_path.parent_path());
+
+            std::filesystem::copy_file(
+                bundle_path_,
+                save_path,
+                std::filesystem::copy_options::overwrite_existing);
+        }
 
         depot->AddOrReplaceBundle(parsed_bundle_);
         return true;

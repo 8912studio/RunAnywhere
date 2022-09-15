@@ -320,3 +320,21 @@ TEST_F(BundleImporterTest, NeedReload2) {
     ASSERT_EQ(depot->FindBundle(L"need_reload2"), nullptr);
     ASSERT_TRUE(std::filesystem::exists(bundle_file_in_depot));
 }
+
+
+TEST_F(BundleImporterTest, ImportFileInDepotDirectory) {
+
+    auto depot = CreateDepot();
+
+    auto bundle_file = GetTestingDepotDirectoryPath() / "default.ra-bundle";
+
+    BundleImporter importer(depot, GetTestingDepotDirectoryPath(), bundle_file);
+
+    importer.Import();
+    ASSERT_EQ(importer.GetState(), BundleImporter::State::OverrideConfirm);
+
+    importer.Confirm();
+    ASSERT_EQ(importer.GetState(), BundleImporter::State::Success);
+    ASSERT_NE(depot->FindBundle(L"default"), nullptr);
+    ASSERT_TRUE(std::filesystem::exists(bundle_file));
+}
