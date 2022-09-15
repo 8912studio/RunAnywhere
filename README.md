@@ -4,7 +4,7 @@ RunAnywhere is a tiny command line-style productivity tool on Windows.
 
 ## Primary feature
 
-You can call out RunAnywhere by hot key, and input your pre-defined shortcut commands, then it will discover the path of current file from application which you are working on, and pass it to your command to run.
+You can call out RunAnywhere by hot key, and input your pre-defined shortcut commands, then it will discover the path of current file from application which you are working on, and deliver it to your command to run.
 
 For example, you can define a shortcut command `log`, this command calls TortoiseGit to show git logs of file. After that, you call out RunAnywhere in Visual Studio, input `log` and press enter, TortoiseGit will run and open a window showing git logs of the file openning in Visual Studio.
 
@@ -16,7 +16,7 @@ In explorer window, you can also use `log` command to show git logs of selected 
 
 RunAnywhere will support more applications in the future.
 
-For more information about how to define your own commands, see [here](https://github.com/Zplutor/RunAnywhere/wiki/User-defined-Command).
+For more information about how to use and write your own commands, see [here](https://github.com/Zplutor/RunAnywhere/wiki/Bundle-File).
 
 ## Little tools
 
