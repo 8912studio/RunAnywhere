@@ -84,7 +84,7 @@ TEST(VariableFormatterTest, FormatRegistryVariable) {
 
     const std::wstring RegistryKeyPath = LR"(Software\RunAnywhere\Unittest\VariableFormatterTest)";
 
-    auto key = zaf::Registry::CurrentUser().OpenSubKey(
+    auto key = zaf::Registry::CurrentUser().CreateSubKey(
         RegistryKeyPath,
         zaf::RegistryRights::Write);
 
