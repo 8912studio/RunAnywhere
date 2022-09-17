@@ -1,10 +1,9 @@
 ﻿#include <Windows.h>
 #include <array>
 #include <cwchar>
-#include "npp_plugin.h"
+#include <string>
+#include "common/window_based_discover.h"
 #include "PluginInterface.h"
-
-constexpr UINT WM_REQUEST = WM_USER + 1;
 
 NppData g_npp_data{};
 FuncItem g_menu_items[1]{};
@@ -18,7 +17,7 @@ extern "C" __declspec(dllexport) void setInfo(NppData npp_data) {
 
 
 extern "C" __declspec(dllexport) const TCHAR* getName() {
-    return L"RunAnywhere";
+    return L"RunAnywhereNPPHost";
 }
 
 
@@ -47,27 +46,49 @@ void About() {
 
     ::MessageBox(
         g_npp_data._nppHandle, 
-        L"RunAnywhere", 
-        L"A plugin to discover active path for RunAnywhere", 
+        L"A plugin to discover active path for RunAnywhere",
+        L"RunAnywhereNPPHost", 
         MB_OK);
+}
+
+
+std::wstring GetActivePath() {
+
+    wchar_t path_buffer[MAX_PATH]{};
+
+    //Get directory of current document first to determinate whether it is a real file on disk.
+    //Because NPPM_GETFULLCURRENTPATH will return an non-empty string even if current document is
+    //not a real file.
+    SendMessage(
+        g_npp_data._nppHandle,
+        NPPM_GETCURRENTDIRECTORY,
+        MAX_PATH,
+        reinterpret_cast<LPARAM>(path_buffer));
+
+    if (std::wcslen(path_buffer) == 0) {
+        return {};
+    }
+
+    SendMessage(
+        g_npp_data._nppHandle,
+        NPPM_GETFULLCURRENTPATH,
+        MAX_PATH,
+        reinterpret_cast<LPARAM>(path_buffer));
+
+    return std::wstring{ path_buffer };
 }
 
 
 LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam) {
 
-    if (message == WM_REQUEST) {
+    if (message == ra::common::WM_DISCOVER) {
 
-        wchar_t path_buffer[MAX_PATH]{};
-        SendMessage(
-            g_npp_data._nppHandle, 
-            NPPM_GETFULLCURRENTPATH, 
-            MAX_PATH,
-            reinterpret_cast<LPARAM>(path_buffer));
+        auto active_path = GetActivePath();
 
         COPYDATASTRUCT copy_data_struct{};
-        copy_data_struct.dwData = wparam;
-        copy_data_struct.cbData = static_cast<DWORD>(std::wcslen(path_buffer) * sizeof(wchar_t));
-        copy_data_struct.lpData = path_buffer;
+        copy_data_struct.dwData = lparam; //Sequence
+        copy_data_struct.cbData = static_cast<DWORD>(active_path.length() * sizeof(wchar_t));
+        copy_data_struct.lpData = active_path.data();
         SendMessage(
             reinterpret_cast<HWND>(wparam),
             WM_COPYDATA,
@@ -90,7 +111,7 @@ void Initialize() {
     //Register window class
     WNDCLASSEX window_class{};
     window_class.cbSize = sizeof(window_class);
-    window_class.lpszClassName = NPPPluginHostWindowClassName;
+    window_class.lpszClassName = ra::common::DiscoverHostWindowClassName;
     window_class.lpfnWndProc = WindowProcedure;
 
     ATOM atom = RegisterClassEx(&window_class);
@@ -99,7 +120,7 @@ void Initialize() {
     }
 
     g_window_handle = CreateWindow(
-        NPPPluginHostWindowClassName,
+        ra::common::DiscoverHostWindowClassName,
         nullptr,
         0,
         0,

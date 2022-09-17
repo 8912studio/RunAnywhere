@@ -46,9 +46,17 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)..\..\build\out\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)..\..\build\int\$(ProjectName)\$(Configuration)\</IntDir>
+    <TargetName>RunAnywhereNPPHost</TargetName>
+    <IncludePath>$(SolutionDir)..\..\src;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)..\..\build\out\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)..\..\build\int\$(ProjectName)\$(Configuration)\</IntDir>
+    <TargetName>RunAnywhereNPPHost</TargetName>
+    <IncludePath>$(SolutionDir)..\..\src;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -89,10 +97,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Notepad_plus_msgs.h" />
-    <ClInclude Include="npp_plugin.h" />
     <ClInclude Include="PluginInterface.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Scintilla.h" />
     <ClInclude Include="Sci_Position.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="NPPPlugin.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -8,6 +8,9 @@
     <ClInclude Include="Notepad_plus_msgs.h" />
     <ClInclude Include="Scintilla.h" />
     <ClInclude Include="Sci_Position.h" />
-    <ClInclude Include="npp_plugin.h" />
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="NPPPlugin.rc" />
   </ItemGroup>
 </Project>
