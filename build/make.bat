@@ -44,6 +44,13 @@ if errorlevel 1 (
 	goto end
 )
 
+echo Build Notepad++ host plugin.
+msbuild ..\tool\npp_plugin\NPPPlugin.sln -p:Configuration=Release
+if errorlevel 1 (
+	echo Build failed.
+	goto end
+)
+
 echo Build install helper.
 msbuild ..\tool\installer\helper\InstallHelper.sln -p:Configuration=Release
 if errorlevel 1 (
