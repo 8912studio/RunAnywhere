@@ -82,11 +82,11 @@
     <Filter Include="src\module\user_defined\legacy">
       <UniqueIdentifier>{77e31934-a832-4f15-a555-d132a90f58a3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\context\discoverer">
-      <UniqueIdentifier>{dc37e468-b9c5-4030-a0ff-1dfd93af8eea}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\common">
       <UniqueIdentifier>{700f3a03-9321-452d-a423-615abbab70f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\context\discover">
+      <UniqueIdentifier>{60483675-c9ab-40bf-ae0c-6e2587e3628c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -495,14 +495,17 @@
     <ClInclude Include="src\module\user_defined\legacy\legacy_entry_upgrading.h">
       <Filter>src\module\user_defined\legacy</Filter>
     </ClInclude>
-    <ClInclude Include="src\context\discoverer\discoverer.h">
-      <Filter>src\context\discoverer</Filter>
-    </ClInclude>
-    <ClInclude Include="src\context\discoverer\window_based_discoverer.h">
-      <Filter>src\context\discoverer</Filter>
-    </ClInclude>
     <ClInclude Include="src\common\window_based_discover.h">
       <Filter>src\common</Filter>
+    </ClInclude>
+    <ClInclude Include="src\context\discover\discoverer.h">
+      <Filter>src\context\discover</Filter>
+    </ClInclude>
+    <ClInclude Include="src\context\discover\window_based_discoverer.h">
+      <Filter>src\context\discover</Filter>
+    </ClInclude>
+    <ClInclude Include="src\context\discover\explorer_discoverer.h">
+      <Filter>src\context\discover</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -788,8 +791,11 @@
     <ClCompile Include="src\module\user_defined\legacy\legacy_entry_upgrading.cpp">
       <Filter>src\module\user_defined\legacy</Filter>
     </ClCompile>
-    <ClCompile Include="src\context\discoverer\window_based_discoverer.cpp">
-      <Filter>src\context\discoverer</Filter>
+    <ClCompile Include="src\context\discover\window_based_discoverer.cpp">
+      <Filter>src\context\discover</Filter>
+    </ClCompile>
+    <ClCompile Include="src\context\discover\explorer_discoverer.cpp">
+      <Filter>src\context\discover</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

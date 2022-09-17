@@ -95,8 +95,9 @@
     <ClInclude Include="src\context\active_path_decoding.h" />
     <ClInclude Include="src\context\desktop_context_discovering.h" />
     <ClInclude Include="src\context\desktop_context.h" />
-    <ClInclude Include="src\context\discoverer\discoverer.h" />
-    <ClInclude Include="src\context\discoverer\window_based_discoverer.h" />
+    <ClInclude Include="src\context\discover\discoverer.h" />
+    <ClInclude Include="src\context\discover\explorer_discoverer.h" />
+    <ClInclude Include="src\context\discover\window_based_discoverer.h" />
     <ClInclude Include="src\context\everything_discovering.h" />
     <ClInclude Include="src\context\explorer_discovering.h" />
     <ClInclude Include="src\context\vs_discovering.h" />
@@ -232,7 +233,8 @@
     <ClCompile Include="src\application_delegate.cpp" />
     <ClCompile Include="src\context\active_path_decoding.cpp" />
     <ClCompile Include="src\context\desktop_context_discovering.cpp" />
-    <ClCompile Include="src\context\discoverer\window_based_discoverer.cpp" />
+    <ClCompile Include="src\context\discover\explorer_discoverer.cpp" />
+    <ClCompile Include="src\context\discover\window_based_discoverer.cpp" />
     <ClCompile Include="src\context\everything_discovering.cpp" />
     <ClCompile Include="src\context\explorer_discovering.cpp" />
     <ClCompile Include="src\context\vs_discovering.cpp" />
