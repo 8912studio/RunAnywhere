@@ -85,6 +85,9 @@
     <Filter Include="src\context\discoverer">
       <UniqueIdentifier>{dc37e468-b9c5-4030-a0ff-1dfd93af8eea}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\common">
+      <UniqueIdentifier>{700f3a03-9321-452d-a423-615abbab70f6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\module\calculator\parse\binary_expression_parser.h">
@@ -495,8 +498,11 @@
     <ClInclude Include="src\context\discoverer\discoverer.h">
       <Filter>src\context\discoverer</Filter>
     </ClInclude>
-    <ClInclude Include="src\context\discoverer\npp_discoverer.h">
+    <ClInclude Include="src\context\discoverer\window_based_discoverer.h">
       <Filter>src\context\discoverer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\common\window_based_discover.h">
+      <Filter>src\common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -782,7 +788,7 @@
     <ClCompile Include="src\module\user_defined\legacy\legacy_entry_upgrading.cpp">
       <Filter>src\module\user_defined\legacy</Filter>
     </ClCompile>
-    <ClCompile Include="src\context\discoverer\npp_discoverer.cpp">
+    <ClCompile Include="src\context\discoverer\window_based_discoverer.cpp">
       <Filter>src\context\discoverer</Filter>
     </ClCompile>
   </ItemGroup>

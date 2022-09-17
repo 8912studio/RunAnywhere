@@ -1,0 +1,180 @@
+#include "context/discover/window_based_discoverer.h"
+#include <zaf/base/error/system_error.h>
+#include "context/active_path_decoding.h"
+#include "common/window_based_discover.h"
+
+namespace ra::context {
+namespace {
+
+constexpr const wchar_t* ClientWindowClassName = L"Zplutor.RunAnywhere.Discover.Client";
+
+}
+
+
+WindowBasedDiscoverer::~WindowBasedDiscoverer() {
+
+    if (client_window_handle_) {
+        DestroyWindow(client_window_handle_);
+    }
+
+    if (client_window_class_atom_) {
+        UnregisterClass(reinterpret_cast<LPCWSTR>(client_window_class_atom_), nullptr);
+    }
+}
+
+
+ActivePath WindowBasedDiscoverer::Discover(HWND foreground_window_handle) {
+
+    try {
+
+        TryToInitialize();
+
+        return DiscoverActivePath(foreground_window_handle);
+    }
+    catch (const zaf::Error&) {
+        return {};
+    }
+}
+
+
+void WindowBasedDiscoverer::TryToInitialize() {
+
+    TryToRegisterClientWindowClass();
+    TryToCreateClientWindow();
+}
+
+
+void WindowBasedDiscoverer::TryToRegisterClientWindowClass() {
+
+    if (client_window_class_atom_) {
+        return;
+    }
+
+    WNDCLASSEX window_class{};
+    window_class.cbSize = sizeof(WNDCLASSEX);
+    window_class.lpszClassName = ClientWindowClassName;
+    window_class.lpfnWndProc = ClientWindowProcedure;
+    client_window_class_atom_ = RegisterClassEx(&window_class);
+
+    if (!client_window_class_atom_) {
+        ZAF_THROW_SYSTEM_ERROR(GetLastError());
+    }
+}
+
+
+void WindowBasedDiscoverer::TryToCreateClientWindow() {
+
+    if (client_window_handle_) {
+        return;
+    }
+
+    client_window_handle_ = CreateWindow(
+        ClientWindowClassName,
+        nullptr,
+        0,
+        0,
+        0,
+        0,
+        0,
+        HWND_MESSAGE,
+        nullptr,
+        nullptr,
+        nullptr);
+
+    if (!client_window_handle_) {
+        ZAF_THROW_SYSTEM_ERROR(GetLastError());
+    }
+
+    SetLastError(0);
+    SetWindowLongPtr(client_window_handle_, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
+    ZAF_THROW_IF_SYSTEM_ERROR(GetLastError());
+}
+
+
+LRESULT CALLBACK WindowBasedDiscoverer::ClientWindowProcedure(
+    HWND hwnd,
+    UINT message, 
+    WPARAM wparam, 
+    LPARAM lparam) {
+
+    if (message == WM_COPYDATA) {
+
+        auto discoverer = 
+            reinterpret_cast<WindowBasedDiscoverer*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
+
+        if (discoverer) {
+            discoverer->ReceiveCopyDataMessage(*reinterpret_cast<COPYDATASTRUCT*>(lparam));
+        }
+
+        return TRUE;
+    }
+
+    return CallWindowProc(DefWindowProc, hwnd, message, wparam, lparam);
+}
+
+
+ActivePath WindowBasedDiscoverer::DiscoverActivePath(HWND foreground_window_handle) {
+
+    response_buffer_.clear();
+
+    DWORD foreground_process_id{};
+    GetWindowThreadProcessId(foreground_window_handle, &foreground_process_id);
+
+    //Enumerate all host windows.
+    HWND host_window_handle{};
+    while (true) {
+
+        host_window_handle = FindWindowEx(
+            HWND_MESSAGE,
+            host_window_handle,
+            common::DiscoverHostWindowClassName,
+            nullptr);
+
+        if (!host_window_handle) {
+            break;
+        }
+
+        //Skip host windows that are not foreground windows.
+        DWORD host_process_id{};
+        GetWindowThreadProcessId(host_window_handle, &host_process_id);
+        if (host_process_id != foreground_process_id) {
+            continue;
+        }
+
+        //Send a message to host window to discover the active path.
+        current_sequence_ = ++sequence_seed_;
+
+        LRESULT result = SendMessageTimeout(
+            host_window_handle,
+            common::WM_DISCOVER,
+            reinterpret_cast<WPARAM>(client_window_handle_),
+            current_sequence_,
+            SMTO_NORMAL,
+            2000,
+            nullptr);
+
+        if (!result) {
+            ZAF_THROW_SYSTEM_ERROR(GetLastError());
+        }
+
+        break;
+    }
+
+    //Response data is ready when reaching here.
+    return DecodeActivePath(response_buffer_);
+}
+
+
+void WindowBasedDiscoverer::ReceiveCopyDataMessage(const COPYDATASTRUCT& copy_data_info) {
+
+    if (copy_data_info.dwData != current_sequence_) {
+        return;
+    }
+
+    auto data_pointer = reinterpret_cast<const wchar_t*>(copy_data_info.lpData);
+    std::size_t data_length = copy_data_info.cbData / sizeof(wchar_t);
+
+    response_buffer_.assign(data_pointer, data_length);
+}
+
+}
