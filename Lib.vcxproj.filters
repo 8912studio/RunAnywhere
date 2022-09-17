@@ -507,6 +507,9 @@
     <ClInclude Include="src\context\discover\explorer_discoverer.h">
       <Filter>src\context\discover</Filter>
     </ClInclude>
+    <ClInclude Include="src\context\discover\everything_discoverer.h">
+      <Filter>src\context\discover</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -795,6 +798,9 @@
       <Filter>src\context\discover</Filter>
     </ClCompile>
     <ClCompile Include="src\context\discover\explorer_discoverer.cpp">
+      <Filter>src\context\discover</Filter>
+    </ClCompile>
+    <ClCompile Include="src\context\discover\everything_discoverer.cpp">
       <Filter>src\context\discover</Filter>
     </ClCompile>
   </ItemGroup>
