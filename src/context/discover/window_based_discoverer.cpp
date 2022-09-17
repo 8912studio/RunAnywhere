@@ -1,6 +1,6 @@
 #include "context/discover/window_based_discoverer.h"
 #include <zaf/base/error/system_error.h>
-#include "context/active_path_decoding.h"
+#include <zaf/base/string/split.h>
 #include "common/window_based_discover.h"
 
 namespace ra::context {
@@ -175,6 +175,27 @@ void WindowBasedDiscoverer::ReceiveCopyDataMessage(const COPYDATASTRUCT& copy_da
     std::size_t data_length = copy_data_info.cbData / sizeof(wchar_t);
 
     response_buffer_.assign(data_pointer, data_length);
+}
+
+
+ActivePath WindowBasedDiscoverer::DecodeActivePath(const std::wstring& encoded) {
+
+    auto paths = zaf::Split(encoded, L'|');
+    if (paths.empty()) {
+        return {};
+    }
+
+    const auto& path = paths[0];
+    if (path.empty()) {
+        return {};
+    }
+
+    std::filesystem::path workspace_path;
+    if (paths.size() > 1) {
+        workspace_path = paths[1];
+    }
+
+    return ActivePath{ path, workspace_path };
 }
 
 }

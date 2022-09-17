@@ -92,16 +92,13 @@
     <ClInclude Include="src\application_delegate.h" />
     <ClInclude Include="src\common\window_based_discover.h" />
     <ClInclude Include="src\context\active_path.h" />
-    <ClInclude Include="src\context\active_path_decoding.h" />
     <ClInclude Include="src\context\desktop_context_discovering.h" />
     <ClInclude Include="src\context\desktop_context.h" />
+    <ClInclude Include="src\context\discover\composite_discoverer.h" />
     <ClInclude Include="src\context\discover\discoverer.h" />
     <ClInclude Include="src\context\discover\everything_discoverer.h" />
     <ClInclude Include="src\context\discover\explorer_discoverer.h" />
     <ClInclude Include="src\context\discover\window_based_discoverer.h" />
-    <ClInclude Include="src\context\everything_discovering.h" />
-    <ClInclude Include="src\context\explorer_discovering.h" />
-    <ClInclude Include="src\context\vs_discovering.h" />
     <ClInclude Include="src\entry\application_switches.h" />
     <ClInclude Include="src\entry\entry_result.h" />
     <ClInclude Include="src\entry\general_entry.h" />
@@ -232,14 +229,11 @@
   <ItemGroup>
     <ClCompile Include="src\about_window.cpp" />
     <ClCompile Include="src\application_delegate.cpp" />
-    <ClCompile Include="src\context\active_path_decoding.cpp" />
     <ClCompile Include="src\context\desktop_context_discovering.cpp" />
+    <ClCompile Include="src\context\discover\composite_discoverer.cpp" />
     <ClCompile Include="src\context\discover\everything_discoverer.cpp" />
     <ClCompile Include="src\context\discover\explorer_discoverer.cpp" />
     <ClCompile Include="src\context\discover\window_based_discoverer.cpp" />
-    <ClCompile Include="src\context\everything_discovering.cpp" />
-    <ClCompile Include="src\context\explorer_discovering.cpp" />
-    <ClCompile Include="src\context\vs_discovering.cpp" />
     <ClCompile Include="src\entry\application_switches.cpp" />
     <ClCompile Include="src\entry\general_entry.cpp" />
     <ClCompile Include="src\entry\main_entry.cpp" />

@@ -1,25 +1,14 @@
 #include "context/desktop_context_discovering.h"
 #include <Windows.h>
-#include "context/everything_discovering.h"
-#include "context/explorer_discovering.h"
-#include "context/vs_discovering.h"
+#include "context/discover/composite_discoverer.h"
 
 namespace ra::context {
 namespace {
 
 ActivePath DiscoverActivePath(HWND foreground_window) {
 
-    auto result = DiscoverActivePathFromEverything(foreground_window);
-    if (!result.IsEmpty()) {
-        return result;
-    }
-
-    result = DiscoverActivePathFromVS(foreground_window);
-    if (!result.IsEmpty()) {
-        return result;
-    }
-
-    return DiscoverActivePathFromExplorer(foreground_window);
+    static auto discoverer = std::make_unique<CompositeDiscoverer>();
+    return discoverer->Discover(foreground_window);
 }
 
 }

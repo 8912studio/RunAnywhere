@@ -6,6 +6,10 @@ namespace ra::context {
 
 class WindowBasedDiscoverer : public Discoverer {
 public:
+    //Make public for unittest.
+    static ActivePath DecodeActivePath(const std::wstring& encoded);
+
+public:
     ~WindowBasedDiscoverer();
 
     ActivePath Discover(HWND foreground_window_handle) override;

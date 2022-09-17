@@ -210,12 +210,6 @@
     <ClInclude Include="src\context\desktop_context_discovering.h">
       <Filter>src\context</Filter>
     </ClInclude>
-    <ClInclude Include="src\context\explorer_discovering.h">
-      <Filter>src\context</Filter>
-    </ClInclude>
-    <ClInclude Include="src\context\vs_discovering.h">
-      <Filter>src\context</Filter>
-    </ClInclude>
     <ClInclude Include="src\module\command_preview_control.h">
       <Filter>src\module</Filter>
     </ClInclude>
@@ -280,9 +274,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\context\active_path.h">
-      <Filter>src\context</Filter>
-    </ClInclude>
-    <ClInclude Include="src\context\active_path_decoding.h">
       <Filter>src\context</Filter>
     </ClInclude>
     <ClInclude Include="src\module\calculator\parse\parse_reader.h">
@@ -405,9 +396,6 @@
     <ClInclude Include="src\module\meta\meta_command_prefix.h">
       <Filter>src\module\meta</Filter>
     </ClInclude>
-    <ClInclude Include="src\context\everything_discovering.h">
-      <Filter>src\context</Filter>
-    </ClInclude>
     <ClInclude Include="third_party\everything\ipc\everything_ipc.h">
       <Filter>third_party\everything\ipc</Filter>
     </ClInclude>
@@ -510,6 +498,9 @@
     <ClInclude Include="src\context\discover\everything_discoverer.h">
       <Filter>src\context\discover</Filter>
     </ClInclude>
+    <ClInclude Include="src\context\discover\composite_discoverer.h">
+      <Filter>src\context\discover</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -587,12 +578,6 @@
     <ClCompile Include="src\context\desktop_context_discovering.cpp">
       <Filter>src\context</Filter>
     </ClCompile>
-    <ClCompile Include="src\context\explorer_discovering.cpp">
-      <Filter>src\context</Filter>
-    </ClCompile>
-    <ClCompile Include="src\context\vs_discovering.cpp">
-      <Filter>src\context</Filter>
-    </ClCompile>
     <ClCompile Include="src\module\user_defined\preview\user_defined_command_preview_control.cpp">
       <Filter>src\module\user_defined\preview</Filter>
     </ClCompile>
@@ -646,9 +631,6 @@
     </ClCompile>
     <ClCompile Include="src\tray_icon.cpp">
       <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\context\active_path_decoding.cpp">
-      <Filter>src\context</Filter>
     </ClCompile>
     <ClCompile Include="src\module\calculator\parse\parse_context.cpp">
       <Filter>src\module\calculator\parse</Filter>
@@ -731,9 +713,6 @@
     <ClCompile Include="src\module\meta\meta_command.cpp">
       <Filter>src\module\meta</Filter>
     </ClCompile>
-    <ClCompile Include="src\context\everything_discovering.cpp">
-      <Filter>src\context</Filter>
-    </ClCompile>
     <ClCompile Include="src\module\extension\extension_module.cpp">
       <Filter>src\module\extension</Filter>
     </ClCompile>
@@ -801,6 +780,9 @@
       <Filter>src\context\discover</Filter>
     </ClCompile>
     <ClCompile Include="src\context\discover\everything_discoverer.cpp">
+      <Filter>src\context\discover</Filter>
+    </ClCompile>
+    <ClCompile Include="src\context\discover\composite_discoverer.cpp">
       <Filter>src\context\discover</Filter>
     </ClCompile>
   </ItemGroup>

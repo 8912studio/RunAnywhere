@@ -49,7 +49,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="case\context\active_path_decoding_test.cpp" />
+    <ClCompile Include="case\context\discover\window_based_discoverer_test.cpp" />
     <ClCompile Include="case\environment_variable_manager_test.cpp" />
     <ClCompile Include="case\module\active_path\active_path_modifying_test.cpp" />
     <ClCompile Include="case\module\active_path\active_path_option_parsing_test.cpp" />
