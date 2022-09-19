@@ -8,6 +8,10 @@
 
 extern "C" {
 
-INSTALLERHELPER_API int __cdecl IsVisualStudioInstalled();
+INSTALLERHELPER_API int __cdecl External_IsVisualStudioInstalled();
+
+INSTALLERHELPER_API int __cdecl External_GetNPPInstalledDirectoryPath(
+    wchar_t* buffer, 
+    int buffer_size);
 
 }

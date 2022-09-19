@@ -35,6 +35,8 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 [Files]
 Source: "{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
 Source: "RunAnywhereVSHost.vsix"; DestDir: "{app}\ExtensionsForOthers"
+Source: "RunAnywhereNPPHost.dll"; DestDir: "{app}\ExtensionsForOthers"
+Source: "RunAnywhereNPPHost.dll"; DestDir: "{code:GetNPPInstalledDirectoryPath}\plugins\RunAnywhereNPPHost"
 Source: "InstallHelper.dll"; Flags: dontcopy
 
 [Icons]
@@ -46,10 +48,23 @@ Filename: "{app}\ExtensionsForOthers\RunAnywhereVSHost.vsix"; Flags: shellexec p
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
 
 [Code]
-function IsVisualStudioInstalled(): Integer;
-external 'IsVisualStudioInstalled@files:InstallHelper.dll cdecl';
+function External_IsVisualStudioInstalled(): Integer;
+external 'External_IsVisualStudioInstalled@files:InstallHelper.dll cdecl';
+
+function External_GetNPPInstalledDirectoryPath(buffer: String; bufferLength: Integer): Integer;
+external 'External_GetNPPInstalledDirectoryPath@files:InstallHelper.dll cdecl';
 
 function CheckIfShowVSExtension(): Boolean;
 begin
-  Result := IsVisualStudioInstalled() <> 0;
+  Result := External_IsVisualStudioInstalled() <> 0;
+end;
+
+function GetNPPInstalledDirectoryPath(param: String): String;
+var
+  path: String;
+  pathLength: Integer;
+begin
+  SetLength(path, 256); 
+  pathLength := External_GetNPPInstalledDirectoryPath(path, 256); 
+  Result := Copy(path, 1 , pathLength);
 end;

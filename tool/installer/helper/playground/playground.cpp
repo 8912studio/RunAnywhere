@@ -3,5 +3,6 @@
 
 int main() {
 
-	int r = IsVisualStudioInstalled();
+	wchar_t buffer[256]{};
+	int r = External_GetNPPInstalledDirectoryPath(buffer, 256);
 }
