@@ -44,8 +44,15 @@ if errorlevel 1 (
 	goto end
 )
 
-echo Build Notepad++ host plugin.
-msbuild ..\tool\npp_plugin\NPPPlugin.sln -p:Configuration=Release
+echo Build Notepad++ host plugin x64.
+msbuild ..\tool\npp_plugin\NPPPlugin.sln -p:Configuration=Release -p:Platform=x64
+if errorlevel 1 (
+	echo Build failed.
+	goto end
+)
+
+echo Build Notepad++ host plugin x86.
+msbuild ..\tool\npp_plugin\NPPPlugin.sln -p:Configuration=Release -p:Platform=x86
 if errorlevel 1 (
 	echo Build failed.
 	goto end
