@@ -9,7 +9,7 @@ int __cdecl External_IsVisualStudioInstalled() {
 
 int __cdecl External_GetNPPInstalledDirectoryPath(wchar_t* buffer, int buffer_size) {
 
-	auto path = DetectNPPInstalledDirectoryPath();
-	wcsncpy_s(buffer, buffer_size, path.data(), buffer_size);
-	return wcslen(buffer);
+	auto result = DetectNPPInstalledDirectoryPath();
+	wcsncpy_s(buffer, buffer_size, result.path.data(), buffer_size);
+	return result.is_x86;
 }

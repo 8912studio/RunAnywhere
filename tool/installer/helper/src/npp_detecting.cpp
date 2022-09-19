@@ -1,23 +1,26 @@
 #include "npp_detecting.h"
 #include <Windows.h>
+#include <optional>
 #include <vector>
 
-std::wstring DetectNPPInstalledDirectoryPath() {
+namespace {
 
-    //Note: The code here to read registry should be replaced with zaf::Registry component once Zaf
-    //supports x86 and MT runtime.
+std::wstring ReadPathFromRegistry(bool read_from_32_key) {
 
     constexpr const wchar_t* NPPRegistryKeyPath = L"Software\\Notepad++";
+    constexpr const wchar_t* NPPRegistryValueName = L"";
+    const DWORD NPPRegistryFlags = 
+        RRF_RT_REG_SZ | 
+        (read_from_32_key ? RRF_SUBKEY_WOW6432KEY : RRF_SUBKEY_WOW6464KEY);
 
-    DWORD value_type{};
     DWORD buffer_size{ 128 };
     std::vector<std::byte> buffer(buffer_size);
     LSTATUS result = RegGetValue(
         HKEY_LOCAL_MACHINE,
         NPPRegistryKeyPath,
-        L"",
-        RRF_RT_REG_SZ,
-        &value_type,
+        NPPRegistryValueName,
+        NPPRegistryFlags,
+        nullptr,
         reinterpret_cast<BYTE*>(&buffer[0]),
         &buffer_size);
 
@@ -27,9 +30,9 @@ std::wstring DetectNPPInstalledDirectoryPath() {
         result = RegGetValue(
             HKEY_LOCAL_MACHINE,
             NPPRegistryKeyPath,
-            L"",
-            RRF_RT_REG_SZ,
-            &value_type,
+            NPPRegistryValueName,
+            NPPRegistryFlags,
+            nullptr,
             reinterpret_cast<BYTE*>(&buffer[0]),
             &buffer_size);
     }
@@ -49,12 +52,38 @@ std::wstring DetectNPPInstalledDirectoryPath() {
         --string_length;
     }
 
-    std::wstring directory_path{ string, string_length };
+    std::wstring path{ string, string_length };
 
     //Remove the last \ delimiter.
-    if (directory_path.back() == L'\\') {
-        directory_path.pop_back();
+    if (path.back() == L'\\') {
+        path.pop_back();
     }
 
-    return directory_path;
+    return path;
+}
+
+
+NPPDetectResult Detect() {
+
+    NPPDetectResult result;
+
+    //Read x64 path first.
+    result.path = ReadPathFromRegistry(false);
+    if (result.path.empty()) {
+
+        //Read x86 path if x64 path is not existent.
+        result.path = ReadPathFromRegistry(true);
+        result.is_x86 = true;
+    }
+
+    return result;
+}
+
+}
+
+
+NPPDetectResult DetectNPPInstalledDirectoryPath() {
+
+    static const NPPDetectResult result = Detect();
+    return result;
 }
