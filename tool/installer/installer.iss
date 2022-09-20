@@ -32,21 +32,27 @@ SetupIconFile=..\..\..\src\icon.ico
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
 
-[Files]
-Source: "{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
-Source: "RunAnywhereVSHost.vsix"; DestDir: "{app}\ExtensionsForOthers"
-Source: "RunAnywhereNPPHost_x64.dll"; DestDir: "{app}\ExtensionsForOthers"; Flags: ignoreversion
-Source: "RunAnywhereNPPHost_x86.dll"; DestDir: "{app}\ExtensionsForOthers"; Flags: ignoreversion
-Source: "RunAnywhereNPPHost_x64.dll"; DestName: "RunAnywhereNPPHost.dll"; DestDir: "{code:NPPInstalledDirectoryPath}\plugins\RunAnywhereNPPHost"; Flags: ignoreversion; Check: IsNPPX64
-Source: "RunAnywhereNPPHost_x86.dll"; DestName: "RunAnywhereNPPHost.dll"; DestDir: "{code:NPPInstalledDirectoryPath}\plugins\RunAnywhereNPPHost"; Flags: ignoreversion; Check: IsNPPX86
-Source: "InstallHelper.dll"; Flags: dontcopy
-
 [Icons]
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
 
+[Components]
+Name: "Main"; Description: "RunAnywhere main program"; Types: full compact custom; Flags: fixed
+Name: "Addition"; Description: "Extensions for other applications"; Types: full; Flags: disablenouninstallwarning; Check: IsAdditionComponentVisible;
+Name: "Addition\VSExtension"; Description: "Visual Studio extension (will install separately)"; Types: full; Flags: disablenouninstallwarning; Check: IsVisualStudioInstalled;
+Name: "Addition\NPPPlugin"; Description: "Notepad++ plugin"; Types: full; Flags: disablenouninstallwarning; Check: IsNPPInstalled;
+
+[Files]
+Source: "{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion; Components: "Main"
+Source: "RunAnywhereVSHost.vsix"; DestDir: "{app}\ExtensionsForOthers"; Components: "Main"
+Source: "RunAnywhereNPPHost_x64.dll"; DestDir: "{app}\ExtensionsForOthers"; Flags: ignoreversion; Components: "Main"
+Source: "RunAnywhereNPPHost_x86.dll"; DestDir: "{app}\ExtensionsForOthers"; Flags: ignoreversion; Components: "Main"
+Source: "RunAnywhereNPPHost_x64.dll"; DestName: "RunAnywhereNPPHost.dll"; DestDir: "{code:NPPInstalledDirectoryPath}\plugins\RunAnywhereNPPHost"; Flags: ignoreversion; Components: "Addition\NPPPlugin"; Check: IsNPPX64;
+Source: "RunAnywhereNPPHost_x86.dll"; DestName: "RunAnywhereNPPHost.dll"; DestDir: "{code:NPPInstalledDirectoryPath}\plugins\RunAnywhereNPPHost"; Flags: ignoreversion; Components: "Addition\NPPPlugin"; Check: IsNPPX86;
+Source: "InstallHelper.dll"; Flags: dontcopy
+
 [Run]
+Filename: "{app}\ExtensionsForOthers\RunAnywhereVSHost.vsix"; Flags: shellexec waituntilterminated; Description: "Install Visual Studio extension"; Components: "Addition\VSExtension"; Check: IsVisualStudioInstalled
 Filename: "{app}\{#MyAppExeName}"; Parameters: "/register"; Description: "Register file associations"; Flags: postinstall
-Filename: "{app}\ExtensionsForOthers\RunAnywhereVSHost.vsix"; Flags: shellexec postinstall; Description: "Install extension for Visual Studio"; Check: IsVisualStudioInstalled
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
 
 [Code]
@@ -77,6 +83,14 @@ begin
   GetNPPInstalledDirectoryPath(Result);
 end;
 
+function IsNPPInstalled(): Boolean;
+var
+  path: String;
+begin
+  GetNPPInstalledDirectoryPath(path);
+  Result := (Length(path) <> 0);
+end;
+
 function IsNPPX86(): Boolean;
 var
   path: String;
@@ -93,4 +107,11 @@ var
 begin
   isX86 := GetNPPInstalledDirectoryPath(path);
   Result := (Length(path) <> 0) and (not isX86);
+end;
+
+
+// All extensions
+function IsAdditionComponentVisible(): Boolean;
+begin
+  Result := IsVisualStudioInstalled() and IsNPPInstalled();
 end;
