@@ -25,6 +25,7 @@ WizardStyle=modern
 WizardSizePercent=100,100
 AlwaysShowDirOnReadyPage=yes
 UsePreviousAppDir=yes
+ArchitecturesAllowed=x64
 SourceDir=..\..\build\out\Release
 OutputDir=..\..\deploy
 SetupIconFile=..\..\..\src\icon.ico
