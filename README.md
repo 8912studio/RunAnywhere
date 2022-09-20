@@ -27,3 +27,6 @@ There are also some little tools that are handy to developers integrated in RunA
 Supported by extended syntax, calculator in RunAnywhere also has practical features like converting numbers between different bases, etc.
 
 For more information about the calculator, see [here](https://github.com/Zplutor/RunAnywhere/wiki/Calculator).
+
+# Requirements
+x64 Windows 10 and above.
