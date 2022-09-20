@@ -29,4 +29,4 @@ Supported by extended syntax, calculator in RunAnywhere also has practical featu
 For more information about the calculator, see [here](https://github.com/Zplutor/RunAnywhere/wiki/Calculator).
 
 # Requirements
-x64 Windows 10 and above.
+RunAnywhere requires x64 Windows 10 and above to run.
