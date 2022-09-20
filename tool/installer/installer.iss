@@ -110,6 +110,17 @@ begin
   Result := (Length(path) <> 0) and (not isX86);
 end;
 
+procedure RegisterExtraCloseApplicationsResources();
+var
+  nppDirectoryPath: String;
+begin
+  if not WizardIsComponentSelected('Addition\NPPPlugin') then Exit;
+  
+  GetNPPInstalledDirectoryPath(nppDirectoryPath);
+  if Length(nppDirectoryPath) = 0 then Exit;
+  
+  RegisterExtraCloseApplicationsResource(False, nppDirectoryPath + '\notepad++.exe');
+end;
 
 // All extensions
 function IsAdditionComponentVisible(): Boolean;
