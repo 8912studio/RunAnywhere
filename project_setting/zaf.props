@@ -4,7 +4,7 @@
   <PropertyGroup Label="UserMacros">
     <ZafRootDir>$(SolutionDir)third_party\zaf\</ZafRootDir>
     <ZafSrcDir>$(ZafRootDir)src\</ZafSrcDir>
-    <ZafOutDir>$(ZafRootDir)out\$(ZafOutDirName)\$(PlatformTarget)\</ZafOutDir>
+    <ZafOutDir>$(ZafRootDir)out\$(Configuration)-MT\$(PlatformTarget)\</ZafOutDir>
   </PropertyGroup>
   <PropertyGroup>
     <IncludePath>$(ZafSrcDir);$(IncludePath)</IncludePath>
