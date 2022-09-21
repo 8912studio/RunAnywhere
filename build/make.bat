@@ -24,7 +24,7 @@ echo Update version of installer.
 echo #define MyAppVersion "%version%" > ..\tool\installer\version
 
 echo Build zaf.
-msbuild ..\third_party\zaf\zaf.sln -p:Configuration=Release -p:PlatformTarget=x64
+msbuild ..\third_party\zaf\zaf.sln -p:Configuration=Release-MT -p:PlatformTarget=x64
 if errorlevel 1 (
 	echo Build failed.
 	goto end

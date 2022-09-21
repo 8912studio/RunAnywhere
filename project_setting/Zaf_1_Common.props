@@ -2,14 +2,22 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros">
-    <ZafOutDir>$(SolutionDir)third_party\zaf\out\$(Configuration)\$(PlatformTarget)\</ZafOutDir>
+    <ZafRootDir>$(SolutionDir)third_party\zaf\</ZafRootDir>
+    <ZafSrcDir>$(ZafRootDir)src\</ZafSrcDir>
+    <ZafOutDir>$(ZafRootDir)out\$(ZafOutDirName)\$(PlatformTarget)\</ZafOutDir>
   </PropertyGroup>
   <PropertyGroup>
-    <IncludePath>$(SolutionDir)third_party\zaf\src;$(IncludePath)</IncludePath>
+    <IncludePath>$(ZafSrcDir);$(IncludePath)</IncludePath>
     <LibraryPath>$(ZafOutDir);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup />
   <ItemGroup>
+    <BuildMacro Include="ZafRootDir">
+      <Value>$(ZafRootDir)</Value>
+    </BuildMacro>
+    <BuildMacro Include="ZafSrcDir">
+      <Value>$(ZafSrcDir)</Value>
+    </BuildMacro>
     <BuildMacro Include="ZafOutDir">
       <Value>$(ZafOutDir)</Value>
     </BuildMacro>
