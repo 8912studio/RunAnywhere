@@ -32,6 +32,10 @@ public:
             result_->description_ = description;
         }
 
+        void SetWorkingDirectory(const std::wstring& working_directory) {
+            result_->working_directory_ = working_directory;
+        }
+
         std::shared_ptr<Entry> Build() {
             return std::move(result_);
         }
@@ -62,11 +66,16 @@ public:
         return description_;
     }
 
+    const std::wstring& WorkingDirectory() const {
+        return working_directory_;
+    }
+
 private:
     std::shared_ptr<user_defined::BundleMeta> bundle_meta_;
     std::wstring keyword_;
     std::wstring command_;
     std::wstring description_;
+    std::wstring working_directory_;
 };
 
 }
