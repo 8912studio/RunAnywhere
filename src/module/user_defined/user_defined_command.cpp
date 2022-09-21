@@ -43,7 +43,7 @@ help::content::Content UserDefinedCommand::GetHelpContent() {
 
     help::content::Content result;
     result.AddTitleLine(entry_->Keyword() + L" command");
-    result.AddBodyLine(L"User-defined command.");
+    result.AddBodyLine(entry_->Description());
     return result;
 }
 
