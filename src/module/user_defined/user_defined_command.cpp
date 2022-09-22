@@ -67,13 +67,20 @@ void UserDefinedCommand::Execute() {
     //Update current process' environment variables in order to inherit them in child process.
     EnvironmentVariableManager::Instance().Update();
 
-    ShellExecute(
-        nullptr,
-        nullptr,
-        execute_info.command_line.command.c_str(),
-        JoinArguments(execute_info.command_line.arguments).c_str(),
-        execute_info.working_directory.empty() ? nullptr : execute_info.working_directory.c_str(),
-        SW_SHOWNORMAL);
+    SHELLEXECUTEINFO shell_execute_info{};
+    shell_execute_info.cbSize = sizeof(shell_execute_info);
+    shell_execute_info.fMask = SEE_MASK_DOENVSUBST;
+    shell_execute_info.nShow = SW_SHOWNORMAL;
+    shell_execute_info.lpFile = execute_info.command_line.command.c_str();
+
+    auto arguments = JoinArguments(execute_info.command_line.arguments);
+    shell_execute_info.lpParameters = arguments.c_str();
+
+    if (!execute_info.working_directory.empty()) {
+        shell_execute_info.lpDirectory = execute_info.working_directory.c_str();
+    }
+
+    ShellExecuteEx(&shell_execute_info);
 }
 
 
