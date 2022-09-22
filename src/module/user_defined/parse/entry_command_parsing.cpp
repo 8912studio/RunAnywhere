@@ -10,10 +10,10 @@
 namespace ra::module::user_defined {
 namespace {
 
-std::wstring BuildArgumentFromParameter(
-    std::wstring_view parameter_string,
+std::wstring GetPlaceholderText(
     const EntryCommandParameterPart& parameter_part,
-    const std::vector<std::wstring>& input_arguments) {
+    const std::vector<std::wstring>& input_arguments,
+    bool auto_quote) {
 
     if (parameter_part.type != EntryCommandParameterPart::Type::General) {
         return std::wstring{};
@@ -25,7 +25,7 @@ std::wstring BuildArgumentFromParameter(
     }
 
     const auto& argument = input_arguments[argument_index];
-    if (zaf::Contain(argument, L' ') && !parameter_part.is_quoted) {
+    if (auto_quote && zaf::Contain(argument, L' ')) {
         return L'"' + argument + L'"';
     }
 
@@ -33,9 +33,10 @@ std::wstring BuildArgumentFromParameter(
 }
 
 
-std::wstring BuildArgument(
+std::wstring ReplacePlaceholders(
     std::wstring_view parameter_string,
-    const std::vector<std::wstring>& input_arguments) {
+    const std::vector<std::wstring>& input_arguments,
+    bool auto_quote) {
 
     auto parsed_parts = ParseEntryCommandParameter(parameter_string);
 
@@ -47,10 +48,7 @@ std::wstring BuildArgument(
             current_position,
             each_part.position - current_position);
 
-        result += BuildArgumentFromParameter(
-            parameter_string,
-            each_part,
-            input_arguments);
+        result += GetPlaceholderText(each_part, input_arguments, auto_quote);
 
         current_position = each_part.position + each_part.length;
     }
@@ -72,17 +70,27 @@ std::vector<std::wstring> BuildArguments(
 
     for (const auto& each_parameter : entry_parameters) {
 
+        bool has_space = zaf::Contain(each_parameter, L' ');
+        bool auto_quote = !has_space;
+
+        //Format variables first.
         VariableFormatOptions format_options;
-        format_options.auto_quote_variable = true;
+        format_options.auto_quote_variable = auto_quote;
+        auto argument = variable_formatter.Format(each_parameter, format_options);
 
-        auto formatted_parameter = variable_formatter.Format(each_parameter, format_options);
-
-        auto argument = BuildArgument(formatted_parameter, input_arguments);
-        if (!argument.empty()) {
-            result.push_back(argument);
+        //Replace placeholders then.
+        argument = ReplacePlaceholders(argument, input_arguments, auto_quote);
+        if (argument.empty()) {
+            continue;
         }
-    }
 
+        if (has_space) {
+            argument = L'"' + argument + L'"';
+        }
+
+        result.push_back(argument);
+    }
+    
     return result;
 }
 
