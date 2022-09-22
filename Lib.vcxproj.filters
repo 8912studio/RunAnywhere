@@ -501,6 +501,12 @@
     <ClInclude Include="src\context\discover\composite_discoverer.h">
       <Filter>src\context\discover</Filter>
     </ClInclude>
+    <ClInclude Include="src\module\user_defined\execute_info.h">
+      <Filter>src\module\user_defined</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\user_defined\command_line_info.h">
+      <Filter>src\module\user_defined</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">

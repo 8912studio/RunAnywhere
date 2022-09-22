@@ -4,7 +4,7 @@
 #include "context/active_path.h"
 #include "module/command.h"
 #include "module/user_defined/entry.h"
-#include "module/user_defined/parse/entry_command_parsing.h"
+#include "module/user_defined/execute_info.h"
 
 namespace ra::module::user_defined {
 
@@ -19,10 +19,10 @@ public:
     void Execute() override;
 
 private:
-    EntryCommandParseResult ParseCommandLine();
+    ExecuteInfo ParseCommand() const;
     void ParseArguments(
         context::ActivePath& modified_active_path,
-        std::vector<std::wstring>& plain_arguments);
+        std::vector<std::wstring>& plain_arguments) const;
 
 private:
     std::shared_ptr<Entry> entry_;

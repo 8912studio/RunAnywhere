@@ -88,14 +88,14 @@ std::vector<std::wstring> BuildArguments(
 
 }
 
-EntryCommandParseResult ParseEntryCommand(
+CommandLineInfo ParseEntryCommand(
     const std::wstring& entry_command,
     const VariableFormatter& variable_formatter,
     const std::vector<std::wstring>& input_arguments) {
 
     utility::CommandLine command_line{ entry_command };
 
-    EntryCommandParseResult result;
+    CommandLineInfo result;
     result.command = variable_formatter.Format(command_line.Command(), VariableFormatOptions{});
     result.arguments = BuildArguments(
         command_line.Arguments(), 

@@ -36,6 +36,8 @@ TEST(BundleParserTest, Case1) {
 
     ASSERT_EQ(entries[1]->Keyword(), L"cmd");
     ASSERT_EQ(entries[1]->Command(), L"C:\\Windows\\System32\\cmd.exe /k \"cd %.@\"");
+    ASSERT_EQ(entries[1]->Description(), L"Open command line tool");
+    ASSERT_EQ(entries[1]->WorkingDirectory(), L"D:\\RunAnywhere src");
 }
 
 

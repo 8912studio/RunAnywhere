@@ -7,6 +7,7 @@
 #include "environment_variable_manager.h"
 #include "module/active_path/active_path_modifying.h"
 #include "module/active_path/active_path_option_parsing.h"
+#include "module/user_defined/parse/entry_command_parsing.h"
 #include "module/user_defined/parse/variable_formatter.h"
 #include "module/user_defined/preview/user_defined_command_preview_control.h"
 
@@ -51,15 +52,15 @@ help::content::Content UserDefinedCommand::GetHelpContent() {
 std::shared_ptr<CommandPreviewControl> UserDefinedCommand::GetPreviewControl() {
 
     auto control = zaf::Create<UserDefinedCommandPreviewControl>();
-    control->SetParseResult(ParseCommandLine());
+    control->SetExecutInfo(ParseCommand());
     return control;
 }
 
 
 void UserDefinedCommand::Execute() {
 
-    auto parse_result = ParseCommandLine();
-    if (parse_result.command.empty()) {
+    auto execute_info = ParseCommand();
+    if (execute_info.command_line.command.empty()) {
         return;
     }
 
@@ -69,31 +70,35 @@ void UserDefinedCommand::Execute() {
     ShellExecute(
         nullptr,
         nullptr,
-        parse_result.command.c_str(),
-        JoinArguments(parse_result.arguments).c_str(),
-        nullptr,
+        execute_info.command_line.command.c_str(),
+        JoinArguments(execute_info.command_line.arguments).c_str(),
+        execute_info.working_directory.empty() ? nullptr : execute_info.working_directory.c_str(),
         SW_SHOWNORMAL);
 }
 
 
-EntryCommandParseResult UserDefinedCommand::ParseCommandLine() {
+ExecuteInfo UserDefinedCommand::ParseCommand() const {
 
-    context::ActivePath modified_active_path;
+    context::ActivePath active_path;
     std::vector<std::wstring> plain_arguments;
-    ParseArguments(modified_active_path, plain_arguments);
+    ParseArguments(active_path, plain_arguments);
 
-    VariableFormatter variable_formatter{ entry_->BundleMeta(), modified_active_path };
+    VariableFormatter variable_formatter{ entry_->BundleMeta(), active_path };
 
-    return user_defined::ParseEntryCommand(
+    ExecuteInfo result;
+    result.command_line= user_defined::ParseEntryCommand(
         entry_->Command(),
         variable_formatter,
         plain_arguments);
+
+    result.working_directory = variable_formatter.Format(entry_->WorkingDirectory(), {});
+    return result;
 }
 
 
 void UserDefinedCommand::ParseArguments(
     context::ActivePath& modified_active_path,
-    std::vector<std::wstring>& plain_arguments) {
+    std::vector<std::wstring>& plain_arguments) const {
 
     modified_active_path = GetDesktopContext().active_path;
 

@@ -199,6 +199,8 @@
     <ClInclude Include="src\module\rgb\rgb_preview_control.h" />
     <ClInclude Include="src\module\user_defined\bundle_definition.h" />
     <ClInclude Include="src\module\user_defined\bundle_depot.h" />
+    <ClInclude Include="src\module\user_defined\command_line_info.h" />
+    <ClInclude Include="src\module\user_defined\execute_info.h" />
     <ClInclude Include="src\module\user_defined\import\bundle_importer.h" />
     <ClInclude Include="src\module\user_defined\import\import_bundle_window.h" />
     <ClInclude Include="src\module\user_defined\legacy\legacy_entry.h" />

@@ -5,4 +5,5 @@
 >
     <Label Name="commandLabel" ParagraphAlignment="Center" />
     <VerticalBox Name="argumentContainer" AutoHeight="true" />
+    <Label Name="workingDirectoryLabel" ParagraphAlignment="Center" TextColor="Gray" />
 </UserDefinedCommandPreviewControl>
