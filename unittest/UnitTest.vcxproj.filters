@@ -142,7 +142,7 @@
     <ClCompile Include="case\module\user_defined\parse\variable_formatter_test.cpp">
       <Filter>case\module\user_defined\parse</Filter>
     </ClCompile>
-    <ClCompile Include="case\module\user_defined\parse\entry_command_parameter_parsing_test.cpp">
+    <ClCompile Include="case\module\user_defined\parse\entry_command_placeholder_parsing_test.cpp">
       <Filter>case\module\user_defined\parse</Filter>
     </ClCompile>
     <ClCompile Include="case\module\user_defined\parse\entry_command_parsing_test.cpp">

@@ -468,7 +468,7 @@
     <ClInclude Include="src\module\user_defined\parse\entry_command_parsing.h">
       <Filter>src\module\user_defined\parse</Filter>
     </ClInclude>
-    <ClInclude Include="src\module\user_defined\parse\entry_command_parameter_parsing.h">
+    <ClInclude Include="src\module\user_defined\parse\entry_command_placeholder_parsing.h">
       <Filter>src\module\user_defined\parse</Filter>
     </ClInclude>
     <ClInclude Include="src\module\user_defined\legacy\legacy_entry.h">
@@ -767,7 +767,7 @@
     <ClCompile Include="src\module\user_defined\parse\entry_command_parsing.cpp">
       <Filter>src\module\user_defined\parse</Filter>
     </ClCompile>
-    <ClCompile Include="src\module\user_defined\parse\entry_command_parameter_parsing.cpp">
+    <ClCompile Include="src\module\user_defined\parse\entry_command_placeholder_parsing.cpp">
       <Filter>src\module\user_defined\parse</Filter>
     </ClCompile>
     <ClCompile Include="src\module\user_defined\legacy\legacy_entry_reading.cpp">

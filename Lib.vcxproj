@@ -208,7 +208,7 @@
     <ClInclude Include="src\module\user_defined\legacy\legacy_entry_reading.h" />
     <ClInclude Include="src\module\user_defined\legacy\legacy_entry_upgrading.h" />
     <ClInclude Include="src\module\user_defined\parse\entry_command_parsing.h" />
-    <ClInclude Include="src\module\user_defined\parse\entry_command_parameter_parsing.h" />
+    <ClInclude Include="src\module\user_defined\parse\entry_command_placeholder_parsing.h" />
     <ClInclude Include="src\module\user_defined\parse\variable_formatter.h" />
     <ClInclude Include="src\module\user_defined\preview\user_defined_command_preview_control.h" />
     <ClInclude Include="src\module\user_defined\bundle.h" />
@@ -309,7 +309,7 @@
     <ClCompile Include="src\module\user_defined\legacy\legacy_entry_reading.cpp" />
     <ClCompile Include="src\module\user_defined\legacy\legacy_entry_upgrading.cpp" />
     <ClCompile Include="src\module\user_defined\parse\entry_command_parsing.cpp" />
-    <ClCompile Include="src\module\user_defined\parse\entry_command_parameter_parsing.cpp" />
+    <ClCompile Include="src\module\user_defined\parse\entry_command_placeholder_parsing.cpp" />
     <ClCompile Include="src\module\user_defined\parse\variable_formatter.cpp" />
     <ClCompile Include="src\module\user_defined\preview\user_defined_command_preview_control.cpp" />
     <ClCompile Include="src\module\user_defined\bundle_parser.cpp" />
