@@ -49,6 +49,9 @@
     <Filter Include="case\module\user_defined\parse">
       <UniqueIdentifier>{de61a9b8-787b-4759-a9f5-b8157c8a9ff3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="case\context\discover">
+      <UniqueIdentifier>{e66f5810-c5af-49d7-b2af-9fe4e5168d70}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="case\module\calculator\decimal_number_parser_test.cpp">
@@ -89,9 +92,6 @@
     </ClCompile>
     <ClCompile Include="case\module\meta\meta_command_info_test.cpp">
       <Filter>case\module\meta</Filter>
-    </ClCompile>
-    <ClCompile Include="case\context\active_path_decoding_test.cpp">
-      <Filter>case\context</Filter>
     </ClCompile>
     <ClCompile Include="case\module\active_path\active_path_modifying_test.cpp">
       <Filter>case\module\active_path</Filter>
@@ -142,11 +142,14 @@
     <ClCompile Include="case\module\user_defined\parse\variable_formatter_test.cpp">
       <Filter>case\module\user_defined\parse</Filter>
     </ClCompile>
-    <ClCompile Include="case\module\user_defined\parse\entry_command_parameter_parsing_test.cpp">
+    <ClCompile Include="case\module\user_defined\parse\entry_command_placeholder_parsing_test.cpp">
       <Filter>case\module\user_defined\parse</Filter>
     </ClCompile>
     <ClCompile Include="case\module\user_defined\parse\entry_command_parsing_test.cpp">
       <Filter>case\module\user_defined\parse</Filter>
+    </ClCompile>
+    <ClCompile Include="case\context\discover\window_based_discoverer_test.cpp">
+      <Filter>case\context\discover</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

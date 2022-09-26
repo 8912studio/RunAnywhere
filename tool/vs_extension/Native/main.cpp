@@ -3,13 +3,11 @@
 #include <functional>
 #include <string>
 #include <thread>
+#include "common/window_based_discover.h"
 
 namespace {
 
 using RequestEvent = void(*)();
-
-constexpr const wchar_t* const WindowClassName = L"Zplutor.RunAnywhere.VS.Host";
-constexpr UINT WM_REQUEST = WM_USER + 1;
 
 HMODULE g_module_handle{};
 HANDLE g_pipe_handle{};
@@ -51,11 +49,11 @@ std::wstring ReadPathFromPipe() {
         nullptr);
 
     if (!is_succeeded) {
-        g_log << "Read path length failed. " << GetLastError() << std::endl;
+        //g_log << "Read path length failed. " << GetLastError() << std::endl;
         return {};
     }
 
-    g_log << "Read path length: " << path_length << std::endl;
+    //g_log << "Read path length: " << path_length << std::endl;
     if (path_length == 0) {
         return {};
     }
@@ -69,12 +67,12 @@ std::wstring ReadPathFromPipe() {
         nullptr);
 
     if (!is_succeeded) {
-        g_log << "Read path failed. " << GetLastError() << std::endl;
+        //g_log << "Read path failed. " << GetLastError() << std::endl;
         return {};
     }
 
     std::wstring path(buffer.get(), read_length / 2);
-    g_log << "Read path succeeded. " << path.length() << std::endl;
+    //g_log << "Read path succeeded. " << path.length() << std::endl;
 
     return path;
 }
@@ -82,16 +80,16 @@ std::wstring ReadPathFromPipe() {
 
 LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam) {
 
-    if (message == WM_REQUEST) {
+    if (message == ra::common::WM_DISCOVER) {
 
-        g_log << "Notify request event." << std::endl;
+        //g_log << "Notify request event." << std::endl;
         g_request_event();
 
-        g_log << "Read path from pipe." << std::endl;
+        //g_log << "Read path from pipe." << std::endl;
         auto path = ReadPathFromPipe();
 
         COPYDATASTRUCT copy_data_struct{};
-        copy_data_struct.dwData = wparam;
+        copy_data_struct.dwData = lparam; //Sequence
         copy_data_struct.cbData = path.length() * sizeof(wchar_t);
         copy_data_struct.lpData = path.data();
         SendMessage(
@@ -112,7 +110,7 @@ void ThreadProcedure() {
     //Register class
     WNDCLASSEX window_class{};
     window_class.cbSize = sizeof(window_class);
-    window_class.lpszClassName = WindowClassName;
+    window_class.lpszClassName = ra::common::DiscoverHostWindowClassName;
     window_class.lpfnWndProc = WindowProcedure;
 
     ATOM atom = RegisterClassEx(&window_class);
@@ -121,7 +119,7 @@ void ThreadProcedure() {
     }
 
     g_window_handle = CreateWindow(
-        WindowClassName,
+        ra::common::DiscoverHostWindowClassName,
         nullptr, 
         0, 
         0, 
@@ -152,8 +150,8 @@ extern "C" __declspec(dllexport) void __stdcall RunAnywhereVSHost_Initialize(
     HANDLE pipe_handle, 
     RequestEvent request_event) {
 
-    InitializeLog();
-    g_log << "RunAnywhereVSHost_Initialize " << pipe_handle << ' ' << request_event << std::endl;
+    //InitializeLog();
+    //g_log << "RunAnywhereVSHost_Initialize " << pipe_handle << ' ' << request_event << std::endl;
 
     if (!pipe_handle || !request_event) {
         return;

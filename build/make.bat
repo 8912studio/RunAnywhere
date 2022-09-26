@@ -24,7 +24,7 @@ echo Update version of installer.
 echo #define MyAppVersion "%version%" > ..\tool\installer\version
 
 echo Build zaf.
-msbuild ..\third_party\zaf\zaf.sln -p:Configuration=Release -p:PlatformTarget=x64
+msbuild ..\third_party\zaf\zaf.sln -p:Configuration=Release-MT -p:PlatformTarget=x64
 if errorlevel 1 (
 	echo Build failed.
 	goto end
@@ -39,6 +39,20 @@ if errorlevel 1 (
 
 echo Build Visual Studio host extension.
 msbuild ..\tool\vs_extension\VSExtension.sln -p:Configuration=Release
+if errorlevel 1 (
+	echo Build failed.
+	goto end
+)
+
+echo Build Notepad++ host plugin x64.
+msbuild ..\tool\npp_plugin\NPPPlugin.sln -p:Configuration=Release -p:Platform=x64
+if errorlevel 1 (
+	echo Build failed.
+	goto end
+)
+
+echo Build Notepad++ host plugin x86.
+msbuild ..\tool\npp_plugin\NPPPlugin.sln -p:Configuration=Release -p:Platform=x86
 if errorlevel 1 (
 	echo Build failed.
 	goto end

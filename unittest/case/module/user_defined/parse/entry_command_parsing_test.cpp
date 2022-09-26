@@ -110,7 +110,44 @@ TEST(EntryCommandParsingTest, BackwardActivePath) {
 }
 
 
-TEST(EntryCommandParsingTest, ReplaceGeneralParameter) {
+TEST(EntryCommandParsingTest, ReplaceVariableInArgument_SpaceIssues) {
+
+    BundleMeta::Builder meta_builder;
+    meta_builder.AddGlobalProperty(L"SpaceVariable", L"C:\\Program Files");
+    meta_builder.AddGlobalProperty(L"NoSpaceVariable", L"C:\\ProgramFiles");
+
+    VariableFormatter variable_formatter{ meta_builder.Build(), ActivePath{} };
+
+    auto result = ParseEntryCommand(
+        L"app.exe "
+        L"{SpaceVariable!} "
+        L"\"{SpaceVariable!}\" "
+        L"{NoSpaceVariable!} " 
+        L"\"{NoSpaceVariable!}\" "
+        L"path={SpaceVariable!} "
+        L"\"path={SpaceVariable!}\" "
+        L"path={NoSpaceVariable!} "
+        L"\"path={NoSpaceVariable!}\" "
+        L"\"path = {SpaceVariable!}\" "
+        L"\"path = {NoSpaceVariable!}\" ",
+        variable_formatter, 
+        {});
+
+    ASSERT_EQ(result.arguments.size(), 10);
+    ASSERT_EQ(result.arguments[0], L"\"C:\\Program Files\"");
+    ASSERT_EQ(result.arguments[1], L"\"C:\\Program Files\"");
+    ASSERT_EQ(result.arguments[2], L"C:\\ProgramFiles");
+    ASSERT_EQ(result.arguments[3], L"C:\\ProgramFiles");
+    ASSERT_EQ(result.arguments[4], L"path=\"C:\\Program Files\"");
+    ASSERT_EQ(result.arguments[5], L"path=\"C:\\Program Files\"");
+    ASSERT_EQ(result.arguments[6], L"path=C:\\ProgramFiles");
+    ASSERT_EQ(result.arguments[7], L"path=C:\\ProgramFiles");
+    ASSERT_EQ(result.arguments[8], L"\"path = C:\\Program Files\"");
+    ASSERT_EQ(result.arguments[9], L"\"path = C:\\ProgramFiles\"");
+}
+
+
+TEST(EntryCommandParsingTest, ReplacePlaceholders) {
 
     VariableFormatter variable_formatter{
         std::make_shared<BundleMeta>(),
@@ -141,12 +178,16 @@ TEST(EntryCommandParsingTest, ReplaceGeneralParameter) {
     ASSERT_EQ(result.arguments.size(), 1);
     ASSERT_EQ(result.arguments[0], L"111");
 
-    result = ParseEntryCommand(L"C:\\Windows\\notepad.exe %1 \"%3\"", variable_formatter, {
+    result = ParseEntryCommand(L"C:\\Windows\\notepad.exe %1 \"%3\" \"%4\"", variable_formatter, {
         L"1 1 1",
         L"2",
-        L"3 3"
+        L"3 3",
+        L"4444"
     });
-    ASSERT_EQ(result.arguments.size(), 2);
+    ASSERT_EQ(result.arguments.size(), 3);
     ASSERT_EQ(result.arguments[0], L"\"1 1 1\"");
     ASSERT_EQ(result.arguments[1], L"\"3 3\"");
+    ASSERT_EQ(result.arguments[2], L"4444");
 }
+
+

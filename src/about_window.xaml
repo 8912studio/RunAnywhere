@@ -54,5 +54,5 @@
         TextAlignment="Center" 
         ParagraphAlignment="Center" 
         FontSize="12"
-        Text="Copyright © 2021 Zplutor. All rights reserved."/>
+        Text="Copyright © 2022 Zplutor. All rights reserved."/>
 </AboutWindow>

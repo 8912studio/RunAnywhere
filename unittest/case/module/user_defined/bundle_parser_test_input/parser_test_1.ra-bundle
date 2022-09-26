@@ -8,3 +8,5 @@ AppReg=HKCU\Software\ff
 
  [  cmd ]
 Command=C:\Windows\System32\cmd.exe /k "cd %.@"
+WorkDir=D:\RunAnywhere src
+Description=Open command line tool

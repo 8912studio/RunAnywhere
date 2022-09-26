@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClCompile Include="src\dll_main.cpp" />
     <ClCompile Include="src\install_helper.cpp" />
+    <ClCompile Include="src\npp_detecting.cpp" />
     <ClCompile Include="src\vs_detecting.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -20,6 +21,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\install_helper.h" />
+    <ClInclude Include="src\npp_detecting.h" />
     <ClInclude Include="src\vs_detecting.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

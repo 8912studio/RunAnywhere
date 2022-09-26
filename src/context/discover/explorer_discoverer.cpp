@@ -1,4 +1,4 @@
-#include "context/explorer_discovering.h"
+#include "context/discover/explorer_discoverer.h"
 #include <atlbase.h>
 #include <exdisp.h>
 #include <shlobj.h>
@@ -38,11 +38,11 @@ CComPtr<IWebBrowser2> FindForegroundDesktopWindow(
     long desktop_handle{};
     CComPtr<IDispatch> dispatch;
     auto hresult = shell_windows->FindWindowSW(
-        &pvarLoc, 
-        &pvarLocRoot, 
-        SWC_DESKTOP, 
+        &pvarLoc,
+        &pvarLocRoot,
+        SWC_DESKTOP,
         &desktop_handle,
-        SWFO_NEEDDISPATCH, 
+        SWFO_NEEDDISPATCH,
         &dispatch);
 
     if (FAILED(hresult)) {
@@ -174,7 +174,7 @@ std::wstring GetSelectedItemName(IFolderView* folder_view, IPersistFolder2* pers
 }
 
 
-ActivePath DiscoverActivePathFromExplorer(HWND foreground_window_handle) {
+ActivePath ExplorerDiscoverer::Discover(HWND foreground_window_handle) {
 
     //Reference: https://devblogs.microsoft.com/oldnewthing/?p=38393
 

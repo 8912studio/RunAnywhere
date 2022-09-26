@@ -63,14 +63,20 @@ bool InnerDetect() {
     return false;
 }
 
+
+bool Detect() {
+
+    CoInitialize(nullptr);
+    bool is_installed = InnerDetect();
+    CoUninitialize();
+    return is_installed;
+}
+
 }
 
 
 bool DetectIfVisualStudioInstalled() {
 
-	CoInitialize(nullptr);
-	bool is_installed = InnerDetect();
-
-	CoUninitialize();
+    static const bool is_installed = Detect();
 	return is_installed;
 }

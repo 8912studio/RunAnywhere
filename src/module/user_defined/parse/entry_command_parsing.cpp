@@ -4,28 +4,24 @@
 #include <zaf/base/container/utility/contain.h>
 #include <zaf/base/string/replace.h>
 #include "module/active_path/active_path_modifying.h"
-#include "module/user_defined/parse/entry_command_parameter_parsing.h"
+#include "module/user_defined/parse/entry_command_placeholder_parsing.h"
 #include "utility/command_line.h"
 
 namespace ra::module::user_defined {
 namespace {
 
-std::wstring BuildArgumentFromParameter(
-    std::wstring_view parameter_string,
-    const EntryCommandParameterPart& parameter_part,
-    const std::vector<std::wstring>& input_arguments) {
+std::wstring GetPlaceholderText(
+    const EntryCommandPlaceholder& placeholder,
+    const std::vector<std::wstring>& input_arguments,
+    bool auto_quote) {
 
-    if (parameter_part.type != EntryCommandParameterPart::Type::General) {
-        return std::wstring{};
-    }
-
-    std::size_t argument_index = parameter_part.general_index - 1;
+    std::size_t argument_index = placeholder.index - 1;
     if (argument_index >= input_arguments.size()) {
         return std::wstring{};
     }
 
     const auto& argument = input_arguments[argument_index];
-    if (zaf::Contain(argument, L' ') && !parameter_part.is_quoted) {
+    if (auto_quote && zaf::Contain(argument, L' ')) {
         return L'"' + argument + L'"';
     }
 
@@ -33,26 +29,24 @@ std::wstring BuildArgumentFromParameter(
 }
 
 
-std::wstring BuildArgument(
+std::wstring ReplacePlaceholders(
     std::wstring_view parameter_string,
-    const std::vector<std::wstring>& input_arguments) {
+    const std::vector<std::wstring>& input_arguments,
+    bool auto_quote) {
 
-    auto parsed_parts = ParseEntryCommandParameter(parameter_string);
+    auto placeholders = ParseEntryCommandPlaceholders(parameter_string);
 
     std::wstring result;
     std::size_t current_position{};
-    for (const auto& each_part : parsed_parts) {
+    for (const auto& each_placeholder : placeholders) {
 
         result += parameter_string.substr(
             current_position,
-            each_part.position - current_position);
+            each_placeholder.position - current_position);
 
-        result += BuildArgumentFromParameter(
-            parameter_string,
-            each_part,
-            input_arguments);
+        result += GetPlaceholderText(each_placeholder, input_arguments, auto_quote);
 
-        current_position = each_part.position + each_part.length;
+        current_position = each_placeholder.position + each_placeholder.length;
     }
 
     if (current_position < parameter_string.length()) {
@@ -72,30 +66,40 @@ std::vector<std::wstring> BuildArguments(
 
     for (const auto& each_parameter : entry_parameters) {
 
+        bool has_space = zaf::Contain(each_parameter, L' ');
+        bool auto_quote = !has_space;
+
+        //Format variables first.
         VariableFormatOptions format_options;
-        format_options.auto_quote_variable = true;
+        format_options.auto_quote_variable = auto_quote;
+        auto argument = variable_formatter.Format(each_parameter, format_options);
 
-        auto formatted_parameter = variable_formatter.Format(each_parameter, format_options);
-
-        auto argument = BuildArgument(formatted_parameter, input_arguments);
-        if (!argument.empty()) {
-            result.push_back(argument);
+        //Replace placeholders then.
+        argument = ReplacePlaceholders(argument, input_arguments, auto_quote);
+        if (argument.empty()) {
+            continue;
         }
-    }
 
+        if (has_space) {
+            argument = L'"' + argument + L'"';
+        }
+
+        result.push_back(argument);
+    }
+    
     return result;
 }
 
 }
 
-EntryCommandParseResult ParseEntryCommand(
+CommandLineInfo ParseEntryCommand(
     const std::wstring& entry_command,
     const VariableFormatter& variable_formatter,
     const std::vector<std::wstring>& input_arguments) {
 
     utility::CommandLine command_line{ entry_command };
 
-    EntryCommandParseResult result;
+    CommandLineInfo result;
     result.command = variable_formatter.Format(command_line.Command(), VariableFormatOptions{});
     result.arguments = BuildArguments(
         command_line.Arguments(), 

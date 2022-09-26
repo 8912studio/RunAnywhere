@@ -1,4 +1,4 @@
-#include "context/everything_discovering.h"
+#include "context/discover/everything_discoverer.h"
 #include <CommCtrl.h>
 #include <everything_ipc.h>
 #include <zaf/base/handle.h>
@@ -19,7 +19,7 @@ bool IsEverythingWindowHandle(HWND window_handle) {
 
 
 std::wstring ReadTextFromListViewItem(
-    HWND list_view_handle, 
+    HWND list_view_handle,
     HANDLE process_handle,
     LPVOID process_buffer,
     int item_index,
@@ -35,9 +35,9 @@ std::wstring ReadTextFromListViewItem(
 
     SIZE_T written_size{};
     BOOL is_succeeded = WriteProcessMemory(
-        process_handle, 
-        process_buffer, 
-        &item_info, 
+        process_handle,
+        process_buffer,
+        &item_info,
         sizeof(item_info),
         &written_size);
 
@@ -52,8 +52,8 @@ std::wstring ReadTextFromListViewItem(
 
     SIZE_T read_size{};
     is_succeeded = ReadProcessMemory(
-        process_handle, 
-        process_buffer, 
+        process_handle,
+        process_buffer,
         &item_info,
         sizeof(item_info),
         &read_size);
@@ -64,9 +64,9 @@ std::wstring ReadTextFromListViewItem(
 
     auto text_buffer = std::make_unique<wchar_t[]>(item_info.cchTextMax);
     is_succeeded = ReadProcessMemory(
-        process_handle, 
-        item_info.pszText, 
-        text_buffer.get(), 
+        process_handle,
+        item_info.pszText,
+        text_buffer.get(),
         item_info.cchTextMax,
         &read_size);
 
@@ -80,7 +80,7 @@ std::wstring ReadTextFromListViewItem(
 }
 
 
-ActivePath DiscoverActivePathFromEverything(HWND foreground_window_handle) {
+ActivePath EverythingDiscoverer::Discover(HWND foreground_window_handle) {
 
     if (!IsEverythingWindowHandle(foreground_window_handle)) {
         return {};
@@ -103,9 +103,9 @@ ActivePath DiscoverActivePathFromEverything(HWND foreground_window_handle) {
     }
 
     DWORD desired_access =
-        PROCESS_QUERY_LIMITED_INFORMATION | 
-        PROCESS_VM_OPERATION | 
-        PROCESS_VM_WRITE | 
+        PROCESS_QUERY_LIMITED_INFORMATION |
+        PROCESS_VM_OPERATION |
+        PROCESS_VM_WRITE |
         PROCESS_VM_READ;
 
     zaf::Handle process_handle{ OpenProcess(desired_access, FALSE, process_id) };
@@ -125,9 +125,9 @@ ActivePath DiscoverActivePathFromEverything(HWND foreground_window_handle) {
 
     std::size_t process_buffer_size = sizeof(LVITEM) + sizeof(wchar_t) * MAX_PATH;
     auto process_buffer = VirtualAllocEx(
-        *process_handle, 
-        nullptr, 
-        process_buffer_size, 
+        *process_handle,
+        nullptr,
+        process_buffer_size,
         MEM_COMMIT | MEM_RESERVE,
         PAGE_READWRITE);
 
@@ -136,19 +136,19 @@ ActivePath DiscoverActivePathFromEverything(HWND foreground_window_handle) {
     }
 
     std::filesystem::path file_name = ReadTextFromListViewItem(
-        list_view_handle, 
-        *process_handle, 
-        process_buffer, 
-        selected_index, 
+        list_view_handle,
+        *process_handle,
+        process_buffer,
+        selected_index,
         0);
 
     //Assume that the "Path" column is visible.
     //If not, it is unable to get path from Everything.
     std::filesystem::path directory_path = ReadTextFromListViewItem(
-        list_view_handle, 
+        list_view_handle,
         *process_handle,
-        process_buffer, 
-        selected_index, 
+        process_buffer,
+        selected_index,
         1);
 
     VirtualFreeEx(*process_handle, process_buffer, 0, MEM_RELEASE);

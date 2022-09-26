@@ -52,6 +52,9 @@ void SetPropertyToEntry(
     else if (key == "Description") {
         builder.SetDescription(value_wstring);
     }
+    else if (key == "WorkDir") {
+        builder.SetWorkingDirectory(value_wstring);
+    }
 }
 
 }

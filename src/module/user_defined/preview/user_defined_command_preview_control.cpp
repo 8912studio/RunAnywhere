@@ -11,7 +11,8 @@ constexpr float LabelFontSize = 14;
 }
 
 ZAF_DEFINE_TYPE(UserDefinedCommandPreviewControl)
-ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/user_defined/preview/user_defined_command_preview_control.xaml")
+ZAF_DEFINE_TYPE_RESOURCE_URI(
+    L"res:///module/user_defined/preview/user_defined_command_preview_control.xaml")
 ZAF_DEFINE_TYPE_END
 
 
@@ -19,16 +20,30 @@ void UserDefinedCommandPreviewControl::AfterParse() {
 
     __super::AfterParse();
 
+    auto text_trimming = utility::CreateTextTrimmingForPath();
+
     commandLabel->SetFixedHeight(LabelHeight);
-    commandLabel->SetTextTrimming(utility::CreateTextTrimmingForPath());
+    commandLabel->SetTextTrimming(text_trimming);
     commandLabel->SetFontSize(LabelFontSize);
+
+    workingDirectoryLabel->SetFixedHeight(LabelHeight);
+    workingDirectoryLabel->SetTextTrimming(text_trimming);
+    workingDirectoryLabel->SetFontSize(LabelFontSize);
 }
 
 
-void UserDefinedCommandPreviewControl::SetParseResult(const EntryCommandParseResult& parse_result) {
+void UserDefinedCommandPreviewControl::SetExecutInfo(const ExecuteInfo& execute_info) {
 
-    commandLabel->SetText(parse_result.command);
-    BuildArgumentLabels(parse_result.arguments);
+    commandLabel->SetText(execute_info.command_line.command);
+    BuildArgumentLabels(execute_info.command_line.arguments);
+
+    if (!execute_info.working_directory.empty()) {
+        workingDirectoryLabel->SetIsVisible(true);
+        workingDirectoryLabel->SetText(L'(' + execute_info.working_directory + L')');
+    }
+    else {
+        workingDirectoryLabel->SetIsVisible(false);
+    }
 }
 
 

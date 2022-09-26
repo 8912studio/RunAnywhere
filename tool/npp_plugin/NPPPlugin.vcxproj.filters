@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="PluginInterface.h" />
+    <ClInclude Include="Notepad_plus_msgs.h" />
+    <ClInclude Include="Scintilla.h" />
+    <ClInclude Include="Sci_Position.h" />
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="NPPPlugin.rc" />
+  </ItemGroup>
+</Project>
