@@ -1,32 +1,33 @@
 # Introduction
 
-RunAnywhere is a tiny command line-style productivity tool on Windows.
+RunAnywhere is a command line-style productivity tool on Windows, mainly aims to developers.  It helps you to simplify the procedure to solve frequent and trivial works by:
 
-## Primary feature
+- Delivering the file you currently working on to the tool you want to invoke by a simple command.
+- Providing several utility tools to accomplish common tasks.
 
-You can call out RunAnywhere by hot key, and input your pre-defined shortcut commands, then it will discover the path of current file from application which you are working on, and deliver it to your command to run.
+## Sample Usage Scenario
 
-For example, you can define a shortcut command `log`, this command calls TortoiseGit to show git logs of file. After that, you call out RunAnywhere in Visual Studio, input `log` and press enter, TortoiseGit will run and open a window showing git logs of the file openning in Visual Studio.
+Considering that you mainly use Visual Studio and TortoiseGit in your daily development tasks. If you want to view history change logs of the the opening source file in Visual Studio, you may need to take steps like below:
+
+1. Right click the tab of file, and select “Open Containing Folder” to open an explorer window.
+2. Right click the file, and select “TortoiseGit” - “Show log”.
+
+Not many steps though, it is still a bothering task because it depends mouse operation heavily and you need to accomplish it very often.
+
+Things get easier with RunAnywhere. To accomplish the same task (suppose that you have imported the corresponding bundle file), you just need to:
+
+1. Press a hot key such as CTRL + SPACE to call out command window.
+2. Type “log” and press ENTER.
+
+All is done by several simple key strokes.
 
 <img src="https://user-images.githubusercontent.com/1822051/117854241-e2491180-b2bb-11eb-805b-60ded3c0e987.png" width="60%" height="60%">
 
-In explorer window, you can also use `log` command to show git logs of selected file.
-
-<img src="https://user-images.githubusercontent.com/1822051/117854691-51266a80-b2bc-11eb-87fd-1b90301a5867.png" width="60%" height="60%">
-
-RunAnywhere will support more applications in the future.
-
-For more information about how to use and write your own commands, see [here](https://github.com/Zplutor/RunAnywhere/wiki/Bundle-File).
-
-## Little tools
-
-There are also some little tools that are handy to developers integrated in RunAnywhere, sush as a calculator. As long as you input a math expression in RunAnywhere, it will show result of the expression. By pressing enter, you can copy the result into clipboard.
-
-<img src="https://user-images.githubusercontent.com/1822051/117855720-546e2600-b2bd-11eb-9a2a-9093708f69aa.png" width="60%" height="60%">
-
-Supported by extended syntax, calculator in RunAnywhere also has practical features like converting numbers between different bases, etc.
-
-For more information about the calculator, see [here](https://github.com/Zplutor/RunAnywhere/wiki/Calculator).
-
 # Requirements
 RunAnywhere requires x64 Windows 10 and above to run.
+
+In order to discover the file from application you are currently working on, plugins or extensions (included in RunAnywhere installer) are needed to be installed to the application. For now, the number of supported applications is limited, but more will be supported in the future. For a full list of supported applications, see [here](https://github.com/Zplutor/RunAnywhere/wiki/Active-Path#supported-applications).
+
+# Documentation
+
+Visit the [wiki home page](https://github.com/Zplutor/RunAnywhere/wiki) to learn what feature RunAnywhere has and how to use it better.
