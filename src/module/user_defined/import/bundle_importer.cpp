@@ -1,4 +1,5 @@
 #include "module/user_defined/import/bundle_importer.h"
+#include <set>
 #include <zaf/base/error/check.h>
 #include "module/user_defined/bundle_definition.h"
 #include "module/user_defined/bundle_parser.h"
@@ -88,11 +89,45 @@ bool BundleImporter::CheckIfCanSaveDirectly() {
 
     conflict_entries_ = depot->FindConflictEntries(*parsed_bundle_);
     if (!conflict_entries_.empty()) {
+
+        //Conflict entries have found, make sure the corresponding bundle files exit, otherwise 
+        //a reload is needed.
+        if (!AreAllBundlFileExist(conflict_entries_)) {
+            ChangeToFailState(FailReason::NeedReload);
+            return false;
+        }
+
         state_ = State::ConflictConfirm;
         return false;
     }
 
     return true;
+}
+
+
+bool BundleImporter::AreAllBundlFileExist(
+    const std::vector<std::shared_ptr<Entry>>& entries) const {
+
+    std::set<std::wstring> bundle_ids;
+    for (const auto& each_entry : entries) {
+        bundle_ids.insert(each_entry->BundleMeta()->BundleID());
+    }
+
+    try {
+
+        for (const auto& each_id : bundle_ids) {
+
+            auto bundle_path = GetBundlePathInDepot(each_id);
+            if (!std::filesystem::exists(bundle_path)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+    catch (const std::filesystem::filesystem_error&) {
+        return false;
+    }
 }
 
 
@@ -145,7 +180,13 @@ void BundleImporter::Confirm() {
 
 std::filesystem::path BundleImporter::GetBundleSavePath() const {
 
-    auto file_name = parsed_bundle_->Meta()->BundleID() + BundleFileExtension;
+    return GetBundlePathInDepot(parsed_bundle_->Meta()->BundleID());
+}
+
+
+std::filesystem::path BundleImporter::GetBundlePathInDepot(const std::wstring& bundle_id) const {
+
+    auto file_name = bundle_id + BundleFileExtension;
     return depot_directory_path_ / file_name;
 }
 

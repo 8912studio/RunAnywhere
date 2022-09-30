@@ -322,6 +322,27 @@ TEST_F(BundleImporterTest, NeedReload2) {
 }
 
 
+//Conflicted bundle file is missing.
+TEST_F(BundleImporterTest, NeedReload3) {
+
+    auto depot = CreateDepot();
+
+    std::filesystem::remove(GetTestingDepotDirectoryPath() / "default.ra-bundle");
+
+    BundleImporter importer(
+        depot,
+        GetTestingDepotDirectoryPath(),
+        GetInputFilePath(L"need_reload3.ra-bundle"));
+
+    importer.Import();
+
+    ASSERT_EQ(importer.GetState(), BundleImporter::State::Fail);
+    ASSERT_EQ(importer.GetFailReason(), BundleImporter::FailReason::NeedReload);
+    ASSERT_EQ(depot->FindBundle(L"need_reload3"), nullptr);
+    ASSERT_FALSE(std::filesystem::exists(GetTestingDepotDirectoryPath() / "need_reload3.ra-bundle"));
+}
+
+
 TEST_F(BundleImporterTest, ImportFileInDepotDirectory) {
 
     auto depot = CreateDepot();
