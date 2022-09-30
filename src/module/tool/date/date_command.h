@@ -1,10 +1,10 @@
 #pragma once
 
 #include "module/command.h"
-#include "module/date/date_command_parse_result.h"
-#include "module/date/date_preview_control.h"
+#include "module/tool/date/date_command_parse_result.h"
+#include "module/tool/date/date_preview_control.h"
 
-namespace ra::module::date {
+namespace ra::module::tool::date {
 
 class DateCommand : public Command {
 public:

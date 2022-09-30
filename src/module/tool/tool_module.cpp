@@ -1,9 +1,11 @@
 #include "module/tool/tool_module.h"
+#include "module/tool/date/date_command_factory.h"
 
 namespace ra::module::tool {
 
 ToolModule::ToolModule() {
 
+    command_factories_.push_back(std::make_unique<date::DateCommandFactory>());
 }
 
 

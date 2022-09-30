@@ -1,8 +1,8 @@
-#include "module/date/date_command.h"
+#include "module/tool/date/date_command.h"
 #include <zaf/creation.h>
 #include "utility/clipboard.h"
 
-namespace ra::module::date { 
+namespace ra::module::tool::date { 
 
 DateCommand::DateCommand(const DateCommandParseResult& parse_result) : parse_result_(parse_result) {
 

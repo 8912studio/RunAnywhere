@@ -176,11 +176,6 @@
     <ClInclude Include="src\module\crypto\md5\md5_command.h" />
     <ClInclude Include="src\module\crypto\md5\md5_encoding.h" />
     <ClInclude Include="src\module\crypto\md5\md5_preview_control.h" />
-    <ClInclude Include="src\module\date\date_command.h" />
-    <ClInclude Include="src\module\date\date_command_parsing.h" />
-    <ClInclude Include="src\module\date\date_module.h" />
-    <ClInclude Include="src\module\date\date_command_parse_result.h" />
-    <ClInclude Include="src\module\date\date_preview_control.h" />
     <ClInclude Include="src\module\extension\extension_command.h" />
     <ClInclude Include="src\module\extension\extension_command_preview_control.h" />
     <ClInclude Include="src\module\extension\extension_interface.h" />
@@ -197,6 +192,10 @@
     <ClInclude Include="src\module\rgb\rgb_command_parsing.h" />
     <ClInclude Include="src\module\rgb\rgb_module.h" />
     <ClInclude Include="src\module\rgb\rgb_preview_control.h" />
+    <ClInclude Include="src\module\tool\date\date_command.h" />
+    <ClInclude Include="src\module\tool\date\date_command_factory.h" />
+    <ClInclude Include="src\module\tool\date\date_command_parse_result.h" />
+    <ClInclude Include="src\module\tool\date\date_preview_control.h" />
     <ClInclude Include="src\module\tool\tool_command_factory.h" />
     <ClInclude Include="src\module\tool\tool_module.h" />
     <ClInclude Include="src\module\user_defined\bundle_definition.h" />
@@ -289,10 +288,6 @@
     <ClCompile Include="src\module\crypto\md5\md5_command.cpp" />
     <ClCompile Include="src\module\crypto\md5\md5_command_parsing.cpp" />
     <ClCompile Include="src\module\crypto\md5\md5_preview_control.cpp" />
-    <ClCompile Include="src\module\date\date_command.cpp" />
-    <ClCompile Include="src\module\date\date_command_parsing.cpp" />
-    <ClCompile Include="src\module\date\date_module.cpp" />
-    <ClCompile Include="src\module\date\date_preview_control.cpp" />
     <ClCompile Include="src\module\extension\extension_command.cpp" />
     <ClCompile Include="src\module\extension\extension_command_preview_control.cpp" />
     <ClCompile Include="src\module\extension\extension_module.cpp" />
@@ -304,6 +299,9 @@
     <ClCompile Include="src\module\rgb\rgb_command_parsing.cpp" />
     <ClCompile Include="src\module\rgb\rgb_module.cpp" />
     <ClCompile Include="src\module\rgb\rgb_preview_control.cpp" />
+    <ClCompile Include="src\module\tool\date\date_command.cpp" />
+    <ClCompile Include="src\module\tool\date\date_command_factory.cpp" />
+    <ClCompile Include="src\module\tool\date\date_preview_control.cpp" />
     <ClCompile Include="src\module\tool\tool_command_factory.cpp" />
     <ClCompile Include="src\module\tool\tool_module.cpp" />
     <ClCompile Include="src\module\user_defined\bundle_depot.cpp" />
@@ -336,9 +334,9 @@
     <Page Include="src\main_window.xaml" />
     <Page Include="src\module\calculator\preview\calculator_preview_control.xaml" />
     <Page Include="src\module\crypto\md5\md5_preview_control.xaml" />
-    <Page Include="src\module\date\date_preview_control.xaml" />
     <Page Include="src\module\extension\extension_command_preview_control.xaml" />
     <Page Include="src\module\rgb\rgb_preview_control.xaml" />
+    <Page Include="src\module\tool\date\date_preview_control.xaml" />
     <Page Include="src\module\user_defined\import\import_bundle_window.xaml" />
     <Page Include="src\module\user_defined\preview\user_defined_command_preview_control.xaml" />
     <Page Include="src\option_window.xaml" />

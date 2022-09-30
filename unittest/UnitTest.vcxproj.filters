@@ -34,9 +34,6 @@
     <Filter Include="case\context">
       <UniqueIdentifier>{a203b8ac-7174-4b55-b116-97a41d7246b6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="case\module\date">
-      <UniqueIdentifier>{6aa5e497-be3c-4671-8493-ad5d6cc613fa}</UniqueIdentifier>
-    </Filter>
     <Filter Include="case\module\crypto">
       <UniqueIdentifier>{d14d3205-1763-4c53-bfe9-d5fc7ee0d866}</UniqueIdentifier>
     </Filter>
@@ -51,6 +48,12 @@
     </Filter>
     <Filter Include="case\context\discover">
       <UniqueIdentifier>{e66f5810-c5af-49d7-b2af-9fe4e5168d70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="case\module\tool">
+      <UniqueIdentifier>{6aa5e497-be3c-4671-8493-ad5d6cc613fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="case\module\tool\date">
+      <UniqueIdentifier>{44bc8a9f-6f86-4bd7-be42-a7d6b8abdf09}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -108,9 +111,6 @@
     <ClCompile Include="case\module\calculator\command_parsing_test.cpp">
       <Filter>case\module\calculator</Filter>
     </ClCompile>
-    <ClCompile Include="case\module\date\date_command_parsing_test.cpp">
-      <Filter>case\module\date</Filter>
-    </ClCompile>
     <ClCompile Include="case\module\crypto\md5\md5_calculating_test.cpp">
       <Filter>case\module\crypto\md5</Filter>
     </ClCompile>
@@ -150,6 +150,9 @@
     </ClCompile>
     <ClCompile Include="case\context\discover\window_based_discoverer_test.cpp">
       <Filter>case\context\discover</Filter>
+    </ClCompile>
+    <ClCompile Include="case\module\tool\date\date_command_factory_test.cpp">
+      <Filter>case\module\tool\date</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

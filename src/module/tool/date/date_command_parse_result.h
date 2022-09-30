@@ -3,7 +3,7 @@
 #include <ctime>
 #include <optional>
 
-namespace ra::module::date {
+namespace ra::module::tool::date {
 
 class DateCommandParseResult {
 public:

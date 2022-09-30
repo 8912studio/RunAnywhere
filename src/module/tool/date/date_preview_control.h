@@ -3,9 +3,9 @@
 #include <zaf/control/control_binder.h>
 #include <zaf/control/text_box.h>
 #include "module/command_preview_control.h"
-#include "module/date/date_command_parse_result.h"
+#include "module/tool/date/date_command_parse_result.h"
 
-namespace ra::module::date {
+namespace ra::module::tool::date {
 
 class DatePreviewControl : public CommandPreviewControl {
 public:

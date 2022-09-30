@@ -37,9 +37,6 @@
     <Filter Include="src\utility">
       <UniqueIdentifier>{d3861a93-8807-4c4f-8653-c0a3368c30ca}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\module\date">
-      <UniqueIdentifier>{9bffc24d-0901-48ff-b2ab-621c5ec32342}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\module\crypto">
       <UniqueIdentifier>{2662516a-bbd6-4683-9ddb-3daa9e177f8d}</UniqueIdentifier>
     </Filter>
@@ -90,6 +87,9 @@
     </Filter>
     <Filter Include="src\module\tool">
       <UniqueIdentifier>{f9bf794f-7f21-4214-b344-38b0041a7985}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\module\tool\date">
+      <UniqueIdentifier>{2c76d038-b555-497d-96f7-95843ec6e564}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -293,21 +293,6 @@
     </ClInclude>
     <ClInclude Include="src\registry_define.h">
       <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\date\date_module.h">
-      <Filter>src\module\date</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\date\date_command.h">
-      <Filter>src\module\date</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\date\date_command_parse_result.h">
-      <Filter>src\module\date</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\date\date_command_parsing.h">
-      <Filter>src\module\date</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\date\date_preview_control.h">
-      <Filter>src\module\date</Filter>
     </ClInclude>
     <ClInclude Include="src\application_delegate.h">
       <Filter>src</Filter>
@@ -516,6 +501,18 @@
     <ClInclude Include="src\module\tool\tool_command_factory.h">
       <Filter>src\module\tool</Filter>
     </ClInclude>
+    <ClInclude Include="src\module\tool\date\date_command.h">
+      <Filter>src\module\tool\date</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\tool\date\date_preview_control.h">
+      <Filter>src\module\tool\date</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\tool\date\date_command_factory.h">
+      <Filter>src\module\tool\date</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\tool\date\date_command_parse_result.h">
+      <Filter>src\module\tool\date</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -659,18 +656,6 @@
     <ClCompile Include="src\hot_key_utility.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\module\date\date_module.cpp">
-      <Filter>src\module\date</Filter>
-    </ClCompile>
-    <ClCompile Include="src\module\date\date_command.cpp">
-      <Filter>src\module\date</Filter>
-    </ClCompile>
-    <ClCompile Include="src\module\date\date_command_parsing.cpp">
-      <Filter>src\module\date</Filter>
-    </ClCompile>
-    <ClCompile Include="src\module\date\date_preview_control.cpp">
-      <Filter>src\module\date</Filter>
-    </ClCompile>
     <ClCompile Include="src\application_delegate.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -806,6 +791,15 @@
     <ClCompile Include="src\module\tool\tool_command_factory.cpp">
       <Filter>src\module\tool</Filter>
     </ClCompile>
+    <ClCompile Include="src\module\tool\date\date_command.cpp">
+      <Filter>src\module\tool\date</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\tool\date\date_preview_control.cpp">
+      <Filter>src\module\tool\date</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\tool\date\date_command_factory.cpp">
+      <Filter>src\module\tool\date</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Page Include="src\module\user_defined\preview\user_defined_command_preview_control.xaml">
@@ -826,9 +820,6 @@
     <Page Include="src\preview_view.xaml">
       <Filter>src</Filter>
     </Page>
-    <Page Include="src\module\date\date_preview_control.xaml">
-      <Filter>src\module\date</Filter>
-    </Page>
     <Page Include="src\module\crypto\md5\md5_preview_control.xaml">
       <Filter>src\module\crypto\md5</Filter>
     </Page>
@@ -843,6 +834,9 @@
     </Page>
     <Page Include="src\module\user_defined\import\import_bundle_window.xaml">
       <Filter>src\module\user_defined\import</Filter>
+    </Page>
+    <Page Include="src\module\tool\date\date_preview_control.xaml">
+      <Filter>src\module\tool\date</Filter>
     </Page>
   </ItemGroup>
   <ItemGroup>

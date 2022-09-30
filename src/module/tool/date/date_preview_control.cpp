@@ -1,4 +1,4 @@
-#include "module/date/date_preview_control.h"
+#include "module/tool/date/date_preview_control.h"
 #include <sstream>
 #include <zaf/object/type_definition.h>
 #include <zaf/rx/scheduler.h>
@@ -6,10 +6,10 @@
 
 using namespace std::literals;
 
-namespace ra::module::date {
+namespace ra::module::tool::date {
 
 ZAF_DEFINE_TYPE(DatePreviewControl)
-ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/date/date_preview_control.xaml")
+ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/tool/date/date_preview_control.xaml")
 ZAF_DEFINE_TYPE_END
 
 
