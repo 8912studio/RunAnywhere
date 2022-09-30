@@ -88,6 +88,9 @@
     <Filter Include="src\context\discover">
       <UniqueIdentifier>{60483675-c9ab-40bf-ae0c-6e2587e3628c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\module\tool">
+      <UniqueIdentifier>{f9bf794f-7f21-4214-b344-38b0041a7985}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\module\calculator\parse\binary_expression_parser.h">
@@ -507,6 +510,12 @@
     <ClInclude Include="src\module\user_defined\command_line_info.h">
       <Filter>src\module\user_defined</Filter>
     </ClInclude>
+    <ClInclude Include="src\module\tool\tool_module.h">
+      <Filter>src\module\tool</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\tool\tool_command_factory.h">
+      <Filter>src\module\tool</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -790,6 +799,12 @@
     </ClCompile>
     <ClCompile Include="src\context\discover\composite_discoverer.cpp">
       <Filter>src\context\discover</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\tool\tool_module.cpp">
+      <Filter>src\module\tool</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\tool\tool_command_factory.cpp">
+      <Filter>src\module\tool</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

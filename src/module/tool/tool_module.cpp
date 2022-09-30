@@ -1,0 +1,38 @@
+#include "module/tool/tool_module.h"
+
+namespace ra::module::tool {
+
+ToolModule::ToolModule() {
+
+}
+
+
+std::vector<CommandBrief> ToolModule::QuerySuggestedCommands(const std::wstring& command_text) {
+
+    std::vector<CommandBrief> result;
+
+    for (const auto& each_factory : command_factories_) {
+
+        const auto& command_brief = each_factory->CommandBrief();
+        if (command_brief.Command().find(command_text) == 0) {
+            result.push_back(command_brief);
+        }
+    }
+
+    return result;
+}
+
+
+std::shared_ptr<Command> ToolModule::Interpret(const utility::CommandLine& command_line) {
+
+    for (const auto& each_factory : command_factories_) {
+
+        if (each_factory->CommandBrief().Command() == command_line.Command()) {
+            return each_factory->CreateCommand(command_line);
+        }
+    }
+
+    return nullptr;
+}
+
+}

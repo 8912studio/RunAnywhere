@@ -197,6 +197,8 @@
     <ClInclude Include="src\module\rgb\rgb_command_parsing.h" />
     <ClInclude Include="src\module\rgb\rgb_module.h" />
     <ClInclude Include="src\module\rgb\rgb_preview_control.h" />
+    <ClInclude Include="src\module\tool\tool_command_factory.h" />
+    <ClInclude Include="src\module\tool\tool_module.h" />
     <ClInclude Include="src\module\user_defined\bundle_definition.h" />
     <ClInclude Include="src\module\user_defined\bundle_depot.h" />
     <ClInclude Include="src\module\user_defined\command_line_info.h" />
@@ -302,6 +304,8 @@
     <ClCompile Include="src\module\rgb\rgb_command_parsing.cpp" />
     <ClCompile Include="src\module\rgb\rgb_module.cpp" />
     <ClCompile Include="src\module\rgb\rgb_preview_control.cpp" />
+    <ClCompile Include="src\module\tool\tool_command_factory.cpp" />
+    <ClCompile Include="src\module\tool\tool_module.cpp" />
     <ClCompile Include="src\module\user_defined\bundle_depot.cpp" />
     <ClCompile Include="src\module\user_defined\import\bundle_importer.cpp" />
     <ClCompile Include="src\module\user_defined\import\import_bundle_window.cpp" />
