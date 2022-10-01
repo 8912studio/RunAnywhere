@@ -43,9 +43,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="case\module\crypto\md5\md5_test_file1" />
-    <None Include="case\module\crypto\md5\md5_test_file2" />
-    <None Include="case\module\crypto\md5\md5_test_file3" />
+    <None Include="case\module\tool\md5\md5_test_file1" />
+    <None Include="case\module\tool\md5\md5_test_file2" />
+    <None Include="case\module\tool\md5\md5_test_file3" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -70,11 +70,11 @@
     <ClCompile Include="case\module\calculator\octal_number_parser_test.cpp" />
     <ClCompile Include="case\module\calculator\result_text_builder_test.cpp" />
     <ClCompile Include="case\module\calculator\unary_expression_parser_test.cpp" />
-    <ClCompile Include="case\module\crypto\md5\md5_calculating_test.cpp" />
-    <ClCompile Include="case\module\crypto\md5\md5_command_parsing_test.cpp" />
     <ClCompile Include="case\module\meta\meta_command_info_test.cpp" />
     <ClCompile Include="case\module\meta\meta_module_test.cpp" />
     <ClCompile Include="case\module\tool\date\date_command_factory_test.cpp" />
+    <ClCompile Include="case\module\tool\md5\md5_calculating_test.cpp" />
+    <ClCompile Include="case\module\tool\md5\md5_command_factory_test.cpp" />
     <ClCompile Include="case\module\tool\rgb\rgb_command_factory_test.cpp" />
     <ClCompile Include="case\module\user_defined\bundle_importer_test.cpp" />
     <ClCompile Include="case\module\user_defined\bundle_parser_test.cpp" />

@@ -1,8 +1,8 @@
-#include "module/crypto/md5/md5_command.h"
+#include "module/tool/md5/md5_command.h"
 #include <zaf/creation.h>
 #include "utility/clipboard.h"
 
-namespace ra::module::crypto {
+namespace ra::module::tool::md5 {
 
 MD5Command::MD5Command(const MD5CommandParseResult& parse_result) : parse_result_(parse_result) {
 

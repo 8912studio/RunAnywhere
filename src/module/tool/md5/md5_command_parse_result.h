@@ -1,9 +1,9 @@
 #pragma once
 
 #include <string>
-#include "module/crypto/md5/md5_encoding.h"
+#include "module/tool/md5/md5_encoding.h"
 
-namespace ra::module::crypto {
+namespace ra::module::tool::md5 {
 
 class MD5CommandParseResult {
 public:

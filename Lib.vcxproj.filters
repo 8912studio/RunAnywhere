@@ -37,12 +37,6 @@
     <Filter Include="src\utility">
       <UniqueIdentifier>{d3861a93-8807-4c4f-8653-c0a3368c30ca}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\module\crypto">
-      <UniqueIdentifier>{2662516a-bbd6-4683-9ddb-3daa9e177f8d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\module\crypto\md5">
-      <UniqueIdentifier>{3d1ebd7b-812e-40de-a3cc-329b5321cf4e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\help">
       <UniqueIdentifier>{7adb72ac-73e5-47e6-b879-f7647278fcac}</UniqueIdentifier>
     </Filter>
@@ -90,6 +84,9 @@
     </Filter>
     <Filter Include="src\module\tool\rgb">
       <UniqueIdentifier>{6c3779b4-6f0b-48dc-823c-4c90a7c3766e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\module\tool\md5">
+      <UniqueIdentifier>{67348dfb-f40d-486e-8ee1-2d2fabc30f1e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -300,29 +297,8 @@
     <ClInclude Include="src\utility\preview_text_box.h">
       <Filter>src\utility</Filter>
     </ClInclude>
-    <ClInclude Include="src\module\crypto\crypto_module.h">
-      <Filter>src\module\crypto</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\crypto\md5\md5_command.h">
-      <Filter>src\module\crypto\md5</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\crypto\md5\md5_preview_control.h">
-      <Filter>src\module\crypto\md5</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\crypto\md5\md5_calculating.h">
-      <Filter>src\module\crypto\md5</Filter>
-    </ClInclude>
     <ClInclude Include="src\utility\progress_circle.h">
       <Filter>src\utility</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\crypto\md5\md5_command_parsing.h">
-      <Filter>src\module\crypto\md5</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\crypto\md5\md5_command_parse_result.h">
-      <Filter>src\module\crypto\md5</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\crypto\md5\md5_encoding.h">
-      <Filter>src\module\crypto\md5</Filter>
     </ClInclude>
     <ClInclude Include="src\utility\command_line.h">
       <Filter>src\utility</Filter>
@@ -510,6 +486,24 @@
     <ClInclude Include="src\module\tool\rgb\rgb_command_factory.h">
       <Filter>src\module\tool\rgb</Filter>
     </ClInclude>
+    <ClInclude Include="src\module\tool\md5\md5_calculating.h">
+      <Filter>src\module\tool\md5</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\tool\md5\md5_command.h">
+      <Filter>src\module\tool\md5</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\tool\md5\md5_command_parse_result.h">
+      <Filter>src\module\tool\md5</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\tool\md5\md5_encoding.h">
+      <Filter>src\module\tool\md5</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\tool\md5\md5_preview_control.h">
+      <Filter>src\module\tool\md5</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\tool\md5\md5_command_factory.h">
+      <Filter>src\module\tool\md5</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -659,23 +653,8 @@
     <ClCompile Include="src\utility\preview_text_box.cpp">
       <Filter>src\utility</Filter>
     </ClCompile>
-    <ClCompile Include="src\module\crypto\crypto_module.cpp">
-      <Filter>src\module\crypto</Filter>
-    </ClCompile>
-    <ClCompile Include="src\module\crypto\md5\md5_command.cpp">
-      <Filter>src\module\crypto\md5</Filter>
-    </ClCompile>
-    <ClCompile Include="src\module\crypto\md5\md5_preview_control.cpp">
-      <Filter>src\module\crypto\md5</Filter>
-    </ClCompile>
-    <ClCompile Include="src\module\crypto\md5\md5_calculating.cpp">
-      <Filter>src\module\crypto\md5</Filter>
-    </ClCompile>
     <ClCompile Include="src\utility\progress_circle.cpp">
       <Filter>src\utility</Filter>
-    </ClCompile>
-    <ClCompile Include="src\module\crypto\md5\md5_command_parsing.cpp">
-      <Filter>src\module\crypto\md5</Filter>
     </ClCompile>
     <ClCompile Include="src\utility\command_line.cpp">
       <Filter>src\utility</Filter>
@@ -794,6 +773,18 @@
     <ClCompile Include="src\module\tool\rgb\rgb_command_factory.cpp">
       <Filter>src\module\tool\rgb</Filter>
     </ClCompile>
+    <ClCompile Include="src\module\tool\md5\md5_calculating.cpp">
+      <Filter>src\module\tool\md5</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\tool\md5\md5_command.cpp">
+      <Filter>src\module\tool\md5</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\tool\md5\md5_preview_control.cpp">
+      <Filter>src\module\tool\md5</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\tool\md5\md5_command_factory.cpp">
+      <Filter>src\module\tool\md5</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Page Include="src\module\user_defined\preview\user_defined_command_preview_control.xaml">
@@ -814,9 +805,6 @@
     <Page Include="src\preview_view.xaml">
       <Filter>src</Filter>
     </Page>
-    <Page Include="src\module\crypto\md5\md5_preview_control.xaml">
-      <Filter>src\module\crypto\md5</Filter>
-    </Page>
     <Page Include="src\help\help_window.xaml">
       <Filter>src\help</Filter>
     </Page>
@@ -831,6 +819,9 @@
     </Page>
     <Page Include="src\module\tool\rgb\rgb_preview_control.xaml">
       <Filter>src\module\tool\rgb</Filter>
+    </Page>
+    <Page Include="src\module\tool\md5\md5_preview_control.xaml">
+      <Filter>src\module\tool\md5</Filter>
     </Page>
   </ItemGroup>
   <ItemGroup>

@@ -16,7 +16,6 @@
 #include "help/help_content_building.h"
 #include "module/active_path/active_path_module.h"
 #include "module/calculator/calculator_module.h"
-#include "module/crypto/crypto_module.h"
 #include "module/meta/meta_module.h"
 #include "module/user_defined/user_defined_module.h"
 #include "option_storage.h"

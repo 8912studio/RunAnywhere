@@ -1,13 +1,13 @@
 #include <gtest/gtest.h>
-#include "module/crypto/md5/md5_command_parsing.h"
+#include "module/tool/md5/md5_command_factory.h"
 
-using namespace ra::module::crypto;
+using namespace ra::module::tool::md5;
 
-TEST(MD5CommandParsingTest, ParseSucceeded) {
+TEST(MD5CommandFactoryTest, ParseSucceeded) {
 
     {
         ra::utility::CommandLine command_line(L"md5");
-        auto result = ParseMD5Command(command_line);
+        auto result = MD5CommandFactory::Parse(command_line);
         ASSERT_TRUE(result.has_value());
         ASSERT_EQ(result->encoding, MD5Encoding::UTF8);
         ASSERT_EQ(result->string, std::wstring{});
@@ -16,7 +16,7 @@ TEST(MD5CommandParsingTest, ParseSucceeded) {
 
     {
         ra::utility::CommandLine command_line(L"md5 \"");
-        auto result = ParseMD5Command(command_line);
+        auto result = MD5CommandFactory::Parse(command_line);
         ASSERT_TRUE(result.has_value());
         ASSERT_EQ(result->encoding, MD5Encoding::UTF8);
         ASSERT_EQ(result->string, std::wstring{});
@@ -25,7 +25,7 @@ TEST(MD5CommandParsingTest, ParseSucceeded) {
 
     {
         ra::utility::CommandLine command_line(L"md5 \"what is this\"");
-        auto result = ParseMD5Command(command_line);
+        auto result = MD5CommandFactory::Parse(command_line);
         ASSERT_TRUE(result.has_value());
         ASSERT_EQ(result->encoding, MD5Encoding::UTF8);
         ASSERT_EQ(result->string, L"what is this");
@@ -34,7 +34,7 @@ TEST(MD5CommandParsingTest, ParseSucceeded) {
 
     {
         ra::utility::CommandLine command_line(L"md5 help /u8");
-        auto result = ParseMD5Command(command_line);
+        auto result = MD5CommandFactory::Parse(command_line);
         ASSERT_TRUE(result.has_value());
         ASSERT_EQ(result->encoding, MD5Encoding::UTF8);
         ASSERT_EQ(result->string, L"help");
@@ -43,7 +43,7 @@ TEST(MD5CommandParsingTest, ParseSucceeded) {
 
     {
         ra::utility::CommandLine command_line(L"md5 help /u16");
-        auto result = ParseMD5Command(command_line);
+        auto result = MD5CommandFactory::Parse(command_line);
         ASSERT_TRUE(result.has_value());
         ASSERT_EQ(result->encoding, MD5Encoding::UTF16);
         ASSERT_EQ(result->string, L"help");
@@ -52,7 +52,7 @@ TEST(MD5CommandParsingTest, ParseSucceeded) {
 
     {
         ra::utility::CommandLine command_line(L"md5 help /c");
-        auto result = ParseMD5Command(command_line);
+        auto result = MD5CommandFactory::Parse(command_line);
         ASSERT_TRUE(result.has_value());
         ASSERT_EQ(result->encoding, MD5Encoding::UTF8);
         ASSERT_EQ(result->string, L"help");
@@ -61,23 +61,26 @@ TEST(MD5CommandParsingTest, ParseSucceeded) {
 }
 
 
-TEST(MD5CommandParsingTest, ParseFailed) {
+/*
+Move to unit test of ToolModule
+TEST(MD5CommandFactoryTest, ParseFailed) {
 
     {
         ra::utility::CommandLine command_line(L"");
-        auto result = ParseMD5Command(command_line);
+        auto result = MD5CommandFactory::Parse(command_line);
         ASSERT_FALSE(result.has_value());
     }
 
     {
         ra::utility::CommandLine command_line(L"md55");
-        auto result = ParseMD5Command(command_line);
+        auto result = MD5CommandFactory::Parse(command_line);
         ASSERT_FALSE(result.has_value());
     }
 
     {
         ra::utility::CommandLine command_line(L"abc");
-        auto result = ParseMD5Command(command_line);
+        auto result = MD5CommandFactory::Parse(command_line);
         ASSERT_FALSE(result.has_value());
     }
 }
+*/

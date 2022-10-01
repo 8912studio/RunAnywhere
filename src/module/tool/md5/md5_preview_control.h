@@ -6,11 +6,11 @@
 #include <zaf/control/label.h>
 #include <zaf/control/text_box.h>
 #include "module/command_preview_control.h"
-#include "module/crypto/md5/md5_encoding.h"
+#include "module/tool/md5/md5_encoding.h"
 #include "utility/preview_text_box.h"
 #include "utility/progress_circle.h"
 
-namespace ra::module::crypto {
+namespace ra::module::tool::md5 {
 
 class MD5PreviewControl : public CommandPreviewControl {
 public:

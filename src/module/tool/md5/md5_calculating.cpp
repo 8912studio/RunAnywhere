@@ -1,4 +1,4 @@
-#include "module/crypto/md5/md5_calculating.h"
+#include "module/tool/md5/md5_calculating.h"
 #include <fstream>
 #include <boost/algorithm/hex.hpp>
 #include <boost/uuid/detail/md5.hpp>
@@ -8,7 +8,7 @@
 #include <zaf/base/string/case_conversion.h>
 #include <zaf/base/string/encoding_conversion.h>
 
-namespace ra::module::crypto {
+namespace ra::module::tool::md5 {
 namespace {
 
 std::wstring GetMD5String(boost::uuids::detail::md5& md5) {

@@ -2,14 +2,14 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="case\module\crypto\md5\md5_test_file1">
-      <Filter>case\module\crypto\md5</Filter>
+    <None Include="case\module\tool\md5\md5_test_file1">
+      <Filter>case\module\tool\md5</Filter>
     </None>
-    <None Include="case\module\crypto\md5\md5_test_file2">
-      <Filter>case\module\crypto\md5</Filter>
+    <None Include="case\module\tool\md5\md5_test_file2">
+      <Filter>case\module\tool\md5</Filter>
     </None>
-    <None Include="case\module\crypto\md5\md5_test_file3">
-      <Filter>case\module\crypto\md5</Filter>
+    <None Include="case\module\tool\md5\md5_test_file3">
+      <Filter>case\module\tool\md5</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -34,12 +34,6 @@
     <Filter Include="case\context">
       <UniqueIdentifier>{a203b8ac-7174-4b55-b116-97a41d7246b6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="case\module\crypto">
-      <UniqueIdentifier>{d14d3205-1763-4c53-bfe9-d5fc7ee0d866}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="case\module\crypto\md5">
-      <UniqueIdentifier>{3092a1b4-897a-4af2-accc-ea2446284d2a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="case\module\user_defined\parse">
       <UniqueIdentifier>{de61a9b8-787b-4759-a9f5-b8157c8a9ff3}</UniqueIdentifier>
     </Filter>
@@ -54,6 +48,9 @@
     </Filter>
     <Filter Include="case\module\tool\rgb">
       <UniqueIdentifier>{c4957a72-a749-47f6-ac35-9e6789bc8a1a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="case\module\tool\md5">
+      <UniqueIdentifier>{fcb77508-bb6b-4737-933c-703701cbd09c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -111,15 +108,9 @@
     <ClCompile Include="case\module\calculator\command_parsing_test.cpp">
       <Filter>case\module\calculator</Filter>
     </ClCompile>
-    <ClCompile Include="case\module\crypto\md5\md5_calculating_test.cpp">
-      <Filter>case\module\crypto\md5</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="case\module\meta\meta_module_test.cpp">
       <Filter>case\module\meta</Filter>
-    </ClCompile>
-    <ClCompile Include="case\module\crypto\md5\md5_command_parsing_test.cpp">
-      <Filter>case\module\crypto\md5</Filter>
     </ClCompile>
     <ClCompile Include="case\environment_variable_manager_test.cpp">
       <Filter>case</Filter>
@@ -153,6 +144,12 @@
     </ClCompile>
     <ClCompile Include="case\module\tool\rgb\rgb_command_factory_test.cpp">
       <Filter>case\module\tool\rgb</Filter>
+    </ClCompile>
+    <ClCompile Include="case\module\tool\md5\md5_calculating_test.cpp">
+      <Filter>case\module\tool\md5</Filter>
+    </ClCompile>
+    <ClCompile Include="case\module\tool\md5\md5_command_factory_test.cpp">
+      <Filter>case\module\tool\md5</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

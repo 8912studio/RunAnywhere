@@ -1,15 +1,15 @@
-#include "module/crypto/md5/md5_preview_control.h"
+#include "module/tool/md5/md5_preview_control.h"
 #include <zaf/base/string/case_conversion.h>
 #include <zaf/graphic/image/image.h>
 #include <zaf/object/type_definition.h>
 #include <zaf/rx/scheduler.h>
-#include "module/crypto/md5/md5_calculating.h"
+#include "module/tool/md5/md5_calculating.h"
 #include "utility/path_trimming.h"
 
-namespace ra::module::crypto{
+namespace ra::module::tool::md5{
 
 ZAF_DEFINE_TYPE(MD5PreviewControl)
-ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/crypto/md5/md5_preview_control.xaml")
+ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/tool/md5/md5_preview_control.xaml")
 ZAF_DEFINE_TYPE_END;
 
 

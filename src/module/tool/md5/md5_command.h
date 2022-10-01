@@ -1,10 +1,10 @@
 #pragma once
 
 #include "module/command.h"
-#include "module/crypto/md5/md5_command_parse_result.h"
-#include "module/crypto/md5/md5_preview_control.h"
+#include "module/tool/md5/md5_command_parse_result.h"
+#include "module/tool/md5/md5_preview_control.h"
 
-namespace ra::module::crypto {
+namespace ra::module::tool::md5 {
 
 class MD5Command : public Command {
 public:
