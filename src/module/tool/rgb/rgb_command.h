@@ -1,10 +1,10 @@
 #pragma once
 
 #include "module/command.h"
-#include "module/rgb/rgb_command_parse_result.h"
-#include "module/rgb/rgb_preview_control.h"
+#include "module/tool/rgb/rgb_command_parse_result.h"
+#include "module/tool/rgb/rgb_preview_control.h"
 
-namespace ra::module::rgb {
+namespace ra::module::tool::rgb {
 
 class RGBCommand : public Command {
 public:

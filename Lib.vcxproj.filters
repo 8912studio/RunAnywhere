@@ -43,9 +43,6 @@
     <Filter Include="src\module\crypto\md5">
       <UniqueIdentifier>{3d1ebd7b-812e-40de-a3cc-329b5321cf4e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\module\rgb">
-      <UniqueIdentifier>{a716d9b6-90be-4b3e-9ee0-4d530039e8d7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\help">
       <UniqueIdentifier>{7adb72ac-73e5-47e6-b879-f7647278fcac}</UniqueIdentifier>
     </Filter>
@@ -90,6 +87,9 @@
     </Filter>
     <Filter Include="src\module\tool\date">
       <UniqueIdentifier>{2c76d038-b555-497d-96f7-95843ec6e564}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\module\tool\rgb">
+      <UniqueIdentifier>{6c3779b4-6f0b-48dc-823c-4c90a7c3766e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -324,21 +324,6 @@
     <ClInclude Include="src\module\crypto\md5\md5_encoding.h">
       <Filter>src\module\crypto\md5</Filter>
     </ClInclude>
-    <ClInclude Include="src\module\rgb\rgb_module.h">
-      <Filter>src\module\rgb</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\rgb\rgb_command.h">
-      <Filter>src\module\rgb</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\rgb\rgb_preview_control.h">
-      <Filter>src\module\rgb</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\rgb\rgb_command_parsing.h">
-      <Filter>src\module\rgb</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\rgb\rgb_command_parse_result.h">
-      <Filter>src\module\rgb</Filter>
-    </ClInclude>
     <ClInclude Include="src\utility\command_line.h">
       <Filter>src\utility</Filter>
     </ClInclude>
@@ -513,6 +498,18 @@
     <ClInclude Include="src\module\tool\date\date_command_parse_result.h">
       <Filter>src\module\tool\date</Filter>
     </ClInclude>
+    <ClInclude Include="src\module\tool\rgb\rgb_command.h">
+      <Filter>src\module\tool\rgb</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\tool\rgb\rgb_command_parse_result.h">
+      <Filter>src\module\tool\rgb</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\tool\rgb\rgb_preview_control.h">
+      <Filter>src\module\tool\rgb</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\tool\rgb\rgb_command_factory.h">
+      <Filter>src\module\tool\rgb</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -680,18 +677,6 @@
     <ClCompile Include="src\module\crypto\md5\md5_command_parsing.cpp">
       <Filter>src\module\crypto\md5</Filter>
     </ClCompile>
-    <ClCompile Include="src\module\rgb\rgb_module.cpp">
-      <Filter>src\module\rgb</Filter>
-    </ClCompile>
-    <ClCompile Include="src\module\rgb\rgb_command.cpp">
-      <Filter>src\module\rgb</Filter>
-    </ClCompile>
-    <ClCompile Include="src\module\rgb\rgb_preview_control.cpp">
-      <Filter>src\module\rgb</Filter>
-    </ClCompile>
-    <ClCompile Include="src\module\rgb\rgb_command_parsing.cpp">
-      <Filter>src\module\rgb</Filter>
-    </ClCompile>
     <ClCompile Include="src\utility\command_line.cpp">
       <Filter>src\utility</Filter>
     </ClCompile>
@@ -800,6 +785,15 @@
     <ClCompile Include="src\module\tool\date\date_command_factory.cpp">
       <Filter>src\module\tool\date</Filter>
     </ClCompile>
+    <ClCompile Include="src\module\tool\rgb\rgb_command.cpp">
+      <Filter>src\module\tool\rgb</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\tool\rgb\rgb_preview_control.cpp">
+      <Filter>src\module\tool\rgb</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\tool\rgb\rgb_command_factory.cpp">
+      <Filter>src\module\tool\rgb</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Page Include="src\module\user_defined\preview\user_defined_command_preview_control.xaml">
@@ -823,9 +817,6 @@
     <Page Include="src\module\crypto\md5\md5_preview_control.xaml">
       <Filter>src\module\crypto\md5</Filter>
     </Page>
-    <Page Include="src\module\rgb\rgb_preview_control.xaml">
-      <Filter>src\module\rgb</Filter>
-    </Page>
     <Page Include="src\help\help_window.xaml">
       <Filter>src\help</Filter>
     </Page>
@@ -837,6 +828,9 @@
     </Page>
     <Page Include="src\module\tool\date\date_preview_control.xaml">
       <Filter>src\module\tool\date</Filter>
+    </Page>
+    <Page Include="src\module\tool\rgb\rgb_preview_control.xaml">
+      <Filter>src\module\tool\rgb</Filter>
     </Page>
   </ItemGroup>
   <ItemGroup>

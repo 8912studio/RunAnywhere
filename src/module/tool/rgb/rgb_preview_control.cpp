@@ -1,4 +1,4 @@
-#include "module/rgb/rgb_preview_control.h"
+#include "module/tool/rgb/rgb_preview_control.h"
 #include <sstream>
 #include <zaf/base/container/utility/range.h>
 #include <zaf/base/string/case_conversion.h>
@@ -6,7 +6,7 @@
 #include <zaf/graphic/graphic_factory.h>
 #include <zaf/graphic/image/wic/imaging_factory.h>
 
-namespace ra::module::rgb {
+namespace ra::module::tool::rgb {
 namespace {
 
 zaf::Color GetStraightColorFromPremultipledColor(const zaf::Color& premultipled_color) {
@@ -23,7 +23,7 @@ zaf::Color GetStraightColorFromPremultipledColor(const zaf::Color& premultipled_
 
 
 ZAF_DEFINE_TYPE(RGBPreviewControl)
-ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/rgb/rgb_preview_control.xaml")
+ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/tool/rgb/rgb_preview_control.xaml")
 ZAF_DEFINE_TYPE_END
 
 

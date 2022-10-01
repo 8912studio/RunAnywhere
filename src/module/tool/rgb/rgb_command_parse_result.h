@@ -2,7 +2,7 @@
 
 #include <zaf/graphic/color.h>
 
-namespace ra::module::rgb {
+namespace ra::module::tool::rgb {
 
 class RGBCommandParseResult {
 public:

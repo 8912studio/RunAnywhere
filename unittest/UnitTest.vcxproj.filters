@@ -40,9 +40,6 @@
     <Filter Include="case\module\crypto\md5">
       <UniqueIdentifier>{3092a1b4-897a-4af2-accc-ea2446284d2a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="case\module\rgb">
-      <UniqueIdentifier>{f94c4144-77e2-4c52-b7bd-815757819cd8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="case\module\user_defined\parse">
       <UniqueIdentifier>{de61a9b8-787b-4759-a9f5-b8157c8a9ff3}</UniqueIdentifier>
     </Filter>
@@ -54,6 +51,9 @@
     </Filter>
     <Filter Include="case\module\tool\date">
       <UniqueIdentifier>{44bc8a9f-6f86-4bd7-be42-a7d6b8abdf09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="case\module\tool\rgb">
+      <UniqueIdentifier>{c4957a72-a749-47f6-ac35-9e6789bc8a1a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -121,9 +121,6 @@
     <ClCompile Include="case\module\crypto\md5\md5_command_parsing_test.cpp">
       <Filter>case\module\crypto\md5</Filter>
     </ClCompile>
-    <ClCompile Include="case\module\rgb\rgb_command_parsing_test.cpp">
-      <Filter>case\module\rgb</Filter>
-    </ClCompile>
     <ClCompile Include="case\environment_variable_manager_test.cpp">
       <Filter>case</Filter>
     </ClCompile>
@@ -153,6 +150,9 @@
     </ClCompile>
     <ClCompile Include="case\module\tool\date\date_command_factory_test.cpp">
       <Filter>case\module\tool\date</Filter>
+    </ClCompile>
+    <ClCompile Include="case\module\tool\rgb\rgb_command_factory_test.cpp">
+      <Filter>case\module\tool\rgb</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -18,7 +18,6 @@
 #include "module/calculator/calculator_module.h"
 #include "module/crypto/crypto_module.h"
 #include "module/meta/meta_module.h"
-#include "module/rgb/rgb_module.h"
 #include "module/user_defined/user_defined_module.h"
 #include "option_storage.h"
 #include "utility/path_trimming.h"

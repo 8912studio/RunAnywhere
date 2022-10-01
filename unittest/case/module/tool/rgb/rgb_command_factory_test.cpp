@@ -1,9 +1,9 @@
 #include <gtest/gtest.h>
-#include "module/rgb/rgb_command_parsing.h"
+#include "module/tool/rgb/rgb_command_factory.h"
 
-using namespace ra::module::rgb;
+using namespace ra::module::tool::rgb;
 
-TEST(RGBCommandParsingTest, DifferentPartCount) {
+TEST(RGBCommandFactoryTest, DifferentPartCount) {
 
 	std::vector<std::pair<std::wstring, std::uint32_t>> inputs{
 		{ L"rgb 1", 0xff010000 },
@@ -18,7 +18,7 @@ TEST(RGBCommandParsingTest, DifferentPartCount) {
 	for (const auto& each_input : inputs) {
 
 		ra::utility::CommandLine command_line(each_input.first);
-		auto result = ParseRGBCommand(command_line);
+		auto result = RGBCommandFactory::Parse(command_line);
 		ASSERT_TRUE(result.has_value());
 		ASSERT_EQ(result->color, zaf::Color::FromARGB(each_input.second));
 	}
@@ -31,24 +31,24 @@ TEST(RGBCommandParsingTest, DifferentPartCount) {
 	for (const auto& each_input : fail_inputs) {
 
 		ra::utility::CommandLine command_line(each_input);
-		auto result = ParseRGBCommand(command_line);
+		auto result = RGBCommandFactory::Parse(command_line);
 		ASSERT_FALSE(result.has_value());
 	}
 }
 
 
-TEST(RGBCommandParsingTest, DecimalIntegerComponentFormat) {
+TEST(RGBCommandFactoryTest, DecimalIntegerComponentFormat) {
 
 	{
 		ra::utility::CommandLine command_line(L"rgb 84,93,143");
-		auto result = ParseRGBCommand(command_line);
+		auto result = RGBCommandFactory::Parse(command_line);
 		ASSERT_TRUE(result.has_value());
 		ASSERT_EQ(result->color, zaf::Color::FromRGB(0x545d8f));
 	}
 
 	{
 		ra::utility::CommandLine command_line(L"rgb 84,93,143,234");
-		auto result = ParseRGBCommand(command_line);
+		auto result = RGBCommandFactory::Parse(command_line);
 		ASSERT_TRUE(result.has_value());
 		ASSERT_EQ(result->color, zaf::Color::FromARGB(0xea545d8f));
 	}
@@ -63,31 +63,31 @@ TEST(RGBCommandParsingTest, DecimalIntegerComponentFormat) {
 	for (const auto& each_input : fail_inputs) {
 
 		ra::utility::CommandLine command_line(each_input);
-		auto result = ParseRGBCommand(command_line);
+		auto result = RGBCommandFactory::Parse(command_line);
 		ASSERT_FALSE(result.has_value());
 	}
 }
 
 
-TEST(RGBCommandParsingTest, DecimalFloatComponentFormat) {
+TEST(RGBCommandFactoryTest, DecimalFloatComponentFormat) {
 
 	{
 		ra::utility::CommandLine command_line(L"rgb 0.4,0.2,0.8");
-		auto result = ParseRGBCommand(command_line);
+		auto result = RGBCommandFactory::Parse(command_line);
 		ASSERT_TRUE(result.has_value());
 		ASSERT_EQ(result->color, zaf::Color::FromRGB(0x6633cc));
 	}
 
 	{
 		ra::utility::CommandLine command_line(L"rgb 0.4,0.2,0.8,0.6");
-		auto result = ParseRGBCommand(command_line);
+		auto result = RGBCommandFactory::Parse(command_line);
 		ASSERT_TRUE(result.has_value());
 		ASSERT_EQ(result->color, zaf::Color::FromARGB(0x996633cc));
 	}
 
 	{
 		ra::utility::CommandLine command_line(L"rgb 1.0,1,1");
-		auto result = ParseRGBCommand(command_line);
+		auto result = RGBCommandFactory::Parse(command_line);
 		ASSERT_TRUE(result.has_value());
 		ASSERT_EQ(result->color, zaf::Color::FromRGB(0xffffff));
 	}
@@ -102,52 +102,52 @@ TEST(RGBCommandParsingTest, DecimalFloatComponentFormat) {
 	for (const auto& each_input : fail_inputs) {
 
 		ra::utility::CommandLine command_line(each_input);
-		auto result = ParseRGBCommand(command_line);
+		auto result = RGBCommandFactory::Parse(command_line);
 		ASSERT_FALSE(result.has_value());
 	}
 }
 
 
-TEST(RGBCommandParsingTest, HexComponentFormat) {
+TEST(RGBCommandFactoryTest, HexComponentFormat) {
 
 	{
 		ra::utility::CommandLine command_line(L"rgb 0x");
-		auto result = ParseRGBCommand(command_line);
+		auto result = RGBCommandFactory::Parse(command_line);
 		ASSERT_TRUE(result.has_value());
 		ASSERT_EQ(result->color, zaf::Color::FromRGB(0));
 	}
 
 	{
 		ra::utility::CommandLine command_line(L"rgb 0x1,0");
-		auto result = ParseRGBCommand(command_line);
+		auto result = RGBCommandFactory::Parse(command_line);
 		ASSERT_TRUE(result.has_value());
 		ASSERT_EQ(result->color, zaf::Color::FromRGB(0x010000));
 	}
 
 	{
 		ra::utility::CommandLine command_line(L"rgb 0x1,0,x");
-		auto result = ParseRGBCommand(command_line);
+		auto result = RGBCommandFactory::Parse(command_line);
 		ASSERT_TRUE(result.has_value());
 		ASSERT_EQ(result->color, zaf::Color::FromRGB(0x010000));
 	}
 
 	{
 		ra::utility::CommandLine command_line(L"rgb 0x1,0x2,0x3");
-		auto result = ParseRGBCommand(command_line);
+		auto result = RGBCommandFactory::Parse(command_line);
 		ASSERT_TRUE(result.has_value());
 		ASSERT_EQ(result->color, zaf::Color::FromRGB(0x010203));
 	}
 
 	{
 		ra::utility::CommandLine command_line(L"rgb 0x1,0x2,0x3,0x4");
-		auto result = ParseRGBCommand(command_line);
+		auto result = RGBCommandFactory::Parse(command_line);
 		ASSERT_TRUE(result.has_value());
 		ASSERT_EQ(result->color, zaf::Color::FromARGB(0x04010203));
 	}
 }
 
 
-TEST(RGBCommandParsingTest, ARGBFormat) {
+TEST(RGBCommandFactoryTest, ARGBFormat) {
 
 	std::vector<std::pair<std::wstring, std::uint32_t>> inputs{
 		{ L"rgb #", 0xff000000 },
@@ -166,7 +166,7 @@ TEST(RGBCommandParsingTest, ARGBFormat) {
 	for (const auto& each_input : inputs) {
 
 		ra::utility::CommandLine command_line(each_input.first);
-		auto result = ParseRGBCommand(command_line);
+		auto result = RGBCommandFactory::Parse(command_line);
 		ASSERT_TRUE(result.has_value());
 		ASSERT_EQ(result->color, zaf::Color::FromARGB(each_input.second));
 	}
@@ -179,13 +179,13 @@ TEST(RGBCommandParsingTest, ARGBFormat) {
 	for (const auto& each_input : fail_inputs) {
 
 		ra::utility::CommandLine command_line(each_input);
-		auto result = ParseRGBCommand(command_line);
+		auto result = RGBCommandFactory::Parse(command_line);
 		ASSERT_FALSE(result.has_value());
 	}
 }
 
 
-TEST(RGBCommandParsingTest, AdditionalAlpha) {
+TEST(RGBCommandFactoryTest, AdditionalAlpha) {
 
 	std::vector<std::pair<std::wstring, std::uint32_t>> inputs{
 		{ L"rgb $", 0xff000000 },
@@ -203,7 +203,7 @@ TEST(RGBCommandParsingTest, AdditionalAlpha) {
 	for (const auto& each_input : inputs) {
 
 		ra::utility::CommandLine command_line(each_input.first);
-		auto result = ParseRGBCommand(command_line);
+		auto result = RGBCommandFactory::Parse(command_line);
 		ASSERT_TRUE(result.has_value());
 		ASSERT_EQ(result->color, zaf::Color::FromARGB(each_input.second));
 	}
@@ -221,7 +221,7 @@ TEST(RGBCommandParsingTest, AdditionalAlpha) {
 	for (const auto& each_input : fail_inputs) {
 
 		ra::utility::CommandLine command_line(each_input);
-		auto result = ParseRGBCommand(command_line);
+		auto result = RGBCommandFactory::Parse(command_line);
 		ASSERT_FALSE(result.has_value());
 	}
 }

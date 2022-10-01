@@ -5,9 +5,9 @@
 #include <zaf/graphic/image/wic/bitmap.h>
 #include <zaf/graphic/renderer/renderer.h>
 #include "module/command_preview_control.h"
-#include "module/rgb/rgb_command_parse_result.h"
+#include "module/tool/rgb/rgb_command_parse_result.h"
 
-namespace ra::module::rgb {
+namespace ra::module::tool::rgb {
 
 class RGBPreviewControl : public CommandPreviewControl {
 public:

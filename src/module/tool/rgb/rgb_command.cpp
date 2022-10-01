@@ -1,8 +1,8 @@
-#include "module/rgb/rgb_command.h"
+#include "module/tool/rgb/rgb_command.h"
 #include <zaf/creation.h>
 #include "utility/clipboard.h"
 
-namespace ra::module::rgb {
+namespace ra::module::tool::rgb {
 
 RGBCommand::RGBCommand(const RGBCommandParseResult& parse_result) {
 

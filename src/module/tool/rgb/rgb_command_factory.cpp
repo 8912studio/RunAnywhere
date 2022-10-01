@@ -1,19 +1,23 @@
-#include "module/rgb/rgb_command_parsing.h"
+#include "module/tool/rgb/rgb_command_factory.h"
 #include <zaf/base/container/utility/contain.h>
 #include <zaf/base/container/utility/range.h>
-#include <zaf/base/error/error.h>
 #include <zaf/base/string/case_conversion.h>
 #include <zaf/base/string/split.h>
 #include <zaf/base/string/to_numeric.h>
-#include <zaf/base/string/trim.h>
-#include <zaf/graphic/color.h>
-#include <zaf/object/object_type.h>
-#include <zaf/object/parsing/object_parser.h>
 #include "module/calculator/parse/decimal_number_parser.h"
 #include "module/calculator/parse/non_decimal_number_parser.h"
+#include "module/tool/rgb/rgb_command.h"
 
-namespace ra::module::rgb {
+namespace ra::module::tool::rgb {
 namespace {
+
+CommandBrief GetCommandBrief() {
+    return CommandBrief{
+        L"rgb",
+        L"Show color using RGB format"
+    };
+}
+
 
 constexpr std::size_t RGBAComponentCount = 4;
 
@@ -113,7 +117,7 @@ std::optional<zaf::Color> ConvertColorFromComponentNodes(
     const std::shared_ptr<calculator::OperandNode> component_nodes[RGBAComponentCount]) {
 
     const auto& first_node = component_nodes[0];
-    if (first_node->base != 10 && 
+    if (first_node->base != 10 &&
         first_node->base != 16) {
         return std::nullopt;
     }
@@ -131,7 +135,7 @@ std::optional<zaf::Color> ConvertColorFromComponentNodes(
         }
 
         auto value = ConvertValueFromComponentNode(
-            *node, 
+            *node,
             static_cast<int>(first_node->base),
             use_float_format);
 
@@ -253,8 +257,8 @@ bool ParseAdditionalAlpha(const std::wstring& argument, float& additional_alpha)
 
     bool use_float_format = zaf::Contain(operand_node->text, L'.');
     auto value = ConvertValueFromComponentNode(
-        *operand_node, 
-        static_cast<int>(operand_node->base), 
+        *operand_node,
+        static_cast<int>(operand_node->base),
         use_float_format);
 
     if (!value) {
@@ -290,14 +294,12 @@ bool ParseArgument(const std::wstring& argument, RGBCommandParseContext& context
 
 }
 
-std::optional<RGBCommandParseResult> ParseRGBCommand(const utility::CommandLine& command_line) {
 
-    if (command_line.Command() != RGBCommandLiteral) {
-        return std::nullopt;
-    }
+std::optional<RGBCommandParseResult> RGBCommandFactory::Parse(
+    const utility::CommandLine& command_line) {
 
     RGBCommandParseContext context;
-    
+
     for (const auto& each_argument : command_line.Arguments()) {
 
         if (!ParseArgument(each_argument, context)) {
@@ -308,6 +310,23 @@ std::optional<RGBCommandParseResult> ParseRGBCommand(const utility::CommandLine&
     context.result.color = context.intermediate_color;
     context.result.color.a *= context.additional_alpha;
     return context.result;
+}
+
+
+RGBCommandFactory::RGBCommandFactory() : ToolCommandFactory(GetCommandBrief()) {
+
+}
+
+
+std::shared_ptr<Command> RGBCommandFactory::CreateCommand(
+    const utility::CommandLine& command_line) {
+
+    auto parse_result = Parse(command_line);
+    if (!parse_result) {
+        return nullptr;
+    }
+
+    return std::make_shared<RGBCommand>(*parse_result);
 }
 
 }
