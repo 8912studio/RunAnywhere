@@ -4,7 +4,48 @@
 
 namespace ra::module::tool::md5 {
 
-MD5Command::MD5Command(const MD5CommandParseResult& parse_result) : parse_result_(parse_result) {
+CommandBrief MD5Command::GetBrief() {
+	return CommandBrief{
+		L"md5",
+		L"Calculate MD5 hash"
+	};
+}
+
+
+MD5CommandParseResult MD5Command::Parse(const utility::CommandLine& command_line) {
+
+	MD5CommandParseResult result;
+
+	for (const auto& each_argument : command_line.Arguments()) {
+
+		if (each_argument.empty()) {
+			continue;
+		}
+
+		if (each_argument.front() == L'/') {
+
+			auto switch_value = each_argument.substr(1);
+			if (switch_value == L"u8") {
+				result.encoding = MD5Encoding::UTF8;
+			}
+			else if (switch_value == L"u16") {
+				result.encoding = MD5Encoding::UTF16;
+			}
+			else if (switch_value == L"c") {
+				result.use_uppercase = true;
+			}
+		}
+		else {
+			result.string = each_argument;
+		}
+	}
+
+	return result;
+}
+
+
+MD5Command::MD5Command(const utility::CommandLine& command_line) : 
+	parse_result_(Parse(command_line)) {
 
 }
 

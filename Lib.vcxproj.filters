@@ -459,16 +459,10 @@
     <ClInclude Include="src\module\tool\tool_module.h">
       <Filter>src\module\tool</Filter>
     </ClInclude>
-    <ClInclude Include="src\module\tool\tool_command_factory.h">
-      <Filter>src\module\tool</Filter>
-    </ClInclude>
     <ClInclude Include="src\module\tool\date\date_command.h">
       <Filter>src\module\tool\date</Filter>
     </ClInclude>
     <ClInclude Include="src\module\tool\date\date_preview_control.h">
-      <Filter>src\module\tool\date</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\tool\date\date_command_factory.h">
       <Filter>src\module\tool\date</Filter>
     </ClInclude>
     <ClInclude Include="src\module\tool\date\date_command_parse_result.h">
@@ -481,9 +475,6 @@
       <Filter>src\module\tool\rgb</Filter>
     </ClInclude>
     <ClInclude Include="src\module\tool\rgb\rgb_preview_control.h">
-      <Filter>src\module\tool\rgb</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\tool\rgb\rgb_command_factory.h">
       <Filter>src\module\tool\rgb</Filter>
     </ClInclude>
     <ClInclude Include="src\module\tool\md5\md5_calculating.h">
@@ -499,9 +490,6 @@
       <Filter>src\module\tool\md5</Filter>
     </ClInclude>
     <ClInclude Include="src\module\tool\md5\md5_preview_control.h">
-      <Filter>src\module\tool\md5</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\tool\md5\md5_command_factory.h">
       <Filter>src\module\tool\md5</Filter>
     </ClInclude>
   </ItemGroup>
@@ -752,25 +740,16 @@
     <ClCompile Include="src\module\tool\tool_module.cpp">
       <Filter>src\module\tool</Filter>
     </ClCompile>
-    <ClCompile Include="src\module\tool\tool_command_factory.cpp">
-      <Filter>src\module\tool</Filter>
-    </ClCompile>
     <ClCompile Include="src\module\tool\date\date_command.cpp">
       <Filter>src\module\tool\date</Filter>
     </ClCompile>
     <ClCompile Include="src\module\tool\date\date_preview_control.cpp">
       <Filter>src\module\tool\date</Filter>
     </ClCompile>
-    <ClCompile Include="src\module\tool\date\date_command_factory.cpp">
-      <Filter>src\module\tool\date</Filter>
-    </ClCompile>
     <ClCompile Include="src\module\tool\rgb\rgb_command.cpp">
       <Filter>src\module\tool\rgb</Filter>
     </ClCompile>
     <ClCompile Include="src\module\tool\rgb\rgb_preview_control.cpp">
-      <Filter>src\module\tool\rgb</Filter>
-    </ClCompile>
-    <ClCompile Include="src\module\tool\rgb\rgb_command_factory.cpp">
       <Filter>src\module\tool\rgb</Filter>
     </ClCompile>
     <ClCompile Include="src\module\tool\md5\md5_calculating.cpp">
@@ -780,9 +759,6 @@
       <Filter>src\module\tool\md5</Filter>
     </ClCompile>
     <ClCompile Include="src\module\tool\md5\md5_preview_control.cpp">
-      <Filter>src\module\tool\md5</Filter>
-    </ClCompile>
-    <ClCompile Include="src\module\tool\md5\md5_command_factory.cpp">
       <Filter>src\module\tool\md5</Filter>
     </ClCompile>
   </ItemGroup>

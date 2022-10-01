@@ -139,16 +139,16 @@
     <ClCompile Include="case\context\discover\window_based_discoverer_test.cpp">
       <Filter>case\context\discover</Filter>
     </ClCompile>
-    <ClCompile Include="case\module\tool\date\date_command_factory_test.cpp">
+    <ClCompile Include="case\module\tool\date\date_command_test.cpp">
       <Filter>case\module\tool\date</Filter>
     </ClCompile>
-    <ClCompile Include="case\module\tool\rgb\rgb_command_factory_test.cpp">
+    <ClCompile Include="case\module\tool\rgb\rgb_command_test.cpp">
       <Filter>case\module\tool\rgb</Filter>
     </ClCompile>
     <ClCompile Include="case\module\tool\md5\md5_calculating_test.cpp">
       <Filter>case\module\tool\md5</Filter>
     </ClCompile>
-    <ClCompile Include="case\module\tool\md5\md5_command_factory_test.cpp">
+    <ClCompile Include="case\module\tool\md5\md5_command_test.cpp">
       <Filter>case\module\tool\md5</Filter>
     </ClCompile>
   </ItemGroup>
