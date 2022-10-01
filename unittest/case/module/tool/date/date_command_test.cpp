@@ -4,31 +4,6 @@
 using namespace ra::module::tool::date;
 using namespace ra::utility;
 
-/* 
-Move to unit test of ToolModule.
-TEST(DateCommandTest, ParseNotDateCommand) {
-
-	auto result = DateCommand::Parse(CommandLine{ L"" });
-	ASSERT_FALSE(result.has_value());
-
-	result = DateCommand::Parse(CommandLine{ L"datetime" });
-	ASSERT_FALSE(result.has_value());
-
-	result = DateCommand::Parse(CommandLine{ L"dat" });
-	ASSERT_FALSE(result.has_value());
-
-	result = DateCommand::Parse(CommandLine{ L"data" });
-	ASSERT_FALSE(result.has_value());
-
-	result = DateCommand::Parse(CommandLine{ L"Date" });
-	ASSERT_FALSE(result.has_value());
-
-	result = DateCommand::Parse(CommandLine{ L"DATE" });
-	ASSERT_FALSE(result.has_value());
-}
-*/
-
-
 TEST(DateCommandTest, ParseCurrentDateTime) {
 
 	auto result = DateCommand::Parse(CommandLine{ L"date" });

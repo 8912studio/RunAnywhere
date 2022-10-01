@@ -55,26 +55,3 @@ TEST(MD5CommandTest, ParseSucceeded) {
 }
 
 
-/*
-Move to unit test of ToolModule
-TEST(MD5CommandTest, ParseFailed) {
-
-    {
-        ra::utility::CommandLine command_line(L"");
-        auto result = MD5Command::Parse(command_line);
-        ASSERT_FALSE(result.has_value());
-    }
-
-    {
-        ra::utility::CommandLine command_line(L"md55");
-        auto result = MD5Command::Parse(command_line);
-        ASSERT_FALSE(result.has_value());
-    }
-
-    {
-        ra::utility::CommandLine command_line(L"abc");
-        auto result = MD5Command::Parse(command_line);
-        ASSERT_FALSE(result.has_value());
-    }
-}
-*/

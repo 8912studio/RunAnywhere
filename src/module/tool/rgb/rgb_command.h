@@ -22,6 +22,7 @@ public:
     void Execute() override;
 
 private:
+    std::optional<RGBCommandParseResult> parse_result_;
     std::shared_ptr<RGBPreviewControl> preview_control_;
 };
 

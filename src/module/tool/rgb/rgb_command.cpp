@@ -312,12 +312,9 @@ std::optional<RGBCommandParseResult> RGBCommand::Parse(const utility::CommandLin
 }
 
 
-RGBCommand::RGBCommand(const utility::CommandLine& command_line) {
+RGBCommand::RGBCommand(const utility::CommandLine& command_line) : 
+    parse_result_(Parse(command_line)) {
 
-    auto parse_result = Parse(command_line);
-    if (parse_result) {
-        preview_control_ = zaf::Create<RGBPreviewControl>(*parse_result);
-    }
 }
 
 
@@ -376,6 +373,14 @@ help::content::Content RGBCommand::GetHelpContent() {
 
 
 std::shared_ptr<CommandPreviewControl> RGBCommand::GetPreviewControl() {
+
+    if (!parse_result_) {
+        return nullptr;
+    }
+
+    if (!preview_control_) {
+        preview_control_ = zaf::Create<RGBPreviewControl>(*parse_result_);
+    }
 
     return preview_control_;
 }
