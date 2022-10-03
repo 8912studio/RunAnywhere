@@ -88,6 +88,9 @@
     <Filter Include="src\module\tool\md5">
       <UniqueIdentifier>{67348dfb-f40d-486e-8ee1-2d2fabc30f1e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\module\tool\hex">
+      <UniqueIdentifier>{b232d39e-0af6-4ca9-afcf-8de43679104e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\module\calculator\parse\binary_expression_parser.h">
@@ -492,6 +495,15 @@
     <ClInclude Include="src\module\tool\md5\md5_preview_control.h">
       <Filter>src\module\tool\md5</Filter>
     </ClInclude>
+    <ClInclude Include="src\module\tool\hex\hex_command.h">
+      <Filter>src\module\tool\hex</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\tool\hex\hex_command_parse_result.h">
+      <Filter>src\module\tool\hex</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\tool\hex\hex_preview_control.h">
+      <Filter>src\module\tool\hex</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -761,6 +773,12 @@
     <ClCompile Include="src\module\tool\md5\md5_preview_control.cpp">
       <Filter>src\module\tool\md5</Filter>
     </ClCompile>
+    <ClCompile Include="src\module\tool\hex\hex_command.cpp">
+      <Filter>src\module\tool\hex</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\tool\hex\hex_preview_control.cpp">
+      <Filter>src\module\tool\hex</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Page Include="src\module\user_defined\preview\user_defined_command_preview_control.xaml">
@@ -798,6 +816,9 @@
     </Page>
     <Page Include="src\module\tool\md5\md5_preview_control.xaml">
       <Filter>src\module\tool\md5</Filter>
+    </Page>
+    <Page Include="src\module\tool\hex\hex_preview_control.xaml">
+      <Filter>src\module\tool\hex</Filter>
     </Page>
   </ItemGroup>
   <ItemGroup>
