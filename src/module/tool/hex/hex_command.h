@@ -18,6 +18,7 @@ public:
     HexCommand(const utility::CommandLine& command_line);
 
     std::shared_ptr<CommandPreviewControl> GetPreviewControl() override;
+    void Execute() override;
 
 private:
     std::shared_ptr<HexPreviewControl> CreatePreviewControl() const;

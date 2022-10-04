@@ -123,4 +123,9 @@ std::shared_ptr<HexPreviewControl> HexCommand::CreatePreviewControl() const {
     return result;
 }
 
+
+void HexCommand::Execute() {
+
+}
+
 }

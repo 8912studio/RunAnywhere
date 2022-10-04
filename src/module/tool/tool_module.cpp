@@ -2,6 +2,7 @@
 #include <functional>
 #include "module/command_brief.h"
 #include "module/tool/date/date_command.h"
+#include "module/tool/hex/hex_command.h"
 #include "module/tool/md5/md5_command.h"
 #include "module/tool/rgb/rgb_command.h"
 
@@ -46,6 +47,7 @@ std::unique_ptr<ToolCommandInfo> CreateCommandInfo() {
 ToolModule::ToolModule() {
 
     command_infos_.push_back(CreateCommandInfo<date::DateCommand>());
+    command_infos_.push_back(CreateCommandInfo<hex::HexCommand>());
     command_infos_.push_back(CreateCommandInfo<md5::MD5Command>());
     command_infos_.push_back(CreateCommandInfo<rgb::RGBCommand>());
 }
