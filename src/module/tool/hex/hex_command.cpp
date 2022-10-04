@@ -66,7 +66,12 @@ std::optional<HexCommandParseResult> HexCommand::Parse(const utility::CommandLin
 
         if (std::tolower(each_argument.front()) == L'l') {
 
-            auto length = ParseNumber(each_argument.substr(1));
+            auto length_number = each_argument.substr(1);
+            if (length_number.empty()) {
+                continue;
+            }
+
+            auto length = ParseNumber(length_number);
             if (!length) {
                 return std::nullopt;
             }

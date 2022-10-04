@@ -56,3 +56,15 @@ TEST(ToolModuleTest, InterpretRGBCommand) {
 	command = tool_module->Interpret(CommandLine{ L"RGB" });
 	ASSERT_EQ(command, nullptr);
 }
+
+
+TEST(ToolModuleTest, InterpretHexCommand) {
+
+	auto tool_module = std::make_shared<ToolModule>();
+
+	auto command = tool_module->Interpret(CommandLine{ L"hex"});
+	ASSERT_NE(command, nullptr);
+
+	command = tool_module->Interpret(CommandLine{ L"Hex" });
+	ASSERT_EQ(command, nullptr);
+}

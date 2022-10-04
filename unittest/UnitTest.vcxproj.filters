@@ -52,6 +52,9 @@
     <Filter Include="case\module\tool\md5">
       <UniqueIdentifier>{fcb77508-bb6b-4737-933c-703701cbd09c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="case\module\tool\hex">
+      <UniqueIdentifier>{ad46c9fc-4577-4b95-82f0-cd769c878067}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="case\module\calculator\decimal_number_parser_test.cpp">
@@ -153,6 +156,9 @@
     </ClCompile>
     <ClCompile Include="case\module\tool\tool_module_test.cpp">
       <Filter>case\module\tool</Filter>
+    </ClCompile>
+    <ClCompile Include="case\module\tool\hex\hex_command_test.cpp">
+      <Filter>case\module\tool\hex</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -1,4 +1,5 @@
 #include "module/tool/hex/hex_preview_control.h"
+#include <zaf/control/scroll_bar.h>
 #include <zaf/object/type_definition.h>
 #include <fstream>
 
@@ -8,6 +9,10 @@ namespace {
 std::optional<std::vector<std::byte>> ReadFileContent(
     const std::filesystem::path& file_path,
     const HexCommandParseResult& parse_result) {
+
+    if (parse_result.length == 0) {
+        return std::vector<std::byte>{};
+    }
 
     std::ifstream file_stream;
     file_stream.exceptions(std::ifstream::failbit | std::ifstream::badbit);
@@ -33,6 +38,18 @@ ZAF_DEFINE_TYPE(HexPreviewControl)
 ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/tool/hex/hex_preview_control.xaml")
 ZAF_DEFINE_TYPE_END;
 
+
+void HexPreviewControl::AfterParse() {
+
+    __super::AfterParse();
+
+    auto scroll_bar = scrollControl->VerticalScrollBar();
+    scroll_bar->SetArrowLength(0);
+    scroll_bar->SetSmallChange(
+        static_cast<int>(HexContentControl::LineHeight));
+}
+
+
 void HexPreviewControl::ShowFileContent(
     const std::filesystem::path& file_path,
     const HexCommandParseResult& parse_result) {
@@ -41,8 +58,20 @@ void HexPreviewControl::ShowFileContent(
 
     auto file_content = ReadFileContent(file_path, parse_result);
     if (file_content) {
+
         contentControl->SetContent(*file_content);
+        contentControl->SetAutoHeight(true);
+
+        this->SetFixedHeight(HexContentControl::LineHeight * 8);
     }
+}
+
+
+zaf::Frame HexPreviewControl::GetExpectedMargin() {
+
+    auto result = __super::GetExpectedMargin();
+    result.right = 2;
+    return result;
 }
 
 }

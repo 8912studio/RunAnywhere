@@ -9,6 +9,10 @@ class HexContentControl : public zaf::Control {
 public:
     ZAF_DECLARE_TYPE;
 
+public:
+    static constexpr float LineHeight = 20;
+
+public:
     void SetContent(const std::vector<std::byte>& content);
 
 protected:

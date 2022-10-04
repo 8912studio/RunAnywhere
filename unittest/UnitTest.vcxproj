@@ -73,6 +73,7 @@
     <ClCompile Include="case\module\meta\meta_command_info_test.cpp" />
     <ClCompile Include="case\module\meta\meta_module_test.cpp" />
     <ClCompile Include="case\module\tool\date\date_command_test.cpp" />
+    <ClCompile Include="case\module\tool\hex\hex_command_test.cpp" />
     <ClCompile Include="case\module\tool\md5\md5_calculating_test.cpp" />
     <ClCompile Include="case\module\tool\md5\md5_command_test.cpp" />
     <ClCompile Include="case\module\tool\rgb\rgb_command_test.cpp" />

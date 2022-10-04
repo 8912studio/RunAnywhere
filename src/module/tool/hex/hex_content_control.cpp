@@ -12,7 +12,6 @@ namespace ra::module::tool::hex {
 namespace {
 
 constexpr std::size_t BytesPerLine = 16;
-constexpr float LineHeight = 20;
 constexpr float ByteWidth = 20;
 constexpr float GapWidth = 40;
 constexpr float CharacterWidth = 12;
