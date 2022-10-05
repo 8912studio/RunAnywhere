@@ -10,13 +10,6 @@ public:
     ZAF_DECLARE_TYPE;
 
 public:
-    static constexpr float LineHeight = 24;
-
-    static std::wstring FontName();
-    static zaf::Color HeaderBackgroundColor();
-    static zaf::Color HeaderTextColor();
-
-public:
     void SetContent(const std::vector<std::byte>& content);
 
 protected:
@@ -47,15 +40,13 @@ private:
 
     zaf::TextLayout GetByteCharacterTextLayout(wchar_t character);
 
-    zaf::TextLayout CreateCommonTextLayout(const std::wstring& text, float width) const;
-
 private:
     std::vector<std::byte> content_;
 
-    zaf::TextFormat text_format_;
     std::map<std::byte, zaf::TextLayout> byte_hex_text_layouts_;
     std::map<wchar_t, zaf::TextLayout> byte_character_text_layouts_;
     zaf::Brush default_text_brush_;
+    zaf::Brush blank_character_brush_;
     zaf::Brush unknown_character_brush_;
 };
 

@@ -1,13 +1,16 @@
-<HexPreviewControl Layouter="VerticalLayouter">
-    <ScrollableControl 
-        Name="scrollControl"
-        Border="0" 
-        AllowHorizontalScroll="false"
-        AutoScrollContentHeight="true"
-        ScrollBarThickness="10"
-    >
-        <ScrollableControl.ScrollContent>
-            <HexContentControl Name="contentControl" />
-        </ScrollableControl.ScrollContent>
-    </ScrollableControl>
+<HexPreviewControl Layouter="VerticalLayouter" AutoHeight="true">
+    <VerticalBox AutoHeight="true">
+        <HexColumnHeaderControl Name="columnHeaderControl" />
+        <ScrollableControl 
+            Name="scrollControl"
+            Border="0" 
+            AllowHorizontalScroll="false"
+            AutoScrollContentHeight="true"
+            ScrollBarThickness="6"
+        >
+            <ScrollableControl.ScrollContent>
+                <HexContentControl Name="contentControl" AutoHeight="true" />
+            </ScrollableControl.ScrollContent>
+        </ScrollableControl>
+    </VerticalBox>
 </HexPreviewControl>

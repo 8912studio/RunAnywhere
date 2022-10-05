@@ -1,7 +1,9 @@
 #include "module/tool/hex/hex_preview_control.h"
-#include <zaf/control/scroll_bar.h>
-#include <zaf/object/type_definition.h>
 #include <fstream>
+#include <zaf/control/scroll_bar.h>
+#include <zaf/control/scroll_bar_thumb.h>
+#include <zaf/object/type_definition.h>
+#include "module/tool/hex/paint_common.h"
 
 namespace ra::module::tool::hex {
 namespace {
@@ -43,10 +45,13 @@ void HexPreviewControl::AfterParse() {
 
     __super::AfterParse();
 
+    scrollControl->SetFixedHeight(LineHeight * 8);
+
     auto scroll_bar = scrollControl->VerticalScrollBar();
     scroll_bar->SetArrowLength(0);
-    scroll_bar->SetSmallChange(
-        static_cast<int>(HexContentControl::LineHeight));
+    scroll_bar->SetSmallChange(static_cast<int>(LineHeight));
+
+    scroll_bar->GetThumb()->SetPadding({});
 }
 
 
@@ -58,11 +63,7 @@ void HexPreviewControl::ShowFileContent(
 
     auto file_content = ReadFileContent(file_path, parse_result);
     if (file_content) {
-
         contentControl->SetContent(*file_content);
-        contentControl->SetAutoHeight(true);
-
-        this->SetFixedHeight(HexContentControl::LineHeight * 8);
     }
 }
 

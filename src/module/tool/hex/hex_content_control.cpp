@@ -1,73 +1,20 @@
 #include "module/tool/hex/hex_content_control.h"
 #include <zaf/base/container/utility/range.h>
-#include <zaf/base/string/case_conversion.h>
-#include <zaf/base/string/to_string.h>
 #include <zaf/graphic/canvas.h>
-#include <zaf/graphic/graphic_factory.h>
-#include <zaf/graphic/text/text_format_properties.h>
-#include <zaf/graphic/text/text_layout_properties.h>
 #include <zaf/object/type_definition.h>
+#include "module/tool/hex/paint_common.h"
 
 namespace ra::module::tool::hex {
-namespace {
-
-constexpr std::size_t BytesPerLine = 16;
-constexpr float LineHeaderWidth = 30;
-constexpr float LineHeaderMargin = 6;
-constexpr float ByteWidth = 22;
-constexpr float ByteGapWidth = 8;
-constexpr float CharacterAreaGapWidth = 22;
-constexpr float CharacterWidth = 10;
-
-
-constexpr float ByteHexAreaX() {
-    return LineHeaderWidth + LineHeaderMargin;
-}
-
-
-constexpr float ByteChatacterAreaX() {
-    return ByteHexAreaX() + BytesPerLine * ByteWidth + ByteGapWidth + CharacterAreaGapWidth;
-}
-
-
-std::wstring ToHexString(std::size_t value, std::size_t min_length) {
-
-    auto result = zaf::ToWideString(value, zaf::ToStringOptions().Base(16));
-    zaf::Uppercase(result);
-
-    if (result.length() < min_length) {
-        result = std::wstring(min_length - result.length(), L'0') + result;
-    }
-
-    return result;
-}
-
-}
-
 
 ZAF_DEFINE_TYPE(HexContentControl)
 ZAF_DEFINE_TYPE_END;
-
-
-std::wstring HexContentControl::FontName() {
-    return L"Consolas";
-}
-
-
-zaf::Color HexContentControl::HeaderBackgroundColor() {
-    return zaf::Color::FromRGB(0xEEEEEE);
-}
-
-
-zaf::Color HexContentControl::HeaderTextColor() {
-    return zaf::Color::FromRGB(0x999999);
-}
 
 
 void HexContentControl::SetContent(const std::vector<std::byte>& content) {
 
     content_ = content;
     NeedRepaint();
+    RaiseContentChangedEvent();
 }
 
 
@@ -107,20 +54,16 @@ void HexContentControl::Paint(zaf::Canvas& canvas, const zaf::Rect& dirty_rect) 
 
 void HexContentControl::PrepareGraphicResources(zaf::Renderer& renderer) {
 
-    if (text_format_.IsNull()) {
-
-        zaf::TextFormatProperties text_format_properties;
-        text_format_properties.font_family_name = FontName();
-        text_format_properties.font_size = 14;
-        text_format_ = zaf::GraphicFactory::Instance().CreateTextFormat(text_format_properties);
-    }
-
     if (default_text_brush_.IsNull()) {
         default_text_brush_ = renderer.CreateSolidColorBrush(zaf::Color::Black());
     }
 
+    if (blank_character_brush_.IsNull()) {
+        blank_character_brush_ = renderer.CreateSolidColorBrush(zaf::Color::FromRGB(0x00AA00));
+    }
+
     if (unknown_character_brush_.IsNull()) {
-        unknown_character_brush_ = renderer.CreateSolidColorBrush(zaf::Color::Gray());
+        unknown_character_brush_ = renderer.CreateSolidColorBrush(zaf::Color::FromRGB(0xAAAAAA));
     }
 }
 
@@ -128,6 +71,7 @@ void HexContentControl::PrepareGraphicResources(zaf::Renderer& renderer) {
 void HexContentControl::ReleaseRendererResources() {
 
     default_text_brush_.Reset();
+    blank_character_brush_.Reset();
     unknown_character_brush_.Reset();
 }
 
@@ -198,7 +142,11 @@ void HexContentControl::PaintByteCharacter(
 
     wchar_t character{};
     zaf::Brush text_brush;
-    if (std::isprint(static_cast<int>(byte))) {
+    if (std::isspace(static_cast<int>(byte))) {
+        character = L'.';
+        text_brush = blank_character_brush_;
+    }
+    else if (std::isprint(static_cast<int>(byte))) {
         character = static_cast<wchar_t>(byte);
         text_brush = default_text_brush_;
     }
@@ -232,24 +180,6 @@ zaf::TextLayout HexContentControl::GetByteCharacterTextLayout(wchar_t character)
     }
 
     return iterator->second;
-}
-
-
-zaf::TextLayout HexContentControl::CreateCommonTextLayout(
-    const std::wstring& text, 
-    float width) const {
-
-    zaf::TextLayoutProperties text_layout_properties;
-    text_layout_properties.text = text;
-    text_layout_properties.text_format = text_format_;
-    text_layout_properties.width = width;
-    text_layout_properties.height = LineHeight;
-    auto text_layout = zaf::GraphicFactory::Instance().CreateTextLayout(
-        text_layout_properties);
-
-    text_layout.SetTextAlignment(zaf::TextAlignment::Center);
-    text_layout.SetParagraphAlignment(zaf::ParagraphAlignment::Center);
-    return text_layout;
 }
 
 

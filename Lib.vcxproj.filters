@@ -507,6 +507,12 @@
     <ClInclude Include="src\module\tool\hex\hex_content_control.h">
       <Filter>src\module\tool\hex</Filter>
     </ClInclude>
+    <ClInclude Include="src\module\tool\hex\hex_column_header_control.h">
+      <Filter>src\module\tool\hex</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\tool\hex\paint_common.h">
+      <Filter>src\module\tool\hex</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -783,6 +789,12 @@
       <Filter>src\module\tool\hex</Filter>
     </ClCompile>
     <ClCompile Include="src\module\tool\hex\hex_content_control.cpp">
+      <Filter>src\module\tool\hex</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\tool\hex\hex_column_header_control.cpp">
+      <Filter>src\module\tool\hex</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\tool\hex\paint_common.cpp">
       <Filter>src\module\tool\hex</Filter>
     </ClCompile>
   </ItemGroup>
