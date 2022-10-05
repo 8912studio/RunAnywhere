@@ -70,6 +70,7 @@ void HexPreviewControl::ShowFileContent(
 zaf::Frame HexPreviewControl::GetExpectedMargin() {
 
     auto result = __super::GetExpectedMargin();
+    result.left = 2;
     result.right = 2;
     return result;
 }

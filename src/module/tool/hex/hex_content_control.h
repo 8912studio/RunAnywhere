@@ -10,7 +10,11 @@ public:
     ZAF_DECLARE_TYPE;
 
 public:
-    static constexpr float LineHeight = 20;
+    static constexpr float LineHeight = 24;
+
+    static std::wstring FontName();
+    static zaf::Color HeaderBackgroundColor();
+    static zaf::Color HeaderTextColor();
 
 public:
     void SetContent(const std::vector<std::byte>& content);
@@ -22,6 +26,10 @@ protected:
 
 private:
     void PrepareGraphicResources(zaf::Renderer& renderer);
+
+    void PaintLineHeader(
+        zaf::Canvas& canvas, 
+        std::size_t line_index);
 
     void PaintByteHex(
         zaf::Canvas& canvas,

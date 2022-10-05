@@ -12,15 +12,56 @@ namespace ra::module::tool::hex {
 namespace {
 
 constexpr std::size_t BytesPerLine = 16;
-constexpr float ByteWidth = 20;
-constexpr float GapWidth = 40;
-constexpr float CharacterWidth = 12;
+constexpr float LineHeaderWidth = 30;
+constexpr float LineHeaderMargin = 6;
+constexpr float ByteWidth = 22;
+constexpr float ByteGapWidth = 8;
+constexpr float CharacterAreaGapWidth = 22;
+constexpr float CharacterWidth = 10;
+
+
+constexpr float ByteHexAreaX() {
+    return LineHeaderWidth + LineHeaderMargin;
+}
+
+
+constexpr float ByteChatacterAreaX() {
+    return ByteHexAreaX() + BytesPerLine * ByteWidth + ByteGapWidth + CharacterAreaGapWidth;
+}
+
+
+std::wstring ToHexString(std::size_t value, std::size_t min_length) {
+
+    auto result = zaf::ToWideString(value, zaf::ToStringOptions().Base(16));
+    zaf::Uppercase(result);
+
+    if (result.length() < min_length) {
+        result = std::wstring(min_length - result.length(), L'0') + result;
+    }
+
+    return result;
+}
 
 }
 
 
 ZAF_DEFINE_TYPE(HexContentControl)
 ZAF_DEFINE_TYPE_END;
+
+
+std::wstring HexContentControl::FontName() {
+    return L"Consolas";
+}
+
+
+zaf::Color HexContentControl::HeaderBackgroundColor() {
+    return zaf::Color::FromRGB(0xEEEEEE);
+}
+
+
+zaf::Color HexContentControl::HeaderTextColor() {
+    return zaf::Color::FromRGB(0x999999);
+}
 
 
 void HexContentControl::SetContent(const std::vector<std::byte>& content) {
@@ -52,6 +93,10 @@ void HexContentControl::Paint(zaf::Canvas& canvas, const zaf::Rect& dirty_rect) 
                 break;
             }
 
+            if (byte_index_in_line == 0) {
+                PaintLineHeader(canvas, line_index);
+            }
+
             auto byte = content_[byte_index_in_content];
             PaintByteHex(canvas, byte, line_index, byte_index_in_line);
             PaintByteCharacter(canvas, byte, line_index, byte_index_in_line);
@@ -65,6 +110,7 @@ void HexContentControl::PrepareGraphicResources(zaf::Renderer& renderer) {
     if (text_format_.IsNull()) {
 
         zaf::TextFormatProperties text_format_properties;
+        text_format_properties.font_family_name = FontName();
         text_format_properties.font_size = 14;
         text_format_ = zaf::GraphicFactory::Instance().CreateTextFormat(text_format_properties);
     }
@@ -86,6 +132,27 @@ void HexContentControl::ReleaseRendererResources() {
 }
 
 
+void HexContentControl::PaintLineHeader(
+    zaf::Canvas& canvas, 
+    std::size_t line_index) {
+
+    zaf::Rect paint_rect;
+    paint_rect.position.x = 0;
+    paint_rect.position.y = line_index * LineHeight;
+    paint_rect.size.width = LineHeaderWidth;
+    paint_rect.size.height = LineHeight;
+
+    canvas.SetBrushWithColor(HeaderBackgroundColor());
+    canvas.DrawRectangle(paint_rect);
+
+    auto paint_text = ToHexString(line_index * BytesPerLine, 3);
+    auto text_layout = CreateCommonTextLayout(paint_text, paint_rect.size.width);
+
+    canvas.SetBrushWithColor(HeaderTextColor());
+    canvas.DrawTextLayout(text_layout, paint_rect.position);
+}
+
+
 void HexContentControl::PaintByteHex(
     zaf::Canvas& canvas,
     std::byte byte,
@@ -95,7 +162,11 @@ void HexContentControl::PaintByteHex(
     auto text_layout = GetByteHexTextLayout(byte);
 
     zaf::Point paint_position;
-    paint_position.x = byte_index_in_line * ByteWidth;
+    paint_position.x = 
+        ByteHexAreaX() + 
+        byte_index_in_line * ByteWidth +
+        (byte_index_in_line >= BytesPerLine / 2 ? ByteGapWidth : 0);
+
     paint_position.y = line_index * LineHeight;
 
     canvas.SetBrush(default_text_brush_);
@@ -109,15 +180,7 @@ zaf::TextLayout HexContentControl::GetByteHexTextLayout(std::byte byte) {
     if (iterator == byte_hex_text_layouts_.end() ||
         iterator->first != byte) {
 
-        auto byte_text = zaf::ToWideString(
-            static_cast<std::uint8_t>(byte),
-            zaf::ToStringOptions().Base(16));
-
-        zaf::Uppercase(byte_text);
-
-        if (byte_text.length() == 1) {
-            byte_text = L'0' + byte_text;
-        }
+        auto byte_text = ToHexString(static_cast<std::uint8_t>(byte), 2);
 
         auto text_layout = CreateCommonTextLayout(byte_text, ByteWidth);
         iterator = byte_hex_text_layouts_.insert(iterator, std::make_pair(byte, text_layout));
@@ -146,10 +209,8 @@ void HexContentControl::PaintByteCharacter(
 
     auto text_layout = GetByteCharacterTextLayout(character);
 
-    constexpr auto character_area_x = BytesPerLine * ByteWidth + GapWidth;
-
     zaf::Point draw_position;
-    draw_position.x = byte_index_in_line * CharacterWidth + character_area_x;
+    draw_position.x = ByteChatacterAreaX() + byte_index_in_line * CharacterWidth;
     draw_position.y = line_index * LineHeight;
 
     canvas.SetBrush(text_brush);
