@@ -1,5 +1,13 @@
 <HexPreviewControl Layouter="VerticalLayouter" AutoHeight="true">
     <VerticalBox AutoHeight="true">
+        <Label 
+            Name="filePathLabel" 
+            FixedHeight="20"
+            Margin="8,0,8,6"
+            ParagraphAlignment="Center"
+            FontSize="14" 
+            TextColor="#808080" 
+        />
         <HexColumnHeaderControl Name="columnHeaderControl" />
         <ScrollableControl 
             Name="scrollControl"

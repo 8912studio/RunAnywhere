@@ -4,6 +4,7 @@
 #include <zaf/control/scroll_bar_thumb.h>
 #include <zaf/object/type_definition.h>
 #include "module/tool/hex/paint_common.h"
+#include "utility/path_trimming.h"
 
 namespace ra::module::tool::hex {
 namespace {
@@ -45,6 +46,8 @@ void HexPreviewControl::AfterParse() {
 
     __super::AfterParse();
 
+    filePathLabel->SetTextTrimming(utility::CreateTextTrimmingForPath());
+
     scrollControl->SetFixedHeight(LineHeight * 8);
 
     auto scroll_bar = scrollControl->VerticalScrollBar();
@@ -59,7 +62,7 @@ void HexPreviewControl::ShowFileContent(
     const std::filesystem::path& file_path,
     const HexCommandParseResult& parse_result) {
 
-    file_path_ = file_path;
+    filePathLabel->SetText(file_path.wstring());
 
     auto file_content = ReadFileContent(file_path, parse_result);
     if (file_content) {
