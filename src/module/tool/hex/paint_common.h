@@ -21,7 +21,7 @@ inline constexpr float ByteHexAreaX() {
 }
 
 
-inline constexpr float ByteChatacterAreaX() {
+inline constexpr float ByteCharacterAreaX() {
     return ByteHexAreaX() + BytesPerLine * ByteWidth + ByteGapWidth + CharacterAreaGapWidth;
 }
 

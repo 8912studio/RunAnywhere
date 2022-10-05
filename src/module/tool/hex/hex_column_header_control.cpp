@@ -33,7 +33,10 @@ void HexColumnHeaderControl::Paint(zaf::Canvas& canvas, const zaf::Rect& dirty_r
         auto text_layout = CreateCommonTextLayout(painted_text, ByteWidth);
 
         zaf::Point paint_position;
-        paint_position.x = ByteHexAreaX() + index * ByteWidth + (index >= 8 ? ByteGapWidth : 0);
+        paint_position.x = 
+            ByteHexAreaX() + 
+            index * ByteWidth + 
+            (index >= BytesPerLine / 2 ? ByteGapWidth : 0);
 
         paint_position.y = 0;
         canvas.DrawTextLayout(text_layout, paint_position);
@@ -41,7 +44,7 @@ void HexColumnHeaderControl::Paint(zaf::Canvas& canvas, const zaf::Rect& dirty_r
 
     auto ascii_text_layout = CreateCommonTextLayout(L"ASCII", std::numeric_limits<float>::max());
     ascii_text_layout.SetTextAlignment(zaf::TextAlignment::Left);
-    canvas.DrawTextLayout(ascii_text_layout, zaf::Point{ ByteChatacterAreaX(), 0 });
+    canvas.DrawTextLayout(ascii_text_layout, zaf::Point{ ByteCharacterAreaX(), 0 });
 }
 
 }
