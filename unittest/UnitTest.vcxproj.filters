@@ -160,6 +160,9 @@
     <ClCompile Include="case\module\tool\hex\hex_command_test.cpp">
       <Filter>case\module\tool\hex</Filter>
     </ClCompile>
+    <ClCompile Include="case\module\tool\hex\hex_preview_control_test.cpp">
+      <Filter>case\module\tool\hex</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="case\module\calculator\number_parser_test_utility.h">

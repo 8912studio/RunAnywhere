@@ -14,6 +14,22 @@ class HexPreviewControl : public CommandPreviewControl {
 public:
     ZAF_DECLARE_TYPE;
 
+public:
+    enum class ReadFileStatus {
+        OK,
+        Error,
+        InvalidPosition,
+        NoContent,
+    };
+
+public:
+    //For unit test.
+    static ReadFileStatus ReadFileContent(
+        const std::filesystem::path& file_path,
+        const HexCommandParseResult& parse_result,
+        std::vector<std::byte>& content);
+
+public:
     void ShowFileContent(
         const std::filesystem::path& file_path,
         const HexCommandParseResult& parse_result);

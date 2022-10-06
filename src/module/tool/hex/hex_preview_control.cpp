@@ -7,35 +7,6 @@
 #include "utility/path_trimming.h"
 
 namespace ra::module::tool::hex {
-namespace {
-
-std::optional<std::vector<std::byte>> ReadFileContent(
-    const std::filesystem::path& file_path,
-    const HexCommandParseResult& parse_result) {
-
-    if (parse_result.length == 0) {
-        return std::vector<std::byte>{};
-    }
-
-    std::ifstream file_stream;
-    file_stream.exceptions(std::ifstream::failbit | std::ifstream::badbit);
-
-    try {
-
-        file_stream.open(file_path, std::ifstream::in | std::ifstream::binary);
-        file_stream.seekg(parse_result.position, std::ifstream::beg);
-
-        auto buffer_length = std::min(parse_result.length, static_cast<std::size_t>(4 * 1024));
-        std::vector<std::byte> buffer(buffer_length);
-        file_stream.read(reinterpret_cast<char*>(&buffer[0]), buffer_length);
-        return buffer;
-    }
-    catch (const std::ifstream::failure&) {
-        return std::nullopt;
-    }
-}
-
-}
 
 ZAF_DEFINE_TYPE(HexPreviewControl)
 ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/tool/hex/hex_preview_control.xaml")
@@ -64,9 +35,10 @@ void HexPreviewControl::ShowFileContent(
 
     filePathLabel->SetText(file_path.wstring());
 
-    auto file_content = ReadFileContent(file_path, parse_result);
-    if (file_content) {
-        contentControl->SetContent(*file_content);
+    std::vector<std::byte> file_content;
+    auto read_file_status = ReadFileContent(file_path, parse_result, file_content);
+    if (read_file_status == ReadFileStatus::OK) {
+        contentControl->SetContent(file_content);
     }
 }
 
@@ -77,6 +49,53 @@ zaf::Frame HexPreviewControl::GetExpectedMargin() {
     result.left = 2;
     result.right = 2;
     return result;
+}
+
+
+HexPreviewControl::ReadFileStatus HexPreviewControl::ReadFileContent(
+    const std::filesystem::path& file_path,
+    const HexCommandParseResult& parse_result,
+    std::vector<std::byte>& content) {
+
+    if (parse_result.length == 0) {
+        return ReadFileStatus::NoContent;
+    }
+
+    std::ifstream file_stream;
+    file_stream.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+
+    try {
+
+        file_stream.open(file_path, std::ifstream::in | std::ifstream::binary);
+
+        file_stream.seekg(0, std::ifstream::end);
+        auto file_length = file_stream.tellg();
+        if (file_length == 0) {
+            return ReadFileStatus::NoContent;
+        }
+
+        if (static_cast<std::streampos>(parse_result.position) >= file_length) {
+            return ReadFileStatus::InvalidPosition;
+        }
+
+        auto can_read_length = file_length - static_cast<std::streampos>(parse_result.position);
+
+        auto buffer_length = std::min({ 
+            static_cast<std::streampos>(can_read_length),
+            static_cast<std::streampos>(parse_result.length),
+            static_cast<std::streampos>(4 * 1024)
+        });
+
+        content.resize(buffer_length);
+
+        file_stream.seekg(parse_result.position, std::ifstream::beg);
+        file_stream.read(reinterpret_cast<char*>(&content[0]), buffer_length);
+
+        return ReadFileStatus::OK;
+    }
+    catch (const std::ifstream::failure&) {
+        return ReadFileStatus::Error;
+    }
 }
 
 }
