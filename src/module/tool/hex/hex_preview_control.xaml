@@ -1,13 +1,13 @@
 <HexPreviewControl Layouter="VerticalLayouter" AutoHeight="true">
-    <VerticalBox AutoHeight="true">
-        <Label 
-            Name="filePathLabel" 
-            FixedHeight="20"
-            Margin="8,0,8,6"
-            ParagraphAlignment="Center"
-            FontSize="14" 
-            TextColor="#808080" 
-        />
+    <Label 
+        Name="filePathLabel" 
+        FixedHeight="20"
+        Margin="8,0,8,6"
+        ParagraphAlignment="Center"
+        FontSize="14" 
+        TextColor="#808080" 
+    />
+    <VerticalBox Name="contentContainer" AutoHeight="true">
         <HexColumnHeaderControl Name="columnHeaderControl" />
         <ScrollableControl 
             Name="scrollControl"
@@ -21,4 +21,21 @@
             </ScrollableControl.ScrollContent>
         </ScrollableControl>
     </VerticalBox>
+    <Control Name="errorContainer" AutoHeight="true" Margin="0,30,0,30" IsVisible="false">
+        <Control.Layouter>
+            <HorizontalLayouter AxisAlignment="Center" ControlAlignment="Center" />
+        </Control.Layouter>
+        <Control 
+            FixedSize="48,48"
+            BackgroundImage="res:///resource/error.png"
+        />
+        <Label 
+            Name="errorLabel" 
+            AutoSize="true" 
+            Margin="10,0,0,0"
+            TextAlignment="Center" 
+            ParagraphAligment="Center" 
+            FontSize="20"
+        />
+    </Control>
 </HexPreviewControl>

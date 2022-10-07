@@ -24,7 +24,6 @@ void HexPreviewControl::AfterParse() {
     auto scroll_bar = scrollControl->VerticalScrollBar();
     scroll_bar->SetArrowLength(0);
     scroll_bar->SetSmallChange(static_cast<int>(LineHeight));
-
     scroll_bar->GetThumb()->SetPadding({});
 }
 
@@ -38,8 +37,42 @@ void HexPreviewControl::ShowFileContent(
     std::vector<std::byte> file_content;
     auto read_file_status = ReadFileContent(file_path, parse_result, file_content);
     if (read_file_status == ReadFileStatus::OK) {
-        contentControl->SetContent(file_content);
+        ShowHexContent(file_content);
     }
+    else {
+        ShowErrorMessage(read_file_status);
+    }
+}
+
+
+void HexPreviewControl::ShowHexContent(const std::vector<std::byte>& content) {
+
+    contentContainer->SetIsVisible(true);
+    errorContainer->SetIsVisible(false);
+
+    contentControl->SetContent(content);
+}
+
+
+void HexPreviewControl::ShowErrorMessage(ReadFileStatus status) {
+
+    errorContainer->SetIsVisible(true);
+    contentContainer->SetIsVisible(false);
+    
+    std::wstring error_message;
+    switch (status) {
+    case ReadFileStatus::InvalidPosition:
+        error_message = L"Position exceeds file length";
+        break;
+    case ReadFileStatus::NoContent:
+        error_message = L"No file content to display";
+        break;
+    default:
+        error_message = L"Unable to read file";
+        break;
+    }
+
+    errorLabel->SetText(error_message);
 }
 
 

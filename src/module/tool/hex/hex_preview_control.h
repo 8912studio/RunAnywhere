@@ -40,9 +40,16 @@ protected:
     void AfterParse() override;
 
 private:
+    void ShowHexContent(const std::vector<std::byte>& content);
+    void ShowErrorMessage(ReadFileStatus status);
+
+private:
     ZAF_BIND_CONTROL(zaf::Label, filePathLabel);
+    ZAF_BIND_CONTROL(zaf::Control, contentContainer);
     ZAF_BIND_CONTROL(HexContentControl, contentControl);
     ZAF_BIND_CONTROL(zaf::ScrollableControl, scrollControl);
+    ZAF_BIND_CONTROL(zaf::Control, errorContainer);
+    ZAF_BIND_CONTROL(zaf::Label, errorLabel);
 };
 
 }

@@ -151,3 +151,33 @@ TEST(HexPreviewControlTest, ReadFileContent_CannotOpenFile) {
     ASSERT_EQ(status, HexPreviewControl::ReadFileStatus::Error);
     ASSERT_EQ(file_content.size(), 0);
 }
+
+
+TEST(HexPreviewControlTest, ReadFileContent_InvalidPosition) {
+
+    {
+        HexCommandParseResult parse_result;
+        parse_result.position = 149;
+        parse_result.length = 100;
+        std::vector<std::byte> file_content;
+        auto status = HexPreviewControl::ReadFileContent(
+            GetTestInputFilePath(L"hex_test_file1.txt"),
+            parse_result,
+            file_content);
+        ASSERT_EQ(status, HexPreviewControl::ReadFileStatus::InvalidPosition);
+        ASSERT_EQ(file_content.size(), 0);
+    }
+
+    {
+        HexCommandParseResult parse_result;
+        parse_result.position = 200;
+        parse_result.length = 100;
+        std::vector<std::byte> file_content;
+        auto status = HexPreviewControl::ReadFileContent(
+            GetTestInputFilePath(L"hex_test_file1.txt"),
+            parse_result,
+            file_content);
+        ASSERT_EQ(status, HexPreviewControl::ReadFileStatus::InvalidPosition);
+        ASSERT_EQ(file_content.size(), 0);
+    }
+}
