@@ -32,47 +32,93 @@ void HexPreviewControl::ShowFileContent(
     const std::filesystem::path& file_path,
     const HexCommandParseResult& parse_result) {
 
+    auto update_guard = BeginUpdate();
+
     filePathLabel->SetText(file_path.wstring());
 
-    std::vector<std::byte> file_content;
-    auto read_file_status = ReadFileContent(file_path, parse_result, file_content);
-    if (read_file_status == ReadFileStatus::OK) {
-        ShowHexContent(file_content);
+    FileContentInfo content_info;
+    auto read_file_status = ReadFileContent(file_path, parse_result, content_info);
+
+    ShowFileInfo(read_file_status, content_info, parse_result);
+    ShowHexContent(content_info);
+    ShowMessage(read_file_status, content_info);
+}
+
+
+void HexPreviewControl::ShowFileInfo(
+    ReadFileStatus status,
+    const FileContentInfo& content_info,
+    const HexCommandParseResult& parse_result) {
+
+    if (status == ReadFileStatus::ReadFileFailed) {
+        fileInfoLabel->SetIsVisible(false);
+        return;
+    }
+
+    fileInfoLabel->SetIsVisible(true);
+
+    std::wstring text;
+    text += L"File size: ";
+    text += std::to_wstring(content_info.file_size);
+
+    if (status == ReadFileStatus::OK) {
+
+        auto range_end = parse_result.position;
+        if (!content_info.data.empty()) {
+            range_end += content_info.data.size() - 1;
+        }
+
+        text += L"    Range: ";
+        text += std::to_wstring(parse_result.position);
+        text += L'-';
+        text += std::to_wstring(range_end);
+
+        text += L"    Length: ";
+        text += std::to_wstring(content_info.data.size());
+    }
+
+    fileInfoLabel->SetText(text);
+}
+
+
+void HexPreviewControl::ShowHexContent(const FileContentInfo& content_info) {
+
+    if (!content_info.data.empty()) {
+        contentControl->SetContent(content_info.data);
+        contentContainer->SetIsVisible(true);
     }
     else {
-        ShowErrorMessage(read_file_status);
+        contentContainer->SetIsVisible(false);
     }
 }
 
 
-void HexPreviewControl::ShowHexContent(const std::vector<std::byte>& content) {
+void HexPreviewControl::ShowMessage(
+    ReadFileStatus status, 
+    const FileContentInfo& content_info) {
 
-    contentContainer->SetIsVisible(true);
-    errorContainer->SetIsVisible(false);
-
-    contentControl->SetContent(content);
-}
-
-
-void HexPreviewControl::ShowErrorMessage(ReadFileStatus status) {
-
-    errorContainer->SetIsVisible(true);
-    contentContainer->SetIsVisible(false);
-    
-    std::wstring error_message;
+    std::wstring message;
     switch (status) {
     case ReadFileStatus::InvalidPosition:
-        error_message = L"Position exceeds file length";
+        message = L"Position exceeds file size";
         break;
-    case ReadFileStatus::NoContent:
-        error_message = L"No file content to display";
+    case ReadFileStatus::ReadFileFailed:
+        message = L"Unable to read file";
         break;
     default:
-        error_message = L"Unable to read file";
+        if (content_info.data.empty()) {
+            message = L"No content to display";
+        }
         break;
     }
 
-    errorLabel->SetText(error_message);
+    if (!message.empty()) {
+        errorLabel->SetText(message);
+        errorContainer->SetIsVisible(true);
+    }
+    else {
+        errorContainer->SetIsVisible(false);
+    }
 }
 
 
@@ -88,11 +134,7 @@ zaf::Frame HexPreviewControl::GetExpectedMargin() {
 HexPreviewControl::ReadFileStatus HexPreviewControl::ReadFileContent(
     const std::filesystem::path& file_path,
     const HexCommandParseResult& parse_result,
-    std::vector<std::byte>& content) {
-
-    if (parse_result.length == 0) {
-        return ReadFileStatus::NoContent;
-    }
+    FileContentInfo& content_info) {
 
     std::ifstream file_stream;
     file_stream.exceptions(std::ifstream::failbit | std::ifstream::badbit);
@@ -102,16 +144,17 @@ HexPreviewControl::ReadFileStatus HexPreviewControl::ReadFileContent(
         file_stream.open(file_path, std::ifstream::in | std::ifstream::binary);
 
         file_stream.seekg(0, std::ifstream::end);
-        auto file_length = file_stream.tellg();
-        if (file_length == 0) {
-            return ReadFileStatus::NoContent;
+        content_info.file_size = file_stream.tellg();
+        if (content_info.file_size == 0) {
+            return ReadFileStatus::EmptyFile;
         }
 
-        if (static_cast<std::streampos>(parse_result.position) >= file_length) {
+        if (parse_result.position >= content_info.file_size) {
             return ReadFileStatus::InvalidPosition;
         }
 
-        auto can_read_length = file_length - static_cast<std::streampos>(parse_result.position);
+        auto can_read_length = 
+            content_info.file_size - static_cast<std::streampos>(parse_result.position);
 
         auto buffer_length = std::min({ 
             static_cast<std::streampos>(can_read_length),
@@ -119,15 +162,20 @@ HexPreviewControl::ReadFileStatus HexPreviewControl::ReadFileContent(
             static_cast<std::streampos>(4 * 1024)
         });
 
-        content.resize(buffer_length);
+        //No need to read file if length is 0.
+        if (buffer_length == 0) {
+            return ReadFileStatus::OK;
+        }
+
+        content_info.data.resize(buffer_length);
 
         file_stream.seekg(parse_result.position, std::ifstream::beg);
-        file_stream.read(reinterpret_cast<char*>(&content[0]), buffer_length);
+        file_stream.read(reinterpret_cast<char*>(&content_info.data[0]), buffer_length);
 
         return ReadFileStatus::OK;
     }
     catch (const std::ifstream::failure&) {
-        return ReadFileStatus::Error;
+        return ReadFileStatus::ReadFileFailed;
     }
 }
 

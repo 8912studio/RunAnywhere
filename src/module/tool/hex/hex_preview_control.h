@@ -17,9 +17,15 @@ public:
 public:
     enum class ReadFileStatus {
         OK,
-        Error,
+        EmptyFile,
+        ReadFileFailed,
         InvalidPosition,
-        NoContent,
+    };
+
+    class FileContentInfo {
+    public:
+        std::vector<std::byte> data;
+        std::uint64_t file_size{};
     };
 
 public:
@@ -27,7 +33,7 @@ public:
     static ReadFileStatus ReadFileContent(
         const std::filesystem::path& file_path,
         const HexCommandParseResult& parse_result,
-        std::vector<std::byte>& content);
+        FileContentInfo& content_info);
 
 public:
     void ShowFileContent(
@@ -40,11 +46,18 @@ protected:
     void AfterParse() override;
 
 private:
-    void ShowHexContent(const std::vector<std::byte>& content);
-    void ShowErrorMessage(ReadFileStatus status);
+    void ShowFileInfo(
+        ReadFileStatus status, 
+        const FileContentInfo& content_info,
+        const HexCommandParseResult& parse_result);
+    void ShowHexContent(const FileContentInfo& content_info);
+    void ShowMessage(
+        ReadFileStatus status,
+        const FileContentInfo& content_info);
 
 private:
     ZAF_BIND_CONTROL(zaf::Label, filePathLabel);
+    ZAF_BIND_CONTROL(zaf::Label, fileInfoLabel);
     ZAF_BIND_CONTROL(zaf::Control, contentContainer);
     ZAF_BIND_CONTROL(HexContentControl, contentControl);
     ZAF_BIND_CONTROL(zaf::ScrollableControl, scrollControl);

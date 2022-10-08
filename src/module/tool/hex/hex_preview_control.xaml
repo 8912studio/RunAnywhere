@@ -2,9 +2,17 @@
     <Label 
         Name="filePathLabel" 
         FixedHeight="20"
-        Margin="8,0,8,6"
+        Margin="8,0,8,0"
         ParagraphAlignment="Center"
         FontSize="14" 
+        TextColor="#808080" 
+    />
+    <Label 
+        Name="fileInfoLabel" 
+        FixedHeight="30"
+        Margin="8,0,8,0"
+        ParagraphAlignment="Center"
+        FontSize="12" 
         TextColor="#808080" 
     />
     <VerticalBox Name="contentContainer" AutoHeight="true">
@@ -28,6 +36,7 @@
         <Control 
             FixedSize="48,48"
             BackgroundImage="res:///resource/error.png"
+            BackgroundImageLayout="Stretch"
         />
         <Label 
             Name="errorLabel" 
