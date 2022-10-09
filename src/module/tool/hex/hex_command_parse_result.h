@@ -7,11 +7,11 @@ namespace ra::module::tool::hex {
 
 class HexCommandParseResult {
 public:
-    static constexpr std::size_t DefaultLength = 128;
+    static constexpr std::uint64_t DefaultLength = 128;
 
 public:
     std::uint64_t position{};
-    std::size_t length{ DefaultLength };
+    std::uint64_t length{ DefaultLength };
 };
 
 }

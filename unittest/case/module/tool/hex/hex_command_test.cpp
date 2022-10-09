@@ -20,6 +20,9 @@ TEST(HexCommandTest, ParsePosition) {
     ASSERT_TRUE(result.has_value());
     ASSERT_EQ(result->position, 0x83);
     ASSERT_EQ(result->length, HexCommandParseResult::DefaultLength);
+
+    result = HexCommand::Parse(CommandLine{ L"hex abc" });
+    ASSERT_FALSE(result.has_value());
 }
 
 
@@ -42,6 +45,15 @@ TEST(HexCommandTest, ParseLength) {
 
     result = HexCommand::Parse(CommandLine{ L"hex LL8"});
     ASSERT_FALSE(result.has_value());
+}
+
+
+TEST(HexCommandTest, ParseIncompleteHexNumber) {
+
+    auto result = HexCommand::Parse(CommandLine{ L"hex x L0x"});
+    ASSERT_TRUE(result.has_value());
+    ASSERT_EQ(result->position, 0);
+    ASSERT_EQ(result->length, HexCommandParseResult::DefaultLength);
 }
 
 

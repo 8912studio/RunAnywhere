@@ -7,48 +7,112 @@
 namespace ra::module::tool::hex {
 namespace {
 
-std::shared_ptr<calculator::SyntaxNode> ParseNumberWithParser(
+enum class NumberParseStatus {
+    OK,
+
+    //The number text is incomplete, such as `x` or `0x`.
+    //The parsing should not treat as error in such cases.
+    Incomplete,
+
+    //The text is not a number.
+    NotNumber,
+};
+
+
+NumberParseStatus ParseNumberWithParser(
     const std::wstring& input,
-    calculator::Parser* parser) {
+    calculator::Parser* parser,
+    std::shared_ptr<calculator::SyntaxNode>& syntax_node) {
 
     calculator::ParseContext context(input);
     calculator::ParseResult result;
     auto status = parser->Parse(context, result);
-    if (status != calculator::ParseStatus::Ok) {
-        return nullptr;
+
+    if (status == calculator::ParseStatus::Mismatched) {
+        return NumberParseStatus::NotNumber;
     }
 
+    //The whole text must be parsed completely, or it is not a number.
     if (context.GetCurrentIndex() != context.GetLength()) {
-        return nullptr;
+        return NumberParseStatus::NotNumber;
     }
 
-    return result.GetExpressionRootNode();
+    //There is error during parsing, means that the number is incomplete.
+    if (status == calculator::ParseStatus::Error) {
+        return NumberParseStatus::Incomplete;
+    }
+
+    //Parse success.
+    syntax_node = result.GetExpressionRootNode();
+    return NumberParseStatus::OK;
 }
 
 
-std::optional<std::uint64_t> ParseNumber(const std::wstring& input) {
+NumberParseStatus ParseNumber(const std::wstring& input, std::uint64_t& result) {
 
-    auto syntax_node = ParseNumberWithParser(input, calculator::DecimalNumberParser::Instance());
-    if (!syntax_node) {
+    std::shared_ptr<calculator::SyntaxNode> syntax_node;
 
-        syntax_node = ParseNumberWithParser(input, calculator::NonDecimalNumberParser::Hex());
-        if (!syntax_node) {
-            return std::nullopt;
-        }
+    //Try to parse number in decimal.
+    auto status = ParseNumberWithParser(
+        input,
+        calculator::DecimalNumberParser::Instance(), 
+        syntax_node);
+
+    if (status == NumberParseStatus::NotNumber) {
+
+        //If failed, try to parse number in hexadecimal again.
+        status = ParseNumberWithParser(
+            input,
+            calculator::NonDecimalNumberParser::Hex(), 
+            syntax_node);
+    }
+
+    if (status != NumberParseStatus::OK) {
+        return status;
     }
 
     auto evaluator = calculator::Evaluator::Create(syntax_node);
     if (!evaluator) {
-        return std::nullopt;
+        return NumberParseStatus::NotNumber;
     }
 
     calculator::EvaluateResult evaluate_result;
     auto evaluate_status = evaluator->Evaluate(evaluate_result);
     if (evaluate_status != calculator::EvaluateStatus::Ok) {
-        return std::nullopt;
+        return NumberParseStatus::NotNumber;
     }
 
-    return evaluate_result.decimal_value.convert_to<std::uint64_t>();
+    result = evaluate_result.decimal_value.convert_to<std::uint64_t>();
+    return NumberParseStatus::OK;
+}
+
+
+std::optional<std::uint64_t> ParseNumberWithDefault(
+    const std::wstring& input, 
+    std::uint64_t default_value) {
+
+    std::uint64_t result{};
+    auto status = ParseNumber(input, result);
+
+    switch (status) {
+    case NumberParseStatus::OK:
+        return result;
+    case NumberParseStatus::Incomplete:
+        return default_value;
+    default:
+        return std::nullopt;
+    }
+}
+
+
+std::optional<std::uint64_t> ParseLength(const std::wstring& input) {
+
+    auto length_number = input.substr(1);
+    if (length_number.empty()) {
+        return HexCommandParseResult::DefaultLength;
+    }
+
+    return ParseNumberWithDefault(length_number, HexCommandParseResult::DefaultLength);
 }
 
 }
@@ -66,12 +130,7 @@ std::optional<HexCommandParseResult> HexCommand::Parse(const utility::CommandLin
 
         if (std::tolower(each_argument.front()) == L'l') {
 
-            auto length_number = each_argument.substr(1);
-            if (length_number.empty()) {
-                continue;
-            }
-
-            auto length = ParseNumber(length_number);
+            auto length = ParseLength(each_argument);
             if (!length) {
                 return std::nullopt;
             }
@@ -80,7 +139,7 @@ std::optional<HexCommandParseResult> HexCommand::Parse(const utility::CommandLin
         }
         else {
 
-            auto position = ParseNumber(each_argument);
+            auto position = ParseNumberWithDefault(each_argument, 0);
             if (!position) {
                 return std::nullopt;
             }
