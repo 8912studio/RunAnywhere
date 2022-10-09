@@ -57,6 +57,37 @@ std::wstring ReplacePlaceholders(
 }
 
 
+std::wstring FormatOnePart(
+    const std::wstring& input,
+    bool is_argument,
+    const VariableFormatter& variable_formatter,
+    const std::vector<std::wstring>& input_arguments) {
+
+    bool auto_quote_result{};
+    bool auto_quote_replaced_part{};
+    if (is_argument) {
+        auto_quote_result = zaf::Contain(input, L' ');
+        auto_quote_replaced_part = !auto_quote_result;
+    }
+
+    //Format variables first.
+    VariableFormatOptions format_options;
+    format_options.auto_quote_variable = auto_quote_replaced_part;
+    auto result = variable_formatter.Format(input, format_options);
+
+    //Replace placeholders then.
+    result = ReplacePlaceholders(result, input_arguments, auto_quote_replaced_part);
+    if (!result.empty()) {
+
+        if (auto_quote_result) {
+            result = L'"' + result + L'"';
+        }
+    }
+
+    return result;
+}
+
+
 std::vector<std::wstring> BuildArguments(
     const std::vector<std::wstring>& entry_parameters,
     const VariableFormatter& variable_formatter,
@@ -66,25 +97,10 @@ std::vector<std::wstring> BuildArguments(
 
     for (const auto& each_parameter : entry_parameters) {
 
-        bool has_space = zaf::Contain(each_parameter, L' ');
-        bool auto_quote = !has_space;
-
-        //Format variables first.
-        VariableFormatOptions format_options;
-        format_options.auto_quote_variable = auto_quote;
-        auto argument = variable_formatter.Format(each_parameter, format_options);
-
-        //Replace placeholders then.
-        argument = ReplacePlaceholders(argument, input_arguments, auto_quote);
-        if (argument.empty()) {
-            continue;
+        auto argument = FormatOnePart(each_parameter, true, variable_formatter, input_arguments);
+        if (!argument.empty()) {
+            result.push_back(argument);
         }
-
-        if (has_space) {
-            argument = L'"' + argument + L'"';
-        }
-
-        result.push_back(argument);
     }
     
     return result;
@@ -100,7 +116,12 @@ CommandLineInfo ParseEntryCommand(
     utility::CommandLine command_line{ entry_command };
 
     CommandLineInfo result;
-    result.command = variable_formatter.Format(command_line.Command(), VariableFormatOptions{});
+    result.command = FormatOnePart(
+        command_line.Command(),
+        false,
+        variable_formatter,
+        input_arguments);
+
     result.arguments = BuildArguments(
         command_line.Arguments(), 
         variable_formatter,

@@ -68,6 +68,14 @@ TEST(EntryCommandParsingTest, ReplaceActivePath) {
     ASSERT_EQ(result.command, L"C:\\Window\\notepad.exe");
     ASSERT_EQ(result.arguments.size(), 1);
     ASSERT_EQ(result.arguments[0], L"/path:\"C:\\my file.txt\"");
+
+    //Active path is in command part.
+    result = ParseEntryCommand(
+        L"{@}\\app.exe", 
+        VariableFormatterFromActivePath(L"C:\\MyApp"),
+        {});
+    ASSERT_EQ(result.command, L"C:\\MyApp\\app.exe");
+    ASSERT_TRUE(result.arguments.empty());
 }
 
 
@@ -166,18 +174,21 @@ TEST(EntryCommandParsingTest, ReplacePlaceholders) {
         L"9I",
     };
     
+    //All placeholds have input arguments.
     auto result = ParseEntryCommand(
         L"C:\\Windows\\notepad.exe %1 %2 %3 %4 %5 %6 %7 %8 %9",
         variable_formatter,
         arguments);
     ASSERT_EQ(result.arguments, arguments);
 
+    //Only some placeholders have input arguments.
     result = ParseEntryCommand(L"C:\\Windows\\notepad.exe %1 %2 %3", variable_formatter, {
         L"111",
     });
     ASSERT_EQ(result.arguments.size(), 1);
     ASSERT_EQ(result.arguments[0], L"111");
 
+    //Space issue.
     result = ParseEntryCommand(L"C:\\Windows\\notepad.exe %1 \"%3\" \"%4\"", variable_formatter, {
         L"1 1 1",
         L"2",
@@ -188,6 +199,14 @@ TEST(EntryCommandParsingTest, ReplacePlaceholders) {
     ASSERT_EQ(result.arguments[0], L"\"1 1 1\"");
     ASSERT_EQ(result.arguments[1], L"\"3 3\"");
     ASSERT_EQ(result.arguments[2], L"4444");
+
+    //Placeholdr in command part.
+    result = ParseEntryCommand(
+        L"http://www.mysite.com/id=%1?type=page", 
+        variable_formatter, 
+        { L"9829" });
+    ASSERT_EQ(result.command, L"http://www.mysite.com/id=9829?type=page");
+    ASSERT_TRUE(result.arguments.empty());
 }
 
 
