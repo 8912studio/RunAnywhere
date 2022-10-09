@@ -206,6 +206,6 @@ TEST(HexPreviewControlTest, ReadFileContent_ZeroLength) {
         parse_result,
         content_info);
     ASSERT_EQ(status, HexPreviewControl::ReadFileStatus::OK);
-    ASSERT_EQ(content_info.data.size(), 0);
+    ASSERT_EQ(content_info.data.size(), 128);
     ASSERT_EQ(content_info.file_size, 149);
 }

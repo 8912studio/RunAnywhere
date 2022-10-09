@@ -156,9 +156,13 @@ HexPreviewControl::ReadFileStatus HexPreviewControl::ReadFileContent(
         auto can_read_length = 
             content_info.file_size - static_cast<std::streampos>(parse_result.position);
 
+        //Change read length to default length if it is 0, which has no meaning.
+        auto expected_read_length = 
+            parse_result.length > 0 ? parse_result.length : HexCommandParseResult::DefaultLength;
+
         auto buffer_length = std::min({ 
             static_cast<std::streampos>(can_read_length),
-            static_cast<std::streampos>(parse_result.length),
+            static_cast<std::streampos>(expected_read_length),
             static_cast<std::streampos>(4 * 1024)
         });
 
