@@ -46,6 +46,7 @@ protected:
     void AfterParse() override;
 
 private:
+    void ShowFilePath(const std::filesystem::path& path);
     void ShowFileInfo(
         ReadFileStatus status, 
         const FileContentInfo& content_info,

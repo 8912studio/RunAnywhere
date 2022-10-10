@@ -44,7 +44,7 @@ void HexPreviewControl::ShowFileContent(
 
     auto update_guard = BeginUpdate();
 
-    filePathLabel->SetText(file_path.wstring());
+    ShowFilePath(file_path);
 
     FileContentInfo content_info;
     auto read_file_status = ReadFileContent(file_path, parse_result, content_info);
@@ -52,6 +52,18 @@ void HexPreviewControl::ShowFileContent(
     ShowFileInfo(read_file_status, content_info, parse_result);
     ShowHexContent(content_info);
     ShowMessage(read_file_status, content_info);
+}
+
+
+void HexPreviewControl::ShowFilePath(const std::filesystem::path& path) {
+
+    if (!path.empty()) {
+        filePathLabel->SetText(path.wstring());
+        filePathLabel->SetIsVisible(true);
+    }
+    else {
+        filePathLabel->SetIsVisible(false);
+    }
 }
 
 
