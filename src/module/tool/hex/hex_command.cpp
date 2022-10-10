@@ -112,6 +112,12 @@ std::optional<std::uint64_t> ParseLength(const std::wstring& input) {
         return HexCommandParseResult::DefaultLength;
     }
 
+    if (length_number.length() == 1 && 
+        std::tolower(length_number.front()) == L'l') {
+
+        return HexCommandParseResult::MaxLength;
+    }
+
     return ParseNumberWithDefault(length_number, HexCommandParseResult::DefaultLength);
 }
 
@@ -173,7 +179,8 @@ help::content::Content HexCommand::GetHelpContent() {
         "Default is 0 if it is omitted.");
     result.AddBodyLine(L"`length` specifies the length of content to display. "
         "It is prefixed with letter `l` or `L`. Default is 128 if it is omitted. "
-        "The max supported length is 4096.");
+        "The max supported length is 4096. Use two `l` or `L` letters to specify the max length, "
+        "for example `ll`.");
     result.AddBodyLine(L"Both `position` and `length` can be in decimal or hexadecimal format. "
         "Use `x` or `0x` as prefix for hexadecimal.");
 

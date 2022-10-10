@@ -8,6 +8,7 @@ namespace ra::module::tool::hex {
 class HexCommandParseResult {
 public:
     static constexpr std::uint64_t DefaultLength = 128;
+    static constexpr std::uint64_t MaxLength = 4096;
 
 public:
     std::uint64_t position{};

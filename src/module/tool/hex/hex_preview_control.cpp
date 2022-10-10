@@ -185,7 +185,7 @@ HexPreviewControl::ReadFileStatus HexPreviewControl::ReadFileContent(
         auto buffer_length = std::min({ 
             static_cast<std::streampos>(can_read_length),
             static_cast<std::streampos>(expected_read_length),
-            static_cast<std::streampos>(4 * 1024)
+            static_cast<std::streampos>(HexCommandParseResult::MaxLength)
         });
 
         //No need to read file if length is 0.
