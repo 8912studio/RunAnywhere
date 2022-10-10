@@ -66,7 +66,6 @@
     <ClCompile Include="case\module\calculator\non_decimal_number_parser_test.cpp" />
     <ClCompile Include="case\module\calculator\number_parser_test.cpp" />
     <ClCompile Include="case\module\calculator\number_parser_test_utility.cpp" />
-    <ClCompile Include="case\module\calculator\numeric_text_formatting_test.cpp" />
     <ClCompile Include="case\module\calculator\octal_number_parser_test.cpp" />
     <ClCompile Include="case\module\calculator\result_text_builder_test.cpp" />
     <ClCompile Include="case\module\calculator\unary_expression_parser_test.cpp" />
@@ -84,6 +83,7 @@
     <ClCompile Include="case\module\user_defined\parse\entry_command_placeholder_parsing_test.cpp" />
     <ClCompile Include="case\module\user_defined\parse\entry_command_parsing_test.cpp" />
     <ClCompile Include="case\module\user_defined\parse\variable_formatter_test.cpp" />
+    <ClCompile Include="case\utility\numeric_text_formatting_test.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>

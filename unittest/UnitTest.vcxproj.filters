@@ -55,6 +55,9 @@
     <Filter Include="case\module\tool\hex">
       <UniqueIdentifier>{ad46c9fc-4577-4b95-82f0-cd769c878067}</UniqueIdentifier>
     </Filter>
+    <Filter Include="case\utility">
+      <UniqueIdentifier>{a46ce4f1-77fa-4793-b1ce-e293f5ee361e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="case\module\calculator\decimal_number_parser_test.cpp">
@@ -85,9 +88,6 @@
       <Filter>case\module\calculator</Filter>
     </ClCompile>
     <ClCompile Include="case\module\calculator\expression_parser_test.cpp">
-      <Filter>case\module\calculator</Filter>
-    </ClCompile>
-    <ClCompile Include="case\module\calculator\numeric_text_formatting_test.cpp">
       <Filter>case\module\calculator</Filter>
     </ClCompile>
     <ClCompile Include="case\module\active_path\active_path_option_parsing_test.cpp">
@@ -162,6 +162,9 @@
     </ClCompile>
     <ClCompile Include="case\module\tool\hex\hex_preview_control_test.cpp">
       <Filter>case\module\tool\hex</Filter>
+    </ClCompile>
+    <ClCompile Include="case\utility\numeric_text_formatting_test.cpp">
+      <Filter>case\utility</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

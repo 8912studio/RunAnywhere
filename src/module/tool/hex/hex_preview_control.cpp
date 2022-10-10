@@ -4,9 +4,19 @@
 #include <zaf/control/scroll_bar_thumb.h>
 #include <zaf/object/type_definition.h>
 #include "module/tool/hex/paint_common.h"
+#include "utility/numeric_text_formatting.h"
 #include "utility/path_trimming.h"
 
 namespace ra::module::tool::hex {
+namespace {
+
+std::wstring FormatInteger(std::uint64_t integer) {
+    auto result = std::to_wstring(integer);
+    utility::InsertSeperatorToNumericText(result, 10, L',');
+    return result;
+}
+
+}
 
 ZAF_DEFINE_TYPE(HexPreviewControl)
 ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/tool/hex/hex_preview_control.xaml")
@@ -59,7 +69,7 @@ void HexPreviewControl::ShowFileInfo(
 
     std::wstring text;
     text += L"File size: ";
-    text += std::to_wstring(content_info.file_size);
+    text += FormatInteger(content_info.file_size);
 
     if (status == ReadFileStatus::OK) {
 
@@ -69,12 +79,12 @@ void HexPreviewControl::ShowFileInfo(
         }
 
         text += L"    Range: ";
-        text += std::to_wstring(parse_result.position);
+        text += FormatInteger(parse_result.position);
         text += L'-';
-        text += std::to_wstring(range_end);
+        text += FormatInteger(range_end);
 
         text += L"    Length: ";
-        text += std::to_wstring(content_info.data.size());
+        text += FormatInteger(content_info.data.size());
     }
 
     fileInfoLabel->SetText(text);

@@ -1,11 +1,12 @@
-#include "module/calculator/preview/numeric_text_formatting.h"
+#include "utility/numeric_text_formatting.h"
 #include <optional>
 
-namespace ra::module::calculator {
+namespace ra::utility {
 namespace {
 
-void InsertSpaceToText(
+void InsertSeperatorToText(
 	std::wstring& text,
+	wchar_t seperator,
 	std::optional<wchar_t> begin_char,
 	std::size_t digit_count) {
 
@@ -27,7 +28,7 @@ void InsertSpaceToText(
 
 		if (current_digit_count == digit_count + 1) {
 
-			text.insert(position, 1, L' ');
+			text.insert(position, 1, seperator);
 			current_digit_count = 1;
 			position += 2;
 		}
@@ -43,13 +44,13 @@ void InsertSpaceToText(
 }
 
 
-void InsertSpaceToNumericText(std::wstring& text, int base) {
+void InsertSeperatorToNumericText(std::wstring& text, int base, wchar_t seperator) {
 
 	if (base == 2 || base == 16) {
-		InsertSpaceToText(text, std::nullopt, 8);
+		InsertSeperatorToText(text, seperator, std::nullopt, 8);
 	}
 	else if (base == 10) {
-		InsertSpaceToText(text, L'.', 3);
+		InsertSeperatorToText(text, seperator, L'.', 3);
 	}
 }
 
