@@ -513,6 +513,9 @@
     <ClInclude Include="src\utility\numeric_text_formatting.h">
       <Filter>src\utility</Filter>
     </ClInclude>
+    <ClInclude Include="src\module\tool\hex\byte_index.h">
+      <Filter>src\module\tool\hex</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">

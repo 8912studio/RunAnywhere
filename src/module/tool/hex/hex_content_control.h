@@ -2,6 +2,7 @@
 
 #include <zaf/control/control.h>
 #include <zaf/graphic/text/text_format.h>
+#include "module/tool/hex/byte_index.h"
 
 namespace ra::module::tool::hex {
 
@@ -23,24 +24,12 @@ protected:
 private:
     void PrepareGraphicResources(zaf::Renderer& renderer);
 
-    void PaintLineHeader(
-        zaf::Canvas& canvas, 
-        std::size_t line_index);
+    void PaintLineHeader(zaf::Canvas& canvas, std::size_t line_index);
 
-    void PaintByteHex(
-        zaf::Canvas& canvas,
-        std::byte byte,
-        std::size_t line_index,
-        std::size_t byte_index_in_line);
-
+    void PaintByteHex(zaf::Canvas& canvas, const ByteIndex& byte_index);
     zaf::TextLayout GetByteHexTextLayout(std::byte byte);
 
-    void PaintByteCharacter(
-        zaf::Canvas& canvas,
-        std::byte byte,
-        std::size_t line_index,
-        std::size_t byte_index_in_line);
-
+    void PaintByteCharacter(zaf::Canvas& canvas, const ByteIndex& byte_index);
     zaf::TextLayout GetByteCharacterTextLayout(wchar_t character);
 
     void HandleMouseMove(const zaf::Point& position);
@@ -58,8 +47,7 @@ private:
     zaf::Brush blank_character_brush_;
     zaf::Brush unknown_character_brush_;
 
-    //LineIndex, ByteIndex
-    std::optional<std::pair<std::size_t, std::size_t>> mouse_over_byte_;
+    std::optional<ByteIndex> mouse_over_byte_index_;
 };
 
 }

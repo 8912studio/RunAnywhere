@@ -182,6 +182,7 @@
     <ClInclude Include="src\module\tool\date\date_command.h" />
     <ClInclude Include="src\module\tool\date\date_command_parse_result.h" />
     <ClInclude Include="src\module\tool\date\date_preview_control.h" />
+    <ClInclude Include="src\module\tool\hex\byte_index.h" />
     <ClInclude Include="src\module\tool\hex\hex_command.h" />
     <ClInclude Include="src\module\tool\hex\hex_command_parse_result.h" />
     <ClInclude Include="src\module\tool\hex\hex_column_header_control.h" />
