@@ -21,6 +21,9 @@ protected:
     bool OnMouseMove(const zaf::Point& position, const zaf::MouseMessage& message) override;
     void OnMouseLeave(const std::shared_ptr<zaf::Control>& leaved_control) override;
 
+    bool OnMouseDown(const zaf::Point& position, const zaf::MouseMessage& message) override;
+    bool OnMouseUp(const zaf::Point& position, const zaf::MouseMessage& message) override;
+
 private:
     void PrepareGraphicResources(zaf::Renderer& renderer);
 
@@ -32,10 +35,14 @@ private:
     void PaintByteCharacter(zaf::Canvas& canvas, const ByteIndex& byte_index);
     zaf::TextLayout GetByteCharacterTextLayout(wchar_t character);
 
-    void HandleMouseMove(const zaf::Point& position);
+    bool IsByteSelected(const ByteIndex& byte_index) const;
 
-    std::optional<std::size_t> FindByteIndex(float x);
-    std::size_t FindLineIndex(float y);
+    void HandleMouseMove(const zaf::Point& position);
+    void HandleMouseDown(const zaf::Point& position);
+    void HandleMouseUp(const zaf::Point& position);
+
+    std::optional<ByteIndex> FindByteIndex(const zaf::Point& position) const;
+    std::optional<std::size_t> FindByteIndexInLine(float x) const;
 
 private:
     std::vector<std::byte> content_;
@@ -43,11 +50,13 @@ private:
     std::map<std::byte, zaf::TextLayout> byte_hex_text_layouts_;
     std::map<wchar_t, zaf::TextLayout> byte_character_text_layouts_;
     zaf::Brush mouse_over_background_brush_;
+    zaf::Brush selected_background_brush_;
     zaf::Brush default_text_brush_;
     zaf::Brush blank_character_brush_;
     zaf::Brush unknown_character_brush_;
 
     std::optional<ByteIndex> mouse_over_byte_index_;
+    std::optional<ByteIndexRange> selected_byte_index_range_;
 };
 
 }
