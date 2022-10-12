@@ -20,9 +20,24 @@ inline constexpr float ByteHexAreaX() {
     return LineHeaderWidth + LineHeaderMargin;
 }
 
+inline constexpr float ByteHexFirstPartEndX() {
+    return ByteHexAreaX() + (BytesPerLine / 2) * ByteWidth;
+}
+
+inline constexpr float ByteHexSecondPartBeginX() {
+    return ByteHexFirstPartEndX() + ByteGapWidth;
+}
+
+inline constexpr float ByteHexSecondPartEndX() {
+    return ByteHexSecondPartBeginX() + (BytesPerLine / 2) * ByteWidth;
+}
 
 inline constexpr float ByteCharacterAreaX() {
     return ByteHexAreaX() + BytesPerLine * ByteWidth + ByteGapWidth + CharacterAreaGapWidth;
+}
+
+inline constexpr float ByteCharacterAreaEndX() {
+    return ByteCharacterAreaX() + BytesPerLine * CharacterWidth;
 }
 
 

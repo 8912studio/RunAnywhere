@@ -1,6 +1,9 @@
 #include "module/tool/hex/hex_content_control.h"
+#include <zaf/base/container/utility/append.h>
 #include <zaf/base/container/utility/range.h>
+#include <zaf/base/container/utility/sort.h>
 #include <zaf/graphic/canvas.h>
+#include <zaf/window/message/mouse_message.h>
 #include <zaf/object/type_definition.h>
 #include "module/tool/hex/paint_common.h"
 
@@ -82,11 +85,11 @@ void HexContentControl::PrepareGraphicResources(zaf::Renderer& renderer) {
 
     if (mouse_over_background_brush_.IsNull()) {
         mouse_over_background_brush_ = 
-            renderer.CreateSolidColorBrush(zaf::Color::FromRGB(0xDDEEFF));
+            renderer.CreateSolidColorBrush(zaf::Color::FromARGB(0x4055BBFF));
     }
 
     if (selected_background_brush_.IsNull()) {
-        selected_background_brush_ = renderer.CreateSolidColorBrush(zaf::Color::Green());
+        selected_background_brush_ = renderer.CreateSolidColorBrush(zaf::Color::FromRGB(0xCCEEBB));
     }
 
     if (default_text_brush_.IsNull()) {
@@ -228,13 +231,13 @@ zaf::TextLayout HexContentControl::GetByteCharacterTextLayout(wchar_t character)
 
 bool HexContentControl::IsByteSelected(const ByteIndex& byte_index) const {
 
-    if (!selected_byte_index_range_) {
+    if (!selection_info_) {
         return false;
     }
 
     return 
-        selected_byte_index_range_->First() <= byte_index && 
-        byte_index <= selected_byte_index_range_->Last();
+        byte_index >= selection_info_->MinByteIndex() && 
+        byte_index <= selection_info_->MaxByteIndex();
 }
 
 
@@ -279,46 +282,98 @@ void HexContentControl::OnMouseLeave(const std::shared_ptr<zaf::Control>& leaved
 
 void HexContentControl::HandleMouseMove(const zaf::Point& position) {
 
-    std::vector<zaf::Rect> need_repainted_rects;
+    auto need_repainted_lines = HandleMouseOverBytesOnMouseMove(position);
+    zaf::Append(need_repainted_lines, HandleSelectedBytesOnMouseMove(position));
 
+    RepaintLines(need_repainted_lines);
+}
+
+
+std::vector<std::size_t> HexContentControl::HandleMouseOverBytesOnMouseMove(
+    const zaf::Point& mouse_position) {
+
+    std::vector<std::size_t> need_repainted_lines;
     if (mouse_over_byte_index_) {
-        need_repainted_rects.push_back(GetByteHexRect(*mouse_over_byte_index_));
-        need_repainted_rects.push_back(GetByteCharacterRect(*mouse_over_byte_index_));
+        need_repainted_lines.push_back(mouse_over_byte_index_->Line());
     }
 
-    auto new_byte_index = FindByteIndex(position);
-    if (new_byte_index) {
-        
-        need_repainted_rects.push_back(GetByteHexRect(*new_byte_index));
-        need_repainted_rects.push_back(GetByteCharacterRect(*new_byte_index));
+    bool is_in_character_index{};
+    mouse_over_byte_index_ = FindByteIndex(mouse_position, false, is_in_character_index);
+    if (mouse_over_byte_index_) {
+        need_repainted_lines.push_back(mouse_over_byte_index_->Line());
     }
 
-    mouse_over_byte_index_ = new_byte_index;
+    return need_repainted_lines;
+}
 
-    auto update_guard = BeginUpdate();
-    for (const auto& each_rect : need_repainted_rects) {
-        NeedRepaintRect(each_rect);
+
+std::vector<std::size_t> HexContentControl::HandleSelectedBytesOnMouseMove(
+    const zaf::Point& mouse_position) {
+
+    if (!IsCapturingMouse()) {
+        return {};
     }
+
+    if (!selection_info_) {
+        return {};
+    }
+
+    auto revised_position = mouse_position;
+    if (!selection_info_->is_in_character_area) {
+        revised_position.x = std::max(revised_position.x, ByteHexAreaX());
+        revised_position.x = std::min(revised_position.x, ByteHexSecondPartEndX());
+    }
+    else {
+        revised_position.x = std::max(revised_position.x, ByteCharacterAreaX());
+        revised_position.x = std::min(revised_position.x, ByteCharacterAreaEndX());
+    }
+
+    bool is_in_character_area{};
+    auto end_byte_index = FindByteIndex(revised_position, true, is_in_character_area);
+
+    ZAF_EXPECT(end_byte_index);
+    ZAF_EXPECT(is_in_character_area == selection_info_->is_in_character_area);
+
+    selection_info_->end_byte_index = *end_byte_index;
+
+    return GetSelectedLines();
 }
 
 
 bool HexContentControl::OnMouseDown(const zaf::Point& position, const zaf::MouseMessage& message) {
 
-    HandleMouseDown(position);
+    HandleMouseDown(position, message);
 
     return __super::OnMouseDown(position, message);
 }
 
 
-void HexContentControl::HandleMouseDown(const zaf::Point& position) {
+void HexContentControl::HandleMouseDown(
+    const zaf::Point& position, 
+    const zaf::MouseMessage& message) {
 
-    auto selected_byte_index = FindByteIndex(position);
-    if (!selected_byte_index) {
-        selected_byte_index_range_.reset();
-        return;
+    auto need_repainted_lines = GetSelectedLines();
+    selection_info_.reset();
+
+    if (message.MouseButton() == zaf::MouseButton::Left) {
+
+        bool is_in_character_area{};
+        auto selected_byte_index = FindByteIndex(position, false, is_in_character_area);
+        if (selected_byte_index) {
+
+            SelectionInfo selection_info;
+            selection_info.begin_byte_index = *selected_byte_index;
+            selection_info.end_byte_index = *selected_byte_index;
+            selection_info.is_in_character_area = is_in_character_area;
+            selection_info_ = selection_info;
+
+            zaf::Append(need_repainted_lines, GetSelectedLines());
+        }
     }
+    
+    RepaintLines(need_repainted_lines);
 
-    selected_byte_index_range_ = ByteIndexRange{ *selected_byte_index , *selected_byte_index };
+    CaptureMouse();
 }
 
 
@@ -332,58 +387,132 @@ bool HexContentControl::OnMouseUp(const zaf::Point& position, const zaf::MouseMe
 
 void HexContentControl::HandleMouseUp(const zaf::Point& position) {
 
+    if (IsCapturingMouse()) {
+        ReleaseCapture();
+    }
 }
 
 
-std::optional<ByteIndex> HexContentControl::FindByteIndex(const zaf::Point& position) const {
+std::vector<std::size_t> HexContentControl::GetSelectedLines() const {
 
-    auto index_in_line = FindByteIndexInLine(position.x);
+    if (!selection_info_) {
+        return {};
+    }
+
+    std::vector<std::size_t> lines;
+    auto min_line = selection_info_->MinByteIndex().Line();
+    auto max_line = selection_info_->MaxByteIndex().Line();
+    for (auto line : zaf::Range(min_line, max_line + 1)) {
+        lines.push_back(line);
+    }
+    return lines;
+}
+
+
+void HexContentControl::RepaintLines(const std::vector<std::size_t>& lines) {
+
+    zaf::Rect need_repainted_rect;
+    for (const auto each_line : lines) {
+
+        zaf::Rect line_rect;
+        line_rect.position.x = 0;
+        line_rect.position.y = each_line * LineHeight;
+        line_rect.size.width = ByteCharacterAreaEndX();
+        line_rect.size.height = LineHeight;
+
+        need_repainted_rect.Union(line_rect);
+    }
+
+    NeedRepaintRect(need_repainted_rect);
+}
+
+
+std::optional<ByteIndex> HexContentControl::FindByteIndex(
+    const zaf::Point& position,
+    bool adjust_to_nearest_index,
+    bool& is_in_character_area) {
+
+    auto line = FindByteLine(position.y, adjust_to_nearest_index);
+    if (!line) {
+        return std::nullopt;
+    }
+
+    auto index_in_line = FindByteIndexInLine(
+        position.x,
+        adjust_to_nearest_index,
+        is_in_character_area);
+
     if (!index_in_line) {
         return std::nullopt;
     }
 
-    auto line = static_cast<std::size_t>(position.y / LineHeight);
-
-    return ByteIndex{ line, *index_in_line };
+    return ByteIndex{ *line, *index_in_line };
 }
 
 
-std::optional<std::size_t> HexContentControl::FindByteIndexInLine(float x) const {
+std::optional<std::size_t> HexContentControl::FindByteIndexInLine(
+    float x, 
+    bool adjust_to_nearest_index,
+    bool& is_in_character_area) {
 
-    if (x < ByteHexAreaX()) {
-        return std::nullopt;
+    float adjusted_x = x;
+
+    if (adjusted_x < ByteHexAreaX()) {
+        if (!adjust_to_nearest_index) {
+            return std::nullopt;
+        }
+        adjusted_x = ByteHexAreaX();
     }
 
-    constexpr auto hex_first_part_end = ByteHexAreaX() + (BytesPerLine / 2) * ByteWidth;
-    if (x < hex_first_part_end) {
+    if (adjusted_x < ByteHexFirstPartEndX()) {
         return static_cast<std::size_t>((x - ByteHexAreaX()) / ByteWidth);
     }
 
-    constexpr auto hex_second_part_begin = hex_first_part_end + ByteGapWidth;
-    if (x < hex_second_part_begin) {
-        return std::nullopt;
+    if (x < ByteHexSecondPartBeginX()) {
+        if (!adjust_to_nearest_index) {
+            return std::nullopt;
+        }
+        return BytesPerLine / 2 - 1;
     }
 
-    constexpr auto byte_hex_second_part_end = 
-        hex_second_part_begin + 
-        (BytesPerLine / 2) * ByteWidth;
-
-    if (x < byte_hex_second_part_end) {
+    if (x < ByteHexSecondPartEndX()) {
         return 
-            static_cast<std::size_t>((x - hex_second_part_begin) / ByteWidth) +
+            static_cast<std::size_t>((x - ByteHexSecondPartBeginX()) / ByteWidth) +
             BytesPerLine / 2;
     }
 
     if (x < ByteCharacterAreaX()) {
-        return std::nullopt;
+        if (!adjust_to_nearest_index) {
+            return std::nullopt;
+        }
+        return BytesPerLine - 1;
     }
 
-    constexpr auto character_part_end = ByteCharacterAreaX() + BytesPerLine * CharacterWidth;
-    if (x < character_part_end) {
+    if (x < ByteCharacterAreaEndX()) {
+        is_in_character_area = true;
         return static_cast<std::size_t>((x - ByteCharacterAreaX()) / CharacterWidth);
     }
 
-    return std::nullopt;
+    if (!adjust_to_nearest_index) {
+        return std::nullopt;
+    }
+
+    return BytesPerLine - 1;
+}
+
+
+std::optional<std::size_t> HexContentControl::FindByteLine(float y, bool adjust_to_nearest_index) {
+
+    auto adjusted_y = y;
+
+    if (adjust_to_nearest_index) {
+
+        if (adjusted_y < 0) {
+            adjusted_y = 0;
+        }
+    }
+
+    return static_cast<std::size_t>(adjusted_y / LineHeight);
 }
 
 }

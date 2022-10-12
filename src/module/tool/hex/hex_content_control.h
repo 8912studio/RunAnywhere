@@ -25,6 +25,36 @@ protected:
     bool OnMouseUp(const zaf::Point& position, const zaf::MouseMessage& message) override;
 
 private:
+    class SelectionInfo {
+    public:
+        const ByteIndex& MinByteIndex() const {
+            return begin_byte_index < end_byte_index ? begin_byte_index : end_byte_index;
+        }
+
+        const ByteIndex& MaxByteIndex() const {
+            return begin_byte_index < end_byte_index ? end_byte_index : begin_byte_index;
+        }
+
+    public:
+        ByteIndex begin_byte_index;
+        ByteIndex end_byte_index;
+        bool is_in_character_area{};
+    };
+
+private:
+    static std::optional<ByteIndex> FindByteIndex(
+        const zaf::Point& position,
+        bool adjust_to_nearest_index,
+        bool& is_in_character_area);
+
+    static std::optional<std::size_t> FindByteIndexInLine(
+        float x, 
+        bool adjust_to_nearest_index,
+        bool& is_in_character_area);
+
+    static std::optional<std::size_t> FindByteLine(float y, bool adjust_to_nearest_index);
+
+private:
     void PrepareGraphicResources(zaf::Renderer& renderer);
 
     void PaintLineHeader(zaf::Canvas& canvas, std::size_t line_index);
@@ -38,11 +68,13 @@ private:
     bool IsByteSelected(const ByteIndex& byte_index) const;
 
     void HandleMouseMove(const zaf::Point& position);
-    void HandleMouseDown(const zaf::Point& position);
+    std::vector<std::size_t> HandleMouseOverBytesOnMouseMove(const zaf::Point& mouse_position);
+    std::vector<std::size_t> HandleSelectedBytesOnMouseMove(const zaf::Point& mouse_position);
+    void HandleMouseDown(const zaf::Point& position, const zaf::MouseMessage& message);
     void HandleMouseUp(const zaf::Point& position);
 
-    std::optional<ByteIndex> FindByteIndex(const zaf::Point& position) const;
-    std::optional<std::size_t> FindByteIndexInLine(float x) const;
+    std::vector<std::size_t> GetSelectedLines() const;
+    void RepaintLines(const std::vector<std::size_t>& lines);
 
 private:
     std::vector<std::byte> content_;
@@ -56,7 +88,7 @@ private:
     zaf::Brush unknown_character_brush_;
 
     std::optional<ByteIndex> mouse_over_byte_index_;
-    std::optional<ByteIndexRange> selected_byte_index_range_;
+    std::optional<SelectionInfo> selection_info_;
 };
 
 }
