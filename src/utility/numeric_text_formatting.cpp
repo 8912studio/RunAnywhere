@@ -4,9 +4,9 @@
 namespace ra::utility {
 namespace {
 
-void InsertSeperatorToText(
+void InsertSeparatorToText(
 	std::wstring& text,
-	wchar_t seperator,
+	wchar_t separator,
 	std::optional<wchar_t> begin_char,
 	std::size_t digit_count) {
 
@@ -28,7 +28,7 @@ void InsertSeperatorToText(
 
 		if (current_digit_count == digit_count + 1) {
 
-			text.insert(position, 1, seperator);
+			text.insert(position, 1, separator);
 			current_digit_count = 1;
 			position += 2;
 		}
@@ -44,13 +44,13 @@ void InsertSeperatorToText(
 }
 
 
-void InsertSeperatorToNumericText(std::wstring& text, int base, wchar_t seperator) {
+void InsertSeparatorToNumericText(std::wstring& text, int base, wchar_t separator) {
 
 	if (base == 2 || base == 16) {
-		InsertSeperatorToText(text, seperator, std::nullopt, 8);
+		InsertSeparatorToText(text, separator, std::nullopt, 8);
 	}
 	else if (base == 10) {
-		InsertSeperatorToText(text, seperator, L'.', 3);
+		InsertSeparatorToText(text, separator, L'.', 3);
 	}
 }
 

@@ -8,7 +8,7 @@ TEST(NumericTextFormattingTest, Decimal) {
 	auto test = [](const std::wstring& input, const std::wstring& expected) {
 	
 		std::wstring result = input;
-		InsertSeperatorToNumericText(result, 10, L' ');
+		InsertSeparatorToNumericText(result, 10, L' ');
 		return result == expected;
 	};
 
@@ -29,7 +29,7 @@ TEST(NumericTextFormattingTest, Binary) {
 	auto test = [](const std::wstring& input, const std::wstring& expected) {
 
 		std::wstring result = input;
-		InsertSeperatorToNumericText(result, 2, L' ');
+		InsertSeparatorToNumericText(result, 2, L' ');
 		return result == expected;
 	};
 
@@ -50,7 +50,7 @@ TEST(NumericTextFormattingTest, Hex) {
 	auto test = [](const std::wstring& input, const std::wstring& expected) {
 
 		auto result = input;
-		InsertSeperatorToNumericText(result, 16, L' ');
+		InsertSeparatorToNumericText(result, 16, L' ');
 		return result == expected;
 	};
 
@@ -69,13 +69,13 @@ TEST(NumericTextFormattingTest, Hex) {
 }
 
 
-TEST(NumericTextFormattingTest, DifferentSeperator) {
+TEST(NumericTextFormattingTest, DifferentSeparator) {
 
 	std::wstring text(L"9876543210");
-	InsertSeperatorToNumericText(text, 10, L',');
+	InsertSeparatorToNumericText(text, 10, L',');
 	ASSERT_EQ(text, L"9,876,543,210");
 
 	text = L"9876543210";
-	InsertSeperatorToNumericText(text, 10, L'-');
+	InsertSeparatorToNumericText(text, 10, L'-');
 	ASSERT_EQ(text, L"9-876-543-210");
 }

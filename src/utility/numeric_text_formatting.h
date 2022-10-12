@@ -4,6 +4,6 @@
 
 namespace ra::utility {
 
-void InsertSeperatorToNumericText(std::wstring& text, int base, wchar_t seperator);
+void InsertSeparatorToNumericText(std::wstring& text, int base, wchar_t separator);
 
 }

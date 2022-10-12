@@ -12,7 +12,7 @@ namespace {
 
 std::wstring FormatInteger(std::uint64_t integer) {
     auto result = std::to_wstring(integer);
-    utility::InsertSeperatorToNumericText(result, 10, L',');
+    utility::InsertSeparatorToNumericText(result, 10, L',');
     return result;
 }
 

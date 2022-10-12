@@ -95,7 +95,7 @@ void CalculatorPreviewControl::SetTextToLabel() {
 
 	auto label_text = result_text.content;
 
-	utility::InsertSeperatorToNumericText(label_text, modifier_.base, L' ');
+	utility::InsertSeparatorToNumericText(label_text, modifier_.base, L' ');
 
 	if (!result_text.prefix.empty()) {
 
