@@ -12,7 +12,7 @@ public:
 public:
     ~WindowBasedDiscoverer();
 
-    ActivePath Discover(HWND foreground_window_handle) override;
+    ActivePath Discover(const ForegroundWindowInfo& foreground_window_info) override;
 
 private:
     static LRESULT CALLBACK ClientWindowProcedure(HWND, UINT, WPARAM, LPARAM);
@@ -22,7 +22,7 @@ private:
     void TryToRegisterClientWindowClass();
     void TryToCreateClientWindow();
 
-    ActivePath DiscoverActivePath(HWND foreground_window_handle);
+    ActivePath DiscoverActivePath(DWORD foreground_process_id);
     void ReceiveCopyDataMessage(const COPYDATASTRUCT& copy_data_info);
 
 private:

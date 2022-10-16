@@ -5,13 +5,13 @@
 
 namespace ra::context {
 
-ActivePath CompositeDiscoverer::Discover(HWND foreground_window_handle) {
+ActivePath CompositeDiscoverer::Discover(const ForegroundWindowInfo& foreground_window_info) {
 
     TryToInitializeDiscoverers();
 
     for (const auto& each_discoverer : discoverers_) {
 
-        auto active_path = each_discoverer->Discover(foreground_window_handle);
+        auto active_path = each_discoverer->Discover(foreground_window_info);
         if (!active_path.IsEmpty()) {
             return active_path;
         }
