@@ -6,7 +6,7 @@ namespace ra::context {
 
 class WindowBasedDiscoverer : public Discoverer {
 public:
-    //Make public for unittest.
+    //TODO: Move this function out to a common place.
     static ActivePath DecodeActivePath(const std::wstring& encoded);
 
 public:

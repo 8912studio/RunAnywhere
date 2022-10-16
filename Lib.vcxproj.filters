@@ -516,6 +516,12 @@
     <ClInclude Include="src\module\tool\hex\byte_index.h">
       <Filter>src\module\tool\hex</Filter>
     </ClInclude>
+    <ClInclude Include="src\context\discover\vscode_discoverer.h">
+      <Filter>src\context\discover</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\data_directory.h">
+      <Filter>src\utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -798,6 +804,12 @@
       <Filter>src\module\tool\hex</Filter>
     </ClCompile>
     <ClCompile Include="src\utility\numeric_text_formatting.cpp">
+      <Filter>src\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\context\discover\vscode_discoverer.cpp">
+      <Filter>src\context\discover</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\data_directory.cpp">
       <Filter>src\utility</Filter>
     </ClCompile>
   </ItemGroup>

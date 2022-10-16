@@ -100,6 +100,7 @@
     <ClInclude Include="src\context\discover\discoverer.h" />
     <ClInclude Include="src\context\discover\everything_discoverer.h" />
     <ClInclude Include="src\context\discover\explorer_discoverer.h" />
+    <ClInclude Include="src\context\discover\vscode_discoverer.h" />
     <ClInclude Include="src\context\discover\window_based_discoverer.h" />
     <ClInclude Include="src\entry\application_switches.h" />
     <ClInclude Include="src\entry\entry_result.h" />
@@ -226,6 +227,7 @@
     <ClInclude Include="src\tray_icon.h" />
     <ClInclude Include="src\utility\clipboard.h" />
     <ClInclude Include="src\utility\command_line.h" />
+    <ClInclude Include="src\utility\data_directory.h" />
     <ClInclude Include="src\utility\numeric_text_formatting.h" />
     <ClInclude Include="src\utility\path_trimming.h" />
     <ClInclude Include="src\utility\preview_text_box.h" />
@@ -239,6 +241,7 @@
     <ClCompile Include="src\context\discover\composite_discoverer.cpp" />
     <ClCompile Include="src\context\discover\everything_discoverer.cpp" />
     <ClCompile Include="src\context\discover\explorer_discoverer.cpp" />
+    <ClCompile Include="src\context\discover\vscode_discoverer.cpp" />
     <ClCompile Include="src\context\discover\window_based_discoverer.cpp" />
     <ClCompile Include="src\entry\application_switches.cpp" />
     <ClCompile Include="src\entry\general_entry.cpp" />
@@ -323,6 +326,7 @@
     <ClCompile Include="src\tray_icon.cpp" />
     <ClCompile Include="src\utility\clipboard.cpp" />
     <ClCompile Include="src\utility\command_line.cpp" />
+    <ClCompile Include="src\utility\data_directory.cpp" />
     <ClCompile Include="src\utility\numeric_text_formatting.cpp" />
     <ClCompile Include="src\utility\path_trimming.cpp" />
     <ClCompile Include="src\utility\preview_text_box.cpp" />

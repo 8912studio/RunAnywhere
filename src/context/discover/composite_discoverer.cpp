@@ -1,6 +1,7 @@
 #include "context/discover/composite_discoverer.h"
 #include "context/discover/everything_discoverer.h"
 #include "context/discover/explorer_discoverer.h"
+#include "context/discover/vscode_discoverer.h"
 #include "context/discover/window_based_discoverer.h"
 
 namespace ra::context {
@@ -29,6 +30,7 @@ void CompositeDiscoverer::TryToInitializeDiscoverers() {
 
     discoverers_.push_back(std::make_unique<ExplorerDiscoverer>());
     discoverers_.push_back(std::make_unique<EverythingDiscoverer>());
+    discoverers_.push_back(std::make_unique<VSCodeDiscoverer>());
     discoverers_.push_back(std::make_unique<WindowBasedDiscoverer>());
 }
 
