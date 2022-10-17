@@ -12,17 +12,6 @@ public:
 
 private:
     static bool IsVSCodeProcess(DWORD process_id);
-    static std::filesystem::path TryToCreateRequestFile(
-        const std::filesystem::path& directory_path, 
-        std::uint32_t sequence);
-    static bool WaitForResponse(const std::filesystem::path& directory_path);
-    static ActivePath ReadResponseFile(
-        const std::filesystem::path& directory_path, 
-        std::uint32_t sequence);
-    static ActivePath ReadActivePathFromFile(const std::filesystem::path& file_path);
-
-private:
-    bool CreateRequestFile();
 
 private:
     std::filesystem::path request_directory_path_;
