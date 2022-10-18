@@ -1,12 +1,8 @@
 #include "context/discover/vscode_discoverer.h"
-#include <fstream>
-#include <zaf/base/container/utility/range.h>
 #include <zaf/base/handle.h>
 #include <zaf/base/string/case_conversion.h>
 #include <zaf/base/string/encoding_conversion.h>
-#include <zaf/base/string/to_numeric.h>
 #include "context/discover/window_based_discoverer.h"
-#include "utility/data_directory.h"
 
 namespace ra::context {
 namespace {
@@ -18,10 +14,6 @@ constexpr const wchar_t* PipeName = LR"(\\.\pipe\Zplutor.RunAnywhere.Discover.VS
 
 VSCodeDiscoverer::VSCodeDiscoverer() {
 
-    auto ipc_directory_path = utility::GetDataDirectoryPath() / "VSCodeIPC";
-
-    request_directory_path_ = ipc_directory_path / "Request";
-    response_directory_path_ = request_directory_path_ / "Response";
 }
 
 
@@ -34,7 +26,7 @@ ActivePath VSCodeDiscoverer::Discover(const ForegroundWindowInfo& foreground_win
     zaf::Handle pipe_handle{ 
         CreateFile(
             PipeName,
-            GENERIC_READ | GENERIC_WRITE,
+            GENERIC_READ,
             0, 
             nullptr,
             OPEN_EXISTING,
@@ -43,16 +35,15 @@ ActivePath VSCodeDiscoverer::Discover(const ForegroundWindowInfo& foreground_win
     };
 
     if (!pipe_handle.IsValid()) {
-        auto error = GetLastError();
         return {};
     }
 
-    std::uint32_t response_content_length{};
+    std::uint32_t response_content_size{};
     DWORD read_size{};
     BOOL is_succeeded = ReadFile(
         pipe_handle.Value(), 
-        &response_content_length,
-        sizeof(response_content_length),
+        &response_content_size,
+        sizeof(response_content_size),
         &read_size,
         nullptr);
 
@@ -60,21 +51,24 @@ ActivePath VSCodeDiscoverer::Discover(const ForegroundWindowInfo& foreground_win
         return {};
     }
 
-    auto buffer = std::make_unique<BYTE[]>(response_content_length);
+    if (response_content_size == 0) {
+        return {};
+    }
+
+    auto buffer = std::make_unique<std::byte[]>(response_content_size);
     is_succeeded = ReadFile(
         pipe_handle.Value(), 
         buffer.get(), 
-        response_content_length,
+        response_content_size,
         &read_size, 
         nullptr);
 
     if (!is_succeeded) {
-        auto last_error = GetLastError();
         return {};
     }
 
-    std::string response((const char*)buffer.get(), read_size);
-    return WindowBasedDiscoverer::DecodeActivePath(zaf::FromUtf8String(response));
+    std::string response_content(reinterpret_cast<const char*>(buffer.get()), read_size);
+    return WindowBasedDiscoverer::DecodeActivePath(zaf::FromUtf8String(response_content));
 }
 
 
