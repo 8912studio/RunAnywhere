@@ -58,6 +58,15 @@ if errorlevel 1 (
 	goto end
 )
 
+echo Build VSCode host extension.
+cd ..\tool\vscode_extension
+call vsce package -o ..\..\build\out\RunAnywhereVSCodeHost.vsix
+if errorlevel 1 (
+	echo Build failed.
+	goto end
+)
+cd %~dp0
+
 echo Build install helper.
 msbuild ..\tool\installer\helper\InstallHelper.sln -p:Configuration=Release
 if errorlevel 1 (

@@ -351,3 +351,4 @@ MigrationBackup/
 /third_party/boost/include/boost
 /build/deploy
 /src/res.rc
+/build/out
