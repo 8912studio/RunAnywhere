@@ -23,13 +23,23 @@ echo #define BUILD %build% >> ..\src\version.h
 echo Update version of installer.
 echo #define MyAppVersion "%version%" > ..\tool\installer\version
 
-echo Build zaf.
-msbuild ..\third_party\zaf\zaf.sln -p:Configuration=Release-MT -p:PlatformTarget=x64
+echo ================================
+echo Build zaf x64.
+msbuild ..\third_party\zaf\zaf.sln -p:Configuration=Release-MT -p:Platform=x64
 if errorlevel 1 (
 	echo Build failed.
 	goto end
 )
 
+echo ================================
+echo Build zaf x86.
+msbuild ..\third_party\zaf\zaf.sln -p:Configuration=Release-MT -p:Platform=x86
+if errorlevel 1 (
+	echo Build failed.
+	goto end
+)
+
+echo ================================
 echo Build application.
 msbuild ..\RunAnywhere.sln -p:Configuration=Release
 if errorlevel 1 (
@@ -37,6 +47,7 @@ if errorlevel 1 (
 	goto end
 )
 
+echo ================================
 echo Build Visual Studio host extension.
 msbuild ..\tool\vs_extension\VSExtension.sln -p:Configuration=Release
 if errorlevel 1 (
@@ -44,6 +55,7 @@ if errorlevel 1 (
 	goto end
 )
 
+echo ================================
 echo Build Notepad++ host plugin x64.
 msbuild ..\tool\npp_plugin\NPPPlugin.sln -p:Configuration=Release -p:Platform=x64
 if errorlevel 1 (
@@ -51,6 +63,7 @@ if errorlevel 1 (
 	goto end
 )
 
+echo ================================
 echo Build Notepad++ host plugin x86.
 msbuild ..\tool\npp_plugin\NPPPlugin.sln -p:Configuration=Release -p:Platform=x86
 if errorlevel 1 (
@@ -58,27 +71,16 @@ if errorlevel 1 (
 	goto end
 )
 
+echo ================================
 echo Build VSCode host extension.
 cd ..\tool\vscode_extension
-call vsce package -o ..\..\build\out\RunAnywhereVSCodeHost.vsix
+call vsce package -o ..\..\build\out\Release\RunAnywhereVSCodeHost.vsix
 if errorlevel 1 (
 	echo Build failed.
 	goto end
 )
 cd %~dp0
 
-echo Build install helper.
-msbuild ..\tool\installer\helper\InstallHelper.sln -p:Configuration=Release
-if errorlevel 1 (
-	echo Build failed.
-	goto end
-)
-
-echo Build installer.
-iscc ..\tool\installer\installer.iss
-if errorlevel 1 (
-	echo Build failed.
-	goto end
-)
+call make_installer.bat
 
 :end

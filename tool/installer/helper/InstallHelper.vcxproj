@@ -14,6 +14,7 @@
     <ClCompile Include="src\dll_main.cpp" />
     <ClCompile Include="src\install_helper.cpp" />
     <ClCompile Include="src\npp_detecting.cpp" />
+    <ClCompile Include="src\vscode_detecting.cpp" />
     <ClCompile Include="src\vs_detecting.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -22,6 +23,7 @@
   <ItemGroup>
     <ClInclude Include="src\install_helper.h" />
     <ClInclude Include="src\npp_detecting.h" />
+    <ClInclude Include="src\vscode_detecting.h" />
     <ClInclude Include="src\vs_detecting.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -62,11 +64,15 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)..\..\..\build\out\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\..\..\build\int\$(ProjectName)\$(Configuration)\</IntDir>
+    <IncludePath>$(SolutionDir)..\..\..\third_party\zaf\src;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)..\..\..\third_party\zaf\out\$(Configuration)-MT\$(PlatformTarget);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)..\..\..\build\out\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)..\..\..\build\int\$(ProjectName)\$(Configuration)\</IntDir>
+    <IncludePath>$(SolutionDir)..\..\..\third_party\zaf\src;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)..\..\..\third_party\zaf\out\$(Configuration)-MT\$(PlatformTarget);$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -83,7 +89,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>comsuppwd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>comsuppwd.lib;%(AdditionalDependencies);zaf.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -105,7 +111,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>comsuppw.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>comsuppw.lib;%(AdditionalDependencies);zaf.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
