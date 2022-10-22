@@ -1,40 +1,48 @@
 #include "vscode_detecting.h"
-#include <zaf/base/error/error.h>
-#include <zaf/base/registry/registry.h>
+#include <Windows.h>
 
 namespace {
 
-std::wstring Detect() {
+bool Detect() {
 
-    try {
+    wchar_t command_line[] = LR"(cmd.exe /c "code --version")";
 
-        auto command = zaf::Registry::ClassesRoot().GetStringValue(
-            L"Applications\\Code.exe\\Shell\\Open\\Command",
-            std::wstring{});
+    STARTUPINFO startup_info{};
+    startup_info.cb = sizeof(startup_info);
 
-        int argument_count{};
-        auto arguments = CommandLineToArgvW(command.c_str(), &argument_count);
-        if (!arguments) {
-            return std::wstring{};
-        }
+    PROCESS_INFORMATION process_info{};
 
-        std::wstring result;
-        if (argument_count > 1) {
-            result = arguments[0];
-        }
+    BOOL is_succeeded = CreateProcess(
+        nullptr, 
+        command_line, 
+        nullptr,
+        nullptr,
+        FALSE,
+        CREATE_NO_WINDOW, 
+        nullptr,
+        nullptr,
+        &startup_info,
+        &process_info);
 
-        LocalFree(arguments);
-        return result;
+    if (!is_succeeded) {
+        return false;
     }
-    catch (const zaf::Error&) {
-        return std::wstring{};
-    }
+
+    WaitForSingleObject(process_info.hProcess, INFINITE);
+
+    DWORD exit_code{};
+    is_succeeded = GetExitCodeProcess(process_info.hProcess, &exit_code);
+
+    CloseHandle(process_info.hThread);
+    CloseHandle(process_info.hProcess);
+
+    return is_succeeded && (exit_code == 0);
 }
 
 }
 
 
-std::wstring GetVSCodeExePath() {
+bool DetectIfVSCodeInstalled() {
 
     static const auto result = Detect();
     return result;

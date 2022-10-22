@@ -54,8 +54,8 @@ Source: "RunAnywhereNPPHost_x86.dll"; DestName: "RunAnywhereNPPHost.dll"; DestDi
 Source: "InstallHelper.dll"; Flags: dontcopy
 
 [Run]
-Filename: "{app}\ExtensionsForOthers\RunAnywhereVSHost.vsix"; Flags: shellexec waituntilterminated; Description: "Install Visual Studio extension"; Components: "Addition\VSExtension"; Check: IsVisualStudioInstalled;
-Filename: "{code:VSCodeExePath}"; Parameters: "{app}\ExtensionsForOthers\RunAnywhereVSCodeHost.vsix"; Flags: shellexec waituntilterminated; Description: "Install Visual Studio Code extension"; Components: "Addition\VSCodeExtension"; Check: IsVSCodeInstalled;
+Filename: "code"; Parameters: "--install-extension ""{app}\ExtensionsForOthers\RunAnywhereVSCodeHost.vsix"""; Flags: shellexec runhidden waituntilterminated; Components: "Addition\VSCodeExtension"; Check: IsVSCodeInstalled;
+Filename: "{app}\ExtensionsForOthers\RunAnywhereVSHost.vsix"; Flags: shellexec waituntilterminated; Components: "Addition\VSExtension"; Check: IsVisualStudioInstalled;
 Filename: "{app}\{#MyAppExeName}"; Parameters: "/register"; Description: "Register file associations"; Flags: postinstall
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
 
@@ -72,22 +72,12 @@ end;
 
 
 //VSCode extension
-function External_GetVSCodeExePath(buffer: String; bufferLength: Integer): Integer;
-external 'External_GetVSCodeExePath@files:InstallHelper.dll cdecl';
-
-function VSCodeExePath(): String;
-begin
-  SetLength(Result, 256);
-  External_GetVSCodeExePath(Result, 256);
-  Result := Copy(Result, 1 , Pos(#0, Result) - 1);
-end;
+function External_IsVSCodeInstalled(): Integer;
+external 'External_IsVSCodeInstalled@files:InstallHelper.dll cdecl';
 
 function IsVSCodeInstalled(): Boolean;
-var
-  vsCodePath: String;
 begin
-  vsCodePath := VSCodeExePath();
-  Result := (Length(vsCodePath) <> 0);
+  Result := External_IsVSCodeInstalled() <> 0;
 end;
 
 

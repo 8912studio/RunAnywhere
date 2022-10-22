@@ -10,7 +10,7 @@ extern "C" {
 
 INSTALLERHELPER_API int __cdecl External_IsVisualStudioInstalled();
 
-INSTALLERHELPER_API void __cdecl External_GetVSCodeExePath(wchar_t* buffer, int buffer_size);
+INSTALLERHELPER_API int __cdecl External_IsVSCodeInstalled();
 
 //Return value is 1 if Notepad++ is x86 version; 0 if Notepad++ is x64 version.
 INSTALLERHELPER_API int __cdecl External_GetNPPInstalledDirectoryPath(

@@ -2,4 +2,4 @@
 
 #include <string>
 
-std::wstring GetVSCodeExePath();
+bool DetectIfVSCodeInstalled();

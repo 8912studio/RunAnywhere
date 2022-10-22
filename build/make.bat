@@ -32,14 +32,6 @@ if errorlevel 1 (
 )
 
 echo ================================
-echo Build zaf x86.
-msbuild ..\third_party\zaf\zaf.sln -p:Configuration=Release-MT -p:Platform=x86
-if errorlevel 1 (
-	echo Build failed.
-	goto end
-)
-
-echo ================================
 echo Build application.
 msbuild ..\RunAnywhere.sln -p:Configuration=Release
 if errorlevel 1 (
@@ -76,6 +68,7 @@ echo Build VSCode host extension.
 cd ..\tool\vscode_extension
 call vsce package -o ..\..\build\out\Release\RunAnywhereVSCodeHost.vsix
 if errorlevel 1 (
+	cd %~dp0
 	echo Build failed.
 	goto end
 )

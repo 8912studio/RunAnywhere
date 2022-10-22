@@ -8,10 +8,8 @@ int __cdecl External_IsVisualStudioInstalled() {
 }
 
 
-void __cdecl External_GetVSCodeExePath(wchar_t* buffer, int buffer_size) {
-
-	auto result = GetVSCodeExePath();
-	wcsncpy_s(buffer, buffer_size, result.c_str(), buffer_size);
+int __cdecl External_IsVSCodeInstalled() {
+	return DetectIfVSCodeInstalled();
 }
 
 
