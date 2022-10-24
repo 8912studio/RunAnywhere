@@ -522,6 +522,9 @@
     <ClInclude Include="src\utility\data_directory.h">
       <Filter>src\utility</Filter>
     </ClInclude>
+    <ClInclude Include="src\module\user_defined\show_window_option.h">
+      <Filter>src\module\user_defined</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -811,6 +814,9 @@
     </ClCompile>
     <ClCompile Include="src\utility\data_directory.cpp">
       <Filter>src\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\user_defined\show_window_option.cpp">
+      <Filter>src\module\user_defined</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

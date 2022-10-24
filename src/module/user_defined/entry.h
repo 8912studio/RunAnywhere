@@ -2,6 +2,7 @@
 
 #include <string>
 #include "module/user_defined/bundle_meta.h"
+#include "module/user_defined/show_window_option.h"
 
 namespace ra::module::user_defined {
 
@@ -34,6 +35,10 @@ public:
 
         void SetWorkingDirectory(const std::wstring& working_directory) {
             result_->working_directory_ = working_directory;
+        }
+
+        void SetShowWindowOption(ShowWindowOption option) {
+            result_->show_window_option_ = option;
         }
 
         std::shared_ptr<Entry> Build() {
@@ -70,12 +75,17 @@ public:
         return working_directory_;
     }
 
+    ShowWindowOption ShowWindowOption() const {
+        return show_window_option_;
+    }
+
 private:
     std::shared_ptr<user_defined::BundleMeta> bundle_meta_;
     std::wstring keyword_;
     std::wstring command_;
     std::wstring description_;
     std::wstring working_directory_;
+    user_defined::ShowWindowOption show_window_option_{ ShowWindowOption::Normal };
 };
 
 }

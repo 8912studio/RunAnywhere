@@ -70,7 +70,7 @@ void UserDefinedCommand::Execute() {
     SHELLEXECUTEINFO shell_execute_info{};
     shell_execute_info.cbSize = sizeof(shell_execute_info);
     shell_execute_info.fMask = SEE_MASK_DOENVSUBST;
-    shell_execute_info.nShow = SW_SHOWNORMAL;
+    shell_execute_info.nShow = static_cast<int>(entry_->ShowWindowOption());
     shell_execute_info.lpFile = execute_info.command_line.command.c_str();
 
     auto arguments = JoinArguments(execute_info.command_line.arguments);

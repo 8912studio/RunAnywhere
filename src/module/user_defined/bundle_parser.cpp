@@ -3,6 +3,8 @@
 #include <string>
 #include <zaf/base/string/encoding_conversion.h>
 #include <zaf/base/string/trim.h>
+#include <zaf/object/boxing/boxing.h>
+#include <zaf/object/enum_type.h>
 
 namespace ra::module::user_defined {
 namespace {
@@ -54,6 +56,17 @@ void SetPropertyToEntry(
     }
     else if (key == "WorkDir") {
         builder.SetWorkingDirectory(value_wstring);
+    }
+    else if (key == "ShowWindow") {
+
+        auto enum_object = ShowWindowOptionEnum::EnumType()->FindValue(value_wstring);
+        if (enum_object) {
+
+            auto enum_value = zaf::Unbox<ShowWindowOption>(enum_object);
+            if (enum_value) {
+                builder.SetShowWindowOption(*enum_value);
+            }
+        }
     }
 }
 
