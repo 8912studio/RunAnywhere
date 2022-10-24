@@ -27,7 +27,7 @@ AlwaysShowDirOnReadyPage=yes
 UsePreviousAppDir=yes
 ArchitecturesAllowed=x64
 SourceDir=..\..\build\out\Release
-OutputDir=..\..\deploy
+OutputDir=..\..\deploy\{#MyAppVersion}
 SetupIconFile=..\..\..\src\icon.ico
 
 [Languages]
