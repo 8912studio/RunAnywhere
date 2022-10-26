@@ -80,13 +80,18 @@ std::wstring ReadTextFromListViewItem(
 }
 
 
-ActivePath EverythingDiscoverer::Discover(HWND foreground_window_handle) {
+ActivePath EverythingDiscoverer::Discover(const ForegroundWindowInfo& foreground_window_info) {
 
-    if (!IsEverythingWindowHandle(foreground_window_handle)) {
+    if (!IsEverythingWindowHandle(foreground_window_info.window_handle)) {
         return {};
     }
 
-    HWND list_view_handle = FindWindowEx(foreground_window_handle, nullptr, WC_LISTVIEW, nullptr);
+    HWND list_view_handle = FindWindowEx(
+        foreground_window_info.window_handle,
+        nullptr,
+        WC_LISTVIEW,
+        nullptr);
+
     if (!list_view_handle) {
         return {};
     }

@@ -63,8 +63,10 @@ public:
 private:
     bool ParseBundle();
     bool CheckIfCanSaveDirectly();
+    bool AreAllBundlFileExist(const std::vector<std::shared_ptr<Entry>>& entries) const;
     bool SaveBundle();
     std::filesystem::path GetBundleSavePath() const;
+    std::filesystem::path GetBundlePathInDepot(const std::wstring& bundle_id) const;
     void ChangeToFailState(FailReason reason);
 
 private:

@@ -23,13 +23,13 @@ WindowBasedDiscoverer::~WindowBasedDiscoverer() {
 }
 
 
-ActivePath WindowBasedDiscoverer::Discover(HWND foreground_window_handle) {
+ActivePath WindowBasedDiscoverer::Discover(const ForegroundWindowInfo& foreground_window_info) {
 
     try {
 
         TryToInitialize();
 
-        return DiscoverActivePath(foreground_window_handle);
+        return DiscoverActivePath(foreground_window_info.process_id);
     }
     catch (const zaf::Error&) {
         return {};
@@ -113,12 +113,9 @@ LRESULT CALLBACK WindowBasedDiscoverer::ClientWindowProcedure(
 }
 
 
-ActivePath WindowBasedDiscoverer::DiscoverActivePath(HWND foreground_window_handle) {
+ActivePath WindowBasedDiscoverer::DiscoverActivePath(DWORD foreground_process_id) {
 
     response_buffer_.clear();
-
-    DWORD foreground_process_id{};
-    GetWindowThreadProcessId(foreground_window_handle, &foreground_process_id);
 
     //Enumerate all host windows.
     HWND host_window_handle{};

@@ -2,14 +2,14 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="case\module\crypto\md5\md5_test_file1">
-      <Filter>case\module\crypto\md5</Filter>
+    <None Include="case\module\tool\md5\md5_test_file1">
+      <Filter>case\module\tool\md5</Filter>
     </None>
-    <None Include="case\module\crypto\md5\md5_test_file2">
-      <Filter>case\module\crypto\md5</Filter>
+    <None Include="case\module\tool\md5\md5_test_file2">
+      <Filter>case\module\tool\md5</Filter>
     </None>
-    <None Include="case\module\crypto\md5\md5_test_file3">
-      <Filter>case\module\crypto\md5</Filter>
+    <None Include="case\module\tool\md5\md5_test_file3">
+      <Filter>case\module\tool\md5</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -34,23 +34,29 @@
     <Filter Include="case\context">
       <UniqueIdentifier>{a203b8ac-7174-4b55-b116-97a41d7246b6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="case\module\date">
-      <UniqueIdentifier>{6aa5e497-be3c-4671-8493-ad5d6cc613fa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="case\module\crypto">
-      <UniqueIdentifier>{d14d3205-1763-4c53-bfe9-d5fc7ee0d866}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="case\module\crypto\md5">
-      <UniqueIdentifier>{3092a1b4-897a-4af2-accc-ea2446284d2a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="case\module\rgb">
-      <UniqueIdentifier>{f94c4144-77e2-4c52-b7bd-815757819cd8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="case\module\user_defined\parse">
       <UniqueIdentifier>{de61a9b8-787b-4759-a9f5-b8157c8a9ff3}</UniqueIdentifier>
     </Filter>
     <Filter Include="case\context\discover">
       <UniqueIdentifier>{e66f5810-c5af-49d7-b2af-9fe4e5168d70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="case\module\tool">
+      <UniqueIdentifier>{6aa5e497-be3c-4671-8493-ad5d6cc613fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="case\module\tool\date">
+      <UniqueIdentifier>{44bc8a9f-6f86-4bd7-be42-a7d6b8abdf09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="case\module\tool\rgb">
+      <UniqueIdentifier>{c4957a72-a749-47f6-ac35-9e6789bc8a1a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="case\module\tool\md5">
+      <UniqueIdentifier>{fcb77508-bb6b-4737-933c-703701cbd09c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="case\module\tool\hex">
+      <UniqueIdentifier>{ad46c9fc-4577-4b95-82f0-cd769c878067}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="case\utility">
+      <UniqueIdentifier>{a46ce4f1-77fa-4793-b1ce-e293f5ee361e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -84,9 +90,6 @@
     <ClCompile Include="case\module\calculator\expression_parser_test.cpp">
       <Filter>case\module\calculator</Filter>
     </ClCompile>
-    <ClCompile Include="case\module\calculator\numeric_text_formatting_test.cpp">
-      <Filter>case\module\calculator</Filter>
-    </ClCompile>
     <ClCompile Include="case\module\active_path\active_path_option_parsing_test.cpp">
       <Filter>case\module\active_path</Filter>
     </ClCompile>
@@ -108,21 +111,9 @@
     <ClCompile Include="case\module\calculator\command_parsing_test.cpp">
       <Filter>case\module\calculator</Filter>
     </ClCompile>
-    <ClCompile Include="case\module\date\date_command_parsing_test.cpp">
-      <Filter>case\module\date</Filter>
-    </ClCompile>
-    <ClCompile Include="case\module\crypto\md5\md5_calculating_test.cpp">
-      <Filter>case\module\crypto\md5</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="case\module\meta\meta_module_test.cpp">
       <Filter>case\module\meta</Filter>
-    </ClCompile>
-    <ClCompile Include="case\module\crypto\md5\md5_command_parsing_test.cpp">
-      <Filter>case\module\crypto\md5</Filter>
-    </ClCompile>
-    <ClCompile Include="case\module\rgb\rgb_command_parsing_test.cpp">
-      <Filter>case\module\rgb</Filter>
     </ClCompile>
     <ClCompile Include="case\environment_variable_manager_test.cpp">
       <Filter>case</Filter>
@@ -150,6 +141,30 @@
     </ClCompile>
     <ClCompile Include="case\context\discover\window_based_discoverer_test.cpp">
       <Filter>case\context\discover</Filter>
+    </ClCompile>
+    <ClCompile Include="case\module\tool\date\date_command_test.cpp">
+      <Filter>case\module\tool\date</Filter>
+    </ClCompile>
+    <ClCompile Include="case\module\tool\rgb\rgb_command_test.cpp">
+      <Filter>case\module\tool\rgb</Filter>
+    </ClCompile>
+    <ClCompile Include="case\module\tool\md5\md5_calculating_test.cpp">
+      <Filter>case\module\tool\md5</Filter>
+    </ClCompile>
+    <ClCompile Include="case\module\tool\md5\md5_command_test.cpp">
+      <Filter>case\module\tool\md5</Filter>
+    </ClCompile>
+    <ClCompile Include="case\module\tool\tool_module_test.cpp">
+      <Filter>case\module\tool</Filter>
+    </ClCompile>
+    <ClCompile Include="case\module\tool\hex\hex_command_test.cpp">
+      <Filter>case\module\tool\hex</Filter>
+    </ClCompile>
+    <ClCompile Include="case\module\tool\hex\hex_preview_control_test.cpp">
+      <Filter>case\module\tool\hex</Filter>
+    </ClCompile>
+    <ClCompile Include="case\utility\numeric_text_formatting_test.cpp">
+      <Filter>case\utility</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

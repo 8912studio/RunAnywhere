@@ -37,18 +37,6 @@
     <Filter Include="src\utility">
       <UniqueIdentifier>{d3861a93-8807-4c4f-8653-c0a3368c30ca}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\module\date">
-      <UniqueIdentifier>{9bffc24d-0901-48ff-b2ab-621c5ec32342}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\module\crypto">
-      <UniqueIdentifier>{2662516a-bbd6-4683-9ddb-3daa9e177f8d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\module\crypto\md5">
-      <UniqueIdentifier>{3d1ebd7b-812e-40de-a3cc-329b5321cf4e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\module\rgb">
-      <UniqueIdentifier>{a716d9b6-90be-4b3e-9ee0-4d530039e8d7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\help">
       <UniqueIdentifier>{7adb72ac-73e5-47e6-b879-f7647278fcac}</UniqueIdentifier>
     </Filter>
@@ -87,6 +75,21 @@
     </Filter>
     <Filter Include="src\context\discover">
       <UniqueIdentifier>{60483675-c9ab-40bf-ae0c-6e2587e3628c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\module\tool">
+      <UniqueIdentifier>{f9bf794f-7f21-4214-b344-38b0041a7985}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\module\tool\date">
+      <UniqueIdentifier>{2c76d038-b555-497d-96f7-95843ec6e564}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\module\tool\rgb">
+      <UniqueIdentifier>{6c3779b4-6f0b-48dc-823c-4c90a7c3766e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\module\tool\md5">
+      <UniqueIdentifier>{67348dfb-f40d-486e-8ee1-2d2fabc30f1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\module\tool\hex">
+      <UniqueIdentifier>{b232d39e-0af6-4ca9-afcf-8de43679104e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -219,9 +222,6 @@
     <ClInclude Include="src\module\calculator\result_text_builder.h">
       <Filter>src\module\calculator</Filter>
     </ClInclude>
-    <ClInclude Include="src\module\calculator\preview\numeric_text_formatting.h">
-      <Filter>src\module\calculator\preview</Filter>
-    </ClInclude>
     <ClInclude Include="src\module\calculator\preview\calculator_preview_control.h">
       <Filter>src\module\calculator\preview</Filter>
     </ClInclude>
@@ -291,65 +291,14 @@
     <ClInclude Include="src\registry_define.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\module\date\date_module.h">
-      <Filter>src\module\date</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\date\date_command.h">
-      <Filter>src\module\date</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\date\date_command_parse_result.h">
-      <Filter>src\module\date</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\date\date_command_parsing.h">
-      <Filter>src\module\date</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\date\date_preview_control.h">
-      <Filter>src\module\date</Filter>
-    </ClInclude>
     <ClInclude Include="src\application_delegate.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\utility\preview_text_box.h">
       <Filter>src\utility</Filter>
     </ClInclude>
-    <ClInclude Include="src\module\crypto\crypto_module.h">
-      <Filter>src\module\crypto</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\crypto\md5\md5_command.h">
-      <Filter>src\module\crypto\md5</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\crypto\md5\md5_preview_control.h">
-      <Filter>src\module\crypto\md5</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\crypto\md5\md5_calculating.h">
-      <Filter>src\module\crypto\md5</Filter>
-    </ClInclude>
     <ClInclude Include="src\utility\progress_circle.h">
       <Filter>src\utility</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\crypto\md5\md5_command_parsing.h">
-      <Filter>src\module\crypto\md5</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\crypto\md5\md5_command_parse_result.h">
-      <Filter>src\module\crypto\md5</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\crypto\md5\md5_encoding.h">
-      <Filter>src\module\crypto\md5</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\rgb\rgb_module.h">
-      <Filter>src\module\rgb</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\rgb\rgb_command.h">
-      <Filter>src\module\rgb</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\rgb\rgb_preview_control.h">
-      <Filter>src\module\rgb</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\rgb\rgb_command_parsing.h">
-      <Filter>src\module\rgb</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\rgb\rgb_command_parse_result.h">
-      <Filter>src\module\rgb</Filter>
     </ClInclude>
     <ClInclude Include="src\utility\command_line.h">
       <Filter>src\utility</Filter>
@@ -507,6 +456,75 @@
     <ClInclude Include="src\module\user_defined\command_line_info.h">
       <Filter>src\module\user_defined</Filter>
     </ClInclude>
+    <ClInclude Include="src\module\tool\tool_module.h">
+      <Filter>src\module\tool</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\tool\date\date_command.h">
+      <Filter>src\module\tool\date</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\tool\date\date_preview_control.h">
+      <Filter>src\module\tool\date</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\tool\date\date_command_parse_result.h">
+      <Filter>src\module\tool\date</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\tool\rgb\rgb_command.h">
+      <Filter>src\module\tool\rgb</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\tool\rgb\rgb_command_parse_result.h">
+      <Filter>src\module\tool\rgb</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\tool\rgb\rgb_preview_control.h">
+      <Filter>src\module\tool\rgb</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\tool\md5\md5_calculating.h">
+      <Filter>src\module\tool\md5</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\tool\md5\md5_command.h">
+      <Filter>src\module\tool\md5</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\tool\md5\md5_command_parse_result.h">
+      <Filter>src\module\tool\md5</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\tool\md5\md5_encoding.h">
+      <Filter>src\module\tool\md5</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\tool\md5\md5_preview_control.h">
+      <Filter>src\module\tool\md5</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\tool\hex\hex_command.h">
+      <Filter>src\module\tool\hex</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\tool\hex\hex_command_parse_result.h">
+      <Filter>src\module\tool\hex</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\tool\hex\hex_preview_control.h">
+      <Filter>src\module\tool\hex</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\tool\hex\hex_content_control.h">
+      <Filter>src\module\tool\hex</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\tool\hex\hex_column_header_control.h">
+      <Filter>src\module\tool\hex</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\tool\hex\paint_common.h">
+      <Filter>src\module\tool\hex</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\numeric_text_formatting.h">
+      <Filter>src\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\tool\hex\byte_index.h">
+      <Filter>src\module\tool\hex</Filter>
+    </ClInclude>
+    <ClInclude Include="src\context\discover\vscode_discoverer.h">
+      <Filter>src\context\discover</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\data_directory.h">
+      <Filter>src\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\user_defined\show_window_option.h">
+      <Filter>src\module\user_defined</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -590,9 +608,6 @@
     <ClCompile Include="src\module\calculator\result_text_builder.cpp">
       <Filter>src\module\calculator</Filter>
     </ClCompile>
-    <ClCompile Include="src\module\calculator\preview\numeric_text_formatting.cpp">
-      <Filter>src\module\calculator\preview</Filter>
-    </ClCompile>
     <ClCompile Include="src\module\calculator\preview\calculator_preview_control.cpp">
       <Filter>src\module\calculator\preview</Filter>
     </ClCompile>
@@ -650,53 +665,14 @@
     <ClCompile Include="src\hot_key_utility.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\module\date\date_module.cpp">
-      <Filter>src\module\date</Filter>
-    </ClCompile>
-    <ClCompile Include="src\module\date\date_command.cpp">
-      <Filter>src\module\date</Filter>
-    </ClCompile>
-    <ClCompile Include="src\module\date\date_command_parsing.cpp">
-      <Filter>src\module\date</Filter>
-    </ClCompile>
-    <ClCompile Include="src\module\date\date_preview_control.cpp">
-      <Filter>src\module\date</Filter>
-    </ClCompile>
     <ClCompile Include="src\application_delegate.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\utility\preview_text_box.cpp">
       <Filter>src\utility</Filter>
     </ClCompile>
-    <ClCompile Include="src\module\crypto\crypto_module.cpp">
-      <Filter>src\module\crypto</Filter>
-    </ClCompile>
-    <ClCompile Include="src\module\crypto\md5\md5_command.cpp">
-      <Filter>src\module\crypto\md5</Filter>
-    </ClCompile>
-    <ClCompile Include="src\module\crypto\md5\md5_preview_control.cpp">
-      <Filter>src\module\crypto\md5</Filter>
-    </ClCompile>
-    <ClCompile Include="src\module\crypto\md5\md5_calculating.cpp">
-      <Filter>src\module\crypto\md5</Filter>
-    </ClCompile>
     <ClCompile Include="src\utility\progress_circle.cpp">
       <Filter>src\utility</Filter>
-    </ClCompile>
-    <ClCompile Include="src\module\crypto\md5\md5_command_parsing.cpp">
-      <Filter>src\module\crypto\md5</Filter>
-    </ClCompile>
-    <ClCompile Include="src\module\rgb\rgb_module.cpp">
-      <Filter>src\module\rgb</Filter>
-    </ClCompile>
-    <ClCompile Include="src\module\rgb\rgb_command.cpp">
-      <Filter>src\module\rgb</Filter>
-    </ClCompile>
-    <ClCompile Include="src\module\rgb\rgb_preview_control.cpp">
-      <Filter>src\module\rgb</Filter>
-    </ClCompile>
-    <ClCompile Include="src\module\rgb\rgb_command_parsing.cpp">
-      <Filter>src\module\rgb</Filter>
     </ClCompile>
     <ClCompile Include="src\utility\command_line.cpp">
       <Filter>src\utility</Filter>
@@ -791,6 +767,57 @@
     <ClCompile Include="src\context\discover\composite_discoverer.cpp">
       <Filter>src\context\discover</Filter>
     </ClCompile>
+    <ClCompile Include="src\module\tool\tool_module.cpp">
+      <Filter>src\module\tool</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\tool\date\date_command.cpp">
+      <Filter>src\module\tool\date</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\tool\date\date_preview_control.cpp">
+      <Filter>src\module\tool\date</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\tool\rgb\rgb_command.cpp">
+      <Filter>src\module\tool\rgb</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\tool\rgb\rgb_preview_control.cpp">
+      <Filter>src\module\tool\rgb</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\tool\md5\md5_calculating.cpp">
+      <Filter>src\module\tool\md5</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\tool\md5\md5_command.cpp">
+      <Filter>src\module\tool\md5</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\tool\md5\md5_preview_control.cpp">
+      <Filter>src\module\tool\md5</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\tool\hex\hex_command.cpp">
+      <Filter>src\module\tool\hex</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\tool\hex\hex_preview_control.cpp">
+      <Filter>src\module\tool\hex</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\tool\hex\hex_content_control.cpp">
+      <Filter>src\module\tool\hex</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\tool\hex\hex_column_header_control.cpp">
+      <Filter>src\module\tool\hex</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\tool\hex\paint_common.cpp">
+      <Filter>src\module\tool\hex</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\numeric_text_formatting.cpp">
+      <Filter>src\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\context\discover\vscode_discoverer.cpp">
+      <Filter>src\context\discover</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\data_directory.cpp">
+      <Filter>src\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\user_defined\show_window_option.cpp">
+      <Filter>src\module\user_defined</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Page Include="src\module\user_defined\preview\user_defined_command_preview_control.xaml">
@@ -811,15 +838,6 @@
     <Page Include="src\preview_view.xaml">
       <Filter>src</Filter>
     </Page>
-    <Page Include="src\module\date\date_preview_control.xaml">
-      <Filter>src\module\date</Filter>
-    </Page>
-    <Page Include="src\module\crypto\md5\md5_preview_control.xaml">
-      <Filter>src\module\crypto\md5</Filter>
-    </Page>
-    <Page Include="src\module\rgb\rgb_preview_control.xaml">
-      <Filter>src\module\rgb</Filter>
-    </Page>
     <Page Include="src\help\help_window.xaml">
       <Filter>src\help</Filter>
     </Page>
@@ -828,6 +846,18 @@
     </Page>
     <Page Include="src\module\user_defined\import\import_bundle_window.xaml">
       <Filter>src\module\user_defined\import</Filter>
+    </Page>
+    <Page Include="src\module\tool\date\date_preview_control.xaml">
+      <Filter>src\module\tool\date</Filter>
+    </Page>
+    <Page Include="src\module\tool\rgb\rgb_preview_control.xaml">
+      <Filter>src\module\tool\rgb</Filter>
+    </Page>
+    <Page Include="src\module\tool\md5\md5_preview_control.xaml">
+      <Filter>src\module\tool\md5</Filter>
+    </Page>
+    <Page Include="src\module\tool\hex\hex_preview_control.xaml">
+      <Filter>src\module\tool\hex</Filter>
     </Page>
   </ItemGroup>
   <ItemGroup>

@@ -6,7 +6,7 @@ namespace ra::context {
 
 class ExplorerDiscoverer : public Discoverer {
 public:
-    ActivePath Discover(HWND foreground_window_handle) override;
+    ActivePath Discover(const ForegroundWindowInfo& foreground_window_info) override;
 };
 
 }

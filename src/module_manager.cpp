@@ -4,10 +4,8 @@
 #include <zaf/base/string/trim.h>
 #include "module/active_path/active_path_module.h"
 #include "module/calculator/calculator_module.h"
-#include "module/crypto/crypto_module.h"
-#include "module/date/date_module.h"
 #include "module/meta/meta_module.h"
-#include "module/rgb/rgb_module.h"
+#include "module/tool/tool_module.h"
 #include "module/user_defined/user_defined_module.h"
 
 namespace ra {
@@ -23,9 +21,7 @@ void ModuleManager::Initialize() {
 
     modules_.push_back(std::make_shared<module::meta::MetaModule>());
     modules_.push_back(std::make_shared<module::active_path::ActivePathModule>());
-    modules_.push_back(std::make_shared<module::date::DateModule>());
-    modules_.push_back(std::make_shared<module::crypto::CryptoModule>());
-    modules_.push_back(std::make_shared<module::rgb::RGBModule>());
+    modules_.push_back(std::make_shared<module::tool::ToolModule>());
     modules_.push_back(user_defined_module_);
     zaf::Append(modules_, extension_module_manager_->GetAllModules());
     modules_.push_back(std::make_shared<module::calculator::CalculatorModule>());

@@ -2,7 +2,7 @@
 
 #include <filesystem>
 
-namespace ra::module::user_defined{
+namespace ra::module::user_defined {
 
 std::filesystem::path GetLegacyEntryFilePath();
 

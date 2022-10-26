@@ -5,23 +5,28 @@
 namespace ra::context {
 namespace {
 
-ActivePath DiscoverActivePath(HWND foreground_window) {
+ActivePath DiscoverActivePath(const ForegroundWindowInfo& foreground_window_info) {
 
-    static auto discoverer = std::make_unique<CompositeDiscoverer>();
-    return discoverer->Discover(foreground_window);
+    static CompositeDiscoverer discoverer;
+    return discoverer.Discover(foreground_window_info);
 }
 
 }
 
 DesktopContext DiscoverDesktopContext() {
 
-    DesktopContext result;
-
-    HWND foreground_window = GetForegroundWindow();
-    if (foreground_window) {
-        result.active_path = DiscoverActivePath(foreground_window);
+    ForegroundWindowInfo foreground_window_info;
+    foreground_window_info.window_handle = GetForegroundWindow();
+    if (!foreground_window_info.window_handle) {
+        return {};
     }
 
+    GetWindowThreadProcessId(
+        foreground_window_info.window_handle, 
+        &foreground_window_info.process_id);
+    
+    DesktopContext result;
+    result.active_path = DiscoverActivePath(foreground_window_info);
     return result;
 }
 

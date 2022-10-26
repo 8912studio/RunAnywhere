@@ -6,9 +6,16 @@
 
 namespace ra::context {
 
+class ForegroundWindowInfo {
+public:
+    HWND window_handle{};
+    DWORD process_id{};
+};
+
+
 class Discoverer : zaf::NonCopyable {
 public:
-    virtual ActivePath Discover(HWND foreground_window_handle) = 0;
+    virtual ActivePath Discover(const ForegroundWindowInfo& foreground_window_info) = 0;
 };
 
 }

@@ -2,8 +2,8 @@
 #include <zaf/base/container/utility/range.h>
 #include <zaf/graphic/font/font.h>
 #include <zaf/object/type_definition.h>
-#include "module/calculator/preview/numeric_text_formatting.h"
 #include "module/calculator/result_text_builder.h"
+#include "utility/numeric_text_formatting.h"
 
 namespace ra::module::calculator {
 namespace {
@@ -95,7 +95,7 @@ void CalculatorPreviewControl::SetTextToLabel() {
 
 	auto label_text = result_text.content;
 
-	InsertSpaceToNumericText(label_text, modifier_.base);
+	utility::InsertSeparatorToNumericText(label_text, modifier_.base, L' ');
 
 	if (!result_text.prefix.empty()) {
 

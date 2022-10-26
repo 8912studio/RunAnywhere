@@ -3,6 +3,8 @@
 #include <string>
 #include <zaf/base/string/encoding_conversion.h>
 #include <zaf/base/string/trim.h>
+#include <zaf/object/boxing/boxing.h>
+#include <zaf/object/enum_type.h>
 
 namespace ra::module::user_defined {
 namespace {
@@ -39,7 +41,7 @@ bool TryToParseProperty(const std::string& line, std::string& key, std::string& 
 }
 
 
-void SetPropertyToEntry(
+bool SetPropertyToEntry(
     Entry::Builder& builder, 
     const std::string& key,
     const std::string& value) {
@@ -55,6 +57,18 @@ void SetPropertyToEntry(
     else if (key == "WorkDir") {
         builder.SetWorkingDirectory(value_wstring);
     }
+    else if (key == "ShowWindow") {
+
+        auto enum_object = ShowWindowOptionEnum::EnumType()->FindValue(value_wstring);
+        if (!enum_object) {
+            return false;
+        }
+
+        auto enum_value = zaf::Unbox<ShowWindowOption>(*enum_object);
+        builder.SetShowWindowOption(enum_value);
+    }
+
+    return true;
 }
 
 }
@@ -132,7 +146,12 @@ std::shared_ptr<Bundle> BundleParser::Parse() {
             }
             //Current in entry context, add to entry property.
             else if (current_entry_builder) {
-                SetPropertyToEntry(*current_entry_builder, key, value);
+
+                bool is_valid_property = SetPropertyToEntry(*current_entry_builder, key, value);
+                if (!is_valid_property) {
+                    //Bad property.
+                    throw ParseError(line_number, line);
+                }
             }
             continue;
         }

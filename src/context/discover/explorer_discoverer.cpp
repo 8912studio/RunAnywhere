@@ -8,7 +8,7 @@ namespace ra::context {
 namespace {
 
 //This approach is not 100% accurate, but it is suitable in most cases.
-bool IsDesktopForeground(HWND foreground_window_handle) {
+bool IsDesktopForeground(DWORD foreground_process_id) {
 
     auto shell_window_handle = GetShellWindow();
     if (!shell_window_handle) {
@@ -18,18 +18,15 @@ bool IsDesktopForeground(HWND foreground_window_handle) {
     DWORD shell_window_process_id{};
     GetWindowThreadProcessId(shell_window_handle, &shell_window_process_id);
 
-    DWORD foreground_window_process_id{};
-    GetWindowThreadProcessId(foreground_window_handle, &foreground_window_process_id);
-
-    return shell_window_process_id == foreground_window_process_id;
+    return shell_window_process_id == foreground_process_id;
 }
 
 
 CComPtr<IWebBrowser2> FindForegroundDesktopWindow(
     IShellWindows* shell_windows,
-    HWND foreground_window_handle) {
+    DWORD foreground_process_id) {
 
-    if (!IsDesktopForeground(foreground_window_handle)) {
+    if (!IsDesktopForeground(foreground_process_id)) {
         return nullptr;
     }
 
@@ -94,7 +91,7 @@ CComPtr<IWebBrowser2> FindForegroundExplorerWindow(
 }
 
 
-CComPtr<IWebBrowser2> FindForegroundWindow(HWND foreground_window_handle) {
+CComPtr<IWebBrowser2> FindForegroundWindow(const ForegroundWindowInfo& foreground_window_info) {
 
     CComPtr<IShellWindows> shell_windows;
     HRESULT hresult = CoCreateInstance(
@@ -106,12 +103,12 @@ CComPtr<IWebBrowser2> FindForegroundWindow(HWND foreground_window_handle) {
 
     ZAF_THROW_IF_COM_ERROR(hresult);
 
-    auto result = FindForegroundExplorerWindow(shell_windows, foreground_window_handle);
+    auto result = FindForegroundExplorerWindow(shell_windows, foreground_window_info.window_handle);
     if (result) {
         return result;
     }
 
-    return FindForegroundDesktopWindow(shell_windows, foreground_window_handle);
+    return FindForegroundDesktopWindow(shell_windows, foreground_window_info.process_id);
 }
 
 
@@ -174,13 +171,13 @@ std::wstring GetSelectedItemName(IFolderView* folder_view, IPersistFolder2* pers
 }
 
 
-ActivePath ExplorerDiscoverer::Discover(HWND foreground_window_handle) {
+ActivePath ExplorerDiscoverer::Discover(const ForegroundWindowInfo& foreground_window_info) {
 
     //Reference: https://devblogs.microsoft.com/oldnewthing/?p=38393
 
     try {
 
-        auto foreground_window = FindForegroundWindow(foreground_window_handle);
+        auto foreground_window = FindForegroundWindow(foreground_window_info);
         if (!foreground_window) {
             return {};
         }

@@ -8,7 +8,7 @@ namespace ra::context {
 
 class CompositeDiscoverer : public Discoverer {
 public:
-    ActivePath Discover(HWND foreground_window_handle) override;
+    ActivePath Discover(const ForegroundWindowInfo& foreground_window_info) override;
 
 private:
     void TryToInitializeDiscoverers();

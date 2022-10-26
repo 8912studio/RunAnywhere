@@ -1,27 +1,17 @@
 #include "module/user_defined/user_defined_module.h"
 #include <Windows.h>
-#include <shlobj_core.h>
 #include "module/user_defined/bundle_definition.h"
 #include "module/user_defined/bundle_parser.h"
 #include "module/user_defined/legacy/legacy_entry_file.h"
 #include "module/user_defined/legacy/legacy_entry_upgrading.h"
 #include "module/user_defined/user_defined_command.h"
+#include "utility/data_directory.h"
 
 namespace ra::module::user_defined {
 namespace {
 
 std::filesystem::path GetBundleDirectoryPath() {
-
-    wchar_t* buffer{};
-    HRESULT result = SHGetKnownFolderPath(FOLDERID_RoamingAppData, 0, nullptr, &buffer);
-    if (FAILED(result)) {
-        return {};
-    }
-
-    std::filesystem::path path{ buffer };
-    CoTaskMemFree(buffer);
-
-    return path / "RunAnywhere" / "Bundles";
+    return utility::GetDataDirectoryPath() / "Bundles";
 }
 
 }
