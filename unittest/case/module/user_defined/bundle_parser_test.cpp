@@ -38,6 +38,7 @@ TEST(BundleParserTest, Case1) {
     ASSERT_EQ(entries[1]->Command(), L"C:\\Windows\\System32\\cmd.exe /k \"cd %.@\"");
     ASSERT_EQ(entries[1]->Description(), L"Open command line tool");
     ASSERT_EQ(entries[1]->WorkingDirectory(), L"D:\\RunAnywhere src");
+    ASSERT_EQ(entries[1]->ShowWindowOption(), ShowWindowOption::Normal);
 }
 
 
@@ -69,6 +70,42 @@ TEST(BundleParseTest, Case3) {
         ASSERT_EQ(error.Code(), zaf::BasicErrc::InvalidValue);
         ASSERT_EQ(error.ErrorLineNumber(), 5);
         ASSERT_EQ(error.ErrorLine(), "error line");
+    }
+}
+
+
+TEST(BundleParseTest, ShowWindowOption) {
+
+    auto input_path = GetInputFilePath("parser_show_window_option.ra-bundle");
+    BundleParser parser(input_path);
+
+    auto bundle = parser.Parse();
+    const auto& entries = bundle->Entries();
+    ASSERT_EQ(entries.size(), 2);
+
+    const auto& first = *entries[0];
+    ASSERT_EQ(first.Keyword(), L"show");
+    ASSERT_EQ(first.ShowWindowOption(), ShowWindowOption::Normal);
+
+    const auto& second = *entries[1];
+    ASSERT_EQ(second.Keyword(), L"hide");
+    ASSERT_EQ(second.ShowWindowOption(), ShowWindowOption::Hide);
+}
+
+
+TEST(BundleParseTest, BadShowWindowOption) {
+
+    auto input_path = GetInputFilePath("parser_bad_show_window_option.ra-bundle");
+    BundleParser parser(input_path);
+
+    try {
+        parser.Parse();
+        GTEST_FAIL();
+    }
+    catch (const BundleParser::ParseError& error) {
+        ASSERT_EQ(error.Code(), zaf::BasicErrc::InvalidValue);
+        ASSERT_EQ(error.ErrorLineNumber(), 2);
+        ASSERT_EQ(error.ErrorLine(), "ShowWindow=Bad");
     }
 }
 

@@ -1,0 +1,7 @@
+[show]
+Command=cmd.exe
+ShowWindow=Normal
+
+[hide]
+Command=cmd.exe
+ShowWindow=Hide
