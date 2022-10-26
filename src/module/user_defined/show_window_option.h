@@ -13,3 +13,5 @@ enum class ShowWindowOption {
 ZAF_DECLARE_ENUM(ShowWindowOption);
 
 }
+
+ZAF_ENABLE_ENUM_BOXING(ra::module::user_defined::ShowWindowOption);
