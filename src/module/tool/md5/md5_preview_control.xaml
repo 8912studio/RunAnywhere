@@ -31,10 +31,12 @@
     </HorizontalBox>
     <PreviewTextBox Name="md5ResultControl" FontSize="26" IsVisible="false" />
     <ProgressCircle Name="progressCircle" Padding="0,14,0,14" IsVisible="false" />
-    <Control 
+    <HorizontalBox 
         Name="errorControl" 
-        BackgroundImage="res:///resource/error.png"
-        BackgroundImageLayout="Center"
-        IsVisible="false"
-    />
+        AxisAlignment="Center" 
+        CrossAxisAlignment="Center"
+        IsVisible="false" 
+    >
+        <ImageBox FixedSize="40,40" URI="res:///resource/error.png" ImageLayout="Stretch" />
+    </HorizontalBox>
 </MD5PreviewControl>
