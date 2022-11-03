@@ -12,17 +12,18 @@ public:
 public:
     ~WindowBasedDiscoverer();
 
-    ActivePath Discover(const ForegroundWindowInfo& foreground_window_info) override;
+    std::optional<ActivePath> Discover(
+        const ForegroundWindowInfo& foreground_window_info) override;
 
 private:
     static LRESULT CALLBACK ClientWindowProcedure(HWND, UINT, WPARAM, LPARAM);
 
 private:
-    void TryToInitialize();
+    bool TryToInitialize();
     void TryToRegisterClientWindowClass();
     void TryToCreateClientWindow();
 
-    ActivePath DiscoverActivePath(DWORD foreground_process_id);
+    std::optional<ActivePath> DiscoverActivePath(DWORD foreground_process_id);
     void ReceiveCopyDataMessage(const COPYDATASTRUCT& copy_data_info);
 
 private:

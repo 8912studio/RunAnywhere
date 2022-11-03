@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Windows.h>
+#include <optional>
 #include <zaf/base/non_copyable.h>
 #include "context/active_path.h"
 
@@ -15,7 +16,10 @@ public:
 
 class Discoverer : zaf::NonCopyable {
 public:
-    virtual ActivePath Discover(const ForegroundWindowInfo& foreground_window_info) = 0;
+    virtual ~Discoverer() = default;
+
+    virtual std::optional<ActivePath> Discover(
+        const ForegroundWindowInfo& foreground_window_info) = 0;
 };
 
 }

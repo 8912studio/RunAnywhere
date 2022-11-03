@@ -8,7 +8,8 @@ namespace ra::context {
 
 class CompositeDiscoverer : public Discoverer {
 public:
-    ActivePath Discover(const ForegroundWindowInfo& foreground_window_info) override;
+    std::optional<ActivePath> Discover(
+        const ForegroundWindowInfo& foreground_window_info) override;
 
 private:
     void TryToInitializeDiscoverers();

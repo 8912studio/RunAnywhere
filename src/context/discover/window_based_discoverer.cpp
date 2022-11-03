@@ -23,24 +23,28 @@ WindowBasedDiscoverer::~WindowBasedDiscoverer() {
 }
 
 
-ActivePath WindowBasedDiscoverer::Discover(const ForegroundWindowInfo& foreground_window_info) {
+std::optional<ActivePath> WindowBasedDiscoverer::Discover(
+    const ForegroundWindowInfo& foreground_window_info) {
 
-    try {
-
-        TryToInitialize();
-
-        return DiscoverActivePath(foreground_window_info.process_id);
+    if (!TryToInitialize()) {
+        return std::nullopt;
     }
-    catch (const zaf::Error&) {
-        return {};
-    }
+
+    return DiscoverActivePath(foreground_window_info.process_id);
 }
 
 
-void WindowBasedDiscoverer::TryToInitialize() {
+bool WindowBasedDiscoverer::TryToInitialize() {
 
-    TryToRegisterClientWindowClass();
-    TryToCreateClientWindow();
+    try {
+
+        TryToRegisterClientWindowClass();
+        TryToCreateClientWindow();
+        return true;
+    }
+    catch (const zaf::Error&) {
+        return false;
+    }
 }
 
 
@@ -113,9 +117,10 @@ LRESULT CALLBACK WindowBasedDiscoverer::ClientWindowProcedure(
 }
 
 
-ActivePath WindowBasedDiscoverer::DiscoverActivePath(DWORD foreground_process_id) {
+std::optional<ActivePath> WindowBasedDiscoverer::DiscoverActivePath(DWORD foreground_process_id) {
 
     response_buffer_.clear();
+    bool has_found_foreground_window{};
 
     //Enumerate all host windows.
     HWND host_window_handle{};
@@ -141,7 +146,9 @@ ActivePath WindowBasedDiscoverer::DiscoverActivePath(DWORD foreground_process_id
         //Send a message to host window to discover the active path.
         current_sequence_ = ++sequence_seed_;
 
-        LRESULT result = SendMessageTimeout(
+        //The result can be ignored. response_buffer_ is empty if it fails to send message, thus 
+        //the active path is empty as well.
+        SendMessageTimeout(
             host_window_handle,
             common::WM_DISCOVER,
             reinterpret_cast<WPARAM>(client_window_handle_),
@@ -150,15 +157,16 @@ ActivePath WindowBasedDiscoverer::DiscoverActivePath(DWORD foreground_process_id
             2000,
             nullptr);
 
-        if (!result) {
-            ZAF_THROW_SYSTEM_ERROR(GetLastError());
-        }
-
+        has_found_foreground_window = true;
         break;
     }
 
-    //Response data is ready when reaching here.
-    return DecodeActivePath(response_buffer_);
+    if (has_found_foreground_window) {
+        //Response data is ready when reaching here.
+        return DecodeActivePath(response_buffer_);
+    }
+
+    return std::nullopt;
 }
 
 

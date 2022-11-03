@@ -8,10 +8,12 @@ class VSCodeDiscoverer : public Discoverer {
 public:
     VSCodeDiscoverer();
 
-    ActivePath Discover(const ForegroundWindowInfo& foreground_window_info) override;
+    std::optional<ActivePath> Discover(
+        const ForegroundWindowInfo& foreground_window_info) override;
 
 private:
     static bool IsVSCodeProcess(DWORD process_id);
+    static ActivePath GetActivePathFromVSCode();
 };
 
 }

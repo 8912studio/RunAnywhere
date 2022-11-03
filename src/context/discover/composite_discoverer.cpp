@@ -6,14 +6,15 @@
 
 namespace ra::context {
 
-ActivePath CompositeDiscoverer::Discover(const ForegroundWindowInfo& foreground_window_info) {
+std::optional<ActivePath> CompositeDiscoverer::Discover(
+    const ForegroundWindowInfo& foreground_window_info) {
 
     TryToInitializeDiscoverers();
 
     for (const auto& each_discoverer : discoverers_) {
 
         auto active_path = each_discoverer->Discover(foreground_window_info);
-        if (!active_path.IsEmpty()) {
+        if (active_path) {
             return active_path;
         }
     }

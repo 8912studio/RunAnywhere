@@ -17,58 +17,14 @@ VSCodeDiscoverer::VSCodeDiscoverer() {
 }
 
 
-ActivePath VSCodeDiscoverer::Discover(const ForegroundWindowInfo& foreground_window_info) {
+std::optional<ActivePath> VSCodeDiscoverer::Discover(
+    const ForegroundWindowInfo& foreground_window_info) {
 
     if (!IsVSCodeProcess(foreground_window_info.process_id)) {
-        return {};
+        return std::nullopt;
     }
 
-    zaf::Handle pipe_handle{ 
-        CreateFile(
-            PipeName,
-            GENERIC_READ,
-            0, 
-            nullptr,
-            OPEN_EXISTING,
-            0,
-            nullptr)
-    };
-
-    if (!pipe_handle.IsValid()) {
-        return {};
-    }
-
-    std::uint32_t response_content_size{};
-    DWORD read_size{};
-    BOOL is_succeeded = ReadFile(
-        pipe_handle.Value(), 
-        &response_content_size,
-        sizeof(response_content_size),
-        &read_size,
-        nullptr);
-
-    if (!is_succeeded) {
-        return {};
-    }
-
-    if (response_content_size == 0) {
-        return {};
-    }
-
-    auto buffer = std::make_unique<std::byte[]>(response_content_size);
-    is_succeeded = ReadFile(
-        pipe_handle.Value(), 
-        buffer.get(), 
-        response_content_size,
-        &read_size, 
-        nullptr);
-
-    if (!is_succeeded) {
-        return {};
-    }
-
-    std::string response_content(reinterpret_cast<const char*>(buffer.get()), read_size);
-    return WindowBasedDiscoverer::DecodeActivePath(zaf::FromUtf8String(response_content));
+    return GetActivePathFromVSCode();
 }
 
 
@@ -94,6 +50,57 @@ bool VSCodeDiscoverer::IsVSCodeProcess(DWORD process_id) {
     //Just check the file name only for now. Maybe add more detail to check in the future.
     auto filename = zaf::ToLowercased(std::filesystem::path{ path_buffer }.filename());
     return filename == L"code.exe";
+}
+
+
+ActivePath VSCodeDiscoverer::GetActivePathFromVSCode() {
+
+    zaf::Handle pipe_handle{
+        CreateFile(
+            PipeName,
+            GENERIC_READ,
+            0,
+            nullptr,
+            OPEN_EXISTING,
+            0,
+            nullptr)
+    };
+
+    if (!pipe_handle.IsValid()) {
+        return {};
+    }
+
+    std::uint32_t response_content_size{};
+    DWORD read_size{};
+    BOOL is_succeeded = ReadFile(
+        pipe_handle.Value(),
+        &response_content_size,
+        sizeof(response_content_size),
+        &read_size,
+        nullptr);
+
+    if (!is_succeeded) {
+        return {};
+    }
+
+    if (response_content_size == 0) {
+        return {};
+    }
+
+    auto buffer = std::make_unique<std::byte[]>(response_content_size);
+    is_succeeded = ReadFile(
+        pipe_handle.Value(),
+        buffer.get(),
+        response_content_size,
+        &read_size,
+        nullptr);
+
+    if (!is_succeeded) {
+        return {};
+    }
+
+    std::string response_content(reinterpret_cast<const char*>(buffer.get()), read_size);
+    return WindowBasedDiscoverer::DecodeActivePath(zaf::FromUtf8String(response_content));
 }
 
 }

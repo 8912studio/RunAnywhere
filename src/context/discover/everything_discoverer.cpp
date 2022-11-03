@@ -77,14 +77,8 @@ std::wstring ReadTextFromListViewItem(
     return text_buffer.get();
 }
 
-}
 
-
-ActivePath EverythingDiscoverer::Discover(const ForegroundWindowInfo& foreground_window_info) {
-
-    if (!IsEverythingWindowHandle(foreground_window_info.window_handle)) {
-        return {};
-    }
+ActivePath GetActivePathFromEverything(const ForegroundWindowInfo& foreground_window_info) {
 
     HWND list_view_handle = FindWindowEx(
         foreground_window_info.window_handle,
@@ -170,6 +164,19 @@ ActivePath EverythingDiscoverer::Discover(const ForegroundWindowInfo& foreground
     }
 
     return ActivePath{ full_path };
+}
+
+}
+
+
+std::optional<ActivePath> EverythingDiscoverer::Discover(
+    const ForegroundWindowInfo& foreground_window_info) {
+
+    if (!IsEverythingWindowHandle(foreground_window_info.window_handle)) {
+        return std::nullopt;
+    }
+
+    return GetActivePathFromEverything(foreground_window_info);
 }
 
 }

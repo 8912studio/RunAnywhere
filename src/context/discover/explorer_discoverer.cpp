@@ -171,7 +171,8 @@ std::wstring GetSelectedItemName(IFolderView* folder_view, IPersistFolder2* pers
 }
 
 
-ActivePath ExplorerDiscoverer::Discover(const ForegroundWindowInfo& foreground_window_info) {
+std::optional<ActivePath> ExplorerDiscoverer::Discover(
+    const ForegroundWindowInfo& foreground_window_info) {
 
     //Reference: https://devblogs.microsoft.com/oldnewthing/?p=38393
 
@@ -179,7 +180,7 @@ ActivePath ExplorerDiscoverer::Discover(const ForegroundWindowInfo& foreground_w
 
         auto foreground_window = FindForegroundWindow(foreground_window_info);
         if (!foreground_window) {
-            return {};
+            return std::nullopt;
         }
 
         CComPtr<IServiceProvider> service_provider;
@@ -206,7 +207,7 @@ ActivePath ExplorerDiscoverer::Discover(const ForegroundWindowInfo& foreground_w
 
         std::filesystem::path path = GetFolderPath(persist_folder);
         if (path.empty()) {
-            return {};
+            return ActivePath{};
         }
 
         auto selected_item_name = GetSelectedItemName(folder_view, persist_folder);
@@ -217,7 +218,7 @@ ActivePath ExplorerDiscoverer::Discover(const ForegroundWindowInfo& foreground_w
         return ActivePath{ path };
     }
     catch (const zaf::Error&) {
-        return {};
+        return ActivePath{};
     }
 }
 

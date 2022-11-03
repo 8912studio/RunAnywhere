@@ -6,7 +6,8 @@ namespace ra::context {
 
 class EverythingDiscoverer : public Discoverer {
 public:
-    ActivePath Discover(const ForegroundWindowInfo& foreground_window_info) override;
+    std::optional<ActivePath> Discover(
+        const ForegroundWindowInfo& foreground_window_info) override;
 };
 
 }

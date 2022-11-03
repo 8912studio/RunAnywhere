@@ -8,7 +8,11 @@ namespace {
 ActivePath DiscoverActivePath(const ForegroundWindowInfo& foreground_window_info) {
 
     static CompositeDiscoverer discoverer;
-    return discoverer.Discover(foreground_window_info);
+    auto result = discoverer.Discover(foreground_window_info);
+    if (result) {
+        return *result;
+    }
+    return ActivePath{};
 }
 
 }
