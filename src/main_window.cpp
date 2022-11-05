@@ -69,7 +69,14 @@ void MainWindow::InitializeHelpButton() {
 
 void MainWindow::ShowOnTop() {
 
-    desktop_context_ = context::DiscoverDesktopContext();
+    desktop_context_ = context::DesktopContext{}; 
+
+    Subscriptions() += context::DiscoverDesktopContext().Subscribe(
+        [this](const context::DesktopContext& context) {
+    
+        desktop_context_ = context;
+        UpdateCommandState();
+    });
 
     //First show, center the window in screen
     if (!this->Handle()) {
