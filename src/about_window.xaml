@@ -33,7 +33,7 @@
 
     <Control FixedHeight="20" Margin="0,80,0,0">
         <Control.Layouter>
-            <HorizontalLayouter ControlAlignment="Center" />
+            <HorizontalLayouter AxisAlignment="Center" />
         </Control.Layouter>
         <Button 
             Name="githubButton"

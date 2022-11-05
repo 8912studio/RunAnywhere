@@ -31,7 +31,7 @@
     </VerticalBox>
     <Control Name="errorContainer" AutoHeight="true" Margin="0,30,0,30" IsVisible="false">
         <Control.Layouter>
-            <HorizontalLayouter AxisAlignment="Center" ControlAlignment="Center" />
+            <HorizontalLayouter AxisAlignment="Center" CrossAxisAlignment="Center" />
         </Control.Layouter>
         <Control 
             FixedSize="48,48"

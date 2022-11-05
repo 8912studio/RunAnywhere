@@ -1,6 +1,6 @@
 <RGBPreviewControl FixedHeight="80">
     <RGBPreviewControl.Layouter>
-        <HorizontalLayouter ControlAlignment="Center" AxisAlignment="Center" />
+        <HorizontalLayouter AxisAlignment="Center" CrossAxisAlignment="Center" />
     </RGBPreviewControl.Layouter>
     <Control Name="colorControl" FixedSize="96,48" Border="1" BorderColor="Black" />
     <Label 
