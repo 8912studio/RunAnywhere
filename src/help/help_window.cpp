@@ -48,7 +48,7 @@ void HelpWindow::InitializeScrollControls() {
 void HelpWindow::InitializeScrollButtonContainer() {
 
     const auto& root_control = this->RootControl();
-    Subscriptions() += root_control->RectChangeEvent().Subscribe(
+    Subscriptions() += root_control->RectChangedEvent().Subscribe(
         std::bind(&HelpWindow::LayoutScrollButtonContainer, this));
 
     Subscriptions() += root_control->MouseEnterEvent().Subscribe(std::bind([this]() {
@@ -59,7 +59,7 @@ void HelpWindow::InitializeScrollButtonContainer() {
     Subscriptions() += root_control->MouseLeaveEvent().Subscribe(std::bind([this]() {
 
         const auto& root_control = this->RootControl();
-        if (!root_control->IsMouseOver() && !root_control->IsMouseOverIndirectly()) {
+        if (!root_control->ContainMouse()) {
             scrollButtonContainer->SetIsVisible(false);
         }
     }));
@@ -68,16 +68,16 @@ void HelpWindow::InitializeScrollButtonContainer() {
 
 void HelpWindow::InitializeScrollButtons() {
 
-    Subscriptions() += lineDownButton->ClickEvent().Subscribe(
+    Subscriptions() += lineDownButton->MouseUpEvent().Subscribe(
         std::bind(&HelpWindow::ScrollLine, this, false));
 
-    Subscriptions() += lineUpButton->ClickEvent().Subscribe(
+    Subscriptions() += lineUpButton->MouseUpEvent().Subscribe(
         std::bind(&HelpWindow::ScrollLine, this, true));
 
-    Subscriptions() += pageDownButton->ClickEvent().Subscribe(
+    Subscriptions() += pageDownButton->MouseUpEvent().Subscribe(
         std::bind(&HelpWindow::ScrollPage, this, false));
 
-    Subscriptions() += pageUpButton->ClickEvent().Subscribe(
+    Subscriptions() += pageUpButton->MouseUpEvent().Subscribe(
         std::bind(&HelpWindow::ScrollPage, this, true));
 }
 

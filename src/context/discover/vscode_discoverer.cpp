@@ -100,7 +100,7 @@ ActivePath VSCodeDiscoverer::GetActivePathFromVSCode() {
     }
 
     std::string response_content(reinterpret_cast<const char*>(buffer.get()), read_size);
-    return WindowBasedDiscoverer::DecodeActivePath(zaf::FromUtf8String(response_content));
+    return WindowBasedDiscoverer::DecodeActivePath(zaf::FromUTF8String(response_content));
 }
 
 }

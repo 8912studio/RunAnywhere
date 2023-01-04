@@ -24,8 +24,8 @@ public:
 protected:
     void Initialize() override;
     bool AcceptKeyMessage(const zaf::KeyMessage& message) override;
-    bool OnKeyDown(const zaf::KeyMessage& message) override;
-    void OnFocusLose() override;
+    void OnKeyDown(const zaf::KeyDownInfo& event_info) override;
+    void OnFocusLost(const zaf::FocusLostInfo& event_info) override;
     void OnClick() override;
 
 private:

@@ -46,7 +46,7 @@ bool SetPropertyToEntry(
     const std::string& key,
     const std::string& value) {
 
-    auto value_wstring = zaf::FromUtf8String(value);
+    auto value_wstring = zaf::FromUTF8String(value);
 
     if (key == "Command") {
         builder.SetCommand(value_wstring);
@@ -130,7 +130,7 @@ std::shared_ptr<Bundle> BundleParser::Parse() {
             //Start a new entry context.
             current_entry_builder = std::make_unique<Entry::Builder>();
             current_entry_builder->SetBundleMeta(meta);
-            current_entry_builder->SetKeyword(zaf::FromUtf8String(keyword));
+            current_entry_builder->SetKeyword(zaf::FromUTF8String(keyword));
             continue;
         }
 
@@ -141,8 +141,8 @@ std::shared_ptr<Bundle> BundleParser::Parse() {
             //Current in meta context, add to gloal property.
             if (!meta) {
                 meta_builder.AddGlobalProperty(
-                    zaf::FromUtf8String(key),
-                    zaf::FromUtf8String(value));
+                    zaf::FromUTF8String(key),
+                    zaf::FromUTF8String(value));
             }
             //Current in entry context, add to entry property.
             else if (current_entry_builder) {

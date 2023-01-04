@@ -117,32 +117,33 @@ bool HotKeyBox::AcceptKeyMessage(const zaf::KeyMessage& message) {
 }
 
 
-bool HotKeyBox::OnKeyDown(const zaf::KeyMessage& message) {
+void HotKeyBox::OnKeyDown(const zaf::KeyDownInfo& event_info) {
 
     if (!is_waiting_input_) {
-        return true;
+        return;
     }
 
     //ESC to cancel setting hot key.
-    if (message.VirtualKey() == VK_ESCAPE) {
+    if (event_info.Message().VirtualKey() == VK_ESCAPE) {
         SetIsWaitingInput(false);
-        return true;
+        event_info.MarkAsHandled();
+        return;
     }
 
-    auto new_hot_key = GenerateHotKeyFromKeyMessage(message);
+    auto new_hot_key = GenerateHotKeyFromKeyMessage(event_info.Message());
     if (!new_hot_key) {
-        return true;
+        return;
     }
 
     SetHotKey(*new_hot_key);
     SetIsWaitingInput(false);
-    return true;
+    event_info.MarkAsHandled();
 }
 
 
-void HotKeyBox::OnFocusLose() {
+void HotKeyBox::OnFocusLost(const zaf::FocusLostInfo& event_info) {
 
-    __super::OnFocusLose();
+    __super::OnFocusLost(event_info);
 
     SetIsWaitingInput(false);
 }

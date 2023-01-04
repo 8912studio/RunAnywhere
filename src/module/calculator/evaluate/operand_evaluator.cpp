@@ -11,7 +11,7 @@ EvaluateStatus OperandEvaluator::Evaluate(EvaluateResult& result) {
 
     if (operand_node_->base == 10) {
 
-        result.decimal_value.assign(zaf::ToUtf8String(operand_node_->text));
+        result.decimal_value.assign(zaf::ToUTF8String(operand_node_->text));
 
         switch (operand_node_->unit) {
         case NumberUnit::Tera:

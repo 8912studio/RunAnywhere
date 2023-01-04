@@ -39,11 +39,11 @@ void HelpContentControl::Paint(zaf::Canvas& canvas, const zaf::Rect& dirty_rect)
 }
 
 
-void HelpContentControl::OnRectChanged(const zaf::Rect& previous_rect) {
+void HelpContentControl::OnRectChanged(const zaf::RectChangedInfo& event_info) {
 
-    __super::OnRectChanged(previous_rect);
+    __super::OnRectChanged(event_info);
 
-    if (this->Width() != previous_rect.size.width) {
+    if (this->Width() != event_info.PreviousRect().size.width) {
 
         content_layouter_.SetLayoutWidth(this->ContentSize().width);
         UpdateHeight();

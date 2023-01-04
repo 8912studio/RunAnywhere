@@ -113,7 +113,7 @@ std::wstring ResultTextBuilder::GetDecimalText() const {
 
         std::ostringstream stream;
         stream << std::setprecision(20) << value;
-        result = zaf::FromUtf8String(stream.str());
+        result = zaf::FromUTF8String(stream.str());
     }
 
     return result;

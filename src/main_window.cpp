@@ -62,7 +62,7 @@ void MainWindow::InitializeTextBox() {
 
 void MainWindow::InitializeHelpButton() {
 
-    Subscriptions() += helpButton->ClickEvent().Subscribe(
+    Subscriptions() += helpButton->MouseUpEvent().Subscribe(
         std::bind(&MainWindow::OnHelpButtonClick, this));
 }
 

@@ -18,11 +18,11 @@ protected:
     void ReleaseRendererResources() override;
     zaf::Size CalculatePreferredContentSize(const zaf::Size& bound_size) const override;
 
-    bool OnMouseMove(const zaf::Point& position, const zaf::MouseMessage& message) override;
-    void OnMouseLeave(const std::shared_ptr<zaf::Control>& leaved_control) override;
+    void OnMouseMove(const zaf::MouseMoveInfo& event_info) override;
+    void OnMouseLeave(const zaf::MouseLeaveInfo& event_info) override;
 
-    bool OnMouseDown(const zaf::Point& position, const zaf::MouseMessage& message) override;
-    bool OnMouseUp(const zaf::Point& position, const zaf::MouseMessage& message) override;
+    void OnMouseDown(const zaf::MouseDownInfo& event_info) override;
+    void OnMouseUp(const zaf::MouseUpInfo& event_info) override;
 
 private:
     class SelectionInfo {

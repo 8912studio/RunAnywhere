@@ -16,8 +16,8 @@ void ExtensionCommandPreviewControl::AfterParse() {
 
     scrollControl->VerticalScrollBar()->SetSmallChange(14);
 
-    Subscriptions() += scrollControl->RectChangeEvent().Subscribe(
-        [this](const zaf::ControlRectChangeInfo& event_info) {
+    Subscriptions() += scrollControl->RectChangedEvent().Subscribe(
+        [this](const zaf::RectChangedInfo& event_info) {
     
             if (scrollControl->Width() != event_info.PreviousRect().size.width) {
                 ResetTextBoxHeight();

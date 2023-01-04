@@ -20,7 +20,7 @@ std::wstring GetMD5String(boost::uuids::detail::md5& md5) {
     boost::algorithm::hex(std::begin(digest), std::end(digest), std::back_inserter(hex_string));
 
     zaf::Lowercase(hex_string);
-    return zaf::FromUtf8String(hex_string);
+    return zaf::FromUTF8String(hex_string);
 }
 
 }
@@ -94,7 +94,7 @@ std::wstring CalculateStringMD5(const std::wstring& string, MD5Encoding encoding
     boost::uuids::detail::md5 md5;
 
     if (encoding == MD5Encoding::UTF8) {
-        auto utf8_string = zaf::ToUtf8String(string);
+        auto utf8_string = zaf::ToUTF8String(string);
         md5.process_bytes(utf8_string.data(), utf8_string.length());
     }
     else if (encoding == MD5Encoding::UTF16) {

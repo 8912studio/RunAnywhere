@@ -255,17 +255,18 @@ zaf::Size HexContentControl::CalculatePreferredContentSize(const zaf::Size& boun
 }
 
 
-bool HexContentControl::OnMouseMove(const zaf::Point& position, const zaf::MouseMessage& message) {
+void HexContentControl::OnMouseMove(const zaf::MouseMoveInfo& event_info) {
 
-    HandleMouseMove(position);
+    __super::OnMouseMove(event_info);
 
-    return __super::OnMouseMove(position, message);
+    HandleMouseMove(event_info.PositionAtSender());
+    event_info.MarkAsHandled();
 }
 
 
-void HexContentControl::OnMouseLeave(const std::shared_ptr<zaf::Control>& leaved_control) {
+void HexContentControl::OnMouseLeave(const zaf::MouseLeaveInfo& event_info) {
 
-    __super::OnMouseLeave(leaved_control);
+    __super::OnMouseLeave(event_info);
 
     if (!mouse_over_byte_index_) {
         return;
@@ -277,6 +278,8 @@ void HexContentControl::OnMouseLeave(const std::shared_ptr<zaf::Control>& leaved
     auto update_guard = BeginUpdate();
     NeedRepaintRect(GetByteHexRect(old_byte_index));
     NeedRepaintRect(GetByteCharacterRect(old_byte_index));
+
+    event_info.MarkAsHandled();
 }
 
 
@@ -340,11 +343,12 @@ std::vector<std::size_t> HexContentControl::HandleSelectedBytesOnMouseMove(
 }
 
 
-bool HexContentControl::OnMouseDown(const zaf::Point& position, const zaf::MouseMessage& message) {
+void HexContentControl::OnMouseDown(const zaf::MouseMoveInfo& event_info) {
 
-    HandleMouseDown(position, message);
+    __super::OnMouseDown(event_info);
 
-    return __super::OnMouseDown(position, message);
+    HandleMouseDown(event_info.PositionAtSender(), event_info.Message());
+    event_info.MarkAsHandled();
 }
 
 
@@ -377,11 +381,12 @@ void HexContentControl::HandleMouseDown(
 }
 
 
-bool HexContentControl::OnMouseUp(const zaf::Point& position, const zaf::MouseMessage& message) {
+void HexContentControl::OnMouseUp(const zaf::MouseUpInfo& event_info) {
 
-    HandleMouseUp(position);
+    __super::OnMouseUp(event_info);
 
-    return __super::OnMouseUp(position, message);
+    HandleMouseUp(event_info.PositionAtSender());
+    event_info.MarkAsHandled();
 }
 
 

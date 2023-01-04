@@ -33,7 +33,6 @@
             FixedHeight="20"
             Margin="15,9,0,0"
             BackgroundImage="res:///resource/help_inactive.png"
-            CanClick="true"
             Tooltip="Show/Hide help content (Ctrl+/)" />
     </HorizontalBox>
 

@@ -64,7 +64,7 @@ void ImportBundleWindow::InitializeControls() {
         this->Close();
     }));
 
-    Subscriptions() += container->RectChangeEvent().Subscribe(
+    Subscriptions() += container->RectChangedEvent().Subscribe(
         std::bind(&ImportBundleWindow::UpdateWindowHeight, this));
 }
 
@@ -273,7 +273,7 @@ void ImportBundleWindow::GetParseErrorMessageDisplayInfo(ImportStateDisplayInfo&
     info.message_text += std::to_wstring(importer_->GetParseError()->ErrorLineNumber());
     info.message_text += L":\n";
     info.message_text += L'\"';
-    info.message_text += zaf::FromUtf8String(importer_->GetParseError()->ErrorLine());
+    info.message_text += zaf::FromUTF8String(importer_->GetParseError()->ErrorLine());
     info.message_text += L'\"';
 
     info.message_text_trimming.granularity = zaf::TextTrimming::Granularity::Character;

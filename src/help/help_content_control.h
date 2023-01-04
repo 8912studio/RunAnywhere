@@ -20,7 +20,7 @@ public:
 protected:
     void AfterParse() override;
     void Paint(zaf::Canvas& canvas, const zaf::Rect&) override;
-    void OnRectChanged(const zaf::Rect& previous_rect) override;
+    void OnRectChanged(const zaf::RectChangedInfo& event_info) override;
     void UpdateHeight();
 
 private:

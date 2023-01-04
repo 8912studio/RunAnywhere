@@ -53,6 +53,11 @@ ToolModule::ToolModule() {
 }
 
 
+ToolModule::~ToolModule() {
+
+}
+
+
 std::vector<CommandBrief> ToolModule::QuerySuggestedCommands(const std::wstring& command_text) {
 
     std::vector<CommandBrief> result;

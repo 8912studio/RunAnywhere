@@ -18,14 +18,9 @@ void PreviewTextBox::AfterParse() {
 	this->SetTextAlignment(zaf::TextAlignment::Center);
 	this->SetParagraphAlignment(zaf::ParagraphAlignment::Center);
 	
-	Subscriptions() += this->FocusChangeEvent().Subscribe(
-		[this](const zaf::ControlFocusChangeInfo&) {
-
-		if (!this->IsFocused()) {
-			this->SetSelectionRange(zaf::TextRange{});
-		}
-	});
-	
+	Subscriptions() += this->FocusLostEvent().Subscribe(std::bind([this]() {
+		this->SetSelectionRange(zaf::TextRange{});
+	}));
 }
 
 }

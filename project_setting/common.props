@@ -11,6 +11,10 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <PreprocessorDefinitions>RUN_ANYWHERE_EXTENSION_HOST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <ConformanceMode>true</ConformanceMode>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup />

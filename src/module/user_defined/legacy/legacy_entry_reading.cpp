@@ -42,8 +42,8 @@ std::vector<LegacyEntry> ReadUserDefinedEntries(const std::filesystem::path& fil
         }
 
         LegacyEntry entry;
-        entry.keyword = zaf::FromUtf8String(line);
-        entry.command_line = zaf::FromUtf8String(command_line);
+        entry.keyword = zaf::FromUTF8String(line);
+        entry.command_line = zaf::FromUTF8String(command_line);
         result.push_back(std::move(entry));
     }
 
