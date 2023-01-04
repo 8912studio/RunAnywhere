@@ -19,12 +19,12 @@ VS_VERSION_INFO VERSIONINFO
 BEGIN
     BLOCK "StringFileInfo"
     BEGIN
-        BLOCK "080404b0"
+        BLOCK "040004b0"
         BEGIN
             VALUE "FileDescription", "RunAnywhere"
             VALUE "FileVersion", VERSION_STRING(MAJOR,MINOR,REVISION,BUILD)
             VALUE "InternalName", "RunAnywh.exe"
-            VALUE "LegalCopyright", "Copyright (C) 2021 Zplutor"
+            VALUE "LegalCopyright", "Copyright (C) 2023 Zplutor"
             VALUE "OriginalFilename", "RunAnywh.exe"
             VALUE "ProductName", "RunAnywhere"
             VALUE "ProductVersion", VERSION_STRING(MAJOR,MINOR,REVISION,BUILD)
@@ -32,6 +32,6 @@ BEGIN
     END
     BLOCK "VarFileInfo"
     BEGIN
-        VALUE "Translation", 0x804, 1200
+        VALUE "Translation", 0x400, 1200
     END
 END
