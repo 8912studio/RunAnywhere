@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading;
 using Task = System.Threading.Tasks.Task;
 
-namespace VSExtension
+namespace RunAnywhere
 {
     /// <summary>
     /// This is the class that implements the package exposed by this assembly.
@@ -29,16 +29,16 @@ namespace VSExtension
     /// </remarks>
     [PackageRegistration(UseManagedResourcesOnly = false, AllowsBackgroundLoading = true)]
     [ProvideAutoLoad(UIContextGuids.NoSolution, PackageAutoLoadFlags.BackgroundLoad)]
-    [Guid(VSExtensionPackage.PackageGuidString)]
-    public sealed class VSExtensionPackage : AsyncPackage
+    [Guid(RunAnywhereHostPackage.PackageGuidString)]
+    public sealed class RunAnywhereHostPackage : AsyncPackage
     {
         /// <summary>
-        /// VSExtensionPackage GUID string.
+        /// RunAnywhereHostPackage GUID string.
         /// </summary>
         public const string PackageGuidString = "95b0c241-8b50-4bb3-ae25-a32dbbff0a44";
 
-        private static Win32.RequestFocusedPathCallback requestFocusedPathCallback = OnRequestFocusedPathCallback;
-        private static event Win32.RequestFocusedPathCallback requestFocusedPathEvent;
+        private static NativeInterop.RequestFocusedPathCallback requestFocusedPathCallback = OnRequestFocusedPathCallback;
+        private static event NativeInterop.RequestFocusedPathCallback requestFocusedPathEvent;
 
         private EnvDTE.DTE dte;
         private AnonymousPipeServerStream pipe;
@@ -60,7 +60,7 @@ namespace VSExtension
 
             pipe = new AnonymousPipeServerStream(PipeDirection.Out);
 
-            Win32.RunAnywhereVSHost_Initialize(
+            NativeInterop.RunAnywhereVSHost_Initialize(
                 pipe.ClientSafePipeHandle.DangerousGetHandle(),
                 Marshal.GetFunctionPointerForDelegate(requestFocusedPathCallback));
 
@@ -71,7 +71,7 @@ namespace VSExtension
         {
             base.Dispose(disposing);
 
-            Win32.RunAnywhereVSHost_Uninitialize();
+            NativeInterop.RunAnywhereVSHost_Uninitialize();
         }
 
         private static void OnRequestFocusedPathCallback()
@@ -103,6 +103,7 @@ namespace VSExtension
         private string GetEncodedPaths()
         {
             string document_path = GetActiveDocumentPath();
+
             string solution_path = GetSolutionPath();
 
             if (document_path.Length == 0)

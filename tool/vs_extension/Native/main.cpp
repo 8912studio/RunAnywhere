@@ -90,7 +90,7 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wparam, LPARAM 
 
         COPYDATASTRUCT copy_data_struct{};
         copy_data_struct.dwData = lparam; //Sequence
-        copy_data_struct.cbData = path.length() * sizeof(wchar_t);
+        copy_data_struct.cbData = static_cast<DWORD>(path.length() * sizeof(wchar_t));
         copy_data_struct.lpData = path.data();
         SendMessage(
             reinterpret_cast<HWND>(wparam),

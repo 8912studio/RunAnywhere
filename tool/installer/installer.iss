@@ -39,7 +39,7 @@ Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
 [Components]
 Name: "Main"; Description: "RunAnywhere main program"; Types: full compact custom; Flags: fixed
 Name: "Addition"; Description: "Extensions for other applications"; Types: full; Flags: disablenouninstallwarning; Check: IsAdditionComponentVisible;
-Name: "Addition\VSExtension"; Description: "Visual Studio extension (will install separately)"; Types: full; Flags: disablenouninstallwarning; Check: IsVisualStudioInstalled;
+Name: "Addition\VSExtension"; Description: "Visual Studio extension (will be installed separately)"; Types: full; Flags: disablenouninstallwarning; Check: IsVisualStudioInstalled;
 Name: "Addition\VSCodeExtension"; Description: "Visual Studio Code extension"; Types: full; Flags: disablenouninstallwarning; Check: IsVSCodeInstalled;
 Name: "Addition\NPPPlugin"; Description: "Notepad++ plugin"; Types: full; Flags: disablenouninstallwarning; Check: IsNPPInstalled;
 

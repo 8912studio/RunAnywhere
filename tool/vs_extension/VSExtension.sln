@@ -1,31 +1,59 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30717.126
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VSExtension", "VSExtension.csproj", "{E959D3C7-7B89-44EC-834A-89BD894315B5}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Native-x86", "Native\Native-x86.vcxproj", "{6350BA2E-0B69-40FB-AF82-C786FE14EF8D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{61DD4E2F-BA11-4928-9082-1B362E8F031B} = {61DD4E2F-BA11-4928-9082-1B362E8F031B}
+	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Native", "Native\Native.vcxproj", "{6350BA2E-0B69-40FB-AF82-C786FE14EF8D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Native-x64", "Native\Native-x64.vcxproj", "{61DD4E2F-BA11-4928-9082-1B362E8F031B}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ExtensionShared", "ExtensionShared\ExtensionShared.shproj", "{438A8DE7-5240-4CFE-B8D6-A9C3AC270A00}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtensionForNewIDE", "ExtensionForNewIDE\ExtensionForNewIDE.csproj", "{25A0EC96-886D-4BBA-88FC-A5C95C85A95B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{61DD4E2F-BA11-4928-9082-1B362E8F031B} = {61DD4E2F-BA11-4928-9082-1B362E8F031B}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtensionForOldIDE", "ExtensionForOldIDE\ExtensionForOldIDE.csproj", "{BF409CE4-3F4F-479C-BE6A-5BFD9BDDC542}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6350BA2E-0B69-40FB-AF82-C786FE14EF8D} = {6350BA2E-0B69-40FB-AF82-C786FE14EF8D}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|x86 = Debug|x86
-		Release|x86 = Release|x86
+		Debug|Universal = Debug|Universal
+		Release|Universal = Release|Universal
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E959D3C7-7B89-44EC-834A-89BD894315B5}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{E959D3C7-7B89-44EC-834A-89BD894315B5}.Debug|x86.Build.0 = Debug|Any CPU
-		{E959D3C7-7B89-44EC-834A-89BD894315B5}.Release|x86.ActiveCfg = Release|Any CPU
-		{E959D3C7-7B89-44EC-834A-89BD894315B5}.Release|x86.Build.0 = Release|Any CPU
-		{6350BA2E-0B69-40FB-AF82-C786FE14EF8D}.Debug|x86.ActiveCfg = Debug|Win32
-		{6350BA2E-0B69-40FB-AF82-C786FE14EF8D}.Debug|x86.Build.0 = Debug|Win32
-		{6350BA2E-0B69-40FB-AF82-C786FE14EF8D}.Release|x86.ActiveCfg = Release|Win32
-		{6350BA2E-0B69-40FB-AF82-C786FE14EF8D}.Release|x86.Build.0 = Release|Win32
+		{6350BA2E-0B69-40FB-AF82-C786FE14EF8D}.Debug|Universal.ActiveCfg = Debug|Win32
+		{6350BA2E-0B69-40FB-AF82-C786FE14EF8D}.Debug|Universal.Build.0 = Debug|Win32
+		{6350BA2E-0B69-40FB-AF82-C786FE14EF8D}.Release|Universal.ActiveCfg = Release|Win32
+		{6350BA2E-0B69-40FB-AF82-C786FE14EF8D}.Release|Universal.Build.0 = Release|Win32
+		{61DD4E2F-BA11-4928-9082-1B362E8F031B}.Debug|Universal.ActiveCfg = Debug|x64
+		{61DD4E2F-BA11-4928-9082-1B362E8F031B}.Debug|Universal.Build.0 = Debug|x64
+		{61DD4E2F-BA11-4928-9082-1B362E8F031B}.Release|Universal.ActiveCfg = Release|x64
+		{61DD4E2F-BA11-4928-9082-1B362E8F031B}.Release|Universal.Build.0 = Release|x64
+		{25A0EC96-886D-4BBA-88FC-A5C95C85A95B}.Debug|Universal.ActiveCfg = Debug|Any CPU
+		{25A0EC96-886D-4BBA-88FC-A5C95C85A95B}.Debug|Universal.Build.0 = Debug|Any CPU
+		{25A0EC96-886D-4BBA-88FC-A5C95C85A95B}.Release|Universal.ActiveCfg = Release|Any CPU
+		{25A0EC96-886D-4BBA-88FC-A5C95C85A95B}.Release|Universal.Build.0 = Release|Any CPU
+		{BF409CE4-3F4F-479C-BE6A-5BFD9BDDC542}.Debug|Universal.ActiveCfg = Debug|Any CPU
+		{BF409CE4-3F4F-479C-BE6A-5BFD9BDDC542}.Debug|Universal.Build.0 = Debug|Any CPU
+		{BF409CE4-3F4F-479C-BE6A-5BFD9BDDC542}.Release|Universal.ActiveCfg = Release|Any CPU
+		{BF409CE4-3F4F-479C-BE6A-5BFD9BDDC542}.Release|Universal.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4C2E7FB1-A26A-4FD8-958B-5BD858606F36}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		ExtensionShared\ExtensionShared.projitems*{25a0ec96-886d-4bba-88fc-a5c95c85a95b}*SharedItemsImports = 4
+		ExtensionShared\ExtensionShared.projitems*{438a8de7-5240-4cfe-b8d6-a9c3ac270a00}*SharedItemsImports = 13
+		ExtensionShared\ExtensionShared.projitems*{bf409ce4-3f4f-479c-be6a-5bfd9bddc542}*SharedItemsImports = 4
 	EndGlobalSection
 EndGlobal
