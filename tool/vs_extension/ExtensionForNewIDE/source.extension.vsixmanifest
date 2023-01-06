@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" ?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="RunAnywhereVSHost.37ea0094-82ba-4feb-aba9-cd6122f0616e" Version="2.0.0.6" Language="en-US" Publisher="Zplutor" />
+        <Identity Id="RunAnywhereVSHost.37ea0094-82ba-4feb-aba9-cd6122f0616e" Version="2.0.0.7" Language="en-US" Publisher="Zplutor" />
         <DisplayName>RunAnywhereVSHost</DisplayName>
         <Description xml:space="preserve">RunAnywhereVSHost</Description>
     </Metadata>
