@@ -141,7 +141,13 @@ namespace RunAnywhere
                 return String.Empty;
             }
 
-            return Path.GetDirectoryName(dte.Solution.FullName);
+            string solutionFullName = dte.Solution.FullName;
+            if (String.IsNullOrEmpty(solutionFullName))
+            {
+                return String.Empty;
+            }
+
+            return Path.GetDirectoryName(solutionFullName);
         }
     }
 }
