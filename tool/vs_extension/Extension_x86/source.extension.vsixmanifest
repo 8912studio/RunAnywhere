@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" ?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="RunAnywhereVSHost.634a34fb-ca98-4f1a-a1a4-f6def49d4bb0" Version="2.0.0.7" Language="en-US" Publisher="Zplutor" />
+        <Identity Id="RunAnywhereVSHost.634a34fb-ca98-4f1a-a1a4-f6def49d4bb0" Version="2.0.0.8" Language="en-US" Publisher="Zplutor" />
         <DisplayName>RunAnywhereVSHost</DisplayName>
         <Description xml:space="preserve">RunAnywhereVSHost</Description>
     </Metadata>
@@ -18,6 +18,6 @@
     </Prerequisites>
     <Assets>
         <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
-        <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="Project" d:ProjectName="Native-x86" Path="|Native-x86|" AssemblyName="|Native-x86;AssemblyName|" />
+        <Asset Type="Microsoft.VisualStudio.Assembly" d:Source="Project" d:ProjectName="Native_x86" Path="|Native_x86|" AssemblyName="|Native_x86;AssemblyName|" />
     </Assets>
 </PackageManifest>

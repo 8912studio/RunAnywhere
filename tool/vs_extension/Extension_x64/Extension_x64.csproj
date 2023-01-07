@@ -32,7 +32,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>RunAnywhereVSHost</RootNamespace>
-    <AssemblyName>RunAnywhereVSHostForNewIDE</AssemblyName>
+    <AssemblyName>RunAnywhereVSHost_x64</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <GeneratePkgDefFile>true</GeneratePkgDefFile>
     <UseCodebase>true</UseCodebase>
@@ -63,9 +63,9 @@
     <PackageReference Include="Microsoft.VSSDK.BuildTools" Version="17.4.2119" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Native\Native-x64.vcxproj">
+    <ProjectReference Include="..\Native\Native_x64.vcxproj">
       <Project>{61DD4E2F-BA11-4928-9082-1B362E8F031B}</Project>
-      <Name>Native-x64</Name>
+      <Name>Native_x64</Name>
       <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
       <IncludeOutputGroupsInVSIXLocalOnly>DebugSymbolsProjectOutputGroup%3b</IncludeOutputGroupsInVSIXLocalOnly>
     </ProjectReference>
