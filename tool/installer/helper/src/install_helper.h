@@ -8,7 +8,9 @@
 
 extern "C" {
 
-INSTALLERHELPER_API int __cdecl External_IsVisualStudioInstalled();
+INSTALLERHELPER_API int __cdecl External_IsVS2019OrOlderInstalled();
+INSTALLERHELPER_API int __cdecl External_IsVS2022OrNewerInstalled();
+INSTALLERHELPER_API void __cdecl External_GetVSIXInstallerPath(wchar_t* buffer, int buffer_size);
 
 INSTALLERHELPER_API int __cdecl External_IsVSCodeInstalled();
 

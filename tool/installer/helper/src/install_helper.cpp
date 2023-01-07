@@ -3,8 +3,19 @@
 #include "vs_detecting.h"
 #include "vscode_detecting.h"
 
-int __cdecl External_IsVisualStudioInstalled() {
-	return DetectIfVisualStudioInstalled();
+INSTALLERHELPER_API int __cdecl External_IsVS2019OrOlderInstalled() {
+	return GetVSInstallationInfo().version_type == VSVersionType::VS2019OrOlder;
+}
+
+
+INSTALLERHELPER_API int __cdecl External_IsVS2022OrNewerInstalled() {
+	return GetVSInstallationInfo().version_type == VSVersionType::VS2022OrNewer;
+}
+
+
+INSTALLERHELPER_API void __cdecl External_GetVSIXInstallerPath(wchar_t* buffer, int buffer_size) {
+	const auto& installation_info = GetVSInstallationInfo();
+	wcsncpy_s(buffer, buffer_size, installation_info.vsix_installer_path.c_str(), buffer_size);
 }
 
 

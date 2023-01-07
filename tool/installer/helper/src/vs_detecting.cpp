@@ -7,20 +7,20 @@
 
 namespace {
 
-bool IsSupportedVersion(const wchar_t* version) {
+int GetMajorVersion(const wchar_t* version) {
 
-    wchar_t* end;
+    wchar_t* end{};
     auto major = std::wcstol(version, &end, 10);
 
     if (*end != L'.') {
-        return false;
+        return 0;
     }
 
-    return major >= 15;
+    return major;
 }
 
 
-bool InnerDetect() {
+VSInstallationInfo InnerGetInstallationInfo() {
 
     CComPtr<ISetupConfiguration> configuration;
     HRESULT hresult = CoCreateInstance(
@@ -31,18 +31,20 @@ bool InnerDetect() {
         reinterpret_cast<LPVOID*>(&configuration));
 
     if (FAILED(hresult)) {
-        return false;
+        return {};
     }
 
     CComPtr<IEnumSetupInstances> instance_enumerator;
     hresult = configuration->EnumInstances(&instance_enumerator);
     if (FAILED(hresult)) {
-        return false;
+        return {};
     }
 
-    CComPtr<ISetupInstance> instance;
+    int current_major_version{};
+    VSInstallationInfo installation_info;
     while (true) {
 
+        CComPtr<ISetupInstance> instance;
         hresult = instance_enumerator->Next(1, &instance, nullptr);
         if (hresult != S_OK) {
             break;
@@ -50,33 +52,60 @@ bool InnerDetect() {
 
         bstr_t version{};
         hresult = instance->GetInstallationVersion(version.GetAddress());
-        if (SUCCEEDED(hresult)) {
-
-            if (IsSupportedVersion(version)) {
-                return true;
-            }
+        if (FAILED(hresult)) {
+            continue;
         }
 
-        instance.Release();
+        int major_version = GetMajorVersion(version);
+        if (major_version < 15) {
+            //Not supported Visual studio installation.
+            continue;
+        }
+
+        if (major_version <= current_major_version) {
+            //Always get information from the latest installation.
+            continue;
+        }
+        
+        CComPtr<ISetupInstance2> instance2;
+        hresult = instance->QueryInterface<ISetupInstance2>(&instance2);
+        if (FAILED(hresult)) {
+            continue;
+        }
+
+        bstr_t engine_path;
+        hresult = instance2->GetEnginePath(engine_path.GetAddress());
+        if (FAILED(hresult)) {
+            continue;
+        }
+
+        //Reference: https://github.com/microsoft/vswhere/wiki/Find-VSIXInstaller
+        installation_info.vsix_installer_path = static_cast<const wchar_t*>(engine_path);
+        installation_info.vsix_installer_path /= "vsixinstaller.exe";
+
+        installation_info.version_type =
+            major_version >= 17 ? VSVersionType::VS2022OrNewer : VSVersionType::VS2019OrOlder;
+
+        current_major_version = major_version;
     }
 
-    return false;
+    return installation_info;
 }
 
 
-bool Detect() {
+VSInstallationInfo GetInstallationInfo() {
 
     CoInitialize(nullptr);
-    bool is_installed = InnerDetect();
+    auto result = InnerGetInstallationInfo();
     CoUninitialize();
-    return is_installed;
+    return result;
 }
 
 }
 
 
-bool DetectIfVisualStudioInstalled() {
+const VSInstallationInfo& GetVSInstallationInfo() {
 
-    static const bool is_installed = Detect();
-	return is_installed;
+    static const VSInstallationInfo result = GetInstallationInfo();
+    return result;
 }
