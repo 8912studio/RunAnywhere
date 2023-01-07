@@ -2,15 +2,10 @@
 
 #include <filesystem>
 
-enum class VSVersionType {
-    Unsupported,
-    VS2019OrOlder,
-    VS2022OrNewer,
-};
-
 class VSInstallationInfo {
 public:
-    VSVersionType version_type{ VSVersionType::Unsupported };
+    bool is_vs2019_or_older_installed{};
+    bool is_vs2022_or_newer_installed{};
     std::filesystem::path vsix_installer_path;
 };
 

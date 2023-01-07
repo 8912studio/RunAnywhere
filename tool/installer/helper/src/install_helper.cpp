@@ -4,12 +4,12 @@
 #include "vscode_detecting.h"
 
 INSTALLERHELPER_API int __cdecl External_IsVS2019OrOlderInstalled() {
-	return GetVSInstallationInfo().version_type == VSVersionType::VS2019OrOlder;
+	return GetVSInstallationInfo().is_vs2019_or_older_installed;
 }
 
 
 INSTALLERHELPER_API int __cdecl External_IsVS2022OrNewerInstalled() {
-	return GetVSInstallationInfo().version_type == VSVersionType::VS2022OrNewer;
+	return GetVSInstallationInfo().is_vs2022_or_newer_installed;
 }
 
 

@@ -39,13 +39,15 @@ Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
 [Components]
 Name: "Main"; Description: "RunAnywhere main program"; Types: full compact custom; Flags: fixed
 Name: "Addition"; Description: "Extensions for other applications"; Types: full; Flags: disablenouninstallwarning; Check: IsAdditionComponentVisible;
-Name: "Addition\VSExtension"; Description: "Visual Studio extension (will be installed separately)"; Types: full; Flags: disablenouninstallwarning; Check: IsVisualStudioInstalled;
+Name: "Addition\VSExtensionForOld"; Description: "Visual Studio extension for VS2019 and older"; Types: full; Flags: disablenouninstallwarning; Check: IsVS2019OrOlderInstalled;
+Name: "Addition\VSExtensionForNew"; Description: "Visual Studio extension for VS2022 and newer"; Types: full; Flags: disablenouninstallwarning; Check: IsVS2022OrNewerInstalled;
 Name: "Addition\VSCodeExtension"; Description: "Visual Studio Code extension"; Types: full; Flags: disablenouninstallwarning; Check: IsVSCodeInstalled;
 Name: "Addition\NPPPlugin"; Description: "Notepad++ plugin"; Types: full; Flags: disablenouninstallwarning; Check: IsNPPInstalled;
 
 [Files]
 Source: "{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion; Components: "Main"
-Source: "RunAnywhereVSHost.vsix"; DestDir: "{app}\ExtensionsForOthers"; Components: "Main"
+Source: "RunAnywhereVSHost_x64.vsix"; DestDir: "{app}\ExtensionsForOthers"; Components: "Main"
+Source: "RunAnywhereVSHost_x86.vsix"; DestDir: "{app}\ExtensionsForOthers"; Components: "Main"
 Source: "RunAnywhereVSCodeHost.vsix"; DestDir: "{app}\ExtensionsForOthers"; Components: "Main"
 Source: "RunAnywhereNPPHost_x64.dll"; DestDir: "{app}\ExtensionsForOthers"; Flags: ignoreversion; Components: "Main"
 Source: "RunAnywhereNPPHost_x86.dll"; DestDir: "{app}\ExtensionsForOthers"; Flags: ignoreversion; Components: "Main"
@@ -55,19 +57,38 @@ Source: "InstallHelper.dll"; Flags: dontcopy
 
 [Run]
 Filename: "code"; Parameters: "--install-extension ""{app}\ExtensionsForOthers\RunAnywhereVSCodeHost.vsix"""; Flags: shellexec runhidden waituntilterminated; Components: "Addition\VSCodeExtension"; Check: IsVSCodeInstalled;
-Filename: "{app}\ExtensionsForOthers\RunAnywhereVSHost.vsix"; Flags: shellexec waituntilterminated; Components: "Addition\VSExtension"; Check: IsVisualStudioInstalled;
+Filename: "{code:VSIXInstallerPath}"; Parameters: """{app}\ExtensionsForOthers\RunAnywhereVSHost_x86.vsix"""; Flags: shellexec waituntilterminated; Components: "Addition\VSExtensionForOld"; Check: IsVS2019OrOlderInstalled;
+Filename: "{code:VSIXInstallerPath}"; Parameters: """{app}\ExtensionsForOthers\RunAnywhereVSHost_x64.vsix"""; Flags: shellexec waituntilterminated; Components: "Addition\VSExtensionForNew"; Check: IsVS2022OrNewerInstalled;
 Filename: "{app}\{#MyAppExeName}"; Parameters: "/register"; Description: "Register file associations"; Flags: postinstall
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
 
 [Code]
 
 //Visual Studio extension 
-function External_IsVisualStudioInstalled(): Integer;
-external 'External_IsVisualStudioInstalled@files:InstallHelper.dll cdecl';
+function External_IsVS2019OrOlderInstalled(): Integer;
+external 'External_IsVS2019OrOlderInstalled@files:InstallHelper.dll cdecl';
 
-function IsVisualStudioInstalled(): Boolean;
+function IsVS2019OrOlderInstalled(): Boolean;
 begin
-  Result := External_IsVisualStudioInstalled() <> 0;
+  Result := External_IsVS2019OrOlderInstalled() <> 0;
+end;
+
+function External_IsVS2022OrNewerInstalled(): Integer;
+external 'External_IsVS2022OrNewerInstalled@files:InstallHelper.dll cdecl';
+
+function IsVS2022OrNewerInstalled(): Boolean;
+begin
+  Result := External_IsVS2022OrNewerInstalled() <> 0;
+end;
+
+procedure External_GetVSIXInstallerPath(buffer: String; bufferLength: Integer);
+external 'External_GetVSIXInstallerPath@files:InstallHelper.dll cdecl';
+
+function VSIXInstallerPath(param: String): String;
+begin
+  SetLength(Result, 256);
+  External_GetVSIXInstallerPath(Result, 256);
+  Result := Copy(Result, 1 , Pos(#0, Result) - 1);
 end;
 
 
@@ -138,5 +159,5 @@ end;
 // All extensions
 function IsAdditionComponentVisible(): Boolean;
 begin
-  Result := IsVisualStudioInstalled() and IsNPPInstalled();
+  Result := IsVS2019OrOlderInstalled() or IsVS2022OrNewerInstalled() or IsVSCodeInstalled() or IsNPPInstalled();
 end;

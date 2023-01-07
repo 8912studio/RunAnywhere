@@ -81,10 +81,11 @@ if errorlevel 1 (
 
 copy /y out\Release\RunAnywhere.pdb deploy\%version%
 copy /y out\Release\InstallHelper.pdb deploy\%version%
-copy /y out\Release\Native-x64.pdb deploy\%version%
-copy /y out\Release\Native-x86.pdb deploy\%version%
+copy /y out\Release\Native_x64.pdb deploy\%version%
+copy /y out\Release\Native_x86.pdb deploy\%version%
 copy /y out\Release\RunAnywhereNPPHost_x64.pdb deploy\%version%
 copy /y out\Release\RunAnywhereNPPHost_x86.pdb deploy\%version%
-copy /y out\Release\RunAnywhereVSHost.pdb deploy\%version%
+copy /y out\Release\RunAnywhereVSHost_x64.pdb deploy\%version%
+copy /y out\Release\RunAnywhereVSHost_x86.pdb deploy\%version%
 
 :end

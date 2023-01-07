@@ -40,7 +40,6 @@ VSInstallationInfo InnerGetInstallationInfo() {
         return {};
     }
 
-    int current_major_version{};
     VSInstallationInfo installation_info;
     while (true) {
 
@@ -62,11 +61,6 @@ VSInstallationInfo InnerGetInstallationInfo() {
             continue;
         }
 
-        if (major_version <= current_major_version) {
-            //Always get information from the latest installation.
-            continue;
-        }
-        
         CComPtr<ISetupInstance2> instance2;
         hresult = instance->QueryInterface<ISetupInstance2>(&instance2);
         if (FAILED(hresult)) {
@@ -80,13 +74,16 @@ VSInstallationInfo InnerGetInstallationInfo() {
         }
 
         //Reference: https://github.com/microsoft/vswhere/wiki/Find-VSIXInstaller
+        //Engine path for any installation is the same.
         installation_info.vsix_installer_path = static_cast<const wchar_t*>(engine_path);
         installation_info.vsix_installer_path /= "vsixinstaller.exe";
 
-        installation_info.version_type =
-            major_version >= 17 ? VSVersionType::VS2022OrNewer : VSVersionType::VS2019OrOlder;
-
-        current_major_version = major_version;
+        if (major_version >= 17) {
+            installation_info.is_vs2022_or_newer_installed = true;
+        }
+        else {
+            installation_info.is_vs2019_or_older_installed = true;
+        }
     }
 
     return installation_info;
