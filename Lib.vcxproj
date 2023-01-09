@@ -120,6 +120,7 @@
     <ClInclude Include="src\hot_key_manager.h" />
     <ClInclude Include="src\hot_key_utility.h" />
     <ClInclude Include="src\ipc.h" />
+    <ClInclude Include="src\license_window.h" />
     <ClInclude Include="src\main_window.h" />
     <ClInclude Include="src\module\active_path\active_path_command.h" />
     <ClInclude Include="src\module\active_path\active_path_option.h" />
@@ -225,6 +226,7 @@
     <ClInclude Include="src\utility\clipboard.h" />
     <ClInclude Include="src\utility\command_line.h" />
     <ClInclude Include="src\utility\data_directory.h" />
+    <ClInclude Include="src\utility\link_button.h" />
     <ClInclude Include="src\utility\numeric_text_formatting.h" />
     <ClInclude Include="src\utility\path_trimming.h" />
     <ClInclude Include="src\utility\preview_text_box.h" />
@@ -252,6 +254,7 @@
     <ClCompile Include="src\hot_key_box.cpp" />
     <ClCompile Include="src\hot_key_manager.cpp" />
     <ClCompile Include="src\hot_key_utility.cpp" />
+    <ClCompile Include="src\license_window.cpp" />
     <ClCompile Include="src\main_window.cpp" />
     <ClCompile Include="src\module\active_path\active_path_command.cpp" />
     <ClCompile Include="src\module\active_path\active_path_module.cpp" />
@@ -325,6 +328,7 @@
     <ClCompile Include="src\utility\clipboard.cpp" />
     <ClCompile Include="src\utility\command_line.cpp" />
     <ClCompile Include="src\utility\data_directory.cpp" />
+    <ClCompile Include="src\utility\link_button.cpp" />
     <ClCompile Include="src\utility\numeric_text_formatting.cpp" />
     <ClCompile Include="src\utility\path_trimming.cpp" />
     <ClCompile Include="src\utility\preview_text_box.cpp" />
@@ -333,6 +337,7 @@
   <ItemGroup>
     <Page Include="src\about_window.xaml" />
     <Page Include="src\help\help_window.xaml" />
+    <Page Include="src\license_window.xaml" />
     <Page Include="src\main_window.xaml" />
     <Page Include="src\module\calculator\preview\calculator_preview_control.xaml" />
     <Page Include="src\module\extension\extension_command_preview_control.xaml" />

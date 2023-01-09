@@ -1,6 +1,7 @@
 #include "about_window.h"
 #include <zaf/application.h>
 #include <zaf/object/type_definition.h>
+#include "license_window.h"
 
 namespace ra {
 namespace {
@@ -74,26 +75,14 @@ void AboutWindow::AfterParse() {
 
     __super::AfterParse();
 
-    InitializeGithubLabel();
+    InitializeGithubButton();
+    InitializeLicenseButton();
 
     versionLabel->SetText(GetVersionString());
 }
 
 
-void AboutWindow::InitializeGithubLabel() {
-
-    auto preferred_size = githubButton->CalculatePreferredSize();
-    githubButton->SetFixedWidth(preferred_size.width);
-
-    githubButton->SetTextColorPicker([](const zaf::Control& control) {
-    
-        if (control.IsMouseOver()) {
-            return zaf::Color::FromRGB(0x2080ff);
-        }
-        else {
-            return zaf::Color::FromRGB(0x2020ff);
-        }
-    });
+void AboutWindow::InitializeGithubButton() {
 
     Subscriptions() += githubButton->ClickEvent().Subscribe(std::bind([this]() {
     
@@ -104,6 +93,14 @@ void AboutWindow::InitializeGithubLabel() {
             nullptr, 
             nullptr, 
             SW_SHOW);
+    }));
+}
+
+
+void AboutWindow::InitializeLicenseButton() {
+
+    Subscriptions() += licenseButton->ClickEvent().Subscribe(std::bind([this]() {
+        LicenseWindow::ShowInstance();
     }));
 }
 

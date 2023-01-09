@@ -525,6 +525,12 @@
     <ClInclude Include="src\module\user_defined\show_window_option.h">
       <Filter>src\module\user_defined</Filter>
     </ClInclude>
+    <ClInclude Include="src\utility\link_button.h">
+      <Filter>src\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="src\license_window.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -818,6 +824,12 @@
     <ClCompile Include="src\module\user_defined\show_window_option.cpp">
       <Filter>src\module\user_defined</Filter>
     </ClCompile>
+    <ClCompile Include="src\utility\link_button.cpp">
+      <Filter>src\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\license_window.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Page Include="src\module\user_defined\preview\user_defined_command_preview_control.xaml">
@@ -858,6 +870,9 @@
     </Page>
     <Page Include="src\module\tool\hex\hex_preview_control.xaml">
       <Filter>src\module\tool\hex</Filter>
+    </Page>
+    <Page Include="src\license_window.xaml">
+      <Filter>src</Filter>
     </Page>
   </ItemGroup>
   <ItemGroup>

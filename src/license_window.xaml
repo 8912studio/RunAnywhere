@@ -1,0 +1,22 @@
+<LicenseWindow
+    Title="License"
+    InitialRectStyle="CenterInScreen"
+    Size="620,500">
+
+    <LicenseWindow.RootControl>
+        <VerticalBox />
+    </LicenseWindow.RootControl>
+
+    <ScrollableControl Name="scrollableControl" Border="0">
+        <ScrollableControl.ScrollContent>
+            <TextBox 
+                Name="licenseContentTextBox" 
+                Padding="4,4,4,4"
+                Border="0"
+                BackgroundColor="White"
+                FontSize="12"
+                IsReadOnly="true" 
+                IsMultiline="true" />
+        </ScrollableControl.ScrollContent>
+    </ScrollableControl>
+</LicenseWindow>

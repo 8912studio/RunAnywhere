@@ -33,19 +33,11 @@
 
     <Control FixedHeight="20" Margin="0,80,0,0">
         <Control.Layouter>
-            <HorizontalLayouter AxisAlignment="Center" />
+            <HorizontalLayouter AxisAlignment="Center" CrossAxisAlignment="Center" />
         </Control.Layouter>
-        <Button 
-            Name="githubButton"
-            BackgroundColor="Transparent"
-            Border="0"
-            CanFocused="false"
-            TextAlignment="Center" 
-            ParagraphAlignment="Center" 
-            Text="Visit on github">
-            
-            <Button.Font Size="12" HasUnderline="true" />
-        </Button>
+        <LinkButton Name="githubButton" Text="Visit on github"/>
+        <Control FixedSize="1,10" Margin="10,2,10,0" BackgroundColor="Gray" />
+        <LinkButton Name="licenseButton" Text="View license" />
     </Control>
 
     <Label 
