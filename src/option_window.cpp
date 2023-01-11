@@ -14,6 +14,11 @@ L"SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run";
 
 constexpr const wchar_t* const AutoRunValueName = L"RunAnywhere";
 
+std::wstring GetAutoRunPath() {
+    auto exe_file_path = zaf::Application::Instance().GetExeFilePath();
+    return L'"' + exe_file_path.wstring() + L'"';
+}
+
 }
 
 ZAF_DEFINE_TYPE(OptionWindow)
@@ -89,9 +94,7 @@ bool OptionWindow::CheckIfSetAutoRun() {
 
         auto key = zaf::Registry::CurrentUser().OpenSubKey(AutoRunRegistryPath);
         auto value = key.GetStringValue(AutoRunValueName);
-
-        auto exe_file_path = zaf::Application::Instance().GetExeFilePath();
-        return value.find(exe_file_path.wstring()) != 0;
+        return value == GetAutoRunPath();
     }
     catch (const zaf::Error&) {
         return false;
@@ -115,12 +118,9 @@ void OptionWindow::SetAutoRunToRegistry(bool set) {
             zaf::RegistryRights::Write);
 
         if (set) {
-
-            auto exe_file_path = zaf::Application::Instance().GetExeFilePath();
-            key.SetStringValue(AutoRunValueName, L'"' + exe_file_path.wstring() + L'"');
+            key.SetStringValue(AutoRunValueName, GetAutoRunPath());
         }
         else {
-
             key.DeleteValue(AutoRunValueName);
         }
     }
