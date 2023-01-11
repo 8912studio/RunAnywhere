@@ -21,6 +21,9 @@
     <ClCompile Include="src\vscode_detecting.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\uninstall.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -36,6 +39,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\vscode_detecting.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\uninstall.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

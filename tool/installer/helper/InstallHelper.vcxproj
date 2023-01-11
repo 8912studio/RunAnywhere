@@ -14,6 +14,7 @@
     <ClCompile Include="src\dll_main.cpp" />
     <ClCompile Include="src\install_helper.cpp" />
     <ClCompile Include="src\npp_detecting.cpp" />
+    <ClCompile Include="src\uninstall.cpp" />
     <ClCompile Include="src\vscode_detecting.cpp" />
     <ClCompile Include="src\vs_detecting.cpp" />
   </ItemGroup>
@@ -23,6 +24,7 @@
   <ItemGroup>
     <ClInclude Include="src\install_helper.h" />
     <ClInclude Include="src\npp_detecting.h" />
+    <ClInclude Include="src\uninstall.h" />
     <ClInclude Include="src\vscode_detecting.h" />
     <ClInclude Include="src\vs_detecting.h" />
   </ItemGroup>
@@ -85,7 +87,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>comsuppwd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Rstrtmgr.lib;comsuppwd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -107,7 +109,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>comsuppw.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Rstrtmgr.lib;comsuppw.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

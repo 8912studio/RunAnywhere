@@ -19,4 +19,6 @@ INSTALLERHELPER_API int __cdecl External_GetNPPInstalledDirectoryPath(
     wchar_t* buffer, 
     int buffer_size);
 
+INSTALLERHELPER_API void __cdecl External_TerminateApplication(wchar_t* exe_path);
+
 }

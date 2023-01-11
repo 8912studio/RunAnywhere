@@ -47,6 +47,7 @@ Name: "Addition\VSCodeExtension"; Description: "Visual Studio Code extension"; T
 Name: "Addition\NPPPlugin"; Description: "Notepad++ plugin"; Types: full; Flags: disablenouninstallwarning; Check: IsNPPInstalled;
 
 [Files]
+Source: "InstallHelper.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion; Components: "Main"
 Source: "RunAnywhereVSHost_x64.vsix"; DestDir: "{app}\ExtensionsForOthers"; Components: "Main"
 Source: "RunAnywhereVSHost_x86.vsix"; DestDir: "{app}\ExtensionsForOthers"; Components: "Main"
@@ -55,7 +56,6 @@ Source: "RunAnywhereNPPHost_x64.dll"; DestDir: "{app}\ExtensionsForOthers"; Flag
 Source: "RunAnywhereNPPHost_x86.dll"; DestDir: "{app}\ExtensionsForOthers"; Flags: ignoreversion; Components: "Main"
 Source: "RunAnywhereNPPHost_x64.dll"; DestName: "RunAnywhereNPPHost.dll"; DestDir: "{code:NPPInstalledDirectoryPath}\plugins\RunAnywhereNPPHost"; Flags: ignoreversion; Components: "Addition\NPPPlugin"; Check: IsNPPX64;
 Source: "RunAnywhereNPPHost_x86.dll"; DestName: "RunAnywhereNPPHost.dll"; DestDir: "{code:NPPInstalledDirectoryPath}\plugins\RunAnywhereNPPHost"; Flags: ignoreversion; Components: "Addition\NPPPlugin"; Check: IsNPPX86;
-Source: "InstallHelper.dll"; Flags: dontcopy
 
 [Run]
 Filename: "code"; Parameters: "--install-extension ""{app}\ExtensionsForOthers\RunAnywhereVSCodeHost.vsix"""; Flags: shellexec runhidden waituntilterminated; Components: "Addition\VSCodeExtension"; Check: IsVSCodeInstalled;
@@ -162,4 +162,17 @@ end;
 function IsAdditionComponentVisible(): Boolean;
 begin
   Result := IsVS2019OrOlderInstalled() or IsVS2022OrNewerInstalled() or IsVSCodeInstalled() or IsNPPInstalled();
+end;
+
+//Uninstall
+procedure External_TerminateApplication(exePath: String);
+external 'External_TerminateApplication@{app}\InstallHelper.dll cdecl uninstallonly';
+
+procedure CurUninstallStepChanged(CurUninstallStep: TUninstallStep);
+begin
+  if CurUninstallStep = usUninstall then
+  begin
+	External_TerminateApplication(ExpandConstant('{app}\{#MyAppExeName}'));
+	UnloadDLL(ExpandConstant('{app}\InstallHelper.dll'));
+  end;
 end;
