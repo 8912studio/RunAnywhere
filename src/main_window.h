@@ -32,7 +32,7 @@ private:
     void InitializeTextBox();
     void InitializeHelpButton();
 
-    void OnTextChanged(const zaf::TextualControlTextChangeInfo&);
+    void OnTextChanged(const zaf::TextChangedInfo&);
     void UpdateCommandState();
     void InterpretCommand(const std::wstring& input);
     void ShowPreview();

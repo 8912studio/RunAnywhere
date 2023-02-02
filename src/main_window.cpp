@@ -53,7 +53,7 @@ void MainWindow::InitializeTextBox() {
 
     inputTextBox->SetAllowBeep(false);
 
-    Subscriptions() += inputTextBox->TextChangeEvent().Subscribe(std::bind(
+    Subscriptions() += inputTextBox->TextChangedEvent().Subscribe(std::bind(
         &MainWindow::OnTextChanged,
         this,
         std::placeholders::_1));
@@ -98,7 +98,7 @@ void MainWindow::ShowOnTop() {
 }
 
 
-void MainWindow::OnTextChanged(const zaf::TextualControlTextChangeInfo& event_info) {
+void MainWindow::OnTextChanged(const zaf::TextChangedInfo& event_info) {
 
     UpdateCommandState();
 }

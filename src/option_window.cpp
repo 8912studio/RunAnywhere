@@ -54,10 +54,10 @@ void OptionWindow::AfterParse() {
     Subscriptions() += hotKeyBox->HotKeyChangedEvent().Subscribe(
         std::bind(&OptionWindow::OnHotKeyChanged, this, std::placeholders::_1));
 
-    Subscriptions() += autoRunCheckBox->CheckStateChangeEvent().Subscribe(
+    Subscriptions() += autoRunCheckBox->CheckStateChangedEvent().Subscribe(
         std::bind(&OptionWindow::OnAutoRunCheckBoxStateChanged, this));
 
-    Subscriptions() += autoHideCheckBox->CheckStateChangeEvent().Subscribe(
+    Subscriptions() += autoHideCheckBox->CheckStateChangedEvent().Subscribe(
         std::bind(&OptionWindow::OnAutoHideCheckBoxStateChanged, this));
 
     Subscriptions() += registerFileAssociationButton->ClickEvent().Subscribe(

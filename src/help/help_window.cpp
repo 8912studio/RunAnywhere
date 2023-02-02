@@ -137,8 +137,8 @@ void HelpWindow::ScrollLine(bool scroll_up) {
     auto& scrollable_control = zaf::As<zaf::ScrollableControl>(*RootControl());
     auto scroll_bar = scrollable_control.VerticalScrollBar();
 
-    int small_change = scroll_bar->GetSmallChange();
-    int new_value = scroll_bar->GetValue() + (scroll_up ? -small_change : small_change);
+    int small_change = scroll_bar->SmallChange();
+    int new_value = scroll_bar->Value() + (scroll_up ? -small_change : small_change);
     scroll_bar->SetValue(new_value);
 }
 
@@ -148,8 +148,8 @@ void HelpWindow::ScrollPage(bool scroll_up) {
     auto& scrollable_control = zaf::As<zaf::ScrollableControl>(*RootControl());
     auto scroll_bar = scrollable_control.VerticalScrollBar();
 
-    int page_size = scroll_bar->GetPageSize();
-    int new_value = scroll_bar->GetValue() + (scroll_up ? -page_size : page_size);
+    int page_size = scroll_bar->PageSize();
+    int new_value = scroll_bar->Value() + (scroll_up ? -page_size : page_size);
     scroll_bar->SetValue(new_value);
 }
 

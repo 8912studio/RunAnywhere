@@ -26,7 +26,7 @@ protected:
     bool AcceptKeyMessage(const zaf::KeyMessage& message) override;
     void OnKeyDown(const zaf::KeyDownInfo& event_info) override;
     void OnFocusLost(const zaf::FocusLostInfo& event_info) override;
-    void OnClick() override;
+    void OnClick(const zaf::ClickInfo&) override;
 
 private:
     void SetIsWaitingInput(bool value);

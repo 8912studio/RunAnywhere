@@ -34,7 +34,7 @@ void HexPreviewControl::AfterParse() {
     auto scroll_bar = scrollControl->VerticalScrollBar();
     scroll_bar->SetArrowLength(0);
     scroll_bar->SetSmallChange(static_cast<int>(LineHeight));
-    scroll_bar->GetThumb()->SetPadding({});
+    scroll_bar->Thumb()->SetPadding({});
 }
 
 

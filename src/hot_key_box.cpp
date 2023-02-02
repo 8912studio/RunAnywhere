@@ -149,7 +149,7 @@ void HotKeyBox::OnFocusLost(const zaf::FocusLostInfo& event_info) {
 }
 
 
-void HotKeyBox::OnClick() {
+void HotKeyBox::OnClick(const zaf::ClickInfo&) {
 
     SetIsWaitingInput(!is_waiting_input_);
 }
