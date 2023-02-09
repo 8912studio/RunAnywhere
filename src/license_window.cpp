@@ -42,7 +42,7 @@ void LicenseWindow::ShowInstance() {
 
     auto instance = g_instance.lock();
     if (!instance) {
-        instance = zaf::Create(new LicenseWindow{});
+        instance = zaf::Init(new LicenseWindow{});
         g_instance = instance;
     }
 
