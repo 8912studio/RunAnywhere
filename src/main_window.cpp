@@ -282,6 +282,26 @@ bool MainWindow::HandleMessage(const zaf::Message& message, LRESULT& result) {
             }
         }
     }
+    else if (message.id == WM_NCCALCSIZE) {
+
+        auto nc_border_in_pixels = static_cast<int>(zaf::FromDIPs(1, this->GetDPI()));
+
+        RECT* adjusted_rect{};
+        if (message.wparam == TRUE) {
+            adjusted_rect = &(reinterpret_cast<NCCALCSIZE_PARAMS*>(message.lparam)->rgrc[0]);
+        }
+        else {
+            adjusted_rect = reinterpret_cast<RECT*>(message.lparam);
+        }
+
+        adjusted_rect->top += nc_border_in_pixels;
+        adjusted_rect->left += nc_border_in_pixels;
+        adjusted_rect->right -= nc_border_in_pixels;
+        adjusted_rect->bottom -= nc_border_in_pixels;
+
+        result = 0;
+        return true;
+    }
     else if (message.id == WM_MOVE) {
 
         UpdateHelpWindowPosition();

@@ -1,13 +1,14 @@
 <MainWindow 
-    IsPopup="true" 
+    IsPopup="false" 
     IsSizable="false" 
     CanMinimize="false"
     CanMaximize="false"
     HasTitleBar="false" 
+    HasSystemMenu="false"
     IsToolWindow="true"
     IsTopmost="true"
     InitialRectStyle="Custom"
-    ContentSize="600,60">
+    Size="600,60">
     
     <MainWindow.RootControl>
         <VerticalBox BackgroundColor="White" />
