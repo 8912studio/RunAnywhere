@@ -8,6 +8,25 @@
 namespace ra::context {
 namespace {
 
+std::shared_ptr<zaf::Scheduler> GetDiscoverScheduler() {
+
+    static auto discover_scheduler = []() {
+
+        auto scheduler = zaf::Scheduler::CreateOnSingleThread();
+
+        //Make the new thread initialize COM first.
+        scheduler->Schedule([]() {
+            HRESULT result = CoInitializeEx(0, COINIT_MULTITHREADED);
+            ZAF_THROW_IF_COM_ERROR(result);
+        });
+
+        return scheduler;
+    }();
+
+    return discover_scheduler;
+}
+
+
 ActivePath DiscoverActivePath(const ForegroundWindowInfo& foreground_window_info) {
 
     static CompositeDiscoverer discoverer;
@@ -18,48 +37,33 @@ ActivePath DiscoverActivePath(const ForegroundWindowInfo& foreground_window_info
     return ActivePath{};
 }
 
+}
 
-DesktopContext InnerDiscoverDesktopContext() {
 
+zaf::Observable<DesktopContext> DiscoverDesktopContext() {
+
+    //We must get foreground window info on main thread, rather than getting it on scheduler 
+    //thread, due to main window might be set foreground before getting.
     ForegroundWindowInfo foreground_window_info;
     foreground_window_info.window_handle = GetForegroundWindow();
     if (!foreground_window_info.window_handle) {
-        return {};
+        return zaf::rx::Just(DesktopContext{});
     }
 
     GetWindowThreadProcessId(
         foreground_window_info.window_handle,
         &foreground_window_info.process_id);
 
-    DesktopContext result;
-    result.active_path = DiscoverActivePath(foreground_window_info);
-    return result;
-}
-
-}
-
-
-zaf::Observable<DesktopContext> DiscoverDesktopContext() {
-
-    static auto discover_scheduler = []() {
-
-        auto scheduler = zaf::Scheduler::CreateOnSingleThread();
-        scheduler->Schedule([]() {
-
-            HRESULT result = CoInitializeEx(0, COINIT_MULTITHREADED);
-            ZAF_THROW_IF_COM_ERROR(result);
-        });
-
-        return scheduler;
-    }();
-
+    //Discovering could be slow, so we do it on a separate scheduler thread to avoid hanging.
     return zaf::rx::Create<DesktopContext>(
-        discover_scheduler, 
-        [](zaf::Observer<DesktopContext> observer) {
+        GetDiscoverScheduler(), 
+        [foreground_window_info](zaf::Observer<DesktopContext> observer) {
 
-        observer.OnNext(InnerDiscoverDesktopContext());
-    })
-    .ObserveOn(zaf::Scheduler::Main());
+            DesktopContext result;
+            result.active_path = DiscoverActivePath(foreground_window_info);
+            observer.OnNext(result);
+        }
+    ).ObserveOn(zaf::Scheduler::Main());
 }
 
 }
