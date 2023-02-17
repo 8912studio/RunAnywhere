@@ -26,6 +26,7 @@ protected:
 
     bool HandleMessage(const zaf::Message& message, LRESULT& result) override;
     std::optional<zaf::HitTestResult> HitTest(const zaf::HitTestMessage& message) override;
+    void OnWindowCreated() override;
     void OnWindowShown() override;
 
 private:

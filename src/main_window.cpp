@@ -1,4 +1,5 @@
 #include "main_window.h"
+#include <dwmapi.h>
 #include <cassert>
 #include <zaf/base/log.h>
 #include <zaf/base/string/encoding_conversion.h>
@@ -294,7 +295,6 @@ bool MainWindow::HandleMessage(const zaf::Message& message, LRESULT& result) {
             adjusted_rect = reinterpret_cast<RECT*>(message.lparam);
         }
 
-        adjusted_rect->top += nc_border_in_pixels;
         adjusted_rect->left += nc_border_in_pixels;
         adjusted_rect->right -= nc_border_in_pixels;
         adjusted_rect->bottom -= nc_border_in_pixels;
@@ -414,6 +414,16 @@ void MainWindow::HandleActivateMessage(const zaf::ActivateMessage& message) {
     if (should_hide) {
         this->Hide();
     }
+}
+
+
+void MainWindow::OnWindowCreated() {
+
+    __super::OnWindowCreated();
+
+    MARGINS extended_margins{};
+    extended_margins.cyTopHeight = static_cast<int>(zaf::FromDIPs(1, this->GetDPI()));
+    DwmExtendFrameIntoClientArea(this->Handle(), &extended_margins);
 }
 
 

@@ -63,7 +63,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>zaf.lib;Lib.lib;Version.lib;UserEnv.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>zaf.lib;Lib.lib;Version.lib;UserEnv.lib;dwmapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/WHOLEARCHIVE:zaf /WHOLEARCHIVE:Lib %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <PreBuildEvent>
@@ -87,7 +87,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>zaf.lib;Lib.lib;Version.lib;UserEnv.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>zaf.lib;Lib.lib;Version.lib;UserEnv.lib;dwmapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalOptions>/WHOLEARCHIVE:zaf /WHOLEARCHIVE:Lib %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <PreBuildEvent>
