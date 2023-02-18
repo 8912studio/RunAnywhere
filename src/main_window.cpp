@@ -306,6 +306,16 @@ bool MainWindow::HandleMessage(const zaf::Message& message, LRESULT& result) {
 
         UpdateHelpWindowPosition();
     }
+    else if (message.id == WM_PAINT) {
+
+        RECT paint_rect{};
+        GetClientRect(this->Handle(), &paint_rect);
+        paint_rect.bottom = static_cast<LONG>(zaf::FromDIPs(1, this->GetDPI()));
+
+        HDC dc = GetDC(this->Handle());
+        FillRect(dc, &paint_rect, reinterpret_cast<HBRUSH>(GetStockObject(BLACK_BRUSH)));
+        ReleaseDC(this->Handle(), dc);
+    }
 
     return __super::HandleMessage(message, result);
 }
