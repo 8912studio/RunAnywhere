@@ -118,8 +118,8 @@ void ApplicationDelegate::InitializeTrayIconWindow() {
     message_window_->SetRect(zaf::Rect{});
     message_window_->CreateHandle();
 
-    Subscriptions() += message_window_->HandleMessageEvent().Subscribe(
-        [this](const zaf::WindowHandleMessageInfo& event_info) {
+    Subscriptions() += message_window_->MessageReceivedEvent().Subscribe(
+        [this](const zaf::MessageReceivedInfo& event_info) {
 
         if (event_info.Message().id == WM_COPYDATA) {
             HandleIPCMessage(event_info.Message());

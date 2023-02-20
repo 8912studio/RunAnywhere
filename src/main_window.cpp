@@ -265,11 +265,40 @@ void MainWindow::ExecuteCommand() {
 }
 
 
-bool MainWindow::HandleMessage(const zaf::Message& message, LRESULT& result) {
+void MainWindow::OnMessageReceived(const zaf::MessageReceivedInfo& event_info) {
+
+    auto handle_result = HandleMessage(event_info.Message());
+    if (handle_result) {
+        event_info.MarkAsHandled(*handle_result);
+    }
+
+    __super::OnMessageReceived(event_info);
+}
+
+
+void MainWindow::OnMessageHandled(const zaf::MessageHandledInfo& event_info) {
+
+    __super::OnMessageHandled(event_info);
+
+    if (event_info.Message().id == WM_PAINT) {
+
+        RECT paint_rect{};
+        GetClientRect(this->Handle(), &paint_rect);
+        paint_rect.bottom = static_cast<LONG>(zaf::FromDIPs(1, this->GetDPI()));
+
+        HDC dc = GetDC(this->Handle());
+        FillRect(dc, &paint_rect, reinterpret_cast<HBRUSH>(GetStockObject(BLACK_BRUSH)));
+        ReleaseDC(this->Handle(), dc);
+    }
+}
+
+
+std::optional<LRESULT> MainWindow::HandleMessage(
+    const zaf::Message& message) {
 
     if (message.id == WM_KEYDOWN) {
-        if (ReceiveKeyDownMessage(zaf::KeyMessage{ message })) {
-            return true;
+        if (HandleKeyDownMessage(zaf::KeyMessage{ message })) {
+            return 0;
         }
     }
     else if (message.id == WM_ACTIVATE) {
@@ -298,30 +327,18 @@ bool MainWindow::HandleMessage(const zaf::Message& message, LRESULT& result) {
         adjusted_rect->left += nc_border_in_pixels;
         adjusted_rect->right -= nc_border_in_pixels;
         adjusted_rect->bottom -= nc_border_in_pixels;
-
-        result = 0;
-        return true;
+        return 0;
     }
     else if (message.id == WM_MOVE) {
 
         UpdateHelpWindowPosition();
     }
-    else if (message.id == WM_PAINT) {
 
-        RECT paint_rect{};
-        GetClientRect(this->Handle(), &paint_rect);
-        paint_rect.bottom = static_cast<LONG>(zaf::FromDIPs(1, this->GetDPI()));
-
-        HDC dc = GetDC(this->Handle());
-        FillRect(dc, &paint_rect, reinterpret_cast<HBRUSH>(GetStockObject(BLACK_BRUSH)));
-        ReleaseDC(this->Handle(), dc);
-    }
-
-    return __super::HandleMessage(message, result);
+    return std::nullopt;
 }
 
 
-bool MainWindow::ReceiveKeyDownMessage(const zaf::KeyMessage& message) {
+bool MainWindow::HandleKeyDownMessage(const zaf::KeyMessage& message) {
 
     if (message.VirtualKey() == VK_ESCAPE) {
 

@@ -24,7 +24,8 @@ public:
 protected:
     void AfterParse() override;
 
-    bool HandleMessage(const zaf::Message& message, LRESULT& result) override;
+    void OnMessageReceived(const zaf::MessageReceivedInfo& event_info) override;
+    void OnMessageHandled(const zaf::MessageHandledInfo& event_info) override;
     std::optional<zaf::HitTestResult> HitTest(const zaf::HitTestMessage& message) override;
     void OnWindowCreated() override;
     void OnWindowShown() override;
@@ -48,7 +49,8 @@ private:
     void UpdateHelpWindowPosition();
     void ExecuteCommand();
 
-    bool ReceiveKeyDownMessage(const zaf::KeyMessage& message);
+    std::optional<LRESULT> HandleMessage(const zaf::Message& message);
+    bool HandleKeyDownMessage(const zaf::KeyMessage& message);
     bool HandleHelpWindowScrollMessage(const zaf::KeyMessage& message);
     void HandleActivateMessage(const zaf::ActivateMessage& message);
 
