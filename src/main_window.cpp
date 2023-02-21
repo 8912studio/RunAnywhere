@@ -418,6 +418,10 @@ std::optional<zaf::HitTestResult> MainWindow::HitTest(const zaf::HitTestMessage&
 
 void MainWindow::HandleActivateMessage(const zaf::ActivateMessage& message) {
 
+    MARGINS extended_margins{};
+    extended_margins.cyTopHeight = static_cast<int>(zaf::FromDIPs(1, this->GetDPI()));
+    DwmExtendFrameIntoClientArea(this->Handle(), &extended_margins);
+
     if (message.State() != zaf::ActivateState::Inactive) {
         return;
     }
@@ -444,13 +448,9 @@ void MainWindow::HandleActivateMessage(const zaf::ActivateMessage& message) {
 }
 
 
-void MainWindow::OnWindowCreated() {
+void MainWindow::OnHandleCreated(const zaf::HandleCreatedInfo& event_info) {
 
-    __super::OnWindowCreated();
-
-    MARGINS extended_margins{};
-    extended_margins.cyTopHeight = static_cast<int>(zaf::FromDIPs(1, this->GetDPI()));
-    DwmExtendFrameIntoClientArea(this->Handle(), &extended_margins);
+    __super::OnHandleCreated(event_info);
 }
 
 

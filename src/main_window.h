@@ -27,7 +27,7 @@ protected:
     void OnMessageReceived(const zaf::MessageReceivedInfo& event_info) override;
     void OnMessageHandled(const zaf::MessageHandledInfo& event_info) override;
     std::optional<zaf::HitTestResult> HitTest(const zaf::HitTestMessage& message) override;
-    void OnWindowCreated() override;
+    void OnHandleCreated(const zaf::HandleCreatedInfo& event_info) override;
     void OnWindowShown() override;
 
 private:

@@ -33,7 +33,9 @@ void ImportBundleWindow::AfterParse() {
 }
 
 
-void ImportBundleWindow::OnWindowCreated() {
+void ImportBundleWindow::OnHandleCreated(const zaf::HandleCreatedInfo& event_info) {
+
+    __super::OnHandleCreated(event_info);
 
     ShowImportState();
 }
