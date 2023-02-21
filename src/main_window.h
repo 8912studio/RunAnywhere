@@ -27,7 +27,6 @@ protected:
     void OnMessageReceived(const zaf::MessageReceivedInfo& event_info) override;
     void OnMessageHandled(const zaf::MessageHandledInfo& event_info) override;
     std::optional<zaf::HitTestResult> HitTest(const zaf::HitTestMessage& message) override;
-    void OnHandleCreated(const zaf::HandleCreatedInfo& event_info) override;
     void OnWindowShown() override;
 
 private:
@@ -53,6 +52,8 @@ private:
     bool HandleKeyDownMessage(const zaf::KeyMessage& message);
     bool HandleHelpWindowScrollMessage(const zaf::KeyMessage& message);
     void HandleActivateMessage(const zaf::ActivateMessage& message);
+    void ExtendNonClientArea(bool is_inactive);
+    void HandleCalculateNonClientSizeMessage(const zaf::Message& message);
 
 private:
     ZAF_BIND_CONTROL(zaf::TextBox, inputTextBox);

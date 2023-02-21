@@ -293,8 +293,7 @@ void MainWindow::OnMessageHandled(const zaf::MessageHandledInfo& event_info) {
 }
 
 
-std::optional<LRESULT> MainWindow::HandleMessage(
-    const zaf::Message& message) {
+std::optional<LRESULT> MainWindow::HandleMessage(const zaf::Message& message) {
 
     if (message.id == WM_KEYDOWN) {
         if (HandleKeyDownMessage(zaf::KeyMessage{ message })) {
@@ -313,20 +312,7 @@ std::optional<LRESULT> MainWindow::HandleMessage(
         }
     }
     else if (message.id == WM_NCCALCSIZE) {
-
-        auto nc_border_in_pixels = static_cast<int>(zaf::FromDIPs(1, this->GetDPI()));
-
-        RECT* adjusted_rect{};
-        if (message.wparam == TRUE) {
-            adjusted_rect = &(reinterpret_cast<NCCALCSIZE_PARAMS*>(message.lparam)->rgrc[0]);
-        }
-        else {
-            adjusted_rect = reinterpret_cast<RECT*>(message.lparam);
-        }
-
-        adjusted_rect->left += nc_border_in_pixels;
-        adjusted_rect->right -= nc_border_in_pixels;
-        adjusted_rect->bottom -= nc_border_in_pixels;
+        HandleCalculateNonClientSizeMessage(message);
         return 0;
     }
     else if (message.id == WM_MOVE) {
@@ -418,11 +404,10 @@ std::optional<zaf::HitTestResult> MainWindow::HitTest(const zaf::HitTestMessage&
 
 void MainWindow::HandleActivateMessage(const zaf::ActivateMessage& message) {
 
-    MARGINS extended_margins{};
-    extended_margins.cyTopHeight = static_cast<int>(zaf::FromDIPs(1, this->GetDPI()));
-    DwmExtendFrameIntoClientArea(this->Handle(), &extended_margins);
+    bool is_inactive = message.ActivateState() == zaf::ActivateState::Inactive;
+    ExtendNonClientArea(is_inactive);
 
-    if (message.State() != zaf::ActivateState::Inactive) {
+    if (!is_inactive) {
         return;
     }
 
@@ -448,9 +433,39 @@ void MainWindow::HandleActivateMessage(const zaf::ActivateMessage& message) {
 }
 
 
-void MainWindow::OnHandleCreated(const zaf::HandleCreatedInfo& event_info) {
+void MainWindow::ExtendNonClientArea(bool is_inactive) {
 
-    __super::OnHandleCreated(event_info);
+    //Work around for Windows 10: 1 point thickness is not enough if the window is inactive, so we
+    //use 2 point thickness.
+    float extended_thickness = is_inactive ? 2.f : 1.f;
+
+    MARGINS extended_margins{};
+    extended_margins.cyTopHeight = 
+        static_cast<int>(zaf::FromDIPs(extended_thickness, this->GetDPI()));
+
+    DwmExtendFrameIntoClientArea(this->Handle(), &extended_margins);
+}
+
+
+void MainWindow::HandleCalculateNonClientSizeMessage(const zaf::Message& message) {
+
+    //Originally, we set all borders to 1 point thickness to remove the title bar, but it was not
+    //work on Windows 10. So we use this work around: set top border to 0 to remove it completely,
+    //and call DwmExtendFrameIntoClientArea() to extend a little non client area into top border.
+
+    auto nc_border_in_pixels = static_cast<int>(zaf::FromDIPs(1, this->GetDPI()));
+
+    RECT* adjusted_rect{};
+    if (message.wparam == TRUE) {
+        adjusted_rect = &(reinterpret_cast<NCCALCSIZE_PARAMS*>(message.lparam)->rgrc[0]);
+    }
+    else {
+        adjusted_rect = reinterpret_cast<RECT*>(message.lparam);
+    }
+
+    adjusted_rect->left += nc_border_in_pixels;
+    adjusted_rect->right -= nc_border_in_pixels;
+    adjusted_rect->bottom -= nc_border_in_pixels;
 }
 
 
