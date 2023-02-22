@@ -1,5 +1,4 @@
 #include "main_window.h"
-#include <dwmapi.h>
 #include <cassert>
 #include <zaf/base/log.h>
 #include <zaf/base/string/encoding_conversion.h>
@@ -27,10 +26,6 @@ namespace ra {
 ZAF_DEFINE_TYPE(MainWindow)
 ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///main_window.xaml")
 ZAF_DEFINE_TYPE_END
-
-MainWindow::MainWindow() {
-    assert(false);
-}
 
 
 MainWindow::MainWindow(const std::shared_ptr<ModuleManager>& module_manager) : 
@@ -311,10 +306,6 @@ std::optional<LRESULT> MainWindow::HandleMessage(const zaf::Message& message) {
             }
         }
     }
-    else if (message.id == WM_NCCALCSIZE) {
-        HandleCalculateNonClientSizeMessage(message);
-        return 0;
-    }
     else if (message.id == WM_MOVE) {
 
         UpdateHelpWindowPosition();
@@ -404,10 +395,7 @@ std::optional<zaf::HitTestResult> MainWindow::HitTest(const zaf::HitTestMessage&
 
 void MainWindow::HandleActivateMessage(const zaf::ActivateMessage& message) {
 
-    bool is_inactive = message.ActivateState() == zaf::ActivateState::Inactive;
-    ExtendNonClientArea(is_inactive);
-
-    if (!is_inactive) {
+    if (message.ActivateState() != zaf::ActivateState::Inactive) {
         return;
     }
 
@@ -430,42 +418,6 @@ void MainWindow::HandleActivateMessage(const zaf::ActivateMessage& message) {
     if (should_hide) {
         this->Hide();
     }
-}
-
-
-void MainWindow::ExtendNonClientArea(bool is_inactive) {
-
-    //Work around for Windows 10: 1 point thickness is not enough if the window is inactive, so we
-    //use 2 point thickness.
-    float extended_thickness = is_inactive ? 2.f : 1.f;
-
-    MARGINS extended_margins{};
-    extended_margins.cyTopHeight = 
-        static_cast<int>(zaf::FromDIPs(extended_thickness, this->GetDPI()));
-
-    DwmExtendFrameIntoClientArea(this->Handle(), &extended_margins);
-}
-
-
-void MainWindow::HandleCalculateNonClientSizeMessage(const zaf::Message& message) {
-
-    //Originally, we set all borders to 1 point thickness to remove the title bar, but it was not
-    //work on Windows 10. So we use this work around: set top border to 0 to remove it completely,
-    //and call DwmExtendFrameIntoClientArea() to extend a little non client area into top border.
-
-    auto nc_border_in_pixels = static_cast<int>(zaf::FromDIPs(1, this->GetDPI()));
-
-    RECT* adjusted_rect{};
-    if (message.wparam == TRUE) {
-        adjusted_rect = &(reinterpret_cast<NCCALCSIZE_PARAMS*>(message.lparam)->rgrc[0]);
-    }
-    else {
-        adjusted_rect = reinterpret_cast<RECT*>(message.lparam);
-    }
-
-    adjusted_rect->left += nc_border_in_pixels;
-    adjusted_rect->right -= nc_border_in_pixels;
-    adjusted_rect->bottom -= nc_border_in_pixels;
 }
 
 

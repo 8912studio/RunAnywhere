@@ -231,6 +231,7 @@
     <ClInclude Include="src\utility\path_trimming.h" />
     <ClInclude Include="src\utility\preview_text_box.h" />
     <ClInclude Include="src\utility\progress_circle.h" />
+    <ClInclude Include="src\utility\thin_border_window.h" />
     <ClInclude Include="third_party\everything\ipc\everything_ipc.h" />
   </ItemGroup>
   <ItemGroup>
@@ -333,6 +334,7 @@
     <ClCompile Include="src\utility\path_trimming.cpp" />
     <ClCompile Include="src\utility\preview_text_box.cpp" />
     <ClCompile Include="src\utility\progress_circle.cpp" />
+    <ClCompile Include="src\utility\thin_border_window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="src\about_window.xaml" />

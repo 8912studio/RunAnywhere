@@ -9,14 +9,14 @@
 #include "module/command_preview_control.h"
 #include "module_manager.h"
 #include "preview_view.h"
+#include "utility/thin_border_window.h"
 
 namespace ra {
 
-class MainWindow : public zaf::Window {
+class MainWindow : public utility::ThinBorderWindow {
 public:
     ZAF_DECLARE_TYPE;
 
-    MainWindow();
     explicit MainWindow(const std::shared_ptr<ModuleManager>& module_manager);
 
     void ShowOnTop();
@@ -52,8 +52,6 @@ private:
     bool HandleKeyDownMessage(const zaf::KeyMessage& message);
     bool HandleHelpWindowScrollMessage(const zaf::KeyMessage& message);
     void HandleActivateMessage(const zaf::ActivateMessage& message);
-    void ExtendNonClientArea(bool is_inactive);
-    void HandleCalculateNonClientSizeMessage(const zaf::Message& message);
 
 private:
     ZAF_BIND_CONTROL(zaf::TextBox, inputTextBox);
