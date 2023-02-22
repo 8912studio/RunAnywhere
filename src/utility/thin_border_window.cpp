@@ -6,11 +6,11 @@ namespace ra::utility {
 
 void ThinBorderWindow::OnMessageReceived(const zaf::MessageReceivedInfo& event_info) {
 
-    if (event_info.Message().id == WM_NCCALCSIZE) {
+    if (event_info.Message().ID() == WM_NCCALCSIZE) {
         HandleCalculateNonClientSizeMessage(event_info.Message());
         event_info.MarkAsHandled(0);
     }
-    else if (event_info.Message().id == WM_ACTIVATE) {
+    else if (event_info.Message().ID() == WM_ACTIVATE) {
         HandleActivateMessage(zaf::ActivateMessage{ event_info.Message() });
     }
 
@@ -27,11 +27,11 @@ void ThinBorderWindow::HandleCalculateNonClientSizeMessage(const zaf::Message& m
     auto nc_border_in_pixels = static_cast<int>(zaf::FromDIPs(1, this->GetDPI()));
 
     RECT* adjusted_rect{};
-    if (message.wparam == TRUE) {
-        adjusted_rect = &(reinterpret_cast<NCCALCSIZE_PARAMS*>(message.lparam)->rgrc[0]);
+    if (message.WParam() == TRUE) {
+        adjusted_rect = &(reinterpret_cast<NCCALCSIZE_PARAMS*>(message.LParam())->rgrc[0]);
     }
     else {
-        adjusted_rect = reinterpret_cast<RECT*>(message.lparam);
+        adjusted_rect = reinterpret_cast<RECT*>(message.LParam());
     }
 
     adjusted_rect->left += nc_border_in_pixels;
@@ -58,7 +58,7 @@ void ThinBorderWindow::OnMessageHandled(const zaf::MessageHandledInfo& event_inf
 
     __super::OnMessageHandled(event_info);
 
-    if (event_info.Message().id == WM_PAINT) {
+    if (event_info.Message().ID() == WM_PAINT) {
 
         RECT paint_rect{};
         GetClientRect(this->Handle(), &paint_rect);

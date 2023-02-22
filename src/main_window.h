@@ -25,7 +25,6 @@ protected:
     void AfterParse() override;
 
     void OnMessageReceived(const zaf::MessageReceivedInfo& event_info) override;
-    void OnMessageHandled(const zaf::MessageHandledInfo& event_info) override;
     std::optional<zaf::HitTestResult> HitTest(const zaf::HitTestMessage& message) override;
     void OnWindowShown() override;
 

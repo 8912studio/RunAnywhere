@@ -110,7 +110,7 @@ void HotKeyManager::UnregisterHotKey() {
 
 void HotKeyManager::OnHotKeyMessage(const zaf::Message& message) {
 
-    if (message.id == WM_HOTKEY) {
+    if (message.ID() == WM_HOTKEY) {
         hot_key_pressed_subject_.GetObserver().OnNext({});
     }
 }

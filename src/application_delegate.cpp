@@ -121,15 +121,15 @@ void ApplicationDelegate::InitializeTrayIconWindow() {
     Subscriptions() += message_window_->MessageReceivedEvent().Subscribe(
         [this](const zaf::MessageReceivedInfo& event_info) {
 
-        if (event_info.Message().id == WM_COPYDATA) {
+        if (event_info.Message().ID() == WM_COPYDATA) {
             HandleIPCMessage(event_info.Message());
         }
-        else if (event_info.Message().id == task_bar_create_message_id_) {
+        else if (event_info.Message().ID() == task_bar_create_message_id_) {
             ShowTryIcon();
         }
-        else if (event_info.Message().id == WM_TRAY_ICON) {
+        else if (event_info.Message().ID() == WM_TRAY_ICON) {
 
-            switch (event_info.Message().lparam) {
+            switch (event_info.Message().LParam()) {
             case WM_LBUTTONDBLCLK:
                 main_window_->ShowOnTop();
                 break;
@@ -143,9 +143,9 @@ void ApplicationDelegate::InitializeTrayIconWindow() {
                 break;
             }
         }
-        else if (event_info.Message().id == WM_COMMAND && event_info.Message().lparam == 0) {
+        else if (event_info.Message().ID() == WM_COMMAND && event_info.Message().LParam() == 0) {
 
-            switch (LOWORD(event_info.Message().wparam)) {
+            switch (LOWORD(event_info.Message().WParam())) {
             case ID_TRAYICON_EXIT:
                 zaf::Application::Instance().Terminate();
                 break;
@@ -165,7 +165,7 @@ void ApplicationDelegate::InitializeTrayIconWindow() {
 
 void ApplicationDelegate::HandleIPCMessage(const zaf::Message& message) {
 
-    auto copy_data_info = reinterpret_cast<const COPYDATASTRUCT*>(message.lparam);
+    auto copy_data_info = reinterpret_cast<const COPYDATASTRUCT*>(message.LParam());
     if (copy_data_info->dwData != IPCMessageIdentifier) {
         return;
     }

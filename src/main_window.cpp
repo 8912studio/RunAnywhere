@@ -271,42 +271,25 @@ void MainWindow::OnMessageReceived(const zaf::MessageReceivedInfo& event_info) {
 }
 
 
-void MainWindow::OnMessageHandled(const zaf::MessageHandledInfo& event_info) {
-
-    __super::OnMessageHandled(event_info);
-
-    if (event_info.Message().id == WM_PAINT) {
-
-        RECT paint_rect{};
-        GetClientRect(this->Handle(), &paint_rect);
-        paint_rect.bottom = static_cast<LONG>(zaf::FromDIPs(1, this->GetDPI()));
-
-        HDC dc = GetDC(this->Handle());
-        FillRect(dc, &paint_rect, reinterpret_cast<HBRUSH>(GetStockObject(BLACK_BRUSH)));
-        ReleaseDC(this->Handle(), dc);
-    }
-}
-
-
 std::optional<LRESULT> MainWindow::HandleMessage(const zaf::Message& message) {
 
-    if (message.id == WM_KEYDOWN) {
+    if (message.ID() == WM_KEYDOWN) {
         if (HandleKeyDownMessage(zaf::KeyMessage{ message })) {
             return 0;
         }
     }
-    else if (message.id == WM_ACTIVATE) {
+    else if (message.ID() == WM_ACTIVATE) {
         HandleActivateMessage(zaf::ActivateMessage{ message });
     }
-    else if (message.id == WM_SHOWWINDOW) {
+    else if (message.ID() == WM_SHOWWINDOW) {
 
-        if (!message.wparam) {
+        if (!message.WParam()) {
             if (help_window_) {
                 help_window_->Hide();
             }
         }
     }
-    else if (message.id == WM_MOVE) {
+    else if (message.ID() == WM_MOVE) {
 
         UpdateHelpWindowPosition();
     }
