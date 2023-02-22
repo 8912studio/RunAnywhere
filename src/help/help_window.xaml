@@ -8,8 +8,17 @@
             BackgroundColor="White" 
             Border="0,0,0,0"
             AllowHorizontalScroll="false"
-        />
+        >
+            <ScrollableControl.VerticalScrollBar>
+                <ScrollBar>
+                    <ScrollBar.Thumb>
+                        <HelpScrollBarThumb />
+                    </ScrollBar.Thumb>
+                </ScrollBar>
+            </ScrollableControl.VerticalScrollBar>
+        </ScrollableControl>
     </HelpWindow.RootControl>
+    
     <Control 
         Name="scrollButtonContainer" 
         AutoSize="true" 

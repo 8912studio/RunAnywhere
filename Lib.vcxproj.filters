@@ -534,6 +534,9 @@
     <ClInclude Include="src\utility\thin_border_window.h">
       <Filter>src\utility</Filter>
     </ClInclude>
+    <ClInclude Include="src\help\help_scroll_bar_thumb.h">
+      <Filter>src\help</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -835,6 +838,9 @@
     </ClCompile>
     <ClCompile Include="src\utility\thin_border_window.cpp">
       <Filter>src\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\help\help_scroll_bar_thumb.cpp">
+      <Filter>src\help</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

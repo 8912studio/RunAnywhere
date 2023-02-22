@@ -113,6 +113,7 @@
     <ClInclude Include="src\help\content_layouter.h" />
     <ClInclude Include="src\help\help_content_building.h" />
     <ClInclude Include="src\help\help_content_control.h" />
+    <ClInclude Include="src\help\help_scroll_bar_thumb.h" />
     <ClInclude Include="src\help\help_window.h" />
     <ClInclude Include="src\help\content_layout_info.h" />
     <ClInclude Include="src\hot_key.h" />
@@ -251,6 +252,7 @@
     <ClCompile Include="src\help\content_layouter.cpp" />
     <ClCompile Include="src\help\help_content_building.cpp" />
     <ClCompile Include="src\help\help_content_control.cpp" />
+    <ClCompile Include="src\help\help_scroll_bar_thumb.cpp" />
     <ClCompile Include="src\help\help_window.cpp" />
     <ClCompile Include="src\hot_key_box.cpp" />
     <ClCompile Include="src\hot_key_manager.cpp" />
