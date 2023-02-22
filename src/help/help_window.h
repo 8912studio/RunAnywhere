@@ -4,10 +4,11 @@
 #include <zaf/window/window.h>
 #include "help/content/content.h"
 #include "help/help_content_control.h"
+#include "utility/thin_border_window.h"
 
 namespace ra::help {
 
-class HelpWindow : public zaf::Window {
+class HelpWindow : public utility::ThinBorderWindow {
 public:
     ZAF_DECLARE_TYPE;
 

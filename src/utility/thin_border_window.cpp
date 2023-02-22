@@ -4,6 +4,29 @@
 
 namespace ra::utility {
 
+void ThinBorderWindow::Initialize() {
+
+    __super::Initialize();
+
+    SetIsSizable(false);
+    SetCanMaximize(false);
+    SetCanMinimize(false);
+    SetIsToolWindow(true);
+    SetHasTitleBar(false);
+    SetHasSystemMenu(false);
+}
+
+
+void ThinBorderWindow::OnHandleCreated(const zaf::HandleCreatedInfo& event_info) {
+
+    __super::OnHandleCreated(event_info);
+
+    //We need to extend non client area right after window handle is created, for those windows 
+    //that will never be activated.
+    ExtendNonClientArea(false);
+}
+
+
 void ThinBorderWindow::OnMessageReceived(const zaf::MessageReceivedInfo& event_info) {
 
     if (event_info.Message().ID() == WM_NCCALCSIZE) {
@@ -42,9 +65,15 @@ void ThinBorderWindow::HandleCalculateNonClientSizeMessage(const zaf::Message& m
 
 void ThinBorderWindow::HandleActivateMessage(const zaf::ActivateMessage& message) {
 
+    ExtendNonClientArea(message.ActivateState() != zaf::ActivateState::Inactive);
+}
+
+
+void ThinBorderWindow::ExtendNonClientArea(bool is_active) {
+
     //Work around for Windows 10: 1 point thickness is not enough if the window is inactive, so we
     //use 2 point thickness.
-    float extended_thickness = message.ActivateState() == zaf::ActivateState::Inactive ? 2.f : 1.f;
+    float extended_thickness = is_active ? 1.f : 2.f;
 
     MARGINS extended_margins{};
     extended_margins.cyTopHeight =

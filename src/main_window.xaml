@@ -1,11 +1,4 @@
 <MainWindow 
-    IsPopup="false" 
-    IsSizable="false" 
-    CanMinimize="false"
-    CanMaximize="false"
-    HasTitleBar="false" 
-    HasSystemMenu="false"
-    IsToolWindow="true"
     IsTopmost="true"
     InitialRectStyle="Custom"
     Size="600,60">

@@ -1,11 +1,5 @@
 <HelpWindow 
-    IsPopup="true" 
-    IsSizable="false" 
-    CanMinimize="false"
-    CanMaximize="false"
-    HasTitleBar="false" 
-    IsToolWindow="true"
-    ContentSize="320,400"
+    Size="320,400"
     InitialRectStyle="Custom"
     ActivateOption="NoActivate">
 

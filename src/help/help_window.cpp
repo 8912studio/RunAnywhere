@@ -121,7 +121,7 @@ void HelpWindow::OnNeedUpdateHeight(float new_height) {
         float window_height = std::min(max_height, expected_height);
         window_height = std::max(window_height, min_height);
 
-        this->SetContentHeight(std::ceil(window_height));
+        this->SetHeight(std::ceil(window_height));
     });
 }
 
