@@ -26,7 +26,8 @@ protected:
 
     void OnMessageReceived(const zaf::MessageReceivedInfo& event_info) override;
     std::optional<zaf::HitTestResult> HitTest(const zaf::HitTestMessage& message) override;
-    void OnWindowShown() override;
+    void OnShow(const zaf::ShowInfo& event_info) override;
+    void OnFocusGained(const zaf::WindowFocusGainedInfo& event_info) override;
 
 private:
     void InitializeTextBox();

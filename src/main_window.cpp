@@ -404,13 +404,19 @@ void MainWindow::HandleActivateMessage(const zaf::ActivateMessage& message) {
 }
 
 
-void MainWindow::OnWindowShown() {
+void MainWindow::OnShow(const zaf::ShowInfo& event_info) {
 
-    __super::OnWindowShown();
-
-    inputTextBox->SetIsFocused(true);
+    __super::OnShow(event_info);
 
     UpdateCommandState();
+}
+
+
+void MainWindow::OnFocusGained(const zaf::WindowFocusGainedInfo& event_info) {
+
+    __super::OnFocusGained(event_info);
+
+    inputTextBox->SetIsFocused(true);
 }
 
 }
