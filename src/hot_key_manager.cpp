@@ -83,12 +83,12 @@ void HotKeyManager::RegisterHotKey() {
         hot_key_message_window_ = std::make_unique<zaf::MessageOnlyWindow>();
 
         Subscriptions() +=
-            hot_key_message_window_->ReceiveMessageEvent().Subscribe(
+            hot_key_message_window_->MessageReceivedEvent().Subscribe(
                 std::bind(&HotKeyManager::OnHotKeyMessage, this, std::placeholders::_1));
     }
 
     BOOL is_succeeded = ::RegisterHotKey(
-        hot_key_message_window_->GetHandle(),
+        hot_key_message_window_->Handle(),
         HotKeyID,
         static_cast<UINT>(hot_key_.modifier),
         hot_key_.virtual_key);
@@ -103,7 +103,7 @@ void HotKeyManager::UnregisterHotKey() {
         return;
     }
 
-    ::UnregisterHotKey(hot_key_message_window_->GetHandle(), HotKeyID);
+    ::UnregisterHotKey(hot_key_message_window_->Handle(), HotKeyID);
     is_hot_key_valid_ = false;
 }
 
