@@ -91,6 +91,9 @@
     <Filter Include="src\module\tool\hex">
       <UniqueIdentifier>{b232d39e-0af6-4ca9-afcf-8de43679104e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\module\tool\error">
+      <UniqueIdentifier>{1d590189-fe3e-4b23-a6f5-4c6cdb297e3d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\module\calculator\parse\binary_expression_parser.h">
@@ -537,6 +540,12 @@
     <ClInclude Include="src\help\help_scroll_bar_thumb.h">
       <Filter>src\help</Filter>
     </ClInclude>
+    <ClInclude Include="src\module\tool\error\error_command.h">
+      <Filter>src\module\tool\error</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\tool\error\error_command_parse_result.h">
+      <Filter>src\module\tool\error</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -841,6 +850,9 @@
     </ClCompile>
     <ClCompile Include="src\help\help_scroll_bar_thumb.cpp">
       <Filter>src\help</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\tool\error\error_command.cpp">
+      <Filter>src\module\tool\error</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
