@@ -1,0 +1,4 @@
+<ErrorPreviewControl Layouter="VerticalLayouter" FixedHeight="80">
+    <PreviewTextBox Name="errorCode" FixedHeight="20" />
+    <PreviewTextBox Name="errorMessage" ParagraphAlignment="Top" FontSize="26" />
+</ErrorPreviewControl>

@@ -546,6 +546,12 @@
     <ClInclude Include="src\module\tool\error\error_command_parse_result.h">
       <Filter>src\module\tool\error</Filter>
     </ClInclude>
+    <ClInclude Include="src\module\tool\error\error_preview_control.h">
+      <Filter>src\module\tool\error</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\number_parsing.h">
+      <Filter>src\utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -854,6 +860,12 @@
     <ClCompile Include="src\module\tool\error\error_command.cpp">
       <Filter>src\module\tool\error</Filter>
     </ClCompile>
+    <ClCompile Include="src\module\tool\error\error_preview_control.cpp">
+      <Filter>src\module\tool\error</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\number_parsing.cpp">
+      <Filter>src\utility</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Page Include="src\module\user_defined\preview\user_defined_command_preview_control.xaml">
@@ -897,6 +909,9 @@
     </Page>
     <Page Include="src\license_window.xaml">
       <Filter>src</Filter>
+    </Page>
+    <Page Include="src\module\tool\error\error_preview_control.xaml">
+      <Filter>src\module\tool\error</Filter>
     </Page>
   </ItemGroup>
   <ItemGroup>

@@ -3,102 +3,25 @@
 #include "module/calculator/evaluate/evaluator.h"
 #include "module/calculator/parse/decimal_number_parser.h"
 #include "module/calculator/parse/non_decimal_number_parser.h"
+#include "utility/number_parsing.h"
 
 namespace ra::module::tool::hex {
 namespace {
-
-enum class NumberParseStatus {
-    OK,
-
-    //The number text is incomplete, such as `x` or `0x`.
-    //The parsing should not treat as error in such cases.
-    Incomplete,
-
-    //The text is not a number.
-    NotNumber,
-};
-
-
-NumberParseStatus ParseNumberWithParser(
-    const std::wstring& input,
-    calculator::Parser* parser,
-    std::shared_ptr<calculator::SyntaxNode>& syntax_node) {
-
-    calculator::ParseContext context(input);
-    calculator::ParseResult result;
-    auto status = parser->Parse(context, result);
-
-    if (status == calculator::ParseStatus::Mismatched) {
-        return NumberParseStatus::NotNumber;
-    }
-
-    //The whole text must be parsed completely, or it is not a number.
-    if (context.GetCurrentIndex() != context.GetLength()) {
-        return NumberParseStatus::NotNumber;
-    }
-
-    //There is error during parsing, means that the number is incomplete.
-    if (status == calculator::ParseStatus::Error) {
-        return NumberParseStatus::Incomplete;
-    }
-
-    //Parse success.
-    syntax_node = result.GetExpressionRootNode();
-    return NumberParseStatus::OK;
-}
-
-
-NumberParseStatus ParseNumber(const std::wstring& input, std::uint64_t& result) {
-
-    std::shared_ptr<calculator::SyntaxNode> syntax_node;
-
-    //Try to parse number in decimal.
-    auto status = ParseNumberWithParser(
-        input,
-        calculator::DecimalNumberParser::Instance(), 
-        syntax_node);
-
-    if (status == NumberParseStatus::NotNumber) {
-
-        //If failed, try to parse number in hexadecimal again.
-        status = ParseNumberWithParser(
-            input,
-            calculator::NonDecimalNumberParser::Hex(), 
-            syntax_node);
-    }
-
-    if (status != NumberParseStatus::OK) {
-        return status;
-    }
-
-    auto evaluator = calculator::Evaluator::Create(syntax_node);
-    if (!evaluator) {
-        return NumberParseStatus::NotNumber;
-    }
-
-    calculator::EvaluateResult evaluate_result;
-    auto evaluate_status = evaluator->Evaluate(evaluate_result);
-    if (evaluate_status != calculator::EvaluateStatus::Ok) {
-        return NumberParseStatus::NotNumber;
-    }
-
-    result = evaluate_result.decimal_value.convert_to<std::uint64_t>();
-    return NumberParseStatus::OK;
-}
-
 
 std::optional<std::uint64_t> ParseNumberWithDefault(
     const std::wstring& input, 
     std::uint64_t default_value) {
 
-    std::uint64_t result{};
-    auto status = ParseNumber(input, result);
+    calculator::EvaluateResult evaluate_result;
+    auto parse_status = utility::ParseNumber(input, evaluate_result);
 
-    switch (status) {
-    case NumberParseStatus::OK:
-        return result;
-    case NumberParseStatus::Incomplete:
+    switch (parse_status) {
+    case utility::NumberParseStatus::OK:
+        return evaluate_result.decimal_value.convert_to<std::uint64_t>();;
+
+    case utility::NumberParseStatus::Incomplete:
         return default_value;
+
     default:
         return std::nullopt;
     }

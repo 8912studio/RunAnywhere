@@ -183,6 +183,7 @@
     <ClInclude Include="src\module\tool\date\date_preview_control.h" />
     <ClInclude Include="src\module\tool\error\error_command.h" />
     <ClInclude Include="src\module\tool\error\error_command_parse_result.h" />
+    <ClInclude Include="src\module\tool\error\error_preview_control.h" />
     <ClInclude Include="src\module\tool\hex\byte_index.h" />
     <ClInclude Include="src\module\tool\hex\hex_command.h" />
     <ClInclude Include="src\module\tool\hex\hex_command_parse_result.h" />
@@ -230,6 +231,7 @@
     <ClInclude Include="src\utility\command_line.h" />
     <ClInclude Include="src\utility\data_directory.h" />
     <ClInclude Include="src\utility\link_button.h" />
+    <ClInclude Include="src\utility\number_parsing.h" />
     <ClInclude Include="src\utility\numeric_text_formatting.h" />
     <ClInclude Include="src\utility\path_trimming.h" />
     <ClInclude Include="src\utility\preview_text_box.h" />
@@ -301,6 +303,7 @@
     <ClCompile Include="src\module\tool\date\date_command.cpp" />
     <ClCompile Include="src\module\tool\date\date_preview_control.cpp" />
     <ClCompile Include="src\module\tool\error\error_command.cpp" />
+    <ClCompile Include="src\module\tool\error\error_preview_control.cpp" />
     <ClCompile Include="src\module\tool\hex\hex_command.cpp" />
     <ClCompile Include="src\module\tool\hex\hex_column_header_control.cpp" />
     <ClCompile Include="src\module\tool\hex\hex_content_control.cpp" />
@@ -335,6 +338,7 @@
     <ClCompile Include="src\utility\command_line.cpp" />
     <ClCompile Include="src\utility\data_directory.cpp" />
     <ClCompile Include="src\utility\link_button.cpp" />
+    <ClCompile Include="src\utility\number_parsing.cpp" />
     <ClCompile Include="src\utility\numeric_text_formatting.cpp" />
     <ClCompile Include="src\utility\path_trimming.cpp" />
     <ClCompile Include="src\utility\preview_text_box.cpp" />
@@ -349,6 +353,7 @@
     <Page Include="src\module\calculator\preview\calculator_preview_control.xaml" />
     <Page Include="src\module\extension\extension_command_preview_control.xaml" />
     <Page Include="src\module\tool\date\date_preview_control.xaml" />
+    <Page Include="src\module\tool\error\error_preview_control.xaml" />
     <Page Include="src\module\tool\hex\hex_preview_control.xaml" />
     <Page Include="src\module\tool\md5\md5_preview_control.xaml" />
     <Page Include="src\module\tool\rgb\rgb_preview_control.xaml" />
