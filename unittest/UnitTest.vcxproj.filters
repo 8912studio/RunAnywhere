@@ -58,6 +58,9 @@
     <Filter Include="case\utility">
       <UniqueIdentifier>{a46ce4f1-77fa-4793-b1ce-e293f5ee361e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="case\module\tool\error">
+      <UniqueIdentifier>{a67680fc-0132-48d2-8727-41f14f871f9d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="case\module\calculator\decimal_number_parser_test.cpp">
@@ -165,6 +168,9 @@
     </ClCompile>
     <ClCompile Include="case\utility\numeric_text_formatting_test.cpp">
       <Filter>case\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="case\module\tool\error\error_command_test.cpp">
+      <Filter>case\module\tool\error</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
