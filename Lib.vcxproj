@@ -138,6 +138,7 @@
     <ClInclude Include="src\module\calculator\evaluate\operator_evaluator.h" />
     <ClInclude Include="src\module\calculator\parse\parse_error_reason.h" />
     <ClInclude Include="src\module\calculator\parse\parse_reader.h" />
+    <ClInclude Include="src\module\calculator\parse\unary_operator_parser.h" />
     <ClInclude Include="src\module\calculator\result_text_builder.h" />
     <ClInclude Include="src\module\calculator\parse\binary_expression_parser.h" />
     <ClInclude Include="src\module\calculator\parse\command_parser.h" />
@@ -230,8 +231,8 @@
     <ClInclude Include="src\utility\clipboard.h" />
     <ClInclude Include="src\utility\command_line.h" />
     <ClInclude Include="src\utility\data_directory.h" />
+    <ClInclude Include="src\utility\general_number_interpreter.h" />
     <ClInclude Include="src\utility\link_button.h" />
-    <ClInclude Include="src\utility\number_parsing.h" />
     <ClInclude Include="src\utility\numeric_text_formatting.h" />
     <ClInclude Include="src\utility\path_trimming.h" />
     <ClInclude Include="src\utility\preview_text_box.h" />
@@ -275,6 +276,7 @@
     <ClCompile Include="src\module\calculator\evaluate\operator_evaluator.cpp" />
     <ClCompile Include="src\module\calculator\parse\parse_context.cpp" />
     <ClCompile Include="src\module\calculator\parse\parse_reader.cpp" />
+    <ClCompile Include="src\module\calculator\parse\unary_operator_parser.cpp" />
     <ClCompile Include="src\module\calculator\result_text_builder.cpp" />
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp" />
     <ClCompile Include="src\module\calculator\parse\command_parser.cpp" />
@@ -337,8 +339,8 @@
     <ClCompile Include="src\utility\clipboard.cpp" />
     <ClCompile Include="src\utility\command_line.cpp" />
     <ClCompile Include="src\utility\data_directory.cpp" />
+    <ClCompile Include="src\utility\general_number_interpreter.cpp" />
     <ClCompile Include="src\utility\link_button.cpp" />
-    <ClCompile Include="src\utility\number_parsing.cpp" />
     <ClCompile Include="src\utility\numeric_text_formatting.cpp" />
     <ClCompile Include="src\utility\path_trimming.cpp" />
     <ClCompile Include="src\utility\preview_text_box.cpp" />

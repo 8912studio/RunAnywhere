@@ -1,7 +1,7 @@
 #include "module/tool/error/error_command.h"
 #include <zaf/creation.h>
 #include "utility/clipboard.h"
-#include "utility/number_parsing.h"
+#include "utility/general_number_interpreter.h"
 
 namespace ra::module::tool::error {
 
@@ -20,15 +20,19 @@ std::optional<ErrorCommandParseResult> ErrorCommand::Parse(
         return std::nullopt;
     }
 
-    calculator::EvaluateResult parse_result;
-    auto parse_status = utility::ParseNumber(command_line.Arguments().front(), parse_result);
-    if (parse_status == utility::NumberParseStatus::NotNumber) {
+    utility::GeneralNumberInterpreter interpreter{ true };
+    calculator::EvaluateResult evaluate_result;
+    auto interpret_status = interpreter.Interpret(
+        command_line.Arguments().front(),
+        evaluate_result);
+
+    if (interpret_status == utility::GeneralNumberInterpreter::Status::NotNumber) {
         return std::nullopt;
     }
 
     ErrorCommandParseResult result;
-    if (parse_status == utility::NumberParseStatus::OK) {
-        result.error_code = parse_result.decimal_value.convert_to<std::uint32_t>();
+    if (interpret_status == utility::GeneralNumberInterpreter::Status::OK) {
+        result.error_code = evaluate_result.decimal_value.convert_to<std::uint32_t>();
     }
     return result;
 }

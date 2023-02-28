@@ -3,7 +3,7 @@
 #include "module/calculator/evaluate/evaluator.h"
 #include "module/calculator/parse/decimal_number_parser.h"
 #include "module/calculator/parse/non_decimal_number_parser.h"
-#include "utility/number_parsing.h"
+#include "utility/general_number_interpreter.h"
 
 namespace ra::module::tool::hex {
 namespace {
@@ -13,13 +13,15 @@ std::optional<std::uint64_t> ParseNumberWithDefault(
     std::uint64_t default_value) {
 
     calculator::EvaluateResult evaluate_result;
-    auto parse_status = utility::ParseNumber(input, evaluate_result);
 
-    switch (parse_status) {
-    case utility::NumberParseStatus::OK:
+    utility::GeneralNumberInterpreter interpreter{ false };
+    auto interpret_status = interpreter.Interpret(input, evaluate_result);
+
+    switch (interpret_status) {
+    case utility::GeneralNumberInterpreter::Status::OK:
         return evaluate_result.decimal_value.convert_to<std::uint64_t>();;
 
-    case utility::NumberParseStatus::Incomplete:
+    case utility::GeneralNumberInterpreter::Status::Incomplete:
         return default_value;
 
     default:

@@ -549,8 +549,11 @@
     <ClInclude Include="src\module\tool\error\error_preview_control.h">
       <Filter>src\module\tool\error</Filter>
     </ClInclude>
-    <ClInclude Include="src\utility\number_parsing.h">
+    <ClInclude Include="src\utility\general_number_interpreter.h">
       <Filter>src\utility</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\calculator\parse\unary_operator_parser.h">
+      <Filter>src\module\calculator\parse</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -863,8 +866,11 @@
     <ClCompile Include="src\module\tool\error\error_preview_control.cpp">
       <Filter>src\module\tool\error</Filter>
     </ClCompile>
-    <ClCompile Include="src\utility\number_parsing.cpp">
+    <ClCompile Include="src\utility\general_number_interpreter.cpp">
       <Filter>src\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\calculator\parse\unary_operator_parser.cpp">
+      <Filter>src\module\calculator\parse</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
