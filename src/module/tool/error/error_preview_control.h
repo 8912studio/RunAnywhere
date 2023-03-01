@@ -1,6 +1,7 @@
 #pragma once
 
 #include <zaf/control/control_binder.h>
+#include <zaf/control/label.h>
 #include "module/command_preview_control.h"
 #include "module/tool/error/error_command_parse_result.h"
 #include "utility/preview_text_box.h"
@@ -20,10 +21,12 @@ protected:
     void AfterParse() override;
 
 private:
-    void ShowResult() const;
+    void ShowResult();
+    void ShowError();
 
 private:
-    ZAF_BIND_CONTROL(utility::PreviewTextBox, errorCode);
+    ZAF_BIND_CONTROL(zaf::Control, resultView);
+    ZAF_BIND_CONTROL(zaf::Label, hexErrorCode);
     ZAF_BIND_CONTROL(utility::PreviewTextBox, errorMessage);
 
     std::optional<ErrorCommandParseResult> parse_result_;

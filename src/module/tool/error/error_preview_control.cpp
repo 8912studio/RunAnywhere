@@ -1,4 +1,5 @@
 #include "module/tool/error/error_preview_control.h"
+#include <zaf/base/string/case_conversion.h>
 #include <zaf/base/string/to_string.h>
 #include <zaf/base/string/trim.h>
 #include <zaf/object/type_definition.h>
@@ -52,13 +53,27 @@ void ErrorPreviewControl::AfterParse() {
     if (parse_result_) {
         ShowResult();
     }
+    else {
+        ShowError();
+    }
 }
 
 
-void ErrorPreviewControl::ShowResult() const {
+void ErrorPreviewControl::ShowResult() {
 
-    errorCode->SetText(zaf::ToWideString(parse_result_->error_code, zaf::ToStringOptions().Base(16)));
+    auto hex = zaf::ToWideString(parse_result_->error_code, zaf::ToStringOptions().Base(16));
+    zaf::Uppercase(hex);
+
+    hexErrorCode->SetText(L"0x" + hex);
     errorMessage->SetText(GetErrorMessage(parse_result_->error_code));
+
+    resultView->SetIsVisible(true);
+}
+
+
+void ErrorPreviewControl::ShowError() {
+
+    resultView->SetIsVisible(false);
 }
 
 
