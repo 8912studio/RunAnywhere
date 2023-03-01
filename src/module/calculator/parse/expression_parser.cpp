@@ -61,7 +61,7 @@ ExpressionParser* ExpressionParser::Instance() {
 void ExpressionParser::InitializeParsers() {
 
     AddParsers({
-        NumberParser::Instance(),
+        NumberParser::Default(),
         BinaryExpressionParser::Instance()
     });
 

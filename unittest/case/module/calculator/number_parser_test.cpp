@@ -12,7 +12,7 @@ TEST(NumberParseTest, Parse) {
         int expected_base) {
 
         return TestNumberParserSuccess(
-            *NumberParser::Instance(),
+            *NumberParser::Default(),
             input, 
             expected_output, 
             expected_base);

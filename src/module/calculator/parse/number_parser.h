@@ -6,13 +6,28 @@ namespace ra::module::calculator {
 
 class NumberParser : public NonTerminalParser {
 public:
-    static NumberParser* Instance();
+    enum class NumberType {
+        Decimal,
+        Hex,
+        Binary,
+        Octal,
+    };
+
+    //A default number parser that supports all types.
+    static NumberParser* Default();
+
+    //Create a number parser that supports only specified number types.
+    static std::unique_ptr<NumberParser> Create(
+        const std::vector<NumberType>& supported_number_types);
 
 protected:
     void InitializeParsers() override;
 
 private:
-    NumberParser() = default;
+    NumberParser(const std::vector<NumberType>& supported_number_types);
+
+private:
+    std::vector<NumberType> supported_number_types_;
 };
 
 }

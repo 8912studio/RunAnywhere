@@ -1,58 +1,59 @@
 #include "utility/general_number_interpreter.h"
 #include "module/calculator/evaluate/evaluator.h"
 #include "module/calculator/parse/decimal_number_parser.h"
-#include "module/calculator/parse/non_decimal_number_parser.h"
 #include "module/calculator/parse/non_terminal_parser.h"
+#include "module/calculator/parse/number_parser.h"
 #include "module/calculator/parse/unary_operator_parser.h"
 
 namespace ra::utility {
 namespace {
 
-class SupportNegativeDecimalParser : public module::calculator::NonTerminalParser {
+class GeneralNumberParser : public module::calculator::NonTerminalParser {
 public:
-    static module::calculator::Parser* Instance() {
-        static SupportNegativeDecimalParser instance;
+    static GeneralNumberParser* SupportsNegativeDecimal() {
+        static GeneralNumberParser instance{ true };
         return &instance;
     }
 
-private:
-    void InitializeParsers() override {
-
-        unary_operator_parser_ = module::calculator::UnaryOperatorParser::Create({
-            module::calculator::OperatorNode::Type::Negative 
-        });
-
-        AddParsers({ module::calculator::NonDecimalNumberParser::Hex() });
-        AddParsers({ module::calculator::DecimalNumberParser::Instance() });
-        AddParsers({
-            unary_operator_parser_.get(),
-            module::calculator::DecimalNumberParser::Instance(),
-        });
-    }
-
-private:
-    SupportNegativeDecimalParser() = default;
-
-private:
-    std::unique_ptr<module::calculator::UnaryOperatorParser> unary_operator_parser_;
-};
-
-
-class NotSupportNegativeDecimalParser : public module::calculator::NonTerminalParser {
-public:
-    static module::calculator::Parser* Instance() {
-        static NotSupportNegativeDecimalParser instance;
+    static GeneralNumberParser* NotSupportNegativeDecimal() {
+        static GeneralNumberParser instance{ false };
         return &instance;
     }
 
 protected:
     void InitializeParsers() override {
-        AddParsers({ module::calculator::NonDecimalNumberParser::Hex() });
-        AddParsers({ module::calculator::DecimalNumberParser::Instance() });
+
+        number_parser_ = module::calculator::NumberParser::Create({
+            module::calculator::NumberParser::NumberType::Decimal,
+            module::calculator::NumberParser::NumberType::Hex,
+        });
+
+        AddParsers({ number_parser_.get() });
+
+        if (supports_negative_decimal_) {
+
+            unary_operator_parser_ = module::calculator::UnaryOperatorParser::Create({
+                module::calculator::OperatorNode::Type::Negative
+            });
+
+            AddParsers({
+                unary_operator_parser_.get(),
+                module::calculator::DecimalNumberParser::Instance(),
+            });
+        }
     }
 
 private:
-    NotSupportNegativeDecimalParser() = default;
+    explicit GeneralNumberParser(bool supports_negative_decimal) :
+        supports_negative_decimal_(supports_negative_decimal) {
+
+    }
+
+private:
+    bool supports_negative_decimal_{};
+
+    std::unique_ptr<module::calculator::NumberParser> number_parser_;
+    std::unique_ptr<module::calculator::UnaryOperatorParser> unary_operator_parser_;
 };
 
 }
@@ -62,8 +63,8 @@ GeneralNumberInterpreter::GeneralNumberInterpreter(bool supports_negative_decima
 
     parser_ = 
         supports_negative_decimal ? 
-        SupportNegativeDecimalParser::Instance() :
-        NotSupportNegativeDecimalParser::Instance();
+        GeneralNumberParser::SupportsNegativeDecimal() :
+        GeneralNumberParser::NotSupportNegativeDecimal();
 }
 
 
