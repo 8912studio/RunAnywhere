@@ -555,6 +555,9 @@
     <ClInclude Include="src\module\calculator\parse\unary_operator_parser.h">
       <Filter>src\module\calculator\parse</Filter>
     </ClInclude>
+    <ClInclude Include="src\utility\error_view.h">
+      <Filter>src\utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -872,6 +875,9 @@
     <ClCompile Include="src\module\calculator\parse\unary_operator_parser.cpp">
       <Filter>src\module\calculator\parse</Filter>
     </ClCompile>
+    <ClCompile Include="src\utility\error_view.cpp">
+      <Filter>src\utility</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Page Include="src\module\user_defined\preview\user_defined_command_preview_control.xaml">
@@ -918,6 +924,9 @@
     </Page>
     <Page Include="src\module\tool\error\error_preview_control.xaml">
       <Filter>src\module\tool\error</Filter>
+    </Page>
+    <Page Include="src\utility\error_view.xaml">
+      <Filter>src\utility</Filter>
     </Page>
   </ItemGroup>
   <ItemGroup>

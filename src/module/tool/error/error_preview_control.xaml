@@ -32,4 +32,5 @@
             FontSize="26" 
         />
     </VerticalBox>
+    <ErrorView Name="errorView" />
 </ErrorPreviewControl>

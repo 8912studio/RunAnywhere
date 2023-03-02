@@ -77,11 +77,14 @@ void ErrorPreviewControl::ShowResult() {
     }
 
     resultView->SetIsVisible(true);
+    errorView->SetIsVisible(false);
 }
 
 
 void ErrorPreviewControl::ShowError() {
 
+    errorView->SetErrorText(L"Invalid arguments");
+    errorView->SetIsVisible(true);
     resultView->SetIsVisible(false);
 }
 

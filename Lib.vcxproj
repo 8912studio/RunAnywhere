@@ -231,6 +231,7 @@
     <ClInclude Include="src\utility\clipboard.h" />
     <ClInclude Include="src\utility\command_line.h" />
     <ClInclude Include="src\utility\data_directory.h" />
+    <ClInclude Include="src\utility\error_view.h" />
     <ClInclude Include="src\utility\general_number_interpreter.h" />
     <ClInclude Include="src\utility\link_button.h" />
     <ClInclude Include="src\utility\numeric_text_formatting.h" />
@@ -339,6 +340,7 @@
     <ClCompile Include="src\utility\clipboard.cpp" />
     <ClCompile Include="src\utility\command_line.cpp" />
     <ClCompile Include="src\utility\data_directory.cpp" />
+    <ClCompile Include="src\utility\error_view.cpp" />
     <ClCompile Include="src\utility\general_number_interpreter.cpp" />
     <ClCompile Include="src\utility\link_button.cpp" />
     <ClCompile Include="src\utility\numeric_text_formatting.cpp" />
@@ -363,6 +365,7 @@
     <Page Include="src\module\user_defined\preview\user_defined_command_preview_control.xaml" />
     <Page Include="src\option_window.xaml" />
     <Page Include="src\preview_view.xaml" />
+    <Page Include="src\utility\error_view.xaml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

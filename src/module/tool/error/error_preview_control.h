@@ -4,6 +4,7 @@
 #include <zaf/control/label.h>
 #include "module/command_preview_control.h"
 #include "module/tool/error/error_command_parse_result.h"
+#include "utility/error_view.h"
 #include "utility/preview_text_box.h"
 
 namespace ra::module::tool::error {
@@ -28,6 +29,7 @@ private:
     ZAF_BIND_CONTROL(zaf::Control, resultView);
     ZAF_BIND_CONTROL(zaf::Label, hexErrorCode);
     ZAF_BIND_CONTROL(utility::PreviewTextBox, errorMessage);
+    ZAF_BIND_CONTROL(utility::ErrorView, errorView);
 
     std::optional<ErrorCommandParseResult> parse_result_;
 };
