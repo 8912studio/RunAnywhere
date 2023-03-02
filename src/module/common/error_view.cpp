@@ -1,10 +1,11 @@
-#include "utility/error_view.h"
+#include "module/common/error_view.h"
+#include <zaf/creation.h>
 #include <zaf/object/type_definition.h>
 
-namespace ra::utility {
+namespace ra::module {
 
 ZAF_DEFINE_TYPE(ErrorView)
-ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///utility/error_view.xaml")
+ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/common/error_view.xaml")
 ZAF_DEFINE_TYPE_END;
 
 void ErrorView::AfterParse() {

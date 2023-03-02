@@ -135,11 +135,11 @@ void HexPreviewControl::ShowMessage(
     }
 
     if (!message.empty()) {
-        errorLabel->SetText(message);
-        errorContainer->SetIsVisible(true);
+        errorView->SetErrorText(message);
+        errorView->SetIsVisible(true);
     }
     else {
-        errorContainer->SetIsVisible(false);
+        errorView->SetIsVisible(false);
     }
 }
 

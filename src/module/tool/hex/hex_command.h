@@ -22,9 +22,6 @@ public:
     void Execute() override;
 
 private:
-    std::shared_ptr<HexPreviewControl> CreatePreviewControl() const;
-
-private:
     std::optional<HexCommandParseResult> parse_result_;
     std::shared_ptr<HexPreviewControl> preview_control_;
 };

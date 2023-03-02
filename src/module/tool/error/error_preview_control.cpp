@@ -38,35 +38,14 @@ ZAF_DEFINE_TYPE(ErrorPreviewControl)
 ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/tool/error/error_preview_control.xaml")
 ZAF_DEFINE_TYPE_END;
 
-ErrorPreviewControl::ErrorPreviewControl(
-    const std::optional<ErrorCommandParseResult>& parse_result) 
-    :
-    parse_result_(parse_result) {
+void ErrorPreviewControl::ShowErrorMessage(const ErrorCommandParseResult& parse_result) {
 
-}
-
-
-void ErrorPreviewControl::AfterParse() {
-
-    __super::AfterParse();
-
-    if (parse_result_) {
-        ShowResult();
-    }
-    else {
-        ShowError();
-    }
-}
-
-
-void ErrorPreviewControl::ShowResult() {
-
-    auto hex = zaf::ToWideString(parse_result_->error_code, zaf::ToStringOptions().Base(16));
+    auto hex = zaf::ToWideString(parse_result.error_code, zaf::ToStringOptions().Base(16));
     zaf::Uppercase(hex);
 
     hexErrorCode->SetText(L"0x" + hex);
 
-    auto error_message = GetErrorMessage(parse_result_->error_code);
+    auto error_message = GetErrorMessage(parse_result.error_code);
     if (!error_message.empty()) {
         errorMessage->SetText(error_message);
         errorMessage->SetTextColor(zaf::Color::Black());
@@ -75,17 +54,6 @@ void ErrorPreviewControl::ShowResult() {
         errorMessage->SetText(L"No error message found");
         errorMessage->SetTextColor(zaf::Color::FromRGB(0x909090));
     }
-
-    resultView->SetIsVisible(true);
-    errorView->SetIsVisible(false);
-}
-
-
-void ErrorPreviewControl::ShowError() {
-
-    errorView->SetErrorText(L"Invalid arguments");
-    errorView->SetIsVisible(true);
-    resultView->SetIsVisible(false);
 }
 
 

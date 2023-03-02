@@ -29,22 +29,5 @@
             </ScrollableControl.ScrollContent>
         </ScrollableControl>
     </VerticalBox>
-    <Control Name="errorContainer" AutoHeight="true" Margin="0,30,0,30" IsVisible="false">
-        <Control.Layouter>
-            <HorizontalLayouter AxisAlignment="Center" CrossAxisAlignment="Center" />
-        </Control.Layouter>
-        <Control 
-            FixedSize="48,48"
-            BackgroundImage="res:///resource/error.png"
-            BackgroundImageLayout="Stretch"
-        />
-        <Label 
-            Name="errorLabel" 
-            AutoSize="true" 
-            Margin="10,0,0,0"
-            TextAlignment="Center" 
-            ParagraphAligment="Center" 
-            FontSize="20"
-        />
-    </Control>
+    <ErrorView Name="errorView" AutoHeight="true" Margin="0,30,0,30" IsVisible="false" />
 </HexPreviewControl>

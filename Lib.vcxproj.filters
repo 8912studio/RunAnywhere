@@ -94,6 +94,9 @@
     <Filter Include="src\module\tool\error">
       <UniqueIdentifier>{1d590189-fe3e-4b23-a6f5-4c6cdb297e3d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\module\common">
+      <UniqueIdentifier>{2cc5a11a-a22f-4ac5-90f2-5dd201e6c456}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\module\calculator\parse\binary_expression_parser.h">
@@ -555,8 +558,11 @@
     <ClInclude Include="src\module\calculator\parse\unary_operator_parser.h">
       <Filter>src\module\calculator\parse</Filter>
     </ClInclude>
-    <ClInclude Include="src\utility\error_view.h">
-      <Filter>src\utility</Filter>
+    <ClInclude Include="src\module\common\error_view.h">
+      <Filter>src\module\common</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\common\command_error_control.h">
+      <Filter>src\module\common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -875,8 +881,11 @@
     <ClCompile Include="src\module\calculator\parse\unary_operator_parser.cpp">
       <Filter>src\module\calculator\parse</Filter>
     </ClCompile>
-    <ClCompile Include="src\utility\error_view.cpp">
-      <Filter>src\utility</Filter>
+    <ClCompile Include="src\module\common\error_view.cpp">
+      <Filter>src\module\common</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\common\command_error_control.cpp">
+      <Filter>src\module\common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -925,8 +934,8 @@
     <Page Include="src\module\tool\error\error_preview_control.xaml">
       <Filter>src\module\tool\error</Filter>
     </Page>
-    <Page Include="src\utility\error_view.xaml">
-      <Filter>src\utility</Filter>
+    <Page Include="src\module\common\error_view.xaml">
+      <Filter>src\module\common</Filter>
     </Page>
   </ItemGroup>
   <ItemGroup>

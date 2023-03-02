@@ -4,7 +4,7 @@
 #include <zaf/control/control_binder.h>
 #include <zaf/control/label.h>
 
-namespace ra::utility {
+namespace ra::module {
 
 class ErrorView : public zaf::Control {
 public:

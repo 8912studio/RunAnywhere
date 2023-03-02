@@ -3,6 +3,7 @@
 #include "module/calculator/evaluate/evaluator.h"
 #include "module/calculator/parse/decimal_number_parser.h"
 #include "module/calculator/parse/non_decimal_number_parser.h"
+#include "module/common/command_error_control.h"
 #include "utility/general_number_interpreter.h"
 
 namespace ra::module::tool::hex {
@@ -121,23 +122,18 @@ HexCommand::HexCommand(const utility::CommandLine& command_line) :
 
 std::shared_ptr<CommandPreviewControl> HexCommand::GetPreviewControl() {
 
+    if (!parse_result_) {
+        return CommandErrorControl::InvalidArgument();
+    }
+
     if (!preview_control_) {
-        preview_control_ = CreatePreviewControl();
+        preview_control_ = zaf::Create<HexPreviewControl>();
+        preview_control_->ShowFileContent(
+            GetDesktopContext().active_path.GetPath(), 
+            *parse_result_);
     }
 
     return preview_control_;
-}
-
-
-std::shared_ptr<HexPreviewControl> HexCommand::CreatePreviewControl() const {
-
-    if (!parse_result_) {
-        return nullptr;
-    }
-
-    auto result = zaf::Create<HexPreviewControl>();
-    result->ShowFileContent(GetDesktopContext().active_path.GetPath(), *parse_result_);
-    return result;
 }
 
 
