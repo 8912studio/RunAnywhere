@@ -7,7 +7,7 @@
             CrossAxisAlignment="Center"
         >
             <Label 
-                AutoSize="true"
+                FixedSize="24,18"
                 Border="1"
                 BorderColor="#808080"
                 Padding="1"

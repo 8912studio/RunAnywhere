@@ -65,7 +65,16 @@ void ErrorPreviewControl::ShowResult() {
     zaf::Uppercase(hex);
 
     hexErrorCode->SetText(L"0x" + hex);
-    errorMessage->SetText(GetErrorMessage(parse_result_->error_code));
+
+    auto error_message = GetErrorMessage(parse_result_->error_code);
+    if (!error_message.empty()) {
+        errorMessage->SetText(error_message);
+        errorMessage->SetTextColor(zaf::Color::Black());
+    }
+    else {
+        errorMessage->SetText(L"No error message found");
+        errorMessage->SetTextColor(zaf::Color::FromRGB(0x909090));
+    }
 
     resultView->SetIsVisible(true);
 }

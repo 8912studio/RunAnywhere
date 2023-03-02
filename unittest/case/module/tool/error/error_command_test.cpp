@@ -26,7 +26,11 @@ TEST(ErrorCommandTest, ParseOK) {
 
 TEST(ErrorCommandTest, ParseIncomplete) {
 
-    auto result = ErrorCommand::Parse(CommandLine{ L"err x" });
+    auto result = ErrorCommand::Parse(CommandLine{ L"err " });
+    ASSERT_TRUE(result.has_value());
+    ASSERT_EQ(result->error_code, 0);
+
+    result = ErrorCommand::Parse(CommandLine{ L"err x" });
     ASSERT_TRUE(result.has_value());
     ASSERT_EQ(result->error_code, 0);
 
@@ -42,9 +46,6 @@ TEST(ErrorCommandTest, ParseIncomplete) {
 
 TEST(ErrorCommandTest, ParseError) {
 
-    auto result = ErrorCommand::Parse(CommandLine{ L"err " });
-    ASSERT_FALSE(result.has_value());
-
-    result = ErrorCommand::Parse(CommandLine{ L"err -0x1" });
+    auto result = ErrorCommand::Parse(CommandLine{ L"err -0x1" });
     ASSERT_FALSE(result.has_value());
 }

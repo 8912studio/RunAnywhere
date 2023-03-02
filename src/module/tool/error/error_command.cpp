@@ -17,7 +17,8 @@ std::optional<ErrorCommandParseResult> ErrorCommand::Parse(
     const utility::CommandLine& command_line) {
 
     if (command_line.Arguments().empty()) {
-        return std::nullopt;
+        //Use default result if there is no argument.
+        return ErrorCommandParseResult{};
     }
 
     utility::GeneralNumberInterpreter interpreter{ true };
