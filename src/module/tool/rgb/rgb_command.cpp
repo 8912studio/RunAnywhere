@@ -7,6 +7,7 @@
 #include <zaf/creation.h>
 #include "module/calculator/parse/decimal_number_parser.h"
 #include "module/calculator/parse/non_decimal_number_parser.h"
+#include "module/common/command_error_control.h"
 #include "utility/clipboard.h"
 
 namespace ra::module::tool::rgb {
@@ -375,7 +376,7 @@ help::content::Content RGBCommand::GetHelpContent() {
 std::shared_ptr<CommandPreviewControl> RGBCommand::GetPreviewControl() {
 
     if (!parse_result_) {
-        return nullptr;
+        return CommandErrorControl::InvalidArgument();
     }
 
     if (!preview_control_) {

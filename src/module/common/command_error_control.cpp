@@ -19,7 +19,7 @@ void CommandErrorControl::AfterParse() {
     AddChild(error_view_);
 
     SetLayouter(zaf::Create<zaf::VerticalLayouter>());
-    SetFixedHeight(80);
+    SetFixedHeight(90);
 }
 
 

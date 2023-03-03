@@ -1,4 +1,4 @@
-<ErrorPreviewControl Layouter="VerticalLayouter" FixedHeight="100">
+<ErrorPreviewControl Layouter="VerticalLayouter" FixedHeight="90">
     <VerticalBox Name="resultView">
         <HorizontalBox 
             FixedHeight="20" 

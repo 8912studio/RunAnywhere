@@ -1,6 +1,7 @@
 #include "module/tool/date/date_command.h"
 #include <zaf/base/string/to_numeric.h>
 #include <zaf/creation.h>
+#include "module/common/command_error_control.h"
 #include "utility/clipboard.h"
 
 namespace ra::module::tool::date { 
@@ -90,7 +91,7 @@ help::content::Content DateCommand::GetHelpContent() {
 std::shared_ptr<CommandPreviewControl> DateCommand::GetPreviewControl() {
 
 	if (!parse_result_) {
-		return nullptr;
+		return CommandErrorControl::InvalidArgument();
 	}
 
 	if (!preview_control_) {

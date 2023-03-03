@@ -1,4 +1,4 @@
-<RGBPreviewControl FixedHeight="80">
+<RGBPreviewControl FixedHeight="90">
     <RGBPreviewControl.Layouter>
         <HorizontalLayouter AxisAlignment="Center" CrossAxisAlignment="Center" />
     </RGBPreviewControl.Layouter>
