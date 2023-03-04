@@ -17,9 +17,14 @@ public:
 
     std::wstring GetText() const;
 
+protected:
+    void OnRectChanged(const zaf::RectChangedInfo& event_info) override;
+
 private:
-    void ShowResult();
-    void ShowError();
+    void AdjustErrorMessageToFitContentSize();
+    zaf::TextLayout CreateTextLayoutForMeasuring() const;
+    bool AdjustErrorMessageByReducingFontSize(zaf::TextLayout& text_layout, float content_width);
+    void AdjustErrorMessageByAddingLines(zaf::TextLayout& text_layout, float content_width);
 
 private:
     ZAF_BIND_CONTROL(zaf::Control, resultView);
