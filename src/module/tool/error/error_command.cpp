@@ -47,6 +47,21 @@ ErrorCommand::ErrorCommand(const utility::CommandLine& command_line) :
 }
 
 
+help::content::Content ErrorCommand::GetHelpContent() {
+
+    help::content::Content result;
+
+    result.AddTitleLine(L"err command");
+    result.AddBodyLine(L"Show error message for specified system error code.");
+
+    result.AddTitleLine(L"Usage");
+    result.AddBodyLine(L"err <code>");
+    result.AddBodyLine(L"`code` is a value returned by GetLastError() function.");
+
+    return result;
+}
+
+
 std::shared_ptr<CommandPreviewControl> ErrorCommand::GetPreviewControl() {
 
     if (!parse_result_) {

@@ -16,6 +16,7 @@ public:
 public:
     explicit ErrorCommand(const utility::CommandLine& command_line);
 
+    help::content::Content GetHelpContent() override;
     std::shared_ptr<CommandPreviewControl> GetPreviewControl() override;
     void Execute() override;
 
