@@ -194,6 +194,7 @@ void ApplicationDelegate::RunApplicationSwitches(const entry::ApplicationSwithes
     auto importer = module_manager_->GetUserDefinedModule().BeginImportBundle(bundle_path);
     auto import_window = zaf::Create<module::user_defined::ImportBundleWindow>(importer);
     import_window->Show();
+    BringWindowToTop(import_window->Handle());
     SetForegroundWindow(import_window->Handle());
 }
 
