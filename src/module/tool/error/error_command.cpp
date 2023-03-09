@@ -56,7 +56,13 @@ help::content::Content ErrorCommand::GetHelpContent() {
 
     result.AddTitleLine(L"Usage");
     result.AddBodyLine(L"err <code>");
-    result.AddBodyLine(L"`code` is a value returned by GetLastError() function.");
+    result.AddBodyLine(
+        L"`code` is a value returned by GetLastError() function, or a HRESULT returned by some "
+        L"COM interfaces. Note that not all COM errors are supported.");
+    result.AddBodyLine(
+        L"`code` can be a signed/unsigned decimal, or a hexadecimal which begins with `x` or "
+        L"`0x`. It will be converted to a 32bit unsigned integer to find the corresponding "
+        L"error message.");
 
     return result;
 }
