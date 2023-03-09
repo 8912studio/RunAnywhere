@@ -21,7 +21,7 @@ Things get easier with RunAnywhere. To accomplish the same task (suppose that yo
 
 All is done by several simple key strokes.
 
-<img src="https://user-images.githubusercontent.com/1822051/223924418-54d04ddd-ebc8-4892-bcd2-1f2443ed3ab0.png" width="60%" height="60%">
+<img src="https://user-images.githubusercontent.com/1822051/223924418-54d04ddd-ebc8-4892-bcd2-1f2443ed3ab0.png" width="80%" height="80%">
 
 # Requirements
 RunAnywhere requires x64 Windows 10 and above to run.
