@@ -116,7 +116,7 @@ void ApplicationDelegate::InitializeTrayIconWindow() {
     message_window_->SetActivateOption(zaf::ActivateOption::NoActivate);
     message_window_->SetInitialRectStyle(zaf::InitialRectStyle::Custom);
     message_window_->SetRect(zaf::Rect{});
-    message_window_->CreateHandle();
+    message_window_holder_ = message_window_->CreateHandle();
 
     Subscriptions() += message_window_->MessageReceivedEvent().Subscribe(
         [this](const zaf::MessageReceivedInfo& event_info) {
@@ -265,7 +265,11 @@ void ApplicationDelegate::ApplicationEndRun(const zaf::ApplicationEndRunInfo&) {
     main_window_->Close();
     main_window_.reset();
 
-	ra::RemoveTrayIcon();
+    ra::RemoveTrayIcon();
+
+    message_window_holder_.reset();
+    message_window_->Destroy();
+    message_window_.reset();
 }
 
 

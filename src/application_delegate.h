@@ -33,6 +33,7 @@ private:
 	entry::ApplicationSwithes application_switches_;
 	UINT task_bar_create_message_id_{};
 	std::shared_ptr<zaf::Window> message_window_;
+	std::shared_ptr<zaf::WindowHolder> message_window_holder_;
 	HMENU menu_{};
 
 	std::shared_ptr<ModuleManager> module_manager_;
