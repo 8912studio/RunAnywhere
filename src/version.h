@@ -1,4 +1,4 @@
 #define MAJOR 0 
-#define MINOR 7 
+#define MINOR 8 
 #define REVISION 0 
-#define BUILD 15 
+#define BUILD 1 
