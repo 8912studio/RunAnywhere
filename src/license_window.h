@@ -3,7 +3,7 @@
 #include <zaf/window/window.h>
 #include <zaf/control/control_binder.h>
 #include <zaf/control/scrollable_control.h>
-#include <zaf/control/text_box.h>
+#include <zaf/control/rich_edit.h>
 
 namespace ra {
 
@@ -25,7 +25,7 @@ private:
 
 private:
     ZAF_BIND_CONTROL(zaf::ScrollableControl, scrollableControl);
-    ZAF_BIND_CONTROL(zaf::TextBox, licenseContentTextBox);
+    ZAF_BIND_CONTROL(zaf::RichEdit, licenseContentTextBox);
 };
 
 }

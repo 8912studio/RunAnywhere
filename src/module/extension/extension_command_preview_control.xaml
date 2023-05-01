@@ -9,7 +9,7 @@
         AllowHorizontalScroll="false"
         ScrollBarThickness="12">
         <ScrollableControl.ScrollContent>
-            <TextBox 
+            <RichEdit 
                 Name="textBox" 
                 Border="0"
                 IsMultiline="true" 

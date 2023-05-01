@@ -4,7 +4,7 @@
 #include <optional>
 #include <zaf/control/control_binder.h>
 #include <zaf/control/label.h>
-#include <zaf/control/text_box.h>
+#include <zaf/control/rich_edit.h>
 #include "module/command_preview_control.h"
 #include "module/tool/md5/md5_encoding.h"
 #include "utility/preview_text_box.h"

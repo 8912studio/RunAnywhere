@@ -56,7 +56,7 @@ void HexContentControl::Paint(zaf::Canvas& canvas, const zaf::Rect& dirty_rect) 
         return;
     }
 
-    PrepareGraphicResources(canvas.GetRenderer());
+    PrepareGraphicResources(canvas.Renderer());
 
     auto begin_line = static_cast<std::size_t>(std::floor(dirty_rect.position.y / LineHeight));
     auto end_line = static_cast<std::size_t>(
@@ -83,24 +83,24 @@ void HexContentControl::Paint(zaf::Canvas& canvas, const zaf::Rect& dirty_rect) 
 
 void HexContentControl::PrepareGraphicResources(zaf::Renderer& renderer) {
 
-    if (mouse_over_background_brush_.IsNull()) {
+    if (!mouse_over_background_brush_) {
         mouse_over_background_brush_ = 
             renderer.CreateSolidColorBrush(zaf::Color::FromARGB(0x4055BBFF));
     }
 
-    if (selected_background_brush_.IsNull()) {
+    if (!selected_background_brush_) {
         selected_background_brush_ = renderer.CreateSolidColorBrush(zaf::Color::FromRGB(0xCCEEBB));
     }
 
-    if (default_text_brush_.IsNull()) {
+    if (!default_text_brush_) {
         default_text_brush_ = renderer.CreateSolidColorBrush(zaf::Color::Black());
     }
 
-    if (blank_character_brush_.IsNull()) {
+    if (!blank_character_brush_) {
         blank_character_brush_ = renderer.CreateSolidColorBrush(zaf::Color::FromRGB(0x00AA00));
     }
 
-    if (unknown_character_brush_.IsNull()) {
+    if (!unknown_character_brush_) {
         unknown_character_brush_ = renderer.CreateSolidColorBrush(zaf::Color::FromRGB(0xAAAAAA));
     }
 }

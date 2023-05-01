@@ -1,7 +1,7 @@
 #pragma once
 
 #include <zaf/control/control_binder.h>
-#include <zaf/control/text_box.h>
+#include <zaf/control/rich_edit.h>
 #include <zaf/window/message/activate_message.h>
 #include <zaf/window/window.h>
 #include "context/desktop_context.h"
@@ -54,7 +54,7 @@ private:
     void HandleActivateMessage(const zaf::ActivateMessage& message);
 
 private:
-    ZAF_BIND_CONTROL(zaf::TextBox, inputTextBox);
+    ZAF_BIND_CONTROL(zaf::RichEdit, inputTextBox);
     ZAF_BIND_CONTROL(PreviewView, previewView);
     ZAF_BIND_CONTROL(zaf::Control, helpButton);
 

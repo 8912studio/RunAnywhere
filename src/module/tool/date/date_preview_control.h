@@ -1,7 +1,7 @@
 #pragma once
 
 #include <zaf/control/control_binder.h>
-#include <zaf/control/text_box.h>
+#include <zaf/control/rich_edit.h>
 #include "module/command_preview_control.h"
 #include "module/tool/date/date_command_parse_result.h"
 
@@ -26,7 +26,7 @@ private:
 	std::wstring GenerateTimeText() const;
 
 private:
-	ZAF_BIND_CONTROL(zaf::TextBox, textBox);
+	ZAF_BIND_CONTROL(zaf::RichEdit, textBox);
 
 	DateCommandParseResult parse_result_;
 	std::optional<zaf::Subscription> timer_subscription_;

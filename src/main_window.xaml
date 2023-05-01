@@ -13,7 +13,7 @@
             FixedHeight="40"
             BackgroundImage="res:///resource/logo_main.png" 
             BackgroundImageLayout="Stretch"/>
-        <TextBox 
+        <RichEdit 
             Name="inputTextBox"
             FixedHeight="40" 
             Margin="4,0,0,0"

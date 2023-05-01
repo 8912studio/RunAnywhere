@@ -14,7 +14,7 @@ void HelpScrollBarThumb::Paint(zaf::Canvas& canvas, const zaf::Rect&) {
         return;
     }
 
-    zaf::Canvas::StateGuard state_guard(canvas);
+    auto state_guard = canvas.PushState();
 
     canvas.SetBrushWithColor(ThumbColor());
     canvas.DrawRoundedRectangle(zaf::RoundedRect{ ContentRect(), 4, 4 });

@@ -2,7 +2,7 @@
 
 #include <zaf/control/control_binder.h>
 #include <zaf/control/scrollable_control.h>
-#include <zaf/control/text_box.h>
+#include <zaf/control/rich_edit.h>
 #include "module/command_preview_control.h"
 
 namespace ra::module::extension {
@@ -21,7 +21,7 @@ private:
 
 private:
     ZAF_BIND_CONTROL(zaf::ScrollableControl, scrollControl);
-    ZAF_BIND_CONTROL(zaf::TextBox, textBox);
+    ZAF_BIND_CONTROL(zaf::RichEdit, textBox);
 };
 
 }
