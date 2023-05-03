@@ -13,14 +13,12 @@
             FixedHeight="40"
             BackgroundImage="res:///resource/logo_main.png" 
             BackgroundImageLayout="Stretch"/>
-        <RichEdit 
+        <CommandInputEdit 
             Name="inputTextBox"
             FixedHeight="40" 
             Margin="4,0,0,0"
             Border="0"
-            FontSize="22"
-            ParagraphAlignment="Center"
-            AcceptReturn="false" />
+            FontSize="22" />
         <Control 
             Name="helpButton"
             FixedWidth="20" 

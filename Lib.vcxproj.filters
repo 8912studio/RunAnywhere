@@ -97,6 +97,9 @@
     <Filter Include="src\module\common">
       <UniqueIdentifier>{2cc5a11a-a22f-4ac5-90f2-5dd201e6c456}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\main">
+      <UniqueIdentifier>{5656485f-608f-4e58-9472-720d09723006}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\module\calculator\parse\binary_expression_parser.h">
@@ -564,6 +567,12 @@
     <ClInclude Include="src\module\common\command_error_control.h">
       <Filter>src\module\common</Filter>
     </ClInclude>
+    <ClInclude Include="src\main\command_input_edit.h">
+      <Filter>src\main</Filter>
+    </ClInclude>
+    <ClInclude Include="src\main\text_block_object.h">
+      <Filter>src\main</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -886,6 +895,12 @@
     </ClCompile>
     <ClCompile Include="src\module\common\command_error_control.cpp">
       <Filter>src\module\common</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main\command_input_edit.cpp">
+      <Filter>src\main</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main\text_block_object.cpp">
+      <Filter>src\main</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

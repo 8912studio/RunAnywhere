@@ -122,6 +122,8 @@
     <ClInclude Include="src\hot_key_utility.h" />
     <ClInclude Include="src\ipc.h" />
     <ClInclude Include="src\license_window.h" />
+    <ClInclude Include="src\main\command_input_edit.h" />
+    <ClInclude Include="src\main\text_block_object.h" />
     <ClInclude Include="src\main_window.h" />
     <ClInclude Include="src\module\active_path\active_path_command.h" />
     <ClInclude Include="src\module\active_path\active_path_option.h" />
@@ -265,6 +267,8 @@
     <ClCompile Include="src\hot_key_manager.cpp" />
     <ClCompile Include="src\hot_key_utility.cpp" />
     <ClCompile Include="src\license_window.cpp" />
+    <ClCompile Include="src\main\command_input_edit.cpp" />
+    <ClCompile Include="src\main\text_block_object.cpp" />
     <ClCompile Include="src\main_window.cpp" />
     <ClCompile Include="src\module\active_path\active_path_command.cpp" />
     <ClCompile Include="src\module\active_path\active_path_module.cpp" />
