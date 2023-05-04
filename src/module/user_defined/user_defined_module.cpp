@@ -122,29 +122,11 @@ std::shared_ptr<Command> UserDefinedModule::Interpret(const utility::CommandLine
 
     ZAF_EXPECT(bundle_depot_);
 
-    int argument_count{};
-    auto arguments = CommandLineToArgvW(command_line.RawText().c_str(), &argument_count);
-    if (!arguments) {
-        return nullptr;
+    auto entry = bundle_depot_->FindEntry(command_line.Command());
+    if (entry) {
+        return std::make_shared<UserDefinedCommand>(entry, command_line.Arguments());
     }
-
-    std::shared_ptr<Command> command;
-    if (argument_count > 0) {
-
-        auto entry = bundle_depot_->FindEntry(arguments[0]);
-        if (entry) {
-
-            std::vector<std::wstring> command_arguments;
-            for (int index = 1; index < argument_count; ++index) {
-                command_arguments.push_back(arguments[index]);
-            }
-
-            command = std::make_shared<UserDefinedCommand>(entry, command_arguments);
-        }
-    }
-
-    LocalFree(arguments);
-    return command;
+    return nullptr;
 }
 
 }
