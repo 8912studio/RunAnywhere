@@ -20,18 +20,17 @@ std::vector<std::wstring> ExpandObjectText(
     std::size_t current{};
     for (current = 0; current <= text.length(); ++current) {
 
-        auto ch = text[current];
-        if (ch == ObjectReplacementChar || ch == '\0') {
+        if (current == text.length() || text[current] == ObjectReplacementChar) {
 
-            auto part_view = text.substr(begin, current - begin);
-            std::wstring part{ part_view.data(), part_view.length() };
+            auto part = std::wstring{ text.substr(begin, current - begin) };
             zaf::Trim(part);
 
             if (!part.empty()) {
                 result.push_back(std::move(part));
             }
 
-            if (ch == ObjectReplacementChar) {
+            //Encounter object replacement char.
+            if (current != text.length()) {
 
                 std::wstring object_text;
                 if (object_text_getter) {
@@ -57,6 +56,12 @@ std::vector<std::wstring> ParseTextToParts(
     std::wstring_view text,
     const CommandLine::ObjectTextGetter& object_text_getter) {
 
+    //It is strange that CommandLineToArgvW would returns the exe file path if text is an empty 
+    //string.
+    if (text.empty()) {
+        return {};
+    }
+
     int count{};
     auto parts = CommandLineToArgvW(text.data(), &count);
     if (!parts) {
@@ -79,29 +84,32 @@ std::vector<std::wstring> ParseTextToParts(
 
 CommandLine::CommandLine(
     std::wstring_view text,
-    const ObjectTextGetter& object_text_getter) 
+    const ObjectTextGetter& object_text_getter)
     :
-    text_(text) {
+    raw_text_(text) {
 
-    int count{};
-    auto parts = CommandLineToArgvW(text.data(), &count);
-    if (!parts) {
-        return;
-    }
+    auto parts = ParseTextToParts(text, object_text_getter);
 
-    for (auto index : zaf::Range(0, count)) {
-
-        all_parts_.push_back(parts[index]);
-
+    for (auto index : zaf::Range(0, parts.size())) {
         if (index == 0) {
-            command_ = parts[index];
+            command_ = std::move(parts[index]);
         }
         else {
-            arguments_.push_back(parts[index]);
+            arguments_.push_back(std::move(parts[index]));
         }
     }
+}
 
-    LocalFree(parts);
+
+std::vector<std::wstring> CommandLine::AllParts() const {
+
+    std::vector<std::wstring> result;
+    if (!command_.empty()) {
+        result.push_back(command_);
+    }
+
+    zaf::Append(result, arguments_);
+    return result;
 }
 
 }

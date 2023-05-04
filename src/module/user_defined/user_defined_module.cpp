@@ -123,7 +123,7 @@ std::shared_ptr<Command> UserDefinedModule::Interpret(const utility::CommandLine
     ZAF_EXPECT(bundle_depot_);
 
     int argument_count{};
-    auto arguments = CommandLineToArgvW(command_line.Text().c_str(), &argument_count);
+    auto arguments = CommandLineToArgvW(command_line.RawText().c_str(), &argument_count);
     if (!arguments) {
         return nullptr;
     }

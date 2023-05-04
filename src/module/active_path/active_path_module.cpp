@@ -26,7 +26,7 @@ std::vector<CommandBrief> ActivePathModule::QuerySuggestedCommands(
 
 std::shared_ptr<Command> ActivePathModule::Interpret(const utility::CommandLine& command_line) {
 
-	const auto& command_line_text = command_line.Text();
+	const auto& command_line_text = command_line.RawText();
 	if (command_line_text.empty()) {
 		return nullptr;
 	}

@@ -21,7 +21,7 @@ std::vector<CommandBrief> CalculatorModule::QuerySuggestedCommands(
 
 std::shared_ptr<Command> CalculatorModule::Interpret(const utility::CommandLine& command_line) {
 
-    auto parse_result = ParseCommand(command_line.Text());
+    auto parse_result = ParseCommand(command_line.RawText());
     if (!parse_result) {
         return nullptr;
     }

@@ -16,12 +16,8 @@ public:
         std::wstring_view text, 
         const ObjectTextGetter& object_text_getter = nullptr);
 
-    const std::wstring& Text() const {
-        return text_;
-    }
-
-    const std::vector<std::wstring>& AllParts() const {
-        return all_parts_;
+    const std::wstring& RawText() const {
+        return raw_text_;
     }
 
     const std::wstring& Command() const {
@@ -32,9 +28,10 @@ public:
         return arguments_;
     }
 
+    std::vector<std::wstring> AllParts() const;
+
 private:
-    std::wstring text_;
-    std::vector<std::wstring> all_parts_;
+    std::wstring raw_text_;
     std::wstring command_;
     std::vector<std::wstring> arguments_;
 };

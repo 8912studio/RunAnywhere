@@ -39,7 +39,7 @@ std::shared_ptr<Command> ExtensionModule::Interpret(const utility::CommandLine& 
         return nullptr;
     }
 
-    auto command_handle = interface_.interpret_function(command_line.Text().c_str());
+    auto command_handle = interface_.interpret_function(command_line.RawText().c_str());
     if (!command_handle) {
         return nullptr;
     }

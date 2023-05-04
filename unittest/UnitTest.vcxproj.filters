@@ -172,6 +172,9 @@
     <ClCompile Include="case\module\tool\error\error_command_test.cpp">
       <Filter>case\module\tool\error</Filter>
     </ClCompile>
+    <ClCompile Include="case\utility\command_line_test.cpp">
+      <Filter>case\utility</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="case\module\calculator\number_parser_test_utility.h">

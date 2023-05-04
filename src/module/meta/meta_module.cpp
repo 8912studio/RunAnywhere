@@ -52,7 +52,7 @@ std::vector<CommandBrief> MetaModule::QuerySuggestedCommands(const std::wstring&
 
 std::shared_ptr<Command> MetaModule::Interpret(const utility::CommandLine& command_line) {
 
-    auto command = ExtractMetaCommand(command_line.Text());
+    auto command = ExtractMetaCommand(command_line.RawText());
     if (!command || command->empty()) {
         return nullptr;
     }
