@@ -1,16 +1,20 @@
 #pragma once
 
-#include <string>
+#include <functional>
+#include <string_view>
 #include <vector>
+#include <zaf/base/non_copyable.h>
 
 namespace ra::utility {
 
-class CommandLine {
+class CommandLine : zaf::NonCopyable {
 public:
-    explicit CommandLine(const std::wstring& text);
+    using ObjectTextGetter = std::function<std::wstring(int object_index)>;
 
-    CommandLine(const CommandLine&) = delete;
-    CommandLine& operator=(const CommandLine&) = delete;
+public:
+    CommandLine(
+        std::wstring_view text, 
+        const ObjectTextGetter& object_text_getter = nullptr);
 
     const std::wstring& Text() const {
         return text_;
