@@ -7,7 +7,7 @@
 #include "hot_key_manager.h"
 #include "hot_key_utility.h"
 #include "ipc.h"
-#include "main_window.h"
+#include "main/main_window.h"
 #include "module/user_defined/bundle_definition.h"
 #include "module/user_defined/import/import_bundle_window.h"
 #include "option_window.h"

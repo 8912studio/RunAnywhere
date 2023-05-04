@@ -1,4 +1,4 @@
-#include "main_window.h"
+#include "main/main_window.h"
 #include <cassert>
 #include <zaf/base/log.h>
 #include <zaf/base/string/encoding_conversion.h>
@@ -24,7 +24,7 @@
 namespace ra {
 
 ZAF_DEFINE_TYPE(MainWindow)
-ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///main_window.xaml")
+ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///main/main_window.xaml")
 ZAF_DEFINE_TYPE_END
 
 

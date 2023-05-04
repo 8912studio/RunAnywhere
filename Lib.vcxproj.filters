@@ -261,9 +261,6 @@
     <ClInclude Include="src\about_window.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\main_window.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="src\option_window.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -573,6 +570,9 @@
     <ClInclude Include="src\main\text_block_object.h">
       <Filter>src\main</Filter>
     </ClInclude>
+    <ClInclude Include="src\main\main_window.h">
+      <Filter>src\main</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -681,9 +681,6 @@
       <Filter>src\utility</Filter>
     </ClCompile>
     <ClCompile Include="src\about_window.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\main_window.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\option_window.cpp">
@@ -902,6 +899,9 @@
     <ClCompile Include="src\main\text_block_object.cpp">
       <Filter>src\main</Filter>
     </ClCompile>
+    <ClCompile Include="src\main\main_window.cpp">
+      <Filter>src\main</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Page Include="src\module\user_defined\preview\user_defined_command_preview_control.xaml">
@@ -911,9 +911,6 @@
       <Filter>src\module\calculator\preview</Filter>
     </Page>
     <Page Include="src\about_window.xaml">
-      <Filter>src</Filter>
-    </Page>
-    <Page Include="src\main_window.xaml">
       <Filter>src</Filter>
     </Page>
     <Page Include="src\option_window.xaml">
@@ -951,6 +948,9 @@
     </Page>
     <Page Include="src\module\common\error_view.xaml">
       <Filter>src\module\common</Filter>
+    </Page>
+    <Page Include="src\main\main_window.xaml">
+      <Filter>src\main</Filter>
     </Page>
   </ItemGroup>
   <ItemGroup>

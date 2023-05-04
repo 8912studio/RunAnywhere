@@ -3,7 +3,7 @@
 #include <zaf/base/string/case_conversion.h>
 #include "about_window.h"
 #include "application_delegate.h"
-#include "main_window.h"
+#include "main/main_window.h"
 #include "option_window.h"
 
 namespace ra::module::meta {

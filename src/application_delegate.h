@@ -3,7 +3,7 @@
 #include <zaf/application_delegate.h>
 #include <zaf/window/window.h>
 #include "entry/application_switches.h"
-#include "main_window.h"
+#include "main/main_window.h"
 #include "module_manager.h"
 
 namespace ra {
