@@ -24,20 +24,18 @@ utility::CommandLine CommandInputEdit::GetInputCommandLine() {
 
     return utility::CommandLine(this->Text(), [ole_interface](int object_index) {
 
-        REOBJECT object_info{};
-        object_info.cbStruct = sizeof(object_info);
-        HRESULT hresult = ole_interface->GetObject(object_index, &object_info, REO_GETOBJ_POLEOBJ);
-        if (FAILED(hresult)) {
+        try {
+
+            auto object = ole_interface.GetObjectAt(object_index);
+            auto text_block_object = object.As<TextBlockObject>();
+            if (text_block_object) {
+                return text_block_object->Text();
+            }
             return std::wstring{};
         }
-
-        zaf::COMObject<IOleObject> object{ object_info.poleobj };
-        auto text_block_object = object.As<TextBlockObject>();
-        if (!text_block_object) {
+        catch (const zaf::Error&) {
             return std::wstring{};
         }
-
-        return text_block_object->Text();
     });
 }
 
