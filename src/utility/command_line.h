@@ -3,18 +3,23 @@
 #include <functional>
 #include <string_view>
 #include <vector>
-#include <zaf/base/non_copyable.h>
 
 namespace ra::utility {
 
-class CommandLine : zaf::NonCopyable {
+class CommandLine {
 public:
     using ObjectTextGetter = std::function<std::wstring(int object_index)>;
 
 public:
-    CommandLine(
+    explicit CommandLine(
         std::wstring_view text, 
         const ObjectTextGetter& object_text_getter = nullptr);
+
+    CommandLine(const CommandLine&) = delete;
+    CommandLine& operator=(const CommandLine&) = delete;
+
+    CommandLine(CommandLine&&) = default;
+    CommandLine& operator=(CommandLine&&) = default;
 
     const std::wstring& RawText() const {
         return raw_text_;

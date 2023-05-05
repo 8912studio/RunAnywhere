@@ -5,6 +5,7 @@
 #include "help/content/content.h"
 #include "module/extension/extension_module_manager.h"
 #include "module/user_defined/user_defined_module.h"
+#include "utility/command_line.h"
 
 namespace ra {
 
@@ -16,7 +17,7 @@ public:
 
     std::vector<module::CommandBrief> QuerySuggestedCommands(const std::wstring& command_text);
 
-    std::shared_ptr<module::Command> InterpretCommand(const std::wstring& command_text);
+    std::shared_ptr<module::Command> InterpretCommand(const utility::CommandLine& command_line);
     
 private:
     std::shared_ptr<module::user_defined::UserDefinedModule> user_defined_module_;

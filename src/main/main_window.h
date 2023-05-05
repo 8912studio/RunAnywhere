@@ -6,6 +6,7 @@
 #include <zaf/window/window.h>
 #include "context/desktop_context.h"
 #include "help/help_window.h"
+#include "main/command_input_edit.h"
 #include "module/command_preview_control.h"
 #include "module_manager.h"
 #include "preview_view.h"
@@ -35,7 +36,7 @@ private:
 
     void OnTextChanged(const zaf::TextChangedInfo&);
     void UpdateCommandState();
-    void InterpretCommand(const std::wstring& input);
+    void InterpretCommand();
     void ShowPreview();
     float ShowCommandPreview();
     std::shared_ptr<module::CommandPreviewControl> CreateDefaultPreviewControl(
@@ -54,7 +55,7 @@ private:
     void HandleActivateMessage(const zaf::ActivateMessage& message);
 
 private:
-    ZAF_BIND_CONTROL(zaf::RichEdit, inputEdit);
+    ZAF_BIND_CONTROL(CommandInputEdit, inputEdit);
     ZAF_BIND_CONTROL(PreviewView, previewView);
     ZAF_BIND_CONTROL(zaf::Control, helpButton);
 

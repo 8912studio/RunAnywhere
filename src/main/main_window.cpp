@@ -102,14 +102,15 @@ void MainWindow::OnTextChanged(const zaf::TextChangedInfo& event_info) {
 
 void MainWindow::UpdateCommandState() {
 
-    InterpretCommand(inputEdit->Text());
+    InterpretCommand();
     UpdateHelpWindowState();
 }
 
 
-void MainWindow::InterpretCommand(const std::wstring& input) {
+void MainWindow::InterpretCommand() {
 
-    current_command_ = module_manager_->InterpretCommand(input);
+    auto command_line = inputEdit->GetInputCommandLine();
+    current_command_ = module_manager_->InterpretCommand(command_line);
     if (current_command_) {
         current_command_->SetDesktopContext(desktop_context_);
     }

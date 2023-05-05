@@ -8,6 +8,10 @@ class TextBlockObject : public zaf::rich_edit::EmbeddedObject {
 public:
     explicit TextBlockObject(const std::wstring& text);
 
+    const std::wstring& Text() const {
+        return text_;
+    }
+
     GUID ClassID() const override;
 
     void Paint(

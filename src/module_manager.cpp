@@ -51,14 +51,8 @@ std::vector<module::CommandBrief> ModuleManager::QuerySuggestedCommands(
 }
 
 
-std::shared_ptr<module::Command> ModuleManager::InterpretCommand(const std::wstring& command_text) {
-
-    auto trimmed_command_text = zaf::ToTrimmed(command_text);
-    if (trimmed_command_text.empty()) {
-        return nullptr;
-    }
-
-    utility::CommandLine command_line(trimmed_command_text);
+std::shared_ptr<module::Command> ModuleManager::InterpretCommand(
+    const utility::CommandLine& command_line) {
 
     for (const auto& each_module : modules_) {
 

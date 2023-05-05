@@ -18,6 +18,30 @@ void CommandInputEdit::Initialize() {
 }
 
 
+utility::CommandLine CommandInputEdit::GetInputCommandLine() {
+
+    auto ole_interface = this->GetOLEInterface();
+
+    return utility::CommandLine(this->Text(), [ole_interface](int object_index) {
+
+        REOBJECT object_info{};
+        object_info.cbStruct = sizeof(object_info);
+        HRESULT hresult = ole_interface->GetObject(object_index, &object_info, REO_GETOBJ_POLEOBJ);
+        if (FAILED(hresult)) {
+            return std::wstring{};
+        }
+
+        zaf::COMObject<IOleObject> object{ object_info.poleobj };
+        auto text_block_object = object.As<TextBlockObject>();
+        if (!text_block_object) {
+            return std::wstring{};
+        }
+
+        return text_block_object->Text();
+    });
+}
+
+
 void CommandInputEdit::OnTextChanging(const zaf::TextChangingInfo& event_info) {
 
     __super::OnTextChanging(event_info);

@@ -14,6 +14,43 @@ CommandLine::ObjectTextGetter ToObjectTextGetter(const std::vector<std::wstring>
 }
 
 
+static_assert(!std::is_copy_constructible_v<CommandLine>);
+static_assert(!std::is_copy_assignable_v<CommandLine>);
+static_assert(std::is_move_constructible_v<CommandLine>);
+static_assert(std::is_move_assignable_v<CommandLine>);
+
+
+TEST(CommandLineTest, Move) {
+
+    //Move construct
+    {
+        CommandLine command_line1{ L"cmd a1 a2 a3" };
+        CommandLine command_line2{ std::move(command_line1) };
+
+        ASSERT_TRUE(command_line1.RawText().empty());
+        ASSERT_TRUE(command_line1.AllParts().empty());
+
+        ASSERT_EQ(command_line2.RawText(), L"cmd a1 a2 a3");
+        std::vector<std::wstring> expected{ L"cmd", L"a1", L"a2", L"a3" };
+        ASSERT_EQ(command_line2.AllParts(), expected);
+    }
+
+    //Move assign
+    {
+        CommandLine command_line1{ L"p0 p1 p2" };
+        CommandLine command_line2{ L"q0 q1 q2" };
+        command_line2 = std::move(command_line1);
+
+        ASSERT_TRUE(command_line1.RawText().empty());
+        ASSERT_TRUE(command_line1.AllParts().empty());
+
+        ASSERT_EQ(command_line2.RawText(), L"p0 p1 p2");
+        std::vector<std::wstring> expected{ L"p0", L"p1", L"p2" };
+        ASSERT_EQ(command_line2.AllParts(), expected);
+    }
+}
+
+
 TEST(CommandLineTest, GetAllParts) {
 
     {
@@ -107,7 +144,7 @@ TEST(CommandLineTest, TextAndObject) {
 }
 
 
-TEST(CommandLineTest, EmptyObjectTest) {
+TEST(CommandLineTest, EmptyObjectText) {
 
     {
         CommandLine command_line{ L"11\ufffc" };
