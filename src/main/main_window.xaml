@@ -14,7 +14,7 @@
             BackgroundImage="res:///resource/logo_main.png" 
             BackgroundImageLayout="Stretch"/>
         <CommandInputEdit 
-            Name="inputTextBox"
+            Name="inputEdit"
             FixedHeight="40" 
             Margin="4,0,0,0"
             Border="0"

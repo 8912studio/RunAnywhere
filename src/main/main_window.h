@@ -54,7 +54,7 @@ private:
     void HandleActivateMessage(const zaf::ActivateMessage& message);
 
 private:
-    ZAF_BIND_CONTROL(zaf::RichEdit, inputTextBox);
+    ZAF_BIND_CONTROL(zaf::RichEdit, inputEdit);
     ZAF_BIND_CONTROL(PreviewView, previewView);
     ZAF_BIND_CONTROL(zaf::Control, helpButton);
 

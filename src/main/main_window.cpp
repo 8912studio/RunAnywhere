@@ -47,9 +47,9 @@ void MainWindow::AfterParse() {
 
 void MainWindow::InitializeTextBox() {
 
-    inputTextBox->SetAllowBeep(false);
+    inputEdit->SetAllowBeep(false);
 
-    Subscriptions() += inputTextBox->TextChangedEvent().Subscribe(std::bind(
+    Subscriptions() += inputEdit->TextChangedEvent().Subscribe(std::bind(
         &MainWindow::OnTextChanged,
         this,
         std::placeholders::_1));
@@ -102,7 +102,7 @@ void MainWindow::OnTextChanged(const zaf::TextChangedInfo& event_info) {
 
 void MainWindow::UpdateCommandState() {
 
-    InterpretCommand(inputTextBox->Text());
+    InterpretCommand(inputEdit->Text());
     UpdateHelpWindowState();
 }
 
@@ -227,7 +227,7 @@ help::content::Content MainWindow::GetHelpContent() {
     }
     else {
 
-        auto suggested_commands = module_manager_->QuerySuggestedCommands(inputTextBox->Text());
+        auto suggested_commands = module_manager_->QuerySuggestedCommands(inputEdit->Text());
         return help::BuildHelpContentFromSuggestedCommands(std::move(suggested_commands));
     }
 }
@@ -255,7 +255,7 @@ void MainWindow::ExecuteCommand() {
         current_command_->Execute();
     }
 
-    inputTextBox->SetText({});
+    inputEdit->SetText({});
     this->Hide();
 }
 
@@ -302,11 +302,11 @@ bool MainWindow::HandleKeyDownMessage(const zaf::KeyMessage& message) {
 
     if (message.VirtualKey() == VK_ESCAPE) {
 
-        if (inputTextBox->Text().empty()) {
+        if (inputEdit->Text().empty()) {
             this->Hide();
         }
         else {
-            inputTextBox->SetText(std::wstring{});
+            inputEdit->SetText(std::wstring{});
         }
         return true;
     }
@@ -360,7 +360,7 @@ std::optional<zaf::HitTestResult> MainWindow::HitTest(const zaf::HitTestMessage&
 
     auto mouse_position = message.MousePosition();
 
-    if (inputTextBox->AbsoluteRect().Contain(mouse_position)) {
+    if (inputEdit->AbsoluteRect().Contain(mouse_position)) {
         return std::nullopt;
     }
 
@@ -416,7 +416,7 @@ void MainWindow::OnFocusGained(const zaf::WindowFocusGainedInfo& event_info) {
 
     __super::OnFocusGained(event_info);
 
-    inputTextBox->SetIsFocused(true);
+    inputEdit->SetIsFocused(true);
 }
 
 }
