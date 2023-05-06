@@ -8,7 +8,7 @@
 
 namespace ra::module::user_defined {
 
-class BundleImporter : zaf::NonCopyable {
+class BundleImporter : zaf::NonCopyableNonMovable {
 public:
     enum class State {
         Pending,

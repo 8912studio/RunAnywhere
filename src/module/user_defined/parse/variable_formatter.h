@@ -14,7 +14,7 @@ public:
     bool auto_quote_variable{};
 };
 
-class VariableFormatter : zaf::NonCopyable {
+class VariableFormatter : zaf::NonCopyableNonMovable {
 public:
     VariableFormatter(
         const std::shared_ptr<BundleMeta>& bundle_meta,

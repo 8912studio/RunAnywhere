@@ -14,7 +14,7 @@ public:
 };
 
 
-class Discoverer : zaf::NonCopyable {
+class Discoverer : zaf::NonCopyableNonMovable {
 public:
     virtual ~Discoverer() = default;
 
