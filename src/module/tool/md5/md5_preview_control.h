@@ -25,9 +25,6 @@ public:
 		use_upper_case_ = value;
 	}
 
-protected:
-	void AfterParse() override;
-
 private:
 	enum class LayoutType {
 		Progress,

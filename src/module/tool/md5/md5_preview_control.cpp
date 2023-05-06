@@ -6,19 +6,45 @@
 #include "module/tool/md5/md5_calculating.h"
 #include "utility/path_trimming.h"
 
-namespace ra::module::tool::md5{
+namespace ra::module::tool::md5 {
+namespace {
+
+std::wstring RemoveLineBreaks(std::wstring_view text) {
+
+	constexpr wchar_t LineBreakSymbol = L'\u23CE';
+
+	std::wstring result;
+
+	auto current = text.begin();
+	while (current < text.end()) {
+
+		if (*current == L'\r') {
+
+			result += LineBreakSymbol;
+			++current;
+
+			if ((current < text.end()) && (*current == L'\n')) {
+				++current;
+			}
+		}
+		else if (*current == L'\n') {
+			result += LineBreakSymbol;
+			++current;
+		}
+		else {
+			result += *current;
+			++current;
+		}
+	}
+
+	return result;
+}
+
+}
 
 ZAF_DEFINE_TYPE(MD5PreviewControl)
 ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/tool/md5/md5_preview_control.xaml")
 ZAF_DEFINE_TYPE_END;
-
-
-void MD5PreviewControl::AfterParse() {
-
-	__super::AfterParse();
-
-	md5SourceControl->SetTextTrimming(utility::CreateTextTrimmingForPath());
-}
 
 
 void MD5PreviewControl::SetSourceIcon(const std::wstring& uri) {
@@ -54,6 +80,7 @@ void MD5PreviewControl::ShowFileMD5(const std::filesystem::path& file_path) {
 
 	SetSourceIcon(L"res:///resource/file.png");
 	SetMD5Encoding(std::nullopt);
+	md5SourceControl->SetTextTrimming(utility::CreateTextTrimmingForPath());
 	md5SourceControl->SetText(file_path.wstring());
 
 	ChangeLayout(LayoutType::Progress);
@@ -82,7 +109,8 @@ void MD5PreviewControl::ShowStringMD5(const std::wstring& string, MD5Encoding en
 
 	SetSourceIcon(L"res:///resource/string.png");
 	SetMD5Encoding(encoding);
-	md5SourceControl->SetText(string);
+	md5SourceControl->SetTextTrimming(zaf::TextTrimming::Granularity::Character);
+	md5SourceControl->SetText(RemoveLineBreaks(string));
 
 	auto md5 = CalculateStringMD5(string, encoding);
 	SetMD5Text(md5);
