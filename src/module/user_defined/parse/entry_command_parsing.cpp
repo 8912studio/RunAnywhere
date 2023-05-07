@@ -10,6 +10,19 @@
 namespace ra::module::user_defined {
 namespace {
 
+std::vector<std::wstring> RemoveMultipleLines(const std::vector<std::wstring>& strings) {
+
+    std::vector<std::wstring> result;
+    for (const auto& each_string : strings) {
+    
+        auto line_break_index = each_string.find_first_of(L"\r\n");
+        result.push_back(each_string.substr(0, line_break_index));
+    }
+
+    return result;
+}
+
+
 std::wstring GetPlaceholderText(
     const EntryCommandPlaceholder& placeholder,
     const std::vector<std::wstring>& input_arguments,
@@ -115,17 +128,19 @@ CommandLineInfo ParseEntryCommand(
 
     utility::CommandLine command_line{ entry_command };
 
+    auto removed_lines_arguments = RemoveMultipleLines(input_arguments);
+
     CommandLineInfo result;
     result.command = FormatOnePart(
         command_line.Command(),
         false,
         variable_formatter,
-        input_arguments);
+        removed_lines_arguments);
 
     result.arguments = BuildArguments(
         command_line.Arguments(), 
         variable_formatter,
-        input_arguments);
+        removed_lines_arguments);
 
     return result;
 }

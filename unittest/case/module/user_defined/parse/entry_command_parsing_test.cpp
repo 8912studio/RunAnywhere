@@ -210,3 +210,26 @@ TEST(EntryCommandParsingTest, ReplacePlaceholders) {
 }
 
 
+TEST(EntryCommandParsingTest, MultipleLineInputArguments) {
+
+    VariableFormatter variable_formatter{ std::make_shared<BundleMeta>(), ActivePath{} };
+
+    auto result = ParseEntryCommand(
+        L"C:\\Windows\\Explorer.exe %1 %2 %3", 
+        variable_formatter,
+        std::vector<std::wstring>{
+            L"Argument1\rArgument1",
+            L"Argument2\nArgument2",
+            L"Argument3\r\nArgument3",
+        }
+    );
+
+    ASSERT_EQ(result.command, L"C:\\Windows\\Explorer.exe");
+
+    std::vector<std::wstring> expected{
+        L"Argument1",
+        L"Argument2",
+        L"Argument3",
+    };
+    ASSERT_EQ(result.arguments, expected);
+}
