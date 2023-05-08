@@ -7,7 +7,7 @@
 namespace ra {
 
 TextBlockObject::TextBlockObject(const std::wstring& text) : text_(text) {
-    this->SetSize(zaf::Size{ 64, 28 });
+    this->SetSize(zaf::Size{ 60, 28 });
 }
 
 
@@ -23,7 +23,7 @@ void TextBlockObject::Paint(
 
     zaf::RoundedRect rounded_rect;
     rounded_rect.rect.size = this->Size();
-    rounded_rect.rect.Deflate(zaf::Frame{ 2, 0, 2, 0 });
+    rounded_rect.rect.Deflate(zaf::Frame{ 2, 1, 2, 1 });
     rounded_rect.x_radius = 4;
     rounded_rect.y_radius = 4;
 
@@ -32,9 +32,7 @@ void TextBlockObject::Paint(
         zaf::Color::FromARGB(0x7d2EAFFF) : 
         zaf::Color::FromARGB(0x7d95D4FF);
 
-    canvas.DrawRoundedRectangle(
-        rounded_rect,
-        canvas.Renderer().CreateSolidColorBrush(background_color));
+    canvas.DrawRoundedRectangle(rounded_rect, background_color);
 
     PaintText(canvas, rounded_rect.rect);
 }
@@ -59,10 +57,10 @@ void TextBlockObject::PaintText(zaf::Canvas& canvas, const zaf::Rect& text_rect)
     paint_rect.Deflate(zaf::Frame{ 4, 0, 3, 0 });
 
     canvas.DrawTextFormat(
-        utility::RemoveLineBreaks(text_),
-        text_format,
+        utility::RemoveLineBreaks(text_), 
+        text_format, 
         paint_rect,
-        canvas.Renderer().CreateSolidColorBrush(zaf::Color::Black()));
+        zaf::Color::Black());
 }
 
 
