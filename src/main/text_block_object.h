@@ -22,6 +22,9 @@ public:
     void OnMouseCursorChanging(const zaf::rich_edit::MouseCursorChangingContext& context) override;
 
 private:
+    void PaintText(zaf::Canvas& canvas, const zaf::Rect& text_rect);
+
+private:
     std::wstring text_;
 };
 

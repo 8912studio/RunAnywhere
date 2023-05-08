@@ -573,6 +573,9 @@
     <ClInclude Include="src\main\main_window.h">
       <Filter>src\main</Filter>
     </ClInclude>
+    <ClInclude Include="src\utility\text_utility.h">
+      <Filter>src\utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -901,6 +904,9 @@
     </ClCompile>
     <ClCompile Include="src\main\main_window.cpp">
       <Filter>src\main</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\text_utility.cpp">
+      <Filter>src\utility</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

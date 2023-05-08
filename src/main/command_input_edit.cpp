@@ -1,5 +1,6 @@
 #include "main/command_input_edit.h"
 #include <zaf/base/clipboard.h>
+#include <zaf/base/container/utility/contain.h>
 #include <zaf/base/com_object.h>
 #include <zaf/object/type_definition.h>
 #include "main/text_block_object.h"
@@ -46,15 +47,37 @@ void CommandInputEdit::OnTextChanging(const zaf::TextChangingInfo& event_info) {
 
     if (event_info.Reason() == zaf::TextChangeReason::Paste) {
 
-        auto text = zaf::Clipboard::GetText();
-        if (!text.empty()) {
-
-            auto text_block_object = zaf::MakeCOMObject<TextBlockObject>(text);
-            this->InsertObject(text_block_object);
-
+        if (TryToInsertTextBlockObject()) {
             event_info.SetCanChange(false);
         }
     }
+}
+
+
+bool CommandInputEdit::TryToInsertTextBlockObject() {
+
+    auto text = zaf::Clipboard::GetText();
+    if (!ShouldInsertTextBlockObject(text)) {
+        return false;
+    }
+
+    auto text_block_object = zaf::MakeCOMObject<TextBlockObject>(text);
+    this->InsertObject(text_block_object);
+    return true;
+}
+
+
+bool CommandInputEdit::ShouldInsertTextBlockObject(const std::wstring& text) {
+
+    if (text.length() > 30) {
+        return true;
+    }
+
+    if (zaf::Contain(text, L'\r') || zaf::Contain(text, L'\n')) {
+        return true;
+    }
+
+    return false;
 }
 
 }

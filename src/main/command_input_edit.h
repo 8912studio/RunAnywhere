@@ -14,6 +14,12 @@ public:
 protected:
     void Initialize() override;
     void OnTextChanging(const zaf::TextChangingInfo& event_info) override;
+
+private:
+    static bool ShouldInsertTextBlockObject(const std::wstring& text);
+
+private:
+    bool TryToInsertTextBlockObject();
 };
 
 }
