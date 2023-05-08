@@ -45,9 +45,8 @@ void TextBlockObject::PaintText(zaf::Canvas& canvas, const zaf::Rect& text_rect)
     auto text_format = zaf::GraphicFactory::Instance().CreateTextFormat(text_format_properties);
 
     zaf::TextTrimming text_trimming;
-    text_trimming.granularity = zaf::TextTrimming::Granularity::Character;
-    text_trimming.trimming_sign = 
-        zaf::GraphicFactory::Instance().CreateEllipsisTrimmingSign(text_format);
+    text_trimming.SetGranularity(zaf::TextTrimmingGranularity::Character);
+    text_trimming.SetSign(zaf::GraphicFactory::Instance().CreateEllipsisTrimmingSign(text_format));
     text_format.SetTextTrimming(text_trimming);
 
     text_format.SetTextAlignment(zaf::TextAlignment::Center);

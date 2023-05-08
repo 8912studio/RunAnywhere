@@ -5,9 +5,9 @@ namespace ra::utility {
 zaf::TextTrimming CreateTextTrimmingForPath() {
 
     zaf::TextTrimming text_trimming;
-    text_trimming.granularity = zaf::TextTrimming::Granularity::Character;
-    text_trimming.delimiter = L'\\';
-    text_trimming.delimiter_count = 2;
+    text_trimming.SetGranularity(zaf::TextTrimmingGranularity::Character);
+    text_trimming.SetDelimiter(L'\\');
+    text_trimming.SetDelimiterCount(2);
     return text_trimming;
 }
 
