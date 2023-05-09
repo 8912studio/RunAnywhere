@@ -20,6 +20,7 @@ public:
         const zaf::rich_edit::PaintContext& context) override;
 
     void OnMouseCursorChanging(const zaf::rich_edit::MouseCursorChangingContext& context) override;
+    bool OnDoubleClick(const zaf::rich_edit::DoubleClickContext& context) override;
 
 private:
     void PaintText(zaf::Canvas& canvas, const zaf::Rect& text_rect);

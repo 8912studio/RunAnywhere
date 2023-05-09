@@ -1,0 +1,9 @@
+<TextBlockWindow ContentSize="400,400">
+    
+    <TextBlockWindow.RootControl>
+        <VerticalBox BackgroundColor="White" />
+    </TextBlockWindow.RootControl>
+
+    <RichEdit Name="textEdit" Border="0" />
+
+</TextBlockWindow>

@@ -125,6 +125,7 @@
     <ClInclude Include="src\main\command_input_edit.h" />
     <ClInclude Include="src\main\main_window.h" />
     <ClInclude Include="src\main\text_block_object.h" />
+    <ClInclude Include="src\main\text_block_window.h" />
     <ClInclude Include="src\module\active_path\active_path_command.h" />
     <ClInclude Include="src\module\active_path\active_path_option.h" />
     <ClInclude Include="src\module\active_path\active_path_option_parsing.h" />
@@ -271,6 +272,7 @@
     <ClCompile Include="src\main\command_input_edit.cpp" />
     <ClCompile Include="src\main\main_window.cpp" />
     <ClCompile Include="src\main\text_block_object.cpp" />
+    <ClCompile Include="src\main\text_block_window.cpp" />
     <ClCompile Include="src\module\active_path\active_path_command.cpp" />
     <ClCompile Include="src\module\active_path\active_path_module.cpp" />
     <ClCompile Include="src\module\active_path\active_path_option_parsing.cpp" />
@@ -362,6 +364,7 @@
     <Page Include="src\help\help_window.xaml" />
     <Page Include="src\license_window.xaml" />
     <Page Include="src\main\main_window.xaml" />
+    <Page Include="src\main\text_block_window.xaml" />
     <Page Include="src\module\calculator\preview\calculator_preview_control.xaml" />
     <Page Include="src\module\common\error_view.xaml" />
     <Page Include="src\module\extension\extension_command_preview_control.xaml" />

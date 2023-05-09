@@ -1,7 +1,10 @@
 #include "main/text_block_object.h"
+#include <zaf/creation.h>
+#include <zaf/control/rich_edit.h>
 #include <zaf/graphic/canvas.h>
 #include <zaf/graphic/graphic_factory.h>
 #include <zaf/graphic/text/text_format_properties.h>
+#include "main/text_block_window.h"
 #include "utility/text_utility.h"
 
 namespace ra {
@@ -68,6 +71,35 @@ void TextBlockObject::OnMouseCursorChanging(
 
     SetCursor(LoadCursor(nullptr, IDC_ARROW));
     context.EventInfo().MarkAsHandled();
+}
+
+
+bool TextBlockObject::OnDoubleClick(const zaf::rich_edit::DoubleClickContext& context) {
+
+    auto host = Host();
+    if (!host) {
+        return false;
+    }
+
+    auto host_window = host->Window();
+    if (!host_window) {
+        return false;
+    }
+
+    zaf::Point show_position = context.ObjectPositionInScreen();
+    show_position.x += this->Size().width + 4;
+
+    //TODO: A more elegant implementation is needed.
+    this->AddRef();
+    zaf::COMObject<TextBlockObject> object{ this };
+
+    auto window = zaf::Create<TextBlockWindow>(object);
+    window->SetOwner(host_window);
+    window->SetInitialRectStyle(zaf::InitialRectStyle::Custom);
+    window->SetPosition(show_position);
+    window->Show();
+
+    return true;
 }
 
 }
