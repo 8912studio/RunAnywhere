@@ -17,6 +17,7 @@ public:
 
 protected:
     void AfterParse() override;
+    void OnDeactivated(const zaf::DeactivatedInfo& event_info) override;
 
 private:
     ZAF_BIND_CONTROL(zaf::RichEdit, textEdit);

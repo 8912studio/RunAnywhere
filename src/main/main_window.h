@@ -29,6 +29,7 @@ protected:
     std::optional<zaf::HitTestResult> HitTest(const zaf::HitTestMessage& message) override;
     void OnShow(const zaf::ShowInfo& event_info) override;
     void OnFocusGained(const zaf::WindowFocusGainedInfo& event_info) override;
+    void OnDeactivated(const zaf::DeactivatedInfo& event_info) override;
 
 private:
     void InitializeTextBox();
@@ -52,7 +53,6 @@ private:
     std::optional<LRESULT> HandleMessage(const zaf::Message& message);
     bool HandleKeyDownMessage(const zaf::KeyMessage& message);
     bool HandleHelpWindowScrollMessage(const zaf::KeyMessage& message);
-    void HandleActivateMessage(const zaf::ActivateMessage& message);
 
 private:
     ZAF_BIND_CONTROL(CommandInputEdit, inputEdit);

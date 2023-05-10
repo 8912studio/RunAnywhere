@@ -279,9 +279,6 @@ std::optional<LRESULT> MainWindow::HandleMessage(const zaf::Message& message) {
             return 0;
         }
     }
-    else if (message.ID() == WM_ACTIVATE) {
-        HandleActivateMessage(zaf::ActivateMessage{ message });
-    }
     else if (message.ID() == WM_SHOWWINDOW) {
 
         if (!message.WParam()) {
@@ -377,34 +374,6 @@ std::optional<zaf::HitTestResult> MainWindow::HitTest(const zaf::HitTestMessage&
 }
 
 
-void MainWindow::HandleActivateMessage(const zaf::ActivateMessage& message) {
-
-    if (message.ActivateState() != zaf::ActivateState::Inactive) {
-        return;
-    }
-
-    if (!OptionStorage::Instance().AutoHideOnLostFocus()) {
-        return;
-    }
-
-    bool should_hide{ true };
-
-    HWND current_hwnd = message.EffectingWindowHandle();
-    while (current_hwnd) {
-
-        current_hwnd = GetWindow(current_hwnd, GW_OWNER);
-        if (current_hwnd == this->Handle()) {
-            should_hide = false;
-            break;
-        }
-    }
-
-    if (should_hide) {
-        this->Hide();
-    }
-}
-
-
 void MainWindow::OnShow(const zaf::ShowInfo& event_info) {
 
     __super::OnShow(event_info);
@@ -418,6 +387,32 @@ void MainWindow::OnFocusGained(const zaf::WindowFocusGainedInfo& event_info) {
     __super::OnFocusGained(event_info);
 
     inputEdit->SetIsFocused(true);
+}
+
+
+void MainWindow::OnDeactivated(const zaf::DeactivatedInfo& event_info) {
+
+    __super::OnDeactivated(event_info);
+
+    if (!OptionStorage::Instance().AutoHideOnLostFocus()) {
+        return;
+    }
+
+    bool should_hide{ true };
+
+    HWND current_hwnd = event_info.Message().EffectingWindowHandle();
+    while (current_hwnd) {
+
+        current_hwnd = GetWindow(current_hwnd, GW_OWNER);
+        if (current_hwnd == this->Handle()) {
+            should_hide = false;
+            break;
+        }
+    }
+
+    if (should_hide) {
+        this->Hide();
+    }
 }
 
 }
