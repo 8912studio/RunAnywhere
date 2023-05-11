@@ -10,11 +10,7 @@
             AllowHorizontalScroll="false"
         >
             <ScrollableControl.VerticalScrollBar>
-                <ScrollBar>
-                    <ScrollBar.Thumb>
-                        <HelpScrollBarThumb />
-                    </ScrollBar.Thumb>
-                </ScrollBar>
+                <ThinScrollBar />
             </ScrollableControl.VerticalScrollBar>
         </ScrollableControl>
     </HelpWindow.RootControl>

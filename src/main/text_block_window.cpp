@@ -1,8 +1,9 @@
 #include "main/text_block_window.h"
+#include <zaf/base/none.h>
+#include <zaf/control/scroll_bar.h>
 #include <zaf/object/type_definition.h>
 #include <zaf/rx/scheduler.h>
 #include <zaf/rx/creation.h>
-#include <zaf/base/none.h>
 
 namespace ra {
 
@@ -36,6 +37,20 @@ void TextBlockWindow::OnDeactivated(const zaf::DeactivatedInfo& event_info) {
     })
     .SubscribeOn(zaf::Scheduler::Main())
     .Subscribe();
+}
+
+
+void TextBlockWindow::OnMessageReceived(const zaf::MessageReceivedInfo& event_info) {
+
+    if (event_info.Message().ID() == WM_KEYDOWN) {
+
+        if (zaf::KeyMessage(event_info.Message()).VirtualKey() == VK_ESCAPE) {
+            this->Close();
+            event_info.MarkAsHandled(0);
+        }
+    }
+
+    __super::OnMessageReceived(event_info);
 }
 
 }

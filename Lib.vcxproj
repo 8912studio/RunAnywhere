@@ -113,7 +113,6 @@
     <ClInclude Include="src\help\content_layouter.h" />
     <ClInclude Include="src\help\help_content_building.h" />
     <ClInclude Include="src\help\help_content_control.h" />
-    <ClInclude Include="src\help\help_scroll_bar_thumb.h" />
     <ClInclude Include="src\help\help_window.h" />
     <ClInclude Include="src\help\content_layout_info.h" />
     <ClInclude Include="src\hot_key.h" />
@@ -244,6 +243,7 @@
     <ClInclude Include="src\utility\progress_circle.h" />
     <ClInclude Include="src\utility\text_utility.h" />
     <ClInclude Include="src\utility\thin_border_window.h" />
+    <ClInclude Include="src\utility\thin_scroll_bar.h" />
     <ClInclude Include="third_party\everything\ipc\everything_ipc.h" />
   </ItemGroup>
   <ItemGroup>
@@ -263,7 +263,6 @@
     <ClCompile Include="src\help\content_layouter.cpp" />
     <ClCompile Include="src\help\help_content_building.cpp" />
     <ClCompile Include="src\help\help_content_control.cpp" />
-    <ClCompile Include="src\help\help_scroll_bar_thumb.cpp" />
     <ClCompile Include="src\help\help_window.cpp" />
     <ClCompile Include="src\hot_key_box.cpp" />
     <ClCompile Include="src\hot_key_manager.cpp" />
@@ -358,6 +357,7 @@
     <ClCompile Include="src\utility\progress_circle.cpp" />
     <ClCompile Include="src\utility\text_utility.cpp" />
     <ClCompile Include="src\utility\thin_border_window.cpp" />
+    <ClCompile Include="src\utility\thin_scroll_bar.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="src\about_window.xaml" />

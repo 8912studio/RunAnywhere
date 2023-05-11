@@ -540,9 +540,6 @@
     <ClInclude Include="src\utility\thin_border_window.h">
       <Filter>src\utility</Filter>
     </ClInclude>
-    <ClInclude Include="src\help\help_scroll_bar_thumb.h">
-      <Filter>src\help</Filter>
-    </ClInclude>
     <ClInclude Include="src\module\tool\error\error_command.h">
       <Filter>src\module\tool\error</Filter>
     </ClInclude>
@@ -578,6 +575,9 @@
     </ClInclude>
     <ClInclude Include="src\main\text_block_window.h">
       <Filter>src\main</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\thin_scroll_bar.h">
+      <Filter>src\utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -878,9 +878,6 @@
     <ClCompile Include="src\utility\thin_border_window.cpp">
       <Filter>src\utility</Filter>
     </ClCompile>
-    <ClCompile Include="src\help\help_scroll_bar_thumb.cpp">
-      <Filter>src\help</Filter>
-    </ClCompile>
     <ClCompile Include="src\module\tool\error\error_command.cpp">
       <Filter>src\module\tool\error</Filter>
     </ClCompile>
@@ -913,6 +910,9 @@
     </ClCompile>
     <ClCompile Include="src\main\text_block_window.cpp">
       <Filter>src\main</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\thin_scroll_bar.cpp">
+      <Filter>src\utility</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
