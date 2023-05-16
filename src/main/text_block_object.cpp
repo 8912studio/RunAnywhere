@@ -86,19 +86,18 @@ bool TextBlockObject::OnDoubleClick(const zaf::rich_edit::DoubleClickContext& co
         return false;
     }
 
-    zaf::Point show_position = context.ObjectPositionInScreen();
-    show_position.x += this->Size().width + 4;
-
-    //TODO: A more elegant implementation is needed.
-    this->AddRef();
-    zaf::COMObject<TextBlockObject> object{ this };
-
-    auto window = zaf::Create<TextBlockWindow>(object);
+    auto window = zaf::Create<TextBlockWindow>();
     window->SetOwner(host_window);
     window->SetInitialRectStyle(zaf::InitialRectStyle::Custom);
-    window->SetPosition(show_position);
-    window->Show();
 
+    window->SetText(text_);
+    window->ResizeToSuitableSize();
+
+    auto position = context.ObjectPositionInScreen();
+    position.y -= window->Height() + 4;
+    window->SetPosition(position);
+    
+    window->Show();
     return true;
 }
 

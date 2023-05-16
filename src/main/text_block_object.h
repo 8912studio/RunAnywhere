@@ -1,6 +1,8 @@
 #pragma once
 
+#include <zaf/base/none.h>
 #include <zaf/control/rich_edit/embedded_object.h>
+#include <zaf/rx/subject.h>
 
 namespace ra {
 
@@ -10,6 +12,10 @@ public:
 
     const std::wstring& Text() const {
         return text_;
+    }
+
+    zaf::Observable<zaf::None> TextChangedEvent() {
+        return text_changed_event_.GetObservable();
     }
 
     GUID ClassID() const override;
@@ -27,6 +33,7 @@ private:
 
 private:
     std::wstring text_;
+    zaf::Subject<zaf::None> text_changed_event_;
 };
 
 }

@@ -8,7 +8,8 @@
         Name="scrollableControl" 
         Border="0" 
         Padding="4,4,0,0"
-        ScrollBarThickness="10">
+        ScrollBarThickness="10"
+        AutoHideScrollBars="true">
 
         <ScrollableControl.VerticalScrollBar>
             <ThinScrollBar />
