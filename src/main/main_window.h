@@ -35,7 +35,7 @@ private:
     void InitializeTextBox();
     void InitializeHelpButton();
 
-    void OnTextChanged(const zaf::TextChangedInfo&);
+    void OnCommandChanged();
     void UpdateCommandState();
     void InterpretCommand();
     void ShowPreview();

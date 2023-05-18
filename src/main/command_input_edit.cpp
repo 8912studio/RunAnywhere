@@ -41,6 +41,11 @@ utility::CommandLine CommandInputEdit::GetInputCommandLine() {
 }
 
 
+zaf::Observable<zaf::None> CommandInputEdit::CommandChangedEvent() {
+    return command_changed_event_.GetObservable();
+}
+
+
 void CommandInputEdit::OnTextChanging(const zaf::TextChangingInfo& event_info) {
 
     __super::OnTextChanging(event_info);
@@ -62,6 +67,9 @@ bool CommandInputEdit::TryToInsertTextBlockObject() {
     }
 
     auto text_block_object = zaf::MakeCOMObject<TextBlockObject>(text);
+    Subscriptions() += text_block_object->TextChangedEvent().Subscribe(
+        std::bind(&CommandInputEdit::RaiseCommandChangedEvent, this));
+
     this->InsertObject(text_block_object);
     return true;
 }
@@ -79,5 +87,16 @@ bool CommandInputEdit::ShouldInsertTextBlockObject(const std::wstring& text) {
 
     return false;
 }
+
+
+void CommandInputEdit::OnTextChanged(const zaf::TextChangedInfo& event_info) {
+    RaiseCommandChangedEvent();
+}
+
+
+void CommandInputEdit::RaiseCommandChangedEvent() {
+    command_changed_event_.GetObserver().OnNext({});
+}
+
 
 }

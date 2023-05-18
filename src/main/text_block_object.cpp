@@ -105,7 +105,20 @@ bool TextBlockObject::OnDoubleClick(const zaf::rich_edit::DoubleClickContext& co
         });
 
     Subscriptions() += window->TextChangedEvent().Subscribe([this](const std::shared_ptr<TextBlockWindow>& window) {
-        text_ = window->GetText();
+
+        auto new_text = window->GetText();
+
+        //Repaint only if several head chars are different. 
+        constexpr std::size_t CompareCount = 10;
+        bool need_repaint = new_text.compare(0, CompareCount, text_, 0, CompareCount) != 0;
+
+        text_ = std::move(new_text);
+
+        if (need_repaint) {
+            this->NeedRepaint();
+        }
+
+        text_changed_event_.GetObserver().OnNext({});
     });
 
     window->Show();
