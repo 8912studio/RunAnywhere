@@ -104,6 +104,10 @@ bool TextBlockObject::OnDoubleClick(const zaf::rich_edit::DoubleClickContext& co
             }
         });
 
+    Subscriptions() += window->TextChangedEvent().Subscribe([this](const std::shared_ptr<TextBlockWindow>& window) {
+        text_ = window->GetText();
+    });
+
     window->Show();
     return true;
 }

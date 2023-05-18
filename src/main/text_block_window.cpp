@@ -25,12 +25,24 @@ void TextBlockWindow::AfterParse() {
         [this](const zaf::TextChangedInfo& event_info) {
     
         ResizeToSuitableSize();
+
+        text_changed_event_.GetObserver().OnNext(zaf::As<TextBlockWindow>(shared_from_this()));
     });
+}
+
+
+std::wstring TextBlockWindow::GetText() const {
+    return textEdit->Text();
 }
 
 
 void TextBlockWindow::SetText(const std::wstring& text) {
     textEdit->SetText(text);
+}
+
+
+zaf::Observable<std::shared_ptr<TextBlockWindow>> TextBlockWindow::TextChangedEvent() {
+    return text_changed_event_.GetObservable();
 }
 
 
