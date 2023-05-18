@@ -1,4 +1,5 @@
 #include "main/text_block_object.h"
+#include <zaf/base/as.h>
 #include <zaf/creation.h>
 #include <zaf/control/rich_edit.h>
 #include <zaf/graphic/canvas.h>
@@ -91,14 +92,30 @@ bool TextBlockObject::OnDoubleClick(const zaf::rich_edit::DoubleClickContext& co
     window->SetInitialRectStyle(zaf::InitialRectStyle::Custom);
 
     window->SetText(text_);
-    window->ResizeToSuitableSize();
 
-    auto position = context.ObjectPositionInScreen();
-    position.y -= window->Height() + 4;
-    window->SetPosition(position);
-    
+    auto object_position = context.ObjectPositionInScreen();
+    AdjustTextBlockWindowPosition(object_position, window);
+    Subscriptions() += window->SizeChangedEvent().Subscribe(
+        [object_position](const zaf::WindowSizeChangedInfo& event_info) {
+
+            auto window = zaf::As<zaf::Window>(event_info.Source());
+            if (window) {
+                AdjustTextBlockWindowPosition(object_position, window);
+            }
+        });
+
     window->Show();
     return true;
+}
+
+
+void TextBlockObject::AdjustTextBlockWindowPosition(
+    const zaf::Point& object_position_in_screen,
+    const std::shared_ptr<zaf::Window>& window) {
+
+    zaf::Point window_position = object_position_in_screen;
+    window_position.y -= window->Height() + 4;
+    window->SetPosition(window_position);
 }
 
 }

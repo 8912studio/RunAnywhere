@@ -3,10 +3,12 @@
 #include <zaf/base/none.h>
 #include <zaf/control/rich_edit/embedded_object.h>
 #include <zaf/rx/subject.h>
+#include <zaf/rx/subscription_host.h>
+#include <zaf/window/window.h>
 
 namespace ra {
 
-class TextBlockObject : public zaf::rich_edit::EmbeddedObject {
+class TextBlockObject : public zaf::rich_edit::EmbeddedObject, zaf::SubscriptionHost {
 public:
     explicit TextBlockObject(const std::wstring& text);
 
@@ -27,6 +29,11 @@ public:
 
     void OnMouseCursorChanging(const zaf::rich_edit::MouseCursorChangingContext& context) override;
     bool OnDoubleClick(const zaf::rich_edit::DoubleClickContext& context) override;
+
+private:
+    static void AdjustTextBlockWindowPosition(
+        const zaf::Point& object_position_in_screen,
+        const std::shared_ptr<zaf::Window>& window);
 
 private:
     void PaintText(zaf::Canvas& canvas, const zaf::Rect& text_rect);
