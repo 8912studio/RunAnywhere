@@ -5,7 +5,6 @@
 #include <zaf/graphic/canvas.h>
 #include <zaf/graphic/graphic_factory.h>
 #include <zaf/graphic/text/text_format_properties.h>
-#include "main/text_block_window.h"
 #include "utility/text_utility.h"
 
 namespace ra {
@@ -94,25 +93,45 @@ bool TextBlockObject::OnDoubleClick(const zaf::rich_edit::DoubleClickContext& co
     window->SetObjectPositionInScreen(context.ObjectPositionInScreen());
     window->SetText(text_);
 
-    Subscriptions() += window->TextChangedEvent().Subscribe([this](const std::shared_ptr<TextBlockWindow>& window) {
+    Subscriptions() += window->TextChangedEvent().Subscribe(
+        std::bind(&TextBlockObject::OnTextChanged, this, std::placeholders::_1));
 
-        auto new_text = window->GetText();
-
-        //Repaint only if several head chars are different. 
-        constexpr std::size_t CompareCount = 10;
-        bool need_repaint = new_text.compare(0, CompareCount, text_, 0, CompareCount) != 0;
-
-        text_ = std::move(new_text);
-
-        if (need_repaint) {
-            this->NeedRepaint();
-        }
-
-        text_changed_event_.GetObserver().OnNext({});
-    });
+    Subscriptions() += window->DestroyedEvent().Subscribe(
+        std::bind(&TextBlockObject::OnWindowDestroyed, this));
 
     window->Show();
     return true;
+}
+
+
+void TextBlockObject::OnTextChanged(const std::shared_ptr<TextBlockWindow>& window) {
+
+    auto new_text = window->GetText();
+
+    //Repaint only if several head chars are different. 
+    constexpr std::size_t CompareCount = 10;
+    bool need_repaint = new_text.compare(0, CompareCount, text_, 0, CompareCount) != 0;
+
+    text_ = std::move(new_text);
+
+    if (need_repaint) {
+        this->NeedRepaint();
+    }
+
+    text_changed_event_.GetObserver().OnNext({});
+}
+
+
+void TextBlockObject::OnWindowDestroyed() {
+
+    //Remove current object from rich edit if text is empty.
+    if (text_.empty()) {
+
+        auto host = Host();
+        if (host) {
+            host->ReplaceSelectedText({});
+        }
+    }
 }
 
 }

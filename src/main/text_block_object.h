@@ -5,6 +5,7 @@
 #include <zaf/rx/subject.h>
 #include <zaf/rx/subscription_host.h>
 #include <zaf/window/window.h>
+#include "main/text_block_window.h"
 
 namespace ra {
 
@@ -32,6 +33,8 @@ public:
 
 private:
     void PaintText(zaf::Canvas& canvas, const zaf::Rect& text_rect);
+    void OnTextChanged(const std::shared_ptr<TextBlockWindow>& window);
+    void OnWindowDestroyed();
 
 private:
     std::wstring text_;
