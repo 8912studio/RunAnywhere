@@ -100,6 +100,9 @@
     <Filter Include="src\main">
       <UniqueIdentifier>{5656485f-608f-4e58-9472-720d09723006}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\module\tool\text_transform">
+      <UniqueIdentifier>{a43d616d-88eb-412c-97c6-7b7f0390eb79}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\module\calculator\parse\binary_expression_parser.h">
@@ -579,6 +582,12 @@
     <ClInclude Include="src\utility\thin_scroll_bar.h">
       <Filter>src\utility</Filter>
     </ClInclude>
+    <ClInclude Include="src\module\tool\text_transform\lower_command.h">
+      <Filter>src\module\tool\text_transform</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\tool\text_transform\text_preview_control.h">
+      <Filter>src\module\tool\text_transform</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -914,6 +923,12 @@
     <ClCompile Include="src\utility\thin_scroll_bar.cpp">
       <Filter>src\utility</Filter>
     </ClCompile>
+    <ClCompile Include="src\module\tool\text_transform\lower_command.cpp">
+      <Filter>src\module\tool\text_transform</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\tool\text_transform\text_preview_control.cpp">
+      <Filter>src\module\tool\text_transform</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Page Include="src\module\user_defined\preview\user_defined_command_preview_control.xaml">
@@ -966,6 +981,9 @@
     </Page>
     <Page Include="src\main\text_block_window.xaml">
       <Filter>src\main</Filter>
+    </Page>
+    <Page Include="src\module\tool\text_transform\text_preview_control.xaml">
+      <Filter>src\module\tool\text_transform</Filter>
     </Page>
   </ItemGroup>
   <ItemGroup>

@@ -1,0 +1,7 @@
+<TextPreviewControl Layouter="VerticalLayouter" FixedHeight="90">
+    <ScrollableControl Border="0">
+        <ScrollableControl.ScrollContent>
+            <RichEdit Name="richEdit" Border="0" />
+        </ScrollableControl.ScrollContent>
+    </ScrollableControl>
+</TextPreviewControl>

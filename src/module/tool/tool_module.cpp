@@ -6,6 +6,7 @@
 #include "module/tool/hex/hex_command.h"
 #include "module/tool/md5/md5_command.h"
 #include "module/tool/rgb/rgb_command.h"
+#include "module/tool/text_transform/lower_command.h"
 
 namespace ra::module::tool {
 
@@ -52,6 +53,7 @@ ToolModule::ToolModule() {
     command_infos_.push_back(CreateCommandInfo<hex::HexCommand>());
     command_infos_.push_back(CreateCommandInfo<md5::MD5Command>());
     command_infos_.push_back(CreateCommandInfo<rgb::RGBCommand>());
+    command_infos_.push_back(CreateCommandInfo<text_transform::LowerCommand>());
 }
 
 
