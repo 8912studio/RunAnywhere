@@ -16,6 +16,8 @@ public:
 public:
     TextBlockWindow();
 
+    void SetObjectPositionInScreen(const zaf::Point& position);
+
     std::wstring GetText() const;
     void SetText(const std::wstring& text);
 
@@ -27,12 +29,13 @@ protected:
     void OnMessageReceived(const zaf::MessageReceivedInfo& event_info) override;
 
 private:
-    void ResizeToSuitableSize();
+    void AdjustPositionAndSize();
 
 private:
     ZAF_BIND_CONTROL(zaf::ScrollableControl, scrollableControl);
     ZAF_BIND_CONTROL(zaf::RichEdit, textEdit);
 
+    zaf::Point object_position_in_screen_;
     zaf::Subject<std::shared_ptr<TextBlockWindow>> text_changed_event_;
 };
 

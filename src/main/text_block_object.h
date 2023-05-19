@@ -31,11 +31,6 @@ public:
     bool OnDoubleClick(const zaf::rich_edit::DoubleClickContext& context) override;
 
 private:
-    static void AdjustTextBlockWindowPosition(
-        const zaf::Point& object_position_in_screen,
-        const std::shared_ptr<zaf::Window>& window);
-
-private:
     void PaintText(zaf::Canvas& canvas, const zaf::Rect& text_rect);
 
 private:

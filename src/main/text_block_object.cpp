@@ -91,18 +91,8 @@ bool TextBlockObject::OnDoubleClick(const zaf::rich_edit::DoubleClickContext& co
     window->SetOwner(host_window);
     window->SetInitialRectStyle(zaf::InitialRectStyle::Custom);
 
+    window->SetObjectPositionInScreen(context.ObjectPositionInScreen());
     window->SetText(text_);
-
-    auto object_position = context.ObjectPositionInScreen();
-    AdjustTextBlockWindowPosition(object_position, window);
-    Subscriptions() += window->SizeChangedEvent().Subscribe(
-        [object_position](const zaf::WindowSizeChangedInfo& event_info) {
-
-            auto window = zaf::As<zaf::Window>(event_info.Source());
-            if (window) {
-                AdjustTextBlockWindowPosition(object_position, window);
-            }
-        });
 
     Subscriptions() += window->TextChangedEvent().Subscribe([this](const std::shared_ptr<TextBlockWindow>& window) {
 
@@ -123,16 +113,6 @@ bool TextBlockObject::OnDoubleClick(const zaf::rich_edit::DoubleClickContext& co
 
     window->Show();
     return true;
-}
-
-
-void TextBlockObject::AdjustTextBlockWindowPosition(
-    const zaf::Point& object_position_in_screen,
-    const std::shared_ptr<zaf::Window>& window) {
-
-    zaf::Point window_position = object_position_in_screen;
-    window_position.y -= window->Height() + 4;
-    window->SetPosition(window_position);
 }
 
 }

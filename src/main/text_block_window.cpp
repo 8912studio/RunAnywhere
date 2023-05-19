@@ -2,6 +2,7 @@
 #include <zaf/base/log.h>
 #include <zaf/base/none.h>
 #include <zaf/control/scroll_bar.h>
+#include <zaf/graphic/dpi.h>
 #include <zaf/object/type_definition.h>
 #include <zaf/rx/scheduler.h>
 #include <zaf/rx/creation.h>
@@ -24,10 +25,15 @@ void TextBlockWindow::AfterParse() {
     Subscriptions() += textEdit->TextChangedEvent().Subscribe(
         [this](const zaf::TextChangedInfo& event_info) {
     
-        ResizeToSuitableSize();
+        AdjustPositionAndSize();
 
         text_changed_event_.GetObserver().OnNext(zaf::As<TextBlockWindow>(shared_from_this()));
     });
+}
+
+
+void TextBlockWindow::SetObjectPositionInScreen(const zaf::Point& position) {
+    object_position_in_screen_ = position;
 }
 
 
@@ -46,24 +52,20 @@ zaf::Observable<std::shared_ptr<TextBlockWindow>> TextBlockWindow::TextChangedEv
 }
 
 
-void TextBlockWindow::ResizeToSuitableSize() {
+void TextBlockWindow::AdjustPositionAndSize() {
 
     constexpr float WindowHorizontalBorder = 2;
     constexpr float WindowVerticalBorder = 2;
     constexpr float MaxContentWidth = 500;
-    constexpr int MaxShowLineCount = 6;
+    constexpr int MaxShowLineCount = 10;
 
     auto edit_size = textEdit->CalculatePreferredSize();
-
-    auto line_height = 
-        (edit_size.height - textEdit->Padding().Height()) / textEdit->LineCount();
-
-    const float max_edit_height = line_height * MaxShowLineCount + textEdit->Padding().Height();
+    auto line_count = textEdit->LineCount();
 
     bool need_horizontal_scroll_bar = edit_size.width > MaxContentWidth;
     scrollableControl->SetAllowHorizontalScroll(need_horizontal_scroll_bar);
 
-    bool need_vertical_scroll_bar = edit_size.height > max_edit_height;
+    bool need_vertical_scroll_bar = line_count > MaxShowLineCount;
     scrollableControl->SetAllowVerticalScroll(need_vertical_scroll_bar);
 
     zaf::Size window_size;
@@ -73,13 +75,21 @@ void TextBlockWindow::ResizeToSuitableSize() {
         (need_horizontal_scroll_bar ? MaxContentWidth : edit_size.width) +
         (need_vertical_scroll_bar ? scrollableControl->VerticalScrollBar()->Width() : 0);
 
+    auto line_height = (edit_size.height - textEdit->Padding().Height()) / line_count;
+
+    auto actual_edit_height =
+        line_height * (need_vertical_scroll_bar ? MaxShowLineCount : line_count) + 
+        textEdit->Padding().Height();
+
     window_size.height =
         WindowVerticalBorder +
         scrollableControl->Padding().Height() +
-        (need_vertical_scroll_bar ? max_edit_height : edit_size.height) +
+        actual_edit_height +
         (need_horizontal_scroll_bar ? scrollableControl->HorizontalScrollBar()->Height() : 0);
 
-    this->SetSize(window_size);
+    zaf::Rect window_rect{ object_position_in_screen_, window_size };
+    window_rect.position.y -= window_size.height + 4;
+    this->SetRect(window_rect);
 }
 
 
@@ -100,12 +110,16 @@ void TextBlockWindow::OnDeactivated(const zaf::DeactivatedInfo& event_info) {
 
 void TextBlockWindow::OnMessageReceived(const zaf::MessageReceivedInfo& event_info) {
 
-    if (event_info.Message().ID() == WM_KEYDOWN) {
-
-        if (zaf::KeyMessage(event_info.Message()).VirtualKey() == VK_ESCAPE) {
-            this->Close();
-            event_info.MarkAsHandled(0);
+    switch (event_info.Message().ID()) {
+        case WM_KEYDOWN: {
+            if (zaf::KeyMessage(event_info.Message()).VirtualKey() == VK_ESCAPE) {
+                this->Close();
+                event_info.MarkAsHandled(0);
+            }
+            break;
         }
+        default:
+            break;
     }
 
     __super::OnMessageReceived(event_info);
