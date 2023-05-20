@@ -16,4 +16,17 @@ help::content::Content MetaCommand::GetHelpContent() {
     return result;
 }
 
+
+bool MetaCommand::Interpret(
+    const utility::CommandLine& command_line,
+    const context::DesktopContext& desktop_context,
+    bool is_reusing) {
+
+    //Not allow to reuse.
+    if (is_reusing) {
+        return false;
+    }
+    return true;
+}
+
 }

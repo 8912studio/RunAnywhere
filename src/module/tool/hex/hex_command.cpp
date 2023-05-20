@@ -125,6 +125,21 @@ HexCommand::HexCommand(const utility::CommandLine& command_line) :
 }
 
 
+bool HexCommand::Interpret(
+    const utility::CommandLine& command_line, 
+    const context::DesktopContext& desktop_context,
+    bool is_reusing) {
+
+    //Not allow to reuse.
+    if (is_reusing) {
+        return false;
+    }
+
+    desktop_context_ = desktop_context;
+    return true;
+}
+
+
 std::shared_ptr<CommandPreviewControl> HexCommand::GetPreviewControl() {
 
     if (!parse_result_) {
@@ -134,7 +149,7 @@ std::shared_ptr<CommandPreviewControl> HexCommand::GetPreviewControl() {
     if (!preview_control_) {
         preview_control_ = zaf::Create<HexPreviewControl>();
         preview_control_->ShowFileContent(
-            GetDesktopContext().active_path.GetPath(), 
+            desktop_context_.active_path.GetPath(), 
             *parse_result_);
     }
 

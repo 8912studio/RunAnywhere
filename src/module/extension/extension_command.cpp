@@ -26,6 +26,19 @@ CommandBrief ExtensionCommand::GetBrief() {
 }
 
 
+bool ExtensionCommand::Interpret(
+    const utility::CommandLine& command_line,
+    const context::DesktopContext& desktop_context,
+    bool is_reusing) {
+
+    //Not allow to resuse.
+    if (is_reusing) {
+        return false;
+    }
+    return true;
+}
+
+
 std::shared_ptr<CommandPreviewControl> ExtensionCommand::GetPreviewControl() {
 
     auto control = zaf::Create<ExtensionCommandPreviewControl>();

@@ -77,6 +77,21 @@ help::content::Content MD5Command::GetHelpContent() {
 }
 
 
+bool MD5Command::Interpret(
+	const utility::CommandLine& command_line,
+	const context::DesktopContext& desktop_context,
+	bool is_reusing) {
+
+	//Not allow to reuse.
+	if (is_reusing) {
+		return false;
+	}
+
+	desktop_context_ = desktop_context;
+	return true;
+}
+
+
 std::shared_ptr<CommandPreviewControl> MD5Command::GetPreviewControl() {
 
 	if (!preview_control_) {
@@ -88,7 +103,7 @@ std::shared_ptr<CommandPreviewControl> MD5Command::GetPreviewControl() {
 			preview_control_->ShowStringMD5(parse_result_.string, parse_result_.encoding);
 		}
 		else {
-			preview_control_->ShowFileMD5(GetDesktopContext().active_path.GetPath());
+			preview_control_->ShowFileMD5(desktop_context_.active_path.GetPath());
 		}
 	}
 

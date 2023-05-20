@@ -30,6 +30,15 @@ help::content::Content LowerCommand::GetHelpContent() {
 }
 
 
+bool LowerCommand::Interpret(
+    const utility::CommandLine& command_line,
+    const context::DesktopContext& desktop_context,
+    bool is_reusing) {
+
+    return true;
+}
+
+
 std::shared_ptr<CommandPreviewControl> LowerCommand::GetPreviewControl() {
 
     auto preview_control = zaf::Create<TextPreviewControl>();

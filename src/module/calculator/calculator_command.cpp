@@ -26,6 +26,19 @@ CommandBrief CalculatorCommand::GetBrief() {
 }
 
 
+bool CalculatorCommand::Interpret(
+    const utility::CommandLine& command_line, 
+    const context::DesktopContext& desktop_context,
+    bool is_reusing) {
+
+    //Not allow to reuse.
+    if (is_reusing) {
+        return false;
+    }
+    return true;
+}
+
+
 std::shared_ptr<CommandPreviewControl> CalculatorCommand::GetPreviewControl() {
 
     auto control = zaf::Create<CalculatorPreviewControl>();

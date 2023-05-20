@@ -54,6 +54,21 @@ help::content::Content UserDefinedCommand::GetHelpContent() {
 }
 
 
+bool UserDefinedCommand::Interpret(
+    const utility::CommandLine& command_line, 
+    const context::DesktopContext& desktop_context,
+    bool is_reusing) {
+
+    //Not allow to reuse.
+    if (is_reusing) {
+        return false;
+    }
+
+    desktop_context_ = desktop_context;
+    return true;
+}
+
+
 std::shared_ptr<CommandPreviewControl> UserDefinedCommand::GetPreviewControl() {
 
     auto control = zaf::Create<UserDefinedCommandPreviewControl>();
@@ -112,7 +127,7 @@ void UserDefinedCommand::ParseArguments(
     context::ActivePath& modified_active_path,
     std::vector<std::wstring>& plain_arguments) const {
 
-    modified_active_path = GetDesktopContext().active_path;
+    modified_active_path = desktop_context_.active_path;
 
     if (input_arguments_.empty()) {
         return;

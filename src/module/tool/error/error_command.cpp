@@ -73,6 +73,19 @@ help::content::Content ErrorCommand::GetHelpContent() {
 }
 
 
+bool ErrorCommand::Interpret(
+    const utility::CommandLine& command_line, 
+    const context::DesktopContext& desktop_context,
+    bool is_reusing) {
+
+    //Not allow to reuse.
+    if (is_reusing) {
+        return false;
+    }
+    return true;
+}
+
+
 std::shared_ptr<CommandPreviewControl> ErrorCommand::GetPreviewControl() {
 
     if (!parse_result_) {

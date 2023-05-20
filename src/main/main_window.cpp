@@ -101,6 +101,7 @@ void MainWindow::OnCommandChanged() {
 void MainWindow::UpdateCommandState() {
 
     InterpretCommand();
+    ShowPreview();
     UpdateHelpWindowState();
 }
 
@@ -108,12 +109,27 @@ void MainWindow::UpdateCommandState() {
 void MainWindow::InterpretCommand() {
 
     auto command_line = inputEdit->GetInputCommandLine();
-    current_command_ = module_manager_->CreateCommand(command_line);
+
+    //Try to reuse current command.
     if (current_command_) {
-        current_command_->SetDesktopContext(desktop_context_);
+        if (current_command_->GetBrief().Command() == command_line.Command()) {
+
+            if (current_command_->Interpret(command_line, desktop_context_, true)) {
+                return;
+            }
+        }
     }
 
-    ShowPreview();
+    current_command_.reset();
+
+    //Cannot reuse, create a new command.
+    auto new_command = module_manager_->CreateCommand(command_line);
+    if (new_command) {
+
+        if (new_command->Interpret(command_line, desktop_context_, false)) {
+            current_command_ = std::move(new_command);
+        }
+    }
 }
 
 
