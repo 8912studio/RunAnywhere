@@ -7,7 +7,7 @@
 
 namespace ra::module::tool::error {
 
-CommandBrief ErrorCommand::GetBrief() {
+CommandBrief ErrorCommand::Brief() {
     return CommandBrief{
         L"err",
         L"Show error message"
@@ -44,6 +44,11 @@ std::optional<ErrorCommandParseResult> ErrorCommand::Parse(
 ErrorCommand::ErrorCommand(const utility::CommandLine& command_line) :
     parse_result_(Parse(command_line)) {
 
+}
+
+
+CommandBrief ErrorCommand::GetBrief() {
+    return Brief();
 }
 
 

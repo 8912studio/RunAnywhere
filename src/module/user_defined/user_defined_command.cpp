@@ -40,6 +40,11 @@ UserDefinedCommand::UserDefinedCommand(
 }
 
 
+CommandBrief UserDefinedCommand::GetBrief() {
+    return CommandBrief{ entry_->Command(), entry_->Description() };
+}
+
+
 help::content::Content UserDefinedCommand::GetHelpContent() {
 
     help::content::Content result;

@@ -21,6 +21,11 @@ ExtensionCommand::~ExtensionCommand() {
 }
 
 
+CommandBrief ExtensionCommand::GetBrief() {
+    return CommandBrief{ L"", L"" };
+}
+
+
 std::shared_ptr<CommandPreviewControl> ExtensionCommand::GetPreviewControl() {
 
     auto control = zaf::Create<ExtensionCommandPreviewControl>();

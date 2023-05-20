@@ -43,7 +43,7 @@ bool ParseSingleArgument(const std::wstring& argument, DateCommandParseResult& r
 
 }
 
-CommandBrief DateCommand::GetBrief() {
+CommandBrief DateCommand::Brief() {
 	return CommandBrief{
 		L"date",
 		L"Convert between date string and UNIX timestamp"
@@ -68,6 +68,11 @@ std::optional<DateCommandParseResult> DateCommand::Parse(const utility::CommandL
 DateCommand::DateCommand(const utility::CommandLine& command_line) : 
 	parse_result_(Parse(command_line)) {
 
+}
+
+
+CommandBrief DateCommand::GetBrief() {
+	return Brief();
 }
 
 

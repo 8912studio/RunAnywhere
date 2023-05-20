@@ -84,11 +84,16 @@ std::optional<HexCommandParseResult> HexCommand::Parse(const utility::CommandLin
 }
 
 
-CommandBrief HexCommand::GetBrief() {
+CommandBrief HexCommand::Brief() {
     return CommandBrief{
         L"hex",
         L"Display bytes of file content in hex format",
     };
+}
+
+
+CommandBrief HexCommand::GetBrief() {
+    return Brief();
 }
 
 

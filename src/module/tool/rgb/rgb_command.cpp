@@ -288,7 +288,7 @@ bool ParseArgument(const std::wstring& argument, RGBCommandParseContext& context
 
 }
 
-CommandBrief RGBCommand::GetBrief() {
+CommandBrief RGBCommand::Brief() {
     return CommandBrief{
         L"rgb",
         L"Show color using RGB format"
@@ -316,6 +316,11 @@ std::optional<RGBCommandParseResult> RGBCommand::Parse(const utility::CommandLin
 RGBCommand::RGBCommand(const utility::CommandLine& command_line) : 
     parse_result_(Parse(command_line)) {
 
+}
+
+
+CommandBrief RGBCommand::GetBrief() {
+    return Brief();
 }
 
 

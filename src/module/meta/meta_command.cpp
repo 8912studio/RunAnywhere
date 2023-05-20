@@ -3,6 +3,11 @@
 
 namespace ra::module::meta {
 
+CommandBrief MetaCommand::GetBrief() {
+    return CommandBrief{ MetaCommandPrefix + command_info_.command, command_info_.description };
+}
+
+
 help::content::Content MetaCommand::GetHelpContent() {
 
     help::content::Content result;

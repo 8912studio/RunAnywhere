@@ -38,7 +38,7 @@ template<typename T>
 std::unique_ptr<ToolCommandInfo> CreateCommandInfo() {
 
     return std::make_unique<ToolCommandInfo>(
-        T::GetBrief(),
+        T::Brief(),
         [](const utility::CommandLine& command_line) {
             return std::make_shared<T>(command_line);
         }

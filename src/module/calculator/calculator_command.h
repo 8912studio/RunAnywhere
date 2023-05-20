@@ -9,10 +9,14 @@ namespace ra::module::calculator {
 
 class CalculatorCommand : public Command {
 public:
+    static CommandBrief Brief();
+
+public:
     CalculatorCommand(
         const calculator::EvaluateResult& evaluate_result, 
         const calculator::Modifier& modifier);
 
+    CommandBrief GetBrief() override;
     std::shared_ptr<CommandPreviewControl> GetPreviewControl() override;
     void Execute() override;
 

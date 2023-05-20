@@ -10,13 +10,14 @@ namespace ra::module::tool::md5 {
 
 class MD5Command : public Command {
 public:
-    static CommandBrief GetBrief();
+    static CommandBrief Brief();
 
     static MD5CommandParseResult Parse(const utility::CommandLine& command_line);
 
 public:
     explicit MD5Command(const utility::CommandLine& command_line);
 
+    CommandBrief GetBrief() override;
     help::content::Content GetHelpContent() override;
     std::shared_ptr<CommandPreviewControl> GetPreviewControl() override;
     void Execute() override;

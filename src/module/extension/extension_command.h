@@ -11,6 +11,7 @@ public:
     ExtensionCommand(RunAnywhere_Command command, const ExtensionInterface& extension_interface);
     ~ExtensionCommand();
 
+    CommandBrief GetBrief() override;
     std::shared_ptr<CommandPreviewControl> GetPreviewControl() override;
     void Execute() override;
 

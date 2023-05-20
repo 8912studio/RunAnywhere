@@ -14,6 +14,7 @@ public:
         const std::shared_ptr<Entry>& entry,
         const std::vector<std::wstring>& input_arguments);
 
+    CommandBrief GetBrief() override;
     help::content::Content GetHelpContent() override;
     std::shared_ptr<CommandPreviewControl> GetPreviewControl() override;
     void Execute() override;

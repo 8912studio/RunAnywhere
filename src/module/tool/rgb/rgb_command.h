@@ -10,13 +10,14 @@ namespace ra::module::tool::rgb {
 
 class RGBCommand : public Command {
 public:
-    static CommandBrief GetBrief();
+    static CommandBrief Brief();
 
     static std::optional<RGBCommandParseResult> Parse(const utility::CommandLine& command_line);
 
 public:
     explicit RGBCommand(const utility::CommandLine& command_line);
 
+    CommandBrief GetBrief() override;
     help::content::Content GetHelpContent() override;
     std::shared_ptr<CommandPreviewControl> GetPreviewControl() override;
     void Execute() override;

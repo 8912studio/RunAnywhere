@@ -7,8 +7,13 @@ namespace ra::module::active_path {
 
 class ActivePathCommand : public Command {
 public:
+    static CommandBrief Brief();
+    static constexpr wchar_t PrefixChar = L'@';
+
+public:
     explicit ActivePathCommand(const ActivePathOption& option);
 
+    CommandBrief GetBrief() override;
     help::content::Content GetHelpContent() override;
     std::wstring GetPreviewText() override;
     void Execute() override;

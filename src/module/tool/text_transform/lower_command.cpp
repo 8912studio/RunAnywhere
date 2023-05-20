@@ -6,7 +6,7 @@
 
 namespace ra::module::tool::text_transform {
 
-CommandBrief LowerCommand::GetBrief() {
+CommandBrief LowerCommand::Brief() {
     return CommandBrief{ L"low", L"" };
 }
 
@@ -17,6 +17,11 @@ LowerCommand::LowerCommand(const utility::CommandLine& command_line) {
     if (!arguments.empty()) {
         lowered_text_ = zaf::ToLowercased(arguments.front());
     }
+}
+
+
+CommandBrief LowerCommand::GetBrief() {
+    return Brief();
 }
 
 

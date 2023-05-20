@@ -4,8 +4,18 @@
 
 namespace ra::module::active_path {
 
+CommandBrief ActivePathCommand::Brief() {
+	return CommandBrief{ std::wstring(1, PrefixChar), L"Show active path" };
+}
+
+
 ActivePathCommand::ActivePathCommand(const ActivePathOption& option) : option_(option) {
 
+}
+
+
+CommandBrief ActivePathCommand::GetBrief() {
+	return Brief();
 }
 
 

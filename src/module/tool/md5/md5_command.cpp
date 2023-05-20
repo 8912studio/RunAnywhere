@@ -4,7 +4,7 @@
 
 namespace ra::module::tool::md5 {
 
-CommandBrief MD5Command::GetBrief() {
+CommandBrief MD5Command::Brief() {
 	return CommandBrief{
 		L"md5",
 		L"Calculate MD5 hash"
@@ -47,6 +47,11 @@ MD5CommandParseResult MD5Command::Parse(const utility::CommandLine& command_line
 MD5Command::MD5Command(const utility::CommandLine& command_line) : 
 	parse_result_(Parse(command_line)) {
 
+}
+
+
+CommandBrief MD5Command::GetBrief() {
+	return Brief();
 }
 
 

@@ -6,6 +6,11 @@
 
 namespace ra::module::calculator {
 
+CommandBrief CalculatorCommand::Brief() {
+    return CommandBrief{ L"<math-expr>", L"Calculate the math expression" };
+}
+
+
 CalculatorCommand::CalculatorCommand(
     const calculator::EvaluateResult& evaluate_result,
     const calculator::Modifier& modifier)
@@ -13,6 +18,11 @@ CalculatorCommand::CalculatorCommand(
     evaluate_result_(evaluate_result),
     modifier_(modifier) {
 
+}
+
+
+CommandBrief CalculatorCommand::GetBrief() {
+    return Brief();
 }
 
 

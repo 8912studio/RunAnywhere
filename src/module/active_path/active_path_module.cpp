@@ -3,21 +3,12 @@
 #include "module/active_path/active_path_option_parsing.h"
 
 namespace ra::module::active_path {
-namespace {
-
-constexpr wchar_t PrefixChar = L'@';
-
-}
-
 
 std::vector<CommandBrief> ActivePathModule::QuerySuggestedCommands(
 	const std::wstring& command_text) {
 
-	if (command_text.empty() || command_text.front() == PrefixChar) {
-
-		return { 
-			CommandBrief{ std::wstring(1, PrefixChar), L"Show active path" } 
-		};
+	if (command_text.empty() || command_text.front() == ActivePathCommand::PrefixChar) {
+		return { ActivePathCommand::Brief() };
 	}
 
 	return {};
@@ -31,7 +22,7 @@ std::shared_ptr<Command> ActivePathModule::Interpret(const utility::CommandLine&
 		return nullptr;
 	}
 
-	if (command_line_text.front() != PrefixChar) {
+	if (command_line_text.front() != ActivePathCommand::PrefixChar) {
 		return nullptr;
 	}
 

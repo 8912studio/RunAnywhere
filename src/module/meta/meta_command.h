@@ -11,6 +11,7 @@ public:
     
     }
 
+    CommandBrief GetBrief() override;
     help::content::Content GetHelpContent() override;
 
     std::wstring GetPreviewText() override {
