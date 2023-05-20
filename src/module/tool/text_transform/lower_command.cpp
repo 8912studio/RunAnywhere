@@ -1,7 +1,6 @@
 #include "module/tool/text_transform/lower_command.h"
 #include <zaf/base/string/case_conversion.h>
 #include <zaf/creation.h>
-#include "module/tool/text_transform/text_preview_control.h"
 #include "utility/clipboard.h"
 
 namespace ra::module::tool::text_transform {
@@ -11,12 +10,9 @@ CommandBrief LowerCommand::Brief() {
 }
 
 
-LowerCommand::LowerCommand(const utility::CommandLine& command_line) {
+LowerCommand::LowerCommand(const utility::CommandLine& command_line) : 
+    preview_control_(zaf::Create<TextPreviewControl>()) {
 
-    const auto& arguments = command_line.Arguments();
-    if (!arguments.empty()) {
-        lowered_text_ = zaf::ToLowercased(arguments.front());
-    }
 }
 
 
@@ -35,15 +31,21 @@ bool LowerCommand::Interpret(
     const context::DesktopContext& desktop_context,
     bool is_reusing) {
 
+    const auto& arguments = command_line.Arguments();
+    if (!arguments.empty()) {
+        lowered_text_ = zaf::ToLowercased(arguments.front());
+    }
+    else {
+        lowered_text_.clear();
+    }
+
+    preview_control_->SetText(lowered_text_);
     return true;
 }
 
 
 std::shared_ptr<CommandPreviewControl> LowerCommand::GetPreviewControl() {
-
-    auto preview_control = zaf::Create<TextPreviewControl>();
-    preview_control->SetText(lowered_text_);
-    return preview_control;
+    return preview_control_;
 }
 
 

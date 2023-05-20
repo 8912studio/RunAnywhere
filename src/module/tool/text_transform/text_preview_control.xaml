@@ -1,11 +1,26 @@
 <TextPreviewControl Layouter="VerticalLayouter" FixedHeight="90">
-    <ScrollableControl Name="scrollControl" Border="0">
+    <ScrollableControl 
+        Name="scrollControl" 
+        Border="0"
+        AutoHideScrollBars="true"
+        ScrollBarThickness="10">
+
+        <ScrollableControl.VerticalScrollBar>
+            <ThinScrollBar />
+        </ScrollableControl.VerticalScrollBar>
+
+        <ScrollableControl.HorizontalScrollBar>
+            <ThinScrollBar />
+        </ScrollableControl.HorizontalScrollBar>
+
         <ScrollableControl.ScrollContent>
             <RichEdit 
                 Name="richEdit" 
                 Border="0"
-                IsMultiline="true" 
-                FontSize="14"
+                IsReadOnly="true"
+                AllowBeep="false"
+                BackgroundColor="#00000000"
+                FontSize="18"
             />
         </ScrollableControl.ScrollContent>
     </ScrollableControl>

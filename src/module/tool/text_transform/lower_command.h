@@ -3,6 +3,7 @@
 #include "module/command.h"
 #include "module/command_brief.h"
 #include "utility/command_line.h"
+#include "module/tool/text_transform/text_preview_control.h"
 
 namespace ra::module::tool::text_transform {
 
@@ -24,6 +25,7 @@ public:
 
 private:
     std::wstring lowered_text_;
+    std::shared_ptr<TextPreviewControl> preview_control_;
 };
 
 }
