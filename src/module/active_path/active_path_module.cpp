@@ -15,7 +15,8 @@ std::vector<CommandBrief> ActivePathModule::QuerySuggestedCommands(
 }
 
 
-std::shared_ptr<Command> ActivePathModule::Interpret(const utility::CommandLine& command_line) {
+std::unique_ptr<Command> ActivePathModule::CreateCommand(
+	const utility::CommandLine& command_line) {
 
 	const auto& command_line_text = command_line.RawText();
 	if (command_line_text.empty()) {
@@ -27,7 +28,7 @@ std::shared_ptr<Command> ActivePathModule::Interpret(const utility::CommandLine&
 	}
 
 	auto option = ParseActivePathOption(command_line_text.substr(1));
-	return std::make_shared<ActivePathCommand>(option);
+	return std::make_unique<ActivePathCommand>(option);
 }
 
 }

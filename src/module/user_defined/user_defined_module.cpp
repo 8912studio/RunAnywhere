@@ -118,13 +118,13 @@ std::vector<CommandBrief> UserDefinedModule::QuerySuggestedCommands(
 }
 
 
-std::shared_ptr<Command> UserDefinedModule::Interpret(const utility::CommandLine& command_line) {
+std::unique_ptr<Command> UserDefinedModule::CreateCommand(const utility::CommandLine& command_line) {
 
     ZAF_EXPECT(bundle_depot_);
 
     auto entry = bundle_depot_->FindEntry(command_line.Command());
     if (entry) {
-        return std::make_shared<UserDefinedCommand>(entry, command_line.Arguments());
+        return std::make_unique<UserDefinedCommand>(entry, command_line.Arguments());
     }
     return nullptr;
 }

@@ -10,7 +10,7 @@
 
 namespace ra::module::tool {
 
-using CommandFactory = std::function<std::shared_ptr<Command>(const utility::CommandLine&)>;
+using CommandFactory = std::function<std::unique_ptr<Command>(const utility::CommandLine&)>;
 
 class ToolCommandInfo {
 public:
@@ -40,7 +40,7 @@ std::unique_ptr<ToolCommandInfo> CreateCommandInfo() {
     return std::make_unique<ToolCommandInfo>(
         T::Brief(),
         [](const utility::CommandLine& command_line) {
-            return std::make_shared<T>(command_line);
+            return std::make_unique<T>(command_line);
         }
     );
 }
@@ -78,7 +78,7 @@ std::vector<CommandBrief> ToolModule::QuerySuggestedCommands(const std::wstring&
 }
 
 
-std::shared_ptr<Command> ToolModule::Interpret(const utility::CommandLine& command_line) {
+std::unique_ptr<Command> ToolModule::CreateCommand(const utility::CommandLine& command_line) {
 
     for (const auto& each_info : command_infos_) {
 

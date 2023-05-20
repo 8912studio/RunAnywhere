@@ -17,7 +17,7 @@ public:
 
     std::vector<module::CommandBrief> QuerySuggestedCommands(const std::wstring& command_text);
 
-    std::shared_ptr<module::Command> InterpretCommand(const utility::CommandLine& command_line);
+    std::unique_ptr<module::Command> CreateCommand(const utility::CommandLine& command_line);
     
 private:
     std::shared_ptr<module::user_defined::UserDefinedModule> user_defined_module_;

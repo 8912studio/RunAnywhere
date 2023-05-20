@@ -31,7 +31,7 @@ ExtensionModule::~ExtensionModule() {
 }
 
 
-std::shared_ptr<Command> ExtensionModule::Interpret(const utility::CommandLine& command_line) {
+std::unique_ptr<Command> ExtensionModule::CreateCommand(const utility::CommandLine& command_line) {
 
     if (!interface_.interpret_function ||
         !interface_.get_text_function ||
@@ -44,7 +44,7 @@ std::shared_ptr<Command> ExtensionModule::Interpret(const utility::CommandLine& 
         return nullptr;
     }
 
-    return std::make_shared<ExtensionCommand>(command_handle, interface_);
+    return std::make_unique<ExtensionCommand>(command_handle, interface_);
 }
 
 }

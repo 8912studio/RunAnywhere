@@ -50,7 +50,7 @@ std::vector<CommandBrief> MetaModule::QuerySuggestedCommands(const std::wstring&
 }
 
 
-std::shared_ptr<Command> MetaModule::Interpret(const utility::CommandLine& command_line) {
+std::unique_ptr<Command> MetaModule::CreateCommand(const utility::CommandLine& command_line) {
 
     auto command = ExtractMetaCommand(command_line.RawText());
     if (!command || command->empty()) {
@@ -62,7 +62,7 @@ std::shared_ptr<Command> MetaModule::Interpret(const utility::CommandLine& comma
         return nullptr;
     }
 
-    return std::make_shared<MetaCommand>(*command_info);
+    return std::make_unique<MetaCommand>(*command_info);
 }
 
 }

@@ -16,7 +16,7 @@ std::vector<CommandBrief> CalculatorModule::QuerySuggestedCommands(
 }
 
 
-std::shared_ptr<Command> CalculatorModule::Interpret(const utility::CommandLine& command_line) {
+std::unique_ptr<Command> CalculatorModule::CreateCommand(const utility::CommandLine& command_line) {
 
     auto parse_result = ParseCommand(command_line.RawText());
     if (!parse_result) {
@@ -31,7 +31,7 @@ std::shared_ptr<Command> CalculatorModule::Interpret(const utility::CommandLine&
         return nullptr;
     }
 
-    return std::make_shared<CalculatorCommand>(evaluate_result, parse_result->GetModifier());
+    return std::make_unique<CalculatorCommand>(evaluate_result, parse_result->GetModifier());
 }
 
 }

@@ -108,7 +108,7 @@ void MainWindow::UpdateCommandState() {
 void MainWindow::InterpretCommand() {
 
     auto command_line = inputEdit->GetInputCommandLine();
-    current_command_ = module_manager_->InterpretCommand(command_line);
+    current_command_ = module_manager_->CreateCommand(command_line);
     if (current_command_) {
         current_command_->SetDesktopContext(desktop_context_);
     }

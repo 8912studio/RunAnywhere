@@ -64,7 +64,7 @@ private:
     std::shared_ptr<ModuleManager> module_manager_;
 
     context::DesktopContext desktop_context_;
-    std::shared_ptr<module::Command> current_command_;
+    std::unique_ptr<module::Command> current_command_;
 
     bool show_help_window_{};
     std::shared_ptr<help::HelpWindow> help_window_;

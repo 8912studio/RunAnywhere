@@ -51,12 +51,12 @@ std::vector<module::CommandBrief> ModuleManager::QuerySuggestedCommands(
 }
 
 
-std::shared_ptr<module::Command> ModuleManager::InterpretCommand(
+std::unique_ptr<module::Command> ModuleManager::CreateCommand(
     const utility::CommandLine& command_line) {
 
     for (const auto& each_module : modules_) {
 
-        auto command = each_module->Interpret(command_line);
+        auto command = each_module->CreateCommand(command_line);
         if (command) {
             return command;
         }

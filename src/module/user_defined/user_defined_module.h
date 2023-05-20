@@ -19,7 +19,7 @@ public:
     std::shared_ptr<BundleImporter> BeginImportBundle(const std::filesystem::path& bundle_path);
 
     std::vector<CommandBrief> QuerySuggestedCommands(const std::wstring& command_text) override;
-    std::shared_ptr<Command> Interpret(const utility::CommandLine& command_line) override;
+    std::unique_ptr<Command> CreateCommand(const utility::CommandLine& command_line) override;
 
 private:
     void TryToUpgradeLegacyEntries();
