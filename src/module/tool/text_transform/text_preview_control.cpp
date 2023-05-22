@@ -30,7 +30,6 @@ void TextPreviewControl::SetText(const std::wstring& text) {
     else {
         richEdit->SetIsMultiline(false);
         richEdit->SetTextAlignment(zaf::TextAlignment::Center);
-        richEdit->SetParagraphAlignment(zaf::ParagraphAlignment::Center);
     }
 
     richEdit->SetText(text);
