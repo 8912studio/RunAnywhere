@@ -6,7 +6,9 @@
 #include "module/tool/hex/hex_command.h"
 #include "module/tool/md5/md5_command.h"
 #include "module/tool/rgb/rgb_command.h"
-#include "module/tool/text_transform/lower_command.h"
+#include "module/tool/text_transform/lower_transformer.h"
+#include "module/tool/text_transform/text_transform_command.h"
+#include "module/tool/text_transform/upper_transformer.h"
 
 namespace ra::module::tool {
 
@@ -46,6 +48,18 @@ std::unique_ptr<ToolCommandInfo> CreateCommandInfo() {
 }
 
 
+template<typename T>
+std::unique_ptr<ToolCommandInfo> CreateTextTransformCommandInfo() {
+
+    return std::make_unique<ToolCommandInfo>(
+        T::Brief(),
+        [](const utility::CommandLine& command_line) {
+            return std::make_unique<text_transform::TextTransformCommand>(std::make_unique<T>());
+        }
+    );
+}
+
+
 ToolModule::ToolModule() {
 
     command_infos_.push_back(CreateCommandInfo<date::DateCommand>());
@@ -53,7 +67,8 @@ ToolModule::ToolModule() {
     command_infos_.push_back(CreateCommandInfo<hex::HexCommand>());
     command_infos_.push_back(CreateCommandInfo<md5::MD5Command>());
     command_infos_.push_back(CreateCommandInfo<rgb::RGBCommand>());
-    command_infos_.push_back(CreateCommandInfo<text_transform::LowerCommand>());
+    command_infos_.push_back(CreateTextTransformCommandInfo<text_transform::LowerTransformer>());
+    command_infos_.push_back(CreateTextTransformCommandInfo<text_transform::UpperTransformer>());
 }
 
 

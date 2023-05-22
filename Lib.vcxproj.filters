@@ -582,10 +582,19 @@
     <ClInclude Include="src\utility\thin_scroll_bar.h">
       <Filter>src\utility</Filter>
     </ClInclude>
-    <ClInclude Include="src\module\tool\text_transform\lower_command.h">
+    <ClInclude Include="src\module\tool\text_transform\text_preview_control.h">
       <Filter>src\module\tool\text_transform</Filter>
     </ClInclude>
-    <ClInclude Include="src\module\tool\text_transform\text_preview_control.h">
+    <ClInclude Include="src\module\tool\text_transform\text_transform_command.h">
+      <Filter>src\module\tool\text_transform</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\tool\text_transform\text_transformer.h">
+      <Filter>src\module\tool\text_transform</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\tool\text_transform\lower_transformer.h">
+      <Filter>src\module\tool\text_transform</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\tool\text_transform\upper_transformer.h">
       <Filter>src\module\tool\text_transform</Filter>
     </ClInclude>
   </ItemGroup>
@@ -923,10 +932,16 @@
     <ClCompile Include="src\utility\thin_scroll_bar.cpp">
       <Filter>src\utility</Filter>
     </ClCompile>
-    <ClCompile Include="src\module\tool\text_transform\lower_command.cpp">
+    <ClCompile Include="src\module\tool\text_transform\text_preview_control.cpp">
       <Filter>src\module\tool\text_transform</Filter>
     </ClCompile>
-    <ClCompile Include="src\module\tool\text_transform\text_preview_control.cpp">
+    <ClCompile Include="src\module\tool\text_transform\text_transform_command.cpp">
+      <Filter>src\module\tool\text_transform</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\tool\text_transform\lower_transformer.cpp">
+      <Filter>src\module\tool\text_transform</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\tool\text_transform\upper_transformer.cpp">
       <Filter>src\module\tool\text_transform</Filter>
     </ClCompile>
   </ItemGroup>
