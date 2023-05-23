@@ -3,7 +3,6 @@
 #include <zaf/base/container/utility/contain.h>
 #include <zaf/base/com_object.h>
 #include <zaf/object/type_definition.h>
-#include "main/text_block_object.h"
 
 namespace ra {
 
@@ -66,11 +65,7 @@ bool CommandInputEdit::TryToInsertTextBlockObject() {
         return false;
     }
 
-    auto text_block_object = zaf::MakeCOMObject<TextBlockObject>(text);
-    Subscriptions() += text_block_object->TextChangedEvent().Subscribe(
-        std::bind(&CommandInputEdit::RaiseCommandChangedEvent, this));
-
-    this->InsertObject(text_block_object);
+    InsertTextBlockObject(text);
     return true;
 }
 
@@ -89,6 +84,17 @@ bool CommandInputEdit::ShouldInsertTextBlockObject(const std::wstring& text) {
 }
 
 
+zaf::COMObject<TextBlockObject> CommandInputEdit::InsertTextBlockObject(const std::wstring& text) {
+
+    auto text_block_object = zaf::MakeCOMObject<TextBlockObject>(text);
+    Subscriptions() += text_block_object->TextChangedEvent().Subscribe(
+        std::bind(&CommandInputEdit::RaiseCommandChangedEvent, this));
+
+    this->InsertObject(text_block_object);
+    return text_block_object;
+}
+
+
 void CommandInputEdit::OnTextChanged(const zaf::TextChangedInfo& event_info) {
     RaiseCommandChangedEvent();
 }
@@ -98,5 +104,36 @@ void CommandInputEdit::RaiseCommandChangedEvent() {
     command_changed_event_.GetObserver().OnNext({});
 }
 
+
+void CommandInputEdit::OnKeyDown(const zaf::KeyDownInfo& event_info) {
+
+    /*
+    if (event_info.Message().VirtualKey() == L'T') {
+        if ((GetKeyState(VK_CONTROL) >> 15) != 0) {
+            InsertTextBlockObjectByKeyboard();
+            event_info.MarkAsHandled();
+        }
+    }
+    */
+
+    __super::OnKeyDown(event_info);
+}
+
+
+void CommandInputEdit::InsertTextBlockObjectByKeyboard() {
+
+    auto object = InsertTextBlockObject({});
+
+    auto selection_range = this->GetSelectionRange();
+    if (selection_range.index <= 0) {
+        //Abnormal situation.
+        return;
+    }
+
+    //Select the inserted object.
+    selection_range.index--;
+    selection_range.length = 1;
+    this->SetSelectionRange(selection_range);
+}
 
 }
