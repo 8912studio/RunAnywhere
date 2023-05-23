@@ -4,7 +4,7 @@
 namespace ra::module::tool::text_transform {
 
 CommandBrief LowerTransformer::Brief() {
-    return CommandBrief{ L"low", L"Transform text to lowercase." };
+    return CommandBrief{ L"low", L"Transform text to lowercase" };
 }
 
 
@@ -14,7 +14,18 @@ CommandBrief LowerTransformer::GetBrief() {
 
 
 help::content::Content LowerTransformer::GetHelpContent() {
-    return {};
+
+	help::content::Content result;
+
+	result.AddTitleLine(L"low command");
+	result.AddBodyLine(L"Transform all characters in specified text to lowercase.");
+
+	result.AddTitleLine(L"Usage");
+	result.AddBodyLine(L"low <text>");
+	result.AddBodyLine(
+		L"If there are space characters in `text`, enclose it in double quotation marks( \" ).");
+
+	return result;
 }
 
 
