@@ -63,6 +63,10 @@ void TextPreviewControl::Layout(const zaf::Rect& previous_rect) {
 
 void TextPreviewControl::CalculateAndAdjustControls() {
 
+    //Disable scroll bars by default, in order to make GetExpectedMargin() get correct values.
+    scrollControl->SetAllowVerticalScroll(false);
+    scrollControl->SetAllowHorizontalScroll(false);
+
     if (richEdit->IsMultiline()) {
         AdjustForMultiLineEdit();
     }
