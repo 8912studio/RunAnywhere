@@ -20,6 +20,29 @@ ZAF_DEFINE_TYPE_END;
 
 void TextPreviewControl::SetText(const std::wstring& text) {
 
+    if (text.empty()) {
+        ShowEmptyText();
+    }
+    else {
+        ShowText(text);
+    }
+}
+
+
+void TextPreviewControl::ShowEmptyText() {
+
+    scrollControl->SetIsVisible(false);
+    richEdit->SetText({});
+
+    emptyLabel->SetIsVisible(true);
+}
+
+
+void TextPreviewControl::ShowText(const std::wstring& text) {
+
+    emptyLabel->SetIsVisible(false);
+    scrollControl->SetIsVisible(true);
+
     auto update_guard = richEdit->BeginUpdate();
 
     if (utility::HasLineBreak(text)) {

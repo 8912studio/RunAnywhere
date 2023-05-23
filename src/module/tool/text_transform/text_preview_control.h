@@ -1,6 +1,7 @@
 #pragma once
 
 #include <zaf/control/control_binder.h>
+#include <zaf/control/label.h>
 #include <zaf/control/rich_edit.h>
 #include <zaf/control/scrollable_control.h>
 #include "module/command_preview_control.h"
@@ -19,6 +20,9 @@ protected:
     void Layout(const zaf::Rect&) override;
 
 private:
+    void ShowEmptyText();
+    void ShowText(const std::wstring& text);
+
     void CalculateAndAdjustControls();
     void AdjustForSingleLineEdit();
     void AdjustForMultiLineEdit();
@@ -30,6 +34,7 @@ private:
         bool& need_vertical_scroll);
 
 private:
+    ZAF_BIND_CONTROL(zaf::Label, emptyLabel);
     ZAF_BIND_CONTROL(zaf::ScrollableControl, scrollControl);
     ZAF_BIND_CONTROL(zaf::RichEdit, richEdit);
 };
