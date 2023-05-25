@@ -21,7 +21,7 @@ protected:
     void Initialize() override;
     void OnTextChanging(const zaf::TextChangingInfo& event_info) override;
     void OnTextChanged(const zaf::TextChangedInfo& event_info) override;
-    void OnKeyDown(const zaf::KeyDownInfo& event_info) override;
+    void OnSysKeyDown(const zaf::SysKeyDownInfo& event_info) override;
 
 private:
     static bool ShouldInsertTextBlockObject(const std::wstring& text);
@@ -30,7 +30,7 @@ private:
     bool TryToInsertTextBlockObject();
     zaf::COMObject<TextBlockObject> InsertTextBlockObject(const std::wstring& text);
     void RaiseCommandChangedEvent();
-    void InsertTextBlockObjectByKeyboard();
+    void InsertTextBlockObjectByKey();
 
 private:
     zaf::Subject<zaf::None> command_changed_event_;

@@ -27,6 +27,7 @@ protected:
     void AfterParse() override;
     void OnDeactivated(const zaf::DeactivatedInfo& event_info) override;
     void OnMessageReceived(const zaf::MessageReceivedInfo& event_info) override;
+    void OnShow(const zaf::ShowInfo& event_info) override;
 
 private:
     void AdjustPositionAndSize();

@@ -105,22 +105,18 @@ void CommandInputEdit::RaiseCommandChangedEvent() {
 }
 
 
-void CommandInputEdit::OnKeyDown(const zaf::KeyDownInfo& event_info) {
+void CommandInputEdit::OnSysKeyDown(const zaf::SysKeyDownInfo& event_info) {
 
-    /*
     if (event_info.Message().VirtualKey() == L'T') {
-        if ((GetKeyState(VK_CONTROL) >> 15) != 0) {
-            InsertTextBlockObjectByKeyboard();
-            event_info.MarkAsHandled();
-        }
+        InsertTextBlockObjectByKey();
+        event_info.MarkAsHandled();
     }
-    */
 
     __super::OnKeyDown(event_info);
 }
 
 
-void CommandInputEdit::InsertTextBlockObjectByKeyboard() {
+void CommandInputEdit::InsertTextBlockObjectByKey() {
 
     auto object = InsertTextBlockObject({});
 
@@ -134,6 +130,8 @@ void CommandInputEdit::InsertTextBlockObjectByKeyboard() {
     selection_range.index--;
     selection_range.length = 1;
     this->SetSelectionRange(selection_range);
+
+    object->OpenWindow();
 }
 
 }

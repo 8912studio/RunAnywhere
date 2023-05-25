@@ -25,6 +25,7 @@
                 Padding="4,4,4,4"
                 IsMultiline="true"
                 FontSize="14"
+                ParagraphAlignment="Center"
             />
         </ScrollableControl.ScrollContent>
     </ScrollableControl>

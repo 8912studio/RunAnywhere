@@ -44,6 +44,7 @@ std::wstring TextBlockWindow::GetText() const {
 
 void TextBlockWindow::SetText(const std::wstring& text) {
     textEdit->SetText(text);
+    AdjustPositionAndSize();
 }
 
 
@@ -87,6 +88,9 @@ void TextBlockWindow::AdjustPositionAndSize() {
         actual_edit_height +
         (need_horizontal_scroll_bar ? scrollableControl->HorizontalScrollBar()->Height() : 0);
 
+    constexpr float MinWindowHeight = 40.f;
+    window_size.height = std::max(window_size.height, MinWindowHeight);
+
     zaf::Rect window_rect{ object_position_in_screen_, window_size };
     window_rect.position.y -= window_size.height + 4;
     this->SetRect(window_rect);
@@ -123,6 +127,15 @@ void TextBlockWindow::OnMessageReceived(const zaf::MessageReceivedInfo& event_in
     }
 
     __super::OnMessageReceived(event_info);
+}
+
+
+void TextBlockWindow::OnShow(const zaf::ShowInfo& event_info) {
+
+    __super::OnShow(event_info);
+
+    SetFocus(this->Handle());
+    textEdit->SetIsFocused(true);
 }
 
 }

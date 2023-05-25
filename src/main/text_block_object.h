@@ -17,6 +17,8 @@ public:
         return text_;
     }
 
+    void OpenWindow();
+
     zaf::Observable<zaf::None> TextChangedEvent() {
         return text_changed_event_.GetObservable();
     }
@@ -33,6 +35,7 @@ public:
 
 private:
     void PaintText(zaf::Canvas& canvas, const zaf::Rect& text_rect);
+    bool InnerOpenWindow(const zaf::Point& object_position_in_screen);
     void OnTextChanged(const std::shared_ptr<TextBlockWindow>& window);
     void OnWindowDestroyed();
 

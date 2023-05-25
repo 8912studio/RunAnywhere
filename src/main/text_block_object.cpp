@@ -75,6 +75,16 @@ void TextBlockObject::OnMouseCursorChanging(
 
 
 bool TextBlockObject::OnDoubleClick(const zaf::rich_edit::DoubleClickContext& context) {
+    return InnerOpenWindow(context.ObjectPositionInScreen());
+}
+
+
+void TextBlockObject::OpenWindow() {
+    InnerOpenWindow(this->GetPositionInScreen());
+}
+
+
+bool TextBlockObject::InnerOpenWindow(const zaf::Point& object_position_in_screen) {
 
     auto host = Host();
     if (!host) {
@@ -90,7 +100,7 @@ bool TextBlockObject::OnDoubleClick(const zaf::rich_edit::DoubleClickContext& co
     window->SetOwner(host_window);
     window->SetInitialRectStyle(zaf::InitialRectStyle::Custom);
 
-    window->SetObjectPositionInScreen(context.ObjectPositionInScreen());
+    window->SetObjectPositionInScreen(object_position_in_screen);
     window->SetText(text_);
 
     Subscriptions() += window->TextChangedEvent().Subscribe(
