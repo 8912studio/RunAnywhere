@@ -597,6 +597,9 @@
     <ClInclude Include="src\module\tool\text_transform\upper_transformer.h">
       <Filter>src\module\tool\text_transform</Filter>
     </ClInclude>
+    <ClInclude Include="src\main\line_break_option.h">
+      <Filter>src\main</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -943,6 +946,9 @@
     </ClCompile>
     <ClCompile Include="src\module\tool\text_transform\upper_transformer.cpp">
       <Filter>src\module\tool\text_transform</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main\line_break_option.cpp">
+      <Filter>src\main</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

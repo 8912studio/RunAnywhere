@@ -5,6 +5,8 @@
 #include <zaf/control/rich_edit.h>
 #include <zaf/control/scrollable_control.h>
 #include <zaf/rx/subject.h>
+#include "main/line_break_option.h"
+#include "utility/text_utility.h"
 #include "utility/thin_border_window.h"
 
 namespace ra {
@@ -31,13 +33,22 @@ protected:
 
 private:
     void AdjustPositionAndSize();
+    void UpdateLineBreakOptions();
+    utility::LineBreak GetLineBreakByOption(const LineBreakOption& option) const;
+    void OnLineBreakOptionClick(const zaf::MouseUpInfo& event_info);
+    void RaiseTextChangedEvent();
 
 private:
+    ZAF_BIND_CONTROL(zaf::Control, lineBreakOptions);
+    ZAF_BIND_CONTROL(LineBreakOption, useCRLF);
+    ZAF_BIND_CONTROL(LineBreakOption, useCR);
+    ZAF_BIND_CONTROL(LineBreakOption, useLF);
     ZAF_BIND_CONTROL(zaf::ScrollableControl, scrollableControl);
     ZAF_BIND_CONTROL(zaf::RichEdit, textEdit);
 
     zaf::Point object_position_in_screen_;
     zaf::Subject<std::shared_ptr<TextBlockWindow>> text_changed_event_;
+    utility::LineBreak line_break_{ utility::LineBreak::CRLF };
 };
 
 }

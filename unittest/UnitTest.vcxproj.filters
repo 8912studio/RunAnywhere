@@ -175,6 +175,9 @@
     <ClCompile Include="case\utility\command_line_test.cpp">
       <Filter>case\utility</Filter>
     </ClCompile>
+    <ClCompile Include="case\utility\text_utility_test.cpp">
+      <Filter>case\utility</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="case\module\calculator\number_parser_test_utility.h">

@@ -4,6 +4,14 @@
 
 namespace ra::utility {
 
+enum class LineBreak {
+    CRLF,
+    CR,
+    LF,
+};
+
+LineBreak DeterminateLineBreak(std::wstring_view text);
+
 bool HasLineBreak(std::wstring_view text);
 std::wstring RemoveLineBreaks(std::wstring_view text);
 

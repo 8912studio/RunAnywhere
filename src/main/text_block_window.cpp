@@ -1,6 +1,7 @@
 #include "main/text_block_window.h"
 #include <zaf/base/log.h>
 #include <zaf/base/none.h>
+#include <zaf/base/string/replace.h>
 #include <zaf/control/scroll_bar.h>
 #include <zaf/graphic/dpi.h>
 #include <zaf/object/type_definition.h>
@@ -22,12 +23,16 @@ void TextBlockWindow::AfterParse() {
 
     __super::AfterParse();
 
+    for (auto each_option : { &useCRLF, &useCR, &useLF }) {
+        Subscriptions() += (*each_option)->MouseUpEvent().Subscribe(
+            std::bind(&TextBlockWindow::OnLineBreakOptionClick, this, std::placeholders::_1));
+    }
+
     Subscriptions() += textEdit->TextChangedEvent().Subscribe(
         [this](const zaf::TextChangedInfo& event_info) {
     
         AdjustPositionAndSize();
-
-        text_changed_event_.GetObserver().OnNext(zaf::As<TextBlockWindow>(shared_from_this()));
+        RaiseTextChangedEvent();
     });
 }
 
@@ -38,12 +43,24 @@ void TextBlockWindow::SetObjectPositionInScreen(const zaf::Point& position) {
 
 
 std::wstring TextBlockWindow::GetText() const {
-    return textEdit->Text();
+
+    auto result = textEdit->GetText(
+        (line_break_ == utility::LineBreak::CRLF) ?
+        zaf::rich_edit::TextFlag::UseCRLF :
+        zaf::rich_edit::TextFlag::Default);
+
+    if (line_break_ == utility::LineBreak::LF) {
+        zaf::Replace(result, L"\r", L"\n");
+    }
+
+    return result;
 }
 
 
 void TextBlockWindow::SetText(const std::wstring& text) {
     textEdit->SetText(text);
+    line_break_ = utility::DeterminateLineBreak(text);
+    UpdateLineBreakOptions();
     AdjustPositionAndSize();
 }
 
@@ -69,12 +86,20 @@ void TextBlockWindow::AdjustPositionAndSize() {
     bool need_vertical_scroll_bar = line_count > MaxShowLineCount;
     scrollableControl->SetAllowVerticalScroll(need_vertical_scroll_bar);
 
+    auto scroll_control_padding = scrollableControl->Padding();
+    scroll_control_padding.bottom = need_horizontal_scroll_bar ? 0 : scroll_control_padding.top;
+    scroll_control_padding.right = need_vertical_scroll_bar ? 0 : scroll_control_padding.left;
+    scrollableControl->SetPadding(scroll_control_padding);
+
     zaf::Size window_size;
     window_size.width =
         WindowHorizontalBorder +
         scrollableControl->Padding().Width() +
         (need_horizontal_scroll_bar ? MaxContentWidth : edit_size.width) +
         (need_vertical_scroll_bar ? scrollableControl->VerticalScrollBar()->Width() : 0);
+
+    constexpr float MinWindowWidth = 200.f;
+    window_size.width = std::max(window_size.width, MinWindowWidth);
 
     auto line_height = (edit_size.height - textEdit->Padding().Height()) / line_count;
 
@@ -84,6 +109,8 @@ void TextBlockWindow::AdjustPositionAndSize() {
 
     window_size.height =
         WindowVerticalBorder +
+        lineBreakOptions->Height() + 
+        lineBreakOptions->Margin().Height() +
         scrollableControl->Padding().Height() +
         actual_edit_height +
         (need_horizontal_scroll_bar ? scrollableControl->HorizontalScrollBar()->Height() : 0);
@@ -94,6 +121,45 @@ void TextBlockWindow::AdjustPositionAndSize() {
     zaf::Rect window_rect{ object_position_in_screen_, window_size };
     window_rect.position.y -= window_size.height + 4;
     this->SetRect(window_rect);
+}
+
+
+void TextBlockWindow::UpdateLineBreakOptions() {
+
+    for (auto each_option : { &useCRLF, &useCR, &useLF }) {
+        bool should_selected = GetLineBreakByOption(**each_option) == line_break_;
+        (*each_option)->SetIsSelected(should_selected);
+    }
+}
+
+
+void TextBlockWindow::OnLineBreakOptionClick(const zaf::MouseUpInfo& event_info) {
+
+    auto option = zaf::As<LineBreakOption>(event_info.Source());
+    if (!option) {
+        return;
+    }
+
+    line_break_ = GetLineBreakByOption(*option);
+    UpdateLineBreakOptions();
+    RaiseTextChangedEvent();
+}
+
+
+utility::LineBreak TextBlockWindow::GetLineBreakByOption(const LineBreakOption& option) const {
+    if (&option == &*useCR) {
+        return utility::LineBreak::CR;
+    }
+    if (&option == &*useLF) {
+        return utility::LineBreak::LF;
+    }
+    return utility::LineBreak::CRLF;
+}
+
+
+void TextBlockWindow::RaiseTextChangedEvent() {
+
+    text_changed_event_.GetObserver().OnNext(zaf::As<TextBlockWindow>(shared_from_this()));
 }
 
 

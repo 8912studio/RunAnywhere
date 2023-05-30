@@ -4,10 +4,16 @@
         <VerticalBox BackgroundColor="White" />
     </TextBlockWindow.RootControl>
 
+    <HorizontalBox Name="lineBreakOptions" FixedHeight="20" Margin="12,12,0,0">
+        <LineBreakOption Name="useCRLF" Text="\r\n" />
+        <LineBreakOption Name="useCR" Margin="8,0,0,0" Text="\r" />
+        <LineBreakOption Name="useLF" Margin="8,0,0,0" Text="\n" />
+    </HorizontalBox>
+
     <ScrollableControl 
         Name="scrollableControl" 
         Border="0" 
-        Padding="4,4,0,0"
+        Padding="8"
         ScrollBarThickness="10">
 
         <ScrollableControl.VerticalScrollBar>
