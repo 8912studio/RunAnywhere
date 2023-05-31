@@ -29,7 +29,7 @@ void LineBreakOption::OnIsSelectedChanged() {
 
 void LineBreakOption::UpdateAppearance() {
 
-    zaf::Color color = zaf::Color::FromRGB(IsSelected() ? 0x008833 : 0xbbbbbb);
+    zaf::Color color = zaf::Color::FromRGB(IsSelected() ? 0x009933 : 0xbbbbbb);
     this->SetBorderColor(color);
     this->SetTextColor(color);
 

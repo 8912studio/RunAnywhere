@@ -75,7 +75,9 @@ void TextBlockWindow::AdjustPositionAndSize() {
     constexpr float WindowHorizontalBorder = 2;
     constexpr float WindowVerticalBorder = 2;
     constexpr float MaxContentWidth = 500;
-    constexpr int MaxShowLineCount = 10;
+    constexpr std::size_t MinShowLineCount = 2;
+    constexpr std::size_t MaxShowLineCount = 10;
+    constexpr float MinWindowWidth = 320.f;
 
     auto edit_size = textEdit->CalculatePreferredSize();
     auto line_count = textEdit->LineCount();
@@ -87,7 +89,7 @@ void TextBlockWindow::AdjustPositionAndSize() {
     scrollableControl->SetAllowVerticalScroll(need_vertical_scroll_bar);
 
     auto scroll_control_padding = scrollableControl->Padding();
-    scroll_control_padding.bottom = need_horizontal_scroll_bar ? 0 : scroll_control_padding.top;
+    scroll_control_padding.bottom = need_horizontal_scroll_bar ? 0 : scroll_control_padding.left;
     scroll_control_padding.right = need_vertical_scroll_bar ? 0 : scroll_control_padding.left;
     scrollableControl->SetPadding(scroll_control_padding);
 
@@ -98,13 +100,17 @@ void TextBlockWindow::AdjustPositionAndSize() {
         (need_horizontal_scroll_bar ? MaxContentWidth : edit_size.width) +
         (need_vertical_scroll_bar ? scrollableControl->VerticalScrollBar()->Width() : 0);
 
-    constexpr float MinWindowWidth = 200.f;
     window_size.width = std::max(window_size.width, MinWindowWidth);
 
     auto line_height = (edit_size.height - textEdit->Padding().Height()) / line_count;
 
+    auto shown_line_count =
+        need_vertical_scroll_bar ?
+        MaxShowLineCount : 
+        std::max(MinShowLineCount, line_count);
+
     auto actual_edit_height =
-        line_height * (need_vertical_scroll_bar ? MaxShowLineCount : line_count) + 
+        line_height * shown_line_count +
         textEdit->Padding().Height();
 
     window_size.height =
@@ -114,10 +120,7 @@ void TextBlockWindow::AdjustPositionAndSize() {
         scrollableControl->Padding().Height() +
         actual_edit_height +
         (need_horizontal_scroll_bar ? scrollableControl->HorizontalScrollBar()->Height() : 0);
-
-    constexpr float MinWindowHeight = 40.f;
-    window_size.height = std::max(window_size.height, MinWindowHeight);
-
+    
     zaf::Rect window_rect{ object_position_in_screen_, window_size };
     window_rect.position.y -= window_size.height + 4;
     this->SetRect(window_rect);
@@ -170,7 +173,7 @@ void TextBlockWindow::OnDeactivated(const zaf::DeactivatedInfo& event_info) {
     //Close window at next message loop to avoid focus issues.
     //TODO: Need more elegant method to schedule task at next message loop.
     Subscriptions() += zaf::rx::Create<zaf::None>([this](zaf::Observer<zaf::None>) {
-        this->Close();
+        //this->Close();
         return zaf::Subscription{};
     })
     .SubscribeOn(zaf::Scheduler::Main())
