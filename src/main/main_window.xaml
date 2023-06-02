@@ -23,7 +23,7 @@
             Name="helpButton"
             FixedWidth="20" 
             FixedHeight="20"
-            Margin="15,9,0,0"
+            Margin="15,10,0,0"
             BackgroundImage="res:///resource/help_inactive.png"
             Tooltip="Show/Hide help content (Ctrl+/)" />
     </HorizontalBox>
