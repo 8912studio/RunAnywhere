@@ -2,13 +2,14 @@
 
 #include <zaf/base/none.h>
 #include <zaf/control/rich_edit.h>
+#include <zaf/control/rich_edit/ole_callback.h>
 #include <zaf/rx/subject.h>
 #include "main/text_block_object.h"
 #include "utility/command_line.h"
 
 namespace ra {
 
-class CommandInputEdit : public zaf::RichEdit {
+class CommandInputEdit : public zaf::RichEdit, public zaf::rich_edit::OLECallback {
 public:
     ZAF_DECLARE_TYPE;
 
@@ -31,6 +32,11 @@ private:
     zaf::COMObject<TextBlockObject> InsertTextBlockObject(const std::wstring& text);
     void RaiseCommandChangedEvent();
     void InsertTextBlockObjectByKey();
+
+    zaf::rich_edit::OperationResult GetClipboardData(
+        zaf::rich_edit::ClipboardOperation operation,
+        const zaf::TextRange& text_range,
+        zaf::clipboard::DataObject& data_object) override;
 
 private:
     zaf::Subject<zaf::None> command_changed_event_;

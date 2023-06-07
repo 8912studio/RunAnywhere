@@ -121,9 +121,11 @@
     <ClInclude Include="src\hot_key_utility.h" />
     <ClInclude Include="src\ipc.h" />
     <ClInclude Include="src\license_window.h" />
+    <ClInclude Include="src\main\clipboard_data.h" />
     <ClInclude Include="src\main\command_input_edit.h" />
     <ClInclude Include="src\main\line_break_option.h" />
     <ClInclude Include="src\main\main_window.h" />
+    <ClInclude Include="src\main\text_block_data.h" />
     <ClInclude Include="src\main\text_block_object.h" />
     <ClInclude Include="src\main\text_block_window.h" />
     <ClInclude Include="src\module\active_path\active_path_command.h" />
@@ -277,8 +279,10 @@
     <ClCompile Include="src\main\command_input_edit.cpp" />
     <ClCompile Include="src\main\line_break_option.cpp" />
     <ClCompile Include="src\main\main_window.cpp" />
+    <ClCompile Include="src\main\text_block_data.cpp" />
     <ClCompile Include="src\main\text_block_object.cpp" />
     <ClCompile Include="src\main\text_block_window.cpp" />
+    <ClCompile Include="src\main\clipboard_data.cpp" />
     <ClCompile Include="src\module\active_path\active_path_command.cpp" />
     <ClCompile Include="src\module\active_path\active_path_module.cpp" />
     <ClCompile Include="src\module\active_path\active_path_option_parsing.cpp" />

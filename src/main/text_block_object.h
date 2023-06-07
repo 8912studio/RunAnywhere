@@ -5,16 +5,21 @@
 #include <zaf/rx/subject.h>
 #include <zaf/rx/subscription_host.h>
 #include <zaf/window/window.h>
+#include "main/text_block_data.h"
 #include "main/text_block_window.h"
 
 namespace ra {
 
 class TextBlockObject : public zaf::rich_edit::EmbeddedObject, zaf::SubscriptionHost {
 public:
-    explicit TextBlockObject(const std::wstring& text);
+    explicit TextBlockObject(std::wstring text);
+
+    const std::shared_ptr<TextBlockData>& Data() const {
+        return data_;
+    }
 
     const std::wstring& Text() const {
-        return text_;
+        return data_->Text();
     }
 
     void OpenWindow();
@@ -40,7 +45,7 @@ private:
     void OnWindowDestroyed();
 
 private:
-    std::wstring text_;
+    std::shared_ptr<TextBlockData> data_;
     zaf::Subject<zaf::None> text_changed_event_;
 };
 

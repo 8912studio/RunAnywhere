@@ -1,7 +1,7 @@
 #include "main/command_input_edit.h"
-#include <zaf/base/clipboard.h>
 #include <zaf/base/container/utility/contain.h>
 #include <zaf/base/com_object.h>
+#include <zaf/clipboard/clipboard.h>
 #include <zaf/object/type_definition.h>
 
 namespace ra {
@@ -15,6 +15,7 @@ void CommandInputEdit::Initialize() {
 
     this->SetParagraphAlignment(zaf::ParagraphAlignment::Center);
     this->SetAcceptReturn(false);
+    this->SetOLECallback(zaf::As<zaf::rich_edit::OLECallback>(shared_from_this()));
 }
 
 
@@ -59,14 +60,17 @@ void CommandInputEdit::OnTextChanging(const zaf::TextChangingInfo& event_info) {
 
 
 bool CommandInputEdit::TryToInsertTextBlockObject() {
-
-    auto text = zaf::Clipboard::GetText();
-    if (!ShouldInsertTextBlockObject(text)) {
+    try {
+        auto text = zaf::clipboard::Clipboard::GetText();
+        if (!ShouldInsertTextBlockObject(text)) {
+            return false;
+        }
+        InsertTextBlockObject(text);
+        return true;
+    }
+    catch (const zaf::Error&) {
         return false;
     }
-
-    InsertTextBlockObject(text);
-    return true;
 }
 
 
@@ -132,6 +136,15 @@ void CommandInputEdit::InsertTextBlockObjectByKey() {
     this->SetSelectionRange(selection_range);
 
     object->OpenWindow();
+}
+
+
+zaf::rich_edit::OperationResult CommandInputEdit::GetClipboardData(
+    zaf::rich_edit::ClipboardOperation operation,
+    const zaf::TextRange& text_range,
+    zaf::clipboard::DataObject& data_object) {
+
+    return zaf::rich_edit::OperationResult::Pending;
 }
 
 }

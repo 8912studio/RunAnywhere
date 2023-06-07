@@ -600,6 +600,12 @@
     <ClInclude Include="src\main\line_break_option.h">
       <Filter>src\main</Filter>
     </ClInclude>
+    <ClInclude Include="src\main\clipboard_data.h">
+      <Filter>src\main</Filter>
+    </ClInclude>
+    <ClInclude Include="src\main\text_block_data.h">
+      <Filter>src\main</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -948,6 +954,12 @@
       <Filter>src\module\tool\text_transform</Filter>
     </ClCompile>
     <ClCompile Include="src\main\line_break_option.cpp">
+      <Filter>src\main</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main\clipboard_data.cpp">
+      <Filter>src\main</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main\text_block_data.cpp">
       <Filter>src\main</Filter>
     </ClCompile>
   </ItemGroup>

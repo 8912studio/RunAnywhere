@@ -173,7 +173,7 @@ void TextBlockWindow::OnDeactivated(const zaf::DeactivatedInfo& event_info) {
     //Close window at next message loop to avoid focus issues.
     //TODO: Need more elegant method to schedule task at next message loop.
     Subscriptions() += zaf::rx::Create<zaf::None>([this](zaf::Observer<zaf::None>) {
-        //this->Close();
+        this->Close();
         return zaf::Subscription{};
     })
     .SubscribeOn(zaf::Scheduler::Main())

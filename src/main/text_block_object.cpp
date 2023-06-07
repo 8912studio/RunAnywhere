@@ -9,7 +9,9 @@
 
 namespace ra {
 
-TextBlockObject::TextBlockObject(const std::wstring& text) : text_(text) {
+TextBlockObject::TextBlockObject(std::wstring text) :
+    data_(std::make_shared<TextBlockData>(std::move(text))) {
+
     this->SetSize(zaf::Size{ 60, 28 });
 }
 
@@ -59,7 +61,7 @@ void TextBlockObject::PaintText(zaf::Canvas& canvas, const zaf::Rect& text_rect)
     paint_rect.Deflate(zaf::Frame{ 4, 0, 3, 0 });
 
     canvas.DrawTextFormat(
-        utility::RemoveLineBreaks(text_), 
+        utility::RemoveLineBreaks(Text()), 
         text_format, 
         paint_rect,
         zaf::Color::Black());
@@ -101,7 +103,7 @@ bool TextBlockObject::InnerOpenWindow(const zaf::Point& object_position_in_scree
     window->SetInitialRectStyle(zaf::InitialRectStyle::Custom);
 
     window->SetObjectPositionInScreen(object_position_in_screen);
-    window->SetText(text_);
+    window->SetText(Text());
 
     Subscriptions() += window->TextChangedEvent().Subscribe(
         std::bind(&TextBlockObject::OnTextChanged, this, std::placeholders::_1));
@@ -120,9 +122,9 @@ void TextBlockObject::OnTextChanged(const std::shared_ptr<TextBlockWindow>& wind
 
     //Repaint only if several head chars are different. 
     constexpr std::size_t CompareCount = 10;
-    bool need_repaint = new_text.compare(0, CompareCount, text_, 0, CompareCount) != 0;
+    bool need_repaint = new_text.compare(0, CompareCount, Text(), 0, CompareCount) != 0;
 
-    text_ = std::move(new_text);
+    data_->SetText(std::move(new_text));
 
     if (need_repaint) {
         this->NeedRepaint();
@@ -135,7 +137,7 @@ void TextBlockObject::OnTextChanged(const std::shared_ptr<TextBlockWindow>& wind
 void TextBlockObject::OnWindowDestroyed() {
 
     //Remove current object from rich edit if text is empty.
-    if (text_.empty()) {
+    if (Text().empty()) {
 
         auto host = Host();
         if (host) {
