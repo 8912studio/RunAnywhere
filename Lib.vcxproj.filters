@@ -959,9 +959,6 @@
     <ClCompile Include="src\main\clipboard_data.cpp">
       <Filter>src\main</Filter>
     </ClCompile>
-    <ClCompile Include="src\main\text_block_data.cpp">
-      <Filter>src\main</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Page Include="src\module\user_defined\preview\user_defined_command_preview_control.xaml">

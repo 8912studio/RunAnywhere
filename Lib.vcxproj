@@ -279,7 +279,6 @@
     <ClCompile Include="src\main\command_input_edit.cpp" />
     <ClCompile Include="src\main\line_break_option.cpp" />
     <ClCompile Include="src\main\main_window.cpp" />
-    <ClCompile Include="src\main\text_block_data.cpp" />
     <ClCompile Include="src\main\text_block_object.cpp" />
     <ClCompile Include="src\main\text_block_window.cpp" />
     <ClCompile Include="src\main\clipboard_data.cpp" />

@@ -14,10 +14,6 @@ public:
         return text_;
     }
 
-    void SetText(std::wstring text) {
-        text_ = std::move(text);
-    }
-
 private:
     std::wstring text_;
 };

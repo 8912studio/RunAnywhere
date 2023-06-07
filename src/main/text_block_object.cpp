@@ -124,7 +124,7 @@ void TextBlockObject::OnTextChanged(const std::shared_ptr<TextBlockWindow>& wind
     constexpr std::size_t CompareCount = 10;
     bool need_repaint = new_text.compare(0, CompareCount, Text(), 0, CompareCount) != 0;
 
-    data_->SetText(std::move(new_text));
+    data_ = std::make_shared<TextBlockData>(std::move(new_text));
 
     if (need_repaint) {
         this->NeedRepaint();
