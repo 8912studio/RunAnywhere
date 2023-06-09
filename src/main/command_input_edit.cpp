@@ -1,8 +1,10 @@
 #include "main/command_input_edit.h"
 #include <zaf/base/container/utility/contain.h>
+#include <zaf/base/container/utility/range.h>
 #include <zaf/base/com_object.h>
 #include <zaf/clipboard/clipboard.h>
 #include <zaf/object/type_definition.h>
+#include "main/clipboard_data.h"
 
 namespace ra {
 
@@ -144,7 +146,41 @@ zaf::rich_edit::OperationResult CommandInputEdit::GetClipboardData(
     const zaf::TextRange& text_range,
     zaf::clipboard::DataObject& data_object) {
 
-    return zaf::rich_edit::OperationResult::Pending;
+    auto text_in_range = this->GetTextInRange(text_range);
+
+    std::vector<std::size_t> object_indexes;
+    for (auto index : zaf::Range(0, text_in_range.length())) {
+        if (text_in_range[index] == WCH_EMBEDDING) {
+            object_indexes.push_back(index);
+        }
+    }
+
+    auto clipboard_data = std::make_shared<ClipboardData>();
+
+    std::size_t string_begin_index{};
+    for (auto each_object_index : object_indexes) {
+
+        auto string = text_in_range.substr(
+            string_begin_index, 
+            each_object_index - string_begin_index);
+
+        if (!string.empty()) {
+            clipboard_data->AddObject(zaf::Box(string));
+        }
+
+        string_begin_index = each_object_index + 1;
+    }
+
+    if (string_begin_index < text_in_range.length()) {
+
+        auto string = text_in_range.substr(string_begin_index);
+        if (!string.empty()) {
+            clipboard_data->AddObject(zaf::Box(string));
+        }
+    }
+
+    data_object.SetData(zaf::clipboard::FormatType::Text, clipboard_data);
+    return zaf::rich_edit::OperationResult::OK;
 }
 
 }
