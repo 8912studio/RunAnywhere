@@ -9,10 +9,15 @@
 
 namespace ra {
 
-TextBlockObject::TextBlockObject(std::wstring text) :
-    data_(std::make_shared<TextBlockData>(std::move(text))) {
+TextBlockObject::TextBlockObject(std::shared_ptr<TextBlockData> data) : data_(std::move(data)) {
 
     this->SetSize(zaf::Size{ 60, 28 });
+}
+
+
+TextBlockObject::TextBlockObject(std::wstring text) : 
+    TextBlockObject(std::make_shared<TextBlockData>(std::move(text))) {
+
 }
 
 

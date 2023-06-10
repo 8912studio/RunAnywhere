@@ -12,6 +12,7 @@ namespace ra {
 
 class TextBlockObject : public zaf::rich_edit::EmbeddedObject, zaf::SubscriptionHost {
 public:
+    explicit TextBlockObject(std::shared_ptr<TextBlockData> data);
     explicit TextBlockObject(std::wstring text);
 
     const std::shared_ptr<TextBlockData>& Data() const {

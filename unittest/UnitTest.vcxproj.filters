@@ -61,6 +61,9 @@
     <Filter Include="case\module\tool\error">
       <UniqueIdentifier>{a67680fc-0132-48d2-8727-41f14f871f9d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="case\main">
+      <UniqueIdentifier>{0c6f4b66-1270-4c45-8711-98fcf04add48}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="case\module\calculator\decimal_number_parser_test.cpp">
@@ -177,6 +180,9 @@
     </ClCompile>
     <ClCompile Include="case\utility\text_utility_test.cpp">
       <Filter>case\utility</Filter>
+    </ClCompile>
+    <ClCompile Include="case\main\clipboard_data_test.cpp">
+      <Filter>case\main</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

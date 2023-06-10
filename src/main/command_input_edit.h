@@ -20,7 +20,6 @@ public:
 
 protected:
     void Initialize() override;
-    void OnTextChanging(const zaf::TextChangingInfo& event_info) override;
     void OnTextChanged(const zaf::TextChangedInfo& event_info) override;
     void OnSysKeyDown(const zaf::SysKeyDownInfo& event_info) override;
 
@@ -28,15 +27,29 @@ private:
     static bool ShouldInsertTextBlockObject(const std::wstring& text);
 
 private:
-    bool TryToInsertTextBlockObject();
     zaf::COMObject<TextBlockObject> InsertTextBlockObject(const std::wstring& text);
     void RaiseCommandChangedEvent();
     void InsertTextBlockObjectByKey();
+
+    zaf::rich_edit::OperationResult CanInsertClipboardData(
+        zaf::rich_edit::ClipboardOperation operation,
+        const zaf::clipboard::DataObject& data_object,
+        zaf::clipboard::FormatType format_type) override;
+
+    zaf::rich_edit::OperationResult InsertClipboardData(
+        zaf::rich_edit::ClipboardOperation operation,
+        const zaf::clipboard::DataObject& data_object,
+        zaf::clipboard::FormatType& format_type) override;
+
+    void InsertPrivateClipboardData(const zaf::clipboard::DataObject& data_object);
+    void InsertTextData(const zaf::clipboard::DataObject& data_object);
 
     zaf::rich_edit::OperationResult GetClipboardData(
         zaf::rich_edit::ClipboardOperation operation,
         const zaf::TextRange& text_range,
         zaf::clipboard::DataObject& data_object) override;
+
+    std::shared_ptr<zaf::Object> GetTextBlockDataAtIndex(std::size_t index);
 
 private:
     zaf::Subject<zaf::None> command_changed_event_;
