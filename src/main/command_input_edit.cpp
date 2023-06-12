@@ -166,13 +166,12 @@ void CommandInputEdit::InsertPrivateClipboardData(const zaf::clipboard::DataObje
 
     zaf::clipboard::Format format{ ClipboardData::PrivateFormatType };
 
-    auto data = data_object.GetData(format.Type());
-    auto medium = data->SaveToMedium(format);
+    auto clipboard_data = zaf::As<ClipboardData>(data_object.GetData(format.Type()));
+    if (!clipboard_data) {
+        return;
+    }
 
-    ClipboardData clipboard_data;
-    clipboard_data.LoadFromMedium(format, medium);
-
-    for (const auto& each_object : clipboard_data.Objects()) {
+    for (const auto& each_object : clipboard_data->Objects()) {
 
         if (auto string_data = zaf::As<zaf::WideString>(each_object)) {
             this->ReplaceSelectedText(string_data->Value());

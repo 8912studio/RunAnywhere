@@ -5,8 +5,10 @@
 #include <zaf/base/error/basic_error.h>
 #include <zaf/base/string/encoding_conversion.h>
 #include <zaf/base/string/join.h>
+#include <zaf/clipboard/clipboard.h>
 #include <zaf/object/boxing/boxing.h>
 #include <zaf/object/boxing/string.h>
+#include <zaf/object/type_definition.h>
 #include "main/text_block_data.h"
 
 namespace ra {
@@ -37,6 +39,14 @@ std::wstring FromJSONValue(std::string_view string) {
 }
 
 }
+
+ZAF_DEFINE_TYPE(ClipboardData)
+ZAF_DEFINE_TYPE_END;
+
+void ClipboardData::RegisterToClipboard() {
+    zaf::clipboard::Clipboard::RegisterClipboardData(PrivateFormatType, ClipboardData::Type);
+}
+
 
 void ClipboardData::AddObject(std::shared_ptr<zaf::Object> object) {
     objects_.push_back(std::move(object));

@@ -7,6 +7,10 @@ namespace ra {
 
 class ClipboardData : public zaf::clipboard::ClipboardData {
 public:
+    ZAF_DECLARE_TYPE;
+
+    static void RegisterToClipboard();
+
     static constexpr zaf::clipboard::FormatType PrivateFormatType = 
         zaf::clipboard::MakePrivateFormatType(1);
 
