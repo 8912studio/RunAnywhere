@@ -1,4 +1,5 @@
 #include "main/text_block_object.h"
+#include <tom.h>
 #include <zaf/base/as.h>
 #include <zaf/creation.h>
 #include <zaf/control/rich_edit.h>
@@ -87,7 +88,17 @@ bool TextBlockObject::OnDoubleClick(const zaf::rich_edit::DoubleClickContext& co
 
 
 void TextBlockObject::OpenWindow() {
-    InnerOpenWindow(this->GetPositionInScreen());
+
+    try {
+
+        auto position = this->GetPositionInScreen();
+        if (position) {
+            InnerOpenWindow(*position);
+        }
+    }
+    catch (const zaf::Error&) {
+
+    }
 }
 
 
@@ -142,12 +153,44 @@ void TextBlockObject::OnTextChanged(const std::shared_ptr<TextBlockWindow>& wind
 void TextBlockObject::OnWindowDestroyed() {
 
     //Remove current object from rich edit if text is empty.
-    if (Text().empty()) {
+    if (!Text().empty()) {
+        return;
+    }
+    
+    try {
+
+        auto char_index = this->GetCharIndex();
+        if (!char_index) {
+            return;
+        }
 
         auto host = Host();
-        if (host) {
-            host->ReplaceSelectedText({});
+        if (!host) {
+            return;
         }
+
+        auto text_document = host->GetOLEInterface().Query<ITextDocument>();
+        if (!text_document) {
+            return;
+        }
+
+        zaf::COMObject<ITextRange> text_range;
+        HRESULT hresult = text_document->Range(
+            static_cast<long>(*char_index),
+            static_cast<long>(*char_index) + 1, 
+            text_range.Reset());
+
+        if (FAILED(hresult)) {
+            return;
+        }
+
+        hresult = text_range->Delete(tomCharacter, 0, nullptr);
+        if (FAILED(hresult)) {
+            return;
+        }
+    }
+    catch (const zaf::Error&) {
+
     }
 }
 

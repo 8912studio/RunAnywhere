@@ -27,7 +27,7 @@ private:
     static bool ShouldInsertTextBlockObject(const std::wstring& text);
 
 private:
-    zaf::COMObject<TextBlockObject> InsertTextBlockObject(const std::wstring& text);
+    std::shared_ptr<TextBlockObject> InsertTextBlockObject(const std::wstring& text);
     void RaiseCommandChangedEvent();
     void InsertTextBlockObjectByKey();
 

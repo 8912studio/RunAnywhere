@@ -30,8 +30,8 @@ utility::CommandLine CommandInputEdit::GetInputCommandLine() {
 
         try {
 
-            auto object = ole_interface.GetObjectAt(object_index);
-            auto text_block_object = object.As<TextBlockObject>();
+            auto object = ole_interface.GetEmbeddedObjectAt(object_index);
+            auto text_block_object = zaf::As<TextBlockObject>(object);
             if (text_block_object) {
                 return text_block_object->Text();
             }
@@ -63,9 +63,11 @@ bool CommandInputEdit::ShouldInsertTextBlockObject(const std::wstring& text) {
 }
 
 
-zaf::COMObject<TextBlockObject> CommandInputEdit::InsertTextBlockObject(const std::wstring& text) {
+std::shared_ptr<TextBlockObject> CommandInputEdit::InsertTextBlockObject(
+    const std::wstring& text) {
 
-    auto text_block_object = zaf::MakeCOMObject<TextBlockObject>(text);
+    auto text_block_object = zaf::Create<TextBlockObject>(text);
+
     Subscriptions() += text_block_object->TextChangedEvent().Subscribe(
         std::bind(&CommandInputEdit::RaiseCommandChangedEvent, this));
 
@@ -177,7 +179,7 @@ void CommandInputEdit::InsertPrivateClipboardData(const zaf::clipboard::DataObje
             this->ReplaceSelectedText(string_data->Value());
         }
         else if (auto text_block_data = zaf::As<TextBlockData>(each_object)) {
-            auto text_block_object = zaf::MakeCOMObject<TextBlockObject>(text_block_data);
+            auto text_block_object = zaf::Create<TextBlockObject>(text_block_data);
             this->InsertObject(text_block_object);
         }
     }
@@ -273,7 +275,16 @@ std::shared_ptr<zaf::Object> CommandInputEdit::GetTextBlockDataAtIndex(std::size
         return nullptr;
     }
 
-    auto text_block_object = unknown.As<TextBlockObject>();
+    auto embedded_object = zaf::rich_edit::EmbeddedObject::TryFromCOMPtr(unknown);
+    if (!embedded_object) {
+        return nullptr;
+    }
+
+    auto text_block_object = zaf::As<TextBlockObject>(embedded_object);
+    if (!text_block_object) {
+        return nullptr;
+    }
+
     return zaf::Create<TextBlockData>(text_block_object->Text());
 }
 
