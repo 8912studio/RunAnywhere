@@ -1,6 +1,61 @@
 #include "utility/text_utility.h"
+#include <optional>
 
 namespace ra::utility {
+
+LineBreakInfo DeterminateLineBreakInfo(std::wstring_view text) {
+
+	auto find_next_line_break = [text](std::size_t& index) -> std::optional<LineBreak> {
+	
+		auto line_break_index = text.find_first_of(L"\r\n", index);
+		if (line_break_index == std::wstring_view::npos) {
+			return std::nullopt;
+		}
+
+		index = line_break_index;
+
+		if (text[index] == L'\n') {
+			++index;
+			return LineBreak::LF;
+		}
+
+		if (index < text.length() - 1) {
+			if (text[index + 1] == L'\n') {
+				index += 2;
+				return LineBreak::CRLF;
+			}
+		}
+
+		++index;
+		return LineBreak::CR;
+	};
+
+	std::optional<LineBreak> first_line_break;
+	bool all_the_same{ true };
+
+	std::size_t current_index{};
+	while (current_index < text.length()) {
+
+		auto line_break = find_next_line_break(current_index);
+		if (!line_break) {
+			break;
+		}
+
+		if (!first_line_break) {
+			first_line_break = *line_break;
+		}
+		else if (*first_line_break != *line_break) {
+			all_the_same = false;
+			break;
+		}
+	}
+
+	LineBreakInfo result;
+	result.first_line_break = first_line_break.value_or(LineBreak::CRLF);
+	result.all_the_same = all_the_same;
+	return result;
+}
+
 
 LineBreak DeterminateLineBreak(std::wstring_view text) {
 

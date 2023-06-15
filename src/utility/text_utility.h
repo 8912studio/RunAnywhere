@@ -10,6 +10,14 @@ enum class LineBreak {
     LF,
 };
 
+class LineBreakInfo {
+public:
+    LineBreak first_line_break{ LineBreak::CRLF };
+    bool all_the_same{};
+};
+
+LineBreakInfo DeterminateLineBreakInfo(std::wstring_view text);
+
 LineBreak DeterminateLineBreak(std::wstring_view text);
 
 bool HasLineBreak(std::wstring_view text);
