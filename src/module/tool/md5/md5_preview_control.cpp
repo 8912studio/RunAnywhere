@@ -77,7 +77,7 @@ void MD5PreviewControl::ShowStringMD5(const std::wstring& string, MD5Encoding en
 	SetSourceIcon(L"res:///resource/string.png");
 	SetMD5Encoding(encoding);
 	md5SourceControl->SetTextTrimming(zaf::TextTrimmingGranularity::Character);
-	md5SourceControl->SetText(utility::RemoveLineBreaks(string));
+	md5SourceControl->SetText(utility::ReplaceWhitespacesToVisibleChars(string));
 
 	auto md5 = CalculateStringMD5(string, encoding);
 	SetMD5Text(md5);

@@ -13,6 +13,6 @@ enum class LineBreak {
 LineBreak DeterminateLineBreak(std::wstring_view text);
 
 bool HasLineBreak(std::wstring_view text);
-std::wstring RemoveLineBreaks(std::wstring_view text);
+std::wstring ReplaceWhitespacesToVisibleChars(std::wstring_view text);
 
 }

@@ -108,11 +108,11 @@ void HexContentControl::PrepareGraphicResources(zaf::Renderer& renderer) {
 
 void HexContentControl::ReleaseRendererResources() {
 
-    mouse_over_background_brush_.Reset();
-    selected_background_brush_.Reset();
-    default_text_brush_.Reset();
-    blank_character_brush_.Reset();
-    unknown_character_brush_.Reset();
+    mouse_over_background_brush_ = {};
+    selected_background_brush_ = {};
+    default_text_brush_ = {};
+    blank_character_brush_ = {};
+    unknown_character_brush_ = {};
 }
 
 

@@ -67,7 +67,7 @@ void TextBlockObject::PaintText(zaf::Canvas& canvas, const zaf::Rect& text_rect)
     paint_rect.Deflate(zaf::Frame{ 4, 0, 3, 0 });
 
     canvas.DrawTextFormat(
-        utility::RemoveLineBreaks(Text()), 
+        utility::ReplaceWhitespacesToVisibleChars(Text()), 
         text_format, 
         paint_rect,
         zaf::Color::Black());
@@ -169,12 +169,12 @@ void TextBlockObject::OnWindowDestroyed() {
             return;
         }
 
-        auto text_document = host->GetOLEInterface().Query<ITextDocument>();
+        auto text_document = host->GetOLEInterface().Inner().Query<ITextDocument>();
         if (!text_document) {
             return;
         }
 
-        zaf::COMObject<ITextRange> text_range;
+        zaf::COMPtr<ITextRange> text_range;
         HRESULT hresult = text_document->Range(
             static_cast<long>(*char_index),
             static_cast<long>(*char_index) + 1, 

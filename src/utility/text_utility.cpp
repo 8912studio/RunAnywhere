@@ -34,9 +34,11 @@ bool HasLineBreak(std::wstring_view text) {
 }
 
 
-std::wstring RemoveLineBreaks(std::wstring_view text) {
+std::wstring ReplaceWhitespacesToVisibleChars(std::wstring_view text) {
 
 	constexpr wchar_t LineBreakSymbol = L'\u23CE';
+	constexpr wchar_t SpaceSymbol = L'\u2423';
+	constexpr wchar_t TabSymbol = L'\u21E5';
 
 	std::wstring result;
 
@@ -54,6 +56,14 @@ std::wstring RemoveLineBreaks(std::wstring_view text) {
 		}
 		else if (*current == L'\n') {
 			result += LineBreakSymbol;
+			++current;
+		}
+		else if (*current == L' ') {
+			result += SpaceSymbol;
+			++current;
+		}
+		else if (*current == L'\t') {
+			result += TabSymbol;
 			++current;
 		}
 		else {

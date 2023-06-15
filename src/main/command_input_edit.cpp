@@ -254,12 +254,12 @@ zaf::rich_edit::OperationResult CommandInputEdit::GetClipboardData(
 
 std::shared_ptr<zaf::Object> CommandInputEdit::GetTextBlockDataAtIndex(std::size_t index) {
 
-    auto text_document = this->GetOLEInterface().Query<ITextDocument>();
+    auto text_document = this->GetOLEInterface().Inner().Query<ITextDocument>();
     if (!text_document) {
         return nullptr;
     }
      
-    zaf::COMObject<ITextRange> text_range;
+    zaf::COMPtr<ITextRange> text_range;
     HRESULT hresult = text_document->Range(
         static_cast<long>(index),
         static_cast<long>(index),
@@ -269,7 +269,7 @@ std::shared_ptr<zaf::Object> CommandInputEdit::GetTextBlockDataAtIndex(std::size
         return nullptr;
     }
 
-    zaf::COMObject<IUnknown> unknown;
+    zaf::COMPtr<IUnknown> unknown;
     hresult = text_range->GetEmbeddedObject(unknown.Reset());
     if (FAILED(hresult)) {
         return nullptr;
