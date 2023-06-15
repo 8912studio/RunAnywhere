@@ -57,27 +57,6 @@ LineBreakInfo DeterminateLineBreakInfo(std::wstring_view text) {
 }
 
 
-LineBreak DeterminateLineBreak(std::wstring_view text) {
-
-	auto first_char_index = text.find_first_of(L"\r\n");
-	if (first_char_index == std::wstring_view::npos) {
-		return LineBreak::CRLF;
-	}
-
-	if (text[first_char_index] == L'\n') {
-		return LineBreak::LF;
-	}
-
-	if (first_char_index < text.length() - 1) {
-		if (text[first_char_index + 1] == L'\n') {
-			return LineBreak::CRLF;
-		}
-	}
-
-	return LineBreak::CR;
-}
-
-
 bool HasLineBreak(std::wstring_view text) {
 
 	for (auto each_ch : text) {

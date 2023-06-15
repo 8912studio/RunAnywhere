@@ -19,21 +19,28 @@ void LineBreakOption::Initialize() {
 }
 
 
-void LineBreakOption::OnIsSelectedChanged() {
-
-    __super::OnIsSelectedChanged();
-
+void LineBreakOption::SetCheckState(zaf::CheckState state) {
+    check_state_ = state;
     UpdateAppearance();
 }
 
 
 void LineBreakOption::UpdateAppearance() {
 
-    zaf::Color color = zaf::Color::FromRGB(IsSelected() ? 0x009933 : 0xbbbbbb);
+    auto update_guard = this->BeginUpdate();
+
+    zaf::Color color = zaf::Color::FromRGB(
+        check_state_ == zaf::CheckState::Checked ? 0x009933 : 
+        check_state_ == zaf::CheckState::Indeterminate ? 0x999999 :
+        0xbbbbbb);
+
     this->SetBorderColor(color);
     this->SetTextColor(color);
 
-    this->SetFontWeight(IsSelected() ? zaf::FontWeight::Bold : zaf::FontWeight::Regular);
+    this->SetFontWeight(
+        check_state_ != zaf::CheckState::Unchecked ? 
+        zaf::FontWeight::Bold : 
+        zaf::FontWeight::Regular);
 }
 
 }

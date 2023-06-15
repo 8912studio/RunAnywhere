@@ -3,19 +3,6 @@
 
 using namespace ra::utility;
 
-TEST(DeterminateLineBreakTest, Determinate) {
-
-    ASSERT_EQ(DeterminateLineBreak(L""), LineBreak::CRLF);
-    ASSERT_EQ(DeterminateLineBreak(L"abcde"), LineBreak::CRLF);
-    ASSERT_EQ(DeterminateLineBreak(L"11\r"), LineBreak::CR);
-    ASSERT_EQ(DeterminateLineBreak(L"11\r\r"), LineBreak::CR);
-    ASSERT_EQ(DeterminateLineBreak(L"11\n"), LineBreak::LF);
-    ASSERT_EQ(DeterminateLineBreak(L"11\n\r"), LineBreak::LF);
-    ASSERT_EQ(DeterminateLineBreak(L"11\r\n"), LineBreak::CRLF);
-    ASSERT_EQ(DeterminateLineBreak(L"11\r\n3232"), LineBreak::CRLF);
-}
-
-
 TEST(DeterminateLineBreakInfoTest, Determinate) {
 
     auto test = [](std::wstring_view text, LineBreak first, bool all_the_same) {

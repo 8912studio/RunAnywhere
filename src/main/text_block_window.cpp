@@ -31,6 +31,10 @@ void TextBlockWindow::AfterParse() {
     Subscriptions() += textEdit->TextChangedEvent().Subscribe(
         [this](const zaf::TextChangedInfo& event_info) {
     
+        //Change all line breaks to the same as the first line once text is changed.
+        line_break_info_.all_the_same = true;
+        UpdateLineBreakOptions();
+
         AdjustPositionAndSize();
         RaiseTextChangedEvent();
     });
@@ -45,11 +49,11 @@ void TextBlockWindow::SetObjectPositionInScreen(const zaf::Point& position) {
 std::wstring TextBlockWindow::GetText() const {
 
     auto result = textEdit->GetText(
-        (line_break_ == utility::LineBreak::CRLF) ?
+        (line_break_info_.first_line_break == utility::LineBreak::CRLF) ?
         zaf::rich_edit::TextFlag::UseCRLF :
         zaf::rich_edit::TextFlag::Default);
 
-    if (line_break_ == utility::LineBreak::LF) {
+    if (line_break_info_.first_line_break == utility::LineBreak::LF) {
         zaf::Replace(result, L"\r", L"\n");
     }
 
@@ -59,7 +63,7 @@ std::wstring TextBlockWindow::GetText() const {
 
 void TextBlockWindow::SetText(const std::wstring& text) {
     textEdit->SetText(text);
-    line_break_ = utility::DeterminateLineBreak(text);
+    line_break_info_ = utility::DeterminateLineBreakInfo(text);
     UpdateLineBreakOptions();
     AdjustPositionAndSize();
 }
@@ -130,8 +134,16 @@ void TextBlockWindow::AdjustPositionAndSize() {
 void TextBlockWindow::UpdateLineBreakOptions() {
 
     for (auto each_option : { &useCRLF, &useCR, &useLF }) {
-        bool should_selected = GetLineBreakByOption(**each_option) == line_break_;
-        (*each_option)->SetIsSelected(should_selected);
+
+        zaf::CheckState check_state{ zaf::CheckState::Unchecked };
+        if (GetLineBreakByOption(**each_option) == line_break_info_.first_line_break) {
+            check_state = 
+                line_break_info_.all_the_same ? 
+                zaf::CheckState::Checked : 
+                zaf::CheckState::Indeterminate;
+        }
+
+        (*each_option)->SetCheckState(check_state);
     }
 }
 
@@ -143,7 +155,8 @@ void TextBlockWindow::OnLineBreakOptionClick(const zaf::MouseUpInfo& event_info)
         return;
     }
 
-    line_break_ = GetLineBreakByOption(*option);
+    line_break_info_.first_line_break = GetLineBreakByOption(*option);
+    line_break_info_.all_the_same = true;
     UpdateLineBreakOptions();
     RaiseTextChangedEvent();
 }

@@ -48,7 +48,8 @@ private:
 
     zaf::Point object_position_in_screen_;
     zaf::Subject<std::shared_ptr<TextBlockWindow>> text_changed_event_;
-    utility::LineBreak line_break_{ utility::LineBreak::CRLF };
+
+    utility::LineBreakInfo line_break_info_;
 };
 
 }

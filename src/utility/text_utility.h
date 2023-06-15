@@ -18,8 +18,6 @@ public:
 
 LineBreakInfo DeterminateLineBreakInfo(std::wstring_view text);
 
-LineBreak DeterminateLineBreak(std::wstring_view text);
-
 bool HasLineBreak(std::wstring_view text);
 std::wstring ReplaceWhitespacesToVisibleChars(std::wstring_view text);
 
