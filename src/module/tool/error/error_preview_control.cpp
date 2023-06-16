@@ -16,9 +16,14 @@ std::wstring GetErrorMessage(std::uint32_t error_code) {
 
     wchar_t* buffer{};
 
+    int format_flags =
+        FORMAT_MESSAGE_FROM_SYSTEM |
+        FORMAT_MESSAGE_IGNORE_INSERTS | 
+        FORMAT_MESSAGE_ALLOCATE_BUFFER;
+
     auto result_length = FormatMessage(
-        FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_ALLOCATE_BUFFER,
-        nullptr,
+        format_flags,
+        nullptr, 
         error_code,
         0,
         reinterpret_cast<LPWSTR>(&buffer),
