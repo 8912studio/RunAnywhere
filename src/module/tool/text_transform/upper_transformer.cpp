@@ -24,6 +24,7 @@ help::content::Content UpperTransformer::GetHelpContent() {
 	result.AddBodyLine(L"up <text>");
 	result.AddBodyLine(
 		L"If there are space characters in `text`, enclose it in double quotation marks( \" ).");
+	result.AddBodyLine(L"Or use text block(press ALT+T to insert) to contain arbitrary text.");
 
 	return result;
 }

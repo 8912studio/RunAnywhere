@@ -67,6 +67,7 @@ help::content::Content MD5Command::GetHelpContent() {
 	result.AddBodyLine(L"If `text` is omitted, activated file's content would be calculated.");
 	result.AddBodyLine(
 		L"If there are space characters in `text`, enclose it in double quotation marks( \" ).");
+	result.AddBodyLine(L"Or use text block(press ALT+T to insert) to contain arbitrary text.");
 
 	result.AddTitleLine(L"Switches");
 	result.AddTwoPartsLine(L"/u8", L"Calculate `text` in UTF-8 encoding. This is default.");
