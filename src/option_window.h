@@ -30,6 +30,9 @@ private:
     void UpdateAutoHideCheckBoxState();
     void OnAutoHideCheckBoxStateChanged();
 
+    void UpdateRememberLastCommandCheckBoxState();
+    void OnRememberLastCommandCheckBoxStateChanged();
+
     void OnRegisterFileAssociationButtonClick();
 
 private:
@@ -37,6 +40,7 @@ private:
     ZAF_BIND_CONTROL(zaf::Label, hotKeyInvalidLabel);
     ZAF_BIND_CONTROL(zaf::CheckBox, autoRunCheckBox);
     ZAF_BIND_CONTROL(zaf::CheckBox, autoHideCheckBox);
+    ZAF_BIND_CONTROL(zaf::CheckBox, rememberLastCommandCheckBox);
     ZAF_BIND_CONTROL(zaf::Button, registerFileAssociationButton);
 };
 

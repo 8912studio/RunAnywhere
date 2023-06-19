@@ -270,7 +270,9 @@ void MainWindow::ExecuteCommand() {
         current_command_->Execute();
     }
 
-    inputEdit->SetText({});
+    if (!OptionStorage::Instance().RememberLastCommand()) {
+        inputEdit->SetText({});
+    }
     this->Hide();
 }
 

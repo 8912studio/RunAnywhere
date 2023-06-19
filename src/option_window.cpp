@@ -50,6 +50,7 @@ void OptionWindow::AfterParse() {
 
     UpdateAutoRunCheckBoxState();
     UpdateAutoHideCheckBoxState();
+    UpdateRememberLastCommandCheckBoxState();
 
     Subscriptions() += hotKeyBox->HotKeyChangedEvent().Subscribe(
         std::bind(&OptionWindow::OnHotKeyChanged, this, std::placeholders::_1));
@@ -59,6 +60,9 @@ void OptionWindow::AfterParse() {
 
     Subscriptions() += autoHideCheckBox->CheckStateChangedEvent().Subscribe(
         std::bind(&OptionWindow::OnAutoHideCheckBoxStateChanged, this));
+
+    Subscriptions() += rememberLastCommandCheckBox->CheckStateChangedEvent().Subscribe(
+        std::bind(&OptionWindow::OnRememberLastCommandCheckBoxStateChanged, this));
 
     Subscriptions() += registerFileAssociationButton->ClickEvent().Subscribe(
         std::bind(&OptionWindow::OnRegisterFileAssociationButtonClick, this));
@@ -139,6 +143,18 @@ void OptionWindow::UpdateAutoHideCheckBoxState() {
 void OptionWindow::OnAutoHideCheckBoxStateChanged() {
 
     OptionStorage::Instance().SetAutoHideOnLostFocus(autoHideCheckBox->IsChecked());
+}
+
+
+void OptionWindow::UpdateRememberLastCommandCheckBoxState() {
+
+    rememberLastCommandCheckBox->SetIsChecked(OptionStorage::Instance().RememberLastCommand());
+}
+
+
+void OptionWindow::OnRememberLastCommandCheckBoxStateChanged() {
+
+    OptionStorage::Instance().SetRememberLastCommand(rememberLastCommandCheckBox->IsChecked());
 }
 
 

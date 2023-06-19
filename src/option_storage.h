@@ -16,6 +16,9 @@ public:
     bool AutoHideOnLostFocus();
     void SetAutoHideOnLostFocus(bool value);
 
+    bool RememberLastCommand();
+    void SetRememberLastCommand(bool value);
+
 private:
     OptionStorage();
 
@@ -26,6 +29,7 @@ private:
     zaf::RegistryKey option_key_;
 
     std::optional<bool> auto_hide_;
+    std::optional<bool> remember_last_command_;
 };
 
 }

@@ -6,7 +6,8 @@
 namespace ra {
 namespace {
 
-constexpr const wchar_t* const AutoHideValueName = L"AutoHideOnLostFocus";
+constexpr const wchar_t* AutoHideValueName = L"AutoHideOnLostFocus";
+constexpr const wchar_t* RememberLastCommandValueName = L"RememberLastCommand";
 
 }
 
@@ -66,6 +67,22 @@ void OptionStorage::SetAutoHideOnLostFocus(bool value) {
 
     auto_hide_ = value;
     SetBoolValue(AutoHideValueName, value);
+}
+
+
+bool OptionStorage::RememberLastCommand() {
+
+    if (!remember_last_command_) {
+        remember_last_command_ = GetBoolValue(RememberLastCommandValueName).value_or(false);
+    }
+    return *remember_last_command_;
+}
+
+
+void OptionStorage::SetRememberLastCommand(bool value) {
+
+    remember_last_command_ = value;
+    SetBoolValue(RememberLastCommandValueName, value);
 }
 
 }

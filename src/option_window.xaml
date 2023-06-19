@@ -29,6 +29,11 @@
         FixedHeight="30"
         ParagraphAlignment="Center"
         Text="Auto hide window on lost focus" />
+    <CheckBox 
+        Name="rememberLastCommandCheckBox"
+        FixedHeight="30"
+        ParagraphAlignment="Center"
+        Text="Remember last executed command"/>
     <Button 
         Name="registerFileAssociationButton" 
         FixedSize="180,30"
