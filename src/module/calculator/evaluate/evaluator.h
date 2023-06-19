@@ -5,7 +5,7 @@
 #include "module/calculator/evaluate/evaluate_result.h"
 #include "module/calculator/parse/syntax_node.h"
 
-namespace ra::module::calculator {
+namespace ra::mod::calculator {
 
 class Evaluator {
 public:

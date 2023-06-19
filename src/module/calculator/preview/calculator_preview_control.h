@@ -6,7 +6,7 @@
 #include "module/calculator/parse/modifier.h"
 #include "module/command_preview_control.h"
 
-namespace ra::module::calculator {
+namespace ra::mod::calculator {
 
 class CalculatorPreviewControl : public CommandPreviewControl {
 public:

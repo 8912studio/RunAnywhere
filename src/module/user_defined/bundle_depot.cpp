@@ -3,7 +3,7 @@
 #include <zaf/base/container/utility/contain.h>
 #include <zaf/base/string/case_conversion.h>
 
-namespace ra::module::user_defined {
+namespace ra::mod::user_defined {
 
 void BundleDepot::AddBundle(const std::shared_ptr<Bundle>& bundle) {
 

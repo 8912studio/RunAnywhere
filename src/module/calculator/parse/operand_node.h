@@ -4,7 +4,7 @@
 #include "module/calculator/parse/number_unit.h"
 #include "module/calculator/parse/syntax_node.h"
 
-namespace ra::module::calculator {
+namespace ra::mod::calculator {
 
 class OperandNode : public SyntaxNode {
 public:

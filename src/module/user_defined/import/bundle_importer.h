@@ -6,7 +6,7 @@
 #include "module/user_defined/bundle_depot.h"
 #include "module/user_defined/bundle_parser.h"
 
-namespace ra::module::user_defined {
+namespace ra::mod::user_defined {
 
 class BundleImporter : zaf::NonCopyableNonMovable {
 public:

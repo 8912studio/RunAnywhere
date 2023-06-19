@@ -1,7 +1,7 @@
 #include "module/tool/text_transform/lower_transformer.h"
 #include <zaf/base/string/case_conversion.h>
 
-namespace ra::module::tool::text_transform {
+namespace ra::mod::tool::text_transform {
 
 CommandBrief LowerTransformer::Brief() {
     return CommandBrief{ L"low", L"Transform text to lowercase" };

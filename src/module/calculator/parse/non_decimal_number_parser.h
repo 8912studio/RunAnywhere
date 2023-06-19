@@ -4,7 +4,7 @@
 #include <vector>
 #include "module/calculator/parse/terminal_parser.h"
 
-namespace ra::module::calculator {
+namespace ra::mod::calculator {
 
 class NonDecimalNumberParser : public TerminalParser {
 public:

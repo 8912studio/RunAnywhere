@@ -10,7 +10,7 @@
 #include "utility/preview_text_box.h"
 #include "utility/progress_circle.h"
 
-namespace ra::module::tool::md5 {
+namespace ra::mod::tool::md5 {
 
 class MD5PreviewControl : public CommandPreviewControl {
 public:

@@ -4,7 +4,7 @@
 #include "module/calculator/parse/operator_node.h"
 #include "module/calculator/parse/modifier.h"
 
-namespace ra::module::calculator {
+namespace ra::mod::calculator {
 
 class ParseResult {
 public:

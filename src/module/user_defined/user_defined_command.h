@@ -6,7 +6,7 @@
 #include "module/user_defined/entry.h"
 #include "module/user_defined/execute_info.h"
 
-namespace ra::module::user_defined {
+namespace ra::mod::user_defined {
 
 class UserDefinedCommand : public Command {
 public:

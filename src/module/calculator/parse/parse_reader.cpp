@@ -2,7 +2,7 @@
 #include <cwctype>
 #include "module/calculator/parse/parse_context.h"
 
-namespace ra::module::calculator{
+namespace ra::mod::calculator{
 
 ParseReader::ParseReader(ParseContext& context) : context_(&context) {
 

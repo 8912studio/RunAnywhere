@@ -3,7 +3,7 @@
 #include "module/meta/meta_command_info.h"
 #include "module/meta/meta_command_prefix.h"
 
-namespace ra::module::meta {
+namespace ra::mod::meta {
 namespace {
 
 std::optional<std::wstring> ExtractMetaCommand(const std::wstring& command_text) {

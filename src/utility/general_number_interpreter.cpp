@@ -8,7 +8,7 @@
 namespace ra::utility {
 namespace {
 
-class GeneralNumberParser : public module::calculator::NonTerminalParser {
+class GeneralNumberParser : public mod::calculator::NonTerminalParser {
 public:
     static GeneralNumberParser* SupportsNegativeDecimal() {
         static GeneralNumberParser instance{ true };
@@ -23,22 +23,22 @@ public:
 protected:
     void InitializeParsers() override {
 
-        number_parser_ = module::calculator::NumberParser::Create({
-            module::calculator::NumberParser::NumberType::Decimal,
-            module::calculator::NumberParser::NumberType::Hex,
+        number_parser_ = mod::calculator::NumberParser::Create({
+            mod::calculator::NumberParser::NumberType::Decimal,
+            mod::calculator::NumberParser::NumberType::Hex,
         });
 
         AddParsers({ number_parser_.get() });
 
         if (supports_negative_decimal_) {
 
-            unary_operator_parser_ = module::calculator::UnaryOperatorParser::Create({
-                module::calculator::OperatorNode::Type::Negative
+            unary_operator_parser_ = mod::calculator::UnaryOperatorParser::Create({
+                mod::calculator::OperatorNode::Type::Negative
             });
 
             AddParsers({
                 unary_operator_parser_.get(),
-                module::calculator::DecimalNumberParser::Instance(),
+                mod::calculator::DecimalNumberParser::Instance(),
             });
         }
     }
@@ -52,8 +52,8 @@ private:
 private:
     bool supports_negative_decimal_{};
 
-    std::unique_ptr<module::calculator::NumberParser> number_parser_;
-    std::unique_ptr<module::calculator::UnaryOperatorParser> unary_operator_parser_;
+    std::unique_ptr<mod::calculator::NumberParser> number_parser_;
+    std::unique_ptr<mod::calculator::UnaryOperatorParser> unary_operator_parser_;
 };
 
 }
@@ -70,21 +70,21 @@ GeneralNumberInterpreter::GeneralNumberInterpreter(bool supports_negative_decima
 
 GeneralNumberInterpreter::Status GeneralNumberInterpreter::Interpret(
     const std::wstring& input, 
-    module::calculator::EvaluateResult& result) {
+    mod::calculator::EvaluateResult& result) {
 
-    std::shared_ptr<module::calculator::SyntaxNode> syntax_node;
+    std::shared_ptr<mod::calculator::SyntaxNode> syntax_node;
     auto status = Parse(input, syntax_node);
     if (status != Status::OK) {
         return status;
     }
 
-    auto evaluator = module::calculator::Evaluator::Create(syntax_node);
+    auto evaluator = mod::calculator::Evaluator::Create(syntax_node);
     if (!evaluator) {
         return Status::NotNumber;
     }
 
     auto evaluate_status = evaluator->Evaluate(result);
-    if (evaluate_status != module::calculator::EvaluateStatus::Ok) {
+    if (evaluate_status != mod::calculator::EvaluateStatus::Ok) {
         return Status::NotNumber;
     }
 
@@ -94,13 +94,13 @@ GeneralNumberInterpreter::Status GeneralNumberInterpreter::Interpret(
 
 GeneralNumberInterpreter::Status GeneralNumberInterpreter::Parse(
     const std::wstring& input,
-    std::shared_ptr<module::calculator::SyntaxNode>& syntax_node) {
+    std::shared_ptr<mod::calculator::SyntaxNode>& syntax_node) {
 
-    module::calculator::ParseContext context(input);
-    module::calculator::ParseResult result;
+    mod::calculator::ParseContext context(input);
+    mod::calculator::ParseResult result;
     auto status = parser_->Parse(context, result);
 
-    if (status == module::calculator::ParseStatus::Mismatched) {
+    if (status == mod::calculator::ParseStatus::Mismatched) {
         return Status::NotNumber;
     }
 
@@ -110,7 +110,7 @@ GeneralNumberInterpreter::Status GeneralNumberInterpreter::Parse(
     }
 
     //There is error during parsing, means that the number is incomplete.
-    if (status == module::calculator::ParseStatus::Error) {
+    if (status == mod::calculator::ParseStatus::Error) {
         return Status::Incomplete;
     }
 

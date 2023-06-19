@@ -2,7 +2,7 @@
 
 #include "module/module.h"
 
-namespace ra::module::active_path {
+namespace ra::mod::active_path {
 
 class ActivePathModule : public Module {
 public:

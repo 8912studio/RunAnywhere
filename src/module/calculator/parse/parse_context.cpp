@@ -1,6 +1,6 @@
 #include "module/calculator/parse/parse_context.h"
 
-namespace ra::module::calculator {
+namespace ra::mod::calculator {
 
 ParseContext::ParseContext(std::wstring_view command_text) : 
 	command_text_(command_text.data(), command_text.length()) {

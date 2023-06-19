@@ -12,34 +12,34 @@ namespace ra {
 
 void ModuleManager::Initialize() {
 
-    user_defined_module_ = std::make_shared<module::user_defined::UserDefinedModule>();
+    user_defined_module_ = std::make_shared<mod::user_defined::UserDefinedModule>();
     user_defined_module_->Reload();
 
-    extension_module_manager_ = std::make_unique<module::extension::ExtensionModuleManager>(
+    extension_module_manager_ = std::make_unique<mod::extension::ExtensionModuleManager>(
         zaf::Application::Instance().GetExeDirectoryPath() / L"Extensions");
     extension_module_manager_->Load();
 
-    modules_.push_back(std::make_shared<module::meta::MetaModule>());
-    modules_.push_back(std::make_shared<module::active_path::ActivePathModule>());
-    modules_.push_back(std::make_shared<module::tool::ToolModule>());
+    modules_.push_back(std::make_shared<mod::meta::MetaModule>());
+    modules_.push_back(std::make_shared<mod::active_path::ActivePathModule>());
+    modules_.push_back(std::make_shared<mod::tool::ToolModule>());
     modules_.push_back(user_defined_module_);
     zaf::Append(modules_, extension_module_manager_->GetAllModules());
-    modules_.push_back(std::make_shared<module::calculator::CalculatorModule>());
+    modules_.push_back(std::make_shared<mod::calculator::CalculatorModule>());
 }
 
 
-module::user_defined::UserDefinedModule& ModuleManager::GetUserDefinedModule() {
+mod::user_defined::UserDefinedModule& ModuleManager::GetUserDefinedModule() {
     ZAF_EXPECT(user_defined_module_);
     return *user_defined_module_;
 }
 
 
-std::vector<module::CommandBrief> ModuleManager::QuerySuggestedCommands(
+std::vector<mod::CommandBrief> ModuleManager::QuerySuggestedCommands(
     const std::wstring& command_text) {
 
     auto trimmed_command_text = zaf::ToTrimmed(command_text);
 
-    std::vector<module::CommandBrief> result;
+    std::vector<mod::CommandBrief> result;
 
     for (const auto& each_module : modules_) {
 
@@ -51,7 +51,7 @@ std::vector<module::CommandBrief> ModuleManager::QuerySuggestedCommands(
 }
 
 
-std::unique_ptr<module::Command> ModuleManager::CreateCommand(
+std::unique_ptr<mod::Command> ModuleManager::CreateCommand(
     const utility::CommandLine& command_line) {
 
     for (const auto& each_module : modules_) {

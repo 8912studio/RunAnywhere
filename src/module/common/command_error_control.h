@@ -3,7 +3,7 @@
 #include "module/command_preview_control.h"
 #include "module/common/error_view.h"
 
-namespace ra::module {
+namespace ra::mod {
 
 class CommandErrorControl : public CommandPreviewControl {
 public:

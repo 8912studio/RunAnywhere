@@ -9,7 +9,7 @@
 #include <zaf/graphic/text/text_layout_properties.h>
 #include <zaf/object/type_definition.h>
 
-namespace ra::module::tool::error {
+namespace ra::mod::tool::error {
 namespace {
 
 std::wstring GetErrorMessage(std::uint32_t error_code) {

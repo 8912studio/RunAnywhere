@@ -6,7 +6,7 @@
 #include <zaf/graphic/graphic_factory.h>
 #include <zaf/graphic/image/wic/imaging_factory.h>
 
-namespace ra::module::tool::rgb {
+namespace ra::mod::tool::rgb {
 namespace {
 
 zaf::Color GetStraightColorFromPremultipledColor(const zaf::Color& premultipled_color) {

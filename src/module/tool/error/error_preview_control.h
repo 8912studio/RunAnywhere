@@ -6,7 +6,7 @@
 #include "module/tool/error/error_command_parse_result.h"
 #include "utility/preview_text_box.h"
 
-namespace ra::module::tool::error {
+namespace ra::mod::tool::error {
 
 class ErrorPreviewControl : public CommandPreviewControl {
 public:

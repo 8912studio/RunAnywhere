@@ -1,7 +1,7 @@
 #include "module/meta/meta_command.h"
 #include "module/meta/meta_command_prefix.h"
 
-namespace ra::module::meta {
+namespace ra::mod::meta {
 
 CommandBrief MetaCommand::GetBrief() {
     return CommandBrief{ MetaCommandPrefix + command_info_.command, command_info_.description };

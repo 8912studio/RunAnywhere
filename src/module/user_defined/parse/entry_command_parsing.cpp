@@ -7,7 +7,7 @@
 #include "module/user_defined/parse/entry_command_placeholder_parsing.h"
 #include "utility/command_line.h"
 
-namespace ra::module::user_defined {
+namespace ra::mod::user_defined {
 namespace {
 
 std::vector<std::wstring> RemoveMultipleLines(const std::vector<std::wstring>& strings) {

@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include "module/tool/rgb/rgb_command.h"
 
-using namespace ra::module::tool::rgb;
+using namespace ra::mod::tool::rgb;
 
 TEST(RGBCommandTest, DifferentPartCount) {
 

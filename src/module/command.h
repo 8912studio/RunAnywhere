@@ -8,7 +8,7 @@
 #include "module/command_preview_control.h"
 #include "utility/command_line.h"
 
-namespace ra::module {
+namespace ra::mod {
 
 class Command : zaf::NonCopyableNonMovable {
 public:

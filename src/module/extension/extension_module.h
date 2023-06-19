@@ -4,7 +4,7 @@
 #include "module/extension/extension_interface.h"
 #include "module/module.h"
 
-namespace ra::module::extension {
+namespace ra::mod::extension {
 
 class ExtensionModule : public Module {
 public:

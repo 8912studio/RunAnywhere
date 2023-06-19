@@ -1,7 +1,7 @@
 #include "module/calculator/parse/literal_parser.h"
 #include "module/calculator/parse/parse_context.h"
 
-namespace ra::module::calculator {
+namespace ra::mod::calculator {
 
 ParseStatus LiteralParser::Parse(ParseContext& context, ParseResult& parse_result) {
 

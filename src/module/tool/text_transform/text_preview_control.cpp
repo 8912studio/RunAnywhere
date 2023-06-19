@@ -4,7 +4,7 @@
 #include <zaf/object/type_definition.h>
 #include "utility/text_utility.h"
 
-namespace ra::module::tool::text_transform {
+namespace ra::mod::tool::text_transform {
 namespace {
 
 constexpr float MultiLineFontSize = 16;

@@ -6,7 +6,7 @@
 #include "module/tool/rgb/rgb_preview_control.h"
 #include "utility/command_line.h"
 
-namespace ra::module::tool::rgb {
+namespace ra::mod::tool::rgb {
 
 class RGBCommand : public Command {
 public:

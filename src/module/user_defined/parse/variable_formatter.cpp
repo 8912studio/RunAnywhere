@@ -6,7 +6,7 @@
 #include "module/active_path/active_path_modifying.h"
 #include "module/active_path/active_path_option_parsing.h"
 
-namespace ra::module::user_defined {
+namespace ra::mod::user_defined {
 namespace {
 
 bool IsStringQuoted(std::wstring_view string, std::size_t index, std::size_t end_index) {

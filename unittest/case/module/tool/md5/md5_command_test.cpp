@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include "module/tool/md5/md5_command.h"
 
-using namespace ra::module::tool::md5;
+using namespace ra::mod::tool::md5;
 
 TEST(MD5CommandTest, ParseSucceeded) {
 

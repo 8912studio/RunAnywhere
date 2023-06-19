@@ -6,7 +6,7 @@
 
 using namespace std::literals;
 
-namespace ra::module::calculator {
+namespace ra::mod::calculator {
 namespace {
 
 class UnitOptionParser : public TerminalParser {

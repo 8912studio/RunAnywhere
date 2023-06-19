@@ -4,7 +4,7 @@
 #include "module/calculator/parse/extend_option_set_parser.h"
 #include "module/calculator/parse/literal_parser.h"
 
-namespace ra::module::calculator {
+namespace ra::mod::calculator {
 
 ModifierParser* ModifierParser::Instance() {
 

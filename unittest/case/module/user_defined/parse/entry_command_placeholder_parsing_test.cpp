@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include "module/user_defined/parse/entry_command_placeholder_parsing.h"
 
-using namespace ra::module::user_defined;
+using namespace ra::mod::user_defined;
 
 TEST(EntryCommandPlaceholderParsingTest, ParseNoPlaceholder) {
 

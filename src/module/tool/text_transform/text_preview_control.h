@@ -6,7 +6,7 @@
 #include <zaf/control/scrollable_control.h>
 #include "module/command_preview_control.h"
 
-namespace ra::module::tool::text_transform {
+namespace ra::mod::tool::text_transform {
 
 class TextPreviewControl : public CommandPreviewControl {
 public:

@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include "module/calculator/parse/command_parser.h"
 
-using namespace ra::module::calculator;
+using namespace ra::mod::calculator;
 
 TEST(CommandParserTest, Success) {
 

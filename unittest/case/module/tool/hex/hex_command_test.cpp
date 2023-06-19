@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include "module/tool/hex/hex_command.h"
 
-using namespace ra::module::tool::hex;
+using namespace ra::mod::tool::hex;
 using namespace ra::utility;
 
 TEST(HexCommandTest, ParsePosition) {

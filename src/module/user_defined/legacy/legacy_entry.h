@@ -2,7 +2,7 @@
 
 #include <string>
 
-namespace ra::module::user_defined {
+namespace ra::mod::user_defined {
 
 class LegacyEntry {
 public:

@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include "module/calculator/result_text_builder.h"
 
-using namespace ra::module::calculator;
+using namespace ra::mod::calculator;
 
 TEST(ResultTextBuilderTest, DecimalWithBitLength) {
 

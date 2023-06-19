@@ -7,7 +7,7 @@
 #include "context/active_path.h"
 #include "module/user_defined/bundle_meta.h"
 
-namespace ra::module::user_defined {
+namespace ra::mod::user_defined {
 
 class VariableFormatOptions {
 public:

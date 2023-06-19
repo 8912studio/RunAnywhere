@@ -3,7 +3,7 @@
 #include <cstddef>
 #include <cstdint>
 
-namespace ra::module::tool::hex {
+namespace ra::mod::tool::hex {
 
 class HexCommandParseResult {
 public:

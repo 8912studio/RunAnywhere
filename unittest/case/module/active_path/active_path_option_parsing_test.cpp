@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include "module/active_path/active_path_option_parsing.h"
 
-using namespace ra::module::active_path;
+using namespace ra::mod::active_path;
 
 TEST(ActivePathOptionParsingTest, ParseInvalidTest) {
 

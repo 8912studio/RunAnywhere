@@ -6,7 +6,7 @@
 #include "module/calculator/parse/parse_error_reason.h"
 #include "module/calculator/parse/parse_reader.h"
 
-namespace ra::module::calculator {
+namespace ra::mod::calculator {
 
 class ParseContext {
 public:

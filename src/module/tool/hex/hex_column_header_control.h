@@ -2,7 +2,7 @@
 
 #include <zaf/control/control.h>
 
-namespace ra::module::tool::hex {
+namespace ra::mod::tool::hex {
 
 class HexColumnHeaderControl : public zaf::Control {
 public:

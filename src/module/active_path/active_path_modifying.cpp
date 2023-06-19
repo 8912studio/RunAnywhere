@@ -1,6 +1,6 @@
 #include "module/active_path/active_path_modifying.h"
 
-namespace ra::module::active_path {
+namespace ra::mod::active_path {
 
 context::ActivePath ModifyActivePathByOption(
     const context::ActivePath& active_path,

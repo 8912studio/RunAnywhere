@@ -1,6 +1,6 @@
 #include "module/active_path/active_path_option_parsing.h"
 
-namespace ra::module::active_path {
+namespace ra::mod::active_path {
 namespace {
 
 std::size_t ParseUseWorkspace(std::wstring_view text, ActivePathOption& option) {

@@ -6,7 +6,7 @@
 #include <zaf/base/string/encoding_conversion.h>
 #include <zaf/base/string/trim.h>
 
-namespace ra::module::user_defined {
+namespace ra::mod::user_defined {
 
 std::vector<LegacyEntry> ReadUserDefinedEntries(const std::filesystem::path& file_path) {
 

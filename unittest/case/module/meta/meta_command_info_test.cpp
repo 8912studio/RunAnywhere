@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include "module/meta/meta_command_info.h"
 
-using namespace ra::module::meta;
+using namespace ra::mod::meta;
 
 TEST(MetaCommandInfoTest, GetMetaCommandInfoWithLowercase) {
 

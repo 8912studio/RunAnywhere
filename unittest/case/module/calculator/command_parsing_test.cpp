@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include "module/calculator/command_parsing.h"
 
-using namespace ra::module::calculator;
+using namespace ra::mod::calculator;
 
 namespace {
 

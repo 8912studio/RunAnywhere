@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include "module/tool/tool_module.h"
 
-using namespace ra::module::tool;
+using namespace ra::mod::tool;
 using namespace ra::utility;
 
 TEST(ToolModuleTest, CreateDateCommand) {

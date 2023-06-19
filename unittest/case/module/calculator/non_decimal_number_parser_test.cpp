@@ -2,7 +2,7 @@
 #include "number_parser_test_utility.h"
 #include "module/calculator/parse/non_decimal_number_parser.h"
 
-using namespace ra::module::calculator;
+using namespace ra::mod::calculator;
 
 TEST(NonDecimalNumberParserTest, BinaryFailure) {
 

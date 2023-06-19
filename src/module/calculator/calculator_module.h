@@ -2,7 +2,7 @@
 
 #include "module/module.h"
 
-namespace ra::module::calculator {
+namespace ra::mod::calculator {
 
 class CalculatorModule : public Module {
 public:

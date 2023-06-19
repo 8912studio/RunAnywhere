@@ -7,7 +7,7 @@
 #include "module/user_defined/command_line_info.h"
 #include "module/user_defined/parse/variable_formatter.h"
 
-namespace ra::module::user_defined {
+namespace ra::mod::user_defined {
 
 CommandLineInfo ParseEntryCommand(
     const std::wstring& entry_command,

@@ -5,7 +5,7 @@
 #include <vector>
 #include "module/active_path/active_path_option.h"
 
-namespace ra::module::user_defined {
+namespace ra::mod::user_defined {
 
 class EntryCommandPlaceholder {
 public:

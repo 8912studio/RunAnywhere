@@ -2,7 +2,7 @@
 
 #include <optional>
 
-namespace ra::module::calculator {
+namespace ra::mod::calculator {
 
 enum class NumberUnit {
 

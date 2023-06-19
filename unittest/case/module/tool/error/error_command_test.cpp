@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include "module/tool/error/error_command.h"
 
-using namespace ra::module::tool::error;
+using namespace ra::mod::tool::error;
 using namespace ra::utility;
 
 TEST(ErrorCommandTest, ParseOK) {

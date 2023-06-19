@@ -2,7 +2,7 @@
 #include "module/active_path/active_path_command.h"
 #include "module/active_path/active_path_option_parsing.h"
 
-namespace ra::module::active_path {
+namespace ra::mod::active_path {
 
 std::vector<CommandBrief> ActivePathModule::QuerySuggestedCommands(
 	const std::wstring& command_text) {

@@ -4,7 +4,7 @@
 #include "module/calculator/result_text_builder.h"
 #include "utility/clipboard.h"
 
-namespace ra::module::calculator {
+namespace ra::mod::calculator {
 
 CommandBrief CalculatorCommand::Brief() {
     return CommandBrief{ L"<math-expr>", L"Calculate the math expression" };

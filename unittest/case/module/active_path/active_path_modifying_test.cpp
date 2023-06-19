@@ -2,7 +2,7 @@
 #include "module/active_path/active_path_modifying.h"
 
 using namespace ra::context;
-using namespace ra::module::active_path;
+using namespace ra::mod::active_path;
 
 TEST(ActivePathModifyingTest, ModifyFilePathByBackwardLevel) {
 

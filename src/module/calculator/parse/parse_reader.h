@@ -3,7 +3,7 @@
 #include <cstddef>
 #include <optional>
 
-namespace ra::module::calculator{
+namespace ra::mod::calculator{
 
 class ParseContext;
 

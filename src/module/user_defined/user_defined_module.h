@@ -8,7 +8,7 @@
 #include "module/user_defined/entry.h"
 #include "module/user_defined/import/bundle_importer.h"
 
-namespace ra::module::user_defined {
+namespace ra::mod::user_defined {
 
 class UserDefinedModule : public Module {
 public:

@@ -4,7 +4,7 @@
 #include "module/user_defined/bundle_meta.h"
 #include "module/user_defined/show_window_option.h"
 
-namespace ra::module::user_defined {
+namespace ra::mod::user_defined {
 
 class Entry {
 public:

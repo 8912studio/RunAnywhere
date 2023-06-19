@@ -3,7 +3,7 @@
 
 using namespace std::string_literals;
 
-namespace ra::module::calculator {
+namespace ra::mod::calculator {
 
 DecimalNumberParser* DecimalNumberParser::Instance() {
 

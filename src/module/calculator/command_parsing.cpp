@@ -2,7 +2,7 @@
 #include "module/calculator/parse/command_parser.h"
 #include "module/calculator/parse/parse_context.h"
 
-namespace ra::module::calculator {
+namespace ra::mod::calculator {
 namespace {
 
 std::wstring TryToReviseCommand(const std::wstring& command, const ParseContext& context) {

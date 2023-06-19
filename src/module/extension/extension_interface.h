@@ -3,7 +3,7 @@
 #include <Windows.h>
 #include "module/extension/sdk/run_anywhere_extension_sdk.h"
 
-namespace ra::module::extension {
+namespace ra::mod::extension {
 
 class ExtensionInterface {
 public:

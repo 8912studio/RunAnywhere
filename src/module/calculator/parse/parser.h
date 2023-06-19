@@ -5,7 +5,7 @@
 #include "module/calculator/parse/parse_result.h"
 #include "module/calculator/parse/parse_status.h"
 
-namespace ra::module::calculator {
+namespace ra::mod::calculator {
 
 class Parser {
 public:

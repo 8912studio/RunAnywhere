@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-namespace ra::module::user_defined {
+namespace ra::mod::user_defined {
 
 class CommandLineInfo {
 public:

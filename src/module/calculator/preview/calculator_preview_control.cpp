@@ -5,7 +5,7 @@
 #include "module/calculator/result_text_builder.h"
 #include "utility/numeric_text_formatting.h"
 
-namespace ra::module::calculator {
+namespace ra::mod::calculator {
 namespace {
 
 constexpr float DefaultFontSize = 32;

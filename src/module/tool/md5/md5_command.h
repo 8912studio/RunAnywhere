@@ -6,7 +6,7 @@
 #include "module/tool/md5/md5_preview_control.h"
 #include "utility/command_line.h"
 
-namespace ra::module::tool::md5 {
+namespace ra::mod::tool::md5 {
 
 class MD5Command : public Command {
 public:

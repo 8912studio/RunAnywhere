@@ -3,7 +3,7 @@
 #include "utility/clipboard.h"
 #include "module/extension/extension_command_preview_control.h"
 
-namespace ra::module::extension {
+namespace ra::mod::extension {
 
 ExtensionCommand::ExtensionCommand(
     RunAnywhere_Command command, 

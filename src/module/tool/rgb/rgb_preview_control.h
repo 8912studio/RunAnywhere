@@ -7,7 +7,7 @@
 #include "module/command_preview_control.h"
 #include "module/tool/rgb/rgb_command_parse_result.h"
 
-namespace ra::module::tool::rgb {
+namespace ra::mod::tool::rgb {
 
 class RGBPreviewControl : public CommandPreviewControl {
 public:

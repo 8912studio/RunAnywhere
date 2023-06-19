@@ -21,15 +21,15 @@ public:
 public:
     explicit GeneralNumberInterpreter(bool supports_negative_decimal);
 
-    Status Interpret(const std::wstring& input, module::calculator::EvaluateResult& result);
+    Status Interpret(const std::wstring& input, mod::calculator::EvaluateResult& result);
 
 private:
     Status Parse(
         const std::wstring& input,
-        std::shared_ptr<module::calculator::SyntaxNode>& syntax_node);
+        std::shared_ptr<mod::calculator::SyntaxNode>& syntax_node);
 
 private:
-    module::calculator::Parser* parser_{};
+    mod::calculator::Parser* parser_{};
 };
 
 }

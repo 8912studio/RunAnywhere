@@ -3,7 +3,7 @@
 #include "module/calculator/evaluate/evaluate_result.h"
 #include "module/calculator/parse/modifier.h"
 
-namespace ra::module::calculator {
+namespace ra::mod::calculator {
 
 class ResultText {
 public:

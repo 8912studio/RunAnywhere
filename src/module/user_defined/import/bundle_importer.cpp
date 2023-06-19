@@ -4,7 +4,7 @@
 #include "module/user_defined/bundle_definition.h"
 #include "module/user_defined/bundle_parser.h"
 
-namespace ra::module::user_defined {
+namespace ra::mod::user_defined {
 
 BundleImporter::BundleImporter(
     const std::shared_ptr<BundleDepot>& depot,

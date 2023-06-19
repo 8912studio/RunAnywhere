@@ -4,7 +4,7 @@
 #include <zaf/base/string/encoding_conversion.h>
 #include <zaf/base/string/to_string.h>
 
-namespace ra::module::calculator {
+namespace ra::mod::calculator {
 namespace {
 
 std::wstring GetBasePrefix(int base) {

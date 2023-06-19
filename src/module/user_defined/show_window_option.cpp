@@ -1,7 +1,7 @@
 #include "module/user_defined/show_window_option.h"
 #include <zaf/object/enum_definition.h>
 
-namespace ra::module::user_defined{
+namespace ra::mod::user_defined{
 
 ZAF_DEFINE_ENUM(ShowWindowOption)
 ZAF_DEFINE_ENUM_VALUE(Normal)

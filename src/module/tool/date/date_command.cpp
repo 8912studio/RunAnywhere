@@ -4,7 +4,7 @@
 #include "module/common/command_error_control.h"
 #include "utility/clipboard.h"
 
-namespace ra::module::tool::date { 
+namespace ra::mod::tool::date { 
 namespace {
 
 bool ParseSwitch(const std::wstring& argument, DateCommandParseResult& result) {

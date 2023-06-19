@@ -2,7 +2,7 @@
 
 #include <cstdint>
 
-namespace ra::module::tool::error {
+namespace ra::mod::tool::error {
 
 class ErrorCommandParseResult {
 public:

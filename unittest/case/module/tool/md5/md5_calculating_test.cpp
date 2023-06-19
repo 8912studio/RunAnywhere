@@ -3,7 +3,7 @@
 #include <zaf/base/string/case_conversion.h>
 #include "module/tool/md5/md5_calculating.h"
 
-using namespace ra::module::tool::md5;
+using namespace ra::mod::tool::md5;
 
 TEST(MD5CalculatingTest, File) {
 

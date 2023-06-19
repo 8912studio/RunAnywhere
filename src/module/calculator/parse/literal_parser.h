@@ -3,7 +3,7 @@
 #include <string>
 #include "module/calculator/parse/parser.h"
 
-namespace ra::module::calculator {
+namespace ra::mod::calculator {
 
 class LiteralParser : public Parser {
 public:

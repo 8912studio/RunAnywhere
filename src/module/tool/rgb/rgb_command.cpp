@@ -10,7 +10,7 @@
 #include "module/common/command_error_control.h"
 #include "utility/clipboard.h"
 
-namespace ra::module::tool::rgb {
+namespace ra::mod::tool::rgb {
 namespace {
 
 constexpr std::size_t RGBAComponentCount = 4;

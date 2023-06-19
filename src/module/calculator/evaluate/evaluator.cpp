@@ -4,7 +4,7 @@
 #include "module/calculator/parse/operand_node.h"
 #include "module/calculator/parse/operator_node.h"
 
-namespace ra::module::calculator {
+namespace ra::mod::calculator {
 
 std::shared_ptr<Evaluator> Evaluator::Create(const std::shared_ptr<SyntaxNode>& syntax_node) {
 

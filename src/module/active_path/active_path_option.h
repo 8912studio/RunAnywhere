@@ -2,7 +2,7 @@
 
 #include <cstddef>
 
-namespace ra::module::active_path {
+namespace ra::mod::active_path {
 
 class ActivePathOption {
 public:

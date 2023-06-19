@@ -1,7 +1,7 @@
 #include "module/calculator/parse/number_unit.h"
 #include <cctype>
 
-namespace ra::module::calculator {
+namespace ra::mod::calculator {
 
 std::optional<NumberUnit> GetNumberUnitByChar(wchar_t ch) {
 

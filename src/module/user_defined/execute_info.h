@@ -2,7 +2,7 @@
 
 #include "module/user_defined/command_line_info.h"
 
-namespace ra::module::user_defined {
+namespace ra::mod::user_defined {
 
 class ExecuteInfo {
 public:

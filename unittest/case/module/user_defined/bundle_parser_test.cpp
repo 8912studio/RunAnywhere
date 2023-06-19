@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include "module/user_defined/bundle_parser.h"
 
-using namespace ra::module::user_defined;
+using namespace ra::mod::user_defined;
 
 namespace {
 

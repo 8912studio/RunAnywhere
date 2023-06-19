@@ -5,7 +5,7 @@
 #include <zaf/control/rich_edit.h>
 #include "module/command_preview_control.h"
 
-namespace ra::module::extension {
+namespace ra::mod::extension {
 
 class ExtensionCommandPreviewControl : public CommandPreviewControl {
 public:

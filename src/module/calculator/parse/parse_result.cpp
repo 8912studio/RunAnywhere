@@ -1,6 +1,6 @@
 #include "module/calculator/parse/parse_result.h"
 
-namespace ra::module::calculator {
+namespace ra::mod::calculator {
 namespace {
 
 bool IsUnaryOperator(OperatorNode::Type type) {

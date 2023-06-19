@@ -11,7 +11,7 @@
 #include "module/user_defined/parse/variable_formatter.h"
 #include "module/user_defined/preview/user_defined_command_preview_control.h"
 
-namespace ra::module::user_defined {
+namespace ra::mod::user_defined {
 namespace {
 
 context::ActivePath ModifyActivePath(

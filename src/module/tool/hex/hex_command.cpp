@@ -6,7 +6,7 @@
 #include "module/common/command_error_control.h"
 #include "utility/general_number_interpreter.h"
 
-namespace ra::module::tool::hex {
+namespace ra::mod::tool::hex {
 namespace {
 
 std::optional<std::uint64_t> ParseNumberWithDefault(

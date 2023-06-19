@@ -4,7 +4,7 @@
 #include <zaf/graphic/text/text_format.h>
 #include "module/tool/hex/byte_index.h"
 
-namespace ra::module::tool::hex {
+namespace ra::mod::tool::hex {
 
 class HexContentControl : public zaf::Control {
 public:

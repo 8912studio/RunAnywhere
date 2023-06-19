@@ -9,7 +9,7 @@ ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///preview_view.xaml");
 ZAF_DEFINE_TYPE_END
 
 
-void PreviewView::SetPreviewControl(const std::shared_ptr<module::CommandPreviewControl>& control) {
+void PreviewView::SetPreviewControl(const std::shared_ptr<mod::CommandPreviewControl>& control) {
 
     ZAF_EXPECT(control);
 

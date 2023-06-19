@@ -1,7 +1,7 @@
 #include "module/user_defined/parse/entry_command_placeholder_parsing.h"
 #include <optional>
 
-namespace ra::module::user_defined {
+namespace ra::mod::user_defined {
 namespace {
  
 std::optional<EntryCommandPlaceholder> ParseSinglePlaceholder(

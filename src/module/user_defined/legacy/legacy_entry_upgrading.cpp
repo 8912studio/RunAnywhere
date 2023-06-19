@@ -3,7 +3,7 @@
 #include "module/user_defined/legacy/legacy_entry_reading.h"
 #include "module/user_defined/parse/entry_command_placeholder_parsing.h"
 
-namespace ra::module::user_defined {
+namespace ra::mod::user_defined {
 namespace {
 
 std::wstring ReplaceLegacyActivePathVariable(const std::wstring& legacy_command_line) {

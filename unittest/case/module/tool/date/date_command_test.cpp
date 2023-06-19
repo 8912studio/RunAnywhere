@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include "module/tool/date/date_command.h"
 
-using namespace ra::module::tool::date;
+using namespace ra::mod::tool::date;
 using namespace ra::utility;
 
 TEST(DateCommandTest, ParseCurrentDateTime) {

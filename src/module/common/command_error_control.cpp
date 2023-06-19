@@ -2,7 +2,7 @@
 #include <zaf/creation.h>
 #include <zaf/control/layout/linear_layouter.h>
 
-namespace ra::module {
+namespace ra::mod {
 
 std::shared_ptr<CommandErrorControl> CommandErrorControl::InvalidArgument() {
     auto result = zaf::Create<CommandErrorControl>();

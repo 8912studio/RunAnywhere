@@ -2,7 +2,7 @@
 #include <zaf/base/handle.h>
 #include "module/tool/hex/hex_preview_control.h"
 
-using namespace ra::module::tool::hex;
+using namespace ra::mod::tool::hex;
 
 namespace {
 

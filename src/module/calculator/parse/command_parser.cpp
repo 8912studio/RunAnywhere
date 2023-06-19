@@ -3,7 +3,7 @@
 #include "module/calculator/parse/expression_parser.h"
 #include "module/calculator/parse/modifier_parser.h"
 
-namespace ra::module::calculator {
+namespace ra::mod::calculator {
 
 CommandParser* CommandParser::Instance() {
 

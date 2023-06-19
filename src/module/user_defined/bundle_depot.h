@@ -4,7 +4,7 @@
 #include <vector>
 #include "module/user_defined/bundle.h"
 
-namespace ra::module::user_defined {
+namespace ra::mod::user_defined {
 
 class BundleDepot {
 public:

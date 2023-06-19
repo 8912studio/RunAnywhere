@@ -2,7 +2,7 @@
 
 #include "module/module.h"
 
-namespace ra::module::tool {
+namespace ra::mod::tool {
 
 class ToolCommandInfo;
 

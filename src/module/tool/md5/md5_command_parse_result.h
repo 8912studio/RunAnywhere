@@ -3,7 +3,7 @@
 #include <string>
 #include "module/tool/md5/md5_encoding.h"
 
-namespace ra::module::tool::md5 {
+namespace ra::mod::tool::md5 {
 
 class MD5CommandParseResult {
 public:

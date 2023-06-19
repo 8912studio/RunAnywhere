@@ -5,7 +5,7 @@
 #include "utility/clipboard.h"
 #include "utility/general_number_interpreter.h"
 
-namespace ra::module::tool::error {
+namespace ra::mod::tool::error {
 
 CommandBrief ErrorCommand::Brief() {
     return CommandBrief{

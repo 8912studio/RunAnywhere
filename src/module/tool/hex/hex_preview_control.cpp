@@ -7,7 +7,7 @@
 #include "utility/numeric_text_formatting.h"
 #include "utility/path_trimming.h"
 
-namespace ra::module::tool::hex {
+namespace ra::mod::tool::hex {
 namespace {
 
 std::wstring FormatInteger(std::uint64_t integer) {

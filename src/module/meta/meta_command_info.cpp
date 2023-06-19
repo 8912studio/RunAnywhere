@@ -6,7 +6,7 @@
 #include "main/main_window.h"
 #include "option_window.h"
 
-namespace ra::module::meta {
+namespace ra::mod::meta {
 namespace {
 
 std::vector<MetaCommandInfo> CreateMetaCommandInfos() {

@@ -3,7 +3,7 @@
 #include <functional>
 #include <string>
 
-namespace ra::module::meta {
+namespace ra::mod::meta {
 
 class MetaCommandInfo {
 public:

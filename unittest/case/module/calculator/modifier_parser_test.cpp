@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include "module/calculator/parse/modifier_parser.h"
 
-using namespace ra::module::calculator;
+using namespace ra::mod::calculator;
 
 TEST(ModifierParserTest, Success) {
 

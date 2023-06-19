@@ -6,7 +6,7 @@
 #include "module/tool/hex/hex_preview_control.h"
 #include "utility/command_line.h"
 
-namespace ra::module::tool::hex {
+namespace ra::mod::tool::hex {
 
 class HexCommand : public Command {
 public:

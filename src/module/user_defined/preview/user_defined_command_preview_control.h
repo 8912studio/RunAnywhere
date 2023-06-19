@@ -5,7 +5,7 @@
 #include "module/command_preview_control.h"
 #include "module/user_defined/execute_info.h"
 
-namespace ra::module::user_defined {
+namespace ra::mod::user_defined {
 
 class UserDefinedCommandPreviewControl : public CommandPreviewControl {
 public:

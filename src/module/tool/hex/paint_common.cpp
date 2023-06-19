@@ -5,7 +5,7 @@
 #include <zaf/graphic/text/text_format_properties.h>
 #include <zaf/graphic/text/text_layout_properties.h>
 
-namespace ra::module::tool::hex {
+namespace ra::mod::tool::hex {
 namespace {
 
 zaf::TextFormat CreateTextFormat() {

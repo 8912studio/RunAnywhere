@@ -7,7 +7,7 @@
 #include <zaf/object/type_definition.h>
 #include "module/tool/hex/paint_common.h"
 
-namespace ra::module::tool::hex {
+namespace ra::mod::tool::hex {
 namespace {
 
 zaf::Rect GetByteHexRect(const ByteIndex& byte_index) {

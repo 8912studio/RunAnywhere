@@ -2,7 +2,7 @@
 #include "module/user_defined/parse/entry_command_parsing.h"
 
 using namespace ra::context;
-using namespace ra::module::user_defined;
+using namespace ra::mod::user_defined;
 
 namespace {
 

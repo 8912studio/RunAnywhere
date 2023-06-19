@@ -6,7 +6,7 @@
 #include "module/tool/error/error_preview_control.h"
 #include "utility/command_line.h"
 
-namespace ra::module::tool::error {
+namespace ra::mod::tool::error {
 
 class ErrorCommand : public Command {
 public:

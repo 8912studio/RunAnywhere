@@ -7,7 +7,7 @@
 #include "module/user_defined/user_defined_command.h"
 #include "utility/data_directory.h"
 
-namespace ra::module::user_defined {
+namespace ra::mod::user_defined {
 namespace {
 
 std::filesystem::path GetBundleDirectoryPath() {

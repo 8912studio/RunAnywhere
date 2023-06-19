@@ -5,7 +5,7 @@
 #include <zaf/graphic/color.h>
 #include <zaf/graphic/text/text_layout.h>
 
-namespace ra::module::tool::hex {
+namespace ra::mod::tool::hex {
 
 constexpr float LineHeight = 24;
 constexpr float LineHeaderWidth = 32;

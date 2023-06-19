@@ -2,7 +2,7 @@
 #include <zaf/object/type_definition.h>
 #include "utility/path_trimming.h"
 
-namespace ra::module::user_defined {
+namespace ra::mod::user_defined {
 namespace {
 
 constexpr float LabelHeight = 25;

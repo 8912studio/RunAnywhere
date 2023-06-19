@@ -10,7 +10,7 @@
 #include "module/tool/text_transform/text_transform_command.h"
 #include "module/tool/text_transform/upper_transformer.h"
 
-namespace ra::module::tool {
+namespace ra::mod::tool {
 
 using CommandFactory = std::function<std::unique_ptr<Command>(const utility::CommandLine&)>;
 

@@ -2,7 +2,7 @@
 #include <zaf/creation.h>
 #include "utility/clipboard.h"
 
-namespace ra::module::tool::text_transform {
+namespace ra::mod::tool::text_transform {
 
 TextTransformCommand::TextTransformCommand(std::unique_ptr<TextTransformer> transformer) :
     transformer_(std::move(transformer)),

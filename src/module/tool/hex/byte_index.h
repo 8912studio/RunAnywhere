@@ -5,7 +5,7 @@
 #include <zaf/base/relation_operator.h>
 #include "module/tool/hex/paint_common.h"
 
-namespace ra::module::tool::hex {
+namespace ra::mod::tool::hex {
 
 class ByteIndex {
 public:

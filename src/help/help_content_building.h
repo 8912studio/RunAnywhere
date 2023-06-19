@@ -6,6 +6,6 @@
 namespace ra::help {
 
 content::Content BuildHelpContentFromSuggestedCommands(
-    std::vector<module::CommandBrief>&& commands);
+    std::vector<mod::CommandBrief>&& commands);
 
 }

@@ -2,7 +2,7 @@
 
 #include <zaf/control/control.h>
 
-namespace ra::module {
+namespace ra::mod {
 
 class CommandPreviewControl : public zaf::Control {
 public:

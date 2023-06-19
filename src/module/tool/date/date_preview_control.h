@@ -5,7 +5,7 @@
 #include "module/command_preview_control.h"
 #include "module/tool/date/date_command_parse_result.h"
 
-namespace ra::module::tool::date {
+namespace ra::mod::tool::date {
 
 class DatePreviewControl : public CommandPreviewControl {
 public:

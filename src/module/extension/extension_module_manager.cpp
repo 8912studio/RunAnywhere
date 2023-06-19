@@ -1,7 +1,7 @@
 #include "module/extension/extension_module_manager.h"
 #include <zaf/base/string/case_conversion.h>
 
-namespace ra::module::extension {
+namespace ra::mod::extension {
 
 ExtensionModuleManager::ExtensionModuleManager(
     const std::filesystem::path& extension_directory_path)

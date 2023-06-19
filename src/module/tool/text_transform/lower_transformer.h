@@ -2,7 +2,7 @@
 
 #include "module/tool/text_transform/text_transformer.h"
 
-namespace ra::module::tool::text_transform {
+namespace ra::mod::tool::text_transform {
 
 class LowerTransformer : public TextTransformer {
 public:

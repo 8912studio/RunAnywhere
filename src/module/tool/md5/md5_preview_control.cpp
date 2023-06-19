@@ -7,7 +7,7 @@
 #include "utility/path_trimming.h"
 #include "utility/text_utility.h"
 
-namespace ra::module::tool::md5 {
+namespace ra::mod::tool::md5 {
 
 ZAF_DEFINE_TYPE(MD5PreviewControl)
 ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/tool/md5/md5_preview_control.xaml")

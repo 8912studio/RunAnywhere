@@ -2,7 +2,7 @@
 #include <zaf/creation.h>
 #include "utility/clipboard.h"
 
-namespace ra::module::tool::md5 {
+namespace ra::mod::tool::md5 {
 
 CommandBrief MD5Command::Brief() {
 	return CommandBrief{

@@ -3,7 +3,7 @@
 #include "module/command.h"
 #include "module/meta/meta_command_info.h"
 
-namespace ra::module::meta {
+namespace ra::mod::meta {
 
 class MetaCommand : public Command {
 public:

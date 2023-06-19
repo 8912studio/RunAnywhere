@@ -4,7 +4,7 @@
 namespace ra::help {
 
 content::Content BuildHelpContentFromSuggestedCommands(
-    std::vector<module::CommandBrief>&& commands) {
+    std::vector<mod::CommandBrief>&& commands) {
 
     help::content::Content help_content;
     help_content.AddTitleLine(L"Suggestions");
@@ -16,7 +16,7 @@ content::Content BuildHelpContentFromSuggestedCommands(
 
     zaf::Sort(
         commands,
-        [](const module::CommandBrief& command1, const module::CommandBrief& command2) {
+        [](const mod::CommandBrief& command1, const mod::CommandBrief& command2) {
             return command1.Command() < command2.Command();
         }
     );

@@ -7,7 +7,7 @@
 #include <zaf/window/dialog.h>
 #include "module/user_defined/import/bundle_importer.h"
 
-namespace ra::module::user_defined {
+namespace ra::mod::user_defined {
 
 class ImportBundleWindow : public zaf::Dialog {
 public:

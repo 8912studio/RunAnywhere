@@ -2,7 +2,7 @@
 #include "module/active_path/active_path_modifying.h"
 #include "utility/clipboard.h"
 
-namespace ra::module::active_path {
+namespace ra::mod::active_path {
 
 CommandBrief ActivePathCommand::Brief() {
 	return CommandBrief{ std::wstring(1, PrefixChar), L"Show active path" };

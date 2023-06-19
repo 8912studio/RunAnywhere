@@ -2,7 +2,7 @@
 #include <cctype>
 #include "module/calculator/parse/terminal_parser.h"
 
-namespace ra::module::calculator {
+namespace ra::mod::calculator {
 namespace {
 
 class BaseOptionParser : public TerminalParser {

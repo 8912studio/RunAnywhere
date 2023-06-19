@@ -1,6 +1,6 @@
 #include "number_parser_test_utility.h"
 
-using namespace ra::module::calculator;
+using namespace ra::mod::calculator;
 
 bool TestNumberParserSuccess(
     Parser& parser,

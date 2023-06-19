@@ -13,16 +13,16 @@ class ModuleManager {
 public:
     void Initialize();
 
-    module::user_defined::UserDefinedModule& GetUserDefinedModule();
+    mod::user_defined::UserDefinedModule& GetUserDefinedModule();
 
-    std::vector<module::CommandBrief> QuerySuggestedCommands(const std::wstring& command_text);
+    std::vector<mod::CommandBrief> QuerySuggestedCommands(const std::wstring& command_text);
 
-    std::unique_ptr<module::Command> CreateCommand(const utility::CommandLine& command_line);
+    std::unique_ptr<mod::Command> CreateCommand(const utility::CommandLine& command_line);
     
 private:
-    std::shared_ptr<module::user_defined::UserDefinedModule> user_defined_module_;
-    std::unique_ptr<module::extension::ExtensionModuleManager> extension_module_manager_;
-    std::vector<std::shared_ptr<module::Module>> modules_;
+    std::shared_ptr<mod::user_defined::UserDefinedModule> user_defined_module_;
+    std::unique_ptr<mod::extension::ExtensionModuleManager> extension_module_manager_;
+    std::vector<std::shared_ptr<mod::Module>> modules_;
 };
 
 }

@@ -3,7 +3,7 @@
 #include <zaf/control/scroll_bar.h>
 #include <zaf/object/type_definition.h>
 
-namespace ra::module::extension {
+namespace ra::mod::extension {
 
 ZAF_DEFINE_TYPE(ExtensionCommandPreviewControl)
 ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/extension/extension_command_preview_control.xaml")

@@ -9,7 +9,7 @@
 #include "module/tool/hex/hex_command_parse_result.h"
 #include "module/tool/hex/hex_content_control.h"
 
-namespace ra::module::tool::hex {
+namespace ra::mod::tool::hex {
 
 class HexPreviewControl : public CommandPreviewControl {
 public:

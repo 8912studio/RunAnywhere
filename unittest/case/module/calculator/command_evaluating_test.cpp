@@ -3,7 +3,7 @@
 #include "module/calculator/command_parsing.h"
 #include "module/calculator/evaluate/evaluator.h"
 
-using namespace ra::module::calculator;
+using namespace ra::mod::calculator;
 
 TEST(CommandEvaluatingTest, BinaryExpression) {
 

@@ -8,7 +8,7 @@
 #include "module/command_brief.h"
 #include "utility/command_line.h"
 
-namespace ra::module {
+namespace ra::mod {
 
 class Module : zaf::NonCopyableNonMovable {
 public:

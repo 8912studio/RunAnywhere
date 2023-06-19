@@ -10,13 +10,13 @@ class PreviewView : public zaf::Control {
 public:
     ZAF_DECLARE_TYPE;
 
-    void SetPreviewControl(const std::shared_ptr<module::CommandPreviewControl>& control);
+    void SetPreviewControl(const std::shared_ptr<mod::CommandPreviewControl>& control);
     void ClearPreviewControl();
 
     float GetExpectedHeight();
 
 private:
-    std::shared_ptr<module::CommandPreviewControl> preview_control_;
+    std::shared_ptr<mod::CommandPreviewControl> preview_control_;
 };
 
 }

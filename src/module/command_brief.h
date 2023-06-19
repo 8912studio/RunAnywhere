@@ -2,7 +2,7 @@
 
 #include <string>
 
-namespace ra::module {
+namespace ra::mod {
 
 class CommandBrief {
 public:

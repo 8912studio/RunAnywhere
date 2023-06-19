@@ -1,6 +1,6 @@
 #pragma once
 
-namespace ra::module::meta{
+namespace ra::mod::meta{
 
 constexpr wchar_t MetaCommandPrefix = L'!';
 

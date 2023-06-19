@@ -6,7 +6,7 @@
 
 using namespace std::literals;
 
-namespace ra::module::tool::date {
+namespace ra::mod::tool::date {
 
 ZAF_DEFINE_TYPE(DatePreviewControl)
 ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/tool/date/date_preview_control.xaml")

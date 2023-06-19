@@ -1,6 +1,6 @@
 #pragma once
 
-namespace ra::module::calculator {
+namespace ra::mod::calculator {
 
 enum class ParseStatus {
 

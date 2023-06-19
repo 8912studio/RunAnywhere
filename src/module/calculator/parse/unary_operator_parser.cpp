@@ -1,6 +1,6 @@
 #include "module/calculator/parse/unary_operator_parser.h"
 
-namespace ra::module::calculator {
+namespace ra::mod::calculator {
 
 UnaryOperatorParser* UnaryOperatorParser::Default() {
     static UnaryOperatorParser default_instance{ AllUnaryOperators() };

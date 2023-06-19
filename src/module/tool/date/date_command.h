@@ -6,7 +6,7 @@
 #include "module/tool/date/date_preview_control.h"
 #include "utility/command_line.h"
 
-namespace ra::module::tool::date {
+namespace ra::mod::tool::date {
 
 class DateCommand : public Command {
 public:

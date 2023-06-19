@@ -5,7 +5,7 @@
 #include "module/calculator/parse/modifier.h"
 #include "module/command.h"
 
-namespace ra::module::calculator {
+namespace ra::mod::calculator {
 
 class CalculatorCommand : public Command {
 public:

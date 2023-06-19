@@ -4,7 +4,7 @@
 #include "module/user_defined/bundle_parser.h"
 #include "module/user_defined/import/bundle_importer.h"
 
-using namespace ra::module::user_defined;
+using namespace ra::mod::user_defined;
 
 namespace {
 

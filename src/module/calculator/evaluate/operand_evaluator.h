@@ -3,7 +3,7 @@
 #include "module/calculator/evaluate/evaluator.h"
 #include "module/calculator/parse/operand_node.h"
 
-namespace ra::module::calculator {
+namespace ra::mod::calculator {
 
 class OperandEvaluator : public Evaluator {
 public:

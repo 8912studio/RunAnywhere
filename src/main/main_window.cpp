@@ -162,7 +162,7 @@ float MainWindow::ShowCommandPreview() {
 }
 
 
-std::shared_ptr<module::CommandPreviewControl> MainWindow::CreateDefaultPreviewControl(
+std::shared_ptr<mod::CommandPreviewControl> MainWindow::CreateDefaultPreviewControl(
     const std::wstring& preview_text) {
 
     auto label = zaf::Create<zaf::Label>();
@@ -172,7 +172,7 @@ std::shared_ptr<module::CommandPreviewControl> MainWindow::CreateDefaultPreviewC
     label->SetTextTrimming(utility::CreateTextTrimmingForPath());
     label->SetText(preview_text);
 
-    auto result = zaf::Create<module::CommandPreviewControl>();
+    auto result = zaf::Create<mod::CommandPreviewControl>();
     result->SetLayouter(zaf::Create<zaf::VerticalLayouter>());
     result->SetFixedHeight(40);
     result->AddChild(label);

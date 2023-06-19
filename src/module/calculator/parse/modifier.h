@@ -3,7 +3,7 @@
 #include <optional>
 #include "module/calculator/parse/number_unit.h"
 
-namespace ra::module::calculator {
+namespace ra::mod::calculator {
 
 class Modifier {
 public:

@@ -1,7 +1,7 @@
 #include "module/extension/extension_module.h"
 #include "module/extension/extension_command.h"
 
-namespace ra::module::extension {
+namespace ra::mod::extension {
 
 ExtensionModule::ExtensionModule(const std::filesystem::path& path) : extension_path_(path) {
 

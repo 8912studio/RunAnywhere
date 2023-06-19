@@ -2,7 +2,7 @@
 
 #include "module/module.h"
 
-namespace ra::module::meta {
+namespace ra::mod::meta {
 
 class MetaModule : public Module {
 public:

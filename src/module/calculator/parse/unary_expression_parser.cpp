@@ -2,7 +2,7 @@
 #include "module/calculator/parse/expression_parser.h"
 #include "module/calculator/parse/unary_operator_parser.h"
 
-namespace ra::module::calculator {
+namespace ra::mod::calculator {
 
 UnaryExpressionParser* UnaryExpressionParser::Instance() {
 

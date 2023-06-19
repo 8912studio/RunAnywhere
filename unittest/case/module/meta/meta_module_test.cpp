@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include "module/meta/meta_module.h"
 
-using namespace ra::module::meta;
+using namespace ra::mod::meta;
 
 TEST(MetaModuleTest, QuerySuggestedCommands) {
 

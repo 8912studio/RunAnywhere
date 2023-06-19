@@ -6,7 +6,7 @@
 #include <zaf/object/boxing/boxing.h>
 #include <zaf/object/enum_type.h>
 
-namespace ra::module::user_defined {
+namespace ra::mod::user_defined {
 namespace {
 
 bool TryToParseKeyword(const std::string& line, std::string& keyword) {

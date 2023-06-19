@@ -2,7 +2,7 @@
 #include <cctype>
 #include "module/calculator/parse/parse_context.h"
 
-namespace ra::module::calculator {
+namespace ra::mod::calculator {
 
 ParseStatus CompoundParser::Parse(ParseContext& context, ParseResult& result) {
 

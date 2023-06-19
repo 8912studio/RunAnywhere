@@ -189,12 +189,12 @@ void ApplicationDelegate::RunApplicationSwitches(const entry::ApplicationSwithes
     }
 
     std::filesystem::path bundle_path = *imported_path;
-    if (bundle_path.extension() != module::user_defined::BundleFileExtension) {
+    if (bundle_path.extension() != mod::user_defined::BundleFileExtension) {
         return;
     }
 
     auto importer = module_manager_->GetUserDefinedModule().BeginImportBundle(bundle_path);
-    auto import_window = zaf::Create<module::user_defined::ImportBundleWindow>(importer);
+    auto import_window = zaf::Create<mod::user_defined::ImportBundleWindow>(importer);
     import_window->Show();
     BringWindowToTop(import_window->Handle());
     SetForegroundWindow(import_window->Handle());

@@ -4,7 +4,7 @@
 #include "module/calculator/parse/non_decimal_number_parser.h"
 #include "module/calculator/parse/octal_number_parser.h"
 
-namespace ra::module::calculator {
+namespace ra::mod::calculator {
 
 NumberParser* NumberParser::Default() {
     static NumberParser instance{{ 

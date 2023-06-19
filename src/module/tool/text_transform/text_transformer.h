@@ -4,7 +4,7 @@
 #include "help/content/content.h"
 #include "module/command_brief.h"
 
-namespace ra::module::tool::text_transform {
+namespace ra::mod::tool::text_transform {
 
 class TextTransformer : public zaf::NonCopyableNonMovable {
 public:

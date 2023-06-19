@@ -3,7 +3,7 @@
 #include "module/command.h"
 #include "module/active_path/active_path_option.h"
 
-namespace ra::module::active_path {
+namespace ra::mod::active_path {
 
 class ActivePathCommand : public Command {
 public:

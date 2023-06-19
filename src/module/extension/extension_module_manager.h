@@ -3,7 +3,7 @@
 #include <filesystem>
 #include "module/extension/extension_module.h"
 
-namespace ra::module::extension {
+namespace ra::mod::extension {
 
 class ExtensionModuleManager {
 public:

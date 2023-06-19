@@ -8,7 +8,7 @@
 #include <zaf/base/string/case_conversion.h>
 #include <zaf/base/string/encoding_conversion.h>
 
-namespace ra::module::tool::md5 {
+namespace ra::mod::tool::md5 {
 namespace {
 
 std::wstring GetMD5String(boost::uuids::detail::md5& md5) {

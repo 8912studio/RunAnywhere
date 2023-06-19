@@ -3,7 +3,7 @@
 #include "module/calculator/command_parsing.h"
 #include "module/calculator/evaluate/evaluator.h"
 
-namespace ra::module::calculator {
+namespace ra::mod::calculator {
 
 std::vector<CommandBrief> CalculatorModule::QuerySuggestedCommands(
     const std::wstring& command_text) {

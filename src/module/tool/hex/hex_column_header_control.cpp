@@ -4,7 +4,7 @@
 #include <zaf/object/type_definition.h>
 #include "module/tool/hex/paint_common.h"
 
-namespace ra::module::tool::hex {
+namespace ra::mod::tool::hex {
 
 ZAF_DEFINE_TYPE(HexColumnHeaderControl)
 ZAF_DEFINE_TYPE_END;
