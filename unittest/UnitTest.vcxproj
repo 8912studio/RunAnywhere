@@ -72,6 +72,7 @@
     <ClCompile Include="case\module\calculator\unary_expression_parser_test.cpp" />
     <ClCompile Include="case\module\meta\meta_command_info_test.cpp" />
     <ClCompile Include="case\module\meta\meta_module_test.cpp" />
+    <ClCompile Include="case\module\tool\base64\base64_command_parsing_test.cpp" />
     <ClCompile Include="case\module\tool\date\date_command_test.cpp" />
     <ClCompile Include="case\module\tool\error\error_command_test.cpp" />
     <ClCompile Include="case\module\tool\hex\hex_command_test.cpp" />

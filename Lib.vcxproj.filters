@@ -103,6 +103,9 @@
     <Filter Include="src\module\tool\text_transform">
       <UniqueIdentifier>{a43d616d-88eb-412c-97c6-7b7f0390eb79}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\module\tool\base64">
+      <UniqueIdentifier>{93523eda-65df-499b-aebe-295601d082a1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\module\calculator\parse\binary_expression_parser.h">
@@ -606,6 +609,12 @@
     <ClInclude Include="src\main\text_block_data.h">
       <Filter>src\main</Filter>
     </ClInclude>
+    <ClInclude Include="src\module\tool\base64\base64_command.h">
+      <Filter>src\module\tool\base64</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\tool\base64\base64_command_parsing.h">
+      <Filter>src\module\tool\base64</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -958,6 +967,12 @@
     </ClCompile>
     <ClCompile Include="src\main\clipboard_data.cpp">
       <Filter>src\main</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\tool\base64\base64_command.cpp">
+      <Filter>src\module\tool\base64</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\tool\base64\base64_command_parsing.cpp">
+      <Filter>src\module\tool\base64</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

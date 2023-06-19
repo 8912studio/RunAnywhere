@@ -1,6 +1,7 @@
 #include "module/tool/tool_module.h"
 #include <functional>
 #include "module/command_brief.h"
+#include "module/tool/base64/base64_command.h"
 #include "module/tool/date/date_command.h"
 #include "module/tool/error/error_command.h"
 #include "module/tool/hex/hex_command.h"
@@ -62,6 +63,7 @@ std::unique_ptr<ToolCommandInfo> CreateTextTransformCommandInfo() {
 
 ToolModule::ToolModule() {
 
+    command_infos_.push_back(CreateCommandInfo<base64::Base64Command>());
     command_infos_.push_back(CreateCommandInfo<date::DateCommand>());
     command_infos_.push_back(CreateCommandInfo<error::ErrorCommand>());
     command_infos_.push_back(CreateCommandInfo<hex::HexCommand>());

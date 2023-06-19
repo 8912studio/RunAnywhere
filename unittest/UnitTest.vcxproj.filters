@@ -64,6 +64,9 @@
     <Filter Include="case\main">
       <UniqueIdentifier>{0c6f4b66-1270-4c45-8711-98fcf04add48}</UniqueIdentifier>
     </Filter>
+    <Filter Include="case\module\tool\base64">
+      <UniqueIdentifier>{6091369f-bb13-4c04-9a86-15315067b94e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="case\module\calculator\decimal_number_parser_test.cpp">
@@ -183,6 +186,9 @@
     </ClCompile>
     <ClCompile Include="case\main\clipboard_data_test.cpp">
       <Filter>case\main</Filter>
+    </ClCompile>
+    <ClCompile Include="case\module\tool\base64\base64_command_parsing_test.cpp">
+      <Filter>case\module\tool\base64</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
