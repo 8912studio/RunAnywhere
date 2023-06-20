@@ -2,9 +2,9 @@
 
 #include "module/command.h"
 #include "module/command_brief.h"
-#include "utility/command_line.h"
-#include "module/tool/text_transform/text_preview_control.h"
+#include "module/common/text_preview_control.h"
 #include "module/tool/text_transform/text_transformer.h"
+#include "utility/command_line.h"
 
 namespace ra::mod::tool::text_transform {
 

@@ -585,9 +585,6 @@
     <ClInclude Include="src\utility\thin_scroll_bar.h">
       <Filter>src\utility</Filter>
     </ClInclude>
-    <ClInclude Include="src\module\tool\text_transform\text_preview_control.h">
-      <Filter>src\module\tool\text_transform</Filter>
-    </ClInclude>
     <ClInclude Include="src\module\tool\text_transform\text_transform_command.h">
       <Filter>src\module\tool\text_transform</Filter>
     </ClInclude>
@@ -614,6 +611,9 @@
     </ClInclude>
     <ClInclude Include="src\module\tool\base64\base64_command_parsing.h">
       <Filter>src\module\tool\base64</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\common\text_preview_control.h">
+      <Filter>src\module\common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -950,9 +950,6 @@
     <ClCompile Include="src\utility\thin_scroll_bar.cpp">
       <Filter>src\utility</Filter>
     </ClCompile>
-    <ClCompile Include="src\module\tool\text_transform\text_preview_control.cpp">
-      <Filter>src\module\tool\text_transform</Filter>
-    </ClCompile>
     <ClCompile Include="src\module\tool\text_transform\text_transform_command.cpp">
       <Filter>src\module\tool\text_transform</Filter>
     </ClCompile>
@@ -973,6 +970,9 @@
     </ClCompile>
     <ClCompile Include="src\module\tool\base64\base64_command_parsing.cpp">
       <Filter>src\module\tool\base64</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\common\text_preview_control.cpp">
+      <Filter>src\module\common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1027,8 +1027,8 @@
     <Page Include="src\main\text_block_window.xaml">
       <Filter>src\main</Filter>
     </Page>
-    <Page Include="src\module\tool\text_transform\text_preview_control.xaml">
-      <Filter>src\module\tool\text_transform</Filter>
+    <Page Include="src\module\common\text_preview_control.xaml">
+      <Filter>src\module\common</Filter>
     </Page>
   </ItemGroup>
   <ItemGroup>

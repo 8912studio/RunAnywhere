@@ -1,3 +1,0 @@
-<BasePreviewControl Layouter="VerticalLayouter">
-    <ErrorView Name="errorView" IsVisible="false"/>
-</BasePreviewControl>

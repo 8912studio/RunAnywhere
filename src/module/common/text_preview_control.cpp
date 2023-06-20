@@ -1,10 +1,10 @@
-#include "module/tool/text_transform/text_preview_control.h"
+#include "module/common/text_preview_control.h"
 #include <zaf/base/log.h>
 #include <zaf/control/scroll_bar.h>
 #include <zaf/object/type_definition.h>
 #include "utility/text_utility.h"
 
-namespace ra::mod::tool::text_transform {
+namespace ra::mod {
 namespace {
 
 constexpr float MultiLineFontSize = 16;
@@ -15,7 +15,7 @@ constexpr float MinControlHeight = 90;
 }
 
 ZAF_DEFINE_TYPE(TextPreviewControl)
-ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/tool/text_transform/text_preview_control.xaml")
+ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/common/text_preview_control.xaml")
 ZAF_DEFINE_TYPE_END;
 
 void TextPreviewControl::SetText(const std::wstring& text) {

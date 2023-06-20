@@ -36,7 +36,7 @@ bool Base64Command::Interpret(
 
     auto parse_result = Parse(command_line);
 
-    preview_control_ = zaf::Create<text_transform::TextPreviewControl>();
+    preview_control_ = zaf::Create<TextPreviewControl>();
 
     bool use_encode{ true };
     if (!parse_result.operation) {

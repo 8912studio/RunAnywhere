@@ -2,8 +2,8 @@
 
 #include <optional>
 #include "module/command.h"
+#include "module/common/text_preview_control.h"
 #include "module/tool/base64/base64_command_parsing.h"
-#include "module/tool/text_transform/text_preview_control.h"
 
 namespace ra::mod::tool::base64 {
 
@@ -24,7 +24,7 @@ public:
     void Execute() override;
 
 private:
-    std::shared_ptr<text_transform::TextPreviewControl> preview_control_;
+    std::shared_ptr<TextPreviewControl> preview_control_;
 };
 
 }
