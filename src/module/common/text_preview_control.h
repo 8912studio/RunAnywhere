@@ -25,8 +25,8 @@ private:
     void ShowText(const std::wstring& text);
 
     void CalculateAndAdjustControls();
-    void AdjustForSingleLineEdit();
-    void AdjustForMultiLineEdit();
+    bool TryToAdjustForSingleLineText();
+    void AdjustForMultiLineText();
     static float CalculateRequriedHeightForMultiLineEdit(
         const zaf::Size& edit_size,
         std::size_t line_count,
@@ -38,6 +38,9 @@ private:
     ZAF_BIND_CONTROL(zaf::Label, emptyLabel);
     ZAF_BIND_CONTROL(zaf::ScrollableControl, scrollControl);
     ZAF_BIND_CONTROL(zaf::RichEdit, richEdit);
+
+    bool wrap_text_{};
+    bool has_line_break_{};
 };
 
 }

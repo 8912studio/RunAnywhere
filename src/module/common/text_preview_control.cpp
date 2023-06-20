@@ -30,7 +30,7 @@ void TextPreviewControl::SetText(const std::wstring& text) {
 
 
 void TextPreviewControl::SetWrapText(bool wrap) {
-    richEdit->SetWordWrapping(wrap ? zaf::WordWrapping::Wrap : zaf::WordWrapping::NoWrap);
+    wrap_text_ = wrap;
     CalculateAndAdjustControls();
 }
 
@@ -51,17 +51,9 @@ void TextPreviewControl::ShowText(const std::wstring& text) {
 
     auto update_guard = richEdit->BeginUpdate();
 
-    if (utility::HasLineBreak(text)) {
-        richEdit->SetIsMultiline(true);
-        richEdit->SetTextAlignment(zaf::TextAlignment::Left);
-        richEdit->SetFontSize(MultiLineFontSize);
-    }
-    else {
-        richEdit->SetIsMultiline(false);
-        richEdit->SetTextAlignment(zaf::TextAlignment::Center);
-    }
-
     richEdit->SetText(text);
+    has_line_break_ = utility::HasLineBreak(text);
+
     CalculateAndAdjustControls();
 }
 
@@ -92,27 +84,37 @@ void TextPreviewControl::Layout(const zaf::Rect& previous_rect) {
 
 void TextPreviewControl::CalculateAndAdjustControls() {
 
+    //Ignore abnormal size.
+    if (this->ContentSize().width <= 0) {
+        return;
+    }
+
     //Disable scroll bars by default, in order to make GetExpectedMargin() get correct values.
     scrollControl->SetAllowVerticalScroll(false);
     scrollControl->SetAllowHorizontalScroll(false);
 
-    if (richEdit->IsMultiline()) {
-        AdjustForMultiLineEdit();
+    if (!has_line_break_) {
+
+        //Try to use single line mode if there is no line break in text.
+        if (TryToAdjustForSingleLineText()) {
+            return;
+        }
     }
-    else {
-        AdjustForSingleLineEdit();
-    }
+
+    //There are line breaks in text, or wrapping is set, use multi line mode.
+    AdjustForMultiLineText();
 }
 
 
-void TextPreviewControl::AdjustForSingleLineEdit() {
+bool TextPreviewControl::TryToAdjustForSingleLineText() {
 
+    //Set rich edit to single line mode.
+    richEdit->SetIsMultiline(false);
+    richEdit->SetTextAlignment(zaf::TextAlignment::Center);
+
+    //Find suitable font size.
     auto content_size = this->ContentSize();
-    if (content_size.width <= 0) {
-        return;
-    }
-
-    bool need_horizontal_scorll_bar{ true };
+    bool found_suitable_font_size{ false };
     for (float font_size = SingleLineMaxFontSize; 
          font_size >= SingleLineMinFontSize;
          --font_size) {
@@ -121,27 +123,33 @@ void TextPreviewControl::AdjustForSingleLineEdit() {
         auto edit_size = richEdit->CalculatePreferredSize();
 
         if (edit_size.width <= content_size.width) {
-            need_horizontal_scorll_bar = false;
+            found_suitable_font_size = true;
             break;
         }
     }
 
+    //Cannot find suitable font size, but wrapping is set, switch to multi line mode.
+    if (!found_suitable_font_size && wrap_text_) {
+        return false;
+    }
+
     scrollControl->SetAllowVerticalScroll(false);
-    scrollControl->SetAllowHorizontalScroll(need_horizontal_scorll_bar);
+    scrollControl->SetAllowHorizontalScroll(!found_suitable_font_size);
     this->SetFixedHeight(MinControlHeight);
+    return true;
 }
 
 
-void TextPreviewControl::AdjustForMultiLineEdit() {
+void TextPreviewControl::AdjustForMultiLineText() {
 
-    auto content_size = this->ContentSize();
-    if (content_size.width <= 0) {
-        return;
-    }
+    richEdit->SetIsMultiline(true);
+    richEdit->SetTextAlignment(zaf::TextAlignment::Left);
+    richEdit->SetFontSize(MultiLineFontSize);
+    richEdit->SetWordWrapping(wrap_text_ ? zaf::WordWrapping::Wrap : zaf::WordWrapping::NoWrap);
 
     auto edit_size = richEdit->CalculatePreferredSize();
     auto line_count = richEdit->LineCount();
-    zaf::Size bounds{ content_size.width, MinControlHeight };
+    zaf::Size bounds{ this->ContentSize().width, MinControlHeight };
     bool need_horizontal_scroll{};
     bool need_vertical_scroll{};
     auto control_height = CalculateRequriedHeightForMultiLineEdit(
