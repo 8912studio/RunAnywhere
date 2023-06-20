@@ -3,7 +3,7 @@
 #include <filesystem>
 #include <string>
 #include <zaf/rx/observable.h>
-#include "module/tool/md5/md5_encoding.h"
+#include "module/common/text_encoding.h"
 
 namespace ra::mod::tool::md5 {
 
@@ -16,6 +16,6 @@ public:
 
 zaf::Observable<MD5Result> CalculateFileMD5(const std::filesystem::path& file_path);
 
-std::wstring CalculateStringMD5(const std::wstring& string, MD5Encoding encoding);
+std::wstring CalculateStringMD5(const std::wstring& string, TextEncoding encoding);
 
 }

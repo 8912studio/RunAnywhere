@@ -89,15 +89,15 @@ zaf::Observable<MD5Result> CalculateFileMD5(const std::filesystem::path& file_pa
 }
 
 
-std::wstring CalculateStringMD5(const std::wstring& string, MD5Encoding encoding) {
+std::wstring CalculateStringMD5(const std::wstring& string, TextEncoding encoding) {
 
     boost::uuids::detail::md5 md5;
 
-    if (encoding == MD5Encoding::UTF8) {
+    if (encoding == TextEncoding::UTF8) {
         auto utf8_string = zaf::ToUTF8String(string);
         md5.process_bytes(utf8_string.data(), utf8_string.length());
     }
-    else if (encoding == MD5Encoding::UTF16) {
+    else if (encoding == TextEncoding::UTF16) {
         md5.process_bytes(string.data(), string.length() * sizeof(wchar_t));
     }
     else {

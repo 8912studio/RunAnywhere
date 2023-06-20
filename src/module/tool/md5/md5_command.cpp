@@ -26,10 +26,10 @@ MD5CommandParseResult MD5Command::Parse(const utility::CommandLine& command_line
 
 			auto switch_value = each_argument.substr(1);
 			if (switch_value == L"u8") {
-				result.encoding = MD5Encoding::UTF8;
+				result.encoding = TextEncoding::UTF8;
 			}
 			else if (switch_value == L"u16") {
-				result.encoding = MD5Encoding::UTF16;
+				result.encoding = TextEncoding::UTF16;
 			}
 			else if (switch_value == L"c") {
 				result.use_uppercase = true;

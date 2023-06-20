@@ -29,6 +29,12 @@ void TextPreviewControl::SetText(const std::wstring& text) {
 }
 
 
+void TextPreviewControl::SetWrapText(bool wrap) {
+    richEdit->SetWordWrapping(wrap ? zaf::WordWrapping::Wrap : zaf::WordWrapping::NoWrap);
+    CalculateAndAdjustControls();
+}
+
+
 void TextPreviewControl::ShowEmptyText() {
 
     scrollControl->SetIsVisible(false);

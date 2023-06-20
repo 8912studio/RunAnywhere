@@ -14,6 +14,7 @@ public:
 
 public:
     void SetText(const std::wstring& text);
+    void SetWrapText(bool wrap);
 
 protected:
     zaf::Frame GetExpectedMargin() override;

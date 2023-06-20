@@ -6,7 +6,7 @@
 #include <zaf/control/label.h>
 #include <zaf/control/rich_edit.h>
 #include "module/command_preview_control.h"
-#include "module/tool/md5/md5_encoding.h"
+#include "module/common/text_encoding.h"
 #include "utility/preview_text_box.h"
 #include "utility/progress_circle.h"
 
@@ -17,7 +17,7 @@ public:
 	ZAF_DECLARE_TYPE;
 
 	void ShowFileMD5(const std::filesystem::path& file_path);
-	void ShowStringMD5(const std::wstring& string, MD5Encoding encoding);
+	void ShowStringMD5(const std::wstring& string, TextEncoding encoding);
 
 	std::wstring GetText();
 
@@ -34,7 +34,7 @@ private:
 
 private:
 	void SetSourceIcon(const std::wstring& uri);
-	void SetMD5Encoding(std::optional<MD5Encoding> encoding);
+	void SetMD5Encoding(std::optional<TextEncoding> encoding);
 	void SetMD5Text(const std::wstring& md5);
 	void ChangeLayout(LayoutType type);
 

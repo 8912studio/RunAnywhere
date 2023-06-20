@@ -2,6 +2,7 @@
 
 #include <optional>
 #include <string>
+#include "module/common/text_encoding.h"
 #include "utility/command_line.h"
 
 namespace ra::mod::tool::base64 {
@@ -15,6 +16,7 @@ class Base64CommandParseResult {
 public:
     std::wstring input_text;
     std::optional<Base64Operation> operation;
+    TextEncoding encoding{ TextEncoding::UTF8 };
 };
 
 

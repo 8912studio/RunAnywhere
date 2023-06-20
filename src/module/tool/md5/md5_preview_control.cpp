@@ -72,7 +72,7 @@ void MD5PreviewControl::ShowFileMD5(const std::filesystem::path& file_path) {
 }
 
 
-void MD5PreviewControl::ShowStringMD5(const std::wstring& string, MD5Encoding encoding) {
+void MD5PreviewControl::ShowStringMD5(const std::wstring& string, TextEncoding encoding) {
 
 	SetSourceIcon(L"res:///resource/string.png");
 	SetMD5Encoding(encoding);
@@ -86,7 +86,7 @@ void MD5PreviewControl::ShowStringMD5(const std::wstring& string, MD5Encoding en
 }
 
 
-void MD5PreviewControl::SetMD5Encoding(std::optional<MD5Encoding> encoding) {
+void MD5PreviewControl::SetMD5Encoding(std::optional<TextEncoding> encoding) {
 
 	if (!encoding) {
 		md5EncodingContainer->SetIsVisible(false);
@@ -95,10 +95,10 @@ void MD5PreviewControl::SetMD5Encoding(std::optional<MD5Encoding> encoding) {
 
 	md5EncodingContainer->SetIsVisible(true);
 
-	if (encoding == MD5Encoding::UTF8) {
+	if (encoding == TextEncoding::UTF8) {
 		md5EncodingControl->SetText(L"UTF8");
 	}
-	else if (encoding == MD5Encoding::UTF16) {
+	else if (encoding == TextEncoding::UTF16) {
 		md5EncodingControl->SetText(L"UTF16");
 	}
 	else {

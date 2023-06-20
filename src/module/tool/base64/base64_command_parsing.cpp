@@ -19,15 +19,17 @@ bool TryToParseSwitch(
     auto value = argument.substr(1);
     if (value == L"e") {
         parse_result.operation = base64::Base64Operation::Encode;
-        return true;
     }
-
-    if (value == L"d") {
+    else if (value == L"d") {
         parse_result.operation = base64::Base64Operation::Decode;
-        return true;
     }
-
-    return false;
+    else if (value == L"u8") {
+        parse_result.encoding = TextEncoding::UTF8;
+    }
+    else if (value == L"u16") {
+        parse_result.encoding = TextEncoding::UTF16;
+    }
+    return true;
 }
 
 }

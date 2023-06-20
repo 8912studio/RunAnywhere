@@ -175,6 +175,7 @@
     <ClInclude Include="src\module\command_preview_control.h" />
     <ClInclude Include="src\module\common\command_error_control.h" />
     <ClInclude Include="src\module\common\error_view.h" />
+    <ClInclude Include="src\module\common\text_encoding.h" />
     <ClInclude Include="src\module\common\text_preview_control.h" />
     <ClInclude Include="src\module\extension\extension_command.h" />
     <ClInclude Include="src\module\extension\extension_command_preview_control.h" />
@@ -205,7 +206,6 @@
     <ClInclude Include="src\module\tool\md5\md5_calculating.h" />
     <ClInclude Include="src\module\tool\md5\md5_command.h" />
     <ClInclude Include="src\module\tool\md5\md5_command_parse_result.h" />
-    <ClInclude Include="src\module\tool\md5\md5_encoding.h" />
     <ClInclude Include="src\module\tool\md5\md5_preview_control.h" />
     <ClInclude Include="src\module\tool\rgb\rgb_command.h" />
     <ClInclude Include="src\module\tool\rgb\rgb_command_parse_result.h" />

@@ -35,30 +35,72 @@ bool Base64Command::Interpret(
     }
 
     auto parse_result = Parse(command_line);
+    preview_control_ = CreatePreviewControl(parse_result);
+    return true;
+}
 
-    preview_control_ = zaf::Create<TextPreviewControl>();
 
-    bool use_encode{ true };
-    if (!parse_result.operation) {
+std::shared_ptr<CommandPreviewControl> Base64Command::CreatePreviewControl(
+    const Base64CommandParseResult& parse_result) {
 
+    //Try to decode data first.
+    std::optional<std::vector<std::byte>> decoded_data;
+    bool can_decode{};
+    if (!parse_result.operation || *parse_result.operation == Base64Operation::Decode) {
         try {
-            auto decoded = zaf::Base64Decode(zaf::ToUTF8String(parse_result.input_text));
-            use_encode = false;
+            decoded_data = zaf::Base64Decode(zaf::ToUTF8String(parse_result.input_text));
+            can_decode = true;
         }
         catch (const zaf::Error&) {
 
         }
     }
 
-    if (use_encode) {
+    //Determinate which operation should we perform.
+    //Use specified operation if there is. Or use decode if the data can be decoded, otherwise use 
+    //encode.
+    Base64Operation operation =
+        parse_result.operation ? *parse_result.operation : 
+        can_decode ? Base64Operation::Decode : Base64Operation::Encode; 
 
-        auto encoded_text = zaf::Base64Encode(
-            parse_result.input_text.data(),
-            parse_result.input_text.length());
-
-        preview_control_->SetText(zaf::FromUTF8String(encoded_text));
+    if (operation == Base64Operation::Encode) {
+        return CreateEncodePreviewControl(parse_result);
     }
-    return true;
+    else if (decoded_data) {
+        return CreateDecodePreviewControl(*decoded_data, parse_result);
+    }
+    else {
+        //Fail to decode data.
+        return nullptr;
+    }
+}
+
+
+std::shared_ptr<CommandPreviewControl> Base64Command::CreateEncodePreviewControl(
+    const Base64CommandParseResult& parse_result) {
+
+    std::string encoded_text;
+    if (parse_result.encoding == TextEncoding::UTF8) {
+        auto utf8_input = zaf::ToUTF8String(parse_result.input_text);
+        encoded_text = zaf::Base64Encode(utf8_input.data(), utf8_input.size());
+    }
+    else {
+        const auto& utf16_input = parse_result.input_text;
+        encoded_text = zaf::Base64Encode(utf16_input.data(), utf16_input.size() * sizeof(wchar_t));
+    }
+
+    auto result = zaf::Create<TextPreviewControl>();
+    result->SetText(zaf::FromUTF8String(encoded_text));
+    result->SetWrapText(true);
+    return result;
+}
+
+
+std::shared_ptr<CommandPreviewControl> Base64Command::CreateDecodePreviewControl(
+    const std::vector<std::byte>& decoded_data,
+    const Base64CommandParseResult& parse_result) {
+
+    return nullptr;
 }
 
 

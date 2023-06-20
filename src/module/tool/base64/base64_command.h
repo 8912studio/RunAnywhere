@@ -24,7 +24,18 @@ public:
     void Execute() override;
 
 private:
-    std::shared_ptr<TextPreviewControl> preview_control_;
+    std::shared_ptr<CommandPreviewControl> CreatePreviewControl(
+        const Base64CommandParseResult& parse_result);
+
+    std::shared_ptr<CommandPreviewControl> CreateEncodePreviewControl(
+        const Base64CommandParseResult& parse_result);
+
+    std::shared_ptr<CommandPreviewControl> CreateDecodePreviewControl(
+        const std::vector<std::byte>& decoded_data,
+        const Base64CommandParseResult& parse_result);
+
+private:
+    std::shared_ptr<CommandPreviewControl> preview_control_;
 };
 
 }

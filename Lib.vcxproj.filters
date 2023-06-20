@@ -498,9 +498,6 @@
     <ClInclude Include="src\module\tool\md5\md5_command_parse_result.h">
       <Filter>src\module\tool\md5</Filter>
     </ClInclude>
-    <ClInclude Include="src\module\tool\md5\md5_encoding.h">
-      <Filter>src\module\tool\md5</Filter>
-    </ClInclude>
     <ClInclude Include="src\module\tool\md5\md5_preview_control.h">
       <Filter>src\module\tool\md5</Filter>
     </ClInclude>
@@ -613,6 +610,9 @@
       <Filter>src\module\tool\base64</Filter>
     </ClInclude>
     <ClInclude Include="src\module\common\text_preview_control.h">
+      <Filter>src\module\common</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\common\text_encoding.h">
       <Filter>src\module\common</Filter>
     </ClInclude>
   </ItemGroup>
