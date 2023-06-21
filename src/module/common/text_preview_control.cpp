@@ -146,33 +146,49 @@ void TextPreviewControl::AdjustForMultiLineText() {
     richEdit->SetTextAlignment(zaf::TextAlignment::Left);
     richEdit->SetFontSize(MultiLineFontSize);
     richEdit->SetWordWrapping(wrap_text_ ? zaf::WordWrapping::Wrap : zaf::WordWrapping::NoWrap);
+    
+    auto content_size = this->ContentSize();
+    zaf::Size text_bounds{ content_size.width, MinControlHeight };
 
-    auto edit_size = richEdit->CalculatePreferredSize();
+    auto text_preferrence_size = richEdit->CalculatePreferredSize(zaf::Size{ 
+        content_size.width, 
+        std::numeric_limits<float>::max()
+    });
     auto line_count = richEdit->LineCount();
-    zaf::Size bounds{ this->ContentSize().width, MinControlHeight };
+    auto line_height = text_preferrence_size.height / line_count;
+
     bool need_horizontal_scroll{};
     bool need_vertical_scroll{};
     auto control_height = CalculateRequriedHeightForMultiLineEdit(
-        edit_size, 
+        text_preferrence_size, 
         line_count, 
-        bounds,
+        line_height,
+        text_bounds,
         need_horizontal_scroll,
         need_vertical_scroll);
 
     if (need_horizontal_scroll || need_vertical_scroll) {
 
         if (need_horizontal_scroll) {
-            bounds.height -= scrollControl->HorizontalScrollBar()->Height();
+            text_bounds.height -= scrollControl->HorizontalScrollBar()->Height();
         }
 
         if (need_vertical_scroll) {
-            bounds.width -= scrollControl->VerticalScrollBar()->Width();
+
+            text_bounds.width -= scrollControl->VerticalScrollBar()->Width();
+
+            //Recalculate edit size when the width of text_bounds is changed.
+            text_preferrence_size = richEdit->CalculatePreferredSize(zaf::Size{
+                text_bounds.width,
+                std::numeric_limits<float>::max()
+            });
         }
 
         control_height = CalculateRequriedHeightForMultiLineEdit(
-            edit_size, 
+            text_preferrence_size, 
             line_count, 
-            bounds, 
+            line_height,
+            text_bounds, 
             need_horizontal_scroll, 
             need_vertical_scroll);
     }
@@ -188,21 +204,20 @@ void TextPreviewControl::AdjustForMultiLineText() {
 
 
 float TextPreviewControl::CalculateRequriedHeightForMultiLineEdit(
-    const zaf::Size& edit_size,
+    const zaf::Size& text_preferrence_size,
     std::size_t line_count,
-    const zaf::Size& bounds,
+    float line_height,
+    const zaf::Size& text_bounds,
     bool& need_horizontal_scroll,
     bool& need_vertical_scroll) {
 
-    need_horizontal_scroll = edit_size.width > bounds.width;
+    need_horizontal_scroll = text_preferrence_size.width > text_bounds.width;
 
-    if (edit_size.height <= bounds.height) {
+    if (text_preferrence_size.height <= text_bounds.height) {
 
         need_vertical_scroll = false;
-        return bounds.height;
+        return text_bounds.height;
     }
-
-    auto line_height = edit_size.height / line_count;
 
     constexpr std::size_t MaxShowLineCount = 10;
 

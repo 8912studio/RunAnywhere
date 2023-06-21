@@ -28,9 +28,10 @@ private:
     bool TryToAdjustForSingleLineText();
     void AdjustForMultiLineText();
     static float CalculateRequriedHeightForMultiLineEdit(
-        const zaf::Size& edit_size,
+        const zaf::Size& text_preferrence_size,
         std::size_t line_count,
-        const zaf::Size& bounds,
+        float line_height,
+        const zaf::Size& text_bounds,
         bool& need_horizontal_scroll, 
         bool& need_vertical_scroll);
 
