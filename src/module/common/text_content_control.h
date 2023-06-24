@@ -29,10 +29,12 @@ protected:
     float GetTextLayoutWidth() const;
     void BreakTextForBase64Mode();
     void AdjustForMultiLineText(bool has_set_text);
+    void SetControlHeight(float text_layout_height);
     static float CalculateRequriedHeightForMultiLineEdit(
         const zaf::Size& text_preferrence_size,
         std::size_t line_count,
-        const zaf::Size& text_bounds);
+        const zaf::Size& text_bounds,
+        bool& need_vertical_scroll);
 
 private:
     ZAF_BIND_CONTROL(zaf::ScrollableControl, scrollControl);

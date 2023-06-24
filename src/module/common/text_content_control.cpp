@@ -12,7 +12,7 @@ constexpr float MultiLineFontSize = 16;
 constexpr float SingleLineMinFontSize = MultiLineFontSize;
 constexpr float SingleLineMaxFontSize = 26;
 constexpr std::size_t SingleLineMaxCalculateLength = 100;
-constexpr float MinControlHeight = 90;
+constexpr float MinTextLayoutHeight = 80;
 
 }
 
@@ -98,7 +98,7 @@ bool TextContentControl::TryToAdjustForSingleLineText() {
 
     richEdit->SetTextAlignment(zaf::TextAlignment::Center);
 
-    this->SetFixedHeight(MinControlHeight);
+    SetControlHeight(MinTextLayoutHeight);
     return true;
 }
 
@@ -182,12 +182,23 @@ void TextContentControl::AdjustForMultiLineText(bool has_set_text) {
     richEdit->SetTextAlignment(zaf::TextAlignment::Left);
     richEdit->SetFontSize(MultiLineFontSize);
 
-    auto control_height = CalculateRequriedHeightForMultiLineEdit(
+    bool need_vertical_scroll{};
+    auto edit_height = CalculateRequriedHeightForMultiLineEdit(
         richEdit->CalculatePreferredSize(),
         richEdit->LineCount(),
-        zaf::Size{ GetTextLayoutWidth(), MinControlHeight });
+        zaf::Size{ GetTextLayoutWidth(), MinTextLayoutHeight },
+        need_vertical_scroll);
 
-    control_height += scrollControl->HorizontalScrollBar()->Height();
+    //Rich edit might show scroll bar incorrectly even if there is enough space to show text,
+    //so we have to disable the scroll bar manually.
+    scrollControl->SetAllowVerticalScroll(need_vertical_scroll);
+    SetControlHeight(edit_height);
+}
+
+
+void TextContentControl::SetControlHeight(float text_layout_height) {
+
+    auto control_height = text_layout_height + scrollControl->HorizontalScrollBar()->Height();
     this->SetFixedHeight(control_height);
 }
 
@@ -195,9 +206,11 @@ void TextContentControl::AdjustForMultiLineText(bool has_set_text) {
 float TextContentControl::CalculateRequriedHeightForMultiLineEdit(
     const zaf::Size& text_preferrence_size,
     std::size_t line_count,
-    const zaf::Size& text_bounds) {
+    const zaf::Size& text_bounds,
+    bool& need_vertical_scroll) {
 
     if (text_preferrence_size.height <= text_bounds.height) {
+        need_vertical_scroll = false;
         return text_bounds.height;
     }
 
@@ -205,9 +218,11 @@ float TextContentControl::CalculateRequriedHeightForMultiLineEdit(
 
     std::size_t show_line_count{};
     if (line_count > MaxShowLineCount) {
+        need_vertical_scroll = true;
         show_line_count = MaxShowLineCount;
     }
     else {
+        need_vertical_scroll = false;
         show_line_count = line_count;
     }
 

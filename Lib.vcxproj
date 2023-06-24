@@ -191,6 +191,7 @@
     <ClInclude Include="src\module\module.h" />
     <ClInclude Include="src\module\tool\base64\base64_command.h" />
     <ClInclude Include="src\module\tool\base64\base64_command_parsing.h" />
+    <ClInclude Include="src\module\tool\base64\base64_preview_control.h" />
     <ClInclude Include="src\module\tool\date\date_command.h" />
     <ClInclude Include="src\module\tool\date\date_command_parse_result.h" />
     <ClInclude Include="src\module\tool\date\date_preview_control.h" />
@@ -329,6 +330,7 @@
     <ClCompile Include="src\module\meta\meta_module.cpp" />
     <ClCompile Include="src\module\tool\base64\base64_command.cpp" />
     <ClCompile Include="src\module\tool\base64\base64_command_parsing.cpp" />
+    <ClCompile Include="src\module\tool\base64\base64_preview_control.cpp" />
     <ClCompile Include="src\module\tool\date\date_command.cpp" />
     <ClCompile Include="src\module\tool\date\date_preview_control.cpp" />
     <ClCompile Include="src\module\tool\error\error_command.cpp" />
@@ -390,6 +392,7 @@
     <Page Include="src\module\common\text_content_control.xaml" />
     <Page Include="src\module\common\text_preview_control.xaml" />
     <Page Include="src\module\extension\extension_command_preview_control.xaml" />
+    <Page Include="src\module\tool\base64\base64_preview_control.xaml" />
     <Page Include="src\module\tool\date\date_preview_control.xaml" />
     <Page Include="src\module\tool\error\error_preview_control.xaml" />
     <Page Include="src\module\tool\hex\hex_preview_control.xaml" />

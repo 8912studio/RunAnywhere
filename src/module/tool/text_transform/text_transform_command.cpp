@@ -26,6 +26,10 @@ bool TextTransformCommand::Interpret(
     const context::DesktopContext & desktop_context,
     bool is_reusing) {
 
+    if (is_reusing) {
+        return false;
+    }
+
     const auto& arguments = command_line.Arguments();
     if (!arguments.empty()) {
 

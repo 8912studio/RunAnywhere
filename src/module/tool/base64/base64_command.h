@@ -2,8 +2,8 @@
 
 #include <optional>
 #include "module/command.h"
-#include "module/common/text_preview_control.h"
 #include "module/tool/base64/base64_command_parsing.h"
+#include "module/tool/base64/base64_preview_control.h"
 
 namespace ra::mod::tool::base64 {
 
@@ -24,18 +24,7 @@ public:
     void Execute() override;
 
 private:
-    std::shared_ptr<CommandPreviewControl> CreatePreviewControl(
-        const Base64CommandParseResult& parse_result);
-
-    std::shared_ptr<CommandPreviewControl> CreateEncodePreviewControl(
-        const Base64CommandParseResult& parse_result);
-
-    std::shared_ptr<CommandPreviewControl> CreateDecodePreviewControl(
-        const std::vector<std::byte>& decoded_data,
-        const Base64CommandParseResult& parse_result);
-
-private:
-    std::shared_ptr<CommandPreviewControl> preview_control_;
+    std::shared_ptr<Base64PreviewControl> preview_control_;
 };
 
 }
