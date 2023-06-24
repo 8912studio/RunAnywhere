@@ -10,11 +10,17 @@ namespace ra::mod {
 
 class TextPreviewControl : public CommandPreviewControl {
 public:
+    enum class DisplayMode {
+        Normal,
+        Base64,
+    };
+
+public:
     ZAF_DECLARE_TYPE;
 
 public:
-    void SetText(const std::wstring& text);
-    void SetWrapText(bool wrap);
+    void SetDisplayMode(DisplayMode mode);
+    void SetText(std::wstring text);
 
 protected:
     zaf::Frame GetExpectedMargin() override;
@@ -22,11 +28,13 @@ protected:
 
 private:
     void ShowEmptyText();
-    void ShowText(const std::wstring& text);
+    void ShowText();
 
     void CalculateAndAdjustControls();
     bool TryToAdjustForSingleLineText();
-    void AdjustForMultiLineText();
+    bool DeterminateIfAllTextCanFitInSingleLine(bool& has_set_text);
+    void BreakTextForBase64Mode();
+    void AdjustForMultiLineText(bool has_set_text);
     static float CalculateRequriedHeightForMultiLineEdit(
         const zaf::Size& text_preferrence_size,
         std::size_t line_count,
@@ -40,7 +48,8 @@ private:
     ZAF_BIND_CONTROL(zaf::ScrollableControl, scrollControl);
     ZAF_BIND_CONTROL(zaf::RichEdit, richEdit);
 
-    bool wrap_text_{};
+    DisplayMode display_mode_{ DisplayMode::Normal };
+    std::wstring text_;
     bool has_line_break_{};
 };
 

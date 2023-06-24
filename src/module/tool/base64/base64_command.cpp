@@ -90,8 +90,8 @@ std::shared_ptr<CommandPreviewControl> Base64Command::CreateEncodePreviewControl
     }
 
     auto result = zaf::Create<TextPreviewControl>();
+    result->SetDisplayMode(TextPreviewControl::DisplayMode::Base64);
     result->SetText(zaf::FromUTF8String(encoded_text));
-    result->SetWrapText(true);
     return result;
 }
 
