@@ -175,6 +175,7 @@
     <ClInclude Include="src\module\command_preview_control.h" />
     <ClInclude Include="src\module\common\command_error_control.h" />
     <ClInclude Include="src\module\common\error_view.h" />
+    <ClInclude Include="src\module\common\text_content_control.h" />
     <ClInclude Include="src\module\common\text_encoding.h" />
     <ClInclude Include="src\module\common\text_preview_control.h" />
     <ClInclude Include="src\module\extension\extension_command.h" />
@@ -317,6 +318,7 @@
     <ClCompile Include="src\module\calculator\preview\calculator_preview_control.cpp" />
     <ClCompile Include="src\module\common\command_error_control.cpp" />
     <ClCompile Include="src\module\common\error_view.cpp" />
+    <ClCompile Include="src\module\common\text_content_control.cpp" />
     <ClCompile Include="src\module\common\text_preview_control.cpp" />
     <ClCompile Include="src\module\extension\extension_command.cpp" />
     <ClCompile Include="src\module\extension\extension_command_preview_control.cpp" />
@@ -385,6 +387,7 @@
     <Page Include="src\main\text_block_window.xaml" />
     <Page Include="src\module\calculator\preview\calculator_preview_control.xaml" />
     <Page Include="src\module\common\error_view.xaml" />
+    <Page Include="src\module\common\text_content_control.xaml" />
     <Page Include="src\module\common\text_preview_control.xaml" />
     <Page Include="src\module\extension\extension_command_preview_control.xaml" />
     <Page Include="src\module\tool\date\date_preview_control.xaml" />

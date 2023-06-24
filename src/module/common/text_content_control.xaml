@@ -1,0 +1,27 @@
+<TextContentControl Layouter="VerticalLayouter">
+    <ScrollableControl 
+        Name="scrollControl" 
+        Border="0"
+        ScrollBarThickness="10">
+
+        <ScrollableControl.VerticalScrollBar>
+            <ThinScrollBar />
+        </ScrollableControl.VerticalScrollBar>
+
+        <ScrollableControl.HorizontalScrollBar>
+            <ThinScrollBar />
+        </ScrollableControl.HorizontalScrollBar>
+
+        <ScrollableControl.ScrollContent>
+            <RichEdit 
+                Name="richEdit" 
+                Border="0"
+                IsReadOnly="true"
+                AllowBeep="false"
+                BackgroundColor="#00000000"
+                FontSize="18"
+                ParagraphAlignment="Center"
+            />
+        </ScrollableControl.ScrollContent>
+    </ScrollableControl>
+</TextContentControl>

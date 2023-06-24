@@ -615,6 +615,9 @@
     <ClInclude Include="src\module\common\text_encoding.h">
       <Filter>src\module\common</Filter>
     </ClInclude>
+    <ClInclude Include="src\module\common\text_content_control.h">
+      <Filter>src\module\common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -974,6 +977,9 @@
     <ClCompile Include="src\module\common\text_preview_control.cpp">
       <Filter>src\module\common</Filter>
     </ClCompile>
+    <ClCompile Include="src\module\common\text_content_control.cpp">
+      <Filter>src\module\common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Page Include="src\module\user_defined\preview\user_defined_command_preview_control.xaml">
@@ -1028,6 +1034,9 @@
       <Filter>src\main</Filter>
     </Page>
     <Page Include="src\module\common\text_preview_control.xaml">
+      <Filter>src\module\common</Filter>
+    </Page>
+    <Page Include="src\module\common\text_content_control.xaml">
       <Filter>src\module\common</Filter>
     </Page>
   </ItemGroup>
