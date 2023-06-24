@@ -1,0 +1,30 @@
+<ContentStatusBar FixedHeight="30">
+    <Control 
+        Name="typeIcon" 
+        FixedWidth="16"
+        Margin="0,0,0,2"
+        BackgroundImageLayout="Center" 
+    />
+    <Control Name="encodingContainer" Margin="8,0,0,0">
+        <Control.Layouter>
+            <LinearLayouter Direction="TopToBottom" AxisAlignment="Center" />
+        </Control.Layouter>
+        <Label 
+            Name="encodingLabel" 
+            Border="1"
+            BorderColor="#808080"
+            Padding="1,0,1,0"
+            AutoSize="true"
+            ParagraphAlignment="Center"
+            FontSize="10"
+            TextColor="#808080"
+        />
+    </Control>
+    <Label 
+        Name="contentLabel" 
+        Margin="8,0,0,0"
+        ParagraphAlignment="Center"
+        FontSize="14" 
+        TextColor="#808080" 
+    />
+</ContentStatusBar>

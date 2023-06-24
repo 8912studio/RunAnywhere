@@ -621,6 +621,9 @@
     <ClInclude Include="src\module\tool\base64\base64_preview_control.h">
       <Filter>src\module\tool\base64</Filter>
     </ClInclude>
+    <ClInclude Include="src\module\common\content_status_bar.h">
+      <Filter>src\module\common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -986,6 +989,9 @@
     <ClCompile Include="src\module\tool\base64\base64_preview_control.cpp">
       <Filter>src\module\tool\base64</Filter>
     </ClCompile>
+    <ClCompile Include="src\module\common\content_status_bar.cpp">
+      <Filter>src\module\common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Page Include="src\module\user_defined\preview\user_defined_command_preview_control.xaml">
@@ -1047,6 +1053,9 @@
     </Page>
     <Page Include="src\module\tool\base64\base64_preview_control.xaml">
       <Filter>src\module\tool\base64</Filter>
+    </Page>
+    <Page Include="src\module\common\content_status_bar.xaml">
+      <Filter>src\module\common</Filter>
     </Page>
   </ItemGroup>
   <ItemGroup>

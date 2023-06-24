@@ -31,6 +31,8 @@ void Base64PreviewControl::ShowParseResult(const Base64CommandParseResult& parse
         parse_result.operation ? *parse_result.operation :
         can_decode ? Base64Operation::Decode : Base64Operation::Encode;
 
+    auto update_guard = this->BeginUpdate();
+
     if (operation == Base64Operation::Encode) {
         ShowEncodeResult(parse_result);
     }
@@ -54,6 +56,8 @@ void Base64PreviewControl::ShowEncodeResult(const Base64CommandParseResult& pars
         const auto& utf16_input = parse_result.input_text;
         encoded_text = zaf::Base64Encode(utf16_input.data(), utf16_input.size() * sizeof(wchar_t));
     }
+
+    contentStatusBar->ShowText(parse_result.input_text, parse_result.encoding);
 
     textContent->SetDisplayMode(TextDisplayMode::Base64);
     textContent->SetText(zaf::FromUTF8String(encoded_text));
