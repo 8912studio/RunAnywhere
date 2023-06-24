@@ -37,7 +37,7 @@ void Base64PreviewControl::ShowParseResult(const Base64CommandParseResult& parse
         ShowEncodeResult(parse_result);
     }
     else if (decoded_data) {
-
+        ShowDecodeResult(std::move(*decoded_data), parse_result);
     }
     else {
         //Fail to decode data.
@@ -65,9 +65,21 @@ void Base64PreviewControl::ShowEncodeResult(const Base64CommandParseResult& pars
 }
 
 
+void Base64PreviewControl::ShowDecodeResult(
+    std::vector<std::byte> decoded_data,
+    const Base64CommandParseResult& parse_result) {
+
+    contentStatusBar->ShowBinary(parse_result.input_text);
+
+    binaryContent->SetBinary(std::move(decoded_data));
+    binaryContent->SetIsVisible(true);
+}
+
+
 zaf::Frame Base64PreviewControl::GetExpectedMargin() {
 
     auto result = __super::GetExpectedMargin();
+    result.left = 0;
     result.right = 0;
     result.bottom = 0;
     return result;

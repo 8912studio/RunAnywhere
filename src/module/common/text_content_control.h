@@ -3,6 +3,7 @@
 #include <zaf/control/control.h>
 #include <zaf/control/control_binder.h>
 #include <zaf/control/rich_edit.h>
+#include <zaf/control/rich_edit/ole_callback.h>
 #include <zaf/control/scrollable_control.h>
 
 namespace ra::mod {
@@ -12,7 +13,7 @@ enum class TextDisplayMode {
     Base64,
 };
 
-class TextContentControl : public zaf::Control {
+class TextContentControl : public zaf::Control, public zaf::rich_edit::OLECallback {
 public:
     ZAF_DECLARE_TYPE;
 
@@ -21,6 +22,7 @@ public:
     void SetText(std::wstring text);
 
 protected:
+    void AfterParse() override;
     void Layout(const zaf::Rect&) override;
 
     void CalculateAndAdjustControls();
@@ -35,6 +37,12 @@ protected:
         std::size_t line_count,
         const zaf::Size& text_bounds,
         bool& need_vertical_scroll);
+
+private:
+    zaf::rich_edit::OperationResult GetClipboardData(
+        zaf::rich_edit::ClipboardOperation operation,
+        const zaf::TextRange& text_range,
+        zaf::clipboard::DataObject& data_object) override;
 
 private:
     ZAF_BIND_CONTROL(zaf::ScrollableControl, scrollControl);

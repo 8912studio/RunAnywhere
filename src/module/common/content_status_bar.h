@@ -15,10 +15,12 @@ public:
 public:
     void ShowFile(const std::filesystem::path& file_path);
     void ShowText(const std::wstring& text, TextEncoding encoding);
+    void ShowBinary(const std::wstring& binary_text);
 
 private:
     void SetTypeIcon(const std::wstring& uri);
     void SetEncoding(std::optional<TextEncoding> encoding);
+    void SetText(const std::wstring& text);
 
 private:
     ZAF_BIND_CONTROL(zaf::Control, typeIcon);

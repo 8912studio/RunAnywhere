@@ -1,4 +1,5 @@
 #include "module/common/text_content_control.h"
+#include <zaf/base/container/utility/erase.h>
 #include <zaf/base/container/utility/range.h>
 #include <zaf/base/log.h>
 #include <zaf/control/scroll_bar.h>
@@ -19,6 +20,13 @@ constexpr float MinTextLayoutHeight = 80;
 ZAF_DEFINE_TYPE(TextContentControl)
 ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/common/text_content_control.xaml")
 ZAF_DEFINE_TYPE_END;
+
+void TextContentControl::AfterParse() {
+
+    __super::AfterParse();
+
+    richEdit->SetOLECallback(zaf::As<zaf::rich_edit::OLECallback>(shared_from_this()));
+}
 
 
 void TextContentControl::SetDisplayMode(TextDisplayMode mode) {
@@ -228,6 +236,23 @@ float TextContentControl::CalculateRequriedHeightForMultiLineEdit(
 
     auto line_height = text_preferrence_size.height / line_count;
     return show_line_count * line_height;
+}
+
+
+zaf::rich_edit::OperationResult TextContentControl::GetClipboardData(
+    zaf::rich_edit::ClipboardOperation operation,
+    const zaf::TextRange& text_range,
+    zaf::clipboard::DataObject& data_object) {
+
+    if (display_mode_ == TextDisplayMode::Base64) {
+
+        auto text = richEdit->GetTextInRange(text_range);
+        zaf::Erase(text, L'\r');
+        data_object.SetText(std::move(text));
+        return zaf::rich_edit::OperationResult::OK;
+    }
+
+    return zaf::rich_edit::OperationResult::Pending;
 }
 
 }

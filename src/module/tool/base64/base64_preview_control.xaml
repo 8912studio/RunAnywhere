@@ -1,4 +1,5 @@
 <Base64PreviewControl Layouter="VerticalLayouter" AutoHeight="true">
-    <ContentStatusBar Name="contentStatusBar" Margin="0,0,15,0" />
-    <TextContentControl Name="textContent" Margin="0,4,0,0" IsVisible="false" />
+    <ContentStatusBar Name="contentStatusBar" Margin="15,0,15,0" />
+    <TextContentControl Name="textContent" Margin="15,4,0,0" IsVisible="false" />
+    <BinaryContentControl Name="binaryContent" IsVisible="false" />
 </Base64PreviewControl>

@@ -11,10 +11,15 @@ ZAF_DEFINE_TYPE_END;
 
 void BinaryContentControl::AfterParse() {
 
+    __super::AfterParse();
+
     scrollControl->SetFixedHeight(LineHeight * 8);
 
     auto scroll_bar = scrollControl->VerticalScrollBar();
     scroll_bar->SetSmallChange(static_cast<int>(LineHeight));
+
+    //If there is too much data, cached painting will fail, so we have to disable it.
+    scrollControl->ScrollContent()->SetIsCachedPaintingEnabled(false);
 }
 
 

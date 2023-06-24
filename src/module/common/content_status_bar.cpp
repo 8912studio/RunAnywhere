@@ -27,9 +27,17 @@ void ContentStatusBar::ShowText(const std::wstring& text, TextEncoding encoding)
 
 	SetTypeIcon(L"res:///resource/string.png");
 	SetEncoding(encoding);
+	SetText(text);
+}
 
-	contentLabel->SetTextTrimming(zaf::TextTrimmingGranularity::Character);
-	contentLabel->SetText(utility::ReplaceWhitespacesToVisibleChars(text));
+
+void ContentStatusBar::ShowBinary(const std::wstring& binary_text) {
+
+	auto update_guard = BeginUpdate();
+
+	SetTypeIcon(L"res:///resource/string.png");
+	SetEncoding(std::nullopt);
+	SetText(binary_text);
 }
 
 
@@ -62,6 +70,13 @@ void ContentStatusBar::SetEncoding(std::optional<TextEncoding> encoding) {
 
 	auto container_preferred_size = encodingContainer->CalculatePreferredSize();
 	encodingContainer->SetFixedWidth(container_preferred_size.width);
+}
+
+
+void ContentStatusBar::SetText(const std::wstring& text) {
+
+	contentLabel->SetTextTrimming(zaf::TextTrimmingGranularity::Character);
+	contentLabel->SetText(utility::ReplaceWhitespacesToVisibleChars(text));
 }
 
 }
