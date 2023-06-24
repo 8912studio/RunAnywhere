@@ -62,9 +62,21 @@ TEST(ToolModuleTest, CreateHexCommand) {
 
 	auto tool_module = std::make_shared<ToolModule>();
 
-	auto command = tool_module->CreateCommand(CommandLine{ L"hex"});
+	auto command = tool_module->CreateCommand(CommandLine{ L"hex" });
 	ASSERT_NE(command, nullptr);
 
 	command = tool_module->CreateCommand(CommandLine{ L"Hex" });
+	ASSERT_EQ(command, nullptr);
+}
+
+
+TEST(ToolModuleTest, CreateBase64Command) {
+
+	auto tool_module = std::make_shared<ToolModule>();
+
+	auto command = tool_module->CreateCommand(CommandLine{ L"base" });
+	ASSERT_NE(command, nullptr);
+
+	command = tool_module->CreateCommand(CommandLine{ L"Base" });
 	ASSERT_EQ(command, nullptr);
 }

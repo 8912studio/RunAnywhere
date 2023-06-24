@@ -6,7 +6,7 @@
 namespace ra::mod::tool::base64 {
 
 CommandBrief Base64Command::Brief() {
-    return CommandBrief{ L"b64", {} };
+    return CommandBrief{ L"base", {} };
 }
 
 
