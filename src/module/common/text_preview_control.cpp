@@ -66,15 +66,9 @@ void TextPreviewControl::ShowText() {
 zaf::Frame TextPreviewControl::GetExpectedMargin() {
 
     auto result = __super::GetExpectedMargin();
-
-    if (scrollControl->AllowVerticalScroll()) {
-        result.right = 0;
-    }
-
-    if (scrollControl->AllowHorizontalScroll()) {
-        result.bottom = 0;
-    }
-
+    //Use thickness of scroll bars as margins.
+    result.right = 0;
+    result.bottom = 0;
     return result;
 }
 
@@ -90,13 +84,9 @@ void TextPreviewControl::Layout(const zaf::Rect& previous_rect) {
 void TextPreviewControl::CalculateAndAdjustControls() {
 
     //Ignore abnormal size.
-    if (this->ContentSize().width <= 0) {
+    if (GetTextLayoutWidth() <= 0) {
         return;
     }
-
-    //Disable scroll bars by default, in order to make GetExpectedMargin() get correct values.
-    scrollControl->SetAllowVerticalScroll(false);
-    scrollControl->SetAllowHorizontalScroll(false);
 
     bool has_set_text{};
     if (!has_line_break_) {
@@ -140,8 +130,6 @@ bool TextPreviewControl::TryToAdjustForSingleLineText() {
 
     richEdit->SetTextAlignment(zaf::TextAlignment::Center);
 
-    scrollControl->SetAllowVerticalScroll(false);
-    scrollControl->SetAllowHorizontalScroll(!can_fit_in_single_line);
     this->SetFixedHeight(MinControlHeight);
     return true;
 }
@@ -159,7 +147,7 @@ bool TextPreviewControl::DeterminateIfAllTextCanFitInSingleLine(bool& has_set_te
     //Find suitable font size.
     richEdit->SetText(text_);
     
-    auto content_size = this->ContentSize();
+    float layout_width = GetTextLayoutWidth();
 
     for (float font_size = SingleLineMaxFontSize;
         font_size >= SingleLineMinFontSize;
@@ -168,12 +156,20 @@ bool TextPreviewControl::DeterminateIfAllTextCanFitInSingleLine(bool& has_set_te
         richEdit->SetFontSize(font_size);
         auto edit_size = richEdit->CalculatePreferredSize();
 
-        if (edit_size.width <= content_size.width) {
+        if (edit_size.width <= layout_width) {
             return true;
         }
     }
 
     return false;
+}
+
+
+float TextPreviewControl::GetTextLayoutWidth() const {
+
+    auto content_size = this->ContentSize();
+    auto width = content_size.width - scrollControl->VerticalScrollBar()->Width();
+    return std::max(width, 0.f);
 }
 
 
@@ -190,7 +186,7 @@ void TextPreviewControl::BreakTextForBase64Mode() {
     float average_char_width = preferred_size.width / calculated_text.length();
 
     auto line_length =
-        static_cast<std::size_t>(std::floor(this->ContentSize().width / average_char_width));
+        static_cast<std::size_t>(std::floor(GetTextLayoutWidth() / average_char_width));
 
     std::wstring new_text;
     new_text.reserve(text_.length() + (text_.length() / line_length * 2));
@@ -218,58 +214,12 @@ void TextPreviewControl::AdjustForMultiLineText(bool has_set_text) {
     richEdit->SetTextAlignment(zaf::TextAlignment::Left);
     richEdit->SetFontSize(MultiLineFontSize);
     
-    auto content_size = this->ContentSize();
-    zaf::Size text_bounds{ content_size.width, MinControlHeight };
-
-    auto text_preferrence_size = richEdit->CalculatePreferredSize(zaf::Size{ 
-        content_size.width, 
-        std::numeric_limits<float>::max()
-    });
-    auto line_count = richEdit->LineCount();
-    auto line_height = text_preferrence_size.height / line_count;
-
-    bool need_horizontal_scroll{};
-    bool need_vertical_scroll{};
     auto control_height = CalculateRequriedHeightForMultiLineEdit(
-        text_preferrence_size, 
-        line_count, 
-        line_height,
-        text_bounds,
-        need_horizontal_scroll,
-        need_vertical_scroll);
+        richEdit->CalculatePreferredSize(),
+        richEdit->LineCount(),
+        zaf::Size{ GetTextLayoutWidth(), MinControlHeight });
 
-    if (need_horizontal_scroll || need_vertical_scroll) {
-
-        if (need_horizontal_scroll) {
-            text_bounds.height -= scrollControl->HorizontalScrollBar()->Height();
-        }
-
-        if (need_vertical_scroll) {
-
-            text_bounds.width -= scrollControl->VerticalScrollBar()->Width();
-
-            //Recalculate edit size when the width of text_bounds is changed.
-            text_preferrence_size = richEdit->CalculatePreferredSize(zaf::Size{
-                text_bounds.width,
-                std::numeric_limits<float>::max()
-            });
-        }
-
-        control_height = CalculateRequriedHeightForMultiLineEdit(
-            text_preferrence_size, 
-            line_count, 
-            line_height,
-            text_bounds, 
-            need_horizontal_scroll, 
-            need_vertical_scroll);
-    }
-
-    if (need_horizontal_scroll) {
-        control_height += scrollControl->HorizontalScrollBar()->Height();
-    }
-
-    scrollControl->SetAllowHorizontalScroll(need_horizontal_scroll);
-    scrollControl->SetAllowVerticalScroll(need_vertical_scroll);
+    control_height += scrollControl->HorizontalScrollBar()->Height();
     this->SetFixedHeight(control_height);
 }
 
@@ -277,16 +227,9 @@ void TextPreviewControl::AdjustForMultiLineText(bool has_set_text) {
 float TextPreviewControl::CalculateRequriedHeightForMultiLineEdit(
     const zaf::Size& text_preferrence_size,
     std::size_t line_count,
-    float line_height,
-    const zaf::Size& text_bounds,
-    bool& need_horizontal_scroll,
-    bool& need_vertical_scroll) {
-
-    need_horizontal_scroll = text_preferrence_size.width > text_bounds.width;
+    const zaf::Size& text_bounds) {
 
     if (text_preferrence_size.height <= text_bounds.height) {
-
-        need_vertical_scroll = false;
         return text_bounds.height;
     }
 
@@ -294,15 +237,13 @@ float TextPreviewControl::CalculateRequriedHeightForMultiLineEdit(
 
     std::size_t show_line_count{};
     if (line_count > MaxShowLineCount) {
-
         show_line_count = MaxShowLineCount;
-        need_vertical_scroll = true;
     }
     else {
         show_line_count = line_count;
-        need_vertical_scroll = false;
     }
 
+    auto line_height = text_preferrence_size.height / line_count;
     return show_line_count * line_height;
 }
 

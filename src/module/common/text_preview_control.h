@@ -33,15 +33,13 @@ private:
     void CalculateAndAdjustControls();
     bool TryToAdjustForSingleLineText();
     bool DeterminateIfAllTextCanFitInSingleLine(bool& has_set_text);
+    float GetTextLayoutWidth() const;
     void BreakTextForBase64Mode();
     void AdjustForMultiLineText(bool has_set_text);
     static float CalculateRequriedHeightForMultiLineEdit(
         const zaf::Size& text_preferrence_size,
         std::size_t line_count,
-        float line_height,
-        const zaf::Size& text_bounds,
-        bool& need_horizontal_scroll, 
-        bool& need_vertical_scroll);
+        const zaf::Size& text_bounds);
 
 private:
     ZAF_BIND_CONTROL(zaf::Label, emptyLabel);

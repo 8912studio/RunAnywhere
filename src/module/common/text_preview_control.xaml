@@ -2,7 +2,6 @@
     <ScrollableControl 
         Name="scrollControl" 
         Border="0"
-        AutoHideScrollBars="true"
         ScrollBarThickness="10">
 
         <ScrollableControl.VerticalScrollBar>
