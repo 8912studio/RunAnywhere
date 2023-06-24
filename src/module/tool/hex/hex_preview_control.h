@@ -5,9 +5,9 @@
 #include <zaf/control/label.h>
 #include <zaf/control/scrollable_control.h>
 #include "module/command_preview_control.h"
+#include "module/common/binary_content/binary_content_control.h"
 #include "module/common/error_view.h"
 #include "module/tool/hex/hex_command_parse_result.h"
-#include "module/tool/hex/hex_content_control.h"
 
 namespace ra::mod::tool::hex {
 
@@ -60,9 +60,7 @@ private:
 private:
     ZAF_BIND_CONTROL(zaf::Label, filePathLabel);
     ZAF_BIND_CONTROL(zaf::Label, fileInfoLabel);
-    ZAF_BIND_CONTROL(zaf::Control, contentContainer);
-    ZAF_BIND_CONTROL(HexContentControl, contentControl);
-    ZAF_BIND_CONTROL(zaf::ScrollableControl, scrollControl);
+    ZAF_BIND_CONTROL(BinaryContentControl, binaryContent);
     ZAF_BIND_CONTROL(ErrorView, errorView);
 };
 

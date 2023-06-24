@@ -1,0 +1,18 @@
+<BinaryContentControl AutoHeight="true">
+    <BinaryColumnHeader Name="header" />
+    <ScrollableControl 
+        Name="scrollControl"
+        Border="0" 
+        AllowHorizontalScroll="false"
+        AutoScrollContentHeight="true"
+        ScrollBarThickness="10">
+
+        <ScrollableControl.VerticalScrollBar>
+            <ThinScrollBar />
+        </ScrollableControl.VerticalScrollBar>
+
+        <ScrollableControl.ScrollContent>
+            <BinaryColumnBody Name="body" AutoHeight="true" />
+        </ScrollableControl.ScrollContent>
+    </ScrollableControl>
+</BinaryContentControl>

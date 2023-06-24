@@ -2,9 +2,9 @@
 
 #include <zaf/control/control.h>
 
-namespace ra::mod::tool::hex {
+namespace ra::mod {
 
-class HexColumnHeaderControl : public zaf::Control {
+class BinaryColumnHeader : public zaf::Control {
 public:
     ZAF_DECLARE_TYPE;
 

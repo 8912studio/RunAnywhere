@@ -5,10 +5,10 @@
 #include <zaf/graphic/color.h>
 #include <zaf/graphic/text/text_layout.h>
 
-namespace ra::mod::tool::hex {
+namespace ra::mod {
 
 constexpr float LineHeight = 24;
-constexpr float LineHeaderWidth = 32;
+constexpr float LineHeaderWidth = 34;
 constexpr float LineHeaderMargin = 6;
 constexpr float ByteWidth = 22;
 constexpr float ByteGapWidth = 8;

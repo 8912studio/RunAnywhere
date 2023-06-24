@@ -106,6 +106,9 @@
     <Filter Include="src\module\tool\base64">
       <UniqueIdentifier>{93523eda-65df-499b-aebe-295601d082a1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\module\common\binary_content">
+      <UniqueIdentifier>{7d653eb5-ce26-4e10-85a3-472105bccb0c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\module\calculator\parse\binary_expression_parser.h">
@@ -510,20 +513,8 @@
     <ClInclude Include="src\module\tool\hex\hex_preview_control.h">
       <Filter>src\module\tool\hex</Filter>
     </ClInclude>
-    <ClInclude Include="src\module\tool\hex\hex_content_control.h">
-      <Filter>src\module\tool\hex</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\tool\hex\hex_column_header_control.h">
-      <Filter>src\module\tool\hex</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\tool\hex\paint_common.h">
-      <Filter>src\module\tool\hex</Filter>
-    </ClInclude>
     <ClInclude Include="src\utility\numeric_text_formatting.h">
       <Filter>src\utility</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\tool\hex\byte_index.h">
-      <Filter>src\module\tool\hex</Filter>
     </ClInclude>
     <ClInclude Include="src\context\discover\vscode_discoverer.h">
       <Filter>src\context\discover</Filter>
@@ -623,6 +614,21 @@
     </ClInclude>
     <ClInclude Include="src\module\common\content_status_bar.h">
       <Filter>src\module\common</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\common\binary_content\binary_content_common.h">
+      <Filter>src\module\common\binary_content</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\common\binary_content\binary_column_body.h">
+      <Filter>src\module\common\binary_content</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\common\binary_content\byte_index.h">
+      <Filter>src\module\common\binary_content</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\common\binary_content\binary_column_header.h">
+      <Filter>src\module\common\binary_content</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\common\binary_content\binary_content_control.h">
+      <Filter>src\module\common\binary_content</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -893,15 +899,6 @@
     <ClCompile Include="src\module\tool\hex\hex_preview_control.cpp">
       <Filter>src\module\tool\hex</Filter>
     </ClCompile>
-    <ClCompile Include="src\module\tool\hex\hex_content_control.cpp">
-      <Filter>src\module\tool\hex</Filter>
-    </ClCompile>
-    <ClCompile Include="src\module\tool\hex\hex_column_header_control.cpp">
-      <Filter>src\module\tool\hex</Filter>
-    </ClCompile>
-    <ClCompile Include="src\module\tool\hex\paint_common.cpp">
-      <Filter>src\module\tool\hex</Filter>
-    </ClCompile>
     <ClCompile Include="src\utility\numeric_text_formatting.cpp">
       <Filter>src\utility</Filter>
     </ClCompile>
@@ -992,6 +989,18 @@
     <ClCompile Include="src\module\common\content_status_bar.cpp">
       <Filter>src\module\common</Filter>
     </ClCompile>
+    <ClCompile Include="src\module\common\binary_content\binary_content_common.cpp">
+      <Filter>src\module\common\binary_content</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\common\binary_content\binary_column_body.cpp">
+      <Filter>src\module\common\binary_content</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\common\binary_content\binary_column_header.cpp">
+      <Filter>src\module\common\binary_content</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\common\binary_content\binary_content_control.cpp">
+      <Filter>src\module\common\binary_content</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Page Include="src\module\user_defined\preview\user_defined_command_preview_control.xaml">
@@ -1056,6 +1065,9 @@
     </Page>
     <Page Include="src\module\common\content_status_bar.xaml">
       <Filter>src\module\common</Filter>
+    </Page>
+    <Page Include="src\module\common\binary_content\binary_content_control.xaml">
+      <Filter>src\module\common\binary_content</Filter>
     </Page>
   </ItemGroup>
   <ItemGroup>

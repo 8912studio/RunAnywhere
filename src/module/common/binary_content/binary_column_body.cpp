@@ -1,19 +1,19 @@
-#include "module/tool/hex/hex_content_control.h"
+#include "module/common/binary_content/binary_column_body.h"
 #include <zaf/base/container/utility/append.h>
 #include <zaf/base/container/utility/range.h>
 #include <zaf/base/container/utility/sort.h>
 #include <zaf/graphic/canvas.h>
 #include <zaf/window/message/mouse_message.h>
 #include <zaf/object/type_definition.h>
-#include "module/tool/hex/paint_common.h"
+#include "module/common/binary_content/binary_content_common.h"
 
-namespace ra::mod::tool::hex {
+namespace ra::mod {
 namespace {
 
 zaf::Rect GetByteHexRect(const ByteIndex& byte_index) {
 
     zaf::Rect result;
-    result.position.x = 
+    result.position.x =
         ByteHexAreaX() +
         byte_index.IndexInLine() * ByteWidth +
         (byte_index.IndexInLine() >= BytesPerLine / 2 ? ByteGapWidth : 0);
@@ -36,19 +36,19 @@ zaf::Rect GetByteCharacterRect(const ByteIndex& byte_index) {
 
 }
 
-ZAF_DEFINE_TYPE(HexContentControl)
+ZAF_DEFINE_TYPE(BinaryColumnBody)
 ZAF_DEFINE_TYPE_END;
 
 
-void HexContentControl::SetContent(const std::vector<std::byte>& content) {
+void BinaryColumnBody::SetBinary(std::vector<std::byte> binary) {
 
-    content_ = content;
+    content_ = std::move(binary);
     NeedRepaint();
     RaiseContentChangedEvent();
 }
 
 
-void HexContentControl::Paint(zaf::Canvas& canvas, const zaf::Rect& dirty_rect) {
+void BinaryColumnBody::Paint(zaf::Canvas& canvas, const zaf::Rect& dirty_rect) {
 
     __super::Paint(canvas, dirty_rect);
 
@@ -63,8 +63,8 @@ void HexContentControl::Paint(zaf::Canvas& canvas, const zaf::Rect& dirty_rect) 
         std::floor((dirty_rect.position.y + dirty_rect.size.height) / LineHeight) + 1);
 
     for (auto line_index : zaf::Range(begin_line, end_line)) {
-        for (auto byte_index_in_line: zaf::Range<std::size_t>(0, BytesPerLine)) {
-            
+        for (auto byte_index_in_line : zaf::Range<std::size_t>(0, BytesPerLine)) {
+
             ByteIndex byte_index{ line_index, byte_index_in_line };
             if (byte_index.IndexInContent() >= content_.size()) {
                 break;
@@ -81,10 +81,10 @@ void HexContentControl::Paint(zaf::Canvas& canvas, const zaf::Rect& dirty_rect) 
 }
 
 
-void HexContentControl::PrepareGraphicResources(zaf::Renderer& renderer) {
+void BinaryColumnBody::PrepareGraphicResources(zaf::Renderer& renderer) {
 
     if (!mouse_over_background_brush_) {
-        mouse_over_background_brush_ = 
+        mouse_over_background_brush_ =
             renderer.CreateSolidColorBrush(zaf::Color::FromARGB(0x4055BBFF));
     }
 
@@ -106,7 +106,7 @@ void HexContentControl::PrepareGraphicResources(zaf::Renderer& renderer) {
 }
 
 
-void HexContentControl::ReleaseRendererResources() {
+void BinaryColumnBody::ReleaseRendererResources() {
 
     mouse_over_background_brush_ = {};
     selected_background_brush_ = {};
@@ -116,8 +116,8 @@ void HexContentControl::ReleaseRendererResources() {
 }
 
 
-void HexContentControl::PaintLineHeader(
-    zaf::Canvas& canvas, 
+void BinaryColumnBody::PaintLineHeader(
+    zaf::Canvas& canvas,
     std::size_t line_index) {
 
     zaf::Rect paint_rect;
@@ -137,7 +137,7 @@ void HexContentControl::PaintLineHeader(
 }
 
 
-void HexContentControl::PaintByteHex(zaf::Canvas& canvas, const ByteIndex& byte_index) {
+void BinaryColumnBody::PaintByteHex(zaf::Canvas& canvas, const ByteIndex& byte_index) {
 
     auto paint_rect = GetByteHexRect(byte_index);
 
@@ -158,7 +158,7 @@ void HexContentControl::PaintByteHex(zaf::Canvas& canvas, const ByteIndex& byte_
 }
 
 
-zaf::TextLayout HexContentControl::GetByteHexTextLayout(std::byte byte) {
+zaf::TextLayout BinaryColumnBody::GetByteHexTextLayout(std::byte byte) {
 
     auto iterator = byte_hex_text_layouts_.lower_bound(byte);
     if (iterator == byte_hex_text_layouts_.end() ||
@@ -174,7 +174,7 @@ zaf::TextLayout HexContentControl::GetByteHexTextLayout(std::byte byte) {
 }
 
 
-void HexContentControl::PaintByteCharacter(zaf::Canvas& canvas, const ByteIndex& byte_index) {
+void BinaryColumnBody::PaintByteCharacter(zaf::Canvas& canvas, const ByteIndex& byte_index) {
 
     auto paint_rect = GetByteCharacterRect(byte_index);
 
@@ -212,7 +212,7 @@ void HexContentControl::PaintByteCharacter(zaf::Canvas& canvas, const ByteIndex&
 }
 
 
-zaf::TextLayout HexContentControl::GetByteCharacterTextLayout(wchar_t character) {
+zaf::TextLayout BinaryColumnBody::GetByteCharacterTextLayout(wchar_t character) {
 
     auto iterator = byte_character_text_layouts_.find(character);
     if (iterator == byte_character_text_layouts_.end() ||
@@ -229,19 +229,19 @@ zaf::TextLayout HexContentControl::GetByteCharacterTextLayout(wchar_t character)
 }
 
 
-bool HexContentControl::IsByteSelected(const ByteIndex& byte_index) const {
+bool BinaryColumnBody::IsByteSelected(const ByteIndex& byte_index) const {
 
     if (!selection_info_) {
         return false;
     }
 
-    return 
-        byte_index >= selection_info_->MinByteIndex() && 
+    return
+        byte_index >= selection_info_->MinByteIndex() &&
         byte_index <= selection_info_->MaxByteIndex();
 }
 
 
-zaf::Size HexContentControl::CalculatePreferredContentSize(const zaf::Size& bound_size) const {
+zaf::Size BinaryColumnBody::CalculatePreferredContentSize(const zaf::Size& bound_size) const {
 
     std::size_t line_count = content_.size() / BytesPerLine;;
     if (content_.size() % BytesPerLine > 0) {
@@ -255,7 +255,7 @@ zaf::Size HexContentControl::CalculatePreferredContentSize(const zaf::Size& boun
 }
 
 
-void HexContentControl::OnMouseMove(const zaf::MouseMoveInfo& event_info) {
+void BinaryColumnBody::OnMouseMove(const zaf::MouseMoveInfo& event_info) {
 
     __super::OnMouseMove(event_info);
 
@@ -264,7 +264,7 @@ void HexContentControl::OnMouseMove(const zaf::MouseMoveInfo& event_info) {
 }
 
 
-void HexContentControl::OnMouseLeave(const zaf::MouseLeaveInfo& event_info) {
+void BinaryColumnBody::OnMouseLeave(const zaf::MouseLeaveInfo& event_info) {
 
     __super::OnMouseLeave(event_info);
 
@@ -283,7 +283,7 @@ void HexContentControl::OnMouseLeave(const zaf::MouseLeaveInfo& event_info) {
 }
 
 
-void HexContentControl::HandleMouseMove(const zaf::Point& position) {
+void BinaryColumnBody::HandleMouseMove(const zaf::Point& position) {
 
     auto need_repainted_lines = HandleMouseOverBytesOnMouseMove(position);
     zaf::Append(need_repainted_lines, HandleSelectedBytesOnMouseMove(position));
@@ -292,7 +292,7 @@ void HexContentControl::HandleMouseMove(const zaf::Point& position) {
 }
 
 
-std::vector<std::size_t> HexContentControl::HandleMouseOverBytesOnMouseMove(
+std::vector<std::size_t> BinaryColumnBody::HandleMouseOverBytesOnMouseMove(
     const zaf::Point& mouse_position) {
 
     std::vector<std::size_t> need_repainted_lines;
@@ -301,7 +301,7 @@ std::vector<std::size_t> HexContentControl::HandleMouseOverBytesOnMouseMove(
     }
 
     bool is_in_character_index{};
-    mouse_over_byte_index_ = FindByteIndex(mouse_position, false, is_in_character_index);
+    mouse_over_byte_index_ = FindByteIndex(mouse_position, true, is_in_character_index);
     if (mouse_over_byte_index_) {
         need_repainted_lines.push_back(mouse_over_byte_index_->Line());
     }
@@ -310,7 +310,7 @@ std::vector<std::size_t> HexContentControl::HandleMouseOverBytesOnMouseMove(
 }
 
 
-std::vector<std::size_t> HexContentControl::HandleSelectedBytesOnMouseMove(
+std::vector<std::size_t> BinaryColumnBody::HandleSelectedBytesOnMouseMove(
     const zaf::Point& mouse_position) {
 
     if (!IsCapturingMouse()) {
@@ -343,7 +343,7 @@ std::vector<std::size_t> HexContentControl::HandleSelectedBytesOnMouseMove(
 }
 
 
-void HexContentControl::OnMouseDown(const zaf::MouseMoveInfo& event_info) {
+void BinaryColumnBody::OnMouseDown(const zaf::MouseMoveInfo& event_info) {
 
     __super::OnMouseDown(event_info);
 
@@ -352,8 +352,8 @@ void HexContentControl::OnMouseDown(const zaf::MouseMoveInfo& event_info) {
 }
 
 
-void HexContentControl::HandleMouseDown(
-    const zaf::Point& position, 
+void BinaryColumnBody::HandleMouseDown(
+    const zaf::Point& position,
     const zaf::MouseMessage& message) {
 
     auto need_repainted_lines = GetSelectedLines();
@@ -374,14 +374,14 @@ void HexContentControl::HandleMouseDown(
             zaf::Append(need_repainted_lines, GetSelectedLines());
         }
     }
-    
+
     RepaintLines(need_repainted_lines);
 
     CaptureMouse();
 }
 
 
-void HexContentControl::OnMouseUp(const zaf::MouseUpInfo& event_info) {
+void BinaryColumnBody::OnMouseUp(const zaf::MouseUpInfo& event_info) {
 
     __super::OnMouseUp(event_info);
 
@@ -390,7 +390,7 @@ void HexContentControl::OnMouseUp(const zaf::MouseUpInfo& event_info) {
 }
 
 
-void HexContentControl::HandleMouseUp(const zaf::Point& position) {
+void BinaryColumnBody::HandleMouseUp(const zaf::Point& position) {
 
     if (IsCapturingMouse()) {
         ReleaseCapture();
@@ -398,7 +398,7 @@ void HexContentControl::HandleMouseUp(const zaf::Point& position) {
 }
 
 
-std::vector<std::size_t> HexContentControl::GetSelectedLines() const {
+std::vector<std::size_t> BinaryColumnBody::GetSelectedLines() const {
 
     if (!selection_info_) {
         return {};
@@ -414,7 +414,7 @@ std::vector<std::size_t> HexContentControl::GetSelectedLines() const {
 }
 
 
-void HexContentControl::RepaintLines(const std::vector<std::size_t>& lines) {
+void BinaryColumnBody::RepaintLines(const std::vector<std::size_t>& lines) {
 
     zaf::Rect need_repainted_rect;
     for (const auto each_line : lines) {
@@ -432,7 +432,7 @@ void HexContentControl::RepaintLines(const std::vector<std::size_t>& lines) {
 }
 
 
-std::optional<ByteIndex> HexContentControl::FindByteIndex(
+std::optional<ByteIndex> BinaryColumnBody::FindByteIndex(
     const zaf::Point& position,
     bool adjust_to_nearest_index,
     bool& is_in_character_area) {
@@ -455,21 +455,19 @@ std::optional<ByteIndex> HexContentControl::FindByteIndex(
 }
 
 
-std::optional<std::size_t> HexContentControl::FindByteIndexInLine(
-    float x, 
+std::optional<std::size_t> BinaryColumnBody::FindByteIndexInLine(
+    float x,
     bool adjust_to_nearest_index,
     bool& is_in_character_area) {
 
-    float adjusted_x = x;
-
-    if (adjusted_x < ByteHexAreaX()) {
+    if (x < ByteHexAreaX()) {
         if (!adjust_to_nearest_index) {
             return std::nullopt;
         }
-        adjusted_x = ByteHexAreaX();
+        return 0;
     }
 
-    if (adjusted_x < ByteHexFirstPartEndX()) {
+    if (x < ByteHexFirstPartEndX()) {
         return static_cast<std::size_t>((x - ByteHexAreaX()) / ByteWidth);
     }
 
@@ -481,7 +479,7 @@ std::optional<std::size_t> HexContentControl::FindByteIndexInLine(
     }
 
     if (x < ByteHexSecondPartEndX()) {
-        return 
+        return
             static_cast<std::size_t>((x - ByteHexSecondPartBeginX()) / ByteWidth) +
             BytesPerLine / 2;
     }
@@ -502,11 +500,13 @@ std::optional<std::size_t> HexContentControl::FindByteIndexInLine(
         return std::nullopt;
     }
 
+    //Adjust to the last byte in character area.
+    is_in_character_area = true;
     return BytesPerLine - 1;
 }
 
 
-std::optional<std::size_t> HexContentControl::FindByteLine(float y, bool adjust_to_nearest_index) {
+std::optional<std::size_t> BinaryColumnBody::FindByteLine(float y, bool adjust_to_nearest_index) {
 
     auto adjusted_y = y;
 

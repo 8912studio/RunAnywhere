@@ -1,16 +1,16 @@
-#include "module/tool/hex/hex_column_header_control.h"
+#include "module/common/binary_content/binary_column_header.h"
 #include <zaf/base/container/utility/range.h>
 #include <zaf/graphic/canvas.h>
 #include <zaf/object/type_definition.h>
-#include "module/tool/hex/paint_common.h"
+#include "module/common/binary_content/binary_content_common.h"
 
-namespace ra::mod::tool::hex {
+namespace ra::mod {
 
-ZAF_DEFINE_TYPE(HexColumnHeaderControl)
+ZAF_DEFINE_TYPE(BinaryColumnHeader)
 ZAF_DEFINE_TYPE_END;
 
 
-void HexColumnHeaderControl::Initialize() {
+void BinaryColumnHeader::Initialize() {
 
     __super::Initialize();
 
@@ -18,7 +18,7 @@ void HexColumnHeaderControl::Initialize() {
 }
 
 
-void HexColumnHeaderControl::Paint(zaf::Canvas& canvas, const zaf::Rect& dirty_rect) {
+void BinaryColumnHeader::Paint(zaf::Canvas& canvas, const zaf::Rect& dirty_rect) {
 
     __super::Paint(canvas, dirty_rect);
 

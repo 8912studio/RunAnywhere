@@ -173,6 +173,11 @@
     <ClInclude Include="src\module\command.h" />
     <ClInclude Include="src\module\command_brief.h" />
     <ClInclude Include="src\module\command_preview_control.h" />
+    <ClInclude Include="src\module\common\binary_content\binary_column_header.h" />
+    <ClInclude Include="src\module\common\binary_content\binary_content_common.h" />
+    <ClInclude Include="src\module\common\binary_content\binary_column_body.h" />
+    <ClInclude Include="src\module\common\binary_content\binary_content_control.h" />
+    <ClInclude Include="src\module\common\binary_content\byte_index.h" />
     <ClInclude Include="src\module\common\command_error_control.h" />
     <ClInclude Include="src\module\common\content_status_bar.h" />
     <ClInclude Include="src\module\common\error_view.h" />
@@ -199,13 +204,9 @@
     <ClInclude Include="src\module\tool\error\error_command.h" />
     <ClInclude Include="src\module\tool\error\error_command_parse_result.h" />
     <ClInclude Include="src\module\tool\error\error_preview_control.h" />
-    <ClInclude Include="src\module\tool\hex\byte_index.h" />
     <ClInclude Include="src\module\tool\hex\hex_command.h" />
     <ClInclude Include="src\module\tool\hex\hex_command_parse_result.h" />
-    <ClInclude Include="src\module\tool\hex\hex_column_header_control.h" />
-    <ClInclude Include="src\module\tool\hex\hex_content_control.h" />
     <ClInclude Include="src\module\tool\hex\hex_preview_control.h" />
-    <ClInclude Include="src\module\tool\hex\paint_common.h" />
     <ClInclude Include="src\module\tool\md5\md5_calculating.h" />
     <ClInclude Include="src\module\tool\md5\md5_command.h" />
     <ClInclude Include="src\module\tool\md5\md5_command_parse_result.h" />
@@ -318,6 +319,10 @@
     <ClCompile Include="src\module\calculator\parse\parse_result.cpp" />
     <ClCompile Include="src\module\calculator\parse\unary_expression_parser.cpp" />
     <ClCompile Include="src\module\calculator\preview\calculator_preview_control.cpp" />
+    <ClCompile Include="src\module\common\binary_content\binary_column_header.cpp" />
+    <ClCompile Include="src\module\common\binary_content\binary_content_common.cpp" />
+    <ClCompile Include="src\module\common\binary_content\binary_column_body.cpp" />
+    <ClCompile Include="src\module\common\binary_content\binary_content_control.cpp" />
     <ClCompile Include="src\module\common\command_error_control.cpp" />
     <ClCompile Include="src\module\common\content_status_bar.cpp" />
     <ClCompile Include="src\module\common\error_view.cpp" />
@@ -338,10 +343,7 @@
     <ClCompile Include="src\module\tool\error\error_command.cpp" />
     <ClCompile Include="src\module\tool\error\error_preview_control.cpp" />
     <ClCompile Include="src\module\tool\hex\hex_command.cpp" />
-    <ClCompile Include="src\module\tool\hex\hex_column_header_control.cpp" />
-    <ClCompile Include="src\module\tool\hex\hex_content_control.cpp" />
     <ClCompile Include="src\module\tool\hex\hex_preview_control.cpp" />
-    <ClCompile Include="src\module\tool\hex\paint_common.cpp" />
     <ClCompile Include="src\module\tool\md5\md5_calculating.cpp" />
     <ClCompile Include="src\module\tool\md5\md5_command.cpp" />
     <ClCompile Include="src\module\tool\md5\md5_preview_control.cpp" />
@@ -390,6 +392,7 @@
     <Page Include="src\main\main_window.xaml" />
     <Page Include="src\main\text_block_window.xaml" />
     <Page Include="src\module\calculator\preview\calculator_preview_control.xaml" />
+    <Page Include="src\module\common\binary_content\binary_content_control.xaml" />
     <Page Include="src\module\common\content_status_bar.xaml" />
     <Page Include="src\module\common\error_view.xaml" />
     <Page Include="src\module\common\text_content_control.xaml" />

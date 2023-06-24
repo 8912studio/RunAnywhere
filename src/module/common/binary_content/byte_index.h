@@ -3,9 +3,9 @@
 #include <cstddef>
 #include <zaf/base/error/check.h>
 #include <zaf/base/relation_operator.h>
-#include "module/tool/hex/paint_common.h"
+#include "module/common/binary_content/binary_content_common.h"
 
-namespace ra::mod::tool::hex {
+namespace ra::mod {
 
 class ByteIndex {
 public:

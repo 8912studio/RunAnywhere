@@ -1,11 +1,11 @@
-#include "module/tool/hex/paint_common.h"
+#include "module/common/binary_content/binary_content_common.h"
 #include <zaf/base/string/case_conversion.h>
 #include <zaf/base/string/to_string.h>
 #include <zaf/graphic/graphic_factory.h>
 #include <zaf/graphic/text/text_format_properties.h>
 #include <zaf/graphic/text/text_layout_properties.h>
 
-namespace ra::mod::tool::hex {
+namespace ra::mod {
 namespace {
 
 zaf::TextFormat CreateTextFormat() {

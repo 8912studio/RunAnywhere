@@ -2,16 +2,16 @@
 
 #include <zaf/control/control.h>
 #include <zaf/graphic/text/text_format.h>
-#include "module/tool/hex/byte_index.h"
+#include "module/common/binary_content/byte_index.h"
 
-namespace ra::mod::tool::hex {
+namespace ra::mod {
 
-class HexContentControl : public zaf::Control {
+class BinaryColumnBody : public zaf::Control {
 public:
     ZAF_DECLARE_TYPE;
 
 public:
-    void SetContent(const std::vector<std::byte>& content);
+    void SetBinary(std::vector<std::byte> binary);
 
 protected:
     void Paint(zaf::Canvas& canvas, const zaf::Rect& dirty_rect) override;
@@ -48,7 +48,7 @@ private:
         bool& is_in_character_area);
 
     static std::optional<std::size_t> FindByteIndexInLine(
-        float x, 
+        float x,
         bool adjust_to_nearest_index,
         bool& is_in_character_area);
 

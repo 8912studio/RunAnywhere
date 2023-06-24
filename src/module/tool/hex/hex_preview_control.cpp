@@ -1,9 +1,6 @@
 #include "module/tool/hex/hex_preview_control.h"
 #include <fstream>
-#include <zaf/control/scroll_bar.h>
-#include <zaf/control/scroll_bar_thumb.h>
 #include <zaf/object/type_definition.h>
-#include "module/tool/hex/paint_common.h"
 #include "utility/numeric_text_formatting.h"
 #include "utility/path_trimming.h"
 
@@ -28,13 +25,6 @@ void HexPreviewControl::AfterParse() {
     __super::AfterParse();
 
     filePathLabel->SetTextTrimming(utility::CreateTextTrimmingForPath());
-
-    scrollControl->SetFixedHeight(LineHeight * 8);
-
-    auto scroll_bar = scrollControl->VerticalScrollBar();
-    scroll_bar->SetArrowLength(0);
-    scroll_bar->SetSmallChange(static_cast<int>(LineHeight));
-    scroll_bar->Thumb()->SetPadding({});
 }
 
 
@@ -106,11 +96,11 @@ void HexPreviewControl::ShowFileInfo(
 void HexPreviewControl::ShowHexContent(const FileContentInfo& content_info) {
 
     if (!content_info.data.empty()) {
-        contentControl->SetContent(content_info.data);
-        contentContainer->SetIsVisible(true);
+        binaryContent->SetBinary(content_info.data);
+        binaryContent->SetIsVisible(true);
     }
     else {
-        contentContainer->SetIsVisible(false);
+        binaryContent->SetIsVisible(false);
     }
 }
 
@@ -147,8 +137,8 @@ void HexPreviewControl::ShowMessage(
 zaf::Frame HexPreviewControl::GetExpectedMargin() {
 
     auto result = __super::GetExpectedMargin();
-    result.left = 2;
-    result.right = 2;
+    result.left = 0;
+    result.right = 0;
     return result;
 }
 
