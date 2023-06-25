@@ -243,7 +243,7 @@ bool BinaryColumnBody::IsByteSelected(const ByteIndex& byte_index) const {
 
 zaf::Size BinaryColumnBody::CalculatePreferredContentSize(const zaf::Size& bound_size) const {
 
-    std::size_t line_count = content_.size() / BytesPerLine;;
+    std::size_t line_count = content_.size() / BytesPerLine;
     if (content_.size() % BytesPerLine > 0) {
         line_count++;
     }

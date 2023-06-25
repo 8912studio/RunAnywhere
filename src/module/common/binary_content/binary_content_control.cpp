@@ -13,8 +13,6 @@ void BinaryContentControl::AfterParse() {
 
     __super::AfterParse();
 
-    scrollControl->SetFixedHeight(LineHeight * 8);
-
     auto scroll_bar = scrollControl->VerticalScrollBar();
     scroll_bar->SetSmallChange(static_cast<int>(LineHeight));
 
@@ -24,7 +22,14 @@ void BinaryContentControl::AfterParse() {
 
 
 void BinaryContentControl::SetBinary(std::vector<std::byte> binary) {
+
     body->SetBinary(std::move(binary));
+
+    auto body_size = body->CalculatePreferredSize();
+
+    float scroll_height = std::max(body_size.height, 90.f - LineHeight);//LineHeight is the header.
+    scroll_height = std::min(scroll_height, LineHeight * 8.f);
+    scrollControl->SetFixedHeight(scroll_height);
 }
 
 }
