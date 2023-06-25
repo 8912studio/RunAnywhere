@@ -91,3 +91,31 @@ TEST(ExpressionParserTest, Parenthesis) {
         ASSERT_EQ(node->text, L"3");
     }
 }
+
+
+TEST(ExpressionParserTest, ContinuousUnaryOperators) {
+
+    ParseContext parse_context{ L"-+-1" };
+    ParseResult parse_result;
+    auto parse_status = ExpressionParser::Instance()->Parse(parse_context, parse_result);
+    ASSERT_EQ(parse_status, ParseStatus::Ok);
+
+    auto node0 = std::dynamic_pointer_cast<OperatorNode>(parse_result.GetExpressionRootNode());
+    ASSERT_NE(node0, nullptr);
+    ASSERT_EQ(node0->type, OperatorNode::Type::Negative);
+    ASSERT_EQ(node0->children.size(), 1);
+
+    auto node1 = std::dynamic_pointer_cast<OperatorNode>(node0->children.front());
+    ASSERT_NE(node1, nullptr);
+    ASSERT_EQ(node1->type, OperatorNode::Type::Positive);
+    ASSERT_EQ(node1->children.size(), 1);
+
+    auto node2 = std::dynamic_pointer_cast<OperatorNode>(node1->children.front());
+    ASSERT_NE(node2, nullptr);
+    ASSERT_EQ(node2->type, OperatorNode::Type::Negative);
+    ASSERT_EQ(node2->children.size(), 1);
+
+    auto node3 = std::dynamic_pointer_cast<OperandNode>(node2->children.front());
+    ASSERT_NE(node3, nullptr);
+    ASSERT_EQ(node3->text, L"1");
+}

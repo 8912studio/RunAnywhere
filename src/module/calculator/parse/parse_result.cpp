@@ -68,6 +68,13 @@ void ParseResult::AddOperator(const std::shared_ptr<OperatorNode>& operator_node
         return;
     }
 
+    //Top operator and new operator are both unary operators, it means that the new one is the 
+    //operand of the top one, such as an expression "--1", so we push the new one into the stack.
+    if (IsUnaryOperator(top_operator->type) && IsUnaryOperator(operator_node->type)) {
+        operator_stack_.push_back(operator_node);
+        return;
+    }
+
     while (!operator_stack_.empty()) {
 
         top_operator = operator_stack_.back();
