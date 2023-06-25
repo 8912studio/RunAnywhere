@@ -1,6 +1,7 @@
 #include "module/common/binary_content/binary_content_control.h"
 #include <zaf/control/scroll_bar.h>
 #include <zaf/control/scroll_bar_thumb.h>
+#include <zaf/graphic/canvas.h>
 #include <zaf/object/type_definition.h>
 
 namespace ra::mod {
@@ -18,6 +19,16 @@ void BinaryContentControl::AfterParse() {
 
     //If there is too much data, cached painting will fail, so we have to disable it.
     scrollControl->ScrollContent()->SetIsCachedPaintingEnabled(false);
+}
+
+
+void BinaryContentControl::Paint(zaf::Canvas& canvas, const zaf::Rect& dirty_rect) {
+
+    __super::Paint(canvas, dirty_rect);
+
+    canvas.DrawRectangle(
+        zaf::Rect{ 0, 0, LineHeaderWidth, this->ContentSize().height },
+        HeaderBackgroundColor());
 }
 
 

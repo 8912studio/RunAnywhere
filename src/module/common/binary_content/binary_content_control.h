@@ -18,6 +18,7 @@ public:
 
 protected:
     void AfterParse() override;
+    void Paint(zaf::Canvas& canvas, const zaf::Rect& dirty_rect) override;
 
 private:
     ZAF_BIND_CONTROL(zaf::ScrollableControl, scrollControl);
