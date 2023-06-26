@@ -2,6 +2,7 @@
 #include <zaf/base/base64.h>
 #include <zaf/base/string/encoding_conversion.h>
 #include <zaf/object/type_definition.h>
+#include "utility/encoding_determination.h"
 
 namespace ra::mod::tool::base64 {
 
@@ -69,10 +70,26 @@ void Base64PreviewControl::ShowDecodeResult(
     std::vector<std::byte> decoded_data,
     const Base64CommandParseResult& parse_result) {
 
-    contentStatusBar->ShowBinary(parse_result.input_text);
+    if (utility::IsUTF8Encoded(decoded_data)) {
 
-    binaryContent->SetBinary(std::move(decoded_data));
-    binaryContent->SetIsVisible(true);
+        auto text = zaf::FromUTF8String(std::string_view{ 
+            reinterpret_cast<const char*>(decoded_data.data()), 
+            decoded_data.size() 
+        });
+
+        contentStatusBar->ShowText(parse_result.input_text, TextEncoding::UTF8);
+
+        textContent->SetDisplayMode(TextDisplayMode::Normal);
+        textContent->SetText(std::move(text));
+        textContent->SetIsVisible(true);
+    }
+    else {
+
+        contentStatusBar->ShowBinary(parse_result.input_text);
+
+        binaryContent->SetBinary(std::move(decoded_data));
+        binaryContent->SetIsVisible(true);
+    }
 }
 
 

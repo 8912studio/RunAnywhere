@@ -87,6 +87,7 @@
     <ClCompile Include="case\module\user_defined\parse\entry_command_parsing_test.cpp" />
     <ClCompile Include="case\module\user_defined\parse\variable_formatter_test.cpp" />
     <ClCompile Include="case\utility\command_line_test.cpp" />
+    <ClCompile Include="case\utility\encoding_determination_test.cpp" />
     <ClCompile Include="case\utility\numeric_text_formatting_test.cpp" />
     <ClCompile Include="case\utility\text_utility_test.cpp" />
     <ClCompile Include="main.cpp" />
