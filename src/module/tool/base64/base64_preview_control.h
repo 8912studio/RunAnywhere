@@ -24,6 +24,10 @@ private:
     void ShowDecodeResult(
         std::vector<std::byte> decoded_data, 
         const Base64CommandParseResult& parse_result);
+    static std::optional<std::wstring> ConvertDecodedDataToText(
+        const std::vector<std::byte>& decoded_data, 
+        const Base64CommandParseResult& parse_result,
+        TextEncoding& encoding);
 
 private:
     ZAF_BIND_CONTROL(ContentStatusBar, contentStatusBar);

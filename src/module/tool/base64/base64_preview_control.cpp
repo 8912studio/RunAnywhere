@@ -2,7 +2,7 @@
 #include <zaf/base/base64.h>
 #include <zaf/base/string/encoding_conversion.h>
 #include <zaf/object/type_definition.h>
-#include "module/tool/base64/decoded_text_determination.h"
+#include "module/tool/base64/decoded_data_interpreting.h"
 
 namespace ra::mod::tool::base64 {
 
@@ -49,7 +49,8 @@ void Base64PreviewControl::ShowParseResult(const Base64CommandParseResult& parse
 void Base64PreviewControl::ShowEncodeResult(const Base64CommandParseResult& parse_result) {
 
     std::string encoded_text;
-    if (parse_result.encoding == TextEncoding::UTF8) {
+    auto encoding = parse_result.encoding.value_or(TextEncoding::UTF8);
+    if (encoding == TextEncoding::UTF8) {
         auto utf8_input = zaf::ToUTF8String(parse_result.input_text);
         encoded_text = zaf::Base64Encode(utf8_input.data(), utf8_input.size());
     }
@@ -58,7 +59,7 @@ void Base64PreviewControl::ShowEncodeResult(const Base64CommandParseResult& pars
         encoded_text = zaf::Base64Encode(utf16_input.data(), utf16_input.size() * sizeof(wchar_t));
     }
 
-    contentStatusBar->ShowText(parse_result.input_text, parse_result.encoding);
+    contentStatusBar->ShowText(parse_result.input_text, encoding);
 
     textContent->SetDisplayMode(TextDisplayMode::Base64);
     textContent->SetText(zaf::FromUTF8String(encoded_text));
@@ -71,13 +72,13 @@ void Base64PreviewControl::ShowDecodeResult(
     const Base64CommandParseResult& parse_result) {
 
     TextEncoding encoding{};
-    auto text = TryToInterpretDecodedDataAsText(decoded_data, encoding);
-    if (!text.empty()) {
+    auto text = ConvertDecodedDataToText(decoded_data, parse_result, encoding);
+    if (text) {
 
         contentStatusBar->ShowText(parse_result.input_text, encoding);
 
         textContent->SetDisplayMode(TextDisplayMode::Normal);
-        textContent->SetText(std::move(text));
+        textContent->SetText(std::move(*text));
         textContent->SetIsVisible(true);
     }
     else {
@@ -87,6 +88,20 @@ void Base64PreviewControl::ShowDecodeResult(
         binaryContent->SetBinary(std::move(decoded_data));
         binaryContent->SetIsVisible(true);
     }
+}
+
+
+std::optional<std::wstring> Base64PreviewControl::ConvertDecodedDataToText(
+    const std::vector<std::byte>& decoded_data,
+    const Base64CommandParseResult& parse_result,
+    TextEncoding& encoding) {
+
+    if (!parse_result.encoding) {
+        return TryToInterpretDecodedDataAsText(decoded_data, encoding);
+    }
+
+    encoding = *parse_result.encoding;
+    return InterpretDecodedDataAsText(decoded_data, *parse_result.encoding);
 }
 
 

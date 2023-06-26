@@ -16,7 +16,7 @@ class Base64CommandParseResult {
 public:
     std::wstring input_text;
     std::optional<Base64Operation> operation;
-    TextEncoding encoding{ TextEncoding::UTF8 };
+    std::optional<TextEncoding> encoding;
 };
 
 

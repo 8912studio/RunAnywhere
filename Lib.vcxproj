@@ -198,7 +198,7 @@
     <ClInclude Include="src\module\tool\base64\base64_command.h" />
     <ClInclude Include="src\module\tool\base64\base64_command_parsing.h" />
     <ClInclude Include="src\module\tool\base64\base64_preview_control.h" />
-    <ClInclude Include="src\module\tool\base64\decoded_text_determination.h" />
+    <ClInclude Include="src\module\tool\base64\decoded_data_interpreting.h" />
     <ClInclude Include="src\module\tool\date\date_command.h" />
     <ClInclude Include="src\module\tool\date\date_command_parse_result.h" />
     <ClInclude Include="src\module\tool\date\date_preview_control.h" />
@@ -339,7 +339,7 @@
     <ClCompile Include="src\module\tool\base64\base64_command.cpp" />
     <ClCompile Include="src\module\tool\base64\base64_command_parsing.cpp" />
     <ClCompile Include="src\module\tool\base64\base64_preview_control.cpp" />
-    <ClCompile Include="src\module\tool\base64\decoded_text_determination.cpp" />
+    <ClCompile Include="src\module\tool\base64\decoded_data_interpreting.cpp" />
     <ClCompile Include="src\module\tool\date\date_command.cpp" />
     <ClCompile Include="src\module\tool\date\date_preview_control.cpp" />
     <ClCompile Include="src\module\tool\error\error_command.cpp" />
