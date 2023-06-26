@@ -96,12 +96,16 @@ std::optional<std::wstring> Base64PreviewControl::ConvertDecodedDataToText(
     const Base64CommandParseResult& parse_result,
     TextEncoding& encoding) {
 
-    if (!parse_result.encoding) {
-        return TryToInterpretDecodedDataAsText(decoded_data, encoding);
+    if (parse_result.use_binary) {
+        return std::nullopt;
     }
 
-    encoding = *parse_result.encoding;
-    return InterpretDecodedDataAsText(decoded_data, *parse_result.encoding);
+    if (parse_result.encoding) {
+        encoding = *parse_result.encoding;
+        return InterpretDecodedDataAsText(decoded_data, *parse_result.encoding);
+    }
+
+    return TryToInterpretDecodedDataAsText(decoded_data, encoding);
 }
 
 

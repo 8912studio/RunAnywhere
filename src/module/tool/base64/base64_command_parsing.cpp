@@ -29,6 +29,9 @@ bool TryToParseSwitch(
     else if (value == L"u16") {
         parse_result.encoding = TextEncoding::UTF16;
     }
+    else if (value == L"b") {
+        parse_result.use_binary = true;
+    }
     return true;
 }
 
