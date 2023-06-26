@@ -190,9 +190,6 @@
     <ClCompile Include="case\module\tool\base64\base64_command_parsing_test.cpp">
       <Filter>case\module\tool\base64</Filter>
     </ClCompile>
-    <ClCompile Include="case\utility\encoding_determination_test.cpp">
-      <Filter>case\utility</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="case\module\calculator\number_parser_test_utility.h">

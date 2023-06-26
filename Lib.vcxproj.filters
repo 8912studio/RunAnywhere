@@ -630,8 +630,8 @@
     <ClInclude Include="src\module\common\binary_content\binary_content_control.h">
       <Filter>src\module\common\binary_content</Filter>
     </ClInclude>
-    <ClInclude Include="src\utility\encoding_determination.h">
-      <Filter>src\utility</Filter>
+    <ClInclude Include="src\module\tool\base64\decoded_text_determination.h">
+      <Filter>src\module\tool\base64</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1004,8 +1004,8 @@
     <ClCompile Include="src\module\common\binary_content\binary_content_control.cpp">
       <Filter>src\module\common\binary_content</Filter>
     </ClCompile>
-    <ClCompile Include="src\utility\encoding_determination.cpp">
-      <Filter>src\utility</Filter>
+    <ClCompile Include="src\module\tool\base64\decoded_text_determination.cpp">
+      <Filter>src\module\tool\base64</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
