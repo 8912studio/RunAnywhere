@@ -30,6 +30,7 @@ private:
         TextEncoding& encoding);
 
 private:
+    ZAF_BIND_CONTROL(zaf::Label, operationLabel);
     ZAF_BIND_CONTROL(ContentStatusBar, contentStatusBar);
     ZAF_BIND_CONTROL(TextContentControl, textContent);
     ZAF_BIND_CONTROL(BinaryContentControl, binaryContent);

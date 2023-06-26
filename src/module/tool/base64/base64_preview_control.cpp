@@ -15,7 +15,9 @@ void Base64PreviewControl::ShowParseResult(const Base64CommandParseResult& parse
     //Try to decode data first.
     std::optional<std::vector<std::byte>> decoded_data;
     bool can_decode{};
-    if (!parse_result.operation || *parse_result.operation == Base64Operation::Decode) {
+    if ((!parse_result.operation && !parse_result.input_text.empty()) || 
+        (parse_result.operation && *parse_result.operation == Base64Operation::Decode)) {
+
         try {
             decoded_data = zaf::Base64Decode(zaf::ToUTF8String(parse_result.input_text));
             can_decode = true;
@@ -33,6 +35,11 @@ void Base64PreviewControl::ShowParseResult(const Base64CommandParseResult& parse
         can_decode ? Base64Operation::Decode : Base64Operation::Encode;
 
     auto update_guard = this->BeginUpdate();
+
+    operationLabel->SetText(operation == Base64Operation::Encode ? L"ENC" : L"DEC");
+    operationLabel->SetBackgroundColor(zaf::Color::FromRGB(
+        operation == Base64Operation::Encode ? 0x79A3EF : 0xF4A460
+    ));
 
     if (operation == Base64Operation::Encode) {
         ShowEncodeResult(parse_result);

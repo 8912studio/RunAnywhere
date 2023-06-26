@@ -2,7 +2,7 @@
     <Control 
         Name="typeIcon" 
         FixedWidth="16"
-        Margin="0,0,0,2"
+        Margin="0,0,0,1"
         BackgroundImageLayout="Center" 
     />
     <Control Name="encodingContainer" Margin="8,0,0,0">
