@@ -3,16 +3,17 @@
         <HorizontalLayouter AxisAlignment="Center" CrossAxisAlignment="Center" />
     </ErrorView.Layouter>
     <Control 
+        Name="errorIcon"
         FixedSize="48,48"
+        Margin="0,0,10,0"
         BackgroundImage="res:///resource/error.png"
         BackgroundImageLayout="Stretch"
     />
     <Label 
-        Name="errorText" 
+        Name="textLabel" 
         AutoSize="true" 
-        Margin="10,0,0,0"
         TextAlignment="Center" 
         ParagraphAligment="Center" 
-        FontSize="20"
+        FontSize="22"
     />
 </ErrorView>

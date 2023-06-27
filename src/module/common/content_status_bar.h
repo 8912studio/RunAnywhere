@@ -16,6 +16,7 @@ public:
     void ShowFile(const std::filesystem::path& file_path);
     void ShowText(const std::wstring& text, TextEncoding encoding);
     void ShowBinary(const std::wstring& binary_text);
+    void ShowNone(const std::wstring& text);
 
 private:
     void SetTypeIcon(const std::wstring& uri);

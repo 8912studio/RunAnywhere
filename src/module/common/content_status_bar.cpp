@@ -41,10 +41,26 @@ void ContentStatusBar::ShowBinary(const std::wstring& binary_text) {
 }
 
 
+void ContentStatusBar::ShowNone(const std::wstring& text) {
+
+	auto update_guard = BeginUpdate();
+
+	SetTypeIcon({});
+	SetEncoding(std::nullopt);
+	SetText(text);
+}
+
+
 void ContentStatusBar::SetTypeIcon(const std::wstring& uri) {
 
-	auto icon_image = zaf::Image::FromURI(uri);
-	typeIcon->SetBackgroundImage(icon_image);
+	if (!uri.empty()) {
+		auto icon_image = zaf::Image::FromURI(uri);
+		typeIcon->SetBackgroundImage(icon_image);
+		typeIcon->SetIsVisible(true);
+	}
+	else {
+		typeIcon->SetIsVisible(false);
+	}
 }
 
 

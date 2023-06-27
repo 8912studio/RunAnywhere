@@ -633,6 +633,9 @@
     <ClInclude Include="src\module\tool\base64\decoded_data_interpreting.h">
       <Filter>src\module\tool\base64</Filter>
     </ClInclude>
+    <ClInclude Include="src\module\common\error_messages.h">
+      <Filter>src\module\common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">

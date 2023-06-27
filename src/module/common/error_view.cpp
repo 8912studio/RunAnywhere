@@ -1,5 +1,6 @@
 #include "module/common/error_view.h"
 #include <zaf/creation.h>
+#include <zaf/graphic/color.h>
 #include <zaf/object/type_definition.h>
 
 namespace ra::mod {
@@ -14,8 +15,22 @@ void ErrorView::AfterParse() {
 }
 
 
-void ErrorView::SetErrorText(const std::wstring& text) {
-    errorText->SetText(text);
+void ErrorView::ShowErrorText(const std::wstring& text) {
+    ShowText(text, true);
+}
+
+
+void ErrorView::ShowHintText(const std::wstring& text) {
+    ShowText(text, false);
+}
+
+
+void ErrorView::ShowText(const std::wstring& text, bool is_error) {
+
+    auto update_guard = this->BeginUpdate();
+    errorIcon->SetIsVisible(is_error);
+    textLabel->SetText(text);
+    textLabel->SetTextColor(is_error ? zaf::Color::Black() : zaf::Color::FromRGB(0xAAAAAA));
 }
 
 }

@@ -24,7 +24,7 @@ void CommandErrorControl::AfterParse() {
 
 
 void CommandErrorControl::SetErrorText(const std::wstring& text) {
-    error_view_->SetErrorText(text);
+    error_view_->ShowErrorText(text);
 }
 
 }

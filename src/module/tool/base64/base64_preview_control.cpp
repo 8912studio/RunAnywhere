@@ -2,6 +2,7 @@
 #include <zaf/base/base64.h>
 #include <zaf/base/string/encoding_conversion.h>
 #include <zaf/object/type_definition.h>
+#include "module/common/error_messages.h"
 #include "module/tool/base64/decoded_data_interpreting.h"
 
 namespace ra::mod::tool::base64 {
@@ -48,7 +49,9 @@ void Base64PreviewControl::ShowParseResult(const Base64CommandParseResult& parse
         ShowDecodeResult(std::move(*decoded_data), parse_result);
     }
     else {
-        //Fail to decode data.
+        contentStatusBar->ShowNone(parse_result.input_text);
+        errorView->ShowErrorText(L"Decode failed");
+        errorView->SetIsVisible(true);
     }
 }
 
@@ -66,11 +69,7 @@ void Base64PreviewControl::ShowEncodeResult(const Base64CommandParseResult& pars
         encoded_text = zaf::Base64Encode(utf16_input.data(), utf16_input.size() * sizeof(wchar_t));
     }
 
-    contentStatusBar->ShowText(parse_result.input_text, encoding);
-
-    textContent->SetDisplayMode(TextDisplayMode::Base64);
-    textContent->SetText(zaf::FromUTF8String(encoded_text));
-    textContent->SetIsVisible(true);
+    ShowTextContent(parse_result.input_text, encoding, zaf::FromUTF8String(encoded_text), true);
 }
 
 
@@ -81,19 +80,10 @@ void Base64PreviewControl::ShowDecodeResult(
     TextEncoding encoding{};
     auto text = ConvertDecodedDataToText(decoded_data, parse_result, encoding);
     if (text) {
-
-        contentStatusBar->ShowText(parse_result.input_text, encoding);
-
-        textContent->SetDisplayMode(TextDisplayMode::Normal);
-        textContent->SetText(std::move(*text));
-        textContent->SetIsVisible(true);
+        ShowTextContent(parse_result.input_text, encoding, std::move(*text), false);
     }
     else {
-
-        contentStatusBar->ShowBinary(parse_result.input_text);
-
-        binaryContent->SetBinary(std::move(decoded_data));
-        binaryContent->SetIsVisible(true);
+        ShowBinaryContent(parse_result.input_text, std::move(decoded_data));
     }
 }
 
@@ -113,6 +103,43 @@ std::optional<std::wstring> Base64PreviewControl::ConvertDecodedDataToText(
     }
 
     return TryToInterpretDecodedDataAsText(decoded_data, encoding);
+}
+
+
+void Base64PreviewControl::ShowTextContent(
+    const std::wstring& input_text,
+    TextEncoding encoding,
+    std::wstring text_content,
+    bool is_base64) {
+
+    contentStatusBar->ShowText(input_text, encoding);
+
+    if (!text_content.empty()) {
+        textContent->SetDisplayMode(is_base64 ? TextDisplayMode::Base64 : TextDisplayMode::Normal);
+        textContent->SetText(std::move(text_content));
+        textContent->SetIsVisible(true);
+    }
+    else {
+        errorView->ShowHintText(ErrorMessages::NoContentToDisplay);
+        errorView->SetIsVisible(true);
+    }
+}
+
+
+void Base64PreviewControl::ShowBinaryContent(
+    const std::wstring& input_text,
+    std::vector<std::byte> binary_content) {
+
+    contentStatusBar->ShowBinary(input_text);
+
+    if (!binary_content.empty()) {
+        binaryContent->SetBinary(std::move(binary_content));
+        binaryContent->SetIsVisible(true);
+    }
+    else {
+        errorView->ShowHintText(ErrorMessages::NoContentToDisplay);
+        errorView->SetIsVisible(true);
+    }
 }
 
 

@@ -180,6 +180,7 @@
     <ClInclude Include="src\module\common\binary_content\byte_index.h" />
     <ClInclude Include="src\module\common\command_error_control.h" />
     <ClInclude Include="src\module\common\content_status_bar.h" />
+    <ClInclude Include="src\module\common\error_messages.h" />
     <ClInclude Include="src\module\common\error_view.h" />
     <ClInclude Include="src\module\common\text_content_control.h" />
     <ClInclude Include="src\module\common\text_encoding.h" />

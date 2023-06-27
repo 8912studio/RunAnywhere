@@ -1,12 +1,4 @@
 <TextPreviewControl Layouter="VerticalLayouter" AutoHeight="true">
     <TextContentControl Name="textContent"/>
-    <Label 
-        Name="emptyLabel"
-        FixedHeight="90"
-        TextAlignment="Center" 
-        ParagraphAlignment="Center"
-        FontSize="26" 
-        TextColor="#aaaaaa"
-        Text="No content to display"
-        Visible="false" />
+    <ErrorView Name="errorView" IsVisible="false" FixedHeight="90" />
 </TextPreviewControl>

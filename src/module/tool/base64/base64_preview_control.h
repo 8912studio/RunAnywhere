@@ -5,6 +5,7 @@
 #include "module/command_preview_control.h"
 #include "module/common/binary_content/binary_content_control.h"
 #include "module/common/content_status_bar.h"
+#include "module/common/error_view.h"
 #include "module/common/text_content_control.h"
 #include "module/tool/base64/base64_command_parsing.h"
 
@@ -29,11 +30,20 @@ private:
         const Base64CommandParseResult& parse_result,
         TextEncoding& encoding);
 
+    void ShowTextContent(
+        const std::wstring& input_text, 
+        TextEncoding encoding,
+        std::wstring text_content,
+        bool is_base64);
+
+    void ShowBinaryContent(const std::wstring& input_text, std::vector<std::byte> binary_content);
+
 private:
     ZAF_BIND_CONTROL(zaf::Label, operationLabel);
     ZAF_BIND_CONTROL(ContentStatusBar, contentStatusBar);
     ZAF_BIND_CONTROL(TextContentControl, textContent);
     ZAF_BIND_CONTROL(BinaryContentControl, binaryContent);
+    ZAF_BIND_CONTROL(ErrorView, errorView);
 };
 
 }

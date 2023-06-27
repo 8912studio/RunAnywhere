@@ -125,7 +125,7 @@ void HexPreviewControl::ShowMessage(
     }
 
     if (!message.empty()) {
-        errorView->SetErrorText(message);
+        errorView->ShowErrorText(message);
         errorView->SetIsVisible(true);
     }
     else {

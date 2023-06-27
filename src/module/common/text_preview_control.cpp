@@ -1,5 +1,6 @@
 #include "module/common/text_preview_control.h"
 #include <zaf/object/type_definition.h>
+#include "module/common/error_messages.h"
 
 namespace ra::mod {
 
@@ -16,12 +17,13 @@ void TextPreviewControl::SetText(std::wstring text) {
 
     if (text.empty()) {
         textContent->SetIsVisible(false);
-        emptyLabel->SetIsVisible(true);
+        errorView->ShowHintText(ErrorMessages::NoContentToDisplay);
+        errorView->SetIsVisible(true);
     }
     else {
         textContent->SetIsVisible(true);
         textContent->SetText(std::move(text));
-        emptyLabel->SetIsVisible(false);
+        errorView->SetIsVisible(false);
     }
 }
 

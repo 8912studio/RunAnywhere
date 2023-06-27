@@ -5,6 +5,7 @@
 #include <zaf/control/rich_edit.h>
 #include <zaf/control/scrollable_control.h>
 #include "module/command_preview_control.h"
+#include "module/common/error_view.h"
 #include "module/common/text_content_control.h"
 
 namespace ra::mod {
@@ -22,7 +23,7 @@ protected:
 
 private:
     ZAF_BIND_CONTROL(TextContentControl, textContent);
-    ZAF_BIND_CONTROL(zaf::Label, emptyLabel);
+    ZAF_BIND_CONTROL(ErrorView, errorView);
 };
 
 }

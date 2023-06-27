@@ -2,10 +2,10 @@
     <Control 
         Name="typeIcon" 
         FixedWidth="16"
-        Margin="0,0,0,1"
+        Margin="0,0,8,1"
         BackgroundImageLayout="Center" 
     />
-    <Control Name="encodingContainer" Margin="8,0,0,0">
+    <Control Name="encodingContainer" Margin="0,0,8,0">
         <Control.Layouter>
             <LinearLayouter Direction="TopToBottom" AxisAlignment="Center" />
         </Control.Layouter>
@@ -22,7 +22,6 @@
     </Control>
     <Label 
         Name="contentLabel" 
-        Margin="8,0,0,0"
         ParagraphAlignment="Center"
         FontSize="14" 
         TextColor="#808080" 
