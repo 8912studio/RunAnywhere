@@ -95,4 +95,14 @@ void ContentStatusBar::SetText(const std::wstring& text) {
 	contentLabel->SetText(utility::ReplaceWhitespacesToVisibleChars(text));
 }
 
+
+void ContentStatusBar::SetIconTooltip(const std::wstring& tooltip) {
+	typeIcon->SetTooltip(tooltip);
+}
+
+
+void ContentStatusBar::SetEncodingTooltip(const std::wstring& tooltip) {
+	encodingLabel->SetTooltip(tooltip);
+}
+
 }

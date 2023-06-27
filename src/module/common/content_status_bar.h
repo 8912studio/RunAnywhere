@@ -18,6 +18,9 @@ public:
     void ShowBinary(const std::wstring& binary_text);
     void ShowNone(const std::wstring& text);
 
+    void SetIconTooltip(const std::wstring& tooltip);
+    void SetEncodingTooltip(const std::wstring& tooltip);
+
 private:
     void SetTypeIcon(const std::wstring& uri);
     void SetEncoding(std::optional<TextEncoding> encoding);
