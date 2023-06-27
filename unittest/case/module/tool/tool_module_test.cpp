@@ -74,9 +74,9 @@ TEST(ToolModuleTest, CreateBase64Command) {
 
 	auto tool_module = std::make_shared<ToolModule>();
 
-	auto command = tool_module->CreateCommand(CommandLine{ L"base" });
+	auto command = tool_module->CreateCommand(CommandLine{ L"b64" });
 	ASSERT_NE(command, nullptr);
 
-	command = tool_module->CreateCommand(CommandLine{ L"Base" });
+	command = tool_module->CreateCommand(CommandLine{ L"B64" });
 	ASSERT_EQ(command, nullptr);
 }
