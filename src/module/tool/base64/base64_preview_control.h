@@ -37,7 +37,8 @@ private:
         TextEncoding encoding,
         std::wstring text_content,
         bool is_base64,
-        const std::wstring& icon_tooltip);
+        const std::wstring& icon_tooltip,
+        const std::wstring& encoding_tooltip);
 
     void ShowBinaryContent(const std::wstring& input_text, std::vector<std::byte> binary_content);
 

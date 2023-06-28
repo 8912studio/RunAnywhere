@@ -71,7 +71,8 @@ void Base64PreviewControl::ShowEncodeResult(const Base64CommandParseResult& pars
         encoding,
         zaf::FromUTF8String(encoded_text), 
         true,
-        L"Encode text");
+        L"Input is text",
+        encoding == TextEncoding::UTF8 ? L"Input text is UTF-8" : L"Input text is UTF-16");
 }
 
 
@@ -87,7 +88,8 @@ void Base64PreviewControl::ShowDecodeResult(
             encoding, 
             std::move(*text), 
             false,
-            L"Display decoded result as text");
+            L"Display decoded result as text",
+            encoding == TextEncoding::UTF8 ? L"Result text is UTF-8" : L"Result text is UTF-16");
     }
     else {
         ShowBinaryContent(parse_result.input_text, std::move(decoded_data));
@@ -128,14 +130,12 @@ void Base64PreviewControl::ShowTextContent(
     TextEncoding encoding,
     std::wstring text_content,
     bool is_base64,
-    const std::wstring& icon_tooltip) {
+    const std::wstring& icon_tooltip,
+    const std::wstring& encoding_tooltip) {
 
     contentStatusBar->ShowText(input_text, encoding);
     contentStatusBar->SetIconTooltip(icon_tooltip);
-    contentStatusBar->SetEncodingTooltip(
-        encoding == TextEncoding::UTF8 ? 
-        L"Text is UTF-8" : 
-        L"Text is UTF-16");
+    contentStatusBar->SetEncodingTooltip(encoding_tooltip);
 
     if (!text_content.empty()) {
         textContent->SetDisplayMode(is_base64 ? TextDisplayMode::Base64 : TextDisplayMode::Normal);
