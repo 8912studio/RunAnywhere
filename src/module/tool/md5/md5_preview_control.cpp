@@ -35,6 +35,7 @@ void MD5PreviewControl::ChangeLayout(LayoutType type) {
 void MD5PreviewControl::ShowFileMD5(const std::filesystem::path& file_path) {
 
 	contentStatusBar->ShowFile(file_path);
+	contentStatusBar->SetIconTooltip(L"Input is file");
 
 	ChangeLayout(LayoutType::Progress);
 
@@ -61,6 +62,9 @@ void MD5PreviewControl::ShowFileMD5(const std::filesystem::path& file_path) {
 void MD5PreviewControl::ShowStringMD5(const std::wstring& string, TextEncoding encoding) {
 
 	contentStatusBar->ShowText(string, encoding);
+	contentStatusBar->SetIconTooltip(L"Input is text");
+	contentStatusBar->SetEncodingTooltip(
+		encoding == TextEncoding::UTF8 ? L"Input text is UTF-8" : L"Input text is UTF-16");
 
 	auto md5 = CalculateStringMD5(string, encoding);
 	SetMD5Text(md5);
