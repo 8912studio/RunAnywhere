@@ -1,9 +1,9 @@
 <ContentStatusBar FixedHeight="30">
     <Control 
         Name="typeIcon" 
-        FixedWidth="16"
-        Margin="0,0,8,1"
-        BackgroundImageLayout="Center" 
+        FixedSize="20,20"
+        Margin="0,5,8,0"
+        BackgroundImageLayout="Stretch"
     />
     <Control Name="encodingContainer" Margin="0,0,8,0">
         <Control.Layouter>
