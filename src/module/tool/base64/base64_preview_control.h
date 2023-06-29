@@ -17,6 +17,7 @@ public:
 
 public:
     void ShowParseResult(const Base64CommandParseResult& parse_result);
+    std::wstring GetResultText() const;
 
     zaf::Frame GetExpectedMargin() override;
 

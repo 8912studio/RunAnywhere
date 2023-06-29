@@ -20,6 +20,7 @@ public:
 public:
     void SetDisplayMode(TextDisplayMode mode);
     void SetText(std::wstring text);
+    std::wstring GetText() const;
 
 protected:
     void AfterParse() override;
@@ -43,6 +44,8 @@ private:
         zaf::rich_edit::ClipboardOperation operation,
         const zaf::TextRange& text_range,
         zaf::clipboard::DataObject& data_object) override;
+
+    std::wstring InnerGetText(const zaf::TextRange& text_range) const;
 
 private:
     ZAF_BIND_CONTROL(zaf::ScrollableControl, scrollControl);

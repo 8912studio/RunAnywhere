@@ -49,6 +49,11 @@ void TextContentControl::SetText(std::wstring text) {
 }
 
 
+std::wstring TextContentControl::GetText() const {
+    return InnerGetText(zaf::TextRange{ 0, richEdit->TextLength() });
+}
+
+
 void TextContentControl::Layout(const zaf::Rect& previous_rect) {
 
     __super::Layout(previous_rect);
@@ -244,15 +249,19 @@ zaf::rich_edit::OperationResult TextContentControl::GetClipboardData(
     const zaf::TextRange& text_range,
     zaf::clipboard::DataObject& data_object) {
 
+    auto text = InnerGetText(text_range);
+    data_object.SetText(std::move(text));
+    return zaf::rich_edit::OperationResult::OK;
+}
+
+
+std::wstring TextContentControl::InnerGetText(const zaf::TextRange& text_range) const {
+
+    auto text = richEdit->GetTextInRange(text_range);
     if (display_mode_ == TextDisplayMode::Base64) {
-
-        auto text = richEdit->GetTextInRange(text_range);
         zaf::Erase(text, L'\r');
-        data_object.SetText(std::move(text));
-        return zaf::rich_edit::OperationResult::OK;
     }
-
-    return zaf::rich_edit::OperationResult::Pending;
+    return text;
 }
 
 }

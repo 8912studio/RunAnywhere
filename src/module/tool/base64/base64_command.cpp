@@ -1,5 +1,6 @@
 #include "module/tool/base64/base64_command.h"
 #include <zaf/creation.h>
+#include "utility/clipboard.h"
 
 namespace ra::mod::tool::base64 {
 
@@ -46,6 +47,9 @@ std::shared_ptr<CommandPreviewControl> Base64Command::GetPreviewControl() {
 
 void Base64Command::Execute() {
 
+    if (preview_control_) {
+        utility::SetStringToClipboard(preview_control_->GetResultText());
+    }
 }
 
 }

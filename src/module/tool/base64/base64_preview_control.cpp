@@ -167,6 +167,15 @@ void Base64PreviewControl::ShowBinaryContent(
 }
 
 
+std::wstring Base64PreviewControl::GetResultText() const {
+
+    if (textContent->IsVisible()) {
+        return textContent->GetText();
+    }
+    return {};
+}
+
+
 zaf::Frame Base64PreviewControl::GetExpectedMargin() {
 
     auto result = __super::GetExpectedMargin();
