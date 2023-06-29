@@ -35,7 +35,7 @@ void ContentStatusBar::ShowBinary(const std::wstring& binary_text) {
 
 	auto update_guard = BeginUpdate();
 
-	SetTypeIcon(L"res:///resource/string.png");
+	SetTypeIcon(L"res:///resource/binary.png");
 	SetEncoding(std::nullopt);
 	SetText(binary_text);
 }
