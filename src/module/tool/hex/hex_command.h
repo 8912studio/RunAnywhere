@@ -15,8 +15,6 @@ public:
     static std::optional<HexCommandParseResult> Parse(const utility::CommandLine& command_line);
 
 public:
-    HexCommand(const utility::CommandLine& command_line);
-
     CommandBrief GetBrief() override;
     help::content::Content GetHelpContent() override;
     bool Interpret(

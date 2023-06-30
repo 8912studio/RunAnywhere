@@ -12,8 +12,6 @@ public:
     static CommandBrief Brief();
 
 public:
-    explicit Base64Command(const utility::CommandLine&);
-
     CommandBrief GetBrief() override;
     help::content::Content GetHelpContent() override;
     bool Interpret(

@@ -41,12 +41,6 @@ std::optional<ErrorCommandParseResult> ErrorCommand::Parse(
 }
 
 
-ErrorCommand::ErrorCommand(const utility::CommandLine& command_line) :
-    parse_result_(Parse(command_line)) {
-
-}
-
-
 CommandBrief ErrorCommand::GetBrief() {
     return Brief();
 }
@@ -82,6 +76,8 @@ bool ErrorCommand::Interpret(
     if (is_reusing) {
         return false;
     }
+
+    parse_result_ = Parse(command_line);
     return true;
 }
 

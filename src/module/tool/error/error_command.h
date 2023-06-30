@@ -14,8 +14,6 @@ public:
     static std::optional<ErrorCommandParseResult> Parse(const utility::CommandLine& command_line);
 
 public:
-    explicit ErrorCommand(const utility::CommandLine& command_line);
-
     CommandBrief GetBrief() override;
     help::content::Content GetHelpContent() override;
     bool Interpret(

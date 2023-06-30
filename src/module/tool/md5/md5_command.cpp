@@ -44,12 +44,6 @@ MD5CommandParseResult MD5Command::Parse(const utility::CommandLine& command_line
 }
 
 
-MD5Command::MD5Command(const utility::CommandLine& command_line) : 
-	parse_result_(Parse(command_line)) {
-
-}
-
-
 CommandBrief MD5Command::GetBrief() {
 	return Brief();
 }
@@ -88,6 +82,7 @@ bool MD5Command::Interpret(
 		return false;
 	}
 
+	parse_result_ = Parse(command_line);
 	desktop_context_ = desktop_context;
 	return true;
 }

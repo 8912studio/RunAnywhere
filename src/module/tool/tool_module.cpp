@@ -13,7 +13,7 @@
 
 namespace ra::mod::tool {
 
-using CommandFactory = std::function<std::unique_ptr<Command>(const utility::CommandLine&)>;
+using CommandFactory = std::function<std::unique_ptr<Command>()>;
 
 class ToolCommandInfo {
 public:
@@ -39,25 +39,18 @@ private:
 
 template<typename T>
 std::unique_ptr<ToolCommandInfo> CreateCommandInfo() {
-
-    return std::make_unique<ToolCommandInfo>(
-        T::Brief(),
-        [](const utility::CommandLine& command_line) {
-            return std::make_unique<T>(command_line);
-        }
-    );
+    return std::make_unique<ToolCommandInfo>(T::Brief(), []() {
+        return std::make_unique<T>();
+    });
 }
 
 
 template<typename T>
 std::unique_ptr<ToolCommandInfo> CreateTextTransformCommandInfo() {
 
-    return std::make_unique<ToolCommandInfo>(
-        T::Brief(),
-        [](const utility::CommandLine& command_line) {
-            return std::make_unique<text_transform::TextTransformCommand>(std::make_unique<T>());
-        }
-    );
+    return std::make_unique<ToolCommandInfo>(T::Brief(), []() {
+        return std::make_unique<text_transform::TextTransformCommand>(std::make_unique<T>());
+    });
 }
 
 
@@ -100,7 +93,7 @@ std::unique_ptr<Command> ToolModule::CreateCommand(const utility::CommandLine& c
     for (const auto& each_info : command_infos_) {
 
         if (each_info->Brief().Command() == command_line.Command()) {
-            return each_info->Fatory()(command_line);
+            return each_info->Fatory()();
         }
     }
 

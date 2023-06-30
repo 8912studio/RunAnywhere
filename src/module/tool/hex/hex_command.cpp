@@ -119,12 +119,6 @@ help::content::Content HexCommand::GetHelpContent() {
 }
 
 
-HexCommand::HexCommand(const utility::CommandLine& command_line) : 
-    parse_result_(Parse(command_line)) {
-
-}
-
-
 bool HexCommand::Interpret(
     const utility::CommandLine& command_line, 
     const context::DesktopContext& desktop_context,
@@ -135,6 +129,7 @@ bool HexCommand::Interpret(
         return false;
     }
 
+    parse_result_ = Parse(command_line);
     desktop_context_ = desktop_context;
     return true;
 }

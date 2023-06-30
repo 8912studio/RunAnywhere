@@ -65,12 +65,6 @@ std::optional<DateCommandParseResult> DateCommand::Parse(const utility::CommandL
 }
 
 
-DateCommand::DateCommand(const utility::CommandLine& command_line) : 
-	parse_result_(Parse(command_line)) {
-
-}
-
-
 CommandBrief DateCommand::GetBrief() {
 	return Brief();
 }
@@ -102,6 +96,8 @@ bool DateCommand::Interpret(
 	if (is_reusing) {
 		return false;
 	}
+
+	parse_result_ = Parse(command_line);
 	return true;
 }
 

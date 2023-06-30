@@ -313,12 +313,6 @@ std::optional<RGBCommandParseResult> RGBCommand::Parse(const utility::CommandLin
 }
 
 
-RGBCommand::RGBCommand(const utility::CommandLine& command_line) : 
-    parse_result_(Parse(command_line)) {
-
-}
-
-
 CommandBrief RGBCommand::GetBrief() {
     return Brief();
 }
@@ -387,6 +381,8 @@ bool RGBCommand::Interpret(
     if (is_reusing) {
         return false;
     }
+
+    parse_result_ = Parse(command_line);
     return true;
 }
 

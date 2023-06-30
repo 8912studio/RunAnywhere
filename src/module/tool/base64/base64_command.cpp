@@ -9,11 +9,6 @@ CommandBrief Base64Command::Brief() {
 }
 
 
-Base64Command::Base64Command(const utility::CommandLine&) {
-    //Do nothing in constructor. We parse command line in Interpret() method.
-}
-
-
 CommandBrief Base64Command::GetBrief() {
     return Brief();
 }

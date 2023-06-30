@@ -15,8 +15,6 @@ public:
     static MD5CommandParseResult Parse(const utility::CommandLine& command_line);
 
 public:
-    explicit MD5Command(const utility::CommandLine& command_line);
-
     CommandBrief GetBrief() override;
     help::content::Content GetHelpContent() override;
     bool Interpret(
