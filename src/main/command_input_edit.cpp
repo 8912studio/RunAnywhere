@@ -176,7 +176,7 @@ void CommandInputEdit::InsertPrivateClipboardData(const zaf::clipboard::DataObje
     for (const auto& each_object : clipboard_data->Objects()) {
 
         if (auto string_data = zaf::As<zaf::WideString>(each_object)) {
-            this->ReplaceSelectedText(string_data->Value());
+            this->InsertText(string_data->Value());
         }
         else if (auto text_block_data = zaf::As<TextBlockData>(each_object)) {
             auto text_block_object = zaf::Create<TextBlockObject>(text_block_data);
@@ -194,7 +194,7 @@ void CommandInputEdit::InsertTextData(const zaf::clipboard::DataObject& data_obj
         InsertTextBlockObject(text);
     }
     else {
-        this->ReplaceSelectedText(text);
+        this->InsertText(text);
     }
 }
 
