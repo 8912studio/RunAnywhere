@@ -14,6 +14,7 @@
 #include <zaf/window/message/message.h>
 #include "context/desktop_context_discovering.h"
 #include "help/help_content_building.h"
+#include "main/history/history_command_view.h"
 #include "module/active_path/active_path_module.h"
 #include "module/calculator/calculator_module.h"
 #include "module/meta/meta_module.h"
@@ -143,6 +144,8 @@ void MainWindow::ShowPreview() {
     else {
         window_size.height = ShowEmptyPreview();
     }
+
+    window_size.height += historyCommandsView->Height();
 
     this->SetSize(window_size);
 }
@@ -277,6 +280,22 @@ void MainWindow::ExecuteCommand() {
 }
 
 
+void MainWindow::AddCommandToHistoryStack() {
+
+    if (!current_command_) {
+        return;
+    }
+
+    auto history_command_view = zaf::Create<HistoryCommandView>(
+        inputEdit->GetInputCommandLine(),
+        std::move(current_command_));
+
+    historyCommandsView->AddChild(history_command_view);
+
+    inputEdit->SetText({});
+}
+
+
 void MainWindow::OnMessageReceived(const zaf::MessageReceivedInfo& event_info) {
 
     auto handle_result = HandleMessage(event_info.Message());
@@ -326,7 +345,12 @@ bool MainWindow::HandleKeyDownMessage(const zaf::KeyMessage& message) {
     }
 
     if (message.VirtualKey() == VK_RETURN) {
-        this->ExecuteCommand();
+        if (GetKeyState(VK_SHIFT) >> 15) {
+            AddCommandToHistoryStack();
+        }
+        else {
+            ExecuteCommand();
+        }
         return true;
     }
 
@@ -383,6 +407,10 @@ std::optional<zaf::HitTestResult> MainWindow::HitTest(const zaf::HitTestMessage&
     }
 
     if (helpButton->AbsoluteRect().Contain(mouse_position)) {
+        return std::nullopt;
+    }
+
+    if (historyCommandsView->AbsoluteRect().Contain(mouse_position)) {
         return std::nullopt;
     }
 

@@ -109,6 +109,9 @@
     <Filter Include="src\module\common\binary_content">
       <UniqueIdentifier>{7d653eb5-ce26-4e10-85a3-472105bccb0c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\main\history">
+      <UniqueIdentifier>{523feb54-037d-41e7-815d-8c85ea058e2c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\module\calculator\parse\binary_expression_parser.h">
@@ -636,6 +639,9 @@
     <ClInclude Include="src\module\common\error_messages.h">
       <Filter>src\module\common</Filter>
     </ClInclude>
+    <ClInclude Include="src\main\history\history_command_view.h">
+      <Filter>src\main\history</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -1010,6 +1016,9 @@
     <ClCompile Include="src\module\tool\base64\decoded_data_interpreting.cpp">
       <Filter>src\module\tool\base64</Filter>
     </ClCompile>
+    <ClCompile Include="src\main\history\history_command_view.cpp">
+      <Filter>src\main\history</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Page Include="src\module\user_defined\preview\user_defined_command_preview_control.xaml">
@@ -1077,6 +1086,9 @@
     </Page>
     <Page Include="src\module\common\binary_content\binary_content_control.xaml">
       <Filter>src\module\common\binary_content</Filter>
+    </Page>
+    <Page Include="src\main\history\history_command_view.xaml">
+      <Filter>src\main\history</Filter>
     </Page>
   </ItemGroup>
   <ItemGroup>

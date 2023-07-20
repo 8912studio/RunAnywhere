@@ -123,6 +123,7 @@
     <ClInclude Include="src\license_window.h" />
     <ClInclude Include="src\main\clipboard_data.h" />
     <ClInclude Include="src\main\command_input_edit.h" />
+    <ClInclude Include="src\main\history\history_command_view.h" />
     <ClInclude Include="src\main\line_break_option.h" />
     <ClInclude Include="src\main\main_window.h" />
     <ClInclude Include="src\main\text_block_data.h" />
@@ -285,6 +286,7 @@
     <ClCompile Include="src\hot_key_utility.cpp" />
     <ClCompile Include="src\license_window.cpp" />
     <ClCompile Include="src\main\command_input_edit.cpp" />
+    <ClCompile Include="src\main\history\history_command_view.cpp" />
     <ClCompile Include="src\main\line_break_option.cpp" />
     <ClCompile Include="src\main\main_window.cpp" />
     <ClCompile Include="src\main\text_block_object.cpp" />
@@ -392,6 +394,7 @@
     <Page Include="src\about_window.xaml" />
     <Page Include="src\help\help_window.xaml" />
     <Page Include="src\license_window.xaml" />
+    <Page Include="src\main\history\history_command_view.xaml" />
     <Page Include="src\main\main_window.xaml" />
     <Page Include="src\main\text_block_window.xaml" />
     <Page Include="src\module\calculator\preview\calculator_preview_control.xaml" />

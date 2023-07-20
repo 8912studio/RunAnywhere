@@ -29,4 +29,5 @@
     </HorizontalBox>
 
     <PreviewView Name="previewView" IsVisible="false" />
+    <VerticalBox Name="historyCommandsView" AutoHeight="true" />
 </MainWindow>

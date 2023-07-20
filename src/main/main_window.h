@@ -49,6 +49,7 @@ private:
     help::content::Content GetHelpContent();
     void UpdateHelpWindowPosition();
     void ExecuteCommand();
+    void AddCommandToHistoryStack();
 
     std::optional<LRESULT> HandleMessage(const zaf::Message& message);
     bool HandleKeyDownMessage(const zaf::KeyMessage& message);
@@ -58,6 +59,7 @@ private:
     ZAF_BIND_CONTROL(CommandInputEdit, inputEdit);
     ZAF_BIND_CONTROL(PreviewView, previewView);
     ZAF_BIND_CONTROL(zaf::Control, helpButton);
+    ZAF_BIND_CONTROL(zaf::Control, historyCommandsView);
 
     float initial_height_{};
 

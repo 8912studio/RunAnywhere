@@ -1,0 +1,15 @@
+<HistoryCommandView 
+    Layouter="VerticalLayouter" 
+    AutoHeight="true"
+    BackgroundColor="#EEEEEE">
+    <RichEdit 
+        Name="commandEdit" 
+        Margin="15,0,15,0"
+        FixedHeight="40"
+        IsReadOnly="true"
+        Border="0"
+        BackgroundColor="Transparent"
+        FontSize="16"
+        ParagraphAlignment="Center" />
+    <VerticalBox Name="previewContainer" FixedHeight="40" />
+</HistoryCommandView>
