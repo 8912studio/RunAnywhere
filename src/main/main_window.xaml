@@ -7,6 +7,8 @@
         <VerticalBox BackgroundColor="White" />
     </MainWindow.RootControl>
 
+    <VerticalBox Name="historyCommandsView" AutoHeight="true" IsVisible="false" />
+    
     <HorizontalBox FixedHeight="58" Padding="5,10,15,0" >
         <Control 
             FixedWidth="40" 
@@ -29,5 +31,4 @@
     </HorizontalBox>
 
     <PreviewView Name="previewView" IsVisible="false" />
-    <VerticalBox Name="historyCommandsView" AutoHeight="true" />
 </MainWindow>

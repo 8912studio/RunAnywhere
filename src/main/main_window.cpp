@@ -136,18 +136,26 @@ void MainWindow::InterpretCommand() {
 
 void MainWindow::ShowPreview() {
 
-    auto window_size = this->Size();
-
+    float main_height{};
     if (current_command_) {
-        window_size.height = ShowCommandPreview();
+        main_height = ShowCommandPreview();
     }
     else {
-        window_size.height = ShowEmptyPreview();
+        main_height = ShowEmptyPreview();
     }
 
-    window_size.height += historyCommandsView->Height();
+    float history_commands_view_height{};
+    if (historyCommandsView->IsVisible()) {
+        history_commands_view_height = historyCommandsView->Height();
+    }
 
-    this->SetSize(window_size);
+    auto window_rect = this->Rect();
+    float main_y = window_rect.position.y + last_history_commands_view_height_;
+    window_rect.position.y = main_y - history_commands_view_height;
+    window_rect.size.height = main_height + history_commands_view_height;
+    this->SetRect(window_rect);
+
+    last_history_commands_view_height_ = history_commands_view_height;
 }
 
 
@@ -280,7 +288,7 @@ void MainWindow::ExecuteCommand() {
 }
 
 
-void MainWindow::AddCommandToHistoryStack() {
+void MainWindow::AddCommandToHistoryView() {
 
     if (!current_command_) {
         return;
@@ -290,7 +298,16 @@ void MainWindow::AddCommandToHistoryStack() {
         inputEdit->GetInputCommandLine(),
         std::move(current_command_));
 
-    historyCommandsView->AddChild(history_command_view);
+    {
+        auto update_guard = historyCommandsView->BeginUpdate();
+
+        if (historyCommandsView->ChildCount() >= 2) {
+            historyCommandsView->RemoveChildAtIndex(0);
+        }
+
+        historyCommandsView->AddChild(history_command_view);
+        historyCommandsView->SetIsVisible(true);
+    }
 
     inputEdit->SetText({});
 }
@@ -346,7 +363,7 @@ bool MainWindow::HandleKeyDownMessage(const zaf::KeyMessage& message) {
 
     if (message.VirtualKey() == VK_RETURN) {
         if (GetKeyState(VK_SHIFT) >> 15) {
-            AddCommandToHistoryStack();
+            AddCommandToHistoryView();
         }
         else {
             ExecuteCommand();

@@ -49,7 +49,7 @@ private:
     help::content::Content GetHelpContent();
     void UpdateHelpWindowPosition();
     void ExecuteCommand();
-    void AddCommandToHistoryStack();
+    void AddCommandToHistoryView();
 
     std::optional<LRESULT> HandleMessage(const zaf::Message& message);
     bool HandleKeyDownMessage(const zaf::KeyMessage& message);
@@ -67,6 +67,7 @@ private:
 
     context::DesktopContext desktop_context_;
     std::unique_ptr<mod::Command> current_command_;
+    float last_history_commands_view_height_{};
 
     bool show_help_window_{};
     std::shared_ptr<help::HelpWindow> help_window_;
