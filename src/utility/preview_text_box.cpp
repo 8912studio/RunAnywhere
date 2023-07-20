@@ -19,7 +19,7 @@ void PreviewTextBox::AfterParse() {
 	this->SetParagraphAlignment(zaf::ParagraphAlignment::Center);
 	
 	Subscriptions() += this->FocusLostEvent().Subscribe(std::bind([this]() {
-		this->SetSelectionRange(zaf::TextRange{});
+		this->SetSelectionRange(zaf::Range{});
 	}));
 }
 

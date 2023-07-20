@@ -1,6 +1,5 @@
 #include "module/tool/rgb/rgb_command.h"
 #include <zaf/base/container/utility/contain.h>
-#include <zaf/base/container/utility/range.h>
 #include <zaf/base/string/case_conversion.h>
 #include <zaf/base/string/split.h>
 #include <zaf/base/string/to_numeric.h>

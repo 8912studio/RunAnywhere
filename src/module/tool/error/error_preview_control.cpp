@@ -128,7 +128,7 @@ bool ErrorPreviewControl::AdjustErrorMessageByReducingFontSize(
         }
 
         new_font_size -= 1;
-        text_layout.SetFontSize(new_font_size, zaf::TextRange{ 0, errorMessage->TextLength() });
+        text_layout.SetFontSize(new_font_size, zaf::Range{ 0, errorMessage->TextLength() });
     }
 
     errorMessage->SetFontSize(new_font_size);

@@ -42,10 +42,10 @@ protected:
 private:
     zaf::rich_edit::OperationResult GetClipboardData(
         zaf::rich_edit::ClipboardOperation operation,
-        const zaf::TextRange& text_range,
+        const zaf::Range& text_range,
         zaf::clipboard::DataObject& data_object) override;
 
-    std::wstring InnerGetText(const zaf::TextRange& text_range) const;
+    std::wstring InnerGetText(const zaf::Range& text_range) const;
 
 private:
     ZAF_BIND_CONTROL(zaf::ScrollableControl, scrollControl);

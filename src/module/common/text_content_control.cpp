@@ -1,6 +1,5 @@
 #include "module/common/text_content_control.h"
 #include <zaf/base/container/utility/erase.h>
-#include <zaf/base/container/utility/range.h>
 #include <zaf/base/log.h>
 #include <zaf/control/scroll_bar.h>
 #include <zaf/object/type_definition.h>
@@ -50,7 +49,7 @@ void TextContentControl::SetText(std::wstring text) {
 
 
 std::wstring TextContentControl::GetText() const {
-    return InnerGetText(zaf::TextRange{ 0, richEdit->TextLength() });
+    return InnerGetText(zaf::Range{ 0, richEdit->TextLength() });
 }
 
 
@@ -171,7 +170,7 @@ void TextContentControl::BreakTextForBase64Mode() {
 
     std::wstring new_text;
     new_text.reserve(text_.length() + (text_.length() / line_length * 2));
-    for (auto index : zaf::Range(text_.length())) {
+    for (auto index : zaf::Range(0, text_.length())) {
 
         if (index != 0 && (index % line_length == 0)) {
             new_text += L"\r\n";
@@ -246,7 +245,7 @@ float TextContentControl::CalculateRequriedHeightForMultiLineEdit(
 
 zaf::rich_edit::OperationResult TextContentControl::GetClipboardData(
     zaf::rich_edit::ClipboardOperation operation,
-    const zaf::TextRange& text_range,
+    const zaf::Range& text_range,
     zaf::clipboard::DataObject& data_object) {
 
     auto text = InnerGetText(text_range);
@@ -255,7 +254,7 @@ zaf::rich_edit::OperationResult TextContentControl::GetClipboardData(
 }
 
 
-std::wstring TextContentControl::InnerGetText(const zaf::TextRange& text_range) const {
+std::wstring TextContentControl::InnerGetText(const zaf::Range& text_range) const {
 
     auto text = richEdit->GetTextInRange(text_range);
     if (display_mode_ == TextDisplayMode::Base64) {

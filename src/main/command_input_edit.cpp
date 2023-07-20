@@ -1,7 +1,6 @@
 #include "main/command_input_edit.h"
 #include <tom.h>
 #include <zaf/base/container/utility/contain.h>
-#include <zaf/base/container/utility/range.h>
 #include <zaf/base/com_object.h>
 #include <zaf/clipboard/clipboard.h>
 #include <zaf/object/type_definition.h>
@@ -201,7 +200,7 @@ void CommandInputEdit::InsertTextData(const zaf::clipboard::DataObject& data_obj
 
 zaf::rich_edit::OperationResult CommandInputEdit::GetClipboardData(
     zaf::rich_edit::ClipboardOperation operation,
-    const zaf::TextRange& text_range,
+    const zaf::Range& text_range,
     zaf::clipboard::DataObject& data_object) {
 
     auto text_in_range = this->GetTextInRange(text_range);

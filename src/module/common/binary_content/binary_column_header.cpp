@@ -1,5 +1,4 @@
 #include "module/common/binary_content/binary_column_header.h"
-#include <zaf/base/container/utility/range.h>
 #include <zaf/graphic/canvas.h>
 #include <zaf/object/type_definition.h>
 #include "module/common/binary_content/binary_content_common.h"

@@ -2,7 +2,6 @@
 #include <zaf/application.h>
 #include <zaf/base/as.h>
 #include <zaf/base/container/utility/append.h>
-#include <zaf/base/container/utility/range.h>
 #include <zaf/graphic/font/font_weight.h>
 #include <zaf/graphic/graphic_factory.h>
 #include <zaf/graphic/text/text_format_properties.h>
@@ -51,7 +50,7 @@ zaf::TextLayout CreateTextLayout(
 
     text_layout.SetFontStyle(
         layout_properties.is_italic ? zaf::FontStyle::Italic : zaf::FontStyle::Normal,
-        zaf::TextRange{ 0, text.length() });
+        zaf::Range{ 0, text.length() });
 
     text_layout.SetMaxWidth(layout_width);
     text_layout.SetMaxHeight(10000);

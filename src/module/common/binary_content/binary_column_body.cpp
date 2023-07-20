@@ -1,6 +1,5 @@
 #include "module/common/binary_content/binary_column_body.h"
 #include <zaf/base/container/utility/append.h>
-#include <zaf/base/container/utility/range.h>
 #include <zaf/base/container/utility/sort.h>
 #include <zaf/graphic/canvas.h>
 #include <zaf/window/message/mouse_message.h>
@@ -63,7 +62,7 @@ void BinaryColumnBody::Paint(zaf::Canvas& canvas, const zaf::Rect& dirty_rect) {
         std::floor((dirty_rect.position.y + dirty_rect.size.height) / LineHeight) + 1);
 
     for (auto line_index : zaf::Range(begin_line, end_line)) {
-        for (auto byte_index_in_line : zaf::Range<std::size_t>(0, BytesPerLine)) {
+        for (auto byte_index_in_line : zaf::Range(0, BytesPerLine)) {
 
             ByteIndex byte_index{ line_index, byte_index_in_line };
             if (byte_index.IndexInContent() >= content_.size()) {

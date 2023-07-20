@@ -1,5 +1,4 @@
 #include "module/calculator/preview/calculator_preview_control.h"
-#include <zaf/base/container/utility/range.h>
 #include <zaf/graphic/font/font.h>
 #include <zaf/object/type_definition.h>
 #include "module/calculator/result_text_builder.h"
@@ -116,7 +115,7 @@ void CalculatorPreviewControl::ShowHighlightBit() {
 
 	resultLabel->SetTextColorAtRange(
 		zaf::Color::Red(),
-		zaf::TextRange{ *highlight_position, 1 });
+		zaf::Range{ *highlight_position, 1 });
 }
 
 

@@ -46,7 +46,7 @@ private:
 
     zaf::rich_edit::OperationResult GetClipboardData(
         zaf::rich_edit::ClipboardOperation operation,
-        const zaf::TextRange& text_range,
+        const zaf::Range& text_range,
         zaf::clipboard::DataObject& data_object) override;
 
     std::shared_ptr<zaf::Object> GetTextBlockDataAtIndex(std::size_t index);

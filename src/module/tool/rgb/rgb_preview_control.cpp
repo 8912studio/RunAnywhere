@@ -1,6 +1,5 @@
 #include "module/tool/rgb/rgb_preview_control.h"
 #include <sstream>
-#include <zaf/base/container/utility/range.h>
 #include <zaf/base/string/case_conversion.h>
 #include <zaf/object/type_definition.h>
 #include <zaf/graphic/graphic_factory.h>

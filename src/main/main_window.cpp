@@ -394,7 +394,7 @@ void MainWindow::OnShow(const zaf::ShowInfo& event_info) {
 
     __super::OnShow(event_info);
 
-    inputEdit->SetSelectionRange(zaf::TextRange{ 0, inputEdit->TextLength() });
+    inputEdit->SetSelectionRange(zaf::Range{ 0, inputEdit->TextLength() });
 
     UpdateCommandState();
 }

@@ -1,5 +1,4 @@
 #include "module/tool/base64/base64_command_parsing.h"
-#include <zaf/base/container/utility/range.h>
 
 namespace ra::mod::tool::base64 {
 namespace {
