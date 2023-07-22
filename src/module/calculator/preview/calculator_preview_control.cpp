@@ -7,13 +7,29 @@
 namespace ra::mod::calculator {
 namespace {
 
-constexpr float DefaultFontSize = 32;
+constexpr float NormalStyleFixedHeight = 90;
+constexpr float HistoricalStyleFixedHeight = 28;
+
+constexpr float NormalStyleDefaultFontSize = 32;
+constexpr float HistoricalStyleDefaultFontSize = 16;
 
 }
 
 ZAF_DEFINE_TYPE(CalculatorPreviewControl)
 ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/calculator/preview/calculator_preview_control.xaml");
 ZAF_DEFINE_TYPE_END
+
+void CalculatorPreviewControl::OnStyleChanged() {
+
+	if (Style() == PreviewStyle::Historical) {
+		this->SetFixedHeight(HistoricalStyleFixedHeight);
+	}
+	else {
+		this->SetFixedHeight(NormalStyleFixedHeight);
+	}
+
+	NeedRelayout();
+}
 
 
 void CalculatorPreviewControl::Layout(const zaf::Rect& previous_rect) {
@@ -34,7 +50,12 @@ void CalculatorPreviewControl::ResizetLabelToSuitableSize() {
 		return;
 	}
 
-	for (float font_size = DefaultFontSize; font_size > 0; font_size -= 0.5) {
+	const float default_font_size =
+		Style() == PreviewStyle::Historical ?
+		HistoricalStyleDefaultFontSize :
+		NormalStyleDefaultFontSize;
+
+	for (float font_size = default_font_size; font_size > 0; font_size -= 0.5) {
 
 		resultLabel->SetFontSize(font_size);
 
@@ -61,8 +82,14 @@ void CalculatorPreviewControl::RePositionLabel() {
 	const auto& result_label_size = resultLabel->Size();
 
 	zaf::Point result_label_position;
-	result_label_position.x = (content_size.width - result_label_size.width) / 2;
 	result_label_position.y = (content_size.height - result_label_size.height) / 2;
+
+	if (Style() == PreviewStyle::Historical) {
+		result_label_position.x = 0;
+	}
+	else {
+		result_label_position.x = (content_size.width - result_label_size.width) / 2;
+	}
 
 	resultLabel->SetPosition(result_label_position);
 }

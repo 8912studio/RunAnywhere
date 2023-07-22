@@ -7,7 +7,11 @@
         <VerticalBox BackgroundColor="White" />
     </MainWindow.RootControl>
 
-    <VerticalBox Name="historyCommandsView" AutoHeight="true" IsVisible="false" />
+    <VerticalBox 
+        Name="historyCommandsView"
+        AutoHeight="true" 
+        BackgroundColor="#F5F5F5"
+        IsVisible="false" />
     
     <HorizontalBox FixedHeight="58" Padding="5,10,15,0" >
         <Control 

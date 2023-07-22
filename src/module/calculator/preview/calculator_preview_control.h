@@ -17,15 +17,17 @@ public:
 		const calculator::Modifier& modifier);
 
 protected:
+	void OnStyleChanged() override;
 	void Layout(const zaf::Rect& previous_rect) override;
 
 private:
+	void ResizetLabelToSuitableSize();
+	void RePositionLabel();
+
 	void UpdateResult();
 	void SetTextToLabel();
 	void ShowHighlightBit();
 	std::optional<std::size_t> GetHighlightBitPositionInResultLabel();
-	void ResizetLabelToSuitableSize();
-	void RePositionLabel();
 
 private:
 	ZAF_BIND_CONTROL(zaf::Label, resultLabel);

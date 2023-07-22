@@ -23,7 +23,13 @@ void HistoryCommandView::AfterParse() {
     __super::AfterParse();
 
     commandEdit->SetText(command_line_.RawText());
-    previewContainer->AddChild(command_->GetPreviewControl());
+
+    auto preview_control = command_->GetPreviewControl();
+    preview_control->SetStyle(mod::PreviewStyle::Historical);
+    preview_control->SetMargin(preview_control->GetExpectedMargin());
+    preview_control->SetIsVisible(true);
+
+    previewContainer->AddChild(preview_control);
 }
 
 }

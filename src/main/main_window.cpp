@@ -166,6 +166,8 @@ float MainWindow::ShowCommandPreview() {
         preview_control = CreateDefaultPreviewControl(current_command_->GetPreviewText());
     }
 
+    preview_control->SetStyle(mod::PreviewStyle::Normal);
+    
     previewView->SetPreviewControl(preview_control);
     previewView->SetIsVisible(true);
 
@@ -301,7 +303,7 @@ void MainWindow::AddCommandToHistoryView() {
     {
         auto update_guard = historyCommandsView->BeginUpdate();
 
-        if (historyCommandsView->ChildCount() >= 2) {
+        if (historyCommandsView->ChildCount() >= 3) {
             historyCommandsView->RemoveChildAtIndex(0);
         }
 
