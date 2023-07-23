@@ -40,8 +40,6 @@ private:
     void InterpretCommand();
     void ShowPreview();
     float ShowCommandPreview();
-    std::shared_ptr<mod::CommandPreviewControl> CreateDefaultPreviewControl(
-        const std::wstring& preview_text);
     float ShowEmptyPreview();
     void OnHelpButtonClick();
     void UpdateHelpWindowState();

@@ -1,5 +1,6 @@
 #include <main/history/history_command_view.h>
 #include <zaf/object/type_definition.h>
+#include "main/preview_control_creating.h"
 
 namespace ra {
 
@@ -24,9 +25,8 @@ void HistoryCommandView::AfterParse() {
 
     commandEdit->SetText(command_line_.RawText());
 
-    auto preview_control = command_->GetPreviewControl();
+    auto preview_control = CreateCommandPreviewControl(*command_);
     preview_control->SetStyle(mod::PreviewStyle::Historical);
-    preview_control->SetMargin(preview_control->GetExpectedMargin());
     preview_control->SetIsVisible(true);
 
     previewContainer->AddChild(preview_control);

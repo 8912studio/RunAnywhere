@@ -642,6 +642,9 @@
     <ClInclude Include="src\main\history\history_command_view.h">
       <Filter>src\main\history</Filter>
     </ClInclude>
+    <ClInclude Include="src\main\preview_control_creating.h">
+      <Filter>src\main</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -1021,6 +1024,9 @@
     </ClCompile>
     <ClCompile Include="src\module\command_preview_control.cpp">
       <Filter>src\module</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main\preview_control_creating.cpp">
+      <Filter>src\main</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

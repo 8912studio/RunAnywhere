@@ -16,8 +16,6 @@ void PreviewView::SetPreviewControl(const std::shared_ptr<mod::CommandPreviewCon
     ClearPreviewControl();
 
     preview_control_ = control;
-    preview_control_->SetMargin(preview_control_->GetExpectedMargin());
-
     this->AddChild(preview_control_);
 }
 

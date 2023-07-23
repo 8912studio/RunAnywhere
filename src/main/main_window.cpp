@@ -3,8 +3,6 @@
 #include <zaf/base/log.h>
 #include <zaf/base/string/encoding_conversion.h>
 #include <zaf/base/string/trim.h>
-#include <zaf/control/label.h>
-#include <zaf/control/layout/linear_layouter.h>
 #include <zaf/creation.h>
 #include <zaf/graphic/dpi.h>
 #include <zaf/object/type_definition.h>
@@ -15,12 +13,12 @@
 #include "context/desktop_context_discovering.h"
 #include "help/help_content_building.h"
 #include "main/history/history_command_view.h"
+#include "main/preview_control_creating.h"
 #include "module/active_path/active_path_module.h"
 #include "module/calculator/calculator_module.h"
 #include "module/meta/meta_module.h"
 #include "module/user_defined/user_defined_module.h"
 #include "option_storage.h"
-#include "utility/path_trimming.h"
 
 namespace ra {
 
@@ -161,35 +159,13 @@ void MainWindow::ShowPreview() {
 
 float MainWindow::ShowCommandPreview() {
 
-    auto preview_control = current_command_->GetPreviewControl();
-    if (!preview_control) {
-        preview_control = CreateDefaultPreviewControl(current_command_->GetPreviewText());
-    }
-
+    auto preview_control = CreateCommandPreviewControl(*current_command_);
     preview_control->SetStyle(mod::PreviewStyle::Normal);
     
     previewView->SetPreviewControl(preview_control);
     previewView->SetIsVisible(true);
 
     return initial_height_ + previewView->GetExpectedHeight();
-}
-
-
-std::shared_ptr<mod::CommandPreviewControl> MainWindow::CreateDefaultPreviewControl(
-    const std::wstring& preview_text) {
-
-    auto label = zaf::Create<zaf::Label>();
-    label->SetTextAlignment(zaf::TextAlignment::Leading);
-    label->SetParagraphAlignment(zaf::ParagraphAlignment::Center);
-    label->SetFontSize(14);
-    label->SetTextTrimming(utility::CreateTextTrimmingForPath());
-    label->SetText(preview_text);
-
-    auto result = zaf::Create<mod::CommandPreviewControl>();
-    result->SetLayouter(zaf::Create<zaf::VerticalLayouter>());
-    result->SetFixedHeight(40);
-    result->AddChild(label);
-    return result;
 }
 
 
