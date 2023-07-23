@@ -603,9 +603,6 @@
     <ClInclude Include="src\module\tool\base64\base64_command_parsing.h">
       <Filter>src\module\tool\base64</Filter>
     </ClInclude>
-    <ClInclude Include="src\module\common\text_preview_control.h">
-      <Filter>src\module\common</Filter>
-    </ClInclude>
     <ClInclude Include="src\module\common\text_encoding.h">
       <Filter>src\module\common</Filter>
     </ClInclude>
@@ -644,6 +641,9 @@
     </ClInclude>
     <ClInclude Include="src\main\preview_control_creating.h">
       <Filter>src\main</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\tool\text_transform\text_preview_control.h">
+      <Filter>src\module\tool\text_transform</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -992,9 +992,6 @@
     <ClCompile Include="src\module\tool\base64\base64_command_parsing.cpp">
       <Filter>src\module\tool\base64</Filter>
     </ClCompile>
-    <ClCompile Include="src\module\common\text_preview_control.cpp">
-      <Filter>src\module\common</Filter>
-    </ClCompile>
     <ClCompile Include="src\module\common\text_content_control.cpp">
       <Filter>src\module\common</Filter>
     </ClCompile>
@@ -1027,6 +1024,9 @@
     </ClCompile>
     <ClCompile Include="src\main\preview_control_creating.cpp">
       <Filter>src\main</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\tool\text_transform\text_preview_control.cpp">
+      <Filter>src\module\tool\text_transform</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1081,9 +1081,6 @@
     <Page Include="src\main\text_block_window.xaml">
       <Filter>src\main</Filter>
     </Page>
-    <Page Include="src\module\common\text_preview_control.xaml">
-      <Filter>src\module\common</Filter>
-    </Page>
     <Page Include="src\module\common\text_content_control.xaml">
       <Filter>src\module\common</Filter>
     </Page>
@@ -1098,6 +1095,9 @@
     </Page>
     <Page Include="src\main\history\history_command_view.xaml">
       <Filter>src\main\history</Filter>
+    </Page>
+    <Page Include="src\module\tool\text_transform\text_preview_control.xaml">
+      <Filter>src\module\tool\text_transform</Filter>
     </Page>
   </ItemGroup>
   <ItemGroup>

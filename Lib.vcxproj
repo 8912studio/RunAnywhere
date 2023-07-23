@@ -186,7 +186,6 @@
     <ClInclude Include="src\module\common\error_view.h" />
     <ClInclude Include="src\module\common\text_content_control.h" />
     <ClInclude Include="src\module\common\text_encoding.h" />
-    <ClInclude Include="src\module\common\text_preview_control.h" />
     <ClInclude Include="src\module\extension\extension_command.h" />
     <ClInclude Include="src\module\extension\extension_command_preview_control.h" />
     <ClInclude Include="src\module\extension\extension_interface.h" />
@@ -219,6 +218,7 @@
     <ClInclude Include="src\module\tool\rgb\rgb_command_parse_result.h" />
     <ClInclude Include="src\module\tool\rgb\rgb_preview_control.h" />
     <ClInclude Include="src\module\tool\text_transform\lower_transformer.h" />
+    <ClInclude Include="src\module\tool\text_transform\text_preview_control.h" />
     <ClInclude Include="src\module\tool\text_transform\text_transformer.h" />
     <ClInclude Include="src\module\tool\text_transform\text_transform_command.h" />
     <ClInclude Include="src\module\tool\text_transform\upper_transformer.h" />
@@ -334,7 +334,6 @@
     <ClCompile Include="src\module\common\content_status_bar.cpp" />
     <ClCompile Include="src\module\common\error_view.cpp" />
     <ClCompile Include="src\module\common\text_content_control.cpp" />
-    <ClCompile Include="src\module\common\text_preview_control.cpp" />
     <ClCompile Include="src\module\extension\extension_command.cpp" />
     <ClCompile Include="src\module\extension\extension_command_preview_control.cpp" />
     <ClCompile Include="src\module\extension\extension_module.cpp" />
@@ -358,6 +357,7 @@
     <ClCompile Include="src\module\tool\rgb\rgb_command.cpp" />
     <ClCompile Include="src\module\tool\rgb\rgb_preview_control.cpp" />
     <ClCompile Include="src\module\tool\text_transform\lower_transformer.cpp" />
+    <ClCompile Include="src\module\tool\text_transform\text_preview_control.cpp" />
     <ClCompile Include="src\module\tool\text_transform\text_transform_command.cpp" />
     <ClCompile Include="src\module\tool\text_transform\upper_transformer.cpp" />
     <ClCompile Include="src\module\tool\tool_module.cpp" />
@@ -405,7 +405,6 @@
     <Page Include="src\module\common\content_status_bar.xaml" />
     <Page Include="src\module\common\error_view.xaml" />
     <Page Include="src\module\common\text_content_control.xaml" />
-    <Page Include="src\module\common\text_preview_control.xaml" />
     <Page Include="src\module\extension\extension_command_preview_control.xaml" />
     <Page Include="src\module\tool\base64\base64_preview_control.xaml" />
     <Page Include="src\module\tool\date\date_preview_control.xaml" />
@@ -413,6 +412,7 @@
     <Page Include="src\module\tool\hex\hex_preview_control.xaml" />
     <Page Include="src\module\tool\md5\md5_preview_control.xaml" />
     <Page Include="src\module\tool\rgb\rgb_preview_control.xaml" />
+    <Page Include="src\module\tool\text_transform\text_preview_control.xaml" />
     <Page Include="src\module\user_defined\import\import_bundle_window.xaml" />
     <Page Include="src\module\user_defined\preview\user_defined_command_preview_control.xaml" />
     <Page Include="src\option_window.xaml" />

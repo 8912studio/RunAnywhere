@@ -15,7 +15,6 @@ public:
     ZAF_DECLARE_TYPE;
 
 public:
-    void SetDisplayMode(TextDisplayMode display_mode);
     void SetText(std::wstring text);
 
 protected:
