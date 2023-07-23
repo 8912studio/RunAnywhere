@@ -11,10 +11,11 @@ class UserDefinedCommandPreviewControl : public CommandPreviewControl {
 public:
     ZAF_DECLARE_TYPE;
 
-    void SetExecutInfo(const ExecuteInfo& execute_info);
+    void SetExecutInfo(ExecuteInfo execute_info);
 
 protected:
     void AfterParse() override;
+    void OnStyleChanged() override;
 
 private:
     void BuildArgumentLabels(const std::vector<std::wstring>& arguments);
@@ -24,6 +25,8 @@ private:
     ZAF_BIND_CONTROL(zaf::Label, commandLabel);
     ZAF_BIND_CONTROL(zaf::Control, argumentContainer);
     ZAF_BIND_CONTROL(zaf::Label, workingDirectoryLabel);
+
+    ExecuteInfo execute_info_;
 };
 
 }

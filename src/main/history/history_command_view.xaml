@@ -1,8 +1,8 @@
 <HistoryCommandView 
     Layouter="VerticalLayouter" 
     AutoHeight="true"
-    Padding="0,0,0,4">
-    <Control FixedHeight="1" Margin="15,0,15,4" BackgroundColor="#DDDDDD" />
+    Padding="0,0,0,6">
+    <Control FixedHeight="1" Margin="15,0,15,6" BackgroundColor="#DDDDDD" />
     <HorizontalBox Padding="15,0,15,0" AutoHeight="true" CrossAxisAlignment="Center">
         <Control 
             FixedSize="8,16"

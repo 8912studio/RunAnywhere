@@ -1,8 +1,7 @@
-<UserDefinedCommandPreviewControl 
-    Layouter="VerticalLayouter"
-    Margin="0,10,0,10"
-    AutoHeight="true"
->
+<UserDefinedCommandPreviewControl>
+    <UserDefinedCommandPreviewControl.Layouter>
+        <VerticalLayouter AxisAlignment="Center" />
+    </UserDefinedCommandPreviewControl.Layouter>
     <Label Name="commandLabel" ParagraphAlignment="Center" />
     <VerticalBox Name="argumentContainer" AutoHeight="true" />
     <Label Name="workingDirectoryLabel" ParagraphAlignment="Center" TextColor="Gray" />

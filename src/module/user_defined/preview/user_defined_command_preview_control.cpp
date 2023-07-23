@@ -5,8 +5,10 @@
 namespace ra::mod::user_defined {
 namespace {
 
-constexpr float LabelHeight = 25;
+constexpr float LabelHeight = 22;
 constexpr float LabelFontSize = 14;
+constexpr float NormalStyleMinHeight = 90;
+constexpr float HistoricalStyleMinHeight = 28;
 
 }
 
@@ -32,18 +34,25 @@ void UserDefinedCommandPreviewControl::AfterParse() {
 }
 
 
-void UserDefinedCommandPreviewControl::SetExecutInfo(const ExecuteInfo& execute_info) {
+void UserDefinedCommandPreviewControl::OnStyleChanged() {
 
-    commandLabel->SetText(execute_info.command_line.command);
-    BuildArgumentLabels(execute_info.command_line.arguments);
+    commandLabel->SetText(execute_info_.command_line.command);
+    BuildArgumentLabels(execute_info_.command_line.arguments);
 
-    if (!execute_info.working_directory.empty()) {
+    if (!execute_info_.working_directory.empty()) {
         workingDirectoryLabel->SetIsVisible(true);
-        workingDirectoryLabel->SetText(L'(' + execute_info.working_directory + L')');
+        workingDirectoryLabel->SetText(L'(' + execute_info_.working_directory + L')');
     }
     else {
         workingDirectoryLabel->SetIsVisible(false);
     }
+
+    ResetFixedHeight();
+}
+
+
+void UserDefinedCommandPreviewControl::SetExecutInfo(ExecuteInfo execute_info) {
+    execute_info_ = std::move(execute_info);
 }
 
 
@@ -66,6 +75,32 @@ void UserDefinedCommandPreviewControl::BuildArgumentLabels(
         
         argumentContainer->AddChild(label);
     }
+}
+
+
+void UserDefinedCommandPreviewControl::ResetFixedHeight() {
+
+    float height{};
+
+    for (const auto& each_child : Children()) {
+
+        if (!each_child->IsVisible()) {
+            continue;
+        }
+
+        height += each_child->Height() + each_child->Margin().Width();
+    }
+
+    const float min_height =
+        Style() == PreviewStyle::Historical ?
+        HistoricalStyleMinHeight :
+        NormalStyleMinHeight;
+
+    if (height < min_height) {
+        height = min_height;
+    }
+
+    SetFixedHeight(height);
 }
 
 }
