@@ -3,24 +3,21 @@
 #include <zaf/control/layout/linear_layouter.h>
 #include <zaf/creation.h>
 #include "utility/path_trimming.h"
+#include "module/common/text_content_control.h"
 
 namespace ra {
 namespace {
 
 std::shared_ptr<mod::CommandPreviewControl> CreateDefaultPreviewControl(
-    const std::wstring& preview_text) {
+    std::wstring preview_text) {
 
-    auto label = zaf::Create<zaf::Label>();
-    label->SetTextAlignment(zaf::TextAlignment::Leading);
-    label->SetParagraphAlignment(zaf::ParagraphAlignment::Center);
-    label->SetFontSize(14);
-    label->SetTextTrimming(utility::CreateTextTrimmingForPath());
-    label->SetText(preview_text);
+    auto text_content_control = zaf::Create<mod::TextContentControl>();
+    text_content_control->SetText(std::move(preview_text));
 
     auto result = zaf::Create<mod::CommandPreviewControl>();
     result->SetLayouter(zaf::Create<zaf::VerticalLayouter>());
-    result->SetFixedHeight(40);
-    result->AddChild(label);
+    result->SetAutoHeight(true);
+    result->AddChild(text_content_control);
     return result;
 }
 
