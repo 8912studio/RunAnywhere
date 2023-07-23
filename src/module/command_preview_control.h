@@ -15,19 +15,12 @@ public:
         return style_;
     }
 
-    void SetStyle(PreviewStyle style) {
-        style_ = style;
-        OnStyleChanged();
-    }
+    void SetStyle(PreviewStyle style);
 
-    virtual zaf::Frame GetExpectedMargin() {
-        return zaf::Frame{ 15, 0, 15, 2 };
-    }
+    virtual zaf::Frame GetExpectedMargin();
 
 protected:
-    virtual void OnStyleChanged() {
-
-    }
+    virtual void OnStyleChanged();
 
 private:
     PreviewStyle style_{ PreviewStyle::Normal };

@@ -1019,6 +1019,9 @@
     <ClCompile Include="src\main\history\history_command_view.cpp">
       <Filter>src\main\history</Filter>
     </ClCompile>
+    <ClCompile Include="src\module\command_preview_control.cpp">
+      <Filter>src\module</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Page Include="src\module\user_defined\preview\user_defined_command_preview_control.xaml">

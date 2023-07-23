@@ -1,17 +1,22 @@
 <HistoryCommandView 
     Layouter="VerticalLayouter" 
     AutoHeight="true"
-    Border="0,0,0,1"
-    BorderColor="#DDDDDD"
-    Padding="0,6,0,4">
-    <RichEdit 
-        Name="commandEdit" 
-        Padding="15,2,15,0"
-        FixedHeight="24"
-        IsReadOnly="true"
-        Border="0"
-        BackgroundColor="Transparent"
-        FontSize="14"
-        ParagraphAlignment="Center" />
+    Padding="0,0,0,4">
+    <Control FixedHeight="1" Margin="15,0,15,4" BackgroundColor="#DDDDDD" />
+    <HorizontalBox Padding="15,0,15,0" AutoHeight="true" CrossAxisAlignment="Center">
+        <Control 
+            FixedSize="8,16"
+            BackgroundImage="res:///resource/history_command.png"
+            BackgroundImageLayout="Stretch" />
+        <RichEdit 
+            Name="commandEdit" 
+            FixedHeight="24"
+            Margin="8,0,0,0"
+            IsReadOnly="true"
+            Border="0"
+            BackgroundColor="Transparent"
+            FontSize="14"
+            ParagraphAlignment="Center" />
+    </HorizontalBox>
     <VerticalBox Name="previewContainer" AutoHeight="true" />
 </HistoryCommandView>
