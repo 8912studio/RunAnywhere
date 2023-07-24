@@ -3,7 +3,9 @@
 #include <filesystem>
 #include <optional>
 #include <zaf/control/control_binder.h>
+#include <zaf/control/image_box.h>
 #include <zaf/control/label.h>
+#include <zaf/control/linear_box.h>
 #include <zaf/control/rich_edit.h>
 #include "module/command_preview_control.h"
 #include "module/common/content_status_bar.h"
@@ -44,7 +46,8 @@ private:
 private:
 	ZAF_BIND_CONTROL(ContentStatusBar, contentStatusBar);
 	ZAF_BIND_CONTROL(utility::ProgressCircle, progressCircle);
-	ZAF_BIND_CONTROL(zaf::Control, errorControl);
+	ZAF_BIND_CONTROL(zaf::HorizontalBox, errorControl);
+	ZAF_BIND_CONTROL(zaf::ImageBox, errorIcon);
 	ZAF_BIND_CONTROL(utility::PreviewTextBox, md5ResultControl);
 
 	bool use_upper_case_{};

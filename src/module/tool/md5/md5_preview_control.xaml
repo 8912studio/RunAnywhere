@@ -6,8 +6,11 @@
         Name="errorControl" 
         AxisAlignment="Center" 
         CrossAxisAlignment="Center"
-        IsVisible="false" 
-    >
-        <ImageBox FixedSize="40,40" URI="res:///resource/error.png" ImageLayout="Stretch" />
+        IsVisible="false">
+        <ImageBox
+            Name="errorIcon"
+            FixedSize="40,40" 
+            URI="res:///resource/error.png"
+            ImageLayout="Stretch" />
     </HorizontalBox>
 </MD5PreviewControl>

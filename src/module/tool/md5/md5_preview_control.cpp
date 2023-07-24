@@ -18,6 +18,9 @@ struct StyleMetrics<false> {
 	static zaf::Frame ProgressCirclePadding() {
 		return zaf::Frame{ 0, 14, 0, 14 };
 	}
+	static constexpr float ErrorIconSize = 40;
+	static constexpr const wchar_t* ErrorIconURI = L"res:///resource/error.png";
+	static constexpr auto ErrorIconAlignment = zaf::AxisAlignment::Center;
 };
 
 template<>
@@ -28,6 +31,9 @@ struct StyleMetrics<true> {
 	static zaf::Frame ProgressCirclePadding() {
 		return zaf::Frame{ 0, 4, 0, 4 };
 	}
+	static constexpr float ErrorIconSize = 20;
+	static constexpr const wchar_t* ErrorIconURI = L"res:///resource/error_small.png";
+	static constexpr auto ErrorIconAlignment = zaf::AxisAlignment::Start;
 };
 
 }
@@ -51,6 +57,9 @@ void MD5PreviewControl::AdjustControlStyles() {
 		progressCircle->SetPadding(metrics.ProgressCirclePadding());
 		progressCircle->SetAxisAlignment(metrics.ProgressCircleAlignment);
 		progressCircle->SetThickness(metrics.ProgressCircleThickness);
+		errorIcon->SetFixedSize(zaf::Size{ metrics.ErrorIconSize, metrics.ErrorIconSize });
+		errorIcon->SetURI(metrics.ErrorIconURI);
+		errorControl->SetAxisAlignment(metrics.ErrorIconAlignment);
 		this->SetFixedHeight(metrics.FixedHeight);
 	};
 
