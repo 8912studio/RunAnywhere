@@ -12,6 +12,9 @@
 namespace ra::mod::tool::error {
 namespace {
 
+constexpr float MaxFontSize = 26;
+constexpr float MinFontSize = 16;
+
 std::wstring GetErrorMessage(std::uint32_t error_code) {
 
     wchar_t* buffer{};
@@ -64,14 +67,20 @@ void ErrorPreviewControl::ShowErrorMessage(const ErrorCommandParseResult& parse_
         errorMessage->SetText(L"No error message found");
         errorMessage->SetTextColor(zaf::Color::FromRGB(0x909090));
     }
-
-    AdjustErrorMessageToFitContentSize();
 }
 
 
 void ErrorPreviewControl::OnRectChanged(const zaf::RectChangedInfo& event_info) {
 
     __super::OnRectChanged(event_info);
+
+    AdjustErrorMessageToFitContentSize();
+}
+
+
+void ErrorPreviewControl::OnStyleChanged() {
+
+    errorMessage->Display(Style());
 
     AdjustErrorMessageToFitContentSize();
 }
@@ -96,11 +105,9 @@ void ErrorPreviewControl::AdjustErrorMessageToFitContentSize() {
 
 zaf::TextLayout ErrorPreviewControl::CreateTextLayoutForMeasuring() const {
 
-    auto font = errorMessage->Font();
     zaf::TextFormatProperties text_format_properties;
-    text_format_properties.font_family_name = font.family_name;
-    text_format_properties.font_size = font.size;
-    text_format_properties.font_weight = font.weight;
+    text_format_properties.font_size = MaxFontSize;
+    text_format_properties.font_weight = zaf::FontWeight::Regular;
     auto text_format = zaf::GraphicFactory::Instance().CreateTextFormat(text_format_properties);
 
     zaf::TextLayoutProperties text_layout_properties;
@@ -116,22 +123,22 @@ bool ErrorPreviewControl::AdjustErrorMessageByReducingFontSize(
     zaf::TextLayout& text_layout,
     float content_width) {
 
-    float new_font_size = errorMessage->FontSize();
-    bool has_fit{};
+    const float max_font_size = Style() == PreviewStyle::Historical ? MinFontSize : MaxFontSize;
 
-    while (new_font_size > 16) {
+    bool has_fit{};
+    float new_font_size{};
+    for (new_font_size = max_font_size; new_font_size >= MinFontSize; --new_font_size) {
+
+        text_layout.SetFontSize(new_font_size, zaf::Range{ 0, errorMessage->TextLength() });
 
         auto metrics = text_layout.GetMetrics();
         if (metrics.Width() <= content_width) {
             has_fit = true;
             break;
         }
-
-        new_font_size -= 1;
-        text_layout.SetFontSize(new_font_size, zaf::Range{ 0, errorMessage->TextLength() });
     }
 
-    errorMessage->SetFontSize(new_font_size);
+    errorMessage->SetFontSize(std::max(new_font_size, MinFontSize));
     return has_fit;
 }
 

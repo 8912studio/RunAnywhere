@@ -19,6 +19,7 @@ public:
 
 protected:
     void OnRectChanged(const zaf::RectChangedInfo& event_info) override;
+    void OnStyleChanged() override;
 
 private:
     void AdjustErrorMessageToFitContentSize();
