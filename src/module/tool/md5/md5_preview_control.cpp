@@ -5,10 +5,63 @@
 #include "module/tool/md5/md5_calculating.h"
 
 namespace ra::mod::tool::md5 {
+namespace {
+
+template<bool IsHistorical>
+struct StyleMetrics;
+
+template<>
+struct StyleMetrics<false> {
+	static constexpr float FixedHeight = 110;
+	static constexpr auto ProgressCircleAlignment = zaf::AxisAlignment::Center;
+	static constexpr float ProgressCircleThickness = 7;
+	static zaf::Frame ProgressCirclePadding() {
+		return zaf::Frame{ 0, 14, 0, 14 };
+	}
+};
+
+template<>
+struct StyleMetrics<true> {
+	static constexpr float FixedHeight = 60;
+	static constexpr auto ProgressCircleAlignment = zaf::AxisAlignment::Start;
+	static constexpr float ProgressCircleThickness = 3;
+	static zaf::Frame ProgressCirclePadding() {
+		return zaf::Frame{ 0, 4, 0, 4 };
+	}
+};
+
+}
 
 ZAF_DEFINE_TYPE(MD5PreviewControl)
 ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/tool/md5/md5_preview_control.xaml")
 ZAF_DEFINE_TYPE_END;
+
+void MD5PreviewControl::OnStyleChanged() {
+
+	auto update_guard = BeginUpdate();
+
+	md5ResultControl->Display(Style());
+	AdjustControlStyles();
+}
+
+
+void MD5PreviewControl::AdjustControlStyles() {
+
+	auto set_style = [this](auto metrics) {
+		progressCircle->SetPadding(metrics.ProgressCirclePadding());
+		progressCircle->SetAxisAlignment(metrics.ProgressCircleAlignment);
+		progressCircle->SetThickness(metrics.ProgressCircleThickness);
+		this->SetFixedHeight(metrics.FixedHeight);
+	};
+
+	if (Style() == PreviewStyle::Historical) {
+		set_style(StyleMetrics<true>{});
+	}
+	else {
+		set_style(StyleMetrics<false>{});
+	}
+}
+
 
 void MD5PreviewControl::ChangeLayout(LayoutType type) {
 

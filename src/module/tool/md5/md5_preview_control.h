@@ -26,6 +26,9 @@ public:
 		use_upper_case_ = value;
 	}
 
+protected:
+	void OnStyleChanged() override;
+
 private:
 	enum class LayoutType {
 		Progress,
@@ -35,6 +38,7 @@ private:
 
 private:
 	void SetMD5Text(const std::wstring& md5);
+	void AdjustControlStyles();
 	void ChangeLayout(LayoutType type);
 
 private:

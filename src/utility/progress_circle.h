@@ -1,6 +1,7 @@
 #pragma once
 
 #include <zaf/control/control.h>
+#include <zaf/control/layout/axis_alignment.h>
 #include <zaf/graphic/geometry/path_geometry.h>
 
 namespace ra::utility {
@@ -11,6 +12,9 @@ public:
 
 	void SetValue(std::uint64_t value);
 	void SetMaxValue(std::uint64_t value);
+
+	void SetAxisAlignment(zaf::AxisAlignment alignment);
+	void SetThickness(float thickness);
 
 protected:
 	void AfterParse() override;
@@ -40,6 +44,9 @@ private:
 private:
 	std::uint64_t value_{};
 	std::uint64_t max_value_{};
+
+	zaf::AxisAlignment axis_alignment_{ zaf::AxisAlignment::Center };
+	float thickness_{ 7 };
 };
 
 }

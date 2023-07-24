@@ -50,11 +50,17 @@ void ProgressCircle::Paint(zaf::Canvas& canvas, const zaf::Rect& dirty_rect) {
 	zaf::Ellipse outer_ellipse;
 	outer_ellipse.x_radius = std::min(content_size.width, content_size.height) / 2;
 	outer_ellipse.y_radius = outer_ellipse.x_radius;
-	outer_ellipse.position.x = size.width / 2;
 	outer_ellipse.position.y = size.height / 2;
 
+	if (axis_alignment_ == zaf::AxisAlignment::Start) {
+		outer_ellipse.position.x = outer_ellipse.x_radius;
+	}
+	else {
+		outer_ellipse.position.x = size.width / 2;
+	}
+
 	zaf::Ellipse inner_ellipse;
-	inner_ellipse.x_radius = std::max(outer_ellipse.x_radius - 7, 0.f);
+	inner_ellipse.x_radius = std::max(outer_ellipse.x_radius - thickness_, 0.f);
 	inner_ellipse.y_radius = inner_ellipse.x_radius;
 	inner_ellipse.position = outer_ellipse.position;
 
@@ -192,6 +198,23 @@ void ProgressCircle::SetValue(std::uint64_t value) {
 void ProgressCircle::SetMaxValue(std::uint64_t value) {
 
 	max_value_ = value;
+	NeedRepaint();
+}
+
+
+void ProgressCircle::SetAxisAlignment(zaf::AxisAlignment alignment) {
+
+	//End alignment is not supported yet.
+	ZAF_EXPECT(alignment != zaf::AxisAlignment::End);
+
+	axis_alignment_ = alignment;
+	NeedRepaint();
+}
+
+
+void ProgressCircle::SetThickness(float thickness) {
+
+	thickness_ = thickness;
 	NeedRepaint();
 }
 
