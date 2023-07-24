@@ -8,6 +8,34 @@
 namespace ra::mod::tool::rgb {
 namespace {
 
+template<bool IsHistorical> 
+struct StyleMetrics;
+
+template<>
+struct StyleMetrics<false> {
+    static constexpr float FixedHeight = 90;
+    static constexpr auto AxisAlignment = zaf::AxisAlignment::Center;
+    static constexpr float FontSize = 26;
+    static constexpr float TextLeftMargin = 15;
+
+    static zaf::Size ColorControlSize() {
+        return zaf::Size{ 96, 48 };
+    }
+};
+
+template<>
+struct StyleMetrics<true> {
+    static constexpr float FixedHeight = 28;
+    static constexpr auto AxisAlignment = zaf::AxisAlignment::Start;
+    static constexpr float FontSize = 16;
+    static constexpr float TextLeftMargin = 8;
+
+    static zaf::Size ColorControlSize() {
+        return zaf::Size{ 38, 20 };
+    }
+};
+
+
 zaf::Color GetStraightColorFromPremultipledColor(const zaf::Color& premultipled_color) {
 
     return zaf::Color{ 
@@ -26,11 +54,6 @@ ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/tool/rgb/rgb_preview_control.xaml")
 ZAF_DEFINE_TYPE_END
 
 
-RGBPreviewControl::RGBPreviewControl() {
-
-}
-
-
 RGBPreviewControl::RGBPreviewControl(const RGBCommandParseResult& parse_result) : 
     parse_result_(parse_result) {
 
@@ -47,6 +70,25 @@ void RGBPreviewControl::AfterParse() {
     valueControl->SetText(GetColorText(renderer_color));
 }
 
+
+void RGBPreviewControl::OnStyleChanged() {
+
+    auto set_style = [this](auto metrics) {
+        auto update_guard = this->BeginUpdate();
+        container->SetAxisAlignment(metrics.AxisAlignment);
+        colorControl->SetFixedSize(metrics.ColorControlSize());
+        valueControl->SetFontSize(metrics.FontSize);
+        valueControl->SetMargin(zaf::Frame{ metrics.TextLeftMargin, 0, 0, 0 });
+        this->SetFixedHeight(metrics.FixedHeight);
+    };
+
+    if (Style() == PreviewStyle::Historical) {
+        set_style(StyleMetrics<true>{});
+    }
+    else {
+        set_style(StyleMetrics<false>{});
+    }
+}
 
 
 zaf::Color RGBPreviewControl::GetRenderedColor() {

@@ -1,13 +1,11 @@
-<RGBPreviewControl FixedHeight="90">
-    <RGBPreviewControl.Layouter>
-        <HorizontalLayouter AxisAlignment="Center" CrossAxisAlignment="Center" />
-    </RGBPreviewControl.Layouter>
-    <Control Name="colorControl" FixedSize="96,48" Border="1" BorderColor="Black" />
-    <Label 
-        Name="valueControl" 
-        Margin="15,0,0,0" 
-        AutoWidth="true" 
-        ParagraphAlignment="Center" 
-        FontSize="26" 
-    />
+<RGBPreviewControl FixedHeight="90" Layouter="VerticalLayouter">
+    <HorizontalBox Name="container" CrossAxisAlignment="Center">
+        <Control Name="colorControl" FixedSize="96,48" Border="1" BorderColor="Black" />
+        <Label 
+            Name="valueControl" 
+            Margin="15,0,0,0" 
+            AutoWidth="true" 
+            ParagraphAlignment="Center" 
+            FontSize="26" />
+    </HorizontalBox>
 </RGBPreviewControl>

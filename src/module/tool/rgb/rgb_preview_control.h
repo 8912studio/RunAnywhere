@@ -2,6 +2,7 @@
 
 #include <zaf/control/control_binder.h>
 #include <zaf/control/label.h>
+#include <zaf/control/linear_box.h>
 #include <zaf/graphic/image/wic/bitmap.h>
 #include <zaf/graphic/renderer/renderer.h>
 #include "module/command_preview_control.h"
@@ -13,13 +14,13 @@ class RGBPreviewControl : public CommandPreviewControl {
 public:
     ZAF_DECLARE_TYPE
 
-    RGBPreviewControl();
-    RGBPreviewControl(const RGBCommandParseResult& parse_result);
+    explicit RGBPreviewControl(const RGBCommandParseResult& parse_result);
 
     std::wstring GetText() const;
 
 protected:
     void AfterParse() override;
+    void OnStyleChanged() override;
 
 private:
     zaf::Color GetRenderedColor();
@@ -31,6 +32,7 @@ private:
     std::vector<std::wstring> GetComponentTextInHex(const zaf::Color& color);
 
 private:
+    ZAF_BIND_CONTROL(zaf::HorizontalBox, container);
     ZAF_BIND_CONTROL(zaf::Control, colorControl);
     ZAF_BIND_CONTROL(zaf::Label, valueControl);
 
