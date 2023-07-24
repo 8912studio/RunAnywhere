@@ -23,4 +23,17 @@ void PreviewTextBox::AfterParse() {
 	}));
 }
 
+
+void PreviewTextBox::Display(mod::PreviewStyle style) {
+
+	if (style == mod::PreviewStyle::Historical) {
+		this->SetTextAlignment(zaf::TextAlignment::Left);
+		this->SetFontSize(16);
+	}
+	else {
+		this->SetTextAlignment(zaf::TextAlignment::Center);
+		this->SetFontSize(26);
+	}
+}
+
 }

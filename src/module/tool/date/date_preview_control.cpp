@@ -7,15 +7,16 @@
 using namespace std::literals;
 
 namespace ra::mod::tool::date {
+namespace {
+
+constexpr float NormalStyleHeight = 90;
+constexpr float HistoricalStyleHeight = 28;
+
+}
 
 ZAF_DEFINE_TYPE(DatePreviewControl)
 ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/tool/date/date_preview_control.xaml")
 ZAF_DEFINE_TYPE_END
-
-
-DatePreviewControl::DatePreviewControl() {
-
-}
 
 
 DatePreviewControl::DatePreviewControl(const DateCommandParseResult& result) : 
@@ -41,6 +42,17 @@ void DatePreviewControl::AfterParse() {
 
 	//Start a timer to refresh current date time.
 	StartTimerIfNeeded();
+}
+
+
+void DatePreviewControl::OnStyleChanged() {
+
+	textBox->Display(Style());
+
+	this->SetFixedHeight(
+		Style() == PreviewStyle::Historical ?
+		HistoricalStyleHeight : 
+		NormalStyleHeight);
 }
 
 
