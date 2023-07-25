@@ -1,36 +1,29 @@
-<ErrorPreviewControl Layouter="VerticalLayouter" AutoHeight="true">
-    <VerticalBox Name="resultView" AutoHeight="true">
-        <HorizontalBox 
-            FixedHeight="20" 
-            Margin="0,10,30,0"
-            AxisAlignment="Center" 
-            CrossAxisAlignment="Center"
-        >
-            <Label 
-                FixedSize="24,16"
-                Border="1"
-                BorderColor="#808080"
-                Padding="1"
-                FontSize="10" 
-                TextColor="#808080" 
-                ParagraphAlignment="Center"
-                Text="HEX" 
-            />
-            <Label 
-                Name="hexErrorCode" 
-                AutoSize="true"
-                Margin="8,0,0,0"
-                TextAlignment="Left"
-                ParagraphAlignment="Center"
-                FontSize="14" 
-                TextColor="#808080" 
-            />
-        </HorizontalBox>
-        <PreviewTextBox 
-            Name="errorMessage"
-            FixedHeight="50"
-            Margin="0,0,0,10"
-            FontSize="26" 
+<ErrorPreviewControl Layouter="VerticalLayouter" AutoHeight="true" Padding="0,10,0,10">
+    <HorizontalBox 
+        Name="hexContainer"
+        FixedHeight="20" 
+        Margin="0,0,30,0"
+        AxisAlignment="Center" 
+        CrossAxisAlignment="Center">
+        <Label 
+            FixedSize="24,16"
+            Border="1"
+            BorderColor="#808080"
+            Padding="1"
+            FontSize="10" 
+            TextColor="#808080" 
+            ParagraphAlignment="Center"
+            Text="HEX" 
         />
-    </VerticalBox>
+        <Label 
+            Name="hexErrorCode" 
+            AutoSize="true"
+            Margin="8,0,0,0"
+            TextAlignment="Left"
+            ParagraphAlignment="Center"
+            FontSize="14" 
+            TextColor="#808080" 
+        />
+    </HorizontalBox>
+    <PreviewTextBox Name="errorMessage" FixedHeight="50" FontSize="26" />
 </ErrorPreviewControl>

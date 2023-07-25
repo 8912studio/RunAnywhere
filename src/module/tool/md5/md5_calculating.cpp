@@ -80,8 +80,6 @@ zaf::Observable<MD5Result> CalculateFileMD5(const std::filesystem::path& file_pa
             if (cancel_token.IsCancelled()) {
                 return;
             }
-
-            Sleep(10000);
         }
 
         result.md5 = GetMD5String(md5);

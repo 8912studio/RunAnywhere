@@ -15,6 +15,37 @@ namespace {
 constexpr float MaxFontSize = 26;
 constexpr float MinFontSize = 16;
 
+template<bool IsHistroical>
+struct StyleMetrics;
+
+template<>
+struct StyleMetrics<false> {
+    static constexpr auto HexAlignment = zaf::AxisAlignment::Center;
+    static constexpr float ErrorMessageMinHeight = 50;
+    
+    static zaf::Frame MultilineErrorMessageMargin() {
+        return zaf::Frame{};
+    }
+
+    static zaf::Frame Padding() {
+        return zaf::Frame{ 0, 10, 0, 10 };
+    }
+};
+
+template<>
+struct StyleMetrics<true> {
+    static constexpr auto HexAlignment = zaf::AxisAlignment::Start;
+    static constexpr float ErrorMessageMinHeight = 30;
+
+    static zaf::Frame MultilineErrorMessageMargin() {
+        return zaf::Frame{ 0, 4, 0, 4 };
+    }
+
+    static zaf::Frame Padding() {
+        return zaf::Frame{ 0, 2, 0, 0 };
+    }
+};
+
 std::wstring GetErrorMessage(std::uint32_t error_code) {
 
     wchar_t* buffer{};
@@ -70,58 +101,49 @@ void ErrorPreviewControl::ShowErrorMessage(const ErrorCommandParseResult& parse_
 }
 
 
-void ErrorPreviewControl::OnRectChanged(const zaf::RectChangedInfo& event_info) {
+void ErrorPreviewControl::Layout(const zaf::Rect& previous_rect) {
 
-    __super::OnRectChanged(event_info);
+    __super::Layout(previous_rect);
 
-    AdjustErrorMessageToFitContentSize();
+    if (this->Width() != previous_rect.size.width) {
+        AdjustLayout();
+    }
 }
 
 
 void ErrorPreviewControl::OnStyleChanged() {
 
     errorMessage->Display(Style());
-
-    AdjustErrorMessageToFitContentSize();
+    AdjustLayout();
 }
 
 
-void ErrorPreviewControl::AdjustErrorMessageToFitContentSize() {
+void ErrorPreviewControl::AdjustLayout() {
+
+    bool is_multiline{};
+    AdjustErrorMessageToFitContentSize(is_multiline);
+    ChangeLayoutByStyle();
+}
+
+
+void ErrorPreviewControl::AdjustErrorMessageToFitContentSize(bool& is_multiline) {
 
     auto content_size = ContentSize();
     if (content_size.width <= 0) {
         return;
     }
 
-    auto text_layout = CreateTextLayoutForMeasuring();
-
-    if (AdjustErrorMessageByReducingFontSize(text_layout, content_size.width)) {
+    if (AdjustErrorMessageInSingleLine(content_size.width)) {
+        is_multiline = false;
         return;
     }
 
-    AdjustErrorMessageByAddingLines(text_layout, content_size.width);
+    AdjustErrorMessageInMultilines(content_size.width);
+    is_multiline = true;
 }
 
 
-zaf::TextLayout ErrorPreviewControl::CreateTextLayoutForMeasuring() const {
-
-    zaf::TextFormatProperties text_format_properties;
-    text_format_properties.font_size = MaxFontSize;
-    text_format_properties.font_weight = zaf::FontWeight::Regular;
-    auto text_format = zaf::GraphicFactory::Instance().CreateTextFormat(text_format_properties);
-
-    zaf::TextLayoutProperties text_layout_properties;
-    text_layout_properties.text = errorMessage->Text();
-    text_layout_properties.width = std::numeric_limits<float>::max();
-    text_layout_properties.height = std::numeric_limits<float>::max();
-    text_layout_properties.text_format = text_format;
-    return zaf::GraphicFactory::Instance().CreateTextLayout(text_layout_properties);
-}
-
-
-bool ErrorPreviewControl::AdjustErrorMessageByReducingFontSize(
-    zaf::TextLayout& text_layout,
-    float content_width) {
+bool ErrorPreviewControl::AdjustErrorMessageInSingleLine(float content_width) {
 
     const float max_font_size = Style() == PreviewStyle::Historical ? MinFontSize : MaxFontSize;
 
@@ -129,42 +151,63 @@ bool ErrorPreviewControl::AdjustErrorMessageByReducingFontSize(
     float new_font_size{};
     for (new_font_size = max_font_size; new_font_size >= MinFontSize; --new_font_size) {
 
-        text_layout.SetFontSize(new_font_size, zaf::Range{ 0, errorMessage->TextLength() });
+        errorMessage->SetFontSize(new_font_size);
 
-        auto metrics = text_layout.GetMetrics();
-        if (metrics.Width() <= content_width) {
+        auto preferred_size = errorMessage->CalculatePreferredSize();
+        if (preferred_size.width <= content_width) {
             has_fit = true;
             break;
         }
     }
 
-    errorMessage->SetFontSize(std::max(new_font_size, MinFontSize));
+    if (!has_fit) {
+        return false;
+    }
+
+    errorMessage->SetFontSize(new_font_size);
     return has_fit;
 }
 
 
-void ErrorPreviewControl::AdjustErrorMessageByAddingLines(
-    zaf::TextLayout& text_layout, 
-    float content_width) {
+void ErrorPreviewControl::AdjustErrorMessageInMultilines(float content_width) {
 
     auto update_gurad = this->BeginUpdate();
 
+    errorMessage->SetFontSize(MinFontSize);
     errorMessage->SetIsMultiline(true);
     errorMessage->SetWordWrapping(zaf::WordWrapping::Wrap);
     errorMessage->SetAllowVerticalScroll(false);
+}
 
-    auto margin = errorMessage->Margin();
-    margin.top = 8;
-    errorMessage->SetMargin(margin);
 
-    text_layout.SetMaxWidth(content_width);
-    text_layout.SetWordWrapping(zaf::WordWrapping::Wrap);
-    auto metrics = text_layout.GetMetrics();
-    if (metrics.LineCount() > 2) {
-        errorMessage->SetFixedHeight(metrics.Height());
+void ErrorPreviewControl::ChangeLayoutByStyle() {
+
+    auto set_style = [this](auto metrics) {
+    
+        auto update_guard = this->BeginUpdate();
+
+        this->SetPadding(metrics.Padding());
+        hexContainer->SetAxisAlignment(metrics.HexAlignment);
+
+        if (errorMessage->LineCount() <= 1) {
+            errorMessage->SetFixedHeight(metrics.ErrorMessageMinHeight);
+        }
+        else {
+            zaf::Size boundary{ ContentSize().width, std::numeric_limits<float>::max() };
+            auto preferred_size = errorMessage->CalculatePreferredSize(boundary);
+
+            float height = std::max(preferred_size.height, metrics.ErrorMessageMinHeight);
+            errorMessage->SetFixedHeight(height);
+
+            errorMessage->SetMargin(metrics.MultilineErrorMessageMargin());
+        }
+    };
+
+    if (Style() == PreviewStyle::Historical) {
+        set_style(StyleMetrics<true>{});
     }
     else {
-        errorMessage->SetFixedHeight(errorMessage->Height() - margin.top);
+        set_style(StyleMetrics<false>{});
     }
 }
 
