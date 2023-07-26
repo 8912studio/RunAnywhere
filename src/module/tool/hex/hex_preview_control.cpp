@@ -7,11 +7,20 @@
 namespace ra::mod::tool::hex {
 namespace {
 
-constexpr std::size_t NormalStyleLinesPerPage = 8;
-constexpr std::size_t HistoricalStyleLinesPerPage = 2;
+template<bool IsHistorical>
+struct StyleMetrics;
 
-constexpr float NormalStyleErrorViewMargin = 30;
-constexpr float HistoricalStyleErrorViewMargin = 0;
+template<>
+struct StyleMetrics<false> {
+    static constexpr std::size_t LinesPerPage = 8;
+    static constexpr float ErrorViewHeight = 108;
+};
+
+template<>
+struct StyleMetrics<true> {
+    static constexpr std::size_t LinesPerPage = 2;
+    static constexpr float ErrorViewHeight = 28;
+};
 
 std::wstring FormatInteger(std::uint64_t integer) {
     auto result = std::to_wstring(integer);
@@ -36,21 +45,24 @@ void HexPreviewControl::AfterParse() {
 
 void HexPreviewControl::OnStyleChanged() {
 
-    binaryContent->SetLinesPerPage(Style() == 
-        PreviewStyle::Historical ? HistoricalStyleLinesPerPage : NormalStyleLinesPerPage);
-
     errorView->ChangeStyle(Style());
+    ChangeControlStyles();
+}
 
-    auto error_view_margin = errorView->Margin();
+
+void HexPreviewControl::ChangeControlStyles() {
+
+    auto set_style = [this](auto metrics) {
+        binaryContent->SetLinesPerPage(metrics.LinesPerPage);
+        errorView->SetFixedHeight(metrics.ErrorViewHeight);
+    };
+
     if (Style() == PreviewStyle::Historical) {
-        error_view_margin.top = HistoricalStyleErrorViewMargin;
-        error_view_margin.bottom = HistoricalStyleErrorViewMargin;
+        set_style(StyleMetrics<true>{});
     }
     else {
-        error_view_margin.top = NormalStyleErrorViewMargin;
-        error_view_margin.bottom = NormalStyleErrorViewMargin;
+        set_style(StyleMetrics<false>{});
     }
-    errorView->SetMargin(error_view_margin);
 }
 
 

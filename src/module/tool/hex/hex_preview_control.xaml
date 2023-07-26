@@ -9,12 +9,12 @@
     />
     <Label 
         Name="fileInfoLabel" 
-        FixedHeight="30"
+        FixedHeight="28"
         Margin="15,0,15,0"
         ParagraphAlignment="Center"
         FontSize="12" 
         TextColor="#808080" 
     />
     <BinaryContentControl Name="binaryContent" />
-    <ErrorView Name="errorView" AutoHeight="true" Margin="15,30,15,30" IsVisible="false" />
+    <ErrorView Name="errorView" Margin="15,0,15,0" IsVisible="false" />
 </HexPreviewControl>

@@ -48,6 +48,7 @@ protected:
     void OnStyleChanged() override;
 
 private:
+    void ChangeControlStyles();
     void ShowFilePath(const std::filesystem::path& path);
     void ShowFileInfo(
         ReadFileStatus status, 
