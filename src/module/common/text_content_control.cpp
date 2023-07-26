@@ -20,36 +20,22 @@ ZAF_DEFINE_TYPE(TextContentControl)
 ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/common/text_content_control.xaml")
 ZAF_DEFINE_TYPE_END;
 
-void TextContentControl::AfterParse() {
-
-    __super::AfterParse();
-
-    richEdit->SetOLECallback(zaf::As<zaf::rich_edit::OLECallback>(shared_from_this()));
-}
-
-
 void TextContentControl::SetDisplayMode(TextDisplayMode mode) {
     display_mode_ = mode;
 }
 
 
-void TextContentControl::SetText(std::wstring text) {
+void TextContentControl::SetText(const std::wstring& text) {
 
-    text_ = std::move(text);
-    has_line_break_ = utility::HasLineBreak(text_);
-
-    auto update_guard = richEdit->BeginUpdate();
-
-    auto font = richEdit->Font();
-    font.family_name = display_mode_ == TextDisplayMode::Base64 ? L"Consolas" : L"";
-    richEdit->SetFont(font);
+    textBox->SetText(text);
+    has_line_break_ = utility::HasLineBreak(text);
 
     CalculateAndAdjustControls();
 }
 
 
 std::wstring TextContentControl::GetText() const {
-    return InnerGetText(zaf::Range{ 0, richEdit->TextLength() });
+    return textBox->Text();
 }
 
 
@@ -68,32 +54,22 @@ void TextContentControl::CalculateAndAdjustControls() {
         return;
     }
 
-    bool has_set_text{};
     if (!has_line_break_) {
 
         //Try to use single line mode if there is no line break in text.
         if (TryToAdjustForSingleLineText()) {
             return;
         }
-
-        if (display_mode_ == TextDisplayMode::Base64) {
-            BreakTextForBase64Mode();
-            has_set_text = true;
-        }
     }
 
-    //There are line breaks in text, or wrapping is set, use multi line mode.
-    AdjustForMultiLineText(has_set_text);
+    //There are line breaks in text, use multi line mode.
+    AdjustForMultiLineText();
 }
 
 
 bool TextContentControl::TryToAdjustForSingleLineText() {
 
-    //Set rich edit to single line mode first.
-    richEdit->SetIsMultiline(false);
-
-    bool has_set_text{};
-    bool can_fit_in_single_line = DeterminateIfAllTextCanFitInSingleLine(has_set_text);
+    bool can_fit_in_single_line = DeterminateIfAllTextCanFitInSingleLine();
 
     //We use single line if:
     //1. All text can fit in single line.
@@ -103,38 +79,30 @@ bool TextContentControl::TryToAdjustForSingleLineText() {
         return false;
     }
 
-    if (!has_set_text) {
-        richEdit->SetFontSize(SingleLineMinFontSize);
-        richEdit->SetText(text_);
-    }
-
-    richEdit->SetTextAlignment(zaf::TextAlignment::Center);
+    textBox->SetTextAlignment(zaf::TextAlignment::Center);
 
     SetControlHeight(MinTextLayoutHeight);
     return true;
 }
 
 
-bool TextContentControl::DeterminateIfAllTextCanFitInSingleLine(bool& has_set_text) {
+bool TextContentControl::DeterminateIfAllTextCanFitInSingleLine() {
 
-    //We cannot use single line mode if the text is too long.
-    if (text_.length() > SingleLineMaxCalculateLength) {
+    //It's no need to determine if the text is too long.
+    if (textBox->TextLength() > SingleLineMaxCalculateLength) {
+        textBox->SetFontSize(SingleLineMinFontSize);
         return false;
     }
 
-    has_set_text = true;
-
     //Find suitable font size.
-    richEdit->SetText(text_);
-
     float layout_width = GetTextLayoutWidth();
 
     for (float font_size = SingleLineMaxFontSize;
         font_size >= SingleLineMinFontSize;
         --font_size) {
 
-        richEdit->SetFontSize(font_size);
-        auto edit_size = richEdit->CalculatePreferredSize();
+        textBox->SetFontSize(font_size);
+        auto edit_size = textBox->CalculatePreferredSize();
 
         if (edit_size.width <= layout_width) {
             return true;
@@ -153,57 +121,25 @@ float TextContentControl::GetTextLayoutWidth() const {
 }
 
 
-void TextContentControl::BreakTextForBase64Mode() {
+void TextContentControl::AdjustForMultiLineText() {
 
-    auto calculated_text = text_.substr(0, SingleLineMaxCalculateLength);
+    textBox->SetTextAlignment(zaf::TextAlignment::Left);
+    textBox->SetFontSize(MultiLineFontSize);
 
-    richEdit->SetFontSize(SingleLineMinFontSize);
-    richEdit->SetText(calculated_text);
-
-    auto preferred_size = richEdit->CalculatePreferredSize();
-    preferred_size.width -= richEdit->Padding().Width();
-    preferred_size.width -= richEdit->Border().Width();
-    float average_char_width = preferred_size.width / calculated_text.length();
-
-    auto line_length =
-        static_cast<std::size_t>(std::floor(GetTextLayoutWidth() / average_char_width));
-
-    std::wstring new_text;
-    new_text.reserve(text_.length() + (text_.length() / line_length * 2));
-    for (auto index : zaf::Range(0, text_.length())) {
-
-        if (index != 0 && (index % line_length == 0)) {
-            new_text += L"\r\n";
-        }
-
-        new_text += text_[index];
+    if (display_mode_ == TextDisplayMode::Base64) {
+        textBox->SetWordWrapping(zaf::WordWrapping::Character);
+        scrollControl->SetAllowHorizontalScroll(false);
     }
 
-    richEdit->SetIsMultiline(true);
-    richEdit->SetText(new_text);
-}
-
-
-void TextContentControl::AdjustForMultiLineText(bool has_set_text) {
-
-    if (!has_set_text) {
-        richEdit->SetText(text_);
-    }
-
-    richEdit->SetIsMultiline(true);
-    richEdit->SetTextAlignment(zaf::TextAlignment::Left);
-    richEdit->SetFontSize(MultiLineFontSize);
+    zaf::Size text_boundary_size{ GetTextLayoutWidth(), MinTextLayoutHeight };
 
     bool need_vertical_scroll{};
     auto edit_height = CalculateRequriedHeightForMultiLineEdit(
-        richEdit->CalculatePreferredSize(),
-        richEdit->LineCount(),
-        zaf::Size{ GetTextLayoutWidth(), MinTextLayoutHeight },
+        textBox->CalculatePreferredSize(text_boundary_size),
+        textBox->LineCount(),
+        text_boundary_size,
         need_vertical_scroll);
 
-    //Rich edit might show scroll bar incorrectly even if there is enough space to show text,
-    //so we have to disable the scroll bar manually.
-    scrollControl->SetAllowVerticalScroll(need_vertical_scroll);
     SetControlHeight(edit_height);
 }
 
@@ -240,27 +176,6 @@ float TextContentControl::CalculateRequriedHeightForMultiLineEdit(
 
     auto line_height = text_preferrence_size.height / line_count;
     return show_line_count * line_height;
-}
-
-
-zaf::rich_edit::OperationResult TextContentControl::GetClipboardData(
-    zaf::rich_edit::ClipboardOperation operation,
-    const zaf::Range& text_range,
-    zaf::clipboard::DataObject& data_object) {
-
-    auto text = InnerGetText(text_range);
-    data_object.SetText(std::move(text));
-    return zaf::rich_edit::OperationResult::OK;
-}
-
-
-std::wstring TextContentControl::InnerGetText(const zaf::Range& text_range) const {
-
-    auto text = richEdit->GetTextInRange(text_range);
-    if (display_mode_ == TextDisplayMode::Base64) {
-        zaf::Erase(text, L'\r');
-    }
-    return text;
 }
 
 }
