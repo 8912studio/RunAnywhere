@@ -7,6 +7,12 @@
 namespace ra::mod::tool::hex {
 namespace {
 
+constexpr std::size_t NormalStyleLinesPerPage = 8;
+constexpr std::size_t HistoricalStyleLinesPerPage = 2;
+
+constexpr float NormalStyleErrorViewMargin = 30;
+constexpr float HistoricalStyleErrorViewMargin = 0;
+
 std::wstring FormatInteger(std::uint64_t integer) {
     auto result = std::to_wstring(integer);
     utility::InsertSeparatorToNumericText(result, 10, L',');
@@ -25,6 +31,26 @@ void HexPreviewControl::AfterParse() {
     __super::AfterParse();
 
     filePathLabel->SetTextTrimming(utility::CreateTextTrimmingForPath());
+}
+
+
+void HexPreviewControl::OnStyleChanged() {
+
+    binaryContent->SetLinesPerPage(Style() == 
+        PreviewStyle::Historical ? HistoricalStyleLinesPerPage : NormalStyleLinesPerPage);
+
+    errorView->ChangeStyle(Style());
+
+    auto error_view_margin = errorView->Margin();
+    if (Style() == PreviewStyle::Historical) {
+        error_view_margin.top = HistoricalStyleErrorViewMargin;
+        error_view_margin.bottom = HistoricalStyleErrorViewMargin;
+    }
+    else {
+        error_view_margin.top = NormalStyleErrorViewMargin;
+        error_view_margin.bottom = NormalStyleErrorViewMargin;
+    }
+    errorView->SetMargin(error_view_margin);
 }
 
 

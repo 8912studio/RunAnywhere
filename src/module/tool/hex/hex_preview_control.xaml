@@ -2,7 +2,7 @@
     <Label 
         Name="filePathLabel" 
         FixedHeight="20"
-        Margin="10,0,10,0"
+        Margin="15,0,15,0"
         ParagraphAlignment="Center"
         FontSize="14" 
         TextColor="#808080" 
@@ -10,11 +10,11 @@
     <Label 
         Name="fileInfoLabel" 
         FixedHeight="30"
-        Margin="10,0,10,0"
+        Margin="15,0,15,0"
         ParagraphAlignment="Center"
         FontSize="12" 
         TextColor="#808080" 
     />
     <BinaryContentControl Name="binaryContent" />
-    <ErrorView Name="errorView" AutoHeight="true" Margin="0,30,0,30" IsVisible="false" />
+    <ErrorView Name="errorView" AutoHeight="true" Margin="15,30,15,30" IsVisible="false" />
 </HexPreviewControl>

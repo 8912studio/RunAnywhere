@@ -45,6 +45,7 @@ public:
 
 protected:
     void AfterParse() override;
+    void OnStyleChanged() override;
 
 private:
     void ShowFilePath(const std::filesystem::path& path);

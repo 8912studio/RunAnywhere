@@ -1,13 +1,10 @@
-<ErrorView>
-    <ErrorView.Layouter>
-        <HorizontalLayouter AxisAlignment="Center" CrossAxisAlignment="Center" />
-    </ErrorView.Layouter>
-    <Control 
+<ErrorView AxisAlignment="Center" CrossAxisAlignment="Center">
+    <ImageBox
         Name="errorIcon"
         FixedSize="48,48"
         Margin="0,0,10,0"
-        BackgroundImage="res:///resource/error.png"
-        BackgroundImageLayout="Stretch"
+        URI="res:///resource/error.png"
+        ImageLayout="Stretch"
     />
     <Label 
         Name="textLabel" 

@@ -15,14 +15,20 @@ public:
 
 public:
     void SetBinary(std::vector<std::byte> binary);
+    void SetLinesPerPage(std::size_t lines);
 
 protected:
     void AfterParse() override;
     void Paint(zaf::Canvas& canvas, const zaf::Rect& dirty_rect) override;
 
 private:
+    void AdjustFixedHeight();
+
+private:
     ZAF_BIND_CONTROL(zaf::ScrollableControl, scrollControl);
     ZAF_BIND_CONTROL(BinaryColumnBody, body);
+
+    std::size_t lines_per_page_{ 8 };
 };
 
 }
