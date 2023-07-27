@@ -33,8 +33,7 @@ protected:
     static float CalculateRequriedHeightForMultiLineEdit(
         const zaf::Size& text_preferrence_size,
         std::size_t line_count,
-        const zaf::Size& text_bounds,
-        bool& need_vertical_scroll);
+        const zaf::Size& text_bounds);
 
 private:
     ZAF_BIND_CONTROL(zaf::ScrollableControl, scrollControl);

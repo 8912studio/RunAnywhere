@@ -21,7 +21,9 @@ ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/common/text_content_control.xaml")
 ZAF_DEFINE_TYPE_END;
 
 void TextContentControl::SetDisplayMode(TextDisplayMode mode) {
+
     display_mode_ = mode;
+    textBox->SetFontFamily(mode == TextDisplayMode::Base64 ? L"Consolas" : L"");
 }
 
 
@@ -62,7 +64,7 @@ void TextContentControl::CalculateAndAdjustControls() {
         }
     }
 
-    //There are line breaks in text, use multi line mode.
+    //There are line breaks in text, or text is too long, use multi line mode.
     AdjustForMultiLineText();
 }
 
@@ -70,12 +72,7 @@ void TextContentControl::CalculateAndAdjustControls() {
 bool TextContentControl::TryToAdjustForSingleLineText() {
 
     bool can_fit_in_single_line = DeterminateIfAllTextCanFitInSingleLine();
-
-    //We use single line if:
-    //1. All text can fit in single line.
-    //2. Or display mode is set to normal, in such case horizontal scroll bar is shown.
-    bool use_single_line = can_fit_in_single_line || display_mode_ == TextDisplayMode::Normal;
-    if (!use_single_line) {
+    if (!can_fit_in_single_line) {
         return false;
     }
 
@@ -90,7 +87,6 @@ bool TextContentControl::DeterminateIfAllTextCanFitInSingleLine() {
 
     //It's no need to determine if the text is too long.
     if (textBox->TextLength() > SingleLineMaxCalculateLength) {
-        textBox->SetFontSize(SingleLineMinFontSize);
         return false;
     }
 
@@ -128,17 +124,15 @@ void TextContentControl::AdjustForMultiLineText() {
 
     if (display_mode_ == TextDisplayMode::Base64) {
         textBox->SetWordWrapping(zaf::WordWrapping::Character);
-        scrollControl->SetAllowHorizontalScroll(false);
     }
 
     zaf::Size text_boundary_size{ GetTextLayoutWidth(), MinTextLayoutHeight };
+    auto text_preferred_size = textBox->CalculatePreferredSize(text_boundary_size);
 
-    bool need_vertical_scroll{};
     auto edit_height = CalculateRequriedHeightForMultiLineEdit(
-        textBox->CalculatePreferredSize(text_boundary_size),
+        text_preferred_size,
         textBox->LineCount(),
-        text_boundary_size,
-        need_vertical_scroll);
+        text_boundary_size);
 
     SetControlHeight(edit_height);
 }
@@ -154,11 +148,9 @@ void TextContentControl::SetControlHeight(float text_layout_height) {
 float TextContentControl::CalculateRequriedHeightForMultiLineEdit(
     const zaf::Size& text_preferrence_size,
     std::size_t line_count,
-    const zaf::Size& text_bounds,
-    bool& need_vertical_scroll) {
+    const zaf::Size& text_bounds) {
 
     if (text_preferrence_size.height <= text_bounds.height) {
-        need_vertical_scroll = false;
         return text_bounds.height;
     }
 
@@ -166,11 +158,9 @@ float TextContentControl::CalculateRequriedHeightForMultiLineEdit(
 
     std::size_t show_line_count{};
     if (line_count > MaxShowLineCount) {
-        need_vertical_scroll = true;
         show_line_count = MaxShowLineCount;
     }
     else {
-        need_vertical_scroll = false;
         show_line_count = line_count;
     }
 
