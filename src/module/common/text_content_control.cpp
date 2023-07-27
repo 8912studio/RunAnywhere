@@ -13,8 +13,19 @@ constexpr float SingleLineMinFontSize = MultiLineFontSize;
 constexpr float SingleLineMaxFontSize = 26;
 constexpr std::size_t SingleLineMaxCalculateLength = 100;
 
-constexpr float NormalStyleMinTextLayoutHeight = 80;
-constexpr float HistoricalStyleMinTextLayoutHeight = 28;
+constexpr float NormalStyleMinTextLayoutHeight = 76;
+constexpr std::size_t NormalStyleMaxShowLineCount = 10;
+
+zaf::Frame NormalStylePadding() {
+    return zaf::Frame{ 0, 4, 0, 0 };
+}
+
+constexpr float HistoricalStyleMinTextLayoutHeight = 22;
+constexpr std::size_t HistoricalStyleMaxShowLineCount = 2;
+
+zaf::Frame HistoricalStylePadding() {
+    return zaf::Frame{};
+}
 
 }
 
@@ -44,7 +55,14 @@ std::wstring TextContentControl::GetText() const {
 
 
 void TextContentControl::ChangeStyle(PreviewStyle style) {
+
     style_ = style;
+
+    auto update_guard = this->BeginUpdate();
+
+    this->SetPadding(
+        style_ == PreviewStyle::Historical ? HistoricalStylePadding() : NormalStylePadding());
+
     AdjustLayout();
 }
 
@@ -68,6 +86,8 @@ void TextContentControl::AdjustLayout() {
     else {
         control_height += scrollControl->HorizontalScrollBar()->Height();
     }
+
+    control_height += this->Padding().Height();
     this->SetFixedHeight(control_height);
 }
 
@@ -152,11 +172,16 @@ TextContentControl::LayoutInfo TextContentControl::AdjustForMultiLineText() {
 
     zaf::Size text_boundary_size{ GetTextLayoutWidth(), GetMinTextHeight() };
     auto text_preferred_size = textBox->CalculatePreferredSize(text_boundary_size);
+    auto max_show_line_count = 
+        style_ == PreviewStyle::Historical ?
+        HistoricalStyleMaxShowLineCount :
+        NormalStyleMaxShowLineCount;
 
     auto required_height = CalculateRequriedHeightForMultiLineEdit(
         text_preferred_size,
         textBox->LineCount(),
-        text_boundary_size);
+        text_boundary_size,
+        max_show_line_count);
 
     LayoutInfo layout_info;
     layout_info.required_height = required_height;
@@ -176,17 +201,16 @@ float TextContentControl::GetMinTextHeight() const {
 float TextContentControl::CalculateRequriedHeightForMultiLineEdit(
     const zaf::Size& text_preferrence_size,
     std::size_t line_count,
-    const zaf::Size& text_bounds) {
+    const zaf::Size& text_bounds,
+    std::size_t max_show_line_count) {
 
     if (text_preferrence_size.height <= text_bounds.height) {
         return text_bounds.height;
     }
 
-    constexpr std::size_t MaxShowLineCount = 10;
-
     std::size_t show_line_count{};
-    if (line_count > MaxShowLineCount) {
-        show_line_count = MaxShowLineCount;
+    if (line_count > max_show_line_count) {
+        show_line_count = max_show_line_count;
     }
     else {
         show_line_count = line_count;
