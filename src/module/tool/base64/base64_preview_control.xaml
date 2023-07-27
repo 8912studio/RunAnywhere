@@ -11,5 +11,5 @@
     </HorizontalBox>
     <TextContentControl Name="textContent" Margin="15,0,0,0" IsVisible="false" />
     <BinaryContentControl Name="binaryContent" IsVisible="false" />
-    <ErrorView Name="errorView" FixedHeight="90" IsVisible="false" />
+    <ErrorView Name="errorView" FixedHeight="90" Margin="15,0,15,0" IsVisible="false" />
 </Base64PreviewControl>

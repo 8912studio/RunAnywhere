@@ -6,6 +6,24 @@
 #include "module/tool/base64/decoded_data_interpreting.h"
 
 namespace ra::mod::tool::base64 {
+namespace {
+
+template<bool IsHistorical>
+struct StyleMetrics;
+
+template<>
+struct StyleMetrics<false> {
+    static constexpr float ErrorViewHeight = 90;
+    static constexpr std::size_t BinaryLinesPerPage = 8;
+};
+
+template<>
+struct StyleMetrics<true> {
+    static constexpr float ErrorViewHeight = 28;
+    static constexpr std::size_t BinaryLinesPerPage = 2;
+};
+
+}
 
 ZAF_DEFINE_TYPE(Base64PreviewControl)
 ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/tool/base64/base64_preview_control.xaml")
@@ -179,6 +197,19 @@ std::wstring Base64PreviewControl::GetResultText() const {
 void Base64PreviewControl::OnStyleChanged() {
 
     textContent->ChangeStyle(Style());
+    errorView->ChangeStyle(Style());
+
+    auto set_style = [this](auto metrics) {
+        binaryContent->SetLinesPerPage(metrics.BinaryLinesPerPage);
+        errorView->SetFixedHeight(metrics.ErrorViewHeight);
+    };
+
+    if (Style() == PreviewStyle::Historical) {
+        set_style(StyleMetrics<true>{});
+    }
+    else {
+        set_style(StyleMetrics<false>());
+    }
 }
 
 
