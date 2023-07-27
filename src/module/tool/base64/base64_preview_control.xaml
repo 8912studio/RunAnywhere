@@ -9,7 +9,7 @@
             TextColor="White" />
         <ContentStatusBar Name="contentStatusBar" Margin="6,0,0,0" />
     </HorizontalBox>
-    <TextContentControl Name="textContent" Margin="15,0,0,0" Padding="0,4,0,0" IsVisible="false" />
+    <TextContentControl Name="textContent" Margin="15,0,0,0" IsVisible="false" />
     <BinaryContentControl Name="binaryContent" IsVisible="false" />
     <ErrorView Name="errorView" FixedHeight="90" IsVisible="false" />
 </Base64PreviewControl>

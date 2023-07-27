@@ -4,6 +4,7 @@
 #include <zaf/control/control_binder.h>
 #include <zaf/control/scrollable_control.h>
 #include <zaf/control/text_box.h>
+#include "module/command_preview_control.h"
 
 namespace ra::mod {
 
@@ -21,15 +22,26 @@ public:
     void SetText(const std::wstring& text);
     std::wstring GetText() const;
 
+    void ChangeStyle(PreviewStyle style);
+
 protected:
     void Layout(const zaf::Rect&) override;
 
-    void CalculateAndAdjustControls();
+private:
+    class LayoutInfo {
+    public:
+        float required_height{};
+        bool need_horizontal_scroll{};
+    };
+
+private:
+    void AdjustLayout();
+    LayoutInfo AdjustTextLayout();
     bool TryToAdjustForSingleLineText();
     bool DeterminateIfAllTextCanFitInSingleLine();
     float GetTextLayoutWidth() const;
-    void AdjustForMultiLineText();
-    void SetControlHeight(float text_layout_height);
+    LayoutInfo AdjustForMultiLineText();
+    float GetMinTextHeight() const;
     static float CalculateRequriedHeightForMultiLineEdit(
         const zaf::Size& text_preferrence_size,
         std::size_t line_count,
@@ -39,6 +51,7 @@ private:
     ZAF_BIND_CONTROL(zaf::ScrollableControl, scrollControl);
     ZAF_BIND_CONTROL(zaf::TextBox, textBox);
 
+    PreviewStyle style_{ PreviewStyle::Normal };
     TextDisplayMode display_mode_{ TextDisplayMode::Normal };
     bool has_line_break_{};
 };

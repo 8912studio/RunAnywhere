@@ -12,7 +12,9 @@ constexpr float MultiLineFontSize = 16;
 constexpr float SingleLineMinFontSize = MultiLineFontSize;
 constexpr float SingleLineMaxFontSize = 26;
 constexpr std::size_t SingleLineMaxCalculateLength = 100;
-constexpr float MinTextLayoutHeight = 80;
+
+constexpr float NormalStyleMinTextLayoutHeight = 80;
+constexpr float HistoricalStyleMinTextLayoutHeight = 28;
 
 }
 
@@ -32,7 +34,7 @@ void TextContentControl::SetText(const std::wstring& text) {
     textBox->SetText(text);
     has_line_break_ = utility::HasLineBreak(text);
 
-    CalculateAndAdjustControls();
+    AdjustLayout();
 }
 
 
@@ -41,31 +43,55 @@ std::wstring TextContentControl::GetText() const {
 }
 
 
+void TextContentControl::ChangeStyle(PreviewStyle style) {
+    style_ = style;
+    AdjustLayout();
+}
+
+
 void TextContentControl::Layout(const zaf::Rect& previous_rect) {
 
     __super::Layout(previous_rect);
 
-    CalculateAndAdjustControls();
+    AdjustLayout();
 }
 
 
-void TextContentControl::CalculateAndAdjustControls() {
+void TextContentControl::AdjustLayout() {
+
+    auto layout_info = AdjustTextLayout();
+
+    float control_height = layout_info.required_height;
+    if (style_ == PreviewStyle::Historical && !layout_info.need_horizontal_scroll) {
+        scrollControl->SetAllowHorizontalScroll(false);
+    }
+    else {
+        control_height += scrollControl->HorizontalScrollBar()->Height();
+    }
+    this->SetFixedHeight(control_height);
+}
+
+
+TextContentControl::LayoutInfo TextContentControl::AdjustTextLayout() {
 
     //Ignore abnormal size.
     if (GetTextLayoutWidth() <= 0) {
-        return;
+        return {};
     }
 
-    if (!has_line_break_) {
+    if (!has_line_break_ && (style_ != PreviewStyle::Historical)) {
 
         //Try to use single line mode if there is no line break in text.
         if (TryToAdjustForSingleLineText()) {
-            return;
+            LayoutInfo layout_info;
+            layout_info.required_height = GetMinTextHeight();
+            layout_info.need_horizontal_scroll = false;
+            return layout_info;
         }
     }
 
     //There are line breaks in text, or text is too long, use multi line mode.
-    AdjustForMultiLineText();
+    return AdjustForMultiLineText();
 }
 
 
@@ -77,8 +103,6 @@ bool TextContentControl::TryToAdjustForSingleLineText() {
     }
 
     textBox->SetTextAlignment(zaf::TextAlignment::Center);
-
-    SetControlHeight(MinTextLayoutHeight);
     return true;
 }
 
@@ -117,7 +141,7 @@ float TextContentControl::GetTextLayoutWidth() const {
 }
 
 
-void TextContentControl::AdjustForMultiLineText() {
+TextContentControl::LayoutInfo TextContentControl::AdjustForMultiLineText() {
 
     textBox->SetTextAlignment(zaf::TextAlignment::Left);
     textBox->SetFontSize(MultiLineFontSize);
@@ -126,22 +150,26 @@ void TextContentControl::AdjustForMultiLineText() {
         textBox->SetWordWrapping(zaf::WordWrapping::Character);
     }
 
-    zaf::Size text_boundary_size{ GetTextLayoutWidth(), MinTextLayoutHeight };
+    zaf::Size text_boundary_size{ GetTextLayoutWidth(), GetMinTextHeight() };
     auto text_preferred_size = textBox->CalculatePreferredSize(text_boundary_size);
 
-    auto edit_height = CalculateRequriedHeightForMultiLineEdit(
+    auto required_height = CalculateRequriedHeightForMultiLineEdit(
         text_preferred_size,
         textBox->LineCount(),
         text_boundary_size);
 
-    SetControlHeight(edit_height);
+    LayoutInfo layout_info;
+    layout_info.required_height = required_height;
+    layout_info.need_horizontal_scroll = text_preferred_size.width > text_boundary_size.width;
+    return layout_info;
 }
 
 
-void TextContentControl::SetControlHeight(float text_layout_height) {
+float TextContentControl::GetMinTextHeight() const {
 
-    auto control_height = text_layout_height + scrollControl->HorizontalScrollBar()->Height();
-    this->SetFixedHeight(control_height);
+    return style_ == PreviewStyle::Historical ?
+        HistoricalStyleMinTextLayoutHeight :
+        NormalStyleMinTextLayoutHeight;
 }
 
 

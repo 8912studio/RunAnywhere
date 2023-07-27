@@ -176,6 +176,12 @@ std::wstring Base64PreviewControl::GetResultText() const {
 }
 
 
+void Base64PreviewControl::OnStyleChanged() {
+
+    textContent->ChangeStyle(Style());
+}
+
+
 zaf::Frame Base64PreviewControl::GetExpectedMargin() {
 
     auto result = __super::GetExpectedMargin();

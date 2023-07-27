@@ -21,6 +21,9 @@ public:
 
     zaf::Frame GetExpectedMargin() override;
 
+protected:
+    void OnStyleChanged() override;
+
 private:
     void ShowEncodeResult(const Base64CommandParseResult& parse_result);
     void ShowDecodeResult(
