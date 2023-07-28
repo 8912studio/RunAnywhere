@@ -2,8 +2,8 @@
 #include <zaf/control/label.h>
 #include <zaf/control/layout/linear_layouter.h>
 #include <zaf/creation.h>
+#include "module/common/default_preview_control.h"
 #include "utility/path_trimming.h"
-#include "module/common/text_content_control.h"
 
 namespace ra {
 namespace {
@@ -11,13 +11,8 @@ namespace {
 std::shared_ptr<mod::CommandPreviewControl> CreateDefaultPreviewControl(
     std::wstring preview_text) {
 
-    auto text_content_control = zaf::Create<mod::TextContentControl>();
-    text_content_control->SetText(preview_text);
-
-    auto result = zaf::Create<mod::CommandPreviewControl>();
-    result->SetLayouter(zaf::Create<zaf::VerticalLayouter>());
-    result->SetAutoHeight(true);
-    result->AddChild(text_content_control);
+    auto result = zaf::Create<mod::DefaultPreviewControl>();
+    result->SetText(preview_text);
     return result;
 }
 

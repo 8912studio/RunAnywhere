@@ -33,10 +33,13 @@ ZAF_DEFINE_TYPE(TextContentControl)
 ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/common/text_content_control.xaml")
 ZAF_DEFINE_TYPE_END;
 
-void TextContentControl::SetDisplayMode(TextDisplayMode mode) {
+void TextContentControl::SetDisplayMode(const TextDisplayMode& mode) {
 
     display_mode_ = mode;
-    textBox->SetFontFamily(mode == TextDisplayMode::Base64 ? L"Consolas" : L"");
+    textBox->SetFontFamily(
+        mode.use_fixed_width_font ? L"Consolas" : zaf::Font::Default().family_name);
+
+    AdjustLayout();
 }
 
 
@@ -77,6 +80,11 @@ void TextContentControl::Layout(const zaf::Rect& previous_rect) {
 
 void TextContentControl::AdjustLayout() {
 
+    //Ignore abnormal size.
+    if (GetTextLayoutWidth() <= 0) {
+        return;
+    }
+
     auto layout_info = AdjustTextLayout();
 
     float control_height = layout_info.required_height;
@@ -84,6 +92,7 @@ void TextContentControl::AdjustLayout() {
         scrollControl->SetAllowHorizontalScroll(false);
     }
     else {
+        scrollControl->SetAllowHorizontalScroll(true);
         control_height += scrollControl->HorizontalScrollBar()->Height();
     }
 
@@ -93,11 +102,6 @@ void TextContentControl::AdjustLayout() {
 
 
 TextContentControl::LayoutInfo TextContentControl::AdjustTextLayout() {
-
-    //Ignore abnormal size.
-    if (GetTextLayoutWidth() <= 0) {
-        return {};
-    }
 
     if (!has_line_break_ && (style_ != PreviewStyle::Historical)) {
 
@@ -165,10 +169,7 @@ TextContentControl::LayoutInfo TextContentControl::AdjustForMultiLineText() {
 
     textBox->SetTextAlignment(zaf::TextAlignment::Left);
     textBox->SetFontSize(MultiLineFontSize);
-
-    if (display_mode_ == TextDisplayMode::Base64) {
-        textBox->SetWordWrapping(zaf::WordWrapping::Character);
-    }
+    textBox->SetWordWrapping(display_mode_.word_wrapping);
 
     zaf::Size text_boundary_size{ GetTextLayoutWidth(), GetMinTextHeight() };
     auto text_preferred_size = textBox->CalculatePreferredSize(text_boundary_size);

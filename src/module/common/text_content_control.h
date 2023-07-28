@@ -8,9 +8,10 @@
 
 namespace ra::mod {
 
-enum class TextDisplayMode {
-    Normal,
-    Base64,
+class TextDisplayMode {
+public:
+    bool use_fixed_width_font{};
+    zaf::WordWrapping word_wrapping{ zaf::WordWrapping::NoWrap };
 };
 
 class TextContentControl : public zaf::Control {
@@ -18,7 +19,7 @@ public:
     ZAF_DECLARE_TYPE;
 
 public:
-    void SetDisplayMode(TextDisplayMode mode);
+    void SetDisplayMode(const TextDisplayMode& mode);
     void SetText(const std::wstring& text);
     std::wstring GetText() const;
 
@@ -53,7 +54,7 @@ private:
     ZAF_BIND_CONTROL(zaf::TextBox, textBox);
 
     PreviewStyle style_{ PreviewStyle::Normal };
-    TextDisplayMode display_mode_{ TextDisplayMode::Normal };
+    TextDisplayMode display_mode_;
     bool has_line_break_{};
 };
 

@@ -154,7 +154,14 @@ void Base64PreviewControl::ShowTextContent(
     contentStatusBar->SetEncodingTooltip(encoding_tooltip);
 
     if (!text_content.empty()) {
-        textContent->SetDisplayMode(is_base64 ? TextDisplayMode::Base64 : TextDisplayMode::Normal);
+
+        TextDisplayMode display_mode;
+        if (is_base64) {
+            display_mode.use_fixed_width_font = true;
+            display_mode.word_wrapping = zaf::WordWrapping::Character;
+        }
+
+        textContent->SetDisplayMode(display_mode);
         textContent->SetText(std::move(text_content));
         textContent->SetIsVisible(true);
     }

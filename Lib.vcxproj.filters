@@ -645,6 +645,9 @@
     <ClInclude Include="src\module\tool\text_transform\text_preview_control.h">
       <Filter>src\module\tool\text_transform</Filter>
     </ClInclude>
+    <ClInclude Include="src\module\common\default_preview_control.h">
+      <Filter>src\module\common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -1027,6 +1030,9 @@
     </ClCompile>
     <ClCompile Include="src\module\tool\text_transform\text_preview_control.cpp">
       <Filter>src\module\tool\text_transform</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\common\default_preview_control.cpp">
+      <Filter>src\module\common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
