@@ -23,6 +23,12 @@ void TextPreviewControl::SetText(std::wstring text) {
 }
 
 
+void TextPreviewControl::OnStyleChanged() {
+    textContent->ChangeStyle(Style());
+    errorView->ChangeStyle(Style());
+}
+
+
 zaf::Frame TextPreviewControl::GetExpectedMargin() {
 
     auto result = __super::GetExpectedMargin();

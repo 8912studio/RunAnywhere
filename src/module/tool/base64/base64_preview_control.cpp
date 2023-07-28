@@ -13,13 +13,11 @@ struct StyleMetrics;
 
 template<>
 struct StyleMetrics<false> {
-    static constexpr float ErrorViewHeight = 90;
     static constexpr std::size_t BinaryLinesPerPage = 8;
 };
 
 template<>
 struct StyleMetrics<true> {
-    static constexpr float ErrorViewHeight = 28;
     static constexpr std::size_t BinaryLinesPerPage = 2;
 };
 
@@ -201,7 +199,6 @@ void Base64PreviewControl::OnStyleChanged() {
 
     auto set_style = [this](auto metrics) {
         binaryContent->SetLinesPerPage(metrics.BinaryLinesPerPage);
-        errorView->SetFixedHeight(metrics.ErrorViewHeight);
     };
 
     if (Style() == PreviewStyle::Historical) {

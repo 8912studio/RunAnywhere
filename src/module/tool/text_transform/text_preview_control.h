@@ -18,6 +18,7 @@ public:
     void SetText(std::wstring text);
 
 protected:
+    void OnStyleChanged() override;
     zaf::Frame GetExpectedMargin() override;
 
 private:

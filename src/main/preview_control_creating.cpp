@@ -12,7 +12,7 @@ std::shared_ptr<mod::CommandPreviewControl> CreateDefaultPreviewControl(
     std::wstring preview_text) {
 
     auto text_content_control = zaf::Create<mod::TextContentControl>();
-    text_content_control->SetText(std::move(preview_text));
+    text_content_control->SetText(preview_text);
 
     auto result = zaf::Create<mod::CommandPreviewControl>();
     result->SetLayouter(zaf::Create<zaf::VerticalLayouter>());

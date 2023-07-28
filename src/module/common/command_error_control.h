@@ -12,6 +12,7 @@ public:
 
 public:
     void SetErrorText(const std::wstring& text);
+    void OnStyleChanged() override;
 
 protected:
     void AfterParse() override;

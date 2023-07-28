@@ -16,6 +16,7 @@ struct StyleMetrics<false> {
     static constexpr const wchar_t* IconURI = L"res:///resource/error.png";
     static constexpr float FontSize = 22;
     static constexpr float GapBetweenIconAndText = 10;
+    static constexpr float Height = 90;
 };
 
 template<>
@@ -25,6 +26,7 @@ struct StyleMetrics<true> {
     static constexpr const wchar_t* IconURI = L"res:///resource/error_small.png";
     static constexpr float FontSize = 16;
     static constexpr float GapBetweenIconAndText = 6;
+    static constexpr float Height = 28;
 };
 
 }
@@ -62,8 +64,7 @@ void ErrorView::ChangeStyle(PreviewStyle style) {
         errorIcon->SetURI(metrics.IconURI);
         errorIcon->SetMargin(zaf::Frame{ 0, 0, metrics.GapBetweenIconAndText, 0 });
         textLabel->SetFontSize(metrics.FontSize);
-        //TODO: zaf::Label has a bug that auto resizing won't work after font size changed.
-        textLabel->SetFixedSize(textLabel->CalculatePreferredSize());
+        this->SetFixedHeight(metrics.Height);
     };
 
     if (style == PreviewStyle::Historical) {

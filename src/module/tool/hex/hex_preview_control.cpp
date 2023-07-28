@@ -13,13 +13,11 @@ struct StyleMetrics;
 template<>
 struct StyleMetrics<false> {
     static constexpr std::size_t LinesPerPage = 8;
-    static constexpr float ErrorViewHeight = 108;
 };
 
 template<>
 struct StyleMetrics<true> {
     static constexpr std::size_t LinesPerPage = 2;
-    static constexpr float ErrorViewHeight = 28;
 };
 
 std::wstring FormatInteger(std::uint64_t integer) {
@@ -54,7 +52,6 @@ void HexPreviewControl::ChangeControlStyles() {
 
     auto set_style = [this](auto metrics) {
         binaryContent->SetLinesPerPage(metrics.LinesPerPage);
-        errorView->SetFixedHeight(metrics.ErrorViewHeight);
     };
 
     if (Style() == PreviewStyle::Historical) {

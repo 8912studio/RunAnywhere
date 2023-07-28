@@ -19,12 +19,17 @@ void CommandErrorControl::AfterParse() {
     AddChild(error_view_);
 
     SetLayouter(zaf::Create<zaf::VerticalLayouter>());
-    SetFixedHeight(90);
+    this->SetAutoHeight(true);
 }
 
 
 void CommandErrorControl::SetErrorText(const std::wstring& text) {
     error_view_->ShowErrorText(text);
+}
+
+
+void CommandErrorControl::OnStyleChanged() {
+    error_view_->ChangeStyle(Style());
 }
 
 }
