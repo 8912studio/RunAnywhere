@@ -17,6 +17,12 @@
             BackgroundColor="Transparent"
             FontSize="14"
             ParagraphAlignment="Center" />
+        <HorizontalBox Name="toolBar" AutoSize="true" IsVisible="false">
+            <Button 
+                Name="closeButton" 
+                FixedSize="20,20" 
+                CanFocused="false" />
+        </HorizontalBox>
     </HorizontalBox>
     <VerticalBox Name="previewContainer" AutoHeight="true" />
 </HistoryCommandView>

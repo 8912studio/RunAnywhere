@@ -39,8 +39,9 @@ private:
     void UpdateCommandState();
     void InterpretCommand();
     void ShowPreview();
-    float ShowCommandPreview();
-    float ShowEmptyPreview();
+    void ShowCommandPreview();
+    void ShowEmptyPreview();
+    void UpdateWindowRect();
     void OnHelpButtonClick();
     void UpdateHelpWindowState();
     void ShowHelpWindow();

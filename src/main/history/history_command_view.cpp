@@ -30,6 +30,20 @@ void HistoryCommandView::AfterParse() {
     preview_control->SetIsVisible(true);
 
     previewContainer->AddChild(preview_control);
+
+    Subscriptions() += MouseEnterEvent().Subscribe(std::bind([this]() {
+        toolBar->SetIsVisible(true);
+    }));
+
+    Subscriptions() += MouseLeaveEvent().Subscribe(std::bind([this]() {
+        if (!this->ContainMouse()) {
+            toolBar->SetIsVisible(false);
+        }
+    }));
+
+    Subscriptions() += closeButton->ClickEvent().Subscribe(std::bind([this]() {
+        close_event_.Raise(zaf::As<HistoryCommandView>(shared_from_this()));
+    }));
 }
 
 }

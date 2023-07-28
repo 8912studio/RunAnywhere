@@ -134,12 +134,39 @@ void MainWindow::InterpretCommand() {
 
 void MainWindow::ShowPreview() {
 
-    float main_height{};
     if (current_command_) {
-        main_height = ShowCommandPreview();
+        ShowCommandPreview();
     }
     else {
-        main_height = ShowEmptyPreview();
+        ShowEmptyPreview();
+    }
+
+    UpdateWindowRect();
+}
+
+
+void MainWindow::ShowCommandPreview() {
+
+    auto preview_control = CreateCommandPreviewControl(*current_command_);
+    preview_control->SetStyle(mod::PreviewStyle::Normal);
+    
+    previewView->SetPreviewControl(preview_control);
+    previewView->SetIsVisible(true);
+}
+
+
+void MainWindow::ShowEmptyPreview() {
+
+    previewView->ClearPreviewControl();
+    previewView->SetIsVisible(false);
+}
+
+
+void MainWindow::UpdateWindowRect() {
+
+    float main_height = initial_height_;
+    if (previewView->IsVisible()) {
+        main_height += previewView->GetExpectedHeight();
     }
 
     float history_commands_view_height{};
@@ -154,26 +181,6 @@ void MainWindow::ShowPreview() {
     this->SetRect(window_rect);
 
     last_history_commands_view_height_ = history_commands_view_height;
-}
-
-
-float MainWindow::ShowCommandPreview() {
-
-    auto preview_control = CreateCommandPreviewControl(*current_command_);
-    preview_control->SetStyle(mod::PreviewStyle::Normal);
-    
-    previewView->SetPreviewControl(preview_control);
-    previewView->SetIsVisible(true);
-
-    return initial_height_ + previewView->GetExpectedHeight();
-}
-
-
-float MainWindow::ShowEmptyPreview() {
-
-    previewView->ClearPreviewControl();
-    previewView->SetIsVisible(false);
-    return initial_height_;
 }
 
 
@@ -275,6 +282,13 @@ void MainWindow::AddCommandToHistoryView() {
     auto history_command_view = zaf::Create<HistoryCommandView>(
         inputEdit->GetInputCommandLine(),
         std::move(current_command_));
+
+    Subscriptions() += history_command_view->CloseEvent().Subscribe(
+        [this](const std::shared_ptr<HistoryCommandView>& view) {
+    
+        historyCommandsView->RemoveChild(view);
+        UpdateWindowRect();
+    });
 
     {
         auto update_guard = historyCommandsView->BeginUpdate();

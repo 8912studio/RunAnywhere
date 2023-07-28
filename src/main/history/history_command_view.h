@@ -1,5 +1,7 @@
 #pragma once
 
+#include <zaf/base/event/event.h>
+#include <zaf/control/button.h>
 #include <zaf/control/control.h>
 #include <zaf/control/control_binder.h>
 #include <zaf/control/rich_edit.h>
@@ -16,16 +18,24 @@ public:
 public:
     HistoryCommandView(utility::CommandLine command_line, std::unique_ptr<mod::Command> command);
 
+    zaf::Observable<std::shared_ptr<HistoryCommandView>> CloseEvent() {
+        return close_event_.GetObservable();
+    }
+
 protected:
     void AfterParse() override;
 
 private:
     ZAF_BIND_CONTROL(zaf::RichEdit, commandEdit);
     ZAF_BIND_CONTROL(zaf::Control, previewContainer);
+    ZAF_BIND_CONTROL(zaf::Control, toolBar);
+    ZAF_BIND_CONTROL(zaf::Button, closeButton);
 
 private:
     utility::CommandLine command_line_;
     std::unique_ptr<mod::Command> command_;
+
+    zaf::Event<std::shared_ptr<HistoryCommandView>> close_event_;
 };
 
 }
