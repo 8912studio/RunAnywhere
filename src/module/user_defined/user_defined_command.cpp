@@ -71,6 +71,7 @@ bool UserDefinedCommand::Interpret(
 std::shared_ptr<CommandPreviewControl> UserDefinedCommand::GetPreviewControl() {
 
     auto control = zaf::Create<UserDefinedCommandPreviewControl>();
+    control->SetCommandEntry(entry_);
     control->SetExecutInfo(ParseCommand());
     return control;
 }

@@ -1,8 +1,17 @@
-<UserDefinedCommandPreviewControl>
-    <UserDefinedCommandPreviewControl.Layouter>
-        <VerticalLayouter AxisAlignment="Center" />
-    </UserDefinedCommandPreviewControl.Layouter>
-    <Label Name="commandLabel" ParagraphAlignment="Center" />
-    <VerticalBox Name="argumentContainer" AutoHeight="true" />
-    <Label Name="workingDirectoryLabel" ParagraphAlignment="Center" TextColor="Gray" />
+<UserDefinedCommandPreviewControl Layouter="VerticalLayouter" AutoHeight="true">
+    <HorizontalBox CrossAxisAlignment="Center" AutoHeight="true">
+        <ImageBox FixedSize="20,20" URI="res:///resource/file.png" />
+        <Label 
+            Name="entryInfoLabel" 
+            FixedHeight="30" 
+            Margin="6,0,0,0"
+            ParagraphAlignment="Center" 
+            TextColor="#808080"
+            FontSize="14" />
+    </HorizontalBox>
+    <VerticalBox Name="commandContainer" AxisAlignment="Center">
+        <Label Name="commandLabel" ParagraphAlignment="Center" />
+        <VerticalBox Name="argumentContainer" AutoHeight="true" />
+        <Label Name="workingDirectoryLabel" ParagraphAlignment="Center" TextColor="Gray" />
+    </VerticalBox>
 </UserDefinedCommandPreviewControl>

@@ -1,14 +1,21 @@
 #include "module/user_defined/preview/user_defined_command_preview_control.h"
 #include <zaf/object/type_definition.h>
+#include "module/user_defined/bundle_definition.h"
 #include "utility/path_trimming.h"
 
 namespace ra::mod::user_defined {
 namespace {
 
-constexpr float LabelHeight = 22;
-constexpr float LabelFontSize = 14;
-constexpr float NormalStyleMinHeight = 90;
-constexpr float HistoricalStyleMinHeight = 28;
+constexpr float LabelHeight = 24;
+constexpr float LabelFontSize = 16;
+
+zaf::Frame NormalStyleCommandContainerMargin() {
+    return zaf::Frame{ 0, 8, 0, 12 };
+}
+
+zaf::Frame HistoricalStyleCommandContainerMargin() {
+    return zaf::Frame{};
+}
 
 }
 
@@ -36,6 +43,10 @@ void UserDefinedCommandPreviewControl::AfterParse() {
 
 void UserDefinedCommandPreviewControl::OnStyleChanged() {
 
+    auto update_guard = this->BeginUpdate();
+
+    entryInfoLabel->SetText(entry_->BundleMeta()->BundleID() + BundleFileExtension);
+
     commandLabel->SetText(execute_info_.command_line.command);
     BuildArgumentLabels(execute_info_.command_line.arguments);
 
@@ -47,7 +58,12 @@ void UserDefinedCommandPreviewControl::OnStyleChanged() {
         workingDirectoryLabel->SetIsVisible(false);
     }
 
-    ResetFixedHeight();
+    AdjustCommandContainerLayout();
+}
+
+
+void UserDefinedCommandPreviewControl::SetCommandEntry(const std::shared_ptr<Entry>& entry) {
+    entry_ = entry;
 }
 
 
@@ -78,11 +94,11 @@ void UserDefinedCommandPreviewControl::BuildArgumentLabels(
 }
 
 
-void UserDefinedCommandPreviewControl::ResetFixedHeight() {
+void UserDefinedCommandPreviewControl::AdjustCommandContainerLayout() {
 
     float height{};
 
-    for (const auto& each_child : Children()) {
+    for (const auto& each_child : commandContainer->Children()) {
 
         if (!each_child->IsVisible()) {
             continue;
@@ -91,16 +107,12 @@ void UserDefinedCommandPreviewControl::ResetFixedHeight() {
         height += each_child->Height() + each_child->Margin().Width();
     }
 
-    const float min_height =
-        Style() == PreviewStyle::Historical ?
-        HistoricalStyleMinHeight :
-        NormalStyleMinHeight;
+    commandContainer->SetFixedHeight(height);
 
-    if (height < min_height) {
-        height = min_height;
-    }
-
-    SetFixedHeight(height);
+    commandContainer->SetMargin(
+        Style() == PreviewStyle::Historical ? 
+        HistoricalStyleCommandContainerMargin() : 
+        NormalStyleCommandContainerMargin());
 }
 
 }
