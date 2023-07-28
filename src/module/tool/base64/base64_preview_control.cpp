@@ -202,18 +202,8 @@ std::wstring Base64PreviewControl::GetResultText() const {
 void Base64PreviewControl::OnStyleChanged() {
 
     textContent->ChangeStyle(Style());
+    binaryContent->ChangeStyle(Style());
     errorView->ChangeStyle(Style());
-
-    auto set_style = [this](auto metrics) {
-        binaryContent->SetLinesPerPage(metrics.BinaryLinesPerPage);
-    };
-
-    if (Style() == PreviewStyle::Historical) {
-        set_style(StyleMetrics<true>{});
-    }
-    else {
-        set_style(StyleMetrics<false>());
-    }
 }
 
 

@@ -43,23 +43,8 @@ void HexPreviewControl::AfterParse() {
 
 void HexPreviewControl::OnStyleChanged() {
 
+    binaryContent->ChangeStyle(Style());
     errorView->ChangeStyle(Style());
-    ChangeControlStyles();
-}
-
-
-void HexPreviewControl::ChangeControlStyles() {
-
-    auto set_style = [this](auto metrics) {
-        binaryContent->SetLinesPerPage(metrics.LinesPerPage);
-    };
-
-    if (Style() == PreviewStyle::Historical) {
-        set_style(StyleMetrics<true>{});
-    }
-    else {
-        set_style(StyleMetrics<false>{});
-    }
 }
 
 

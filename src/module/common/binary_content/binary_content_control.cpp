@@ -35,23 +35,38 @@ void BinaryContentControl::Paint(zaf::Canvas& canvas, const zaf::Rect& dirty_rec
 void BinaryContentControl::SetBinary(std::vector<std::byte> binary) {
 
     body->SetBinary(std::move(binary));
-    AdjustFixedHeight();
+    AdjustBodyHeight();
 }
 
 
-void BinaryContentControl::SetLinesPerPage(std::size_t lines) {
+void BinaryContentControl::ChangeStyle(PreviewStyle style) {
 
-    lines_per_page_ = lines;
-    AdjustFixedHeight();
+    style_ = style;
+    AdjustBodyHeight();
 }
 
 
-void BinaryContentControl::AdjustFixedHeight() {
+void BinaryContentControl::AdjustBodyHeight() {
 
-    auto body_size = body->CalculatePreferredSize();
+    const float min_height = [this]() {
+        if (style_ == PreviewStyle::Historical) {
+            return LineHeight;
+        }
+        else {
+            //LineHeight is the header.
+            return 90 - LineHeight;
+        }
+    }();
 
-    float scroll_height = std::max(body_size.height, 90.f - LineHeight);//LineHeight is the header.
-    scroll_height = std::min(scroll_height, LineHeight * lines_per_page_);
+    const float max_height = [this]() {
+        int lines_per_page = style_ == PreviewStyle::Historical ? 2 : 8;
+        return LineHeight * lines_per_page;
+    }();
+
+    float body_height = body->CalculatePreferredSize().height;
+
+    float scroll_height = std::max(body_height, min_height);
+    scroll_height = std::min(scroll_height, max_height);
     scrollControl->SetFixedHeight(scroll_height);
 }
 
