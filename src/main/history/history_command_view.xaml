@@ -21,7 +21,7 @@
             <ToolBarButton 
                 Name="closeButton"
                 ImageName="close" 
-                Tooltip="Remove the command from preservation (SHIFT+BACKSPACE)" />
+                Tooltip="Remove from preservation (SHIFT+BACKSPACE)" />
         </HorizontalBox>
     </HorizontalBox>
     <VerticalBox Name="previewContainer" AutoHeight="true" />

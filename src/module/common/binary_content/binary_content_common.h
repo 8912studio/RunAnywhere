@@ -42,7 +42,7 @@ inline constexpr float ByteCharacterAreaEndX() {
 
 
 inline zaf::Color HeaderBackgroundColor() {
-    return zaf::Color::FromRGB(0xF0F0F0);
+    return zaf::Color::Transparent();
 }
 
 

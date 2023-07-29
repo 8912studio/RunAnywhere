@@ -35,4 +35,20 @@
     </HorizontalBox>
 
     <PreviewView Name="previewView" IsVisible="false" />
+
+    <HorizontalBox
+        Name="toolbar" 
+        FixedHeight="24"
+        Padding="15,0,15,0"
+        AxisAlignment="End"
+        CrossAxisAlignment="Center"
+        BackgroundColor="#F5F5F5"
+        IsVisible="false">
+        
+        <ToolBarButton 
+            Name="preserveButton"
+            ImageName="preserve" 
+            Tooltip="Preserve current command (SHIFT+ENTER)" />
+        
+    </HorizontalBox>
 </MainWindow>

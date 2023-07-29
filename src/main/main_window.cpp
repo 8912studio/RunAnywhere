@@ -41,6 +41,7 @@ void MainWindow::AfterParse() {
 
     InitializeTextBox();
     InitializeHelpButton();
+    InitializeToolbar();
 }
 
 
@@ -57,6 +58,14 @@ void MainWindow::InitializeHelpButton() {
 
     Subscriptions() += helpButton->MouseUpEvent().Subscribe(
         std::bind(&MainWindow::OnHelpButtonClick, this));
+}
+
+
+void MainWindow::InitializeToolbar() {
+
+    Subscriptions() += preserveButton->ClickEvent().Subscribe(std::bind([this]() {
+        PreserveCurrentCommand();
+    }));
 }
 
 
@@ -152,6 +161,8 @@ void MainWindow::ShowCommandPreview() {
     
     previewView->SetPreviewControl(preview_control);
     previewView->SetIsVisible(true);
+
+    toolbar->SetIsVisible(true);
 }
 
 
@@ -159,6 +170,7 @@ void MainWindow::ShowEmptyPreview() {
 
     previewView->ClearPreviewControl();
     previewView->SetIsVisible(false);
+    toolbar->SetIsVisible(false);
 }
 
 
@@ -167,6 +179,10 @@ void MainWindow::UpdateWindowRect() {
     float main_height = initial_height_;
     if (previewView->IsVisible()) {
         main_height += previewView->GetExpectedHeight();
+    }
+
+    if (toolbar->IsVisible()) {
+        main_height += toolbar->Height();
     }
 
     float history_commands_view_height{};
@@ -438,6 +454,10 @@ std::optional<zaf::HitTestResult> MainWindow::HitTest(const zaf::HitTestMessage&
     }
 
     if (historyCommandsView->AbsoluteRect().Contain(mouse_position)) {
+        return std::nullopt;
+    }
+
+    if (toolbar->AbsoluteRect().Contain(mouse_position)) {
         return std::nullopt;
     }
 

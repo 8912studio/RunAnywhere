@@ -1,5 +1,6 @@
 #pragma once
 
+#include <zaf/control/button.h>
 #include <zaf/control/control_binder.h>
 #include <zaf/control/rich_edit.h>
 #include <zaf/window/message/activate_message.h>
@@ -34,6 +35,7 @@ protected:
 private:
     void InitializeTextBox();
     void InitializeHelpButton();
+    void InitializeToolbar();
 
     void OnCommandChanged();
     void UpdateCommandState();
@@ -60,6 +62,8 @@ private:
     ZAF_BIND_CONTROL(PreviewView, previewView);
     ZAF_BIND_CONTROL(zaf::Control, helpButton);
     ZAF_BIND_CONTROL(zaf::Control, historyCommandsView);
+    ZAF_BIND_CONTROL(zaf::Control, toolbar);
+    ZAF_BIND_CONTROL(zaf::Button, preserveButton);
 
     float initial_height_{};
 
