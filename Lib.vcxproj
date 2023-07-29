@@ -263,6 +263,7 @@
     <ClInclude Include="src\utility\text_utility.h" />
     <ClInclude Include="src\utility\thin_border_window.h" />
     <ClInclude Include="src\utility\thin_scroll_bar.h" />
+    <ClInclude Include="src\utility\tool_bar_button.h" />
     <ClInclude Include="third_party\everything\ipc\everything_ipc.h" />
   </ItemGroup>
   <ItemGroup>
@@ -394,6 +395,7 @@
     <ClCompile Include="src\utility\text_utility.cpp" />
     <ClCompile Include="src\utility\thin_border_window.cpp" />
     <ClCompile Include="src\utility\thin_scroll_bar.cpp" />
+    <ClCompile Include="src\utility\tool_bar_button.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="src\about_window.xaml" />

@@ -273,7 +273,7 @@ void MainWindow::ExecuteCommand() {
 }
 
 
-void MainWindow::AddCommandToHistoryView() {
+void MainWindow::PreserveCurrentCommand() {
 
     if (!current_command_) {
         return;
@@ -302,6 +302,17 @@ void MainWindow::AddCommandToHistoryView() {
     }
 
     inputEdit->SetText({});
+}
+
+
+void MainWindow::RemoveTheFirstPreservedCommand() {
+
+    if (historyCommandsView->ChildCount() == 0) {
+        return;
+    }
+
+    historyCommandsView->RemoveChildAtIndex(0);
+    UpdateWindowRect();
 }
 
 
@@ -355,12 +366,19 @@ bool MainWindow::HandleKeyDownMessage(const zaf::KeyMessage& message) {
 
     if (message.VirtualKey() == VK_RETURN) {
         if (GetKeyState(VK_SHIFT) >> 15) {
-            AddCommandToHistoryView();
+            PreserveCurrentCommand();
         }
         else {
             ExecuteCommand();
         }
         return true;
+    }
+
+    if (message.VirtualKey() == VK_BACK) {
+        if (GetKeyState(VK_SHIFT) >> 15) {
+            RemoveTheFirstPreservedCommand();
+            return true;
+        }
     }
 
     if (message.VirtualKey() == VK_OEM_2) {

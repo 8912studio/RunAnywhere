@@ -648,6 +648,9 @@
     <ClInclude Include="src\module\common\default_preview_control.h">
       <Filter>src\module\common</Filter>
     </ClInclude>
+    <ClInclude Include="src\utility\tool_bar_button.h">
+      <Filter>src\utility</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -1033,6 +1036,9 @@
     </ClCompile>
     <ClCompile Include="src\module\common\default_preview_control.cpp">
       <Filter>src\module\common</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\tool_bar_button.cpp">
+      <Filter>src\utility</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -48,7 +48,8 @@ private:
     help::content::Content GetHelpContent();
     void UpdateHelpWindowPosition();
     void ExecuteCommand();
-    void AddCommandToHistoryView();
+    void PreserveCurrentCommand();
+    void RemoveTheFirstPreservedCommand();
 
     std::optional<LRESULT> HandleMessage(const zaf::Message& message);
     bool HandleKeyDownMessage(const zaf::KeyMessage& message);
