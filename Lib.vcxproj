@@ -174,6 +174,7 @@
     <ClInclude Include="src\module\calculator\preview\calculator_preview_control.h" />
     <ClInclude Include="src\module\command.h" />
     <ClInclude Include="src\module\command_brief.h" />
+    <ClInclude Include="src\module\command_executor.h" />
     <ClInclude Include="src\module\command_preview_control.h" />
     <ClInclude Include="src\module\common\binary_content\binary_column_header.h" />
     <ClInclude Include="src\module\common\binary_content\binary_content_common.h" />
@@ -182,6 +183,7 @@
     <ClInclude Include="src\module\common\binary_content\byte_index.h" />
     <ClInclude Include="src\module\common\command_error_control.h" />
     <ClInclude Include="src\module\common\content_status_bar.h" />
+    <ClInclude Include="src\module\common\copy_executor.h" />
     <ClInclude Include="src\module\common\default_preview_control.h" />
     <ClInclude Include="src\module\common\error_messages.h" />
     <ClInclude Include="src\module\common\error_view.h" />
@@ -334,6 +336,7 @@
     <ClCompile Include="src\module\common\binary_content\binary_content_control.cpp" />
     <ClCompile Include="src\module\common\command_error_control.cpp" />
     <ClCompile Include="src\module\common\content_status_bar.cpp" />
+    <ClCompile Include="src\module\common\copy_executor.cpp" />
     <ClCompile Include="src\module\common\default_preview_control.cpp" />
     <ClCompile Include="src\module\common\error_view.cpp" />
     <ClCompile Include="src\module\common\text_content_control.cpp" />

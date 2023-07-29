@@ -13,17 +13,47 @@
 namespace ra::mod::user_defined {
 namespace {
 
+class UserDefinedCommandExecutor : public CommandExecutor {
+public:
+    explicit UserDefinedCommandExecutor(std::shared_ptr<Entry> entry, ExecuteInfo execute_info) :
+        entry_(std::move(entry)),
+        execute_info_(std::move(execute_info)) {
+
+    }
+
+    void Execute() override {
+
+        //Update current process' environment variables in order to inherit them in child process.
+        EnvironmentVariableManager::Instance().Update();
+
+        SHELLEXECUTEINFO shell_execute_info{};
+        shell_execute_info.cbSize = sizeof(shell_execute_info);
+        shell_execute_info.fMask = SEE_MASK_DOENVSUBST;
+        shell_execute_info.nShow = static_cast<int>(entry_->ShowWindowOption());
+        shell_execute_info.lpFile = execute_info_.command_line.command.c_str();
+
+        auto arguments = zaf::JoinAsWideString(execute_info_.command_line.arguments);
+        shell_execute_info.lpParameters = arguments.c_str();
+
+        if (!execute_info_.working_directory.empty()) {
+            shell_execute_info.lpDirectory = execute_info_.working_directory.c_str();
+        }
+
+        ShellExecuteEx(&shell_execute_info);
+    }
+
+private:
+    std::shared_ptr<Entry> entry_;
+    ExecuteInfo execute_info_;
+};
+
+
 context::ActivePath ModifyActivePath(
     const context::ActivePath& active_path,
     const std::wstring& modifier) {
 
     auto option = active_path::ParseActivePathOption(modifier.substr(1));
     return active_path::ModifyActivePathByOption(active_path, option);
-}
-
-
-std::wstring JoinArguments(const std::vector<std::wstring>& arguments) {
-    return zaf::JoinAsWideString(arguments);
 }
 
 }
@@ -77,30 +107,14 @@ std::shared_ptr<CommandPreviewControl> UserDefinedCommand::GetPreviewControl() {
 }
 
 
-void UserDefinedCommand::Execute() {
+std::shared_ptr<CommandExecutor> UserDefinedCommand::GetExecutor() {
 
     auto execute_info = ParseCommand();
     if (execute_info.command_line.command.empty()) {
-        return;
+        return nullptr;
     }
 
-    //Update current process' environment variables in order to inherit them in child process.
-    EnvironmentVariableManager::Instance().Update();
-
-    SHELLEXECUTEINFO shell_execute_info{};
-    shell_execute_info.cbSize = sizeof(shell_execute_info);
-    shell_execute_info.fMask = SEE_MASK_DOENVSUBST;
-    shell_execute_info.nShow = static_cast<int>(entry_->ShowWindowOption());
-    shell_execute_info.lpFile = execute_info.command_line.command.c_str();
-
-    auto arguments = JoinArguments(execute_info.command_line.arguments);
-    shell_execute_info.lpParameters = arguments.c_str();
-
-    if (!execute_info.working_directory.empty()) {
-        shell_execute_info.lpDirectory = execute_info.working_directory.c_str();
-    }
-
-    ShellExecuteEx(&shell_execute_info);
+    return std::make_shared<UserDefinedCommandExecutor>(entry_, std::move(execute_info));
 }
 
 

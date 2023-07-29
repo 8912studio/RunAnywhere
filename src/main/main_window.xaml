@@ -39,7 +39,7 @@
     <HorizontalBox
         Name="toolbar" 
         FixedHeight="24"
-        Padding="15,0,15,0"
+        Padding="15,0,10,0"
         AxisAlignment="End"
         CrossAxisAlignment="Center"
         BackgroundColor="#F5F5F5"

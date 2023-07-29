@@ -12,6 +12,7 @@
 #include "module_manager.h"
 #include "preview_view.h"
 #include "utility/thin_border_window.h"
+#include "utility/tool_bar_button.h"
 
 namespace ra {
 
@@ -42,6 +43,7 @@ private:
     void InterpretCommand();
     void ShowPreview();
     void ShowCommandPreview();
+    void UpdateExecuteButton();
     void ShowEmptyPreview();
     void UpdateWindowRect();
     void OnHelpButtonClick();
@@ -63,6 +65,7 @@ private:
     ZAF_BIND_CONTROL(zaf::Control, helpButton);
     ZAF_BIND_CONTROL(zaf::Control, historyCommandsView);
     ZAF_BIND_CONTROL(zaf::Control, toolbar);
+    ZAF_BIND_CONTROL(utility::ToolBarButton, executeButton);
     ZAF_BIND_CONTROL(zaf::Button, preserveButton);
 
     float initial_height_{};

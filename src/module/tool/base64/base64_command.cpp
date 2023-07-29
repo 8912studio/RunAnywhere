@@ -1,6 +1,6 @@
 #include "module/tool/base64/base64_command.h"
 #include <zaf/creation.h>
-#include "utility/clipboard.h"
+#include "module/common/copy_executor.h"
 
 namespace ra::mod::tool::base64 {
 
@@ -31,6 +31,10 @@ bool Base64Command::Interpret(
     auto parse_result = Parse(command_line);
     preview_control_ = zaf::Create<Base64PreviewControl>();
     preview_control_->ShowParseResult(parse_result);
+
+    auto text = preview_control_->GetResultText();
+    executor_ = CopyExecutor::TryCreate(std::move(text));
+
     return true;
 }
 
@@ -40,11 +44,8 @@ std::shared_ptr<CommandPreviewControl> Base64Command::GetPreviewControl() {
 }
 
 
-void Base64Command::Execute() {
-
-    if (preview_control_) {
-        utility::SetStringToClipboard(preview_control_->GetResultText());
-    }
+std::shared_ptr<CommandExecutor> Base64Command::GetExecutor() {
+    return executor_;
 }
 
 }

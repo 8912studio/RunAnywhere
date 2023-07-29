@@ -1,6 +1,6 @@
 #include "module/tool/md5/md5_command.h"
 #include <zaf/creation.h>
-#include "utility/clipboard.h"
+#include "module/common/copy_executor.h"
 
 namespace ra::mod::tool::md5 {
 
@@ -107,18 +107,13 @@ std::shared_ptr<CommandPreviewControl> MD5Command::GetPreviewControl() {
 }
 
 
-void MD5Command::Execute() {
+std::shared_ptr<CommandExecutor> MD5Command::GetExecutor() {
 
 	if (!preview_control_) {
-		return;
+		return nullptr;
 	}
 
-	auto text = preview_control_->GetText();
-	if (text.empty()) {
-		return;
-	}
-
-	utility::SetStringToClipboard(text);
+	return CopyExecutor::TryCreate(preview_control_->GetText());
 }
 
 }

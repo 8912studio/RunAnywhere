@@ -7,7 +7,7 @@
 #include "module/calculator/parse/decimal_number_parser.h"
 #include "module/calculator/parse/non_decimal_number_parser.h"
 #include "module/common/command_error_control.h"
-#include "utility/clipboard.h"
+#include "module/common/copy_executor.h"
 
 namespace ra::mod::tool::rgb {
 namespace {
@@ -400,11 +400,13 @@ std::shared_ptr<CommandPreviewControl> RGBCommand::GetPreviewControl() {
 }
 
 
-void RGBCommand::Execute() {
+std::shared_ptr<CommandExecutor> RGBCommand::GetExecutor() {
 
-    if (preview_control_) {
-        utility::SetStringToClipboard(preview_control_->GetText());
+    if (!preview_control_) {
+        return nullptr;
     }
+
+    return CopyExecutor::TryCreate(preview_control_->GetText());
 }
 
 }

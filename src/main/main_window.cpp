@@ -16,6 +16,7 @@
 #include "main/preview_control_creating.h"
 #include "module/active_path/active_path_module.h"
 #include "module/calculator/calculator_module.h"
+#include "module/common/copy_executor.h"
 #include "module/meta/meta_module.h"
 #include "module/user_defined/user_defined_module.h"
 #include "option_storage.h"
@@ -62,6 +63,10 @@ void MainWindow::InitializeHelpButton() {
 
 
 void MainWindow::InitializeToolbar() {
+    
+    Subscriptions() += executeButton->ClickEvent().Subscribe(std::bind([this]() {
+        ExecuteCommand();
+    }));
 
     Subscriptions() += preserveButton->ClickEvent().Subscribe(std::bind([this]() {
         PreserveCurrentCommand();
@@ -163,6 +168,29 @@ void MainWindow::ShowCommandPreview() {
     previewView->SetIsVisible(true);
 
     toolbar->SetIsVisible(true);
+
+    UpdateExecuteButton();
+}
+
+
+void MainWindow::UpdateExecuteButton() {
+
+    auto executor = current_command_->GetExecutor();
+    if (!executor) {
+        executeButton->SetIsVisible(false);
+        return;
+    }
+
+    if (zaf::As<mod::CopyExecutor>(executor)) {
+        executeButton->SetImageName(L"copy");
+        executeButton->SetTooltip(L"Copy result to clipboard (ENTER)");
+    }
+    else {
+        executeButton->SetImageName(L"execute");
+        executeButton->SetTooltip(L"Execute current command (ENTER)");
+    }
+
+    executeButton->SetIsVisible(true);
 }
 
 
@@ -279,7 +307,10 @@ void MainWindow::UpdateHelpWindowPosition() {
 void MainWindow::ExecuteCommand() {
 
     if (current_command_) {
-        current_command_->Execute();
+        auto executor = current_command_->GetExecutor();
+        if (executor) {
+            executor->Execute();
+        }
     }
 
     if (!OptionStorage::Instance().RememberLastCommand()) {

@@ -23,9 +23,7 @@ public:
         return command_info_.description;
     }
 
-    void Execute() override {
-        command_info_.handler();
-    }
+    std::shared_ptr<CommandExecutor> GetExecutor() override;
 
 private:
     MetaCommandInfo command_info_;

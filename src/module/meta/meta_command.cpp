@@ -2,6 +2,23 @@
 #include "module/meta/meta_command_prefix.h"
 
 namespace ra::mod::meta {
+namespace {
+
+class MetaCommandExecutor : public CommandExecutor {
+public:
+    explicit MetaCommandExecutor(std::function<void()> handler) : handler_(std::move(handler)) {
+
+    }
+
+    void Execute() {
+        handler_();
+    }
+
+private:
+    std::function<void()> handler_;
+};
+
+}
 
 CommandBrief MetaCommand::GetBrief() {
     return CommandBrief{ MetaCommandPrefix + command_info_.command, command_info_.description };
@@ -27,6 +44,11 @@ bool MetaCommand::Interpret(
         return false;
     }
     return true;
+}
+
+
+std::shared_ptr<CommandExecutor> MetaCommand::GetExecutor() {
+    return std::make_shared<MetaCommandExecutor>(command_info_.handler);
 }
 
 }

@@ -152,8 +152,9 @@ std::shared_ptr<CommandPreviewControl> HexCommand::GetPreviewControl() {
 }
 
 
-void HexCommand::Execute() {
-
+std::shared_ptr<CommandExecutor> HexCommand::GetExecutor() {
+    return nullptr;
 }
+
 
 }

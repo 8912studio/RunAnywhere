@@ -1,6 +1,6 @@
 #include "module/extension/extension_command.h"
 #include <zaf/creation.h>
-#include "utility/clipboard.h"
+#include "module/common/copy_executor.h"
 #include "module/extension/extension_command_preview_control.h"
 
 namespace ra::mod::extension {
@@ -47,9 +47,8 @@ std::shared_ptr<CommandPreviewControl> ExtensionCommand::GetPreviewControl() {
 }
 
 
-void ExtensionCommand::Execute() {
-
-    utility::SetStringToClipboard(GetPreviewText());
+std::shared_ptr<CommandExecutor> ExtensionCommand::GetExecutor() {
+    return CopyExecutor::TryCreate(GetPreviewText());
 }
 
 }

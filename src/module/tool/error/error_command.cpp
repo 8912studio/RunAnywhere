@@ -2,7 +2,7 @@
 #include <zaf/creation.h>
 #include "module/common/error_view.h"
 #include "module/common/command_error_control.h"
-#include "utility/clipboard.h"
+#include "module/common/copy_executor.h"
 #include "utility/general_number_interpreter.h"
 
 namespace ra::mod::tool::error {
@@ -97,16 +97,13 @@ std::shared_ptr<CommandPreviewControl> ErrorCommand::GetPreviewControl() {
 }
 
 
-void ErrorCommand::Execute() {
+std::shared_ptr<CommandExecutor> ErrorCommand::GetExecutor() {
 
-    std::wstring text;
-    if (preview_control_) {
-        text = preview_control_->GetText();
+    if (!preview_control_) {
+        return nullptr;
     }
 
-    if (!text.empty()) {
-        utility::SetStringToClipboard(text);
-    }
+    return CopyExecutor::TryCreate(preview_control_->GetText());
 }
 
 }

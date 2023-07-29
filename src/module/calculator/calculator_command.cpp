@@ -2,7 +2,7 @@
 #include <zaf/creation.h>
 #include "module/calculator/preview/calculator_preview_control.h"
 #include "module/calculator/result_text_builder.h"
-#include "utility/clipboard.h"
+#include "module/common/copy_executor.h"
 
 namespace ra::mod::calculator {
 
@@ -47,12 +47,10 @@ std::shared_ptr<CommandPreviewControl> CalculatorCommand::GetPreviewControl() {
 }
 
 
-void CalculatorCommand::Execute() {
+std::shared_ptr<CommandExecutor> CalculatorCommand::GetExecutor() {
 
     ResultTextBuilder text_builder(evaluate_result_, modifier_);
-    auto result_text = text_builder.Build();
-
-    utility::SetStringToClipboard(result_text.GetCompleteText());
+    return CopyExecutor::TryCreate(text_builder.Build().GetCompleteText());
 }
 
 }

@@ -1,6 +1,6 @@
 #include "module/active_path/active_path_command.h"
 #include "module/active_path/active_path_modifying.h"
-#include "utility/clipboard.h"
+#include "module/common/copy_executor.h"
 
 namespace ra::mod::active_path {
 
@@ -68,9 +68,8 @@ std::wstring ActivePathCommand::GetPreviewText() {
 }
 
 
-void ActivePathCommand::Execute() {
-
-	utility::SetStringToClipboard(GetPreviewText());
+std::shared_ptr<CommandExecutor> ActivePathCommand::GetExecutor() {
+	return CopyExecutor::TryCreate(GetPreviewText());
 }
 
 }

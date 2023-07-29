@@ -22,7 +22,7 @@ public:
         const context::DesktopContext& desktop_context,
         bool is_reusing) override;
     std::shared_ptr<CommandPreviewControl> GetPreviewControl() override;
-    void Execute() override;
+    std::shared_ptr<CommandExecutor> GetExecutor() override;
 
 private:
     std::optional<HexCommandParseResult> parse_result_;

@@ -5,6 +5,7 @@
 #include "context/desktop_context.h"
 #include "help/content/content.h"
 #include "module/command_brief.h"
+#include "module/command_executor.h"
 #include "module/command_preview_control.h"
 #include "utility/command_line.h"
 
@@ -56,7 +57,13 @@ public:
         return nullptr;
     }
 
-    virtual void Execute() = 0;
+    /**
+    Gets an executor to execute the command.
+
+    @return
+        Returns nullptr if the command cannot execute.
+    */
+    virtual std::shared_ptr<CommandExecutor> GetExecutor() = 0;
 };
 
 }

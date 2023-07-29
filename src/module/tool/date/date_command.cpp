@@ -2,7 +2,7 @@
 #include <zaf/base/string/to_numeric.h>
 #include <zaf/creation.h>
 #include "module/common/command_error_control.h"
-#include "utility/clipboard.h"
+#include "module/common/copy_executor.h"
 
 namespace ra::mod::tool::date { 
 namespace {
@@ -116,13 +116,13 @@ std::shared_ptr<CommandPreviewControl> DateCommand::GetPreviewControl() {
 }
 
 
-void DateCommand::Execute() {
+std::shared_ptr<CommandExecutor> DateCommand::GetExecutor() {
 
 	if (!preview_control_) {
-		return;
+		return nullptr;
 	}
 
-	utility::SetStringToClipboard(preview_control_->GetText());
+	return CopyExecutor::TryCreate(preview_control_->GetText());
 }
 
 }

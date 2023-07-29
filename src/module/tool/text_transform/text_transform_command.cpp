@@ -1,6 +1,6 @@
 #include "module/tool/text_transform/text_transform_command.h"
 #include <zaf/creation.h>
-#include "utility/clipboard.h"
+#include "module/common/copy_executor.h"
 
 namespace ra::mod::tool::text_transform {
 
@@ -41,6 +41,9 @@ bool TextTransformCommand::Interpret(
     }
 
     preview_control_->SetText(transformed_text_);
+
+    executor_ = CopyExecutor::TryCreate(transformed_text_);
+
     return true;
 }
 
@@ -50,8 +53,8 @@ std::shared_ptr<CommandPreviewControl> TextTransformCommand::GetPreviewControl()
 }
 
 
-void TextTransformCommand::Execute() {
-    utility::SetStringToClipboard(transformed_text_);
+std::shared_ptr<CommandExecutor> TextTransformCommand::GetExecutor() {
+    return executor_;
 }
 
 }
