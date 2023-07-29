@@ -44,9 +44,15 @@
         CrossAxisAlignment="Center"
         BackgroundColor="#F5F5F5"
         IsVisible="false">
-        
+
+        <ToolBarButton 
+            Name="executeButton"
+            ImageName="execute" 
+            Tooltip="Execute current command (ENTER)" />
+
         <ToolBarButton 
             Name="preserveButton"
+            Margin="8,0,0,0"
             ImageName="preserve" 
             Tooltip="Preserve current command (SHIFT+ENTER)" />
         
