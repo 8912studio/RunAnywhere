@@ -63,7 +63,7 @@ private:
     ZAF_BIND_CONTROL(CommandInputEdit, inputEdit);
     ZAF_BIND_CONTROL(PreviewView, previewView);
     ZAF_BIND_CONTROL(zaf::Control, helpButton);
-    ZAF_BIND_CONTROL(zaf::Control, historyCommandsView);
+    ZAF_BIND_CONTROL(zaf::Control, preservedCommandsView);
     ZAF_BIND_CONTROL(zaf::Control, toolbar);
     ZAF_BIND_CONTROL(utility::ToolBarButton, executeButton);
     ZAF_BIND_CONTROL(zaf::Button, preserveButton);

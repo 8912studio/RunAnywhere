@@ -8,7 +8,7 @@
     </MainWindow.RootControl>
 
     <VerticalBox 
-        Name="historyCommandsView"
+        Name="preservedCommandsView"
         AutoHeight="true" 
         BackgroundColor="#F5F5F5"
         IsVisible="false" />

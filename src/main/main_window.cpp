@@ -215,8 +215,8 @@ void MainWindow::UpdateWindowRect() {
     }
 
     float history_commands_view_height{};
-    if (historyCommandsView->IsVisible()) {
-        history_commands_view_height = historyCommandsView->Height();
+    if (preservedCommandsView->IsVisible()) {
+        history_commands_view_height = preservedCommandsView->Height();
     }
 
     auto window_rect = this->Rect();
@@ -334,19 +334,19 @@ void MainWindow::PreserveCurrentCommand() {
     Subscriptions() += history_command_view->CloseEvent().Subscribe(
         [this](const std::shared_ptr<HistoryCommandView>& view) {
     
-        historyCommandsView->RemoveChild(view);
+        preservedCommandsView->RemoveChild(view);
         UpdateWindowRect();
     });
 
     {
-        auto update_guard = historyCommandsView->BeginUpdate();
+        auto update_guard = preservedCommandsView->BeginUpdate();
 
-        if (historyCommandsView->ChildCount() >= 3) {
-            historyCommandsView->RemoveChildAtIndex(0);
+        if (preservedCommandsView->ChildCount() >= 3) {
+            preservedCommandsView->RemoveChildAtIndex(0);
         }
 
-        historyCommandsView->AddChild(history_command_view);
-        historyCommandsView->SetIsVisible(true);
+        preservedCommandsView->AddChild(history_command_view);
+        preservedCommandsView->SetIsVisible(true);
     }
 
     inputEdit->SetText({});
@@ -355,11 +355,11 @@ void MainWindow::PreserveCurrentCommand() {
 
 void MainWindow::RemoveTheFirstPreservedCommand() {
 
-    if (historyCommandsView->ChildCount() == 0) {
+    if (preservedCommandsView->ChildCount() == 0) {
         return;
     }
 
-    historyCommandsView->RemoveChildAtIndex(0);
+    preservedCommandsView->RemoveChildAtIndex(0);
     UpdateWindowRect();
 }
 
@@ -485,7 +485,7 @@ std::optional<zaf::HitTestResult> MainWindow::HitTest(const zaf::HitTestMessage&
         return std::nullopt;
     }
 
-    if (historyCommandsView->AbsoluteRect().Contain(mouse_position)) {
+    if (preservedCommandsView->AbsoluteRect().Contain(mouse_position)) {
         return std::nullopt;
     }
 
