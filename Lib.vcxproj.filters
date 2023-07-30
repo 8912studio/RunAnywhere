@@ -660,6 +660,9 @@
     <ClInclude Include="src\main\command_input_content.h">
       <Filter>src\main</Filter>
     </ClInclude>
+    <ClInclude Include="src\main\command_display_style.h">
+      <Filter>src\main</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">

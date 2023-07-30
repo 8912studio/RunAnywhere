@@ -26,7 +26,7 @@ void HistoryCommandView::AfterParse() {
     commandEdit->SetInputContent(command_input_content_);
 
     auto preview_control = CreateCommandPreviewControl(*command_);
-    preview_control->SetStyle(mod::CommandDisplayStyle::Preserved);
+    preview_control->SetStyle(CommandDisplayStyle::Preserved);
     preview_control->SetIsVisible(true);
 
     previewContainer->AddChild(preview_control);

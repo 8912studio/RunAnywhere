@@ -122,6 +122,7 @@
     <ClInclude Include="src\ipc.h" />
     <ClInclude Include="src\license_window.h" />
     <ClInclude Include="src\main\clipboard_data.h" />
+    <ClInclude Include="src\main\command_display_style.h" />
     <ClInclude Include="src\main\command_input_content.h" />
     <ClInclude Include="src\main\command_input_edit.h" />
     <ClInclude Include="src\main\history\history_command_view.h" />

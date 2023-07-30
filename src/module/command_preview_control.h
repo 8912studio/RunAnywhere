@@ -1,13 +1,9 @@
 #pragma once
 
 #include <zaf/control/control.h>
+#include "main/command_display_style.h"
 
 namespace ra::mod {
-
-enum class CommandDisplayStyle {
-    Normal,
-    Preserved,
-};
 
 class CommandPreviewControl : public zaf::Control {
 public:
