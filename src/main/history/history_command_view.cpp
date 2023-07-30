@@ -4,11 +4,11 @@
 
 namespace ra {
 
-ZAF_DEFINE_TYPE(HistoryCommandView)
+ZAF_DEFINE_TYPE(PreservedCommandView)
 ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///main/history/history_command_view.xaml")
 ZAF_DEFINE_TYPE_END;
 
-HistoryCommandView::HistoryCommandView(
+PreservedCommandView::PreservedCommandView(
     CommandInputContent command_input_content,
     std::unique_ptr<mod::Command> command)
     : 
@@ -19,7 +19,7 @@ HistoryCommandView::HistoryCommandView(
 }
 
 
-void HistoryCommandView::AfterParse() {
+void PreservedCommandView::AfterParse() {
 
     __super::AfterParse();
 
@@ -43,7 +43,7 @@ void HistoryCommandView::AfterParse() {
     }));
 
     Subscriptions() += closeButton->ClickEvent().Subscribe(std::bind([this]() {
-        close_event_.Raise(zaf::As<HistoryCommandView>(shared_from_this()));
+        close_event_.Raise(zaf::As<PreservedCommandView>(shared_from_this()));
     }));
 }
 

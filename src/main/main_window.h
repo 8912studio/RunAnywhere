@@ -74,7 +74,7 @@ private:
 
     context::DesktopContext desktop_context_;
     std::unique_ptr<mod::Command> current_command_;
-    float last_history_commands_view_height_{};
+    float last_preserved_commands_view_height_{};
 
     bool show_help_window_{};
     std::shared_ptr<help::HelpWindow> help_window_;

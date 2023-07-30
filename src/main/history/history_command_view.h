@@ -13,16 +13,16 @@
 
 namespace ra {
 
-class HistoryCommandView : public zaf::Control {
+class PreservedCommandView : public zaf::Control {
 public:
     ZAF_DECLARE_TYPE;
 
 public:
-    HistoryCommandView(
+    PreservedCommandView(
         CommandInputContent command_input_content,
         std::unique_ptr<mod::Command> command);
 
-    zaf::Observable<std::shared_ptr<HistoryCommandView>> CloseEvent() {
+    zaf::Observable<std::shared_ptr<PreservedCommandView>> CloseEvent() {
         return close_event_.GetObservable();
     }
 
@@ -39,7 +39,7 @@ private:
     CommandInputContent command_input_content_;
     std::unique_ptr<mod::Command> command_;
 
-    zaf::Event<std::shared_ptr<HistoryCommandView>> close_event_;
+    zaf::Event<std::shared_ptr<PreservedCommandView>> close_event_;
 };
 
 }

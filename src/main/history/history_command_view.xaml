@@ -1,4 +1,4 @@
-<HistoryCommandView 
+<PreservedCommandView 
     Layouter="VerticalLayouter" 
     AutoHeight="true"
     Padding="0,0,0,6">
@@ -25,4 +25,4 @@
         </HorizontalBox>
     </HorizontalBox>
     <VerticalBox Name="previewContainer" AutoHeight="true" />
-</HistoryCommandView>
+</PreservedCommandView>

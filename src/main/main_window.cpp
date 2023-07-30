@@ -214,18 +214,18 @@ void MainWindow::UpdateWindowRect() {
         main_height += toolbar->Height();
     }
 
-    float history_commands_view_height{};
+    float preserved_commands_view_height{};
     if (preservedCommandsView->IsVisible()) {
-        history_commands_view_height = preservedCommandsView->Height();
+        preserved_commands_view_height = preservedCommandsView->Height();
     }
 
     auto window_rect = this->Rect();
-    float main_y = window_rect.position.y + last_history_commands_view_height_;
-    window_rect.position.y = main_y - history_commands_view_height;
-    window_rect.size.height = main_height + history_commands_view_height;
+    float main_y = window_rect.position.y + last_preserved_commands_view_height_;
+    window_rect.position.y = main_y - preserved_commands_view_height;
+    window_rect.size.height = main_height + preserved_commands_view_height;
     this->SetRect(window_rect);
 
-    last_history_commands_view_height_ = history_commands_view_height;
+    last_preserved_commands_view_height_ = preserved_commands_view_height;
 }
 
 
@@ -327,12 +327,12 @@ void MainWindow::PreserveCurrentCommand() {
         return;
     }
 
-    auto history_command_view = zaf::Create<HistoryCommandView>(
+    auto preserved_command_view = zaf::Create<PreservedCommandView>(
         inputEdit->GetInputContent(),
         std::move(current_command_));
 
-    Subscriptions() += history_command_view->CloseEvent().Subscribe(
-        [this](const std::shared_ptr<HistoryCommandView>& view) {
+    Subscriptions() += preserved_command_view->CloseEvent().Subscribe(
+        [this](const std::shared_ptr<PreservedCommandView>& view) {
     
         preservedCommandsView->RemoveChild(view);
         UpdateWindowRect();
@@ -345,7 +345,7 @@ void MainWindow::PreserveCurrentCommand() {
             preservedCommandsView->RemoveChildAtIndex(0);
         }
 
-        preservedCommandsView->AddChild(history_command_view);
+        preservedCommandsView->AddChild(preserved_command_view);
         preservedCommandsView->SetIsVisible(true);
     }
 
