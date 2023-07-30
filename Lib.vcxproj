@@ -125,9 +125,9 @@
     <ClInclude Include="src\main\command_display_style.h" />
     <ClInclude Include="src\main\command_input_content.h" />
     <ClInclude Include="src\main\command_input_edit.h" />
-    <ClInclude Include="src\main\history\history_command_view.h" />
     <ClInclude Include="src\main\line_break_option.h" />
     <ClInclude Include="src\main\main_window.h" />
+    <ClInclude Include="src\main\preserve\preserved_command_view.h" />
     <ClInclude Include="src\main\preview_control_creating.h" />
     <ClInclude Include="src\main\text_block_data.h" />
     <ClInclude Include="src\main\text_block_object.h" />
@@ -294,9 +294,9 @@
     <ClCompile Include="src\license_window.cpp" />
     <ClCompile Include="src\main\command_input_content.cpp" />
     <ClCompile Include="src\main\command_input_edit.cpp" />
-    <ClCompile Include="src\main\history\history_command_view.cpp" />
     <ClCompile Include="src\main\line_break_option.cpp" />
     <ClCompile Include="src\main\main_window.cpp" />
+    <ClCompile Include="src\main\preserve\preserved_command_view.cpp" />
     <ClCompile Include="src\main\preview_control_creating.cpp" />
     <ClCompile Include="src\main\text_block_object.cpp" />
     <ClCompile Include="src\main\text_block_window.cpp" />
@@ -407,8 +407,8 @@
     <Page Include="src\about_window.xaml" />
     <Page Include="src\help\help_window.xaml" />
     <Page Include="src\license_window.xaml" />
-    <Page Include="src\main\history\history_command_view.xaml" />
     <Page Include="src\main\main_window.xaml" />
+    <Page Include="src\main\preserve\preserved_command_view.xaml" />
     <Page Include="src\main\text_block_window.xaml" />
     <Page Include="src\module\calculator\preview\calculator_preview_control.xaml" />
     <Page Include="src\module\common\binary_content\binary_content_control.xaml" />

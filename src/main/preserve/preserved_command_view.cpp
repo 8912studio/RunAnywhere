@@ -1,11 +1,11 @@
-#include <main/history/history_command_view.h>
+#include "main/preserve/preserved_command_view.h"
 #include <zaf/object/type_definition.h>
 #include "main/preview_control_creating.h"
 
 namespace ra {
 
 ZAF_DEFINE_TYPE(PreservedCommandView)
-ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///main/history/history_command_view.xaml")
+ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///main/preserve/preserved_command_view.xaml")
 ZAF_DEFINE_TYPE_END;
 
 PreservedCommandView::PreservedCommandView(

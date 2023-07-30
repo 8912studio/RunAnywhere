@@ -6,7 +6,7 @@
     <HorizontalBox Padding="15,0,10,0" AutoHeight="true" CrossAxisAlignment="Center">
         <Control 
             FixedSize="8,16"
-            BackgroundImage="res:///resource/history_command.png"
+            BackgroundImage="res:///resource/preserved_command.png"
             BackgroundImageLayout="Stretch" />
         <CommandInputEdit 
             Name="commandEdit" 
