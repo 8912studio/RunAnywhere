@@ -110,7 +110,7 @@ void UserDefinedCommandPreviewControl::AdjustCommandContainerLayout() {
     commandContainer->SetFixedHeight(height);
 
     commandContainer->SetMargin(
-        Style() == PreviewStyle::Historical ? 
+        Style() == CommandDisplayStyle::Preserved ? 
         HistoricalStyleCommandContainerMargin() : 
         NormalStyleCommandContainerMargin());
 }

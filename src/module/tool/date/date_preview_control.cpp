@@ -50,7 +50,7 @@ void DatePreviewControl::OnStyleChanged() {
 	textBox->Display(Style());
 
 	this->SetFixedHeight(
-		Style() == PreviewStyle::Historical ?
+		Style() == CommandDisplayStyle::Preserved ?
 		HistoricalStyleHeight : 
 		NormalStyleHeight);
 }

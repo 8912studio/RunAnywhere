@@ -57,14 +57,14 @@ std::wstring TextContentControl::GetText() const {
 }
 
 
-void TextContentControl::ChangeStyle(PreviewStyle style) {
+void TextContentControl::ChangeStyle(CommandDisplayStyle style) {
 
     style_ = style;
 
     auto update_guard = this->BeginUpdate();
 
     this->SetPadding(
-        style_ == PreviewStyle::Historical ? HistoricalStylePadding() : NormalStylePadding());
+        style_ == CommandDisplayStyle::Preserved ? HistoricalStylePadding() : NormalStylePadding());
 
     AdjustLayout();
 }
@@ -88,7 +88,7 @@ void TextContentControl::AdjustLayout() {
     auto layout_info = AdjustTextLayout();
 
     float control_height = layout_info.required_height;
-    if (style_ == PreviewStyle::Historical && !layout_info.need_horizontal_scroll) {
+    if (style_ == CommandDisplayStyle::Preserved && !layout_info.need_horizontal_scroll) {
         scrollControl->SetAllowHorizontalScroll(false);
     }
     else {
@@ -103,7 +103,7 @@ void TextContentControl::AdjustLayout() {
 
 TextContentControl::LayoutInfo TextContentControl::AdjustTextLayout() {
 
-    if (!has_line_break_ && (style_ != PreviewStyle::Historical)) {
+    if (!has_line_break_ && (style_ != CommandDisplayStyle::Preserved)) {
 
         //Try to use single line mode if there is no line break in text.
         if (TryToAdjustForSingleLineText()) {
@@ -174,7 +174,7 @@ TextContentControl::LayoutInfo TextContentControl::AdjustForMultiLineText() {
     zaf::Size text_boundary_size{ GetTextLayoutWidth(), GetMinTextHeight() };
     auto text_preferred_size = textBox->CalculatePreferredSize(text_boundary_size);
     auto max_show_line_count = 
-        style_ == PreviewStyle::Historical ?
+        style_ == CommandDisplayStyle::Preserved ?
         HistoricalStyleMaxShowLineCount :
         NormalStyleMaxShowLineCount;
 
@@ -193,7 +193,7 @@ TextContentControl::LayoutInfo TextContentControl::AdjustForMultiLineText() {
 
 float TextContentControl::GetMinTextHeight() const {
 
-    return style_ == PreviewStyle::Historical ?
+    return style_ == CommandDisplayStyle::Preserved ?
         HistoricalStyleMinTextLayoutHeight :
         NormalStyleMinTextLayoutHeight;
 }

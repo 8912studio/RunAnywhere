@@ -24,9 +24,9 @@ void PreviewTextBox::AfterParse() {
 }
 
 
-void PreviewTextBox::Display(mod::PreviewStyle style) {
+void PreviewTextBox::Display(mod::CommandDisplayStyle style) {
 
-	if (style == mod::PreviewStyle::Historical) {
+	if (style == mod::CommandDisplayStyle::Preserved) {
 		this->SetTextAlignment(zaf::TextAlignment::Left);
 		this->SetFontSize(16);
 	}

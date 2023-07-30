@@ -2,7 +2,7 @@
 
 namespace ra::mod {
 
-void CommandPreviewControl::SetStyle(PreviewStyle style) {
+void CommandPreviewControl::SetStyle(CommandDisplayStyle style) {
     style_ = style;
     OnStyleChanged();
 }

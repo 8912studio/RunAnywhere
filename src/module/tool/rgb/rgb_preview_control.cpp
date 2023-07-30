@@ -82,7 +82,7 @@ void RGBPreviewControl::OnStyleChanged() {
         this->SetFixedHeight(metrics.FixedHeight);
     };
 
-    if (Style() == PreviewStyle::Historical) {
+    if (Style() == CommandDisplayStyle::Preserved) {
         set_style(StyleMetrics<true>{});
     }
     else {

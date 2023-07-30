@@ -23,7 +23,7 @@ public:
     void SetText(const std::wstring& text);
     std::wstring GetText() const;
 
-    void ChangeStyle(PreviewStyle style);
+    void ChangeStyle(CommandDisplayStyle style);
 
 protected:
     void Layout(const zaf::Rect&) override;
@@ -53,7 +53,7 @@ private:
     ZAF_BIND_CONTROL(zaf::ScrollableControl, scrollControl);
     ZAF_BIND_CONTROL(zaf::TextBox, textBox);
 
-    PreviewStyle style_{ PreviewStyle::Normal };
+    CommandDisplayStyle style_{ CommandDisplayStyle::Normal };
     TextDisplayMode display_mode_;
     bool has_line_break_{};
 };

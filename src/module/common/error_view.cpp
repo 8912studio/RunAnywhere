@@ -54,7 +54,7 @@ void ErrorView::ShowText(const std::wstring& text, bool is_error) {
 }
 
 
-void ErrorView::ChangeStyle(PreviewStyle style) {
+void ErrorView::ChangeStyle(CommandDisplayStyle style) {
 
     auto set_style = [this](auto metrics) {
     
@@ -67,7 +67,7 @@ void ErrorView::ChangeStyle(PreviewStyle style) {
         this->SetFixedHeight(metrics.Height);
     };
 
-    if (style == PreviewStyle::Historical) {
+    if (style == CommandDisplayStyle::Preserved) {
         set_style(StyleMetrics<true>{});
     }
     else {

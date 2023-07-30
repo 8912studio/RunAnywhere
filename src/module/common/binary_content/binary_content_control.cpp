@@ -39,7 +39,7 @@ void BinaryContentControl::SetBinary(std::vector<std::byte> binary) {
 }
 
 
-void BinaryContentControl::ChangeStyle(PreviewStyle style) {
+void BinaryContentControl::ChangeStyle(CommandDisplayStyle style) {
 
     style_ = style;
     AdjustBodyHeight();
@@ -49,7 +49,7 @@ void BinaryContentControl::ChangeStyle(PreviewStyle style) {
 void BinaryContentControl::AdjustBodyHeight() {
 
     const float min_height = [this]() {
-        if (style_ == PreviewStyle::Historical) {
+        if (style_ == CommandDisplayStyle::Preserved) {
             return LineHeight;
         }
         else {
@@ -59,7 +59,7 @@ void BinaryContentControl::AdjustBodyHeight() {
     }();
 
     const float max_height = [this]() {
-        int lines_per_page = style_ == PreviewStyle::Historical ? 2 : 8;
+        int lines_per_page = style_ == CommandDisplayStyle::Preserved ? 2 : 8;
         return LineHeight * lines_per_page;
     }();
 

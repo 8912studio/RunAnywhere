@@ -16,7 +16,7 @@ public:
     void ShowErrorText(const std::wstring& text);
     void ShowHintText(const std::wstring& text);
 
-    void ChangeStyle(PreviewStyle style);
+    void ChangeStyle(CommandDisplayStyle style);
 
 private:
     void ShowText(const std::wstring& text, bool is_error);

@@ -162,7 +162,7 @@ void MainWindow::ShowPreview() {
 void MainWindow::ShowCommandPreview() {
 
     auto preview_control = CreateCommandPreviewControl(*current_command_);
-    preview_control->SetStyle(mod::PreviewStyle::Normal);
+    preview_control->SetStyle(mod::CommandDisplayStyle::Normal);
     
     previewView->SetPreviewControl(preview_control);
     previewView->SetIsVisible(true);

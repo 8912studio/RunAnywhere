@@ -16,7 +16,7 @@ public:
 
 public:
     void SetBinary(std::vector<std::byte> binary);
-    void ChangeStyle(PreviewStyle style);
+    void ChangeStyle(CommandDisplayStyle style);
 
 protected:
     void AfterParse() override;
@@ -29,7 +29,7 @@ private:
     ZAF_BIND_CONTROL(zaf::ScrollableControl, scrollControl);
     ZAF_BIND_CONTROL(BinaryColumnBody, body);
 
-    PreviewStyle style_{ PreviewStyle::Normal };
+    CommandDisplayStyle style_{ CommandDisplayStyle::Normal };
 };
 
 }

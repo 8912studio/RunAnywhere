@@ -21,7 +21,7 @@ ZAF_DEFINE_TYPE_END
 
 void CalculatorPreviewControl::OnStyleChanged() {
 
-	if (Style() == PreviewStyle::Historical) {
+	if (Style() == CommandDisplayStyle::Preserved) {
 		this->SetFixedHeight(HistoricalStyleFixedHeight);
 	}
 	else {
@@ -51,7 +51,7 @@ void CalculatorPreviewControl::ResizetLabelToSuitableSize() {
 	}
 
 	const float default_font_size =
-		Style() == PreviewStyle::Historical ?
+		Style() == CommandDisplayStyle::Preserved ?
 		HistoricalStyleDefaultFontSize :
 		NormalStyleDefaultFontSize;
 
@@ -84,7 +84,7 @@ void CalculatorPreviewControl::RePositionLabel() {
 	zaf::Point result_label_position;
 	result_label_position.y = (content_size.height - result_label_size.height) / 2;
 
-	if (Style() == PreviewStyle::Historical) {
+	if (Style() == CommandDisplayStyle::Preserved) {
 		result_label_position.x = 0;
 	}
 	else {

@@ -14,7 +14,7 @@ class PreviewTextBox : public zaf::RichEdit {
 public:
 	ZAF_DECLARE_TYPE;
 
-	void Display(mod::PreviewStyle style);
+	void Display(mod::CommandDisplayStyle style);
 
 protected:
 	void AfterParse() override;

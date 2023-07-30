@@ -4,18 +4,18 @@
 
 namespace ra::mod {
 
-enum class PreviewStyle {
+enum class CommandDisplayStyle {
     Normal,
-    Historical,
+    Preserved,
 };
 
 class CommandPreviewControl : public zaf::Control {
 public:
-    PreviewStyle Style() const {
+    CommandDisplayStyle Style() const {
         return style_;
     }
 
-    void SetStyle(PreviewStyle style);
+    void SetStyle(CommandDisplayStyle style);
 
     virtual zaf::Frame GetExpectedMargin();
 
@@ -23,7 +23,7 @@ protected:
     virtual void OnStyleChanged();
 
 private:
-    PreviewStyle style_{ PreviewStyle::Normal };
+    CommandDisplayStyle style_{ CommandDisplayStyle::Normal };
 };
 
 }

@@ -63,7 +63,7 @@ void MD5PreviewControl::AdjustControlStyles() {
 		this->SetFixedHeight(metrics.FixedHeight);
 	};
 
-	if (Style() == PreviewStyle::Historical) {
+	if (Style() == CommandDisplayStyle::Preserved) {
 		set_style(StyleMetrics<true>{});
 	}
 	else {

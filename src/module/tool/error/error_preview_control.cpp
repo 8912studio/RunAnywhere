@@ -145,7 +145,7 @@ void ErrorPreviewControl::AdjustErrorMessageToFitContentSize(bool& is_multiline)
 
 bool ErrorPreviewControl::AdjustErrorMessageInSingleLine(float content_width) {
 
-    const float max_font_size = Style() == PreviewStyle::Historical ? MinFontSize : MaxFontSize;
+    const float max_font_size = Style() == CommandDisplayStyle::Preserved ? MinFontSize : MaxFontSize;
 
     bool has_fit{};
     float new_font_size{};
@@ -203,7 +203,7 @@ void ErrorPreviewControl::ChangeLayoutByStyle() {
         }
     };
 
-    if (Style() == PreviewStyle::Historical) {
+    if (Style() == CommandDisplayStyle::Preserved) {
         set_style(StyleMetrics<true>{});
     }
     else {
