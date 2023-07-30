@@ -8,7 +8,7 @@
             FixedSize="8,16"
             BackgroundImage="res:///resource/history_command.png"
             BackgroundImageLayout="Stretch" />
-        <RichEdit 
+        <CommandInputEdit 
             Name="commandEdit" 
             FixedHeight="24"
             Margin="8,0,0,0"

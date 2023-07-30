@@ -4,6 +4,7 @@
 #include <zaf/control/rich_edit.h>
 #include <zaf/control/rich_edit/ole_callback.h>
 #include <zaf/rx/subject.h>
+#include "main/command_input_content.h"
 #include "main/text_block_object.h"
 #include "utility/command_line.h"
 
@@ -14,6 +15,9 @@ public:
     ZAF_DECLARE_TYPE;
 
     utility::CommandLine GetInputCommandLine();
+
+    CommandInputContent GetInputContent();
+    void SetInputContent(const CommandInputContent& content);
 
     //Use this event to observe input command changed event, rather than TextChangedEvent.
     zaf::Observable<zaf::None> CommandChangedEvent();

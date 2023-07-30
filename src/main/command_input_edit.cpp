@@ -43,6 +43,37 @@ utility::CommandLine CommandInputEdit::GetInputCommandLine() {
 }
 
 
+CommandInputContent CommandInputEdit::GetInputContent() {
+    return CommandInputContent::FromRichEdit(*this);
+}
+
+
+void CommandInputEdit::SetInputContent(const CommandInputContent& content) {
+
+    this->SetText({});
+
+    content.Visit(
+        [this](const std::variant<std::wstring_view, zaf::rich_edit::ObjectInfo>& variant) {
+    
+        auto string = std::get_if<std::wstring_view>(&variant);
+        if (string) {
+            this->InsertText(std::wstring{ *string });
+        }
+
+        auto object_info = std::get_if<zaf::rich_edit::ObjectInfo>(&variant);
+        if (object_info) {
+
+            auto embedded_object = zaf::rich_edit::EmbeddedObject::TryFromCOMPtr(
+                object_info->Object());
+
+            if (embedded_object) {
+                this->InsertObject(embedded_object);
+            }
+        }
+    });
+}
+
+
 zaf::Observable<zaf::None> CommandInputEdit::CommandChangedEvent() {
     return command_changed_event_.GetObservable();
 }

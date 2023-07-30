@@ -327,7 +327,7 @@ void MainWindow::PreserveCurrentCommand() {
     }
 
     auto history_command_view = zaf::Create<HistoryCommandView>(
-        inputEdit->GetInputCommandLine(),
+        inputEdit->GetInputContent(),
         std::move(current_command_));
 
     Subscriptions() += history_command_view->CloseEvent().Subscribe(

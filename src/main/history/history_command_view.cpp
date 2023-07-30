@@ -9,10 +9,10 @@ ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///main/history/history_command_view.xaml")
 ZAF_DEFINE_TYPE_END;
 
 HistoryCommandView::HistoryCommandView(
-    utility::CommandLine command_line, 
+    CommandInputContent command_input_content,
     std::unique_ptr<mod::Command> command)
     : 
-    command_line_(std::move(command_line)),
+    command_input_content_(std::move(command_input_content)),
     command_(std::move(command)) {
 
     ZAF_EXPECT(command_);
@@ -23,7 +23,7 @@ void HistoryCommandView::AfterParse() {
 
     __super::AfterParse();
 
-    commandEdit->SetText(command_line_.RawText());
+    commandEdit->SetInputContent(command_input_content_);
 
     auto preview_control = CreateCommandPreviewControl(*command_);
     preview_control->SetStyle(mod::PreviewStyle::Historical);

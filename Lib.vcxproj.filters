@@ -657,6 +657,9 @@
     <ClInclude Include="src\module\common\copy_executor.h">
       <Filter>src\module\common</Filter>
     </ClInclude>
+    <ClInclude Include="src\main\command_input_content.h">
+      <Filter>src\main</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -1048,6 +1051,9 @@
     </ClCompile>
     <ClCompile Include="src\module\common\copy_executor.cpp">
       <Filter>src\module\common</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main\command_input_content.cpp">
+      <Filter>src\main</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

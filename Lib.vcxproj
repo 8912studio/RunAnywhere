@@ -122,6 +122,7 @@
     <ClInclude Include="src\ipc.h" />
     <ClInclude Include="src\license_window.h" />
     <ClInclude Include="src\main\clipboard_data.h" />
+    <ClInclude Include="src\main\command_input_content.h" />
     <ClInclude Include="src\main\command_input_edit.h" />
     <ClInclude Include="src\main\history\history_command_view.h" />
     <ClInclude Include="src\main\line_break_option.h" />
@@ -290,6 +291,7 @@
     <ClCompile Include="src\hot_key_manager.cpp" />
     <ClCompile Include="src\hot_key_utility.cpp" />
     <ClCompile Include="src\license_window.cpp" />
+    <ClCompile Include="src\main\command_input_content.cpp" />
     <ClCompile Include="src\main\command_input_edit.cpp" />
     <ClCompile Include="src\main\history\history_command_view.cpp" />
     <ClCompile Include="src\main\line_break_option.cpp" />
