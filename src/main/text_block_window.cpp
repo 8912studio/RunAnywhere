@@ -46,6 +46,16 @@ void TextBlockWindow::SetObjectPositionInScreen(const zaf::Point& position) {
 }
 
 
+void TextBlockWindow::SetIsReadOnly(bool read_only) {
+
+    textEdit->SetIsReadOnly(read_only);
+    scrollableControl->SetBackgroundColor(
+        read_only ? zaf::Color::FromRGB(0xF5F5F5) : zaf::Color::White());
+
+    lineBreakOptions->SetIsEnabled(!read_only);
+}
+
+
 std::wstring TextBlockWindow::GetText() const {
 
     auto result = textEdit->GetText(

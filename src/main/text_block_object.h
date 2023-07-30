@@ -5,6 +5,7 @@
 #include <zaf/rx/subject.h>
 #include <zaf/rx/subscription_host.h>
 #include <zaf/window/window.h>
+#include "main/command_display_style.h"
 #include "main/text_block_data.h"
 #include "main/text_block_window.h"
 
@@ -22,6 +23,8 @@ public:
     const std::wstring& Text() const {
         return data_->Text();
     }
+
+    void SetStyle(CommandDisplayStyle style);
 
     void OpenWindow();
 
@@ -46,6 +49,7 @@ private:
     void OnWindowDestroyed();
 
 private:
+    CommandDisplayStyle style_{ CommandDisplayStyle::Normal };
     std::shared_ptr<TextBlockData> data_;
     zaf::Subject<zaf::None> text_changed_event_;
 };

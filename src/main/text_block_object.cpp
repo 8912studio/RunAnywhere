@@ -12,7 +12,7 @@ namespace ra {
 
 TextBlockObject::TextBlockObject(std::shared_ptr<TextBlockData> data) : data_(std::move(data)) {
 
-    this->SetSize(zaf::Size{ 60, 28 });
+    SetStyle(CommandDisplayStyle::Normal);
 }
 
 
@@ -24,6 +24,15 @@ TextBlockObject::TextBlockObject(std::wstring text) :
 
 GUID TextBlockObject::ClassID() const {
     return { 0xb472b6af, 0xe996, 0x4120, { 0xab, 0xc8, 0x97, 0xa8, 0xf8, 0x65, 0x3d, 0x3b } };
+}
+
+
+void TextBlockObject::SetStyle(CommandDisplayStyle style) {
+
+    style_ = style;
+
+    this->SetSize(
+        style_ == CommandDisplayStyle::Preserved ? zaf::Size{ 48, 18 } : zaf::Size{ 60, 28 });
 }
 
 
@@ -52,7 +61,7 @@ void TextBlockObject::Paint(
 void TextBlockObject::PaintText(zaf::Canvas& canvas, const zaf::Rect& text_rect) {
 
     zaf::TextFormatProperties text_format_properties;
-    text_format_properties.font_size = 16;
+    text_format_properties.font_size = style_ == CommandDisplayStyle::Preserved ? 12.f : 16.f;
     auto text_format = zaf::GraphicFactory::Instance().CreateTextFormat(text_format_properties);
 
     zaf::TextTrimming text_trimming;
@@ -119,6 +128,7 @@ bool TextBlockObject::InnerOpenWindow(const zaf::Point& object_position_in_scree
     window->SetInitialRectStyle(zaf::InitialRectStyle::Custom);
 
     window->SetObjectPositionInScreen(object_position_in_screen);
+    window->SetIsReadOnly(style_ != CommandDisplayStyle::Normal);
     window->SetText(Text());
 
     Subscriptions() += window->TextChangedEvent().Subscribe(

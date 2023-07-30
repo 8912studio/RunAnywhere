@@ -20,6 +20,8 @@ public:
 
     void SetObjectPositionInScreen(const zaf::Point& position);
 
+    void SetIsReadOnly(bool read_only);
+
     std::wstring GetText() const;
     void SetText(const std::wstring& text);
 

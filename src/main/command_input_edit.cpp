@@ -21,6 +21,11 @@ void CommandInputEdit::Initialize() {
 }
 
 
+void CommandInputEdit::SetStyle(CommandDisplayStyle style) {
+    style_ = style;
+}
+
+
 utility::CommandLine CommandInputEdit::GetInputCommandLine() {
 
     auto ole_interface = this->GetOLEInterface();
@@ -63,11 +68,11 @@ void CommandInputEdit::SetInputContent(const CommandInputContent& content) {
         auto object_info = std::get_if<zaf::rich_edit::ObjectInfo>(&variant);
         if (object_info) {
 
-            auto embedded_object = zaf::rich_edit::EmbeddedObject::TryFromCOMPtr(
-                object_info->Object());
+            auto text_block_object = zaf::As<TextBlockObject>(
+                zaf::rich_edit::EmbeddedObject::TryFromCOMPtr(object_info->Object()));
 
-            if (embedded_object) {
-                this->InsertObject(embedded_object);
+            if (text_block_object) {
+                InsertTextBlockObject(text_block_object);
             }
         }
     });
@@ -93,16 +98,24 @@ bool CommandInputEdit::ShouldInsertTextBlockObject(const std::wstring& text) {
 }
 
 
-std::shared_ptr<TextBlockObject> CommandInputEdit::InsertTextBlockObject(
+std::shared_ptr<TextBlockObject> CommandInputEdit::InsertTextBlockObjectWithText(
     const std::wstring& text) {
 
     auto text_block_object = zaf::Create<TextBlockObject>(text);
+    InsertTextBlockObject(text_block_object);
+    return text_block_object;
+}
 
-    Subscriptions() += text_block_object->TextChangedEvent().Subscribe(
+
+void CommandInputEdit::InsertTextBlockObject(
+    const std::shared_ptr<TextBlockObject>& object) {
+
+    Subscriptions() += object->TextChangedEvent().Subscribe(
         std::bind(&CommandInputEdit::RaiseCommandChangedEvent, this));
 
-    this->InsertObject(text_block_object);
-    return text_block_object;
+    object->SetStyle(style_);
+
+    this->InsertObject(object);
 }
 
 
@@ -129,7 +142,7 @@ void CommandInputEdit::OnSysKeyDown(const zaf::SysKeyDownInfo& event_info) {
 
 void CommandInputEdit::InsertTextBlockObjectByKey() {
 
-    auto object = InsertTextBlockObject({});
+    auto object = InsertTextBlockObjectWithText({});
 
     auto selection_range = this->GetSelectionRange();
     if (selection_range.index <= 0) {
@@ -210,7 +223,7 @@ void CommandInputEdit::InsertPrivateClipboardData(const zaf::clipboard::DataObje
         }
         else if (auto text_block_data = zaf::As<TextBlockData>(each_object)) {
             auto text_block_object = zaf::Create<TextBlockObject>(text_block_data);
-            this->InsertObject(text_block_object);
+            InsertTextBlockObject(text_block_object);
         }
     }
 }
@@ -221,7 +234,7 @@ void CommandInputEdit::InsertTextData(const zaf::clipboard::DataObject& data_obj
     auto text = data_object.GetText();
 
     if (ShouldInsertTextBlockObject(text)) {
-        InsertTextBlockObject(text);
+        InsertTextBlockObjectWithText(text);
     }
     else {
         this->InsertText(text);

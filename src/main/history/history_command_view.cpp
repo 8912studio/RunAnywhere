@@ -23,6 +23,7 @@ void HistoryCommandView::AfterParse() {
 
     __super::AfterParse();
 
+    commandEdit->SetStyle(CommandDisplayStyle::Preserved);
     commandEdit->SetInputContent(command_input_content_);
 
     auto preview_control = CreateCommandPreviewControl(*command_);

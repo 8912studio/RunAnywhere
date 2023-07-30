@@ -4,6 +4,7 @@
 #include <zaf/control/rich_edit.h>
 #include <zaf/control/rich_edit/ole_callback.h>
 #include <zaf/rx/subject.h>
+#include "main/command_display_style.h"
 #include "main/command_input_content.h"
 #include "main/text_block_object.h"
 #include "utility/command_line.h"
@@ -13,6 +14,8 @@ namespace ra {
 class CommandInputEdit : public zaf::RichEdit, public zaf::rich_edit::OLECallback {
 public:
     ZAF_DECLARE_TYPE;
+
+    void SetStyle(CommandDisplayStyle style);
 
     utility::CommandLine GetInputCommandLine();
 
@@ -31,7 +34,8 @@ private:
     static bool ShouldInsertTextBlockObject(const std::wstring& text);
 
 private:
-    std::shared_ptr<TextBlockObject> InsertTextBlockObject(const std::wstring& text);
+    std::shared_ptr<TextBlockObject> InsertTextBlockObjectWithText(const std::wstring& text);
+    void InsertTextBlockObject(const std::shared_ptr<TextBlockObject>& object);
     void RaiseCommandChangedEvent();
     void InsertTextBlockObjectByKey();
 
@@ -56,6 +60,7 @@ private:
     std::shared_ptr<zaf::Object> GetTextBlockDataAtIndex(std::size_t index);
 
 private:
+    CommandDisplayStyle style_{ CommandDisplayStyle::Normal };
     zaf::Subject<zaf::None> command_changed_event_;
 };
 

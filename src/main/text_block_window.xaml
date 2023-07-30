@@ -48,6 +48,7 @@
                 IsMultiline="true"
                 FontSize="14"
                 ParagraphAlignment="Center"
+				BackgroundColor="Transparent"
             />
         </ScrollableControl.ScrollContent>
     </ScrollableControl>
