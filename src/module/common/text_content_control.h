@@ -26,6 +26,7 @@ public:
     void ChangeStyle(CommandDisplayStyle style);
 
 protected:
+    void AfterParse() override;
     void Layout(const zaf::Rect&) override;
 
 private:

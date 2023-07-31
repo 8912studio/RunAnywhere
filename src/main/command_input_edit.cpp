@@ -18,6 +18,12 @@ void CommandInputEdit::Initialize() {
     this->SetParagraphAlignment(zaf::ParagraphAlignment::Center);
     this->SetAcceptReturn(false);
     this->SetOLECallback(zaf::As<zaf::rich_edit::OLECallback>(shared_from_this()));
+
+    Subscriptions() += this->FocusLostEvent().Subscribe(std::bind([this]() {
+
+        auto selection_range = this->GetSelectionRange();
+        this->SetSelectionRange(zaf::Range{ selection_range.EndIndex(), 0});
+    }));
 }
 
 

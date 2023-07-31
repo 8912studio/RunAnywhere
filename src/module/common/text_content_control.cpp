@@ -33,6 +33,16 @@ ZAF_DEFINE_TYPE(TextContentControl)
 ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/common/text_content_control.xaml")
 ZAF_DEFINE_TYPE_END;
 
+void TextContentControl::AfterParse() {
+
+    __super::AfterParse();
+
+    Subscriptions() += textBox->FocusLostEvent().Subscribe(std::bind([this]() {
+        textBox->SetSelectionRange(zaf::Range{ textBox->CaretIndex(), 0 });
+    }));
+}
+
+
 void TextContentControl::SetDisplayMode(const TextDisplayMode& mode) {
 
     display_mode_ = mode;
