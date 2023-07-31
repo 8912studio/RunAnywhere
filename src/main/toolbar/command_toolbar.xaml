@@ -1,0 +1,17 @@
+<CommandToolbar FixedHeight="24" AutoWidth="true" CrossAxisAlignment="Center">
+
+    <ToolBarButton Name="executeButton" />
+
+    <ToolBarButton 
+        Name="preserveButton"
+        Margin="8,0,0,0"
+        ImageName="preserve" 
+        Tooltip="Preserve current command (SHIFT+ENTER)" />
+
+    <ToolBarButton 
+        Name="closeButton"
+        ImageName="close" 
+        Tooltip="Remove from preservation (SHIFT+BACKSPACE)" 
+        IsVisible="false" />
+    
+</CommandToolbar>

@@ -6,10 +6,10 @@
 #include <zaf/control/rich_edit.h>
 #include "main/command_input_content.h"
 #include "main/command_input_edit.h"
+#include "main/toolbar/toolbar_button.h"
 #include "module/command.h"
 #include "module/command_preview_control.h"
 #include "utility/command_line.h"
-#include "utility/tool_bar_button.h"
 
 namespace ra {
 
@@ -33,7 +33,7 @@ private:
     ZAF_BIND_CONTROL(CommandInputEdit, commandEdit);
     ZAF_BIND_CONTROL(zaf::Control, previewContainer);
     ZAF_BIND_CONTROL(zaf::Control, toolBar);
-    ZAF_BIND_CONTROL(utility::ToolBarButton, closeButton);
+    ZAF_BIND_CONTROL(ToolbarButton, closeButton);
 
 private:
     CommandInputContent command_input_content_;

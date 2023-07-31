@@ -8,11 +8,11 @@
 #include "context/desktop_context.h"
 #include "help/help_window.h"
 #include "main/command_input_edit.h"
+#include "main/toolbar/toolbar_button.h"
 #include "module/command_preview_control.h"
 #include "module_manager.h"
 #include "preview_view.h"
 #include "utility/thin_border_window.h"
-#include "utility/tool_bar_button.h"
 
 namespace ra {
 
@@ -65,7 +65,7 @@ private:
     ZAF_BIND_CONTROL(zaf::Control, helpButton);
     ZAF_BIND_CONTROL(zaf::Control, preservedCommandsView);
     ZAF_BIND_CONTROL(zaf::Control, toolbar);
-    ZAF_BIND_CONTROL(utility::ToolBarButton, executeButton);
+    ZAF_BIND_CONTROL(ToolbarButton, executeButton);
     ZAF_BIND_CONTROL(zaf::Button, preserveButton);
 
     float initial_height_{};

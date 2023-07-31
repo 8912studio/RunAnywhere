@@ -2,9 +2,9 @@
 
 #include <zaf/control/button.h>
 
-namespace ra::utility {
+namespace ra {
 
-class ToolBarButton : public zaf::Button {
+class ToolbarButton : public zaf::Button {
 public:
     ZAF_DECLARE_TYPE;
 

@@ -1,14 +1,14 @@
-#include "utility/tool_bar_button.h"
+#include "main/toolbar/toolbar_button.h"
 #include <zaf/graphic/image/image.h>
 #include <zaf/object/type_definition.h>
 
-namespace ra::utility {
+namespace ra {
 
-ZAF_DEFINE_TYPE(ToolBarButton)
+ZAF_DEFINE_TYPE(ToolbarButton)
 ZAF_DEFINE_TYPE_PROPERTY(ImageName)
 ZAF_DEFINE_TYPE_END;
 
-void ToolBarButton::Initialize() {
+void ToolbarButton::Initialize() {
 
     __super::Initialize();
 
@@ -21,7 +21,7 @@ void ToolBarButton::Initialize() {
 }
 
 
-void ToolBarButton::SetImageName(const std::wstring& name) {
+void ToolbarButton::SetImageName(const std::wstring& name) {
 
     SetBackgroundImagePicker([this, name](const zaf::Control& control) {
     

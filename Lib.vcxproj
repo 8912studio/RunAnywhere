@@ -132,6 +132,8 @@
     <ClInclude Include="src\main\text_block_data.h" />
     <ClInclude Include="src\main\text_block_object.h" />
     <ClInclude Include="src\main\text_block_window.h" />
+    <ClInclude Include="src\main\toolbar\command_toolbar.h" />
+    <ClInclude Include="src\main\toolbar\toolbar_button.h" />
     <ClInclude Include="src\module\active_path\active_path_command.h" />
     <ClInclude Include="src\module\active_path\active_path_option.h" />
     <ClInclude Include="src\module\active_path\active_path_option_parsing.h" />
@@ -267,7 +269,6 @@
     <ClInclude Include="src\utility\text_utility.h" />
     <ClInclude Include="src\utility\thin_border_window.h" />
     <ClInclude Include="src\utility\thin_scroll_bar.h" />
-    <ClInclude Include="src\utility\tool_bar_button.h" />
     <ClInclude Include="third_party\everything\ipc\everything_ipc.h" />
   </ItemGroup>
   <ItemGroup>
@@ -301,6 +302,8 @@
     <ClCompile Include="src\main\text_block_object.cpp" />
     <ClCompile Include="src\main\text_block_window.cpp" />
     <ClCompile Include="src\main\clipboard_data.cpp" />
+    <ClCompile Include="src\main\toolbar\command_toolbar.cpp" />
+    <ClCompile Include="src\main\toolbar\toolbar_button.cpp" />
     <ClCompile Include="src\module\active_path\active_path_command.cpp" />
     <ClCompile Include="src\module\active_path\active_path_module.cpp" />
     <ClCompile Include="src\module\active_path\active_path_option_parsing.cpp" />
@@ -401,7 +404,6 @@
     <ClCompile Include="src\utility\text_utility.cpp" />
     <ClCompile Include="src\utility\thin_border_window.cpp" />
     <ClCompile Include="src\utility\thin_scroll_bar.cpp" />
-    <ClCompile Include="src\utility\tool_bar_button.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="src\about_window.xaml" />
@@ -410,6 +412,7 @@
     <Page Include="src\main\main_window.xaml" />
     <Page Include="src\main\preserve\preserved_command_view.xaml" />
     <Page Include="src\main\text_block_window.xaml" />
+    <Page Include="src\main\toolbar\command_toolbar.xaml" />
     <Page Include="src\module\calculator\preview\calculator_preview_control.xaml" />
     <Page Include="src\module\common\binary_content\binary_content_control.xaml" />
     <Page Include="src\module\common\content_status_bar.xaml" />

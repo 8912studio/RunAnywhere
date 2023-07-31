@@ -112,6 +112,9 @@
     <Filter Include="src\main\preserve">
       <UniqueIdentifier>{523feb54-037d-41e7-815d-8c85ea058e2c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\main\toolbar">
+      <UniqueIdentifier>{b8146b2c-f142-4c7e-964e-2f27544106fb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\module\calculator\parse\binary_expression_parser.h">
@@ -645,9 +648,6 @@
     <ClInclude Include="src\module\common\default_preview_control.h">
       <Filter>src\module\common</Filter>
     </ClInclude>
-    <ClInclude Include="src\utility\tool_bar_button.h">
-      <Filter>src\utility</Filter>
-    </ClInclude>
     <ClInclude Include="src\module\command_executor.h">
       <Filter>src\module</Filter>
     </ClInclude>
@@ -662,6 +662,12 @@
     </ClInclude>
     <ClInclude Include="src\main\preserve\preserved_command_view.h">
       <Filter>src\main\preserve</Filter>
+    </ClInclude>
+    <ClInclude Include="src\main\toolbar\command_toolbar.h">
+      <Filter>src\main\toolbar</Filter>
+    </ClInclude>
+    <ClInclude Include="src\main\toolbar\toolbar_button.h">
+      <Filter>src\main\toolbar</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1046,9 +1052,6 @@
     <ClCompile Include="src\module\common\default_preview_control.cpp">
       <Filter>src\module\common</Filter>
     </ClCompile>
-    <ClCompile Include="src\utility\tool_bar_button.cpp">
-      <Filter>src\utility</Filter>
-    </ClCompile>
     <ClCompile Include="src\module\common\copy_executor.cpp">
       <Filter>src\module\common</Filter>
     </ClCompile>
@@ -1057,6 +1060,12 @@
     </ClCompile>
     <ClCompile Include="src\main\preserve\preserved_command_view.cpp">
       <Filter>src\main\preserve</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main\toolbar\command_toolbar.cpp">
+      <Filter>src\main\toolbar</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main\toolbar\toolbar_button.cpp">
+      <Filter>src\main\toolbar</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1128,6 +1137,9 @@
     </Page>
     <Page Include="src\main\preserve\preserved_command_view.xaml">
       <Filter>src\main\preserve</Filter>
+    </Page>
+    <Page Include="src\main\toolbar\command_toolbar.xaml">
+      <Filter>src\main\toolbar</Filter>
     </Page>
   </ItemGroup>
   <ItemGroup>
