@@ -298,8 +298,12 @@ void MainWindow::UpdateHelpWindowPosition() {
     auto main_window_rect = this->Rect();
     zaf::Point help_window_position;
     constexpr float window_gap = 4;
-    help_window_position.x = main_window_rect.position.x + main_window_rect.size.width + window_gap;
+    help_window_position.x = main_window_rect.Right() + window_gap;
     help_window_position.y = main_window_rect.position.y;
+    
+    if (preservedCommandsView->IsVisible()) {
+        help_window_position.y += preservedCommandsView->Height();
+    }
 
     help_window_->SetPosition(help_window_position);
 }
