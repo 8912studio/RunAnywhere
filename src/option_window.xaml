@@ -1,4 +1,5 @@
 <OptionWindow Size="400,300" IsSizable="false" CanMaximize="false" Title="Option">
+    
     <OptionWindow.RootControl>
         <VerticalBox Padding="20,20,20,20" BackgroundColor="White" />
     </OptionWindow.RootControl>
@@ -18,6 +19,18 @@
         Name="hotKeyBox" 
         FixedHeight="30"  
         ParagraphAlignment="Center" />
+
+    <HorizontalBox FixedHeight="30">
+        <Label 
+            Text="Max preserved commands count: "
+            AutoWidth="true"
+            ParagraphAlignment="Center" />
+        <RichEdit 
+            Name="maxPreservedCommandEdit" 
+            FixedWidth="30"
+            ParagraphAlignment="Center" />
+    </HorizontalBox>
+
     <CheckBox 
         Name="autoRunCheckBox"
         FixedHeight="30" 

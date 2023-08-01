@@ -8,6 +8,7 @@ namespace {
 
 constexpr const wchar_t* AutoHideValueName = L"AutoHideOnLostFocus";
 constexpr const wchar_t* RememberLastCommandValueName = L"RememberLastCommand";
+constexpr const wchar_t* MaxPreservedCommandCountValueName = L"MaxPreservedCommandCount";
 
 }
 
@@ -54,6 +55,28 @@ void OptionStorage::SetBoolValue(const std::wstring& name, bool value) {
 }
 
 
+std::optional<std::size_t> OptionStorage::GetUIntValue(const std::wstring& name) {
+
+    try {
+        return option_key_.GetDWordValue(name);
+    }
+    catch (const zaf::Error&) {
+        return std::nullopt;
+    }
+}
+
+
+void OptionStorage::SetUIntValue(const std::wstring& name, std::size_t value) {
+
+    try {
+        option_key_.SetDWordValue(name, static_cast<std::uint32_t>(value));
+    }
+    catch (const zaf::Error&) {
+
+    }
+}
+
+
 bool OptionStorage::AutoHideOnLostFocus() {
 
     if (!auto_hide_) {
@@ -83,6 +106,29 @@ void OptionStorage::SetRememberLastCommand(bool value) {
 
     remember_last_command_ = value;
     SetBoolValue(RememberLastCommandValueName, value);
+}
+
+
+std::size_t OptionStorage::MaxPreservedCommandCount() {
+
+    if (!max_preserved_command_count_) {
+        max_preserved_command_count_ = GetUIntValue(MaxPreservedCommandCountValueName).value_or(1);
+    }
+    return *max_preserved_command_count_;
+}
+
+void OptionStorage::SetMaxPreservedCommandCount(std::size_t count) {
+
+    auto new_count = count;
+    if (new_count < 1) {
+        new_count = 1;
+    }
+    else if (new_count > 10) {
+        new_count = 10;
+    }
+
+    *max_preserved_command_count_ = new_count;
+    SetUIntValue(MaxPreservedCommandCountValueName, new_count);
 }
 
 }

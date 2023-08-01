@@ -86,6 +86,11 @@ void OptionWindow::OnHotKeyChanged(const HotKey& hot_key) {
 }
 
 
+void OptionWindow::UpdateMaxPreservedCommandEditState() {
+
+}
+
+
 void OptionWindow::UpdateAutoRunCheckBoxState() {
 
     autoRunCheckBox->SetIsChecked(CheckIfSetAutoRun());
