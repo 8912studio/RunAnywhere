@@ -8,6 +8,7 @@
 #include "context/desktop_context.h"
 #include "help/help_window.h"
 #include "main/command_input_edit.h"
+#include "main/toolbar/command_toolbar.h"
 #include "main/toolbar/toolbar_button.h"
 #include "module/command_preview_control.h"
 #include "module_manager.h"
@@ -43,7 +44,6 @@ private:
     void InterpretCommand();
     void ShowPreview();
     void ShowCommandPreview();
-    void UpdateExecuteButton();
     void ShowEmptyPreview();
     void UpdateWindowRect();
     void OnHelpButtonClick();
@@ -64,9 +64,7 @@ private:
     ZAF_BIND_CONTROL(PreviewView, previewView);
     ZAF_BIND_CONTROL(zaf::Control, helpButton);
     ZAF_BIND_CONTROL(zaf::Control, preservedCommandsView);
-    ZAF_BIND_CONTROL(zaf::Control, toolbar);
-    ZAF_BIND_CONTROL(ToolbarButton, executeButton);
-    ZAF_BIND_CONTROL(zaf::Button, preserveButton);
+    ZAF_BIND_CONTROL(CommandToolbar, toolbar);
 
     float initial_height_{};
 

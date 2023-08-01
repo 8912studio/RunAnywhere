@@ -17,12 +17,7 @@
             BackgroundColor="Transparent"
             FontSize="14"
             ParagraphAlignment="Center" />
-        <HorizontalBox Name="toolBar" AutoSize="true" IsVisible="false">
-            <ToolBarButton 
-                Name="closeButton"
-                ImageName="close" 
-                Tooltip="Remove from preservation (SHIFT+BACKSPACE)" />
-        </HorizontalBox>
+        <CommandToolbar Name="toolbar" AutoSize="true" IsVisible="false" />
     </HorizontalBox>
     <VerticalBox Name="previewContainer" AutoHeight="true" />
 </PreservedCommandView>

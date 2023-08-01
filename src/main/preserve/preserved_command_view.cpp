@@ -29,21 +29,32 @@ void PreservedCommandView::AfterParse() {
     auto preview_control = CreateCommandPreviewControl(*command_);
     preview_control->SetStyle(CommandDisplayStyle::Preserved);
     preview_control->SetIsVisible(true);
-
     previewContainer->AddChild(preview_control);
 
+    InitializeToolbar();
+
     Subscriptions() += MouseEnterEvent().Subscribe(std::bind([this]() {
-        toolBar->SetIsVisible(true);
+        toolbar->SetIsVisible(true);
     }));
 
     Subscriptions() += MouseLeaveEvent().Subscribe(std::bind([this]() {
         if (!this->ContainMouse()) {
-            toolBar->SetIsVisible(false);
+            toolbar->SetIsVisible(false);
         }
     }));
+}
 
-    Subscriptions() += closeButton->ClickEvent().Subscribe(std::bind([this]() {
+
+void PreservedCommandView::InitializeToolbar() {
+
+    toolbar->UpdateStyle(CommandDisplayStyle::Preserved, command_->GetExecutor());
+
+    Subscriptions() += toolbar->CloseEvent().Subscribe(std::bind([this]() {
         close_event_.Raise(zaf::As<PreservedCommandView>(shared_from_this()));
+    }));
+
+    Subscriptions() += toolbar->ExecuteEvent().Subscribe(std::bind([this]() {
+        command_->GetExecutor()->Execute();
     }));
 }
 

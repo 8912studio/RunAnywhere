@@ -9,7 +9,7 @@ public:
     ZAF_DECLARE_TYPE;
 
     void SetImageName(const std::wstring& name);
-
+    
 protected:
     void Initialize() override;
 };

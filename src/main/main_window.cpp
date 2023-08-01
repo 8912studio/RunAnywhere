@@ -65,11 +65,11 @@ void MainWindow::InitializeHelpButton() {
 
 void MainWindow::InitializeToolbar() {
     
-    Subscriptions() += executeButton->ClickEvent().Subscribe(std::bind([this]() {
+    Subscriptions() += toolbar->ExecuteEvent().Subscribe(std::bind([this]() {
         ExecuteCommand();
     }));
 
-    Subscriptions() += preserveButton->ClickEvent().Subscribe(std::bind([this]() {
+    Subscriptions() += toolbar->PreserveEvent().Subscribe(std::bind([this]() {
         PreserveCurrentCommand();
     }));
 }
@@ -168,30 +168,8 @@ void MainWindow::ShowCommandPreview() {
     previewView->SetPreviewControl(preview_control);
     previewView->SetIsVisible(true);
 
+    toolbar->UpdateStyle(CommandDisplayStyle::Normal, current_command_->GetExecutor());
     toolbar->SetIsVisible(true);
-
-    UpdateExecuteButton();
-}
-
-
-void MainWindow::UpdateExecuteButton() {
-
-    auto executor = current_command_->GetExecutor();
-    if (!executor) {
-        executeButton->SetIsVisible(false);
-        return;
-    }
-
-    if (zaf::As<mod::CopyExecutor>(executor)) {
-        executeButton->SetImageName(L"copy");
-        executeButton->SetTooltip(L"Copy result to clipboard (ENTER)");
-    }
-    else {
-        executeButton->SetImageName(L"execute");
-        executeButton->SetTooltip(L"Execute current command (ENTER)");
-    }
-
-    executeButton->SetIsVisible(true);
 }
 
 
