@@ -323,7 +323,8 @@ void MainWindow::PreserveCurrentCommand() {
     {
         auto update_guard = preservedCommandsView->BeginUpdate();
 
-        if (preservedCommandsView->ChildCount() >= 3) {
+        auto max_count = OptionStorage::Instance().MaxPreservedCommandCount();
+        while (preservedCommandsView->ChildCount() >= max_count) {
             preservedCommandsView->RemoveChildAtIndex(0);
         }
 

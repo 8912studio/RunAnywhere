@@ -9,6 +9,9 @@ class OptionStorage {
 public:
     static OptionStorage& Instance();
 
+    static constexpr std::size_t MinMaxPreservedCommandCount = 1;
+    static constexpr std::size_t MaxMaxPreservedCommandCount = 10;
+
 public:
     OptionStorage(const OptionStorage&) = delete;
     OptionStorage& operator=(const OptionStorage&) = delete;

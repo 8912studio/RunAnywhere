@@ -120,11 +120,11 @@ std::size_t OptionStorage::MaxPreservedCommandCount() {
 void OptionStorage::SetMaxPreservedCommandCount(std::size_t count) {
 
     auto new_count = count;
-    if (new_count < 1) {
-        new_count = 1;
+    if (new_count < MinMaxPreservedCommandCount) {
+        new_count = MinMaxPreservedCommandCount;
     }
-    else if (new_count > 10) {
-        new_count = 10;
+    else if (new_count > MaxMaxPreservedCommandCount) {
+        new_count = MaxMaxPreservedCommandCount;
     }
 
     *max_preserved_command_count_ = new_count;

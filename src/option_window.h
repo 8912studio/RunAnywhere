@@ -24,7 +24,7 @@ private:
     void OnHotKeyChanged(const HotKey& hot_key);
     void CheckIfHotKeyValid();
 
-    void UpdateMaxPreservedCountState();
+    void InitializeMaxPreservedCount();
 
     void UpdateAutoRunCheckBoxState();
     bool CheckIfSetAutoRun();
