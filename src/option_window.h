@@ -5,6 +5,7 @@
 #include <zaf/control/control_binder.h>
 #include <zaf/control/label.h>
 #include <zaf/control/rich_edit.h>
+#include <zaf/control/spin_box.h>
 #include <zaf/window/dialog.h>
 #include "hot_key_box.h"
 
@@ -23,7 +24,7 @@ private:
     void OnHotKeyChanged(const HotKey& hot_key);
     void CheckIfHotKeyValid();
 
-    void UpdateMaxPreservedCommandEditState();
+    void UpdateMaxPreservedCountState();
 
     void UpdateAutoRunCheckBoxState();
     bool CheckIfSetAutoRun();
@@ -41,7 +42,7 @@ private:
 private:
     ZAF_BIND_CONTROL(HotKeyBox, hotKeyBox);
     ZAF_BIND_CONTROL(zaf::Label, hotKeyInvalidLabel);
-    ZAF_BIND_CONTROL(zaf::RichEdit, maxPreservedCommandEdit);
+    ZAF_BIND_CONTROL(zaf::SpinBox, maxPreservedCount);
     ZAF_BIND_CONTROL(zaf::CheckBox, autoRunCheckBox);
     ZAF_BIND_CONTROL(zaf::CheckBox, autoHideCheckBox);
     ZAF_BIND_CONTROL(zaf::CheckBox, rememberLastCommandCheckBox);

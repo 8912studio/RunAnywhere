@@ -49,6 +49,7 @@ void OptionWindow::AfterParse() {
     CheckIfHotKeyValid();
 
     UpdateAutoRunCheckBoxState();
+    UpdateMaxPreservedCountState();
     UpdateAutoHideCheckBoxState();
     UpdateRememberLastCommandCheckBoxState();
 
@@ -86,8 +87,10 @@ void OptionWindow::OnHotKeyChanged(const HotKey& hot_key) {
 }
 
 
-void OptionWindow::UpdateMaxPreservedCommandEditState() {
+void OptionWindow::UpdateMaxPreservedCountState() {
 
+    maxPreservedCount->SetValue(
+        static_cast<int>(OptionStorage::Instance().MaxPreservedCommandCount()));
 }
 
 

@@ -1,4 +1,4 @@
-<OptionWindow Size="400,300" IsSizable="false" CanMaximize="false" Title="Option">
+<OptionWindow Size="400,355" IsSizable="false" CanMaximize="false" Title="Option">
     
     <OptionWindow.RootControl>
         <VerticalBox Padding="20,20,20,20" BackgroundColor="White" />
@@ -20,15 +20,17 @@
         FixedHeight="30"  
         ParagraphAlignment="Center" />
 
-    <HorizontalBox FixedHeight="30">
+    <HorizontalBox FixedHeight="30" Margin="0,20,0,0" CrossAxisAlignment="Center">
         <Label 
             Text="Max preserved commands count: "
             AutoWidth="true"
             ParagraphAlignment="Center" />
-        <RichEdit 
-            Name="maxPreservedCommandEdit" 
-            FixedWidth="30"
-            ParagraphAlignment="Center" />
+        <SpinBox 
+            Name="maxPreservedCount" 
+            FixedSize="40,24"
+            Margin="4,0,0,0"
+            MinValue="1"
+            MaxValue="10" />
     </HorizontalBox>
 
     <CheckBox 
