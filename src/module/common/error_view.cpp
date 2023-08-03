@@ -12,7 +12,7 @@ struct StyleMetrics;
 template<>
 struct StyleMetrics<false> {
     static constexpr auto Alignment = zaf::AxisAlignment::Center;
-    static constexpr auto IconSize = 48;
+    static constexpr auto IconSize = 40;
     static constexpr const wchar_t* IconURI = L"res:///resource/error.png";
     static constexpr float FontSize = 22;
     static constexpr float GapBetweenIconAndText = 10;

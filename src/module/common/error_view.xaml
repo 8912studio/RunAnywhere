@@ -1,7 +1,7 @@
 <ErrorView AxisAlignment="Center" CrossAxisAlignment="Center">
     <ImageBox
         Name="errorIcon"
-        FixedSize="48,48"
+        FixedSize="40,40"
         Margin="0,0,10,0"
         URI="res:///resource/error.png"
         ImageLayout="Stretch"
@@ -9,7 +9,7 @@
     <Label 
         Name="textLabel" 
         AutoSize="true" 
-        TextAlignment="Center" 
+        TextAlignment="Center"
         ParagraphAligment="Center" 
         FontSize="22"
     />

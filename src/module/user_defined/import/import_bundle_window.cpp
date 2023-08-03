@@ -223,7 +223,7 @@ void ImportBundleWindow::GetConflictMessageDisplayInfo(ImportStateDisplayInfo& i
 ImportBundleWindow::ImportStateDisplayInfo ImportBundleWindow::GetErrorStateDisplayInfo() const {
 
     ImportStateDisplayInfo result;
-    result.icon_uri = L"res:///resource/error.png";
+    result.icon_uri = L"res:///resource/error_large.png";
 
     result.title_text = 
         L"Import " +
