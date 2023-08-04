@@ -642,12 +642,6 @@
     <ClInclude Include="src\main\preview_control_creating.h">
       <Filter>src\main</Filter>
     </ClInclude>
-    <ClInclude Include="src\module\tool\text_transform\text_preview_control.h">
-      <Filter>src\module\tool\text_transform</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\common\default_preview_control.h">
-      <Filter>src\module\common</Filter>
-    </ClInclude>
     <ClInclude Include="src\module\command_executor.h">
       <Filter>src\module</Filter>
     </ClInclude>
@@ -668,6 +662,9 @@
     </ClInclude>
     <ClInclude Include="src\main\toolbar\toolbar_button.h">
       <Filter>src\main\toolbar</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\common\text_preview_control.h">
+      <Filter>src\module\common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1046,12 +1043,6 @@
     <ClCompile Include="src\main\preview_control_creating.cpp">
       <Filter>src\main</Filter>
     </ClCompile>
-    <ClCompile Include="src\module\tool\text_transform\text_preview_control.cpp">
-      <Filter>src\module\tool\text_transform</Filter>
-    </ClCompile>
-    <ClCompile Include="src\module\common\default_preview_control.cpp">
-      <Filter>src\module\common</Filter>
-    </ClCompile>
     <ClCompile Include="src\module\common\copy_executor.cpp">
       <Filter>src\module\common</Filter>
     </ClCompile>
@@ -1066,6 +1057,9 @@
     </ClCompile>
     <ClCompile Include="src\main\toolbar\toolbar_button.cpp">
       <Filter>src\main\toolbar</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\common\text_preview_control.cpp">
+      <Filter>src\module\common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1132,14 +1126,14 @@
     <Page Include="src\module\common\binary_content\binary_content_control.xaml">
       <Filter>src\module\common\binary_content</Filter>
     </Page>
-    <Page Include="src\module\tool\text_transform\text_preview_control.xaml">
-      <Filter>src\module\tool\text_transform</Filter>
-    </Page>
     <Page Include="src\main\preserve\preserved_command_view.xaml">
       <Filter>src\main\preserve</Filter>
     </Page>
     <Page Include="src\main\toolbar\command_toolbar.xaml">
       <Filter>src\main\toolbar</Filter>
+    </Page>
+    <Page Include="src\module\common\text_preview_control.xaml">
+      <Filter>src\module\common</Filter>
     </Page>
   </ItemGroup>
   <ItemGroup>

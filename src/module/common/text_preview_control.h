@@ -16,6 +16,7 @@ public:
 
 public:
     void SetText(std::wstring text);
+    void SetWordWrapping(zaf::WordWrapping word_wrapping);
 
 protected:
     void OnStyleChanged() override;

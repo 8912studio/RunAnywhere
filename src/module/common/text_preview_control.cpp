@@ -1,11 +1,11 @@
-#include "module/tool/text_transform/text_preview_control.h"
+#include "module/common/text_preview_control.h"
 #include <zaf/object/type_definition.h>
 #include "module/common/error_messages.h"
 
 namespace ra::mod {
 
 ZAF_DEFINE_TYPE(TextPreviewControl)
-ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/tool/text_transform/text_preview_control.xaml")
+ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/common/text_preview_control.xaml")
 ZAF_DEFINE_TYPE_END;
 
 void TextPreviewControl::SetText(std::wstring text) {
@@ -20,6 +20,14 @@ void TextPreviewControl::SetText(std::wstring text) {
         textContent->SetText(std::move(text));
         errorView->SetIsVisible(false);
     }
+}
+
+
+void TextPreviewControl::SetWordWrapping(zaf::WordWrapping word_wrapping) {
+
+    TextDisplayMode display_mode;
+    display_mode.word_wrapping = word_wrapping;
+    textContent->SetDisplayMode(display_mode);
 }
 
 
