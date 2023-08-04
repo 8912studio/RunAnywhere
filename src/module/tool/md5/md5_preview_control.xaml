@@ -2,15 +2,5 @@
     <ContentStatusBar Name="contentStatusBar"/>
     <PreviewTextBox Name="md5ResultControl" FontSize="26" IsVisible="false" />
     <ProgressCircle Name="progressCircle" Padding="0,14,0,14" IsVisible="false" />
-    <HorizontalBox 
-        Name="errorControl" 
-        AxisAlignment="Center" 
-        CrossAxisAlignment="Center"
-        IsVisible="false">
-        <ImageBox
-            Name="errorIcon"
-            FixedSize="40,40" 
-            URI="res:///resource/error.png"
-            ImageLayout="Stretch" />
-    </HorizontalBox>
+    <ErrorView Name="errorView" IsVisible="false" />
 </MD5PreviewControl>

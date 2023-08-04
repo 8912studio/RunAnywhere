@@ -1,6 +1,7 @@
 #include "module/tool/hex/hex_preview_control.h"
 #include <fstream>
 #include <zaf/object/type_definition.h>
+#include "module/common/error_messages.h"
 #include "utility/numeric_text_formatting.h"
 #include "utility/path_trimming.h"
 
@@ -135,11 +136,11 @@ void HexPreviewControl::ShowMessage(
         message = L"Position exceeds file size";
         break;
     case ReadFileStatus::ReadFileFailed:
-        message = L"Unable to read file";
+        message = ErrorMessages::UnableToReadFile;
         break;
     default:
         if (content_info.data.empty()) {
-            message = L"No content to display";
+            message = ErrorMessages::NoContentToDisplay;
         }
         break;
     }

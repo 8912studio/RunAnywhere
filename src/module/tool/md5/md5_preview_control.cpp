@@ -2,6 +2,7 @@
 #include <zaf/base/string/case_conversion.h>
 #include <zaf/object/type_definition.h>
 #include <zaf/rx/scheduler.h>
+#include "module/common/error_messages.h"
 #include "module/tool/md5/md5_calculating.h"
 
 namespace ra::mod::tool::md5 {
@@ -18,9 +19,6 @@ struct StyleMetrics<false> {
 	static zaf::Frame ProgressCirclePadding() {
 		return zaf::Frame{ 0, 14, 0, 14 };
 	}
-	static constexpr float ErrorIconSize = 40;
-	static constexpr const wchar_t* ErrorIconURI = L"res:///resource/error.png";
-	static constexpr auto ErrorIconAlignment = zaf::AxisAlignment::Center;
 };
 
 template<>
@@ -31,9 +29,6 @@ struct StyleMetrics<true> {
 	static zaf::Frame ProgressCirclePadding() {
 		return zaf::Frame{ 0, 4, 0, 4 };
 	}
-	static constexpr float ErrorIconSize = 20;
-	static constexpr const wchar_t* ErrorIconURI = L"res:///resource/error_small.png";
-	static constexpr auto ErrorIconAlignment = zaf::AxisAlignment::Start;
 };
 
 }
@@ -47,6 +42,7 @@ void MD5PreviewControl::OnStyleChanged() {
 	auto update_guard = BeginUpdate();
 
 	md5ResultControl->Display(Style());
+	errorView->ChangeStyle(Style());
 	AdjustControlStyles();
 }
 
@@ -57,9 +53,6 @@ void MD5PreviewControl::AdjustControlStyles() {
 		progressCircle->SetPadding(metrics.ProgressCirclePadding());
 		progressCircle->SetAxisAlignment(metrics.ProgressCircleAlignment);
 		progressCircle->SetThickness(metrics.ProgressCircleThickness);
-		errorIcon->SetFixedSize(zaf::Size{ metrics.ErrorIconSize, metrics.ErrorIconSize });
-		errorIcon->SetURI(metrics.ErrorIconURI);
-		errorControl->SetAxisAlignment(metrics.ErrorIconAlignment);
 		this->SetFixedHeight(metrics.FixedHeight);
 	};
 
@@ -75,7 +68,7 @@ void MD5PreviewControl::AdjustControlStyles() {
 void MD5PreviewControl::ChangeLayout(LayoutType type) {
 
 	progressCircle->SetIsVisible(false);
-	errorControl->SetIsVisible(false);
+	errorView->SetIsVisible(false);
 	md5ResultControl->SetIsVisible(false);
 
 	switch (type) {
@@ -83,7 +76,8 @@ void MD5PreviewControl::ChangeLayout(LayoutType type) {
 		progressCircle->SetIsVisible(true);
 		break;
 	case LayoutType::Error:
-		errorControl->SetIsVisible(true);
+		errorView->ShowErrorText(ErrorMessages::UnableToReadFile);
+		errorView->SetIsVisible(true);
 		break;
 	case LayoutType::Result:
 		md5ResultControl->SetIsVisible(true);
