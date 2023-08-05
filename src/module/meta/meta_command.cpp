@@ -1,5 +1,4 @@
 #include "module/meta/meta_command.h"
-#include "module/meta/about_preview_control.h"
 #include "module/meta/meta_command_prefix.h"
 
 namespace ra::mod::meta {
@@ -48,21 +47,8 @@ bool MetaCommand::Interpret(
 }
 
 
-std::shared_ptr<CommandPreviewControl> MetaCommand::GetPreviewControl() {
-
-    if (command_info_.preview_control_creator) {
-        return command_info_.preview_control_creator();
-    }
-    return nullptr;
-}
-
-
 std::shared_ptr<CommandExecutor> MetaCommand::GetExecutor() {
-
-    if (command_info_.handler) {
-        return std::make_shared<MetaCommandExecutor>(command_info_.handler);
-    }
-    return nullptr;
+    return std::make_shared<MetaCommandExecutor>(command_info_.handler);
 }
 
 }

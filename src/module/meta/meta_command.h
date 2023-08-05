@@ -23,8 +23,6 @@ public:
         return command_info_.description;
     }
 
-    std::shared_ptr<CommandPreviewControl> GetPreviewControl() override;
-
     std::shared_ptr<CommandExecutor> GetExecutor() override;
 
 private:

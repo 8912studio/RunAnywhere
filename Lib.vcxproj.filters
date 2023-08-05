@@ -115,9 +115,6 @@
     <Filter Include="src\main\toolbar">
       <UniqueIdentifier>{b8146b2c-f142-4c7e-964e-2f27544106fb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\about">
-      <UniqueIdentifier>{93761574-d47b-45b4-901f-312755d56a01}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\module\calculator\parse\binary_expression_parser.h">
@@ -669,12 +666,6 @@
     <ClInclude Include="src\module\common\text_preview_control.h">
       <Filter>src\module\common</Filter>
     </ClInclude>
-    <ClInclude Include="src\about\about_view.h">
-      <Filter>src\about</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\meta\about_preview_control.h">
-      <Filter>src\module\meta</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -1070,12 +1061,6 @@
     <ClCompile Include="src\module\common\text_preview_control.cpp">
       <Filter>src\module\common</Filter>
     </ClCompile>
-    <ClCompile Include="src\about\about_view.cpp">
-      <Filter>src\about</Filter>
-    </ClCompile>
-    <ClCompile Include="src\module\meta\about_preview_control.cpp">
-      <Filter>src\module\meta</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Page Include="src\module\user_defined\preview\user_defined_command_preview_control.xaml">
@@ -1149,9 +1134,6 @@
     </Page>
     <Page Include="src\module\common\text_preview_control.xaml">
       <Filter>src\module\common</Filter>
-    </Page>
-    <Page Include="src\about\about_view.xaml">
-      <Filter>src\about</Filter>
     </Page>
   </ItemGroup>
   <ItemGroup>

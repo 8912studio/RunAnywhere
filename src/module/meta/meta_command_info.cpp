@@ -1,11 +1,9 @@
 #include "module/meta/meta_command_info.h"
 #include <zaf/base/container/utility/sort.h>
 #include <zaf/base/string/case_conversion.h>
-#include <zaf/creation.h>
 #include "about_window.h"
 #include "application_delegate.h"
 #include "main/main_window.h"
-#include "module/meta/about_preview_control.h"
 #include "option_window.h"
 
 namespace ra::mod::meta {
@@ -17,7 +15,6 @@ std::vector<MetaCommandInfo> CreateMetaCommandInfos() {
         {
             L"reload",
             L"Reload user-defined commands",
-            nullptr,
             []() {
                 ApplicationDelegate::GetFromApplication()->ReloadModules();
             }
@@ -26,14 +23,12 @@ std::vector<MetaCommandInfo> CreateMetaCommandInfos() {
             L"about",
             L"Show about window",
             []() {
-                return zaf::Create<AboutPreviewControl>();
-            },
-            nullptr,
+                AboutWindow::ShowInstance();
+            }
         },
         {
             L"option",
             L"Show option window",
-            nullptr,
             []() {
                 OptionWindow::ShowInstance();
             }

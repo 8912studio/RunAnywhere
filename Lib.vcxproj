@@ -86,7 +86,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\about\about_view.h" />
     <ClInclude Include="src\about_window.h" />
     <ClInclude Include="src\application_delegate.h" />
     <ClInclude Include="src\common\window_based_discover.h" />
@@ -200,7 +199,6 @@
     <ClInclude Include="src\module\extension\extension_module.h" />
     <ClInclude Include="src\module\extension\extension_module_manager.h" />
     <ClInclude Include="src\module\extension\sdk\run_anywhere_extension_sdk.h" />
-    <ClInclude Include="src\module\meta\about_preview_control.h" />
     <ClInclude Include="src\module\meta\meta_command.h" />
     <ClInclude Include="src\module\meta\meta_command_info.h" />
     <ClInclude Include="src\module\meta\meta_command_prefix.h" />
@@ -273,7 +271,6 @@
     <ClInclude Include="third_party\everything\ipc\everything_ipc.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\about\about_view.cpp" />
     <ClCompile Include="src\about_window.cpp" />
     <ClCompile Include="src\application_delegate.cpp" />
     <ClCompile Include="src\context\desktop_context_discovering.cpp" />
@@ -352,7 +349,6 @@
     <ClCompile Include="src\module\extension\extension_command_preview_control.cpp" />
     <ClCompile Include="src\module\extension\extension_module.cpp" />
     <ClCompile Include="src\module\extension\extension_module_manager.cpp" />
-    <ClCompile Include="src\module\meta\about_preview_control.cpp" />
     <ClCompile Include="src\module\meta\meta_command.cpp" />
     <ClCompile Include="src\module\meta\meta_command_info.cpp" />
     <ClCompile Include="src\module\meta\meta_module.cpp" />
@@ -408,7 +404,6 @@
     <ClCompile Include="src\utility\thin_scroll_bar.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="src\about\about_view.xaml" />
     <Page Include="src\about_window.xaml" />
     <Page Include="src\help\help_window.xaml" />
     <Page Include="src\license_window.xaml" />
