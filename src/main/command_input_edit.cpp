@@ -17,6 +17,7 @@ void CommandInputEdit::Initialize() {
 
     this->SetParagraphAlignment(zaf::ParagraphAlignment::Center);
     this->SetAcceptReturn(false);
+    this->SetMaxLength(10000);
     this->SetOLECallback(zaf::As<zaf::rich_edit::OLECallback>(shared_from_this()));
 
     Subscriptions() += this->FocusLostEvent().Subscribe(std::bind([this]() {
