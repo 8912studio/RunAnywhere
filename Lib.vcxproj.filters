@@ -666,6 +666,9 @@
     <ClInclude Include="src\module\common\text_preview_control.h">
       <Filter>src\module\common</Filter>
     </ClInclude>
+    <ClInclude Include="src\module\tool\date\date_command_parsing.h">
+      <Filter>src\module\tool\date</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -1060,6 +1063,9 @@
     </ClCompile>
     <ClCompile Include="src\module\common\text_preview_control.cpp">
       <Filter>src\module\common</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\tool\date\date_command_parsing.cpp">
+      <Filter>src\module\tool\date</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

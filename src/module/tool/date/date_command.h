@@ -12,8 +12,6 @@ class DateCommand : public Command {
 public:
     static CommandBrief Brief();
 
-    static std::optional<DateCommandParseResult> Parse(const utility::CommandLine& command_line);
-
 public:
     CommandBrief GetBrief() override;
     help::content::Content GetHelpContent() override;
