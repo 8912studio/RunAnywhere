@@ -31,7 +31,7 @@ private:
 
 	DateCommandParseResult parse_result_;
 	std::optional<zaf::Subscription> timer_subscription_;
-	std::time_t time_value_{};
+	std::time_t base_time_value_{};
 };
 
 }

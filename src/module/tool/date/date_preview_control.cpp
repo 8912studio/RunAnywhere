@@ -12,6 +12,74 @@ namespace {
 constexpr float NormalStyleHeight = 90;
 constexpr float HistoricalStyleHeight = 28;
 
+std::time_t AdjustTimeWithTimeT(std::time_t value, const DateTimeAdjustment& adjustment) {
+
+	int adjusted_value = adjustment.adjustment;
+	switch (adjustment.unit) {
+	case DateTimeUnit::Week:
+		adjusted_value *= 7;
+	case DateTimeUnit::Day:
+		adjusted_value *= 24;
+	case DateTimeUnit::Hour:
+		adjusted_value *= 60;
+	case DateTimeUnit::Minute:
+		adjusted_value *= 60;
+	default:
+		break;
+	}
+	return value + adjusted_value;
+}
+
+
+std::optional<std::time_t> AdjustTimeWithTM(
+	std::time_t value, 
+	const DateTimeAdjustment& adjustment) {
+
+	std::tm tm{};
+	auto error = localtime_s(&tm, &value);
+	if (error) {
+		return std::nullopt;
+	}
+
+	if (adjustment.unit == DateTimeUnit::Year) {
+		tm.tm_year += adjustment.adjustment;
+	}
+	else if (adjustment.unit == DateTimeUnit::Month) {
+		tm.tm_mon += adjustment.adjustment;
+	}
+
+	auto result = mktime(&tm);
+	if (result >= 0) {
+		return result;
+	}
+	return std::nullopt;
+}
+
+
+std::optional<std::time_t> AdjustTime(
+	std::time_t value, 
+	const DateCommandParseResult& parse_result) {
+
+	auto result = value;
+	for (const auto& each_adjustment : parse_result.adjustments) {
+
+		if (each_adjustment.unit == DateTimeUnit::Year ||
+			each_adjustment.unit == DateTimeUnit::Month) {
+
+			auto adjust_result = AdjustTimeWithTM(result, each_adjustment);
+			if (!adjust_result) {
+				return std::nullopt;
+			}
+
+			result = *adjust_result;
+		}
+		else {
+			result = AdjustTimeWithTimeT(result, each_adjustment);
+		}
+	}
+	return result;
+}
+
 }
 
 ZAF_DEFINE_TYPE(DatePreviewControl)
@@ -32,10 +100,10 @@ void DatePreviewControl::AfterParse() {
 	InitializeTextBox();
 
 	if (parse_result_.value) {
-		time_value_ = *parse_result_.value;
+		base_time_value_ = *parse_result_.value;
 	}
 	else {
-		time_value_ = std::time(nullptr);
+		base_time_value_ = std::time(nullptr);
 	}
 
 	UpdateTextBox();
@@ -84,7 +152,7 @@ void DatePreviewControl::StartTimerIfNeeded() {
 
 	timer_subscription_ = zaf::rx::Interval(1s, zaf::Scheduler::Main()).Subscribe([this](int) {
 
-		time_value_ = std::time(nullptr);
+		base_time_value_ = std::time(nullptr);
 		UpdateTextBox();
 	});
 }
@@ -102,12 +170,17 @@ void DatePreviewControl::UpdateTextBox() {
 
 std::wstring DatePreviewControl::GenerateTimeText() const {
 
+	auto adjusted_time = AdjustTime(base_time_value_, parse_result_);
+	if (!adjusted_time) {
+		return L"Invalid value";
+	}
+
 	if (parse_result_.output_raw_value) {
-		return std::to_wstring(time_value_);
+		return std::to_wstring(*adjusted_time);
 	}
 
 	std::tm tm{};
-	auto error = localtime_s(&tm, &time_value_);
+	auto error = localtime_s(&tm, &*adjusted_time);
 	if (error) {
 		return L"Invalid value";
 	}
