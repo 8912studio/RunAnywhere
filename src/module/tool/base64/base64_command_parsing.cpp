@@ -28,8 +28,8 @@ bool TryToParseSwitch(
     else if (value == L"u16") {
         parse_result.encoding = TextEncoding::UTF16;
     }
-    else if (value == L"b") {
-        parse_result.use_binary = true;
+    else if (value == L"h") {
+        parse_result.use_hex = true;
     }
     return true;
 }

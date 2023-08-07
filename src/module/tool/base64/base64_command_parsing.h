@@ -17,7 +17,7 @@ public:
     std::wstring input_text;
     std::optional<Base64Operation> operation;
     std::optional<TextEncoding> encoding;
-    bool use_binary{};
+    bool use_hex{};
 };
 
 

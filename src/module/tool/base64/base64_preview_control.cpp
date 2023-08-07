@@ -118,7 +118,7 @@ std::optional<std::wstring> Base64PreviewControl::ConvertDecodedDataToText(
     const Base64CommandParseResult& parse_result,
     TextEncoding& encoding) {
 
-    if (parse_result.use_binary) {
+    if (parse_result.use_hex) {
         return std::nullopt;
     }
 
