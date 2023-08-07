@@ -26,8 +26,31 @@ help::content::Content DateCommand::GetHelpContent() {
 	result.AddBodyLine(L"Convert between human readable date time string and UNIX timestamp.");
 
 	result.AddTitleLine(L"Usage");
-	result.AddBodyLine(L"date [timestamp] [switches]");
-	result.AddBodyLine(L"If `timestamp` is omitted, current date time would be used.");
+	result.AddBodyLine(L"date [timestamp] [adjustment] [switches]");
+	result.AddBodyLine(L"If `timestamp` is omitted, current date time will be used.");
+
+	result.AddTitleLine(L"Adjustment");
+	result.AddBodyLine(
+		L"`adjustment` is used to adjust the time by a specified amount of unit. "
+		L"It starts with a `+` or `-` character, and then an integer, followed by an unit "
+		L"identifier, such as +10s, -7d."
+	);
+
+	result.AddBodyLine(
+		L"Available unit identifiers are:\r\n"
+		L"s - seconds\r\n"
+		L"min - minutes\r\n"
+		L"h - hours\r\n"
+		L"d - days\r\n"
+		L"w - weeks\r\n"
+		L"mon - months\r\n"
+		L"y - years"
+	);
+
+	result.AddBodyLine(
+		L"If unit identifier is omitted, seconds will be used. There can be multiple adjustments"
+		L"as arguments."
+	);
 
 	result.AddTitleLine(L"Switches");
 	result.AddTwoPartsLine(L"/e", L"Show the result as UNIX timestamp.");
