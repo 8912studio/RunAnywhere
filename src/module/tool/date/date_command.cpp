@@ -36,16 +36,14 @@ help::content::Content DateCommand::GetHelpContent() {
 		L"identifier, such as +10s, -7d."
 	);
 
-	result.AddBodyLine(
-		L"Available unit identifiers are:\r\n"
-		L"s - seconds\r\n"
-		L"min - minutes\r\n"
-		L"h - hours\r\n"
-		L"d - days\r\n"
-		L"w - weeks\r\n"
-		L"mon - months\r\n"
-		L"y - years"
-	);
+	result.AddBodyLine(L"Available unit identifiers are:");
+	result.AddTwoPartsLine(L"s", L"seconds");
+	result.AddTwoPartsLine(L"min", L"minutes");
+	result.AddTwoPartsLine(L"h", L"hours");
+	result.AddTwoPartsLine(L"d", L"days");
+	result.AddTwoPartsLine(L"w", L"weeks");
+	result.AddTwoPartsLine(L"mon", L"months");
+	result.AddTwoPartsLine(L"y", L"years");
 
 	result.AddBodyLine(
 		L"If unit identifier is omitted, seconds will be used. There can be multiple adjustments"
