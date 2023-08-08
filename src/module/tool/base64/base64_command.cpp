@@ -23,6 +23,10 @@ help::content::Content Base64Command::GetHelpContent() {
     result.AddTitleLine(L"Usage");
     result.AddBodyLine(L"b64 <text> [switches]");
     result.AddBodyLine(
+        L"If there are space characters in `text`, enclose it in double quotation marks( \" ). "
+        L"Or use text block(press ALT+T to insert) to contain arbitrary text."
+    );
+    result.AddBodyLine(
         L"The command detects if `text` is a Base64-encoded string, if so, decoding mode is used; "
         L"otherwise encoding mode is used."
     );
