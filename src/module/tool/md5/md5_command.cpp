@@ -1,5 +1,7 @@
 #include "module/tool/md5/md5_command.h"
 #include <zaf/creation.h>
+#include "module/active_path/active_path_modifying.h"
+#include "module/active_path/active_path_option_parsing.h"
 #include "module/common/copy_executor.h"
 
 namespace ra::mod::tool::md5 {
@@ -22,7 +24,11 @@ MD5CommandParseResult MD5Command::Parse(const utility::CommandLine& command_line
 			continue;
 		}
 
-		if (each_argument.front() == L'/') {
+		auto active_path_option = active_path::TryToParseActivePathArgument(each_argument);
+		if (active_path_option) {
+			result.active_path_option = active_path_option;
+		}
+		else if (each_argument.front() == L'/') {
 
 			auto switch_value = each_argument.substr(1);
 			if (switch_value == L"u8") {
@@ -99,7 +105,18 @@ std::shared_ptr<CommandPreviewControl> MD5Command::GetPreviewControl() {
 			preview_control_->ShowStringMD5(parse_result_.string, parse_result_.encoding);
 		}
 		else {
-			preview_control_->ShowFileMD5(desktop_context_.active_path.GetPath());
+
+			context::ActivePath active_path;
+			if (parse_result_.active_path_option) {
+				active_path = active_path::ModifyActivePathByOption(
+					desktop_context_.active_path,
+					*parse_result_.active_path_option);
+			}
+			else {
+				active_path = desktop_context_.active_path;
+			}
+			
+			preview_control_->ShowFileMD5(active_path.GetPath());
 		}
 	}
 

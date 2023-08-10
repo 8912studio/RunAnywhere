@@ -68,4 +68,14 @@ ActivePathOption ParseActivePathOption(std::wstring_view text) {
 	return result;
 }
 
+
+std::optional<ActivePathOption> TryToParseActivePathArgument(std::wstring_view argument) {
+
+	if (argument.empty() || argument.front() != L'@') {
+		return std::nullopt;
+	}
+
+	return ParseActivePathOption(argument.substr(1));
+}
+
 }
