@@ -10,25 +10,32 @@ context::ActivePath ModifyActivePathByOption(
 
         std::filesystem::path new_path;
 
-        if (option.use_workspace_path && active_path.HasWorkspacePath()) {
-            new_path = active_path.GetWorkspacePath();
+        //Overriding path has the highest priority and is exclusive.
+        if (option.overriding_path) {
+            new_path = *option.overriding_path;
         }
         else {
-            new_path = active_path.GetPath();
-        }
 
-        if (option.backward_level >= 1) {
-            if (!std::filesystem::is_directory(new_path)) {
+            if (option.use_workspace_path && active_path.HasWorkspacePath()) {
+                new_path = active_path.GetWorkspacePath();
+            }
+            else {
+                new_path = active_path.GetPath();
+            }
+
+            if (option.backward_level >= 1) {
+                if (!std::filesystem::is_directory(new_path)) {
+                    new_path = new_path.parent_path();
+                }
+            }
+
+            for (std::size_t level = 2; level <= option.backward_level; ++level) {
                 new_path = new_path.parent_path();
             }
-        }
 
-        for (std::size_t level = 2; level <= option.backward_level; ++level) {
-            new_path = new_path.parent_path();
-        }
-
-        if (option.use_name) {
-            new_path = new_path.filename();
+            if (option.use_name) {
+                new_path = new_path.filename();
+            }
         }
 
         return context::ActivePath{ new_path, active_path.GetWorkspacePath() };

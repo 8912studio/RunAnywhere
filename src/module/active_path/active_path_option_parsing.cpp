@@ -3,6 +3,16 @@
 namespace ra::mod::active_path {
 namespace {
 
+std::optional<std::wstring> ParseOverridingPath(std::wstring_view text) {
+
+	if (text.empty() || text.front() != L'=') {
+		return std::nullopt;
+	}
+
+	return std::wstring{ text.substr(1) };
+}
+
+
 std::size_t ParseUseWorkspace(std::wstring_view text, ActivePathOption& option) {
 
 	if (text.empty() || text.front() != L'~') {
@@ -47,10 +57,14 @@ ActivePathOption ParseActivePathOption(std::wstring_view text) {
 
 	ActivePathOption result;
 
-	std::size_t parsed_length = ParseUseWorkspace(text, result);
-	parsed_length += ParseBackwardLevel(text.substr(parsed_length), result);
-	parsed_length += ParseUseName(text.substr(parsed_length), result);
+	//Overriding path has the highest priority, and cannot be used along with other options.
+	result.overriding_path = ParseOverridingPath(text);
+	if (!result.overriding_path) {
 
+		std::size_t parsed_length = ParseUseWorkspace(text, result);
+		parsed_length += ParseBackwardLevel(text.substr(parsed_length), result);
+		parsed_length += ParseUseName(text.substr(parsed_length), result);
+	}
 	return result;
 }
 

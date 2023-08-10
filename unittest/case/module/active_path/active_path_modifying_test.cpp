@@ -4,6 +4,18 @@
 using namespace ra::context;
 using namespace ra::mod::active_path;
 
+TEST(ActivePathModifyingTest, ModifyByOverridingPath) {
+
+	ActivePath path{ L"C:\\Windows\\System32\\ntdll.dll", L"C:\\Windows" };
+
+	ActivePathOption option;
+	option.overriding_path = L"D:\\Program Files\\Test";
+	auto new_path = ModifyActivePathByOption(path, option);
+	ASSERT_EQ(new_path.GetPath(), L"D:\\Program Files\\Test");
+	ASSERT_EQ(new_path.GetWorkspacePath(), L"C:\\Windows");
+}
+
+
 TEST(ActivePathModifyingTest, ModifyFilePathByBackwardLevel) {
 
 	ActivePath path{ L"C:\\Windows\\System32\\ntdll.dll" };
@@ -81,17 +93,33 @@ TEST(ActivePathModifyingTest, ModifyByCombinedOptions) {
 
 	ActivePath path{ L"C:\\Windows\\System32\\ntdll.dll", L"C:\\Windows\\System32" };
 
-	ActivePathOption option;
-	option.use_name = true;
-	option.backward_level = 2;
-	auto new_path = ModifyActivePathByOption(path, option);
-	ASSERT_EQ(new_path.GetPath(), L"Windows");
-	ASSERT_EQ(new_path.GetWorkspacePath(), L"C:\\Windows\\System32");
+	{
+		ActivePathOption option;
+		option.use_name = true;
+		option.backward_level = 2;
+		auto new_path = ModifyActivePathByOption(path, option);
+		ASSERT_EQ(new_path.GetPath(), L"Windows");
+		ASSERT_EQ(new_path.GetWorkspacePath(), L"C:\\Windows\\System32");
+	}
 
-	option.use_workspace_path = true;
-	option.use_name = true;
-	option.backward_level = 1;
-	new_path = ModifyActivePathByOption(path, option);
-	ASSERT_EQ(new_path.GetPath(), L"System32");
-	ASSERT_EQ(new_path.GetWorkspacePath(), L"C:\\Windows\\System32");
+	{
+		ActivePathOption option;
+		option.use_workspace_path = true;
+		option.use_name = true;
+		option.backward_level = 1;
+		auto new_path = ModifyActivePathByOption(path, option);
+		ASSERT_EQ(new_path.GetPath(), L"System32");
+		ASSERT_EQ(new_path.GetWorkspacePath(), L"C:\\Windows\\System32");
+	}
+
+	{
+		ActivePathOption option;
+		option.overriding_path = L"D:\\Windows\\etc";
+		option.use_name = true;
+		option.use_workspace_path = true;
+		option.backward_level = 2;
+		auto new_path = ModifyActivePathByOption(path, option);
+		ASSERT_EQ(new_path.GetPath(), L"D:\\Windows\\etc");
+		ASSERT_EQ(new_path.GetWorkspacePath(), L"C:\\Windows\\System32");
+	}
 }
