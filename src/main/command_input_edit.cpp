@@ -151,8 +151,17 @@ void CommandInputEdit::OnKeyDown(const zaf::KeyDownInfo& event_info) {
 
 void CommandInputEdit::InsertActivePathOverridingIndicator() {
 
-    auto text = zaf::clipboard::Clipboard::GetText();
-    InsertTextOrTextBlockObject(L"@=" + text);
+    std::wstring text{ L"@=" };
+
+    try {
+        auto clipboard_text = zaf::clipboard::Clipboard::GetText();
+        text += clipboard_text;
+    }
+    catch (const zaf::Error&) {
+
+    }
+
+    InsertTextOrTextBlockObject(text);
 }
 
 
