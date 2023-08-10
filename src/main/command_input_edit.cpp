@@ -136,6 +136,26 @@ void CommandInputEdit::RaiseCommandChangedEvent() {
 }
 
 
+void CommandInputEdit::OnKeyDown(const zaf::KeyDownInfo& event_info) {
+
+    if (event_info.Message().VirtualKey() == L'2') {
+        if (GetKeyState(VK_CONTROL) >> 15) {
+            InsertActivePathOverridingIndicator();
+            event_info.MarkAsHandled();
+        }
+    }
+
+    __super::OnKeyDown(event_info);
+}
+
+
+void CommandInputEdit::InsertActivePathOverridingIndicator() {
+
+    auto text = zaf::clipboard::Clipboard::GetText();
+    InsertTextOrTextBlockObject(L"@=" + text);
+}
+
+
 void CommandInputEdit::OnSysKeyDown(const zaf::SysKeyDownInfo& event_info) {
 
     if (event_info.Message().VirtualKey() == L'T') {
@@ -237,9 +257,11 @@ void CommandInputEdit::InsertPrivateClipboardData(const zaf::clipboard::DataObje
 
 
 void CommandInputEdit::InsertTextData(const zaf::clipboard::DataObject& data_object) {
+    InsertTextOrTextBlockObject(data_object.GetText());
+}
 
-    auto text = data_object.GetText();
 
+void CommandInputEdit::InsertTextOrTextBlockObject(const std::wstring& text) {
     if (ShouldInsertTextBlockObject(text)) {
         InsertTextBlockObjectWithText(text);
     }

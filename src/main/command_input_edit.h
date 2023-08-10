@@ -28,6 +28,7 @@ public:
 protected:
     void Initialize() override;
     void OnTextChanged(const zaf::TextChangedInfo& event_info) override;
+    void OnKeyDown(const zaf::KeyDownInfo& event_info) override;
     void OnSysKeyDown(const zaf::SysKeyDownInfo& event_info) override;
 
 private:
@@ -37,6 +38,7 @@ private:
     std::shared_ptr<TextBlockObject> InsertTextBlockObjectWithText(const std::wstring& text);
     void InsertTextBlockObject(const std::shared_ptr<TextBlockObject>& object);
     void RaiseCommandChangedEvent();
+    void InsertActivePathOverridingIndicator();
     void InsertTextBlockObjectByKey();
 
     zaf::rich_edit::OperationResult CanInsertClipboardData(
@@ -51,6 +53,7 @@ private:
 
     void InsertPrivateClipboardData(const zaf::clipboard::DataObject& data_object);
     void InsertTextData(const zaf::clipboard::DataObject& data_object);
+    void InsertTextOrTextBlockObject(const std::wstring& text);
 
     zaf::rich_edit::OperationResult GetClipboardData(
         zaf::rich_edit::ClipboardOperation operation,
