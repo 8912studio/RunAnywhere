@@ -37,6 +37,9 @@ MD5CommandParseResult MD5Command::Parse(const utility::CommandLine& command_line
 			else if (switch_value == L"u16") {
 				result.encoding = TextEncoding::UTF16;
 			}
+			else if (switch_value == L"f") {
+				result.treat_string_as_file = true;
+			}
 			else if (switch_value == L"c") {
 				result.use_uppercase = true;
 			}
@@ -97,30 +100,50 @@ bool MD5Command::Interpret(
 std::shared_ptr<CommandPreviewControl> MD5Command::GetPreviewControl() {
 
 	if (!preview_control_) {
-
-		preview_control_ = zaf::Create<MD5PreviewControl>();
-		preview_control_->SetUseUppercase(parse_result_.use_uppercase);
-
-		if (!parse_result_.string.empty()) {
-			preview_control_->ShowStringMD5(parse_result_.string, parse_result_.encoding);
-		}
-		else {
-
-			context::ActivePath active_path;
-			if (parse_result_.active_path_option) {
-				active_path = active_path::ModifyActivePathByOption(
-					desktop_context_.active_path,
-					*parse_result_.active_path_option);
-			}
-			else {
-				active_path = desktop_context_.active_path;
-			}
-			
-			preview_control_->ShowFileMD5(active_path.GetPath());
-		}
+		CreatePreviewControl();
 	}
 
 	return preview_control_;
+}
+
+
+void MD5Command::CreatePreviewControl() {
+
+	preview_control_ = zaf::Create<MD5PreviewControl>();
+	preview_control_->SetUseUppercase(parse_result_.use_uppercase);
+
+	if (!parse_result_.string.empty()) {
+
+		if (parse_result_.treat_string_as_file) {
+			preview_control_->ShowFileMD5(parse_result_.string);
+		}
+		else {
+			preview_control_->ShowStringMD5(
+				parse_result_.string, 
+				parse_result_.encoding.value_or(TextEncoding::UTF8));
+		}
+	}
+	else {
+
+		context::ActivePath active_path;
+		if (parse_result_.active_path_option) {
+			active_path = active_path::ModifyActivePathByOption(
+				desktop_context_.active_path,
+				*parse_result_.active_path_option);
+		}
+		else {
+			active_path = desktop_context_.active_path;
+		}
+
+		if (parse_result_.encoding) {
+			preview_control_->ShowStringMD5(
+				active_path.GetPath().wstring(),
+				*parse_result_.encoding);
+		}
+		else {
+			preview_control_->ShowFileMD5(active_path.GetPath());
+		}
+	}
 }
 
 

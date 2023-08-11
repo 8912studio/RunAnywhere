@@ -95,6 +95,9 @@
   <ItemGroup>
     <ClInclude Include="case\module\calculator\number_parser_test_utility.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\src\res.rc" />
+  </ItemGroup>
   <ItemDefinitionGroup />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
@@ -118,6 +121,7 @@
       <SubSystem>Console</SubSystem>
       <AdditionalDependencies>zaf.lib;version.lib;UserEnv.lib;dwmapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PreBuildEvent />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>

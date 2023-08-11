@@ -25,6 +25,9 @@ public:
     std::shared_ptr<CommandExecutor> GetExecutor() override;
 
 private:
+    void CreatePreviewControl();
+
+private:
     MD5CommandParseResult parse_result_;
     std::shared_ptr<MD5PreviewControl> preview_control_;
     context::DesktopContext desktop_context_;
