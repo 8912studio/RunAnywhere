@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include <zaf/application.h>
 #include <zaf/base/as.h>
 #include "module/tool/md5/md5_command.h"
 #include "module/tool/md5/md5_preview_control.h"
@@ -112,6 +113,38 @@ TEST(MD5CommandTest, CalculateFile) {
 
     auto test = [](const std::wstring& command_text, const std::wstring& expected_result) {
     
+        CommandLine command_line{ command_text };
 
+        DesktopContext context;
+        std::filesystem::path test_file_path(__FILEW__);
+        test_file_path = test_file_path.parent_path() / L"md5_test_file1";
+        context.active_path = ActivePath{ test_file_path };
+
+        MD5Command command;
+        if (!command.Interpret(command_line, context, false)) {
+            return false;
+        }
+        auto preview_control = zaf::As<MD5PreviewControl>(command.GetPreviewControl());
+        if (!preview_control) {
+            return false;
+        }
+        
+        bool calculate_finished{};
+        zaf::Application::Instance().Subscriptions() += 
+            preview_control->CalculateFinishedEvent().Subscribe([&calculate_finished](zaf::None) {
+            calculate_finished = true;
+        });
+
+        MSG msg{};
+        while (GetMessage(&msg, nullptr, 0, 0)) {
+            DispatchMessage(&msg);
+            if (calculate_finished) {
+                break;
+            }
+        }
+
+        return preview_control->GetText() == expected_result;
     };
+
+    ASSERT_TRUE(test(L"md5", L"be70c81c90e0affb615d34ad2bfec874"));
 }

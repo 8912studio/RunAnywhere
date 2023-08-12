@@ -111,6 +111,10 @@ void MD5PreviewControl::ShowFileMD5(const std::filesystem::path& file_path) {
 	}, 
 	[this](const zaf::Error&) {
 		ChangeLayout(LayoutType::Error);
+	}, 
+	[this]() {
+		calculate_finished_event_.GetObserver().OnNext({});
+		calculate_finished_event_.GetObserver().OnCompleted();
 	});
 }
 

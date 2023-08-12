@@ -7,6 +7,8 @@
 #include <zaf/control/label.h>
 #include <zaf/control/linear_box.h>
 #include <zaf/control/rich_edit.h>
+#include <zaf/base/none.h>
+#include <zaf/rx/subject.h>
 #include "module/command_preview_control.h"
 #include "module/common/content_status_bar.h"
 #include "module/common/error_view.h"
@@ -27,6 +29,11 @@ public:
 
 	void SetUseUppercase(bool value) {
 		use_upper_case_ = value;
+	}
+
+	//For unittest.
+	zaf::Observable<zaf::None> CalculateFinishedEvent() const {
+		return calculate_finished_event_.GetObservable();
 	}
 
 protected:
@@ -51,6 +58,8 @@ private:
 	ZAF_BIND_CONTROL(utility::PreviewTextBox, md5ResultControl);
 
 	bool use_upper_case_{};
+
+	zaf::Subject<zaf::None> calculate_finished_event_;
 };
 
 }
