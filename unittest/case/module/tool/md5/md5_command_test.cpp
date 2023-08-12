@@ -147,4 +147,11 @@ TEST(MD5CommandTest, CalculateFile) {
     };
 
     ASSERT_TRUE(test(L"md5", L"be70c81c90e0affb615d34ad2bfec874"));
+    ASSERT_TRUE(test(L"md5 /c", L"BE70C81C90E0AFFB615D34AD2BFEC874"));
+
+    std::wstring other_file_path = 
+        std::filesystem::path(__FILEW__).parent_path() / "md5_test_file2";
+
+    ASSERT_TRUE(test(L"md5 \"@=" + other_file_path + L"\"", L"089b4f9ecd4defaa036039ad89044ea2"));
+    ASSERT_TRUE(test(L"md5 \"" + other_file_path + L"\" /f", L"089b4f9ecd4defaa036039ad89044ea2"));
 }
