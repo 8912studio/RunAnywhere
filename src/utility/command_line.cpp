@@ -36,6 +36,7 @@ std::vector<CommandLinePiece> ExpandObjectText(
                 CommandLinePiece piece;
                 if (object_text_getter) {
                     piece = object_text_getter(object_index);
+                    ZAF_EXPECT(piece.Type() != CommandLinePieceType::NormalText);
                 }
 
                 if (!piece.Content().empty()) {

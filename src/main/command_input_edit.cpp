@@ -39,18 +39,22 @@ utility::CommandLine CommandInputEdit::GetInputCommandLine() {
 
     return utility::CommandLine(this->Text(), [ole_interface](int object_index) {
 
-        try {
-
-            auto object = ole_interface.GetEmbeddedObjectAt(object_index);
-            auto text_block_object = zaf::As<TextBlockObject>(object);
-            if (text_block_object) {
-                return text_block_object->Text();
-            }
-            return std::wstring{};
-        }
-        catch (const zaf::Error&) {
-            return std::wstring{};
-        }
+        return utility::CommandLinePiece{ 
+            utility::CommandLinePieceType::TextBlock,
+            [ole_interface, object_index]() {
+                try {
+                    auto object = ole_interface.GetEmbeddedObjectAt(object_index);
+                    auto text_block_object = zaf::As<TextBlockObject>(object);
+                    if (text_block_object) {
+                        return text_block_object->Text();
+                    }
+                    return std::wstring{};
+                }
+                catch (const zaf::Error&) {
+                    return std::wstring{};
+                }
+            }()
+        };
     });
 }
 

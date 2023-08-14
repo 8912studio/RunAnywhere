@@ -7,7 +7,7 @@ namespace {
 
 CommandLine::ObjectTextGetter ToObjectTextGetter(const std::vector<std::wstring>& texts) {
     return [texts](int index) {
-        return CommandLinePiece{ texts[index] };
+        return CommandLinePiece{ CommandLinePieceType::TextBlock, texts[index] };
     };
 }
 
@@ -51,100 +51,160 @@ TEST(CommandLineTest, Move) {
 }
 
 
-TEST(CommandLineTest, AllPieces) {
+TEST(CommandLineTest, InvalidObjectTextGetter) {
+
+    auto object_text_getter = [](int) {
+        return CommandLinePiece{ CommandLinePieceType::NormalText, L"abc" };
+    };
+    ASSERT_THROW(CommandLine(L"\ufffc", object_text_getter), std::logic_error);
+}
+
+
+TEST(CommandLineTest, Parse) {
 
     {
         CommandLine command_line{ L"" };
-        ASSERT_EQ(command_line.AllPieces(), std::vector<CommandLinePiece>{});
+        ASSERT_TRUE(command_line.Command().empty());
+        ASSERT_TRUE(command_line.Arguments().empty());
+        ASSERT_TRUE(command_line.AllPieces().empty());
     }
 
     {
         CommandLine command_line{ L"  " };
-        ASSERT_EQ(command_line.AllPieces(), std::vector<CommandLinePiece>{});
+        ASSERT_TRUE(command_line.Command().empty());
+        ASSERT_TRUE(command_line.Arguments().empty());
+        ASSERT_TRUE(command_line.AllPieces().empty());
     }
 
     {
         CommandLine command_line{ L"Cmd" };
+        ASSERT_EQ(command_line.Command(), L"Cmd");
+        ASSERT_TRUE(command_line.Arguments().empty());
         std::vector<CommandLinePiece> expected{ { L"Cmd" } };
         ASSERT_EQ(command_line.AllPieces(), expected);
     }
 
     {
         CommandLine command_line{ L"Cmd arg1" };
-        std::vector<CommandLinePiece> expected{ { L"Cmd" }, { L"arg1" } };
-        ASSERT_EQ(command_line.AllPieces(), expected);
+        ASSERT_EQ(command_line.Command(), L"Cmd");
+        std::vector<CommandLinePiece> expected_arguments{ { L"arg1" } };
+        ASSERT_EQ(command_line.Arguments(), expected_arguments);
+        std::vector<CommandLinePiece> expected_all_pieces{ { L"Cmd" }, { L"arg1" } };
+        ASSERT_EQ(command_line.AllPieces(), expected_all_pieces);
     }
 
     {
-        CommandLine command_line{ L"Cmd arg1 arg2" };
-        std::vector<CommandLinePiece> expected{
+        CommandLine command_line(L"Cmd arg1 \ufffc arg3", [](int) {
+            return CommandLinePiece{ CommandLinePieceType::TextBlock, L"arg2" };
+        });
+        ASSERT_EQ(command_line.Command(), L"Cmd");
+        std::vector<CommandLinePiece> expected_arguments{
+            { CommandLinePieceType::NormalText, L"arg1" },
+            { CommandLinePieceType::TextBlock, L"arg2" },
+            { CommandLinePieceType::NormalText, L"arg3" },
+        };
+        ASSERT_EQ(command_line.Arguments(), expected_arguments);
+        std::vector<CommandLinePiece> expected_all_pieces{
             { CommandLinePieceType::NormalText, L"Cmd" },
             { CommandLinePieceType::NormalText, L"arg1" },
-            { CommandLinePieceType::NormalText, L"arg2" },
+            { CommandLinePieceType::TextBlock, L"arg2" },
+            { CommandLinePieceType::NormalText, L"arg3" },
         };
-        ASSERT_EQ(command_line.AllPieces(), expected);
+        ASSERT_EQ(command_line.AllPieces(), expected_all_pieces);
     }
-}
-
-
-TEST(CommandLineTest, ObjectOnly) {
 
     {
         CommandLine command_line{ L"\ufffc", ToObjectTextGetter({ L"o" }) };
-        ASSERT_EQ(command_line.Command(), L"o");
+        ASSERT_TRUE(command_line.Command().empty());
         ASSERT_TRUE(command_line.Arguments().empty());
+        std::vector<CommandLinePiece> expected_all_piece{
+            { CommandLinePieceType::TextBlock, L"o" },
+        };
+        ASSERT_EQ(command_line.AllPieces(), expected_all_piece);
     }
 
     {
         CommandLine command_line{ L"\ufffc\ufffc", ToObjectTextGetter({ L"11", L"22" })};
-        ASSERT_EQ(command_line.Command(), L"11");
-        ASSERT_EQ(command_line.Arguments().size(), 1);
-        ASSERT_EQ(command_line.Arguments().front(), CommandLinePiece(L"22"));
+        ASSERT_TRUE(command_line.Command().empty());
+        ASSERT_TRUE(command_line.Arguments().empty());
+        std::vector<CommandLinePiece> expected_all_piece{
+            { CommandLinePieceType::TextBlock, L"11" },
+            { CommandLinePieceType::TextBlock, L"22" },
+        };
+        ASSERT_EQ(command_line.AllPieces(), expected_all_piece);
     }
 
     {
         CommandLine command_line{ L"\ufffc\ufffc \ufffc", ToObjectTextGetter({ 
             L"11", L"22", L"33"
         })};
-        ASSERT_EQ(command_line.Command(), L"11");
-        ASSERT_EQ(command_line.Arguments().size(), 2);
-        ASSERT_EQ(command_line.Arguments()[0], CommandLinePiece(L"22"));
-        ASSERT_EQ(command_line.Arguments()[1], CommandLinePiece(L"33"));
+        ASSERT_TRUE(command_line.Command().empty());
+        ASSERT_TRUE(command_line.Arguments().empty());
+        std::vector<CommandLinePiece> expected_all_piece{
+            { CommandLinePieceType::TextBlock, L"11" },
+            { CommandLinePieceType::TextBlock, L"22" },
+            { CommandLinePieceType::TextBlock, L"33" },
+        };
+        ASSERT_EQ(command_line.AllPieces(), expected_all_piece);
     }
-}
-
-
-TEST(CommandLineTest, TextAndObject) {
 
     {
         CommandLine command_line{ L"aaa\ufffc", ToObjectTextGetter({ L"b" })};
         ASSERT_EQ(command_line.Command(), L"aaa");
-        ASSERT_EQ(command_line.Arguments().size(), 1);
-        ASSERT_EQ(command_line.Arguments().front(), CommandLinePiece(L"b"));
+        std::vector<CommandLinePiece> expected_argument{
+            { CommandLinePieceType::TextBlock, L"b" },
+        };
+        ASSERT_EQ(command_line.Arguments(), expected_argument);
+        std::vector<CommandLinePiece> expected_all_piece{
+            { CommandLinePieceType::NormalText, L"aaa" },
+            { CommandLinePieceType::TextBlock, L"b" },
+        };
+        ASSERT_EQ(command_line.AllPieces(), expected_all_piece);
     }
 
     {
         CommandLine command_line{ L"\ufffcccc", ToObjectTextGetter({ L"b" }) };
-        ASSERT_EQ(command_line.Command(), L"b");
-        ASSERT_EQ(command_line.Arguments().size(), 1);
-        ASSERT_EQ(command_line.Arguments().front(), CommandLinePiece(L"ccc"));
+        ASSERT_TRUE(command_line.Command().empty());
+        ASSERT_TRUE(command_line.Arguments().empty());
+        std::vector<CommandLinePiece> expected_all_piece{
+            { CommandLinePieceType::TextBlock, L"b" },
+            { CommandLinePieceType::NormalText, L"ccc" },
+        };
+        ASSERT_EQ(command_line.AllPieces(), expected_all_piece);
     }
 
     {
         CommandLine command_line{ L"aaa\ufffcccc", ToObjectTextGetter({ L"b" }) };
         ASSERT_EQ(command_line.Command(), L"aaa");
-        ASSERT_EQ(command_line.Arguments().size(), 2);
-        ASSERT_EQ(command_line.Arguments()[0], CommandLinePiece(L"b"));
-        ASSERT_EQ(command_line.Arguments()[1], CommandLinePiece(L"ccc"));
+        std::vector<CommandLinePiece> expected_argument{
+            { CommandLinePieceType::TextBlock, L"b" },
+            { CommandLinePieceType::NormalText, L"ccc" },
+        };
+        ASSERT_EQ(command_line.Arguments(), expected_argument);
+        std::vector<CommandLinePiece> expected_all_piece{
+            { CommandLinePieceType::NormalText, L"aaa" },
+            { CommandLinePieceType::TextBlock, L"b" },
+            { CommandLinePieceType::NormalText, L"ccc" },
+        };
+        ASSERT_EQ(command_line.AllPieces(), expected_all_piece);
     }
 
     {
         CommandLine command_line{ L"aaa \ufffc ccc \ufffc", ToObjectTextGetter({ L"b", L"dd"})};
         ASSERT_EQ(command_line.Command(), L"aaa");
-        ASSERT_EQ(command_line.Arguments().size(), 3);
-        ASSERT_EQ(command_line.Arguments()[0], CommandLinePiece(L"b"));
-        ASSERT_EQ(command_line.Arguments()[1], CommandLinePiece(L"ccc"));
-        ASSERT_EQ(command_line.Arguments()[2], CommandLinePiece(L"dd"));
+        std::vector<CommandLinePiece> expected_argument{
+            { CommandLinePieceType::TextBlock, L"b" },
+            { CommandLinePieceType::NormalText, L"ccc" },
+            { CommandLinePieceType::TextBlock, L"dd" },
+        };
+        ASSERT_EQ(command_line.Arguments(), expected_argument);
+        std::vector<CommandLinePiece> expected_all_piece{
+            { CommandLinePieceType::NormalText, L"aaa" },
+            { CommandLinePieceType::TextBlock, L"b" },
+            { CommandLinePieceType::NormalText, L"ccc" },
+            { CommandLinePieceType::TextBlock, L"dd" },
+        };
+        ASSERT_EQ(command_line.AllPieces(), expected_all_piece);
     }
 }
 

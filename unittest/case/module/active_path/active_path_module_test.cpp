@@ -44,7 +44,7 @@ TEST(ActivePathModuleTest, CreateCommand) {
 
     {
         CommandLine command_line(L"\ufffc", [](int) {
-            return CommandLinePiece{ L"@=test abcd" };
+            return CommandLinePiece{ CommandLinePieceType::TextBlock, L"@=test abcd" };
         });
         auto command = module.CreateCommand(command_line);
         ASSERT_NE(command, nullptr);
