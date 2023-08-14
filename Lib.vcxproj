@@ -222,6 +222,7 @@
     <ClInclude Include="src\module\tool\md5\md5_calculating.h" />
     <ClInclude Include="src\module\tool\md5\md5_command.h" />
     <ClInclude Include="src\module\tool\md5\md5_command_parse_result.h" />
+    <ClInclude Include="src\module\tool\md5\md5_command_parsing.h" />
     <ClInclude Include="src\module\tool\md5\md5_preview_control.h" />
     <ClInclude Include="src\module\tool\rgb\rgb_command.h" />
     <ClInclude Include="src\module\tool\rgb\rgb_command_parse_result.h" />
@@ -368,6 +369,7 @@
     <ClCompile Include="src\module\tool\hex\hex_preview_control.cpp" />
     <ClCompile Include="src\module\tool\md5\md5_calculating.cpp" />
     <ClCompile Include="src\module\tool\md5\md5_command.cpp" />
+    <ClCompile Include="src\module\tool\md5\md5_command_parsing.cpp" />
     <ClCompile Include="src\module\tool\md5\md5_preview_control.cpp" />
     <ClCompile Include="src\module\tool\rgb\rgb_command.cpp" />
     <ClCompile Include="src\module\tool\rgb\rgb_preview_control.cpp" />

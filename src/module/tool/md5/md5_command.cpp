@@ -1,8 +1,8 @@
 #include "module/tool/md5/md5_command.h"
 #include <zaf/creation.h>
 #include "module/active_path/active_path_modifying.h"
-#include "module/active_path/active_path_option_parsing.h"
 #include "module/common/copy_executor.h"
+#include "module/tool/md5/md5_command_parsing.h"
 
 namespace ra::mod::tool::md5 {
 
@@ -11,45 +11,6 @@ CommandBrief MD5Command::Brief() {
 		L"md5",
 		L"Calculate MD5 hash"
 	};
-}
-
-
-MD5CommandParseResult MD5Command::Parse(const utility::CommandLine& command_line) {
-
-	MD5CommandParseResult result;
-
-	for (const auto& each_argument : command_line.Arguments()) {
-
-		if (each_argument.Content().empty()) {
-			continue;
-		}
-
-		auto active_path_option = active_path::TryToParseActivePathArgument(each_argument.Content());
-		if (active_path_option) {
-			result.active_path_option = active_path_option;
-		}
-		else if (each_argument.Content().front() == L'/') {
-
-			auto switch_value = each_argument.Content().substr(1);
-			if (switch_value == L"u8") {
-				result.encoding = TextEncoding::UTF8;
-			}
-			else if (switch_value == L"u16") {
-				result.encoding = TextEncoding::UTF16;
-			}
-			else if (switch_value == L"f") {
-				result.treat_string_as_file = true;
-			}
-			else if (switch_value == L"c") {
-				result.use_uppercase = true;
-			}
-		}
-		else {
-			result.string = each_argument.Content();
-		}
-	}
-
-	return result;
 }
 
 
@@ -91,7 +52,7 @@ bool MD5Command::Interpret(
 		return false;
 	}
 
-	parse_result_ = Parse(command_line);
+	parse_result_ = ParseMD5Command(command_line);
 	desktop_context_ = desktop_context;
 	return true;
 }

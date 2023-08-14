@@ -193,6 +193,9 @@
     <ClCompile Include="case\module\active_path\active_path_module_test.cpp">
       <Filter>case\module\active_path</Filter>
     </ClCompile>
+    <ClCompile Include="case\module\tool\md5\md5_command_parsing_test.cpp">
+      <Filter>case\module\tool\md5</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="case\module\calculator\number_parser_test_utility.h">

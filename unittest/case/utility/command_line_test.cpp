@@ -85,6 +85,14 @@ TEST(CommandLineTest, Parse) {
     }
 
     {
+        CommandLine command_line{ L"Cmd \"\"" };
+        ASSERT_EQ(command_line.Command(), L"Cmd");
+        ASSERT_TRUE(command_line.Arguments().empty());
+        std::vector<CommandLinePiece> expected{ { L"Cmd" } };
+        ASSERT_EQ(command_line.AllPieces(), expected);
+    }
+
+    {
         CommandLine command_line{ L"Cmd arg1" };
         ASSERT_EQ(command_line.Command(), L"Cmd");
         std::vector<CommandLinePiece> expected_arguments{ { L"arg1" } };

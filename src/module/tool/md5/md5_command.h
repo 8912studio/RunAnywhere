@@ -12,8 +12,6 @@ class MD5Command : public Command {
 public:
     static CommandBrief Brief();
 
-    static MD5CommandParseResult Parse(const utility::CommandLine& command_line);
-
 public:
     CommandBrief GetBrief() override;
     help::content::Content GetHelpContent() override;
