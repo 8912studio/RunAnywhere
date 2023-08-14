@@ -124,7 +124,13 @@ std::unique_ptr<Command> UserDefinedModule::CreateCommand(const utility::Command
 
     auto entry = bundle_depot_->FindEntry(command_line.Command());
     if (entry) {
-        return std::make_unique<UserDefinedCommand>(entry, command_line.Arguments());
+
+        std::vector<std::wstring> piece_arguments;
+        for (const auto& each_piece : command_line.Arguments()) {
+            piece_arguments.push_back(each_piece.Content());
+        }
+
+        return std::make_unique<UserDefinedCommand>(entry, piece_arguments);
     }
     return nullptr;
 }

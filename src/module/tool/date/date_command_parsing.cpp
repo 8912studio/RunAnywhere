@@ -105,7 +105,7 @@ std::optional<DateCommandParseResult> Parse(const utility::CommandLine& command_
 	DateCommandParseResult result;
 	for (const auto& each_argument : command_line.Arguments()) {
 
-		if (!ParseSingleArgument(each_argument, result)) {
+		if (!ParseSingleArgument(each_argument.Content(), result)) {
 			return std::nullopt;
 		}
 	}

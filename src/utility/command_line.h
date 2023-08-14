@@ -7,9 +7,43 @@
 
 namespace ra::utility {
 
+enum class CommandLinePieceType {
+    NormalText,
+    TextBlock,
+};
+
+
+class CommandLinePiece {
+public:
+    CommandLinePiece() = default;
+
+    CommandLinePiece(std::wstring content) : content_(std::move(content)) { }
+
+    CommandLinePiece(CommandLinePieceType type, std::wstring content) :
+        type_(type), 
+        content_(std::move(content)) {
+
+    }
+
+    CommandLinePieceType Type() const {
+        return type_;
+    }
+
+    const std::wstring& Content() const {
+        return content_;
+    }
+
+    friend auto operator<=>(const CommandLinePiece&, const CommandLinePiece&) = default;
+
+private:
+    CommandLinePieceType type_{ CommandLinePieceType::NormalText };
+    std::wstring content_;
+};
+
+
 class CommandLine : zaf::NonCopyable {
 public:
-    using ObjectTextGetter = std::function<std::wstring(int object_index)>;
+    using ObjectTextGetter = std::function<CommandLinePiece(int object_index)>;
 
 public:
     explicit CommandLine(
@@ -20,20 +54,20 @@ public:
         return raw_text_;
     }
 
-    const std::wstring& Command() const {
-        return command_;
+    std::wstring Command() const;
+    std::vector<CommandLinePiece> Arguments() const;
+    const std::vector<CommandLinePiece>& AllPieces() const {
+        return pieces_;
     }
 
-    const std::vector<std::wstring>& Arguments() const {
-        return arguments_;
-    }
+    std::vector<std::wstring> AllPieceContents() const;
 
-    std::vector<std::wstring> AllParts() const;
+private:
+    bool FirstPieceIsCommand() const;
 
 private:
     std::wstring raw_text_;
-    std::wstring command_;
-    std::vector<std::wstring> arguments_;
+    std::vector<CommandLinePiece> pieces_;
 };
 
 }

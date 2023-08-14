@@ -137,8 +137,13 @@ CommandLineInfo ParseEntryCommand(
         variable_formatter,
         removed_lines_arguments);
 
+    std::vector<std::wstring> piece_arguments;
+    for (const auto& each_piece : command_line.Arguments()) {
+        piece_arguments.push_back(each_piece.Content());
+    }
+
     result.arguments = BuildArguments(
-        command_line.Arguments(), 
+        piece_arguments,
         variable_formatter,
         removed_lines_arguments);
 

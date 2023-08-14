@@ -42,15 +42,15 @@ Base64CommandParseResult Parse(const utility::CommandLine& command_line) {
     Base64CommandParseResult result;
     for (const auto& each_argument : command_line.Arguments()) {
 
-        if (each_argument.empty()) {
+        if (each_argument.Content().empty()) {
             continue;
         }
 
-        if (TryToParseSwitch(each_argument, result)) {
+        if (TryToParseSwitch(each_argument.Content(), result)) {
             continue;
         }
 
-        result.input_text = each_argument;
+        result.input_text = each_argument.Content();
     }
     return result;
 }

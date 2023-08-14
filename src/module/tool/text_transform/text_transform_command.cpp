@@ -33,7 +33,7 @@ bool TextTransformCommand::Interpret(
     const auto& arguments = command_line.Arguments();
     if (!arguments.empty()) {
 
-        transformed_text_ = arguments.front();
+        transformed_text_ = arguments.front().Content();
         transformer_->Transform(transformed_text_);
     }
     else {

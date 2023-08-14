@@ -9,12 +9,12 @@ namespace {
 
 constexpr wchar_t ObjectReplacementChar = L'\ufffc';
 
-std::vector<std::wstring> ExpandObjectText(
+std::vector<CommandLinePiece> ExpandObjectText(
     std::wstring_view text, 
     const CommandLine::ObjectTextGetter& object_text_getter,
     int& object_index) {
 
-    std::vector<std::wstring> result;
+    std::vector<CommandLinePiece> result;
 
     std::size_t begin{};
     std::size_t current{};
@@ -22,23 +22,24 @@ std::vector<std::wstring> ExpandObjectText(
 
         if (current == text.length() || text[current] == ObjectReplacementChar) {
 
-            auto part = std::wstring{ text.substr(begin, current - begin) };
-            zaf::Trim(part);
+            //Handle normal text.
+            auto piece_content = std::wstring{ text.substr(begin, current - begin) };
+            zaf::Trim(piece_content);
 
-            if (!part.empty()) {
-                result.push_back(std::move(part));
+            if (!piece_content.empty()) {
+                result.push_back(CommandLinePiece{ std::move(piece_content) });
             }
 
             //Encounter object replacement char.
             if (current != text.length()) {
 
-                std::wstring object_text;
+                CommandLinePiece piece;
                 if (object_text_getter) {
-                    object_text = object_text_getter(object_index);
+                    piece = object_text_getter(object_index);
                 }
 
-                if (!object_text.empty()) {
-                    result.push_back(object_text);
+                if (!piece.Content().empty()) {
+                    result.push_back(std::move(piece));
                 }
 
                 object_index++;
@@ -52,7 +53,7 @@ std::vector<std::wstring> ExpandObjectText(
 }
 
 
-std::vector<std::wstring> ParseTextToParts(
+std::vector<CommandLinePiece> ParseTextToPieces(
     std::wstring_view text,
     const CommandLine::ObjectTextGetter& object_text_getter) {
 
@@ -69,7 +70,7 @@ std::vector<std::wstring> ParseTextToParts(
     }
 
     int object_index{};
-    std::vector<std::wstring> result;
+    std::vector<CommandLinePiece> result;
     for (auto index : zaf::Range(0, count)) {
 
         auto expanded_parts = ExpandObjectText(parts[index], object_text_getter, object_index);
@@ -88,27 +89,49 @@ CommandLine::CommandLine(
     :
     raw_text_(text) {
 
-    auto parts = ParseTextToParts(text, object_text_getter);
-
-    for (auto index : zaf::Range(0, parts.size())) {
-        if (index == 0) {
-            command_ = std::move(parts[index]);
-        }
-        else {
-            arguments_.push_back(std::move(parts[index]));
-        }
-    }
+    pieces_ = ParseTextToPieces(text, object_text_getter);
 }
 
 
-std::vector<std::wstring> CommandLine::AllParts() const {
+std::wstring CommandLine::Command() const {
 
-    std::vector<std::wstring> result;
-    if (!command_.empty()) {
-        result.push_back(command_);
+    if (FirstPieceIsCommand()) {
+        return pieces_.front().Content();
     }
 
-    zaf::Append(result, arguments_);
+    return {};
+}
+
+
+bool CommandLine::FirstPieceIsCommand() const {
+
+    if (!pieces_.empty()) {
+        return pieces_.front().Type() == CommandLinePieceType::NormalText;
+    }
+    return false;
+}
+
+
+std::vector<CommandLinePiece> CommandLine::Arguments() const {
+
+    if (!FirstPieceIsCommand()) {
+        return {};
+    }
+
+    std::vector<CommandLinePiece> result;
+    for (std::size_t index = 1; index < pieces_.size(); ++index) {
+        result.push_back(pieces_[index]);
+    }
+    return result;
+}
+
+
+std::vector<std::wstring> CommandLine::AllPieceContents() const {
+
+    std::vector<std::wstring> result;
+    for (const auto& each_piece : pieces_) {
+        result.push_back(each_piece.Content());
+    }
     return result;
 }
 

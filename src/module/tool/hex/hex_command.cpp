@@ -56,13 +56,13 @@ std::optional<HexCommandParseResult> HexCommand::Parse(const utility::CommandLin
 
     for (const auto& each_argument : command_line.Arguments()) {
 
-        if (each_argument.empty()) {
+        if (each_argument.Content().empty()) {
             continue;
         }
 
-        if (std::tolower(each_argument.front()) == L'l') {
+        if (std::tolower(each_argument.Content().front()) == L'l') {
 
-            auto length = ParseLength(each_argument);
+            auto length = ParseLength(each_argument.Content());
             if (!length) {
                 return std::nullopt;
             }
@@ -71,7 +71,7 @@ std::optional<HexCommandParseResult> HexCommand::Parse(const utility::CommandLin
         }
         else {
 
-            auto position = ParseNumberWithDefault(each_argument, 0);
+            auto position = ParseNumberWithDefault(each_argument.Content(), 0);
             if (!position) {
                 return std::nullopt;
             }

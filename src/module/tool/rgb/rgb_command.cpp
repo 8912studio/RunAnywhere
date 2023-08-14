@@ -301,7 +301,7 @@ std::optional<RGBCommandParseResult> RGBCommand::Parse(const utility::CommandLin
 
     for (const auto& each_argument : command_line.Arguments()) {
 
-        if (!ParseArgument(each_argument, context)) {
+        if (!ParseArgument(each_argument.Content(), context)) {
             return std::nullopt;
         }
     }

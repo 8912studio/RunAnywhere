@@ -8,7 +8,7 @@ namespace ra::entry {
 ApplicationSwithes::ApplicationSwithes(const std::wstring& command_line_text) {
 
     utility::CommandLine command_line(command_line_text);
-    const auto& parts = command_line.AllParts();
+    const auto& parts = command_line.AllPieceContents();
 
     std::optional<std::pair<std::wstring, std::wstring>> current_switch;
 

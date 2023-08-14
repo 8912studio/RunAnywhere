@@ -20,17 +20,17 @@ MD5CommandParseResult MD5Command::Parse(const utility::CommandLine& command_line
 
 	for (const auto& each_argument : command_line.Arguments()) {
 
-		if (each_argument.empty()) {
+		if (each_argument.Content().empty()) {
 			continue;
 		}
 
-		auto active_path_option = active_path::TryToParseActivePathArgument(each_argument);
+		auto active_path_option = active_path::TryToParseActivePathArgument(each_argument.Content());
 		if (active_path_option) {
 			result.active_path_option = active_path_option;
 		}
-		else if (each_argument.front() == L'/') {
+		else if (each_argument.Content().front() == L'/') {
 
-			auto switch_value = each_argument.substr(1);
+			auto switch_value = each_argument.Content().substr(1);
 			if (switch_value == L"u8") {
 				result.encoding = TextEncoding::UTF8;
 			}
@@ -45,7 +45,7 @@ MD5CommandParseResult MD5Command::Parse(const utility::CommandLine& command_line
 			}
 		}
 		else {
-			result.string = each_argument;
+			result.string = each_argument.Content();
 		}
 	}
 

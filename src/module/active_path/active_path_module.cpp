@@ -18,7 +18,7 @@ std::vector<CommandBrief> ActivePathModule::QuerySuggestedCommands(
 std::unique_ptr<Command> ActivePathModule::CreateCommand(
 	const utility::CommandLine& command_line) {
 
-	const auto& parts = command_line.AllParts();
+	const auto& parts = command_line.AllPieceContents();
 	if (parts.empty()) {
 		return nullptr;
 	}

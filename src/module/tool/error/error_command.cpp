@@ -26,7 +26,7 @@ std::optional<ErrorCommandParseResult> ErrorCommand::Parse(
     utility::GeneralNumberInterpreter interpreter{ true };
     calculator::EvaluateResult evaluate_result;
     auto interpret_status = interpreter.Interpret(
-        command_line.Arguments().front(),
+        command_line.Arguments().front().Content(),
         evaluate_result);
 
     if (interpret_status == utility::GeneralNumberInterpreter::Status::NotNumber) {
