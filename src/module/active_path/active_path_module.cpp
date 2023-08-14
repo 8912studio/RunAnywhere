@@ -18,21 +18,26 @@ std::vector<CommandBrief> ActivePathModule::QuerySuggestedCommands(
 std::unique_ptr<Command> ActivePathModule::CreateCommand(
 	const utility::CommandLine& command_line) {
 
-	const auto& parts = command_line.AllPieceContents();
-	if (parts.empty()) {
+	const auto& pieces = command_line.AllPieces();
+	if (pieces.empty()) {
 		return nullptr;
 	}
 
-	const auto& first_part = parts.front();
-	if (first_part.empty()) {
+	const auto& first_piece = pieces.front();
+	if (first_piece.Type() != utility::CommandLinePieceType::NormalText) {
 		return nullptr;
 	}
 
-	if (first_part.front() != ActivePathCommand::PrefixChar) {
+	const auto& content = first_piece.Content();
+	if (content.empty()) {
 		return nullptr;
 	}
 
-	auto option = ParseActivePathOption(first_part.substr(1));
+	if (content.front() != ActivePathCommand::PrefixChar) {
+		return nullptr;
+	}
+
+	auto option = ParseActivePathOption(content.substr(1));
 	return std::make_unique<ActivePathCommand>(option);
 }
 

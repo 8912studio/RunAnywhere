@@ -42,13 +42,12 @@ TEST(ActivePathModuleTest, CreateCommand) {
         ASSERT_EQ(command->GetPreviewText(), L"C:\\Program Files");
     }
 
+    //TextBlock doesn't take part in interpretion.
     {
         CommandLine command_line(L"\ufffc", [](int) {
-            return CommandLinePiece{ CommandLinePieceType::TextBlock, L"@=test abcd" };
+            return CommandLinePiece{ CommandLinePieceType::TextBlock, L"@" };
         });
         auto command = module.CreateCommand(command_line);
-        ASSERT_NE(command, nullptr);
-        command->Interpret(command_line, context, false);
-        ASSERT_EQ(command->GetPreviewText(), L"test abcd");
+        ASSERT_EQ(command, nullptr);
     }
 }
