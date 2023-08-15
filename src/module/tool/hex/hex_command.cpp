@@ -1,5 +1,7 @@
 #include "module/tool/hex/hex_command.h"
 #include <zaf/creation.h>
+#include "module/active_path/active_path_option_parsing.h"
+#include "module/active_path/active_path_modifying.h"
 #include "module/calculator/evaluate/evaluator.h"
 #include "module/calculator/parse/decimal_number_parser.h"
 #include "module/calculator/parse/non_decimal_number_parser.h"
@@ -70,7 +72,11 @@ std::optional<HexCommandParseResult> HexCommand::Parse(const utility::CommandLin
 
         if (each_argument.Type() == utility::CommandLinePieceType::NormalText) {
 
-            if (content.front() == L'`') {
+            auto active_path_option = active_path::TryToParseActivePathArgument(content);
+            if (active_path_option) {
+                result.active_path_option = active_path_option;
+            }
+            else if (content.front() == L'`') {
 
                 auto position = ParsePosition(content.substr(1));
                 if (!position) {
@@ -151,9 +157,19 @@ std::shared_ptr<CommandPreviewControl> HexCommand::GetPreviewControl() {
     }
 
     if (!preview_control_) {
+
+        auto active_path = desktop_context_.active_path;
+
+        if (parse_result_->active_path_option) {
+
+            active_path = active_path::ModifyActivePathByOption(
+                active_path,
+                *parse_result_->active_path_option);
+        }
+
         preview_control_ = zaf::Create<HexPreviewControl>();
         preview_control_->ShowFileContent(
-            desktop_context_.active_path.GetPath(), 
+            active_path.GetPath(),
             *parse_result_);
     }
 

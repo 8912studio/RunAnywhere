@@ -78,6 +78,11 @@ void HexPreviewControl::ShowFilePath(const std::filesystem::path& path) {
 }
 
 
+std::wstring HexPreviewControl::GetFilePath() const {
+    return filePathLabel->Text();
+}
+
+
 void HexPreviewControl::ShowFileInfo(
     ReadFileStatus status,
     const FileContentInfo& content_info,

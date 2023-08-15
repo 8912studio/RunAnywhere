@@ -41,6 +41,9 @@ public:
         const std::filesystem::path& file_path,
         const HexCommandParseResult& parse_result);
 
+    //For unit test.
+    std::wstring GetFilePath() const;
+
     zaf::Frame GetExpectedMargin() override;
 
 protected:
