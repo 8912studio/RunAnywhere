@@ -2,6 +2,7 @@
 #include "module/tool/rgb/rgb_command.h"
 
 using namespace ra::mod::tool::rgb;
+using namespace ra::utility;
 
 TEST(RGBCommandTest, DifferentPartCount) {
 
@@ -223,5 +224,46 @@ TEST(RGBCommandTest, AdditionalAlpha) {
 		ra::utility::CommandLine command_line(each_input);
 		auto result = RGBCommand::Parse(command_line);
 		ASSERT_FALSE(result.has_value());
+	}
+}
+
+
+TEST(RGBCommandTest, TextBlock) {
+
+	{
+		CommandLine command_line(L"rgb \ufffc \ufffc", [](int index) {
+			std::wstring content;
+			if (index == 0) {
+				content = L"#334455";
+			}
+			else if (index == 1) {
+				content = L"$0x66";
+			}
+			return CommandLinePiece(CommandLinePieceType::TextBlock, content);
+		});
+		auto parse_result = RGBCommand::Parse(command_line);
+		ASSERT_TRUE(parse_result.has_value());
+		ASSERT_EQ(parse_result->color, zaf::Color::FromARGB(0x66334455));
+		ASSERT_EQ(parse_result->format, RGBCommandParseResult::Format::ARGB);
+		ASSERT_FALSE(parse_result->reserve_alpha);
+	}
+
+	{
+		CommandLine command_line(L"rgb \ufffc /a", [](int index) {
+			return CommandLinePiece(CommandLinePieceType::TextBlock, L"250,250,250");
+		});
+		auto parse_result = RGBCommand::Parse(command_line);
+		ASSERT_TRUE(parse_result.has_value());
+		ASSERT_EQ(parse_result->color, zaf::Color::FromRGB(0xfafafa));
+		ASSERT_EQ(parse_result->format, RGBCommandParseResult::Format::ARGB);
+		ASSERT_TRUE(parse_result->reserve_alpha);
+	}
+
+	{
+		CommandLine command_line(L"rgb \ufffc", [](int index) {
+			return CommandLinePiece(CommandLinePieceType::TextBlock, L"/a");
+		});
+		auto parse_result = RGBCommand::Parse(command_line);
+		ASSERT_FALSE(parse_result.has_value());
 	}
 }

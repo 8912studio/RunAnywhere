@@ -263,25 +263,26 @@ bool ParseAdditionalAlpha(const std::wstring& argument, float& additional_alpha)
 }
 
 
-bool ParseArgument(const std::wstring& argument, RGBCommandParseContext& context) {
+bool ParseArgument(const utility::CommandLinePiece& argument, RGBCommandParseContext& context) {
 
-    if (argument.empty()) {
+    const auto& content = argument.Content();
+    if (content.empty()) {
         return false;
     }
 
-    auto prefix = argument.front();
-    if (prefix == L'/') {
-        ParseSwitch(argument, context.result);
+    auto prefix = content.front();
+    if (prefix == L'/' && argument.Type() != utility::CommandLinePieceType::TextBlock) {
+        ParseSwitch(content, context.result);
         return true;
     }
     else if (prefix == L'$') {
-        return ParseAdditionalAlpha(argument, context.additional_alpha);
+        return ParseAdditionalAlpha(content, context.additional_alpha);
     }
     else if (prefix == L'#') {
-        return ParseColorFromARGBFormat(argument, context.intermediate_color);
+        return ParseColorFromARGBFormat(content, context.intermediate_color);
     }
     else {
-        return ParseColorFromRGBAComponentFormat(argument, context.intermediate_color);
+        return ParseColorFromRGBAComponentFormat(content, context.intermediate_color);
     }
 }
 
@@ -301,7 +302,7 @@ std::optional<RGBCommandParseResult> RGBCommand::Parse(const utility::CommandLin
 
     for (const auto& each_argument : command_line.Arguments()) {
 
-        if (!ParseArgument(each_argument.Content(), context)) {
+        if (!ParseArgument(each_argument, context)) {
             return std::nullopt;
         }
     }
