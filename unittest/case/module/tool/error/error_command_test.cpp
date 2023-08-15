@@ -49,3 +49,14 @@ TEST(ErrorCommandTest, ParseError) {
     auto result = ErrorCommand::Parse(CommandLine{ L"err -0x1" });
     ASSERT_FALSE(result.has_value());
 }
+
+
+TEST(ErrorCommandText, ParseTextBlock) {
+
+    CommandLine command_line(L"err \ufffc", [](int) {
+        return CommandLinePiece(CommandLinePieceType::TextBlock, L"10");
+    });
+    auto result = ErrorCommand::Parse(command_line);
+    ASSERT_TRUE(result.has_value());
+    ASSERT_EQ(result->error_code, 10);
+}
