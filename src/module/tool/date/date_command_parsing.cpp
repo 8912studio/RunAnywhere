@@ -69,18 +69,21 @@ ParseStatus ParseAdjustment(std::wstring_view argument, DateCommandParseResult& 
 }
 
 
-bool ParseSingleArgument(const std::wstring& argument, DateCommandParseResult& result) {
+bool ParseSingleArgument(
+	const utility::CommandLinePiece& argument, 
+	DateCommandParseResult& result) {
 
-	auto parse_status = ParseSwitch(argument, result);
-	if (parse_status == ParseStatus::Failed) {
-		return false;
+	if (argument.Type() == utility::CommandLinePieceType::NormalText) {
+		auto parse_status = ParseSwitch(argument.Content(), result);
+		if (parse_status == ParseStatus::Failed) {
+			return false;
+		}
+		if (parse_status == ParseStatus::OK) {
+			return true;
+		}
 	}
 
-	if (parse_status == ParseStatus::OK) {
-		return true;
-	}
-
-	parse_status = ParseAdjustment(argument, result);
+	auto parse_status = ParseAdjustment(argument.Content(), result);
 	if (parse_status == ParseStatus::Failed) {
 		return false;
 	}
@@ -90,7 +93,7 @@ bool ParseSingleArgument(const std::wstring& argument, DateCommandParseResult& r
 	}
 
 	std::time_t value{};
-	if (zaf::TryToNumeric(argument, value)) {
+	if (zaf::TryToNumeric(argument.Content(), value)) {
 		result.value = value;
 		return true;
 	}
@@ -105,7 +108,7 @@ std::optional<DateCommandParseResult> Parse(const utility::CommandLine& command_
 	DateCommandParseResult result;
 	for (const auto& each_argument : command_line.Arguments()) {
 
-		if (!ParseSingleArgument(each_argument.Content(), result)) {
+		if (!ParseSingleArgument(each_argument, result)) {
 			return std::nullopt;
 		}
 	}

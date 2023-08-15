@@ -31,7 +31,12 @@ TEST(CommandLineTest, Move) {
         ASSERT_TRUE(command_line1.AllPieces().empty());
 
         ASSERT_EQ(command_line2.RawText(), L"cmd a1 a2 a3");
-        std::vector<CommandLinePiece> expected{ { L"cmd" }, { L"a1" }, { L"a2" }, { L"a3" } };
+        std::vector<CommandLinePiece> expected{ 
+            CommandLinePiece{ L"cmd" }, 
+            CommandLinePiece{ L"a1" }, 
+            CommandLinePiece{ L"a2" },
+            CommandLinePiece{ L"a3" }
+        };
         ASSERT_EQ(command_line2.AllPieces(), expected);
     }
 
@@ -45,7 +50,11 @@ TEST(CommandLineTest, Move) {
         ASSERT_TRUE(command_line1.AllPieces().empty());
 
         ASSERT_EQ(command_line2.RawText(), L"p0 p1 p2");
-        std::vector<CommandLinePiece> expected{ { L"p0" }, { L"p1" }, { L"p2" } };
+        std::vector<CommandLinePiece> expected{ 
+            CommandLinePiece{ L"p0" }, 
+            CommandLinePiece{ L"p1" },
+            CommandLinePiece{ L"p2" } 
+        };
         ASSERT_EQ(command_line2.AllPieces(), expected);
     }
 }
@@ -80,7 +89,7 @@ TEST(CommandLineTest, Parse) {
         CommandLine command_line{ L"Cmd" };
         ASSERT_EQ(command_line.Command(), L"Cmd");
         ASSERT_TRUE(command_line.Arguments().empty());
-        std::vector<CommandLinePiece> expected{ { L"Cmd" } };
+        std::vector<CommandLinePiece> expected{ CommandLinePiece{ L"Cmd" } };
         ASSERT_EQ(command_line.AllPieces(), expected);
     }
 
@@ -88,16 +97,19 @@ TEST(CommandLineTest, Parse) {
         CommandLine command_line{ L"Cmd \"\"" };
         ASSERT_EQ(command_line.Command(), L"Cmd");
         ASSERT_TRUE(command_line.Arguments().empty());
-        std::vector<CommandLinePiece> expected{ { L"Cmd" } };
+        std::vector<CommandLinePiece> expected{ CommandLinePiece{ L"Cmd" } };
         ASSERT_EQ(command_line.AllPieces(), expected);
     }
 
     {
         CommandLine command_line{ L"Cmd arg1" };
         ASSERT_EQ(command_line.Command(), L"Cmd");
-        std::vector<CommandLinePiece> expected_arguments{ { L"arg1" } };
+        std::vector<CommandLinePiece> expected_arguments{ CommandLinePiece{ L"arg1" } };
         ASSERT_EQ(command_line.Arguments(), expected_arguments);
-        std::vector<CommandLinePiece> expected_all_pieces{ { L"Cmd" }, { L"arg1" } };
+        std::vector<CommandLinePiece> expected_all_pieces{ 
+            CommandLinePiece{ L"Cmd" },
+            CommandLinePiece{ L"arg1" } 
+        };
         ASSERT_EQ(command_line.AllPieces(), expected_all_pieces);
     }
 

@@ -17,7 +17,7 @@ class CommandLinePiece {
 public:
     CommandLinePiece() = default;
 
-    CommandLinePiece(std::wstring content) : content_(std::move(content)) { }
+    explicit CommandLinePiece(std::wstring content) : content_(std::move(content)) { }
 
     CommandLinePiece(CommandLinePieceType type, std::wstring content) :
         type_(type), 

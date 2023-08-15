@@ -122,3 +122,35 @@ TEST(DateCommandParsingTest, ParseAdjustmentUnit) {
 	ASSERT_TRUE(test(L"mon", DateTimeUnit::Month));
 	ASSERT_TRUE(test(L"y", DateTimeUnit::Year));
 }
+
+
+TEST(DateCommandParsingTest, ParseTextBlock) {
+
+	{
+		CommandLine command_line(L"date \ufffc \ufffc /e", [](int index) {
+			std::wstring content;
+			if (index == 0) {
+				content = L"20000";
+			}
+			else if (index == 1) {
+				content = L"+2d";
+			}
+			return CommandLinePiece(CommandLinePieceType::TextBlock, content);
+		});
+		auto result = Parse(command_line);
+		ASSERT_TRUE(result.has_value());
+		ASSERT_EQ(result->value, 20000);
+		ASSERT_EQ(result->output_raw_value, true);
+		ASSERT_EQ(result->adjustments.size(), 1);
+		ASSERT_EQ(result->adjustments.front().adjustment, 2);
+		ASSERT_EQ(result->adjustments.front().unit, DateTimeUnit::Day);
+	}
+
+	{
+		CommandLine command_line(L"date \ufffc", [](int) {
+			return CommandLinePiece(CommandLinePieceType::TextBlock, L"/e");
+		});
+		auto result = Parse(command_line);
+		ASSERT_FALSE(result.has_value());
+	}
+}
