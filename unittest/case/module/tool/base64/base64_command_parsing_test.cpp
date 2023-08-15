@@ -68,4 +68,12 @@ TEST(Base64CommandParsingTest, Parse) {
     ASSERT_EQ(*result.operation, Base64Operation::Decode);
     ASSERT_FALSE(result.encoding.has_value());
     ASSERT_TRUE(result.use_hex);
+
+    result = Parse(CommandLine(L"b64 \ufffc /e", [](int) {
+        return CommandLinePiece(CommandLinePieceType::TextBlock, L"/e");
+    }));
+    ASSERT_EQ(result.input_text, L"/e");
+    ASSERT_EQ(result.operation, Base64Operation::Encode);
+    ASSERT_FALSE(result.encoding.has_value());
+    ASSERT_FALSE(result.use_hex);
 }
