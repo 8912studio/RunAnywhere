@@ -6,51 +6,61 @@ using namespace ra::utility;
 
 TEST(HexCommandTest, ParsePosition) {
 
-    auto result = HexCommand::Parse(CommandLine{ L"hex 0" });
+    auto result = HexCommand::Parse(CommandLine{ L"hex `" });
     ASSERT_TRUE(result.has_value());
     ASSERT_EQ(result->position, 0);
     ASSERT_EQ(result->length, HexCommandParseResult::DefaultLength);
 
-    result = HexCommand::Parse(CommandLine{ L"hex 100" });
+    result = HexCommand::Parse(CommandLine{ L"hex `0" });
+    ASSERT_TRUE(result.has_value());
+    ASSERT_EQ(result->position, 0);
+    ASSERT_EQ(result->length, HexCommandParseResult::DefaultLength);
+
+    result = HexCommand::Parse(CommandLine{ L"hex `100" });
     ASSERT_TRUE(result.has_value());
     ASSERT_EQ(result->position, 100);
     ASSERT_EQ(result->length, HexCommandParseResult::DefaultLength);
 
-    result = HexCommand::Parse(CommandLine{ L"hex 0x83" });
+    result = HexCommand::Parse(CommandLine{ L"hex `0x83" });
     ASSERT_TRUE(result.has_value());
     ASSERT_EQ(result->position, 0x83);
     ASSERT_EQ(result->length, HexCommandParseResult::DefaultLength);
 
-    result = HexCommand::Parse(CommandLine{ L"hex abc" });
+    result = HexCommand::Parse(CommandLine{ L"hex `abc" });
     ASSERT_FALSE(result.has_value());
 }
 
 
 TEST(HexCommandTest, ParseLength) {
 
-    auto result = HexCommand::Parse(CommandLine{ L"hex l"});
+    auto result = HexCommand::Parse(CommandLine{ L"hex ~"});
     ASSERT_TRUE(result.has_value());
     ASSERT_EQ(result->position, 0);
     ASSERT_EQ(result->length, HexCommandParseResult::DefaultLength);
 
-    result = HexCommand::Parse(CommandLine{ L"hex L10" });
+    result = HexCommand::Parse(CommandLine{ L"hex ~10" });
     ASSERT_TRUE(result.has_value());
     ASSERT_EQ(result->position, 0);
     ASSERT_EQ(result->length, 10);
 
-    result = HexCommand::Parse(CommandLine{ L"hex Lx40" });
+    result = HexCommand::Parse(CommandLine{ L"hex ~x40" });
     ASSERT_TRUE(result.has_value());
     ASSERT_EQ(result->position, 0);
     ASSERT_EQ(result->length, 0x40);
 
-    result = HexCommand::Parse(CommandLine{ L"hex LL8"});
+    result = HexCommand::Parse(CommandLine{ L"hex ~~" });
+    ASSERT_TRUE(result.has_value());
+    ASSERT_EQ(result->position, 0);
+    ASSERT_EQ(result->length, HexCommandParseResult::MaxLength);
+
+    result = HexCommand::Parse(CommandLine{ L"hex ~~8"});
     ASSERT_FALSE(result.has_value());
 }
 
 
 TEST(HexCommandTest, ParseIncompleteHexNumber) {
 
-    auto result = HexCommand::Parse(CommandLine{ L"hex x L0x"});
+    auto result = HexCommand::Parse(CommandLine{ L"hex x ~0x"});
     ASSERT_TRUE(result.has_value());
     ASSERT_EQ(result->position, 0);
     ASSERT_EQ(result->length, HexCommandParseResult::DefaultLength);
@@ -59,12 +69,12 @@ TEST(HexCommandTest, ParseIncompleteHexNumber) {
 
 TEST(HexCommandTest, Parse) {
 
-    auto result = HexCommand::Parse(CommandLine{ L"hex 70 l120" });
+    auto result = HexCommand::Parse(CommandLine{ L"hex `70 ~120" });
     ASSERT_TRUE(result.has_value());
     ASSERT_EQ(result->position, 70);
     ASSERT_EQ(result->length, 120);
 
-    result = HexCommand::Parse(CommandLine{ L"hex l70 120" });
+    result = HexCommand::Parse(CommandLine{ L"hex ~70 `120" });
     ASSERT_TRUE(result.has_value());
     ASSERT_EQ(result->position, 120);
     ASSERT_EQ(result->length, 70);

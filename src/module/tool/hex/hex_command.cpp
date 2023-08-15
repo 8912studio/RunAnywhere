@@ -31,20 +31,27 @@ std::optional<std::uint64_t> ParseNumberWithDefault(
 }
 
 
+std::optional<std::uint64_t> ParsePosition(const std::wstring& input) {
+
+    if (input.empty()) {
+        return 0;
+    }
+
+    return ParseNumberWithDefault(input, 0);
+}
+
+
 std::optional<std::uint64_t> ParseLength(const std::wstring& input) {
 
-    auto length_number = input.substr(1);
-    if (length_number.empty()) {
+    if (input.empty()) {
         return HexCommandParseResult::DefaultLength;
     }
 
-    if (length_number.length() == 1 && 
-        std::tolower(length_number.front()) == L'l') {
-
+    if (input.length() == 1 && input.front() == L'~') {
         return HexCommandParseResult::MaxLength;
     }
 
-    return ParseNumberWithDefault(length_number, HexCommandParseResult::DefaultLength);
+    return ParseNumberWithDefault(input, HexCommandParseResult::DefaultLength);
 }
 
 }
@@ -56,27 +63,29 @@ std::optional<HexCommandParseResult> HexCommand::Parse(const utility::CommandLin
 
     for (const auto& each_argument : command_line.Arguments()) {
 
-        if (each_argument.Content().empty()) {
+        const auto& content = each_argument.Content();
+        if (content.empty()) {
             continue;
         }
 
-        if (std::tolower(each_argument.Content().front()) == L'l') {
+        if (each_argument.Type() == utility::CommandLinePieceType::NormalText) {
 
-            auto length = ParseLength(each_argument.Content());
-            if (!length) {
-                return std::nullopt;
+            if (content.front() == L'`') {
+
+                auto position = ParsePosition(content.substr(1));
+                if (!position) {
+                    return std::nullopt;
+                }
+                result.position = *position;
             }
+            else if (content.front() == L'~') {
 
-            result.length = *length;
-        }
-        else {
-
-            auto position = ParseNumberWithDefault(each_argument.Content(), 0);
-            if (!position) {
-                return std::nullopt;
+                auto length = ParseLength(content.substr(1));
+                if (!length) {
+                    return std::nullopt;
+                }
+                result.length = *length;
             }
-
-            result.position = *position;
         }
     }
 
