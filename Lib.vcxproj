@@ -190,6 +190,8 @@
     <ClInclude Include="src\module\common\copy_executor.h" />
     <ClInclude Include="src\module\common\error_messages.h" />
     <ClInclude Include="src\module\common\error_view.h" />
+    <ClInclude Include="src\module\common\general_option.h" />
+    <ClInclude Include="src\module\common\parse_status.h" />
     <ClInclude Include="src\module\common\text_content_control.h" />
     <ClInclude Include="src\module\common\text_encoding.h" />
     <ClInclude Include="src\module\common\text_preview_control.h" />
@@ -218,6 +220,7 @@
     <ClInclude Include="src\module\tool\error\error_preview_control.h" />
     <ClInclude Include="src\module\tool\hex\hex_command.h" />
     <ClInclude Include="src\module\tool\hex\hex_command_parse_result.h" />
+    <ClInclude Include="src\module\tool\hex\hex_command_parsing.h" />
     <ClInclude Include="src\module\tool\hex\hex_preview_control.h" />
     <ClInclude Include="src\module\tool\md5\md5_calculating.h" />
     <ClInclude Include="src\module\tool\md5\md5_command.h" />
@@ -346,6 +349,7 @@
     <ClCompile Include="src\module\common\content_status_bar.cpp" />
     <ClCompile Include="src\module\common\copy_executor.cpp" />
     <ClCompile Include="src\module\common\error_view.cpp" />
+    <ClCompile Include="src\module\common\general_option.cpp" />
     <ClCompile Include="src\module\common\text_content_control.cpp" />
     <ClCompile Include="src\module\common\text_preview_control.cpp" />
     <ClCompile Include="src\module\extension\extension_command.cpp" />
@@ -366,6 +370,7 @@
     <ClCompile Include="src\module\tool\error\error_command.cpp" />
     <ClCompile Include="src\module\tool\error\error_preview_control.cpp" />
     <ClCompile Include="src\module\tool\hex\hex_command.cpp" />
+    <ClCompile Include="src\module\tool\hex\hex_command_parsing.cpp" />
     <ClCompile Include="src\module\tool\hex\hex_preview_control.cpp" />
     <ClCompile Include="src\module\tool\md5\md5_calculating.cpp" />
     <ClCompile Include="src\module\tool\md5\md5_command.cpp" />

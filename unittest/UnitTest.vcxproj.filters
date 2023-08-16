@@ -196,6 +196,9 @@
     <ClCompile Include="case\module\tool\md5\md5_command_parsing_test.cpp">
       <Filter>case\module\tool\md5</Filter>
     </ClCompile>
+    <ClCompile Include="case\module\tool\hex\hex_command_parsing_test.cpp">
+      <Filter>case\module\tool\hex</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="case\module\calculator\number_parser_test_utility.h">

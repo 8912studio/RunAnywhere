@@ -12,8 +12,6 @@ class HexCommand : public Command {
 public:
     static CommandBrief Brief();
 
-    static std::optional<HexCommandParseResult> Parse(const utility::CommandLine& command_line);
-
 public:
     CommandBrief GetBrief() override;
     help::content::Content GetHelpContent() override;
@@ -23,6 +21,9 @@ public:
         bool is_reusing) override;
     std::shared_ptr<CommandPreviewControl> GetPreviewControl() override;
     std::shared_ptr<CommandExecutor> GetExecutor() override;
+
+private:
+    void CreatePreviewControl();
 
 private:
     std::optional<HexCommandParseResult> parse_result_;

@@ -675,6 +675,15 @@
     <ClInclude Include="src\module\tool\md5\md5_command_parsing.h">
       <Filter>src\module\tool\md5</Filter>
     </ClInclude>
+    <ClInclude Include="src\module\tool\hex\hex_command_parsing.h">
+      <Filter>src\module\tool\hex</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\common\general_option.h">
+      <Filter>src\module\common</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\common\parse_status.h">
+      <Filter>src\module\common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -1078,6 +1087,12 @@
     </ClCompile>
     <ClCompile Include="src\module\tool\md5\md5_command_parsing.cpp">
       <Filter>src\module\tool\md5</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\tool\hex\hex_command_parsing.cpp">
+      <Filter>src\module\tool\hex</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\common\general_option.cpp">
+      <Filter>src\module\common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

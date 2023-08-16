@@ -49,6 +49,12 @@ void HexPreviewControl::OnStyleChanged() {
 }
 
 
+void HexPreviewControl::ShowTextContent(const std::wstring& string, TextEncoding encoding) {
+
+
+}
+
+
 void HexPreviewControl::ShowFileContent(
     const std::filesystem::path& file_path,
     const HexCommandParseResult& parse_result) {

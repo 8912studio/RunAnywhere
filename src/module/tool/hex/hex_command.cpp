@@ -1,103 +1,10 @@
 #include "module/tool/hex/hex_command.h"
 #include <zaf/creation.h>
-#include "module/active_path/active_path_option_parsing.h"
 #include "module/active_path/active_path_modifying.h"
-#include "module/calculator/evaluate/evaluator.h"
-#include "module/calculator/parse/decimal_number_parser.h"
-#include "module/calculator/parse/non_decimal_number_parser.h"
 #include "module/common/command_error_control.h"
-#include "utility/general_number_interpreter.h"
+#include "module/tool/hex/hex_command_parsing.h"
 
 namespace ra::mod::tool::hex {
-namespace {
-
-std::optional<std::uint64_t> ParseNumberWithDefault(
-    const std::wstring& input, 
-    std::uint64_t default_value) {
-
-    calculator::EvaluateResult evaluate_result;
-
-    utility::GeneralNumberInterpreter interpreter{ false };
-    auto interpret_status = interpreter.Interpret(input, evaluate_result);
-
-    switch (interpret_status) {
-    case utility::GeneralNumberInterpreter::Status::OK:
-        return evaluate_result.decimal_value.convert_to<std::uint64_t>();;
-
-    case utility::GeneralNumberInterpreter::Status::Incomplete:
-        return default_value;
-
-    default:
-        return std::nullopt;
-    }
-}
-
-
-std::optional<std::uint64_t> ParsePosition(const std::wstring& input) {
-
-    if (input.empty()) {
-        return 0;
-    }
-
-    return ParseNumberWithDefault(input, 0);
-}
-
-
-std::optional<std::uint64_t> ParseLength(const std::wstring& input) {
-
-    if (input.empty()) {
-        return HexCommandParseResult::DefaultLength;
-    }
-
-    if (input.length() == 1 && input.front() == L'~') {
-        return HexCommandParseResult::MaxLength;
-    }
-
-    return ParseNumberWithDefault(input, HexCommandParseResult::DefaultLength);
-}
-
-}
-
-
-std::optional<HexCommandParseResult> HexCommand::Parse(const utility::CommandLine& command_line) {
-
-    HexCommandParseResult result;
-
-    for (const auto& each_argument : command_line.Arguments()) {
-
-        const auto& content = each_argument.Content();
-        if (content.empty()) {
-            continue;
-        }
-
-        if (each_argument.Type() == utility::CommandLinePieceType::NormalText) {
-
-            auto active_path_option = active_path::TryToParseActivePathArgument(content);
-            if (active_path_option) {
-                result.active_path_option = active_path_option;
-            }
-            else if (content.front() == L'`') {
-
-                auto position = ParsePosition(content.substr(1));
-                if (!position) {
-                    return std::nullopt;
-                }
-                result.position = *position;
-            }
-            else if (content.front() == L'~') {
-
-                auto length = ParseLength(content.substr(1));
-                if (!length) {
-                    return std::nullopt;
-                }
-                result.length = *length;
-            }
-        }
-    }
-
-    return result;
-}
-
 
 CommandBrief HexCommand::Brief() {
     return CommandBrief{
@@ -144,7 +51,7 @@ bool HexCommand::Interpret(
         return false;
     }
 
-    parse_result_ = Parse(command_line);
+    parse_result_ = ParseHexCommand(command_line);
     desktop_context_ = desktop_context;
     return true;
 }
@@ -157,23 +64,51 @@ std::shared_ptr<CommandPreviewControl> HexCommand::GetPreviewControl() {
     }
 
     if (!preview_control_) {
-
-        auto active_path = desktop_context_.active_path;
-
-        if (parse_result_->active_path_option) {
-
-            active_path = active_path::ModifyActivePathByOption(
-                active_path,
-                *parse_result_->active_path_option);
-        }
-
-        preview_control_ = zaf::Create<HexPreviewControl>();
-        preview_control_->ShowFileContent(
-            active_path.GetPath(),
-            *parse_result_);
+        CreatePreviewControl();
     }
 
     return preview_control_;
+}
+
+
+void HexCommand::CreatePreviewControl() {
+
+    preview_control_ = zaf::Create<HexPreviewControl>();
+
+    if (!parse_result_->general_option.text.empty()) {
+
+        if (parse_result_->general_option.treat_text_as_file) {
+            preview_control_->ShowFileContent(parse_result_->general_option.text, *parse_result_);
+        }
+        else {
+            preview_control_->ShowTextContent(
+                parse_result_->general_option.text,
+                parse_result_->general_option.text_encoding.value_or(TextEncoding::UTF8));
+        }
+    }
+    else {
+
+        context::ActivePath active_path;
+        if (parse_result_->general_option.active_path_option) {
+            active_path = active_path::ModifyActivePathByOption(
+                desktop_context_.active_path,
+                *parse_result_->general_option.active_path_option);
+        }
+        else {
+            active_path = desktop_context_.active_path;
+        }
+
+        if (parse_result_->general_option.text_encoding) {
+            preview_control_->ShowTextContent(
+                active_path.GetPath().wstring(),
+                *parse_result_->general_option.text_encoding);
+        }
+        else {
+            preview_control_->ShowFileContent(
+                active_path.GetPath(),
+                *parse_result_);
+        }
+    }
 }
 
 

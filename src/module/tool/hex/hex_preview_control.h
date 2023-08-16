@@ -37,6 +37,8 @@ public:
         FileContentInfo& content_info);
 
 public:
+    void ShowTextContent(const std::wstring& string, TextEncoding encoding);
+
     void ShowFileContent(
         const std::filesystem::path& file_path,
         const HexCommandParseResult& parse_result);
