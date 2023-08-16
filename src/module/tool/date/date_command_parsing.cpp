@@ -1,19 +1,14 @@
 #include "module/tool/date/date_command_parsing.h"
 #include <zaf/base/string/to_numeric.h>
+#include "module/common/parse_status.h"
 
 namespace ra::mod::tool::date {
 namespace {
 
-enum class ParseStatus {
-	OK,
-	NotToken,
-	Failed,
-};
-
 ParseStatus ParseSwitch(const std::wstring& argument, DateCommandParseResult& result) {
 
 	if (argument[0] != L'/') {
-		return ParseStatus::NotToken;
+		return ParseStatus::Mismatched;
 	}
 
 	if (argument.size() <= 1) {
@@ -32,7 +27,7 @@ ParseStatus ParseSwitch(const std::wstring& argument, DateCommandParseResult& re
 ParseStatus ParseAdjustment(std::wstring_view argument, DateCommandParseResult& result) {
 
 	if (argument[0] != L'+' && argument[0] != L'-') {
-		return ParseStatus::NotToken;
+		return ParseStatus::Mismatched;
 	}
 
 	//There is only a sign char, ignore the argument.
@@ -42,13 +37,13 @@ ParseStatus ParseAdjustment(std::wstring_view argument, DateCommandParseResult& 
 
 	auto last_digit_index = argument.find_last_of(L"0123456789");
 	if (last_digit_index == std::wstring::npos) {
-		return ParseStatus::Failed;
+		return ParseStatus::Error;
 	}
 
 	auto number_string = argument.substr(0, last_digit_index + 1);
 	int number{};
 	if (!zaf::TryToNumeric<int>(std::wstring{ number_string }, number)) {
-		return ParseStatus::Failed;
+		return ParseStatus::Error;
 	}
 
 	DateTimeUnit unit = DateTimeUnit::Second;
@@ -56,7 +51,7 @@ ParseStatus ParseAdjustment(std::wstring_view argument, DateCommandParseResult& 
 	if (!unit_string.empty()) {
 		auto parsed_unit = DateTimeUnitFromString(unit_string);
 		if (!parsed_unit) {
-			return ParseStatus::Failed;
+			return ParseStatus::Error;
 		}
 		unit = *parsed_unit;
 	}
@@ -75,7 +70,7 @@ bool ParseSingleArgument(
 
 	if (argument.Type() == utility::CommandLinePieceType::NormalText) {
 		auto parse_status = ParseSwitch(argument.Content(), result);
-		if (parse_status == ParseStatus::Failed) {
+		if (parse_status == ParseStatus::Error) {
 			return false;
 		}
 		if (parse_status == ParseStatus::OK) {
@@ -84,7 +79,7 @@ bool ParseSingleArgument(
 	}
 
 	auto parse_status = ParseAdjustment(argument.Content(), result);
-	if (parse_status == ParseStatus::Failed) {
+	if (parse_status == ParseStatus::Error) {
 		return false;
 	}
 
