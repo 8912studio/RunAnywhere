@@ -190,6 +190,7 @@
     <ClInclude Include="src\module\common\copy_executor.h" />
     <ClInclude Include="src\module\common\error_messages.h" />
     <ClInclude Include="src\module\common\error_view.h" />
+    <ClInclude Include="src\module\common\general_input.h" />
     <ClInclude Include="src\module\common\general_option.h" />
     <ClInclude Include="src\module\common\parse_status.h" />
     <ClInclude Include="src\module\common\text_content_control.h" />
@@ -349,6 +350,7 @@
     <ClCompile Include="src\module\common\content_status_bar.cpp" />
     <ClCompile Include="src\module\common\copy_executor.cpp" />
     <ClCompile Include="src\module\common\error_view.cpp" />
+    <ClCompile Include="src\module\common\general_input.cpp" />
     <ClCompile Include="src\module\common\general_option.cpp" />
     <ClCompile Include="src\module\common\text_content_control.cpp" />
     <ClCompile Include="src\module\common\text_preview_control.cpp" />
