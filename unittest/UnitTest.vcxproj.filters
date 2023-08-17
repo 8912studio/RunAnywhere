@@ -208,4 +208,18 @@
   <ItemGroup>
     <ResourceCompile Include="..\src\res.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="case\module\tool\hex\hex_test_file1.txt">
+      <Filter>case\module\tool\hex</Filter>
+    </Text>
+    <Text Include="case\module\tool\hex\hex_test_file2.txt">
+      <Filter>case\module\tool\hex</Filter>
+    </Text>
+    <Text Include="case\module\tool\hex\hex_test_file3.txt">
+      <Filter>case\module\tool\hex</Filter>
+    </Text>
+    <Text Include="case\module\tool\hex\hex_test_file4.txt">
+      <Filter>case\module\tool\hex</Filter>
+    </Text>
+  </ItemGroup>
 </Project>

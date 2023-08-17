@@ -41,7 +41,7 @@ public:
     void ShowContent(const GeneralInput& input, const zaf::Range& file_range);
 
     //For unit test.
-    std::wstring GetFilePath() const;
+    const std::vector<std::byte>& GetBinary() const;
 
     zaf::Frame GetExpectedMargin() override;
 
@@ -50,6 +50,7 @@ protected:
     void OnStyleChanged() override;
 
 private:
+    void ShowTextContent(const std::wstring& text, TextEncoding encoding);
     void ShowFileContent(
         const std::filesystem::path& file_path,
         const zaf::Range& range);

@@ -1,5 +1,6 @@
 #include "module/tool/hex/hex_preview_control.h"
 #include <fstream>
+#include <zaf/base/string/encoding_conversion.h>
 #include <zaf/object/type_definition.h>
 #include "module/common/error_messages.h"
 #include "utility/numeric_text_formatting.h"
@@ -54,6 +55,28 @@ void HexPreviewControl::ShowContent(const GeneralInput& input, const zaf::Range&
     if (auto file_path = input.GetFile()) {
         ShowFileContent(*file_path, file_range);
     }
+    else if (auto text = input.GetText()) {
+        ShowTextContent(text->content, text->encoding);
+    }
+}
+
+
+void HexPreviewControl::ShowTextContent(const std::wstring& text, TextEncoding encoding) {
+
+    FileContentInfo content_info;
+
+    if (encoding == TextEncoding::UTF8) {
+        auto utf8_string = zaf::ToUTF8String(text);
+        content_info.data.resize(utf8_string.size());
+        std::memcpy(&content_info.data[0], utf8_string.data(), utf8_string.size());
+    }
+    else if (encoding == TextEncoding::UTF16) {
+        auto size = text.size() * sizeof(wchar_t);
+        content_info.data.resize(size);
+        std::memcpy(&content_info.data[0], text.data(), size);
+    }
+
+    ShowHexContent(content_info);
 }
 
 
@@ -83,11 +106,6 @@ void HexPreviewControl::ShowFilePath(const std::filesystem::path& path) {
     else {
         filePathLabel->SetIsVisible(false);
     }
-}
-
-
-std::wstring HexPreviewControl::GetFilePath() const {
-    return filePathLabel->Text();
 }
 
 
@@ -136,6 +154,11 @@ void HexPreviewControl::ShowHexContent(const FileContentInfo& content_info) {
     else {
         binaryContent->SetIsVisible(false);
     }
+}
+
+
+const std::vector<std::byte>& HexPreviewControl::GetBinary() const {
+    return binaryContent->GetBinary();
 }
 
 

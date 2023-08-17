@@ -15,6 +15,7 @@ public:
     ZAF_DECLARE_TYPE;
 
 public:
+    const std::vector<std::byte>& GetBinary() const;
     void SetBinary(std::vector<std::byte> binary);
     void ChangeStyle(CommandDisplayStyle style);
 

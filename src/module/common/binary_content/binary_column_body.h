@@ -11,6 +11,10 @@ public:
     ZAF_DECLARE_TYPE;
 
 public:
+    const std::vector<std::byte>& GetBinary() const {
+        return content_;
+    }
+
     void SetBinary(std::vector<std::byte> binary);
 
 protected:

@@ -100,6 +100,12 @@
   <ItemGroup>
     <ResourceCompile Include="..\src\res.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="case\module\tool\hex\hex_test_file1.txt" />
+    <Text Include="case\module\tool\hex\hex_test_file2.txt" />
+    <Text Include="case\module\tool\hex\hex_test_file3.txt" />
+    <Text Include="case\module\tool\hex\hex_test_file4.txt" />
+  </ItemGroup>
   <ItemDefinitionGroup />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
