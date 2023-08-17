@@ -18,7 +18,7 @@ TEST(HexPreviewControlTest, ReadFileContent) {
         HexPreviewControl::FileContentInfo content_info;
         auto status = HexPreviewControl::ReadFileContent(
             GetTestInputFilePath(L"hex_test_file1.txt"),
-            HexCommandParseResult{},
+            zaf::Range{ 0, HexCommandParseResult::DefaultLength },
             content_info);
         ASSERT_EQ(status, HexPreviewControl::ReadFileStatus::OK);
         ASSERT_EQ(content_info.data.size(), 128);
@@ -32,13 +32,10 @@ TEST(HexPreviewControlTest, ReadFileContent) {
     }
 
     {
-        HexCommandParseResult parse_result;
-        parse_result.position = 100;
-        parse_result.length = 20;
         HexPreviewControl::FileContentInfo content_info;
         auto status = HexPreviewControl::ReadFileContent(
             GetTestInputFilePath(L"hex_test_file1.txt"),
-            parse_result,
+            zaf::Range{ 100, 20 },
             content_info);
         ASSERT_EQ(status, HexPreviewControl::ReadFileStatus::OK);
         ASSERT_EQ(content_info.data.size(), 20);
@@ -55,12 +52,10 @@ TEST(HexPreviewControlTest, ReadFileContent) {
 TEST(HexPreviewControlTest, ReadFileContent_ExceedsFileLength) {
 
     {
-        HexCommandParseResult parse_result;
-        parse_result.length = 300;
         HexPreviewControl::FileContentInfo content_info;
         auto status = HexPreviewControl::ReadFileContent(
             GetTestInputFilePath(L"hex_test_file1.txt"),
-            parse_result,
+            zaf::Range{ 0, 300 },
             content_info);
         ASSERT_EQ(status, HexPreviewControl::ReadFileStatus::OK);
         ASSERT_EQ(content_info.data.size(), 149);
@@ -79,7 +74,7 @@ TEST(HexPreviewControlTest, ReadFileContent_ExceedsFileLength) {
         HexPreviewControl::FileContentInfo content_info;
         auto status = HexPreviewControl::ReadFileContent(
             GetTestInputFilePath(L"hex_test_file1.txt"),
-            parse_result,
+            zaf::Range{ 100, 128 },
             content_info);
         ASSERT_EQ(status, HexPreviewControl::ReadFileStatus::OK);
         ASSERT_EQ(content_info.data.size(), 49);
@@ -95,13 +90,10 @@ TEST(HexPreviewControlTest, ReadFileContent_ExceedsFileLength) {
 TEST(HexPreviewControlTest, ReadFileContent_EmptyFile) {
 
     {
-        HexCommandParseResult parse_result;
-        parse_result.position = 0;
-        parse_result.length = 1;
         HexPreviewControl::FileContentInfo content_info;
         auto status = HexPreviewControl::ReadFileContent(
             GetTestInputFilePath(L"hex_test_file2.txt"),
-            parse_result,
+            zaf::Range{ 0, 1 },
             content_info);
         ASSERT_EQ(status, HexPreviewControl::ReadFileStatus::EmptyFile);
         ASSERT_EQ(content_info.data.size(), 0);
@@ -109,13 +101,10 @@ TEST(HexPreviewControlTest, ReadFileContent_EmptyFile) {
     }
 
     {
-        HexCommandParseResult parse_result;
-        parse_result.position = 10;
-        parse_result.length = 1;
         HexPreviewControl::FileContentInfo content_info;
         auto status = HexPreviewControl::ReadFileContent(
             GetTestInputFilePath(L"hex_test_file2.txt"),
-            parse_result,
+            zaf::Range{ 10, 1 },
             content_info);
         ASSERT_EQ(status, HexPreviewControl::ReadFileStatus::EmptyFile);
         ASSERT_EQ(content_info.data.size(), 0);
@@ -129,7 +118,7 @@ TEST(HexPreviewControlTest, ReadFileContent_NotFile) {
     HexPreviewControl::FileContentInfo content_info;
     auto status = HexPreviewControl::ReadFileContent(
         std::filesystem::path{ __FILEW__ }.parent_path(),
-        HexCommandParseResult{},
+        zaf::Range{ 0, HexCommandParseResult::DefaultLength },
         content_info);
     ASSERT_EQ(status, HexPreviewControl::ReadFileStatus::ReadFileFailed);
     ASSERT_EQ(content_info.data.size(), 0);
@@ -155,7 +144,7 @@ TEST(HexPreviewControlTest, ReadFileContent_CannotOpenFile) {
     HexPreviewControl::FileContentInfo content_info;
     auto status = HexPreviewControl::ReadFileContent(
         input_file,
-        HexCommandParseResult{},
+        zaf::Range{ 0, HexCommandParseResult::DefaultLength },
         content_info);
     ASSERT_EQ(status, HexPreviewControl::ReadFileStatus::ReadFileFailed);
     ASSERT_EQ(content_info.data.size(), 0);
@@ -166,13 +155,10 @@ TEST(HexPreviewControlTest, ReadFileContent_CannotOpenFile) {
 TEST(HexPreviewControlTest, ReadFileContent_InvalidPosition) {
 
     {
-        HexCommandParseResult parse_result;
-        parse_result.position = 149;
-        parse_result.length = 100;
         HexPreviewControl::FileContentInfo content_info;
         auto status = HexPreviewControl::ReadFileContent(
             GetTestInputFilePath(L"hex_test_file1.txt"),
-            parse_result,
+            zaf::Range{ 149, 100 },
             content_info);
         ASSERT_EQ(status, HexPreviewControl::ReadFileStatus::InvalidPosition);
         ASSERT_EQ(content_info.data.size(), 0);
@@ -180,13 +166,10 @@ TEST(HexPreviewControlTest, ReadFileContent_InvalidPosition) {
     }
 
     {
-        HexCommandParseResult parse_result;
-        parse_result.position = 200;
-        parse_result.length = 100;
         HexPreviewControl::FileContentInfo content_info;
         auto status = HexPreviewControl::ReadFileContent(
             GetTestInputFilePath(L"hex_test_file1.txt"),
-            parse_result,
+            zaf::Range{ 200, 100 },
             content_info);
         ASSERT_EQ(status, HexPreviewControl::ReadFileStatus::InvalidPosition);
         ASSERT_EQ(content_info.data.size(), 0);
@@ -197,13 +180,10 @@ TEST(HexPreviewControlTest, ReadFileContent_InvalidPosition) {
 
 TEST(HexPreviewControlTest, ReadFileContent_ZeroLength) {
 
-    HexCommandParseResult parse_result;
-    parse_result.position = 0;
-    parse_result.length = 0;
     HexPreviewControl::FileContentInfo content_info;
     auto status = HexPreviewControl::ReadFileContent(
         GetTestInputFilePath(L"hex_test_file1.txt"),
-        parse_result,
+        zaf::Range{},
         content_info);
     ASSERT_EQ(status, HexPreviewControl::ReadFileStatus::OK);
     ASSERT_EQ(content_info.data.size(), 128);

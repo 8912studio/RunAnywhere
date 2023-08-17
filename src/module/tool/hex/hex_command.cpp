@@ -2,6 +2,7 @@
 #include <zaf/creation.h>
 #include "module/active_path/active_path_modifying.h"
 #include "module/common/command_error_control.h"
+#include "module/common/general_input.h"
 #include "module/tool/hex/hex_command_parsing.h"
 
 namespace ra::mod::tool::hex {
@@ -74,41 +75,9 @@ std::shared_ptr<CommandPreviewControl> HexCommand::GetPreviewControl() {
 void HexCommand::CreatePreviewControl() {
 
     preview_control_ = zaf::Create<HexPreviewControl>();
-
-    if (!parse_result_->general_option.text.empty()) {
-
-        if (parse_result_->general_option.treat_text_as_file) {
-            preview_control_->ShowFileContent(parse_result_->general_option.text, *parse_result_);
-        }
-        else {
-            preview_control_->ShowTextContent(
-                parse_result_->general_option.text,
-                parse_result_->general_option.text_encoding.value_or(TextEncoding::UTF8));
-        }
-    }
-    else {
-
-        context::ActivePath active_path;
-        if (parse_result_->general_option.active_path_option) {
-            active_path = active_path::ModifyActivePathByOption(
-                desktop_context_.active_path,
-                *parse_result_->general_option.active_path_option);
-        }
-        else {
-            active_path = desktop_context_.active_path;
-        }
-
-        if (parse_result_->general_option.text_encoding) {
-            preview_control_->ShowTextContent(
-                active_path.GetPath().wstring(),
-                *parse_result_->general_option.text_encoding);
-        }
-        else {
-            preview_control_->ShowFileContent(
-                active_path.GetPath(),
-                *parse_result_);
-        }
-    }
+    preview_control_->ShowContent(
+        MakeGeneralInput(desktop_context_, parse_result_->general_option),
+        zaf::Range{ parse_result_->position, parse_result_->length });
 }
 
 

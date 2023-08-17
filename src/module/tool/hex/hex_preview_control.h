@@ -7,6 +7,7 @@
 #include "module/command_preview_control.h"
 #include "module/common/binary_content/binary_content_control.h"
 #include "module/common/error_view.h"
+#include "module/common/general_input.h"
 #include "module/tool/hex/hex_command_parse_result.h"
 
 namespace ra::mod::tool::hex {
@@ -33,15 +34,11 @@ public:
     //For unit test.
     static ReadFileStatus ReadFileContent(
         const std::filesystem::path& file_path,
-        const HexCommandParseResult& parse_result,
+        const zaf::Range& range,
         FileContentInfo& content_info);
 
 public:
-    void ShowTextContent(const std::wstring& string, TextEncoding encoding);
-
-    void ShowFileContent(
-        const std::filesystem::path& file_path,
-        const HexCommandParseResult& parse_result);
+    void ShowContent(const GeneralInput& input, const zaf::Range& file_range);
 
     //For unit test.
     std::wstring GetFilePath() const;
@@ -53,11 +50,14 @@ protected:
     void OnStyleChanged() override;
 
 private:
+    void ShowFileContent(
+        const std::filesystem::path& file_path,
+        const zaf::Range& range);
     void ShowFilePath(const std::filesystem::path& path);
     void ShowFileInfo(
         ReadFileStatus status, 
         const FileContentInfo& content_info,
-        const HexCommandParseResult& parse_result);
+        const zaf::Range& range);
     void ShowHexContent(const FileContentInfo& content_info);
     void ShowMessage(
         ReadFileStatus status,

@@ -49,24 +49,26 @@ void HexPreviewControl::OnStyleChanged() {
 }
 
 
-void HexPreviewControl::ShowTextContent(const std::wstring& string, TextEncoding encoding) {
+void HexPreviewControl::ShowContent(const GeneralInput& input, const zaf::Range& file_range) {
 
-
+    if (auto file_path = input.GetFile()) {
+        ShowFileContent(*file_path, file_range);
+    }
 }
 
 
 void HexPreviewControl::ShowFileContent(
     const std::filesystem::path& file_path,
-    const HexCommandParseResult& parse_result) {
+    const zaf::Range& range) {
 
     auto update_guard = BeginUpdate();
 
     ShowFilePath(file_path);
 
     FileContentInfo content_info;
-    auto read_file_status = ReadFileContent(file_path, parse_result, content_info);
+    auto read_file_status = ReadFileContent(file_path, range, content_info);
 
-    ShowFileInfo(read_file_status, content_info, parse_result);
+    ShowFileInfo(read_file_status, content_info, range);
     ShowHexContent(content_info);
     ShowMessage(read_file_status, content_info);
 }
@@ -92,7 +94,7 @@ std::wstring HexPreviewControl::GetFilePath() const {
 void HexPreviewControl::ShowFileInfo(
     ReadFileStatus status,
     const FileContentInfo& content_info,
-    const HexCommandParseResult& parse_result) {
+    const zaf::Range& range) {
 
     if (status == ReadFileStatus::ReadFileFailed) {
         fileInfoLabel->SetIsVisible(false);
@@ -107,13 +109,13 @@ void HexPreviewControl::ShowFileInfo(
 
     if (status == ReadFileStatus::OK) {
 
-        auto range_end = parse_result.position;
+        auto range_end = range.index;
         if (!content_info.data.empty()) {
             range_end += content_info.data.size() - 1;
         }
 
         text += L"    Range: ";
-        text += FormatInteger(parse_result.position);
+        text += FormatInteger(range.index);
         text += L'-';
         text += FormatInteger(range_end);
 
@@ -177,7 +179,7 @@ zaf::Frame HexPreviewControl::GetExpectedMargin() {
 
 HexPreviewControl::ReadFileStatus HexPreviewControl::ReadFileContent(
     const std::filesystem::path& file_path,
-    const HexCommandParseResult& parse_result,
+    const zaf::Range& range,
     FileContentInfo& content_info) {
 
     std::ifstream file_stream;
@@ -193,16 +195,16 @@ HexPreviewControl::ReadFileStatus HexPreviewControl::ReadFileContent(
             return ReadFileStatus::EmptyFile;
         }
 
-        if (parse_result.position >= content_info.file_size) {
+        if (range.index >= content_info.file_size) {
             return ReadFileStatus::InvalidPosition;
         }
 
         auto can_read_length = 
-            content_info.file_size - static_cast<std::streampos>(parse_result.position);
+            content_info.file_size - static_cast<std::streampos>(range.index);
 
         //Change read length to default length if it is 0, which has no meaning.
         auto expected_read_length = 
-            parse_result.length > 0 ? parse_result.length : HexCommandParseResult::DefaultLength;
+            range.length > 0 ? range.length : HexCommandParseResult::DefaultLength;
 
         auto buffer_length = std::min({ 
             static_cast<std::streampos>(can_read_length),
@@ -217,7 +219,7 @@ HexPreviewControl::ReadFileStatus HexPreviewControl::ReadFileContent(
 
         content_info.data.resize(buffer_length);
 
-        file_stream.seekg(parse_result.position, std::ifstream::beg);
+        file_stream.seekg(range.index, std::ifstream::beg);
         file_stream.read(reinterpret_cast<char*>(&content_info.data[0]), buffer_length);
 
         return ReadFileStatus::OK;
