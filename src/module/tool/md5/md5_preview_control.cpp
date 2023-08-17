@@ -88,6 +88,17 @@ void MD5PreviewControl::ChangeLayout(LayoutType type) {
 }
 
 
+void MD5PreviewControl::ShowMD5(const GeneralInput& input) {
+
+	if (auto file_path = input.GetFile()) {
+		ShowFileMD5(*file_path);
+	}
+	else if (auto text = input.GetText()) {
+		ShowStringMD5(text->content, text->encoding);
+	}
+}
+
+
 void MD5PreviewControl::ShowFileMD5(const std::filesystem::path& file_path) {
 
 	contentStatusBar->ShowFile(file_path);

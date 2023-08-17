@@ -72,39 +72,7 @@ void MD5Command::CreatePreviewControl() {
 
 	preview_control_ = zaf::Create<MD5PreviewControl>();
 	preview_control_->SetUseUppercase(parse_result_.use_uppercase);
-
-	if (!parse_result_.string.empty()) {
-
-		if (parse_result_.treat_string_as_file) {
-			preview_control_->ShowFileMD5(parse_result_.string);
-		}
-		else {
-			preview_control_->ShowStringMD5(
-				parse_result_.string, 
-				parse_result_.encoding.value_or(TextEncoding::UTF8));
-		}
-	}
-	else {
-
-		context::ActivePath active_path;
-		if (parse_result_.active_path_option) {
-			active_path = active_path::ModifyActivePathByOption(
-				desktop_context_.active_path,
-				*parse_result_.active_path_option);
-		}
-		else {
-			active_path = desktop_context_.active_path;
-		}
-
-		if (parse_result_.encoding) {
-			preview_control_->ShowStringMD5(
-				active_path.GetPath().wstring(),
-				*parse_result_.encoding);
-		}
-		else {
-			preview_control_->ShowFileMD5(active_path.GetPath());
-		}
-	}
+	preview_control_->ShowMD5(MakeGeneralInput(desktop_context_, parse_result_.general_option));
 }
 
 

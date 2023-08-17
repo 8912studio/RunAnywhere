@@ -12,6 +12,7 @@
 #include "module/command_preview_control.h"
 #include "module/common/content_status_bar.h"
 #include "module/common/error_view.h"
+#include "module/common/general_input.h"
 #include "module/common/text_encoding.h"
 #include "utility/preview_text_box.h"
 #include "utility/progress_circle.h"
@@ -22,8 +23,7 @@ class MD5PreviewControl : public CommandPreviewControl {
 public:
 	ZAF_DECLARE_TYPE;
 
-	void ShowFileMD5(const std::filesystem::path& file_path);
-	void ShowStringMD5(const std::wstring& string, TextEncoding encoding);
+	void ShowMD5(const GeneralInput& input);
 
 	std::wstring GetText();
 
@@ -47,6 +47,8 @@ private:
 	};
 
 private:
+	void ShowFileMD5(const std::filesystem::path& file_path);
+	void ShowStringMD5(const std::wstring& string, TextEncoding encoding);
 	void SetMD5Text(const std::wstring& md5);
 	void AdjustControlStyles();
 	void ChangeLayout(LayoutType type);
