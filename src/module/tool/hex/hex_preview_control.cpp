@@ -92,8 +92,11 @@ void HexPreviewControl::ShowTextInfo(
     info_string += L"Text length: ";
     info_string += FormatInteger(text.length());
 
-    fileInfoLabel->SetText(info_string);
-    fileInfoLabel->SetIsVisible(true);
+    info_string += L"    Byte count: ";
+    info_string += FormatInteger(binary.size());
+
+    infoLabel->SetText(info_string);
+    infoLabel->SetIsVisible(true);
 }
 
 
@@ -118,11 +121,11 @@ void HexPreviewControl::ShowFileInfo(
     const zaf::Range& range) {
 
     if (status == ReadFileStatus::ReadFileFailed) {
-        fileInfoLabel->SetIsVisible(false);
+        infoLabel->SetIsVisible(false);
         return;
     }
 
-    fileInfoLabel->SetIsVisible(true);
+    infoLabel->SetIsVisible(true);
 
     std::wstring text;
     text += L"File size: ";
@@ -144,7 +147,7 @@ void HexPreviewControl::ShowFileInfo(
         text += FormatInteger(content_info.data.size());
     }
 
-    fileInfoLabel->SetText(text);
+    infoLabel->SetText(text);
 }
 
 

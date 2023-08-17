@@ -68,7 +68,7 @@ private:
 
 private:
     ZAF_BIND_CONTROL(ContentStatusBar, contentStatusBar);
-    ZAF_BIND_CONTROL(zaf::Label, fileInfoLabel);
+    ZAF_BIND_CONTROL(zaf::Label, infoLabel);
     ZAF_BIND_CONTROL(BinaryContentControl, binaryContent);
     ZAF_BIND_CONTROL(ErrorView, errorView);
 };
