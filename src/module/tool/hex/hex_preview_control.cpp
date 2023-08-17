@@ -4,7 +4,6 @@
 #include <zaf/object/type_definition.h>
 #include "module/common/error_messages.h"
 #include "utility/numeric_text_formatting.h"
-#include "utility/path_trimming.h"
 
 namespace ra::mod::tool::hex {
 namespace {
@@ -34,15 +33,6 @@ ZAF_DEFINE_TYPE(HexPreviewControl)
 ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/tool/hex/hex_preview_control.xaml")
 ZAF_DEFINE_TYPE_END;
 
-
-void HexPreviewControl::AfterParse() {
-
-    __super::AfterParse();
-
-    filePathLabel->SetTextTrimming(utility::CreateTextTrimmingForPath());
-}
-
-
 void HexPreviewControl::OnStyleChanged() {
 
     binaryContent->ChangeStyle(Style());
@@ -51,6 +41,8 @@ void HexPreviewControl::OnStyleChanged() {
 
 
 void HexPreviewControl::ShowContent(const GeneralInput& input, const zaf::Range& file_range) {
+
+    auto update_guard = BeginUpdate();
 
     if (auto file_path = input.GetFile()) {
         ShowFileContent(*file_path, file_range);
@@ -63,20 +55,45 @@ void HexPreviewControl::ShowContent(const GeneralInput& input, const zaf::Range&
 
 void HexPreviewControl::ShowTextContent(const std::wstring& text, TextEncoding encoding) {
 
-    FileContentInfo content_info;
+    contentStatusBar->ShowText(text, encoding);
 
+    auto text_binary = CreateTextBinary(text, encoding);
+    ShowBinary(text_binary);
+    ShowTextInfo(text, text_binary);
+}
+
+
+std::vector<std::byte> HexPreviewControl::CreateTextBinary(
+    const std::wstring& text, 
+    TextEncoding encoding) {
+
+    std::vector<std::byte> result;
     if (encoding == TextEncoding::UTF8) {
+
         auto utf8_string = zaf::ToUTF8String(text);
-        content_info.data.resize(utf8_string.size());
-        std::memcpy(&content_info.data[0], utf8_string.data(), utf8_string.size());
+        result.resize(utf8_string.size());
+        std::memcpy(&result[0], utf8_string.data(), utf8_string.size());
     }
     else if (encoding == TextEncoding::UTF16) {
-        auto size = text.size() * sizeof(wchar_t);
-        content_info.data.resize(size);
-        std::memcpy(&content_info.data[0], text.data(), size);
-    }
 
-    ShowHexContent(content_info);
+        auto size = text.size() * sizeof(wchar_t);
+        result.resize(size);
+        std::memcpy(&result[0], text.data(), size);
+    }
+    return result;
+}
+
+
+void HexPreviewControl::ShowTextInfo(
+    const std::wstring& text, 
+    const std::vector<std::byte>& binary) {
+
+    std::wstring info_string;
+    info_string += L"Text length: ";
+    info_string += FormatInteger(text.length());
+
+    fileInfoLabel->SetText(info_string);
+    fileInfoLabel->SetIsVisible(true);
 }
 
 
@@ -84,28 +101,14 @@ void HexPreviewControl::ShowFileContent(
     const std::filesystem::path& file_path,
     const zaf::Range& range) {
 
-    auto update_guard = BeginUpdate();
-
-    ShowFilePath(file_path);
+    contentStatusBar->ShowFile(file_path);
 
     FileContentInfo content_info;
     auto read_file_status = ReadFileContent(file_path, range, content_info);
 
     ShowFileInfo(read_file_status, content_info, range);
-    ShowHexContent(content_info);
+    ShowBinary(content_info.data);
     ShowMessage(read_file_status, content_info);
-}
-
-
-void HexPreviewControl::ShowFilePath(const std::filesystem::path& path) {
-
-    if (!path.empty()) {
-        filePathLabel->SetText(path.wstring());
-        filePathLabel->SetIsVisible(true);
-    }
-    else {
-        filePathLabel->SetIsVisible(false);
-    }
 }
 
 
@@ -145,10 +148,10 @@ void HexPreviewControl::ShowFileInfo(
 }
 
 
-void HexPreviewControl::ShowHexContent(const FileContentInfo& content_info) {
+void HexPreviewControl::ShowBinary(const std::vector<std::byte>& binary) {
 
-    if (!content_info.data.empty()) {
-        binaryContent->SetBinary(content_info.data);
+    if (!binary.empty()) {
+        binaryContent->SetBinary(binary);
         binaryContent->SetIsVisible(true);
     }
     else {

@@ -6,6 +6,7 @@
 #include <zaf/control/scrollable_control.h>
 #include "module/command_preview_control.h"
 #include "module/common/binary_content/binary_content_control.h"
+#include "module/common/content_status_bar.h"
 #include "module/common/error_view.h"
 #include "module/common/general_input.h"
 #include "module/tool/hex/hex_command_parse_result.h"
@@ -46,26 +47,27 @@ public:
     zaf::Frame GetExpectedMargin() override;
 
 protected:
-    void AfterParse() override;
     void OnStyleChanged() override;
 
 private:
     void ShowTextContent(const std::wstring& text, TextEncoding encoding);
+    std::vector<std::byte> CreateTextBinary(const std::wstring& text, TextEncoding encoding);
+    void ShowTextInfo(const std::wstring& text, const std::vector<std::byte>& binary);
+
     void ShowFileContent(
         const std::filesystem::path& file_path,
         const zaf::Range& range);
-    void ShowFilePath(const std::filesystem::path& path);
     void ShowFileInfo(
         ReadFileStatus status, 
         const FileContentInfo& content_info,
         const zaf::Range& range);
-    void ShowHexContent(const FileContentInfo& content_info);
+    void ShowBinary(const std::vector<std::byte>& binary);
     void ShowMessage(
         ReadFileStatus status,
         const FileContentInfo& content_info);
 
 private:
-    ZAF_BIND_CONTROL(zaf::Label, filePathLabel);
+    ZAF_BIND_CONTROL(ContentStatusBar, contentStatusBar);
     ZAF_BIND_CONTROL(zaf::Label, fileInfoLabel);
     ZAF_BIND_CONTROL(BinaryContentControl, binaryContent);
     ZAF_BIND_CONTROL(ErrorView, errorView);

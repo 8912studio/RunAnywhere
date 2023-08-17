@@ -1,12 +1,5 @@
 <HexPreviewControl Layouter="VerticalLayouter" AutoHeight="true">
-    <Label 
-        Name="filePathLabel" 
-        FixedHeight="20"
-        Margin="15,0,15,0"
-        ParagraphAlignment="Center"
-        FontSize="14" 
-        TextColor="#808080" 
-    />
+    <ContentStatusBar Name="contentStatusBar" Margin="15,0,15,0" />
     <Label 
         Name="fileInfoLabel" 
         FixedHeight="28"
