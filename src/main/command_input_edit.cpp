@@ -1,5 +1,6 @@
 #include "main/command_input_edit.h"
 #include <tom.h>
+#include <zaf/base/auto_reset.h>
 #include <zaf/base/container/utility/contain.h>
 #include <zaf/base/com_object.h>
 #include <zaf/clipboard/clipboard.h>
@@ -95,20 +96,6 @@ zaf::Observable<zaf::None> CommandInputEdit::CommandChangedEvent() {
 }
 
 
-bool CommandInputEdit::ShouldInsertTextBlockObject(const std::wstring& text) {
-
-    if (text.length() > 30) {
-        return true;
-    }
-
-    if (zaf::Contain(text, L'\r') || zaf::Contain(text, L'\n')) {
-        return true;
-    }
-
-    return false;
-}
-
-
 std::shared_ptr<TextBlockObject> CommandInputEdit::InsertTextBlockObjectWithText(
     const std::wstring& text) {
 
@@ -142,7 +129,13 @@ void CommandInputEdit::RaiseCommandChangedEvent() {
 
 void CommandInputEdit::OnKeyDown(const zaf::KeyDownInfo& event_info) {
 
-    if (event_info.Message().VirtualKey() == L'2') {
+    if (event_info.Message().VirtualKey() == L'V') {
+        if (GetKeyState(VK_CONTROL) >> 15) {
+            HandleCopy(event_info);
+            event_info.MarkAsHandled();
+        }
+    }
+    else if (event_info.Message().VirtualKey() == L'2') {
         if (GetKeyState(VK_CONTROL) >> 15) {
             InsertActivePathOverridingIndicator();
             event_info.MarkAsHandled();
@@ -150,6 +143,18 @@ void CommandInputEdit::OnKeyDown(const zaf::KeyDownInfo& event_info) {
     }
 
     __super::OnKeyDown(event_info);
+}
+
+
+void CommandInputEdit::HandleCopy(const zaf::KeyDownInfo& event_info) {
+
+    auto auto_reset = zaf::MakeAutoReset(suppress_text_block_);
+
+    if (GetKeyState(VK_SHIFT) >> 15) {
+        suppress_text_block_ = true;
+    }
+
+    this->Paste();
 }
 
 
@@ -281,6 +286,24 @@ void CommandInputEdit::InsertTextOrTextBlockObject(const std::wstring& text) {
     else {
         this->InsertText(text);
     }
+}
+
+
+bool CommandInputEdit::ShouldInsertTextBlockObject(const std::wstring& text) const {
+
+    if (suppress_text_block_) {
+        return false;
+    }
+
+    if (text.length() > 30) {
+        return true;
+    }
+
+    if (zaf::Contain(text, L'\r') || zaf::Contain(text, L'\n')) {
+        return true;
+    }
+
+    return false;
 }
 
 

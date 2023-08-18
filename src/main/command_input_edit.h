@@ -32,9 +32,7 @@ protected:
     void OnSysKeyDown(const zaf::SysKeyDownInfo& event_info) override;
 
 private:
-    static bool ShouldInsertTextBlockObject(const std::wstring& text);
-
-private:
+    void HandleCopy(const zaf::KeyDownInfo& event_info);
     std::shared_ptr<TextBlockObject> InsertTextBlockObjectWithText(const std::wstring& text);
     void InsertTextBlockObject(const std::shared_ptr<TextBlockObject>& object);
     void RaiseCommandChangedEvent();
@@ -54,6 +52,7 @@ private:
     void InsertPrivateClipboardData(const zaf::clipboard::DataObject& data_object);
     void InsertTextData(const zaf::clipboard::DataObject& data_object);
     void InsertTextOrTextBlockObject(const std::wstring& text);
+    bool ShouldInsertTextBlockObject(const std::wstring& text) const;
 
     zaf::rich_edit::OperationResult GetClipboardData(
         zaf::rich_edit::ClipboardOperation operation,
@@ -65,6 +64,7 @@ private:
 private:
     CommandDisplayStyle style_{ CommandDisplayStyle::Normal };
     zaf::Subject<zaf::None> command_changed_event_;
+    bool suppress_text_block_{};
 };
 
 }
