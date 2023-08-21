@@ -1,4 +1,4 @@
-#include "main/text_block_object.h"
+#include "main/input/text_block_object.h"
 #include <tom.h>
 #include <zaf/base/as.h>
 #include <zaf/creation.h>
@@ -8,7 +8,7 @@
 #include <zaf/graphic/text/text_format_properties.h>
 #include "utility/text_utility.h"
 
-namespace ra {
+namespace ra::main::input {
 
 TextBlockObject::TextBlockObject(std::shared_ptr<TextBlockData> data) : data_(std::move(data)) {
 

@@ -4,8 +4,8 @@
 #include <zaf/control/control.h>
 #include <zaf/control/control_binder.h>
 #include <zaf/control/rich_edit.h>
-#include "main/command_input_content.h"
-#include "main/command_input_edit.h"
+#include "main/input/command_input_content.h"
+#include "main/input/command_input_edit.h"
 #include "main/toolbar/command_toolbar.h"
 #include "main/toolbar/toolbar_button.h"
 #include "module/command.h"
@@ -20,7 +20,7 @@ public:
 
 public:
     PreservedCommandView(
-        CommandInputContent command_input_content,
+        main::input::CommandInputContent command_input_content,
         std::unique_ptr<mod::Command> command);
 
     zaf::Observable<std::shared_ptr<PreservedCommandView>> CloseEvent() {
@@ -34,11 +34,11 @@ private:
     void InitializeToolbar();
 
 private:
-    ZAF_BIND_CONTROL(CommandInputEdit, commandEdit);
+    ZAF_BIND_CONTROL(main::input::CommandInputEdit, commandEdit);
     ZAF_BIND_CONTROL(zaf::Control, previewContainer);
     ZAF_BIND_CONTROL(CommandToolbar, toolbar);
 
-    CommandInputContent command_input_content_;
+    main::input::CommandInputContent command_input_content_;
     std::unique_ptr<mod::Command> command_;
 
     zaf::Event<std::shared_ptr<PreservedCommandView>> close_event_;

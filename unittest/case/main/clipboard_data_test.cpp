@@ -1,9 +1,9 @@
 #include <gtest/gtest.h>
 #include <zaf/object/boxing/boxing.h>
-#include "main/clipboard_data.h"
-#include "main/text_block_data.h"
+#include "main/input/clipboard_data.h"
+#include "main/input/text_block_data.h"
 
-using namespace ra;
+using namespace ra::main::input;
 
 namespace {
 

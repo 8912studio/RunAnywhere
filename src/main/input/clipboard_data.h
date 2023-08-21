@@ -3,7 +3,7 @@
 #include <zaf/clipboard/clipboard_data.h>
 #include <zaf/object/object.h>
 
-namespace ra {
+namespace ra::main::input {
 
 class ClipboardData : public zaf::clipboard::ClipboardData {
 public:

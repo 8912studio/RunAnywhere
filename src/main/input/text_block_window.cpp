@@ -1,4 +1,4 @@
-#include "main/text_block_window.h"
+#include "main/input/text_block_window.h"
 #include <zaf/base/log.h>
 #include <zaf/base/none.h>
 #include <zaf/base/string/replace.h>
@@ -8,10 +8,10 @@
 #include <zaf/rx/scheduler.h>
 #include <zaf/rx/creation.h>
 
-namespace ra {
+namespace ra::main::input {
 
 ZAF_DEFINE_TYPE(TextBlockWindow)
-ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///main/text_block_window.xaml")
+ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///main/input/text_block_window.xaml")
 ZAF_DEFINE_TYPE_END;
 
 TextBlockWindow::TextBlockWindow() {

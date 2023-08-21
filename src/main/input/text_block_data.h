@@ -2,7 +2,7 @@
 
 #include <zaf/object/object.h>
 
-namespace ra {
+namespace ra::main::input {
 
 class TextBlockData : public zaf::Object {
 public:

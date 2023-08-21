@@ -1,6 +1,6 @@
-#include "main/command_input_content.h"
+#include "main/input/command_input_content.h"
 
-namespace ra {
+namespace ra::main::input {
 namespace {
 
 constexpr wchar_t ObjectReplacementChar = L'\ufffc';

@@ -1,4 +1,4 @@
-#include "main/clipboard_data.h"
+#include "main/input/clipboard_data.h"
 #include <boost/json.hpp>
 #include <zaf/base/as.h>
 #include <zaf/base/base64.h>
@@ -9,9 +9,9 @@
 #include <zaf/object/boxing/boxing.h>
 #include <zaf/object/boxing/string.h>
 #include <zaf/object/type_definition.h>
-#include "main/text_block_data.h"
+#include "main/input/text_block_data.h"
 
-namespace ra {
+namespace ra::main::input {
 namespace {
 
 constexpr const char* JSONItemsName = "items";

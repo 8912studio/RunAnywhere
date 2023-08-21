@@ -115,6 +115,9 @@
     <Filter Include="src\main\toolbar">
       <UniqueIdentifier>{b8146b2c-f142-4c7e-964e-2f27544106fb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\main\input">
+      <UniqueIdentifier>{fb923485-d6d9-4864-adb8-e96e206bba61}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\module\calculator\parse\binary_expression_parser.h">
@@ -561,20 +564,11 @@
     <ClInclude Include="src\module\common\command_error_control.h">
       <Filter>src\module\common</Filter>
     </ClInclude>
-    <ClInclude Include="src\main\command_input_edit.h">
-      <Filter>src\main</Filter>
-    </ClInclude>
-    <ClInclude Include="src\main\text_block_object.h">
-      <Filter>src\main</Filter>
-    </ClInclude>
     <ClInclude Include="src\main\main_window.h">
       <Filter>src\main</Filter>
     </ClInclude>
     <ClInclude Include="src\utility\text_utility.h">
       <Filter>src\utility</Filter>
-    </ClInclude>
-    <ClInclude Include="src\main\text_block_window.h">
-      <Filter>src\main</Filter>
     </ClInclude>
     <ClInclude Include="src\utility\thin_scroll_bar.h">
       <Filter>src\utility</Filter>
@@ -590,15 +584,6 @@
     </ClInclude>
     <ClInclude Include="src\module\tool\text_transform\upper_transformer.h">
       <Filter>src\module\tool\text_transform</Filter>
-    </ClInclude>
-    <ClInclude Include="src\main\line_break_option.h">
-      <Filter>src\main</Filter>
-    </ClInclude>
-    <ClInclude Include="src\main\clipboard_data.h">
-      <Filter>src\main</Filter>
-    </ClInclude>
-    <ClInclude Include="src\main\text_block_data.h">
-      <Filter>src\main</Filter>
     </ClInclude>
     <ClInclude Include="src\module\tool\base64\base64_command.h">
       <Filter>src\module\tool\base64</Filter>
@@ -648,9 +633,6 @@
     <ClInclude Include="src\module\common\copy_executor.h">
       <Filter>src\module\common</Filter>
     </ClInclude>
-    <ClInclude Include="src\main\command_input_content.h">
-      <Filter>src\main</Filter>
-    </ClInclude>
     <ClInclude Include="src\main\command_display_style.h">
       <Filter>src\main</Filter>
     </ClInclude>
@@ -686,6 +668,27 @@
     </ClInclude>
     <ClInclude Include="src\module\common\general_input.h">
       <Filter>src\module\common</Filter>
+    </ClInclude>
+    <ClInclude Include="src\main\input\command_input_content.h">
+      <Filter>src\main\input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\main\input\command_input_edit.h">
+      <Filter>src\main\input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\main\input\text_block_data.h">
+      <Filter>src\main\input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\main\input\text_block_object.h">
+      <Filter>src\main\input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\main\input\text_block_window.h">
+      <Filter>src\main\input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\main\input\clipboard_data.h">
+      <Filter>src\main\input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\main\input\line_break_option.h">
+      <Filter>src\main\input</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -995,20 +998,11 @@
     <ClCompile Include="src\module\common\command_error_control.cpp">
       <Filter>src\module\common</Filter>
     </ClCompile>
-    <ClCompile Include="src\main\command_input_edit.cpp">
-      <Filter>src\main</Filter>
-    </ClCompile>
-    <ClCompile Include="src\main\text_block_object.cpp">
-      <Filter>src\main</Filter>
-    </ClCompile>
     <ClCompile Include="src\main\main_window.cpp">
       <Filter>src\main</Filter>
     </ClCompile>
     <ClCompile Include="src\utility\text_utility.cpp">
       <Filter>src\utility</Filter>
-    </ClCompile>
-    <ClCompile Include="src\main\text_block_window.cpp">
-      <Filter>src\main</Filter>
     </ClCompile>
     <ClCompile Include="src\utility\thin_scroll_bar.cpp">
       <Filter>src\utility</Filter>
@@ -1021,12 +1015,6 @@
     </ClCompile>
     <ClCompile Include="src\module\tool\text_transform\upper_transformer.cpp">
       <Filter>src\module\tool\text_transform</Filter>
-    </ClCompile>
-    <ClCompile Include="src\main\line_break_option.cpp">
-      <Filter>src\main</Filter>
-    </ClCompile>
-    <ClCompile Include="src\main\clipboard_data.cpp">
-      <Filter>src\main</Filter>
     </ClCompile>
     <ClCompile Include="src\module\tool\base64\base64_command.cpp">
       <Filter>src\module\tool\base64</Filter>
@@ -1067,9 +1055,6 @@
     <ClCompile Include="src\module\common\copy_executor.cpp">
       <Filter>src\module\common</Filter>
     </ClCompile>
-    <ClCompile Include="src\main\command_input_content.cpp">
-      <Filter>src\main</Filter>
-    </ClCompile>
     <ClCompile Include="src\main\preserve\preserved_command_view.cpp">
       <Filter>src\main\preserve</Filter>
     </ClCompile>
@@ -1099,6 +1084,24 @@
     </ClCompile>
     <ClCompile Include="src\module\common\general_input.cpp">
       <Filter>src\module\common</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main\input\command_input_content.cpp">
+      <Filter>src\main\input</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main\input\command_input_edit.cpp">
+      <Filter>src\main\input</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main\input\text_block_object.cpp">
+      <Filter>src\main\input</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main\input\text_block_window.cpp">
+      <Filter>src\main\input</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main\input\clipboard_data.cpp">
+      <Filter>src\main\input</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main\input\line_break_option.cpp">
+      <Filter>src\main\input</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1150,9 +1153,6 @@
     <Page Include="src\main\main_window.xaml">
       <Filter>src\main</Filter>
     </Page>
-    <Page Include="src\main\text_block_window.xaml">
-      <Filter>src\main</Filter>
-    </Page>
     <Page Include="src\module\common\text_content_control.xaml">
       <Filter>src\module\common</Filter>
     </Page>
@@ -1173,6 +1173,9 @@
     </Page>
     <Page Include="src\module\common\text_preview_control.xaml">
       <Filter>src\module\common</Filter>
+    </Page>
+    <Page Include="src\main\input\text_block_window.xaml">
+      <Filter>src\main\input</Filter>
     </Page>
   </ItemGroup>
   <ItemGroup>

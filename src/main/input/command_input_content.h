@@ -9,7 +9,7 @@
 #include <zaf/control/rich_edit.h>
 #include <zaf/control/rich_edit/object_info.h>
 
-namespace ra {
+namespace ra::main::input {
 
 class CommandInputContent {
 public:

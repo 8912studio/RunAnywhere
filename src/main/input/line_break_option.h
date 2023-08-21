@@ -3,7 +3,7 @@
 #include <zaf/control/check_state.h>
 #include <zaf/control/textual_control.h>
 
-namespace ra {
+namespace ra::main::input {
 
 class LineBreakOption : public zaf::TextualControl {
 public:

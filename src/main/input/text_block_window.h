@@ -5,11 +5,11 @@
 #include <zaf/control/rich_edit.h>
 #include <zaf/control/scrollable_control.h>
 #include <zaf/rx/subject.h>
-#include "main/line_break_option.h"
+#include "main/input/line_break_option.h"
 #include "utility/text_utility.h"
 #include "utility/thin_border_window.h"
 
-namespace ra {
+namespace ra::main::input {
 
 class TextBlockWindow : public utility::ThinBorderWindow {
 public:

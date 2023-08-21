@@ -9,7 +9,7 @@ ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///main/preserve/preserved_command_view.xaml"
 ZAF_DEFINE_TYPE_END;
 
 PreservedCommandView::PreservedCommandView(
-    CommandInputContent command_input_content,
+    main::input::CommandInputContent command_input_content,
     std::unique_ptr<mod::Command> command)
     : 
     command_input_content_(std::move(command_input_content)),

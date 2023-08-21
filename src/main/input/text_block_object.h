@@ -6,10 +6,10 @@
 #include <zaf/rx/subscription_host.h>
 #include <zaf/window/window.h>
 #include "main/command_display_style.h"
-#include "main/text_block_data.h"
-#include "main/text_block_window.h"
+#include "main/input/text_block_data.h"
+#include "main/input/text_block_window.h"
 
-namespace ra {
+namespace ra::main::input {
 
 class TextBlockObject : public zaf::rich_edit::EmbeddedObject, zaf::SubscriptionHost {
 public:

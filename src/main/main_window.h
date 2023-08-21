@@ -7,7 +7,7 @@
 #include <zaf/window/window.h>
 #include "context/desktop_context.h"
 #include "help/help_window.h"
-#include "main/command_input_edit.h"
+#include "main/input/command_input_edit.h"
 #include "main/toolbar/command_toolbar.h"
 #include "main/toolbar/toolbar_button.h"
 #include "module/command_preview_control.h"
@@ -60,7 +60,7 @@ private:
     bool HandleHelpWindowScrollMessage(const zaf::KeyMessage& message);
 
 private:
-    ZAF_BIND_CONTROL(CommandInputEdit, inputEdit);
+    ZAF_BIND_CONTROL(main::input::CommandInputEdit, inputEdit);
     ZAF_BIND_CONTROL(PreviewView, previewView);
     ZAF_BIND_CONTROL(zaf::Control, helpButton);
     ZAF_BIND_CONTROL(zaf::Control, preservedCommandsView);

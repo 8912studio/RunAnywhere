@@ -1,13 +1,13 @@
-#include "main/command_input_edit.h"
+#include "main/input/command_input_edit.h"
 #include <tom.h>
 #include <zaf/base/auto_reset.h>
 #include <zaf/base/container/utility/contain.h>
 #include <zaf/base/com_object.h>
 #include <zaf/clipboard/clipboard.h>
 #include <zaf/object/type_definition.h>
-#include "main/clipboard_data.h"
+#include "main/input/clipboard_data.h"
 
-namespace ra {
+namespace ra::main::input {
 
 ZAF_DEFINE_TYPE(CommandInputEdit)
 ZAF_DEFINE_TYPE_END;

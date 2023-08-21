@@ -5,11 +5,11 @@
 #include <zaf/control/rich_edit/ole_callback.h>
 #include <zaf/rx/subject.h>
 #include "main/command_display_style.h"
-#include "main/command_input_content.h"
-#include "main/text_block_object.h"
+#include "main/input/command_input_content.h"
+#include "main/input/text_block_object.h"
 #include "utility/command_line.h"
 
-namespace ra {
+namespace ra::main::input {
 
 class CommandInputEdit : public zaf::RichEdit, public zaf::rich_edit::OLECallback {
 public:
