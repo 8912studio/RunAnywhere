@@ -5,6 +5,7 @@
 #include <zaf/control/rich_edit/ole_callback.h>
 #include <zaf/rx/subject.h>
 #include "main/command_display_style.h"
+#include "main/input/active_path_object.h"
 #include "main/input/command_input_content.h"
 #include "main/input/text_block_object.h"
 #include "utility/command_line.h"
@@ -32,11 +33,15 @@ protected:
     void OnSysKeyDown(const zaf::SysKeyDownInfo& event_info) override;
 
 private:
-    void HandleCopy(const zaf::KeyDownInfo& event_info);
-    std::shared_ptr<TextBlockObject> InsertTextBlockObjectWithText(const std::wstring& text);
-    void InsertTextBlockObject(const std::shared_ptr<TextBlockObject>& object);
+    void HandlePaste(const zaf::KeyDownInfo& event_info);
+
     void RaiseCommandChangedEvent();
-    void InsertActivePathOverridingIndicator();
+    void InsertArgumentObject(const std::shared_ptr<ArgumentObject>& object);
+
+    std::shared_ptr<TextBlockObject> InsertTextBlockObjectWithText(const std::wstring& text);
+    std::shared_ptr<ActivePathObject> InsertActivePathObjectWithText(std::wstring text);
+    
+    void InsertActivePathFromClipboard();
     void InsertTextBlockObjectByKey();
 
     zaf::rich_edit::OperationResult CanInsertClipboardData(

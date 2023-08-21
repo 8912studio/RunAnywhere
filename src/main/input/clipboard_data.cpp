@@ -9,7 +9,8 @@
 #include <zaf/object/boxing/boxing.h>
 #include <zaf/object/boxing/string.h>
 #include <zaf/object/type_definition.h>
-#include "main/input/argument_data.h"
+#include "main/input/active_path_data.h"
+#include "main/input/text_block_data.h"
 
 namespace ra::main::input {
 namespace {
@@ -21,6 +22,7 @@ constexpr const char* JSONValueName = "value";
 enum class JSONItemType {
     String,
     TextBlock,
+    ActivePath,
 };
 
 std::string ToJSONValue(std::wstring_view string) {
@@ -36,6 +38,25 @@ std::wstring FromJSONValue(std::string_view string) {
         reinterpret_cast<const char*>(decoded.data()), 
         decoded.size() 
     });
+}
+
+std::optional<boost::json::object> ToJSONObject(const ArgumentData& data) {
+
+    JSONItemType item_type{};
+    if (auto text_block_data = zaf::As<TextBlockData>(&data)) {
+        item_type = JSONItemType::TextBlock;
+    }
+    else if (auto text_block_data = zaf::As<ActivePathData>(&data)) {
+        item_type = JSONItemType::ActivePath;
+    }
+    else {
+        return std::nullopt;
+    }
+
+    boost::json::object item;
+    item[JSONTypeName] = static_cast<int>(item_type);
+    item[JSONValueName] = ToJSONValue(data.Text());
+    return item;
 }
 
 }
@@ -78,8 +99,8 @@ zaf::clipboard::Medium ClipboardData::SaveToMediumAsText() {
             return string->Value();
         }
 
-        if (auto text_block_data = zaf::As<ArgumentData>(object)) {
-            return text_block_data->Text();
+        if (auto argument_data = zaf::As<ArgumentData>(object)) {
+            return argument_data->ToPlainText();
         }
 
         return std::wstring{};
@@ -102,12 +123,12 @@ zaf::clipboard::Medium ClipboardData::SaveToMediumAsPrivateFormat() {
             item[JSONValueName] = ToJSONValue(string->Value());
             items.push_back(std::move(item));
         }
-        else if (auto text_block_data = zaf::As<ArgumentData>(each_object)) {
+        else if (auto argument_data = zaf::As<ArgumentData>(each_object)) {
 
-            boost::json::object item;
-            item[JSONTypeName] = static_cast<int>(JSONItemType::TextBlock);
-            item[JSONValueName] = ToJSONValue(text_block_data->Text());
-            items.push_back(std::move(item));
+            auto item = ToJSONObject(*argument_data);
+            if (item) {
+                items.push_back(std::move(*item));
+            }
         }
     }
 
@@ -175,7 +196,10 @@ void ClipboardData::LoadFromMediumAsPrivateFormat(const zaf::clipboard::Medium& 
                 objects_.push_back(zaf::Box(text));
                 break;
             case JSONItemType::TextBlock: 
-                objects_.push_back(std::make_shared<ArgumentData>(std::move(text)));
+                objects_.push_back(std::make_shared<TextBlockData>(std::move(text)));
+                break;
+            case JSONItemType::ActivePath:
+                objects_.push_back(std::make_shared<ActivePathData>(std::move(text)));
                 break;
             default:
                 break;

@@ -1,7 +1,8 @@
 #include <gtest/gtest.h>
 #include <zaf/object/boxing/boxing.h>
-#include "main/input/argument_data.h"
+#include "main/input/active_path_data.h"
 #include "main/input/clipboard_data.h"
+#include "main/input/text_block_data.h"
 
 using namespace ra::main::input;
 
@@ -43,24 +44,34 @@ TEST(ClipboardDataTest, SaveToMediumAsText) {
     //Text block data only.
     {
         ClipboardData data;
-        data.AddObject(std::make_shared<ArgumentData>(L"TextBlockData"));
+        data.AddObject(std::make_shared<TextBlockData>(L"TextBlockData"));
         auto medium = data.SaveToMedium(format);
         auto text = GetTextFromMedium(medium);
         ASSERT_EQ(text, L"TextBlockData");
     }
 
-    //String data and text block data combinnation.
+    //Active path data only.
+    {
+        ClipboardData data;
+        data.AddObject(std::make_shared<ActivePathData>(L"ActivePathData"));
+        auto medium = data.SaveToMedium(format);
+        auto text = GetTextFromMedium(medium);
+        ASSERT_EQ(text, L"@=ActivePathData");
+    }
+
+    //String data and argument data combinnation.
     {
         ClipboardData data;
         data.AddObject(zaf::Box(L"String1"));
-        data.AddObject(std::make_shared<ArgumentData>(L"Block1"));
-        data.AddObject(std::make_shared<ArgumentData>(L"Block2"));
+        data.AddObject(std::make_shared<TextBlockData>(L"Block1"));
+        data.AddObject(std::make_shared<TextBlockData>(L"Block2"));
         data.AddObject(zaf::Box(L"String2"));
         data.AddObject(zaf::Box(L"String3"));
-        data.AddObject(std::make_shared<ArgumentData>(L"Block3"));
+        data.AddObject(std::make_shared<ActivePathData>(L"ActivePath"));
+        data.AddObject(std::make_shared<TextBlockData>(L"Block3"));
         auto medium = data.SaveToMedium(format);
         auto text = GetTextFromMedium(medium);
-        ASSERT_EQ(text, L"String1 Block1 Block2 String2 String3 Block3");
+        ASSERT_EQ(text, L"String1 Block1 Block2 String2 String3 @=ActivePath Block3");
     }
 }
 
@@ -89,21 +100,31 @@ TEST(ClipboardDataTest, SaveToMediumAsPrivateFormat) {
     //Text block data only.
     {
         ClipboardData data;
-        data.AddObject(std::make_shared<ArgumentData>(L"TextBlockData"));
+        data.AddObject(std::make_shared<TextBlockData>(L"TextBlockData"));
         auto medium = data.SaveToMedium(format);
         auto text = GetTextFromMedium(medium);
         ASSERT_EQ(text, LR"({"items":[{"type":1,"value":"VGV4dEJsb2NrRGF0YQ=="}]})");
     }
 
-    //String data and text block data combinnation.
+    //Active path data only.
+    {
+        ClipboardData data;
+        data.AddObject(std::make_shared<ActivePathData>(L"ActivePathData"));
+        auto medium = data.SaveToMedium(format);
+        auto text = GetTextFromMedium(medium);
+        ASSERT_EQ(text, LR"({"items":[{"type":2,"value":"QWN0aXZlUGF0aERhdGE="}]})");
+    }
+
+    //String data and argument data combinnation.
     {
         ClipboardData data;
         data.AddObject(zaf::Box(L"String1"));
-        data.AddObject(std::make_shared<ArgumentData>(L"Block1"));
-        data.AddObject(std::make_shared<ArgumentData>(L"Block2"));
+        data.AddObject(std::make_shared<TextBlockData>(L"Block1"));
+        data.AddObject(std::make_shared<TextBlockData>(L"Block2"));
         data.AddObject(zaf::Box(L"String2"));
         data.AddObject(zaf::Box(L"String3"));
-        data.AddObject(std::make_shared<ArgumentData>(L"Block3"));
+        data.AddObject(std::make_shared<ActivePathData>(L"ActivePath"));
+        data.AddObject(std::make_shared<TextBlockData>(L"Block3"));
         auto medium = data.SaveToMedium(format);
         auto text = GetTextFromMedium(medium);
         ASSERT_EQ(text, 
@@ -113,6 +134,7 @@ TEST(ClipboardDataTest, SaveToMediumAsPrivateFormat) {
             LR"({"type":1,"value":"QmxvY2sy"},)"
             LR"({"type":0,"value":"U3RyaW5nMg=="},)"
             LR"({"type":0,"value":"U3RyaW5nMw=="},)"
+            LR"({"type":2,"value":"QWN0aXZlUGF0aA=="},)"
             LR"({"type":1,"value":"QmxvY2sz"})"
             LR"(]})"
         );

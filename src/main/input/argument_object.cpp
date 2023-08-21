@@ -16,12 +16,6 @@ ArgumentObject::ArgumentObject(std::shared_ptr<ArgumentData> data) : data_(std::
 }
 
 
-ArgumentObject::ArgumentObject(std::wstring text) :
-    ArgumentObject(std::make_shared<ArgumentData>(std::move(text))) {
-
-}
-
-
 void ArgumentObject::SetStyle(CommandDisplayStyle style) {
 
     style_ = style;
@@ -146,7 +140,7 @@ void ArgumentObject::OnTextChanged(const std::shared_ptr<TextBlockWindow>& windo
     constexpr std::size_t CompareCount = 10;
     bool need_repaint = new_text.compare(0, CompareCount, Text(), 0, CompareCount) != 0;
 
-    data_ = std::make_shared<ArgumentData>(std::move(new_text));
+    data_ = CreateData(std::move(new_text));
 
     if (need_repaint) {
         this->NeedRepaint();

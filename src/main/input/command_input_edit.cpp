@@ -84,7 +84,7 @@ void CommandInputEdit::SetInputContent(const CommandInputContent& content) {
                 zaf::rich_edit::EmbeddedObject::TryFromCOMPtr(object_info->Object()));
 
             if (text_block_object) {
-                InsertTextBlockObject(text_block_object);
+                InsertArgumentObject(text_block_object);
             }
         }
     });
@@ -93,27 +93,6 @@ void CommandInputEdit::SetInputContent(const CommandInputContent& content) {
 
 zaf::Observable<zaf::None> CommandInputEdit::CommandChangedEvent() {
     return command_changed_event_.GetObservable();
-}
-
-
-std::shared_ptr<TextBlockObject> CommandInputEdit::InsertTextBlockObjectWithText(
-    const std::wstring& text) {
-
-    auto text_block_object = zaf::Create<TextBlockObject>(text);
-    InsertTextBlockObject(text_block_object);
-    return text_block_object;
-}
-
-
-void CommandInputEdit::InsertTextBlockObject(
-    const std::shared_ptr<TextBlockObject>& object) {
-
-    Subscriptions() += object->TextChangedEvent().Subscribe(
-        std::bind(&CommandInputEdit::RaiseCommandChangedEvent, this));
-
-    object->SetStyle(style_);
-
-    this->InsertObject(object);
 }
 
 
@@ -131,13 +110,13 @@ void CommandInputEdit::OnKeyDown(const zaf::KeyDownInfo& event_info) {
 
     if (event_info.Message().VirtualKey() == L'V') {
         if (GetKeyState(VK_CONTROL) >> 15) {
-            HandleCopy(event_info);
+            HandlePaste(event_info);
             event_info.MarkAsHandled();
         }
     }
     else if (event_info.Message().VirtualKey() == L'2') {
         if (GetKeyState(VK_CONTROL) >> 15) {
-            InsertActivePathOverridingIndicator();
+            InsertActivePathFromClipboard();
             event_info.MarkAsHandled();
         }
     }
@@ -146,7 +125,7 @@ void CommandInputEdit::OnKeyDown(const zaf::KeyDownInfo& event_info) {
 }
 
 
-void CommandInputEdit::HandleCopy(const zaf::KeyDownInfo& event_info) {
+void CommandInputEdit::HandlePaste(const zaf::KeyDownInfo& event_info) {
 
     auto auto_reset = zaf::MakeAutoReset(suppress_text_block_);
 
@@ -155,22 +134,6 @@ void CommandInputEdit::HandleCopy(const zaf::KeyDownInfo& event_info) {
     }
 
     this->Paste();
-}
-
-
-void CommandInputEdit::InsertActivePathOverridingIndicator() {
-
-    std::wstring text{ L"@=" };
-
-    try {
-        auto clipboard_text = zaf::clipboard::Clipboard::GetText();
-        text += clipboard_text;
-    }
-    catch (const zaf::Error&) {
-
-    }
-
-    InsertTextOrTextBlockObject(text);
 }
 
 
@@ -183,6 +146,29 @@ void CommandInputEdit::OnSysKeyDown(const zaf::SysKeyDownInfo& event_info) {
 
     __super::OnKeyDown(event_info);
 }
+
+
+
+void CommandInputEdit::InsertArgumentObject(
+    const std::shared_ptr<ArgumentObject>& object) {
+
+    Subscriptions() += object->TextChangedEvent().Subscribe(
+        std::bind(&CommandInputEdit::RaiseCommandChangedEvent, this));
+
+    object->SetStyle(style_);
+
+    this->InsertObject(object);
+}
+
+
+std::shared_ptr<TextBlockObject> CommandInputEdit::InsertTextBlockObjectWithText(
+    const std::wstring& text) {
+
+    auto text_block_object = zaf::Create<TextBlockObject>(text);
+    InsertArgumentObject(text_block_object);
+    return text_block_object;
+}
+
 
 
 void CommandInputEdit::InsertTextBlockObjectByKey() {
@@ -201,6 +187,27 @@ void CommandInputEdit::InsertTextBlockObjectByKey() {
     this->SetSelectionRange(selection_range);
 
     object->OpenWindow();
+}
+
+
+std::shared_ptr<ActivePathObject> CommandInputEdit::InsertActivePathObjectWithText(
+    std::wstring text) {
+
+    auto object = zaf::Create<ActivePathObject>(std::move(text));
+    InsertArgumentObject(object);
+    return object;
+}
+
+
+void CommandInputEdit::InsertActivePathFromClipboard() {
+
+    try {
+        auto clipboard_text = zaf::clipboard::Clipboard::GetText();
+        InsertActivePathObjectWithText(clipboard_text);
+    }
+    catch (const zaf::Error&) {
+
+    }
 }
 
 
@@ -266,9 +273,9 @@ void CommandInputEdit::InsertPrivateClipboardData(const zaf::clipboard::DataObje
         if (auto string_data = zaf::As<zaf::WideString>(each_object)) {
             this->InsertText(string_data->Value());
         }
-        else if (auto text_block_data = zaf::As<ArgumentData>(each_object)) {
+        else if (auto text_block_data = zaf::As<TextBlockData>(each_object)) {
             auto text_block_object = zaf::Create<TextBlockObject>(text_block_data);
-            InsertTextBlockObject(text_block_object);
+            InsertArgumentObject(text_block_object);
         }
     }
 }
@@ -393,7 +400,7 @@ std::shared_ptr<zaf::Object> CommandInputEdit::GetTextBlockDataAtIndex(std::size
         return nullptr;
     }
 
-    return zaf::Create<ArgumentData>(text_block_object->Text());
+    return zaf::Create<TextBlockData>(text_block_object->Text());
 }
 
 }

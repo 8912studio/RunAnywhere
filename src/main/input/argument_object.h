@@ -13,9 +13,6 @@ namespace ra::main::input {
 
 class ArgumentObject : public zaf::rich_edit::EmbeddedObject, zaf::SubscriptionHost {
 public:
-    explicit ArgumentObject(std::shared_ptr<ArgumentData> data);
-    explicit ArgumentObject(std::wstring text);
-
     const std::shared_ptr<ArgumentData>& Data() const {
         return data_;
     }
@@ -39,6 +36,11 @@ public:
 
     void OnMouseCursorChanging(const zaf::rich_edit::MouseCursorChangingContext& context) override;
     bool OnDoubleClick(const zaf::rich_edit::DoubleClickContext& context) override;
+
+protected:
+    explicit ArgumentObject(std::shared_ptr<ArgumentData> data);
+
+    virtual std::shared_ptr<ArgumentData> CreateData(std::wstring text) = 0;
 
 private:
     void PaintText(zaf::Canvas& canvas, const zaf::Rect& text_rect);

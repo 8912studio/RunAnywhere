@@ -693,6 +693,15 @@
     <ClInclude Include="src\main\input\argument_object.h">
       <Filter>src\main\input</Filter>
     </ClInclude>
+    <ClInclude Include="src\main\input\active_path_object.h">
+      <Filter>src\main\input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\main\input\active_path_data.h">
+      <Filter>src\main\input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\main\input\text_block_data.h">
+      <Filter>src\main\input</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -1107,6 +1116,9 @@
       <Filter>src\main\input</Filter>
     </ClCompile>
     <ClCompile Include="src\main\input\argument_object.cpp">
+      <Filter>src\main\input</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main\input\active_path_object.cpp">
       <Filter>src\main\input</Filter>
     </ClCompile>
   </ItemGroup>
