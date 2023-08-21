@@ -80,11 +80,11 @@ void CommandInputEdit::SetInputContent(const CommandInputContent& content) {
         auto object_info = std::get_if<zaf::rich_edit::ObjectInfo>(&variant);
         if (object_info) {
 
-            auto text_block_object = zaf::As<TextBlockObject>(
+            auto argument_object = zaf::As<ArgumentObject>(
                 zaf::rich_edit::EmbeddedObject::TryFromCOMPtr(object_info->Object()));
 
-            if (text_block_object) {
-                InsertArgumentObject(text_block_object);
+            if (argument_object) {
+                InsertArgumentObject(argument_object);
             }
         }
     });
@@ -277,6 +277,10 @@ void CommandInputEdit::InsertPrivateClipboardData(const zaf::clipboard::DataObje
             auto text_block_object = zaf::Create<TextBlockObject>(text_block_data);
             InsertArgumentObject(text_block_object);
         }
+        else if (auto active_path_data = zaf::As<ActivePathData>(each_object)) {
+            auto active_path_object = zaf::Create<ActivePathObject>(active_path_data);
+            InsertArgumentObject(active_path_object);
+        }
     }
 }
 
@@ -347,9 +351,9 @@ zaf::rich_edit::OperationResult CommandInputEdit::GetClipboardData(
 
         string_begin_index = each_object_index + 1;
 
-        auto text_block_data = GetTextBlockDataAtIndex(each_object_index + text_range.index);
-        if (text_block_data) {
-            clipboard_data->AddObject(text_block_data);
+        auto argument_data = GetArgumentDataAtIndex(each_object_index + text_range.index);
+        if (argument_data) {
+            clipboard_data->AddObject(argument_data);
         }
     }
 
@@ -367,7 +371,7 @@ zaf::rich_edit::OperationResult CommandInputEdit::GetClipboardData(
 }
 
 
-std::shared_ptr<zaf::Object> CommandInputEdit::GetTextBlockDataAtIndex(std::size_t index) {
+std::shared_ptr<zaf::Object> CommandInputEdit::GetArgumentDataAtIndex(std::size_t index) {
 
     auto text_document = this->GetOLEInterface().Inner().Query<ITextDocument>();
     if (!text_document) {
@@ -395,12 +399,12 @@ std::shared_ptr<zaf::Object> CommandInputEdit::GetTextBlockDataAtIndex(std::size
         return nullptr;
     }
 
-    auto text_block_object = zaf::As<TextBlockObject>(embedded_object);
-    if (!text_block_object) {
+    auto argument_object = zaf::As<ArgumentObject>(embedded_object);
+    if (!argument_object) {
         return nullptr;
     }
 
-    return zaf::Create<TextBlockData>(text_block_object->Text());
+    return argument_object->Data();
 }
 
 }

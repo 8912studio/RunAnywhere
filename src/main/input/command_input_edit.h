@@ -64,7 +64,7 @@ private:
         const zaf::Range& text_range,
         zaf::clipboard::DataObject& data_object) override;
 
-    std::shared_ptr<zaf::Object> GetTextBlockDataAtIndex(std::size_t index);
+    std::shared_ptr<zaf::Object> GetArgumentDataAtIndex(std::size_t index);
 
 private:
     CommandDisplayStyle style_{ CommandDisplayStyle::Normal };
