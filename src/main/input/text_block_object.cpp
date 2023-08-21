@@ -23,4 +23,11 @@ std::shared_ptr<ArgumentData> TextBlockObject::CreateData(std::wstring text) {
     return std::make_shared<TextBlockData>(std::move(text));
 }
 
+
+zaf::Color TextBlockObject::GetBackgroundColor(const zaf::rich_edit::PaintContext& context) {
+    return context.IsInSelectionRange() ? 
+        zaf::Color::FromARGB(0x7d2EAFFF) : 
+        zaf::Color::FromARGB(0x7d95D4FF);
+}
+
 }

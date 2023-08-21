@@ -23,4 +23,9 @@ std::shared_ptr<ArgumentData> ActivePathObject::CreateData(std::wstring text) {
     return std::make_shared<ActivePathData>(std::move(text));
 }
 
+
+zaf::Color ActivePathObject::GetBackgroundColor(const zaf::rich_edit::PaintContext& context) {
+    return zaf::Color::FromARGB(0x7dffc25c);
+}
+
 }

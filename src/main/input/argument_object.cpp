@@ -36,11 +36,7 @@ void ArgumentObject::Paint(
     rounded_rect.x_radius = 4;
     rounded_rect.y_radius = 4;
 
-    auto background_color =
-        context.IsInSelectionRange() ?
-        zaf::Color::FromARGB(0x7d2EAFFF) :
-        zaf::Color::FromARGB(0x7d95D4FF);
-
+    auto background_color = GetBackgroundColor(context);
     canvas.DrawRoundedRectangle(rounded_rect, background_color);
 
     PaintText(canvas, rounded_rect.rect);

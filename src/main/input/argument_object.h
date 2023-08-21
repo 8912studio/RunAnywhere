@@ -41,6 +41,7 @@ protected:
     explicit ArgumentObject(std::shared_ptr<ArgumentData> data);
 
     virtual std::shared_ptr<ArgumentData> CreateData(std::wstring text) = 0;
+    virtual zaf::Color GetBackgroundColor(const zaf::rich_edit::PaintContext& context) = 0;
 
 private:
     void PaintText(zaf::Canvas& canvas, const zaf::Rect& text_rect);
