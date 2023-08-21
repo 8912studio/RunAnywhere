@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include <zaf/object/boxing/boxing.h>
+#include "main/input/argument_data.h"
 #include "main/input/clipboard_data.h"
-#include "main/input/text_block_data.h"
 
 using namespace ra::main::input;
 
@@ -43,7 +43,7 @@ TEST(ClipboardDataTest, SaveToMediumAsText) {
     //Text block data only.
     {
         ClipboardData data;
-        data.AddObject(std::make_shared<TextBlockData>(L"TextBlockData"));
+        data.AddObject(std::make_shared<ArgumentData>(L"TextBlockData"));
         auto medium = data.SaveToMedium(format);
         auto text = GetTextFromMedium(medium);
         ASSERT_EQ(text, L"TextBlockData");
@@ -53,11 +53,11 @@ TEST(ClipboardDataTest, SaveToMediumAsText) {
     {
         ClipboardData data;
         data.AddObject(zaf::Box(L"String1"));
-        data.AddObject(std::make_shared<TextBlockData>(L"Block1"));
-        data.AddObject(std::make_shared<TextBlockData>(L"Block2"));
+        data.AddObject(std::make_shared<ArgumentData>(L"Block1"));
+        data.AddObject(std::make_shared<ArgumentData>(L"Block2"));
         data.AddObject(zaf::Box(L"String2"));
         data.AddObject(zaf::Box(L"String3"));
-        data.AddObject(std::make_shared<TextBlockData>(L"Block3"));
+        data.AddObject(std::make_shared<ArgumentData>(L"Block3"));
         auto medium = data.SaveToMedium(format);
         auto text = GetTextFromMedium(medium);
         ASSERT_EQ(text, L"String1 Block1 Block2 String2 String3 Block3");
@@ -89,7 +89,7 @@ TEST(ClipboardDataTest, SaveToMediumAsPrivateFormat) {
     //Text block data only.
     {
         ClipboardData data;
-        data.AddObject(std::make_shared<TextBlockData>(L"TextBlockData"));
+        data.AddObject(std::make_shared<ArgumentData>(L"TextBlockData"));
         auto medium = data.SaveToMedium(format);
         auto text = GetTextFromMedium(medium);
         ASSERT_EQ(text, LR"({"items":[{"type":1,"value":"VGV4dEJsb2NrRGF0YQ=="}]})");
@@ -99,11 +99,11 @@ TEST(ClipboardDataTest, SaveToMediumAsPrivateFormat) {
     {
         ClipboardData data;
         data.AddObject(zaf::Box(L"String1"));
-        data.AddObject(std::make_shared<TextBlockData>(L"Block1"));
-        data.AddObject(std::make_shared<TextBlockData>(L"Block2"));
+        data.AddObject(std::make_shared<ArgumentData>(L"Block1"));
+        data.AddObject(std::make_shared<ArgumentData>(L"Block2"));
         data.AddObject(zaf::Box(L"String2"));
         data.AddObject(zaf::Box(L"String3"));
-        data.AddObject(std::make_shared<TextBlockData>(L"Block3"));
+        data.AddObject(std::make_shared<ArgumentData>(L"Block3"));
         auto medium = data.SaveToMedium(format);
         auto text = GetTextFromMedium(medium);
         ASSERT_EQ(text, 

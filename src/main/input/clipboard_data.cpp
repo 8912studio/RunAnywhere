@@ -9,7 +9,7 @@
 #include <zaf/object/boxing/boxing.h>
 #include <zaf/object/boxing/string.h>
 #include <zaf/object/type_definition.h>
-#include "main/input/text_block_data.h"
+#include "main/input/argument_data.h"
 
 namespace ra::main::input {
 namespace {
@@ -78,7 +78,7 @@ zaf::clipboard::Medium ClipboardData::SaveToMediumAsText() {
             return string->Value();
         }
 
-        if (auto text_block_data = zaf::As<TextBlockData>(object)) {
+        if (auto text_block_data = zaf::As<ArgumentData>(object)) {
             return text_block_data->Text();
         }
 
@@ -102,7 +102,7 @@ zaf::clipboard::Medium ClipboardData::SaveToMediumAsPrivateFormat() {
             item[JSONValueName] = ToJSONValue(string->Value());
             items.push_back(std::move(item));
         }
-        else if (auto text_block_data = zaf::As<TextBlockData>(each_object)) {
+        else if (auto text_block_data = zaf::As<ArgumentData>(each_object)) {
 
             boost::json::object item;
             item[JSONTypeName] = static_cast<int>(JSONItemType::TextBlock);
@@ -175,7 +175,7 @@ void ClipboardData::LoadFromMediumAsPrivateFormat(const zaf::clipboard::Medium& 
                 objects_.push_back(zaf::Box(text));
                 break;
             case JSONItemType::TextBlock: 
-                objects_.push_back(std::make_shared<TextBlockData>(std::move(text)));
+                objects_.push_back(std::make_shared<ArgumentData>(std::move(text)));
                 break;
             default:
                 break;

@@ -266,7 +266,7 @@ void CommandInputEdit::InsertPrivateClipboardData(const zaf::clipboard::DataObje
         if (auto string_data = zaf::As<zaf::WideString>(each_object)) {
             this->InsertText(string_data->Value());
         }
-        else if (auto text_block_data = zaf::As<TextBlockData>(each_object)) {
+        else if (auto text_block_data = zaf::As<ArgumentData>(each_object)) {
             auto text_block_object = zaf::Create<TextBlockObject>(text_block_data);
             InsertTextBlockObject(text_block_object);
         }
@@ -393,7 +393,7 @@ std::shared_ptr<zaf::Object> CommandInputEdit::GetTextBlockDataAtIndex(std::size
         return nullptr;
     }
 
-    return zaf::Create<TextBlockData>(text_block_object->Text());
+    return zaf::Create<ArgumentData>(text_block_object->Text());
 }
 
 }

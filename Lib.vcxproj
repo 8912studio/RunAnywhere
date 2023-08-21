@@ -122,11 +122,12 @@
     <ClInclude Include="src\ipc.h" />
     <ClInclude Include="src\license_window.h" />
     <ClInclude Include="src\main\command_display_style.h" />
+    <ClInclude Include="src\main\input\argument_object.h" />
     <ClInclude Include="src\main\input\clipboard_data.h" />
     <ClInclude Include="src\main\input\command_input_content.h" />
     <ClInclude Include="src\main\input\command_input_edit.h" />
     <ClInclude Include="src\main\input\line_break_option.h" />
-    <ClInclude Include="src\main\input\text_block_data.h" />
+    <ClInclude Include="src\main\input\argument_data.h" />
     <ClInclude Include="src\main\input\text_block_object.h" />
     <ClInclude Include="src\main\input\text_block_window.h" />
     <ClInclude Include="src\main\main_window.h" />
@@ -299,6 +300,7 @@
     <ClCompile Include="src\hot_key_manager.cpp" />
     <ClCompile Include="src\hot_key_utility.cpp" />
     <ClCompile Include="src\license_window.cpp" />
+    <ClCompile Include="src\main\input\argument_object.cpp" />
     <ClCompile Include="src\main\input\clipboard_data.cpp" />
     <ClCompile Include="src\main\input\command_input_content.cpp" />
     <ClCompile Include="src\main\input\command_input_edit.cpp" />

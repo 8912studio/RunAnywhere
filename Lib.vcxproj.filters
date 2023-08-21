@@ -675,7 +675,7 @@
     <ClInclude Include="src\main\input\command_input_edit.h">
       <Filter>src\main\input</Filter>
     </ClInclude>
-    <ClInclude Include="src\main\input\text_block_data.h">
+    <ClInclude Include="src\main\input\argument_data.h">
       <Filter>src\main\input</Filter>
     </ClInclude>
     <ClInclude Include="src\main\input\text_block_object.h">
@@ -688,6 +688,9 @@
       <Filter>src\main\input</Filter>
     </ClInclude>
     <ClInclude Include="src\main\input\line_break_option.h">
+      <Filter>src\main\input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\main\input\argument_object.h">
       <Filter>src\main\input</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1101,6 +1104,9 @@
       <Filter>src\main\input</Filter>
     </ClCompile>
     <ClCompile Include="src\main\input\line_break_option.cpp">
+      <Filter>src\main\input</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main\input\argument_object.cpp">
       <Filter>src\main\input</Filter>
     </ClCompile>
   </ItemGroup>

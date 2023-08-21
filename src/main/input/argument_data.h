@@ -4,9 +4,9 @@
 
 namespace ra::main::input {
 
-class TextBlockData : public zaf::Object {
+class ArgumentData : public zaf::Object {
 public:
-    explicit TextBlockData(std::wstring text) : text_(std::move(text)) {
+    explicit ArgumentData(std::wstring text) : text_(std::move(text)) {
 
     }
 
