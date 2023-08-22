@@ -48,10 +48,19 @@ bool ParseGeneralOption(const utility::CommandLinePiece& argument, GeneralOption
     if (argument.Type() == utility::CommandLinePieceType::NormalText) {
         return ParseNormalText(argument.Content(), option);
     }
-    else if (argument.Type() == utility::CommandLinePieceType::TextBlock) {
+
+    if (argument.Type() == utility::CommandLinePieceType::TextBlock) {
         option.text = argument.Content();
         return true;
     }
+    
+    if (argument.Type() == utility::CommandLinePieceType::ActivePath) {
+        active_path::ActivePathOption active_path_option;
+        active_path_option.overriding_path = argument.Content();
+        option.active_path_option = active_path_option;
+        return true;
+    }
+
     return false;
 }
 

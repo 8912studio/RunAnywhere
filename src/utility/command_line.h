@@ -10,6 +10,7 @@ namespace ra::utility {
 enum class CommandLinePieceType {
     NormalText,
     TextBlock,
+    ActivePath,
 };
 
 
