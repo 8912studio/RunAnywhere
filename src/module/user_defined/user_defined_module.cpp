@@ -118,21 +118,17 @@ std::vector<CommandBrief> UserDefinedModule::QuerySuggestedCommands(
 }
 
 
-std::unique_ptr<Command> UserDefinedModule::CreateCommand(const utility::CommandLine& command_line) {
+std::unique_ptr<Command> UserDefinedModule::CreateCommand(
+    const utility::CommandLine& command_line) {
 
     ZAF_EXPECT(bundle_depot_);
 
     auto entry = bundle_depot_->FindEntry(command_line.Command());
-    if (entry) {
-
-        std::vector<std::wstring> piece_arguments;
-        for (const auto& each_piece : command_line.Arguments()) {
-            piece_arguments.push_back(each_piece.Content());
-        }
-
-        return std::make_unique<UserDefinedCommand>(entry, piece_arguments);
+    if (!entry) {
+        return nullptr;
     }
-    return nullptr;
+
+    return std::make_unique<UserDefinedCommand>(entry, command_line.Arguments());
 }
 
 }

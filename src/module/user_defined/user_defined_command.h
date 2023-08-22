@@ -11,8 +11,8 @@ namespace ra::mod::user_defined {
 class UserDefinedCommand : public Command {
 public:
     UserDefinedCommand(
-        const std::shared_ptr<Entry>& entry,
-        const std::vector<std::wstring>& input_arguments);
+        std::shared_ptr<Entry> entry, 
+        std::vector<utility::CommandLinePiece> input_arguments);
 
     CommandBrief GetBrief() override;
     help::content::Content GetHelpContent() override;
@@ -25,13 +25,13 @@ public:
 
 private:
     ExecuteInfo ParseCommand() const;
-    void ParseArguments(
+    void ParseInputArguments(
         context::ActivePath& modified_active_path,
         std::vector<std::wstring>& plain_arguments) const;
 
 private:
     std::shared_ptr<Entry> entry_;
-    std::vector<std::wstring> input_arguments_;
+    std::vector<utility::CommandLinePiece> input_arguments_;
     context::DesktopContext desktop_context_;
 };
 

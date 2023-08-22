@@ -15,6 +15,14 @@ public:
     void SetCommandEntry(const std::shared_ptr<Entry>& entry);
     void SetExecutInfo(ExecuteInfo execute_info);
 
+    const std::shared_ptr<Entry>& GetCommandEntry() const {
+        return entry_;
+    }
+
+    const ExecuteInfo& GetExecuteInfo() const {
+        return execute_info_;
+    }
+
 protected:
     void AfterParse() override;
     void OnStyleChanged() override;

@@ -1,6 +1,7 @@
 #include "module/user_defined/user_defined_command.h"
 #include <Windows.h>
 #include <zaf/base/container/utility/contain.h>
+#include <zaf/base/range.h>
 #include <zaf/base/string/join.h>
 #include <zaf/creation.h>
 #include "environment_variable_manager.h"
@@ -60,11 +61,11 @@ context::ActivePath ModifyActivePath(
 
 
 UserDefinedCommand::UserDefinedCommand(
-    const std::shared_ptr<Entry>& entry,
-    const std::vector<std::wstring>& input_arguments)
+    std::shared_ptr<Entry> entry, 
+    std::vector<utility::CommandLinePiece> input_arguments)
     :
-    entry_(entry),
-    input_arguments_(input_arguments) {
+    entry_(std::move(entry)),
+    input_arguments_(std::move(input_arguments)) {
 
 }
 
@@ -122,7 +123,7 @@ ExecuteInfo UserDefinedCommand::ParseCommand() const {
 
     context::ActivePath active_path;
     std::vector<std::wstring> plain_arguments;
-    ParseArguments(active_path, plain_arguments);
+    ParseInputArguments(active_path, plain_arguments);
 
     VariableFormatter variable_formatter{ entry_->BundleMeta(), active_path };
 
@@ -137,26 +138,36 @@ ExecuteInfo UserDefinedCommand::ParseCommand() const {
 }
 
 
-void UserDefinedCommand::ParseArguments(
+void UserDefinedCommand::ParseInputArguments(
     context::ActivePath& modified_active_path,
     std::vector<std::wstring>& plain_arguments) const {
 
     modified_active_path = desktop_context_.active_path;
 
-    if (input_arguments_.empty()) {
-        return;
-    }
+    for (auto index : zaf::Range(0, input_arguments_.size())) {
 
-    const auto& first_argument = input_arguments_[0];
-    if (first_argument[0] == L'@') {
-        modified_active_path = ModifyActivePath(modified_active_path, first_argument);
-    }
-    else {
-        plain_arguments.push_back(first_argument);
-    }
+        const auto& each_argument = input_arguments_[index];
+        if (each_argument.Type() == utility::CommandLinePieceType::NormalText) {
 
-    for (std::size_t index = 1; index < input_arguments_.size(); ++index) {
-        plain_arguments.push_back(input_arguments_[index]);
+            //The first normal text argument starts with @ is the active path modifier.
+            if (index == 0 && each_argument.Content()[0] == L'@') {
+                modified_active_path = ModifyActivePath(
+                    modified_active_path,
+                    each_argument.Content());
+            }
+            else {
+                plain_arguments.push_back(each_argument.Content());
+            }
+        }
+        else if (each_argument.Type() == utility::CommandLinePieceType::TextBlock) {
+            plain_arguments.push_back(each_argument.Content());
+        }
+        else if (each_argument.Type() == utility::CommandLinePieceType::ActivePath) {
+            modified_active_path = context::ActivePath{ 
+                each_argument.Content(), 
+                desktop_context_.active_path.GetWorkspacePath()
+            };
+        }
     }
 }
 
