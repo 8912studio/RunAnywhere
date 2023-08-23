@@ -6,6 +6,7 @@
 #include "module/active_path/active_path_modifying.h"
 #include "module/user_defined/parse/entry_command_placeholder_parsing.h"
 #include "utility/command_line.h"
+#include "utility/text_utility.h"
 
 namespace ra::mod::user_defined {
 namespace {
@@ -15,8 +16,10 @@ std::vector<std::wstring> RemoveMultipleLines(const std::vector<std::wstring>& s
     std::vector<std::wstring> result;
     for (const auto& each_string : strings) {
     
-        auto line_break_index = each_string.find_first_of(L"\r\n");
-        result.push_back(each_string.substr(0, line_break_index));
+        auto new_string = each_string;
+        utility::RemoveMultipleLines(new_string);
+
+        result.push_back(std::move(new_string));
     }
 
     return result;

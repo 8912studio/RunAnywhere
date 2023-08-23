@@ -28,4 +28,10 @@ zaf::Color ActivePathObject::GetBackgroundColor(const zaf::rich_edit::PaintConte
     return zaf::Color::FromARGB(0x7dffc25c);
 }
 
+
+void ActivePathObject::OnBeforeOpenWindow(const std::shared_ptr<ArgumentObjectWindow>& window) {
+    window->SetIsMultiline(false);
+    window->SetHeaderTitle(L"@=", zaf::Color::FromRGB(0xd68b00));
+}
+
 }

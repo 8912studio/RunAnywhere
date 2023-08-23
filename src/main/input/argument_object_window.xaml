@@ -4,27 +4,30 @@
         <VerticalBox BackgroundColor="White" />
     </ArgumentObjectWindow.RootControl>
 
-    <HorizontalBox 
-        Name="lineBreakOptions" 
-        FixedHeight="38" 
-        Padding="12,12,12,8" 
-        BackgroundColor="#f2f2f2">
-        
-        <LineBreakOption 
-            Name="useCRLF" 
-            Text="\r\n" 
-            Tooltip="Use \r\n as line breaks" />
-        <LineBreakOption 
-            Name="useCR" 
-            Margin="8,0,0,0" 
-            Text="\r" 
-            Tooltip="Use \r as line breaks" />
-        <LineBreakOption 
-            Name="useLF" 
-            Margin="8,0,0,0" 
-            Text="\n" 
-            Tooltip="Use \n as line breaks"/>
-    </HorizontalBox>
+    <VerticalBox Name="header" AutoHeight="true" Padding="12,12,12,8" BackgroundColor="#f2f2f2">
+        <Label 
+            Name="titleLabel"
+            FixedHeight="20"
+            FontSize="18"
+            ParagraphAlignment="Center"
+            IsVisible="false" />
+        <HorizontalBox Name="lineBreakOptions" AutoHeight="true">
+            <LineBreakOption 
+                Name="useCRLF" 
+                Text="\r\n" 
+                Tooltip="Use \r\n as line breaks" />
+            <LineBreakOption 
+                Name="useCR" 
+                Margin="8,0,0,0" 
+                Text="\r" 
+                Tooltip="Use \r as line breaks" />
+            <LineBreakOption 
+                Name="useLF" 
+                Margin="8,0,0,0" 
+                Text="\n" 
+                Tooltip="Use \n as line breaks"/>
+        </HorizontalBox>
+    </VerticalBox>
 
     <ScrollableControl 
         Name="scrollableControl" 

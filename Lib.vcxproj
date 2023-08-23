@@ -303,6 +303,7 @@
     <ClCompile Include="src\hot_key_manager.cpp" />
     <ClCompile Include="src\hot_key_utility.cpp" />
     <ClCompile Include="src\license_window.cpp" />
+    <ClCompile Include="src\main\input\active_path_data.cpp" />
     <ClCompile Include="src\main\input\active_path_object.cpp" />
     <ClCompile Include="src\main\input\argument_object.cpp" />
     <ClCompile Include="src\main\input\clipboard_data.cpp" />

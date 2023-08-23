@@ -6,9 +6,7 @@ namespace ra::main::input {
 
 class ActivePathData : public ArgumentData {
 public:
-    explicit ActivePathData(std::wstring text) : ArgumentData(std::move(text)) {
-
-    }
+    explicit ActivePathData(std::wstring text);
 
     std::wstring ToPlainText() const override {
         return L"@=" + Text();

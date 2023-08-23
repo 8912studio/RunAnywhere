@@ -1121,6 +1121,9 @@
     <ClCompile Include="src\main\input\active_path_object.cpp">
       <Filter>src\main\input</Filter>
     </ClCompile>
+    <ClCompile Include="src\main\input\active_path_data.cpp">
+      <Filter>src\main\input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Page Include="src\module\user_defined\preview\user_defined_command_preview_control.xaml">

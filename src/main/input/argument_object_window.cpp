@@ -46,6 +46,16 @@ void ArgumentObjectWindow::SetObjectPositionInScreen(const zaf::Point& position)
 }
 
 
+void ArgumentObjectWindow::SetHeaderTitle(
+    const std::wstring& title, 
+    const zaf::Color& text_color) {
+
+    titleLabel->SetText(title);
+    titleLabel->SetTextColor(text_color);
+    titleLabel->SetIsVisible(!title.empty());
+}
+
+
 void ArgumentObjectWindow::SetIsReadOnly(bool read_only) {
 
     textEdit->SetIsReadOnly(read_only);
@@ -53,6 +63,13 @@ void ArgumentObjectWindow::SetIsReadOnly(bool read_only) {
         read_only ? zaf::Color::FromRGB(0xF5F5F5) : zaf::Color::White());
 
     lineBreakOptions->SetIsEnabled(!read_only);
+}
+
+
+void ArgumentObjectWindow::SetIsMultiline(bool multiline) {
+
+    lineBreakOptions->SetIsVisible(multiline);
+    textEdit->SetIsMultiline(multiline);
 }
 
 
@@ -129,8 +146,8 @@ void ArgumentObjectWindow::AdjustPositionAndSize() {
 
     window_size.height =
         WindowVerticalBorder +
-        lineBreakOptions->Height() + 
-        lineBreakOptions->Margin().Height() +
+        header->Height() +
+        header->Margin().Height() +
         scrollableControl->Padding().Height() +
         actual_edit_height +
         (need_horizontal_scroll_bar ? scrollableControl->HorizontalScrollBar()->Height() : 0);
@@ -196,7 +213,7 @@ void ArgumentObjectWindow::OnDeactivated(const zaf::DeactivatedInfo& event_info)
     //Close window at next message loop to avoid focus issues.
     //TODO: Need more elegant method to schedule task at next message loop.
     Subscriptions() += zaf::rx::Create<zaf::None>([this](zaf::Observer<zaf::None>) {
-        this->Close();
+        //this->Close();
         return zaf::Subscription{};
     })
     .SubscribeOn(zaf::Scheduler::Main())

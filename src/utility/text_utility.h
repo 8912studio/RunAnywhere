@@ -19,6 +19,8 @@ public:
 LineBreakInfo DeterminateLineBreakInfo(std::wstring_view text);
 
 bool HasLineBreak(std::wstring_view text);
+void RemoveMultipleLines(std::wstring& text);
+
 std::wstring ReplaceWhitespacesToVisibleChars(std::wstring_view text);
 
 }

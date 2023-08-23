@@ -2,6 +2,7 @@
 
 #include <zaf/base/com_object.h>
 #include <zaf/control/control_binder.h>
+#include <zaf/control/label.h>
 #include <zaf/control/rich_edit.h>
 #include <zaf/control/scrollable_control.h>
 #include <zaf/rx/subject.h>
@@ -20,7 +21,9 @@ public:
 
     void SetObjectPositionInScreen(const zaf::Point& position);
 
+    void SetHeaderTitle(const std::wstring& title, const zaf::Color& text_color);
     void SetIsReadOnly(bool read_only);
+    void SetIsMultiline(bool multiline);
 
     std::wstring GetText() const;
     void SetText(const std::wstring& text);
@@ -41,6 +44,8 @@ private:
     void RaiseTextChangedEvent();
 
 private:
+    ZAF_BIND_CONTROL(zaf::Control, header);
+    ZAF_BIND_CONTROL(zaf::Label, titleLabel);
     ZAF_BIND_CONTROL(zaf::Control, lineBreakOptions);
     ZAF_BIND_CONTROL(LineBreakOption, useCRLF);
     ZAF_BIND_CONTROL(LineBreakOption, useCR);

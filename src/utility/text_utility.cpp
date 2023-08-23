@@ -68,6 +68,15 @@ bool HasLineBreak(std::wstring_view text) {
 }
 
 
+void RemoveMultipleLines(std::wstring& text) {
+
+	auto line_break_index = text.find_first_of(L"\r\n");
+	if (line_break_index != std::wstring::npos) {
+		text.erase(text.begin() + line_break_index, text.end());
+	}
+}
+
+
 std::wstring ReplaceWhitespacesToVisibleChars(std::wstring_view text) {
 
 	constexpr wchar_t LineBreakSymbol = L'\u23CE';

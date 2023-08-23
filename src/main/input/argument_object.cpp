@@ -123,6 +123,8 @@ bool ArgumentObject::InnerOpenWindow(const zaf::Point& object_position_in_screen
     Subscriptions() += window->DestroyedEvent().Subscribe(
         std::bind(&ArgumentObject::OnWindowDestroyed, this));
 
+    OnBeforeOpenWindow(window);
+
     window->Show();
     return true;
 }
