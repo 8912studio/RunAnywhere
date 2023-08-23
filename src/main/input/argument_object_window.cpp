@@ -1,4 +1,4 @@
-#include "main/input/text_block_window.h"
+#include "main/input/argument_object_window.h"
 #include <zaf/base/log.h>
 #include <zaf/base/none.h>
 #include <zaf/base/string/replace.h>
@@ -10,22 +10,22 @@
 
 namespace ra::main::input {
 
-ZAF_DEFINE_TYPE(TextBlockWindow)
-ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///main/input/text_block_window.xaml")
+ZAF_DEFINE_TYPE(ArgumentObjectWindow)
+ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///main/input/argument_object_window.xaml")
 ZAF_DEFINE_TYPE_END;
 
-TextBlockWindow::TextBlockWindow() {
+ArgumentObjectWindow::ArgumentObjectWindow() {
 
 }
 
 
-void TextBlockWindow::AfterParse() {
+void ArgumentObjectWindow::AfterParse() {
 
     __super::AfterParse();
 
     for (auto each_option : { &useCRLF, &useCR, &useLF }) {
         Subscriptions() += (*each_option)->MouseUpEvent().Subscribe(
-            std::bind(&TextBlockWindow::OnLineBreakOptionClick, this, std::placeholders::_1));
+            std::bind(&ArgumentObjectWindow::OnLineBreakOptionClick, this, std::placeholders::_1));
     }
 
     Subscriptions() += textEdit->TextChangedEvent().Subscribe(
@@ -41,12 +41,12 @@ void TextBlockWindow::AfterParse() {
 }
 
 
-void TextBlockWindow::SetObjectPositionInScreen(const zaf::Point& position) {
+void ArgumentObjectWindow::SetObjectPositionInScreen(const zaf::Point& position) {
     object_position_in_screen_ = position;
 }
 
 
-void TextBlockWindow::SetIsReadOnly(bool read_only) {
+void ArgumentObjectWindow::SetIsReadOnly(bool read_only) {
 
     textEdit->SetIsReadOnly(read_only);
     scrollableControl->SetBackgroundColor(
@@ -56,7 +56,7 @@ void TextBlockWindow::SetIsReadOnly(bool read_only) {
 }
 
 
-std::wstring TextBlockWindow::GetText() const {
+std::wstring ArgumentObjectWindow::GetText() const {
 
     auto result = textEdit->GetText(
         (line_break_info_.first_line_break == utility::LineBreak::CRLF) ?
@@ -71,7 +71,7 @@ std::wstring TextBlockWindow::GetText() const {
 }
 
 
-void TextBlockWindow::SetText(const std::wstring& text) {
+void ArgumentObjectWindow::SetText(const std::wstring& text) {
     textEdit->SetText(text);
     line_break_info_ = utility::DeterminateLineBreakInfo(text);
     UpdateLineBreakOptions();
@@ -79,12 +79,12 @@ void TextBlockWindow::SetText(const std::wstring& text) {
 }
 
 
-zaf::Observable<std::shared_ptr<TextBlockWindow>> TextBlockWindow::TextChangedEvent() {
+zaf::Observable<std::shared_ptr<ArgumentObjectWindow>> ArgumentObjectWindow::TextChangedEvent() {
     return text_changed_event_.GetObservable();
 }
 
 
-void TextBlockWindow::AdjustPositionAndSize() {
+void ArgumentObjectWindow::AdjustPositionAndSize() {
 
     constexpr float WindowHorizontalBorder = 2;
     constexpr float WindowVerticalBorder = 2;
@@ -141,7 +141,7 @@ void TextBlockWindow::AdjustPositionAndSize() {
 }
 
 
-void TextBlockWindow::UpdateLineBreakOptions() {
+void ArgumentObjectWindow::UpdateLineBreakOptions() {
 
     for (auto each_option : { &useCRLF, &useCR, &useLF }) {
 
@@ -158,7 +158,7 @@ void TextBlockWindow::UpdateLineBreakOptions() {
 }
 
 
-void TextBlockWindow::OnLineBreakOptionClick(const zaf::MouseUpInfo& event_info) {
+void ArgumentObjectWindow::OnLineBreakOptionClick(const zaf::MouseUpInfo& event_info) {
 
     auto option = zaf::As<LineBreakOption>(event_info.Source());
     if (!option) {
@@ -172,7 +172,7 @@ void TextBlockWindow::OnLineBreakOptionClick(const zaf::MouseUpInfo& event_info)
 }
 
 
-utility::LineBreak TextBlockWindow::GetLineBreakByOption(const LineBreakOption& option) const {
+utility::LineBreak ArgumentObjectWindow::GetLineBreakByOption(const LineBreakOption& option) const {
     if (&option == &*useCR) {
         return utility::LineBreak::CR;
     }
@@ -183,13 +183,13 @@ utility::LineBreak TextBlockWindow::GetLineBreakByOption(const LineBreakOption& 
 }
 
 
-void TextBlockWindow::RaiseTextChangedEvent() {
+void ArgumentObjectWindow::RaiseTextChangedEvent() {
 
-    text_changed_event_.GetObserver().OnNext(zaf::As<TextBlockWindow>(shared_from_this()));
+    text_changed_event_.GetObserver().OnNext(zaf::As<ArgumentObjectWindow>(shared_from_this()));
 }
 
 
-void TextBlockWindow::OnDeactivated(const zaf::DeactivatedInfo& event_info) {
+void ArgumentObjectWindow::OnDeactivated(const zaf::DeactivatedInfo& event_info) {
 
     __super::OnDeactivated(event_info);
 
@@ -204,7 +204,7 @@ void TextBlockWindow::OnDeactivated(const zaf::DeactivatedInfo& event_info) {
 }
 
 
-void TextBlockWindow::OnMessageReceived(const zaf::MessageReceivedInfo& event_info) {
+void ArgumentObjectWindow::OnMessageReceived(const zaf::MessageReceivedInfo& event_info) {
 
     switch (event_info.Message().ID()) {
         case WM_KEYDOWN: {
@@ -222,7 +222,7 @@ void TextBlockWindow::OnMessageReceived(const zaf::MessageReceivedInfo& event_in
 }
 
 
-void TextBlockWindow::OnShow(const zaf::ShowInfo& event_info) {
+void ArgumentObjectWindow::OnShow(const zaf::ShowInfo& event_info) {
 
     __super::OnShow(event_info);
 

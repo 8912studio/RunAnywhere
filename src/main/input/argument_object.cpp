@@ -109,7 +109,7 @@ bool ArgumentObject::InnerOpenWindow(const zaf::Point& object_position_in_screen
         return false;
     }
 
-    auto window = zaf::Create<TextBlockWindow>();
+    auto window = zaf::Create<ArgumentObjectWindow>();
     window->SetOwner(host_window);
     window->SetInitialRectStyle(zaf::InitialRectStyle::Custom);
 
@@ -128,7 +128,7 @@ bool ArgumentObject::InnerOpenWindow(const zaf::Point& object_position_in_screen
 }
 
 
-void ArgumentObject::OnTextChanged(const std::shared_ptr<TextBlockWindow>& window) {
+void ArgumentObject::OnTextChanged(const std::shared_ptr<ArgumentObjectWindow>& window) {
 
     auto new_text = window->GetText();
 

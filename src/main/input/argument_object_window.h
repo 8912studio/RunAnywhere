@@ -11,12 +11,12 @@
 
 namespace ra::main::input {
 
-class TextBlockWindow : public utility::ThinBorderWindow {
+class ArgumentObjectWindow : public utility::ThinBorderWindow {
 public:
     ZAF_DECLARE_TYPE;
 
 public:
-    TextBlockWindow();
+    ArgumentObjectWindow();
 
     void SetObjectPositionInScreen(const zaf::Point& position);
 
@@ -25,7 +25,7 @@ public:
     std::wstring GetText() const;
     void SetText(const std::wstring& text);
 
-    zaf::Observable<std::shared_ptr<TextBlockWindow>> TextChangedEvent();
+    zaf::Observable<std::shared_ptr<ArgumentObjectWindow>> TextChangedEvent();
 
 protected:
     void AfterParse() override;
@@ -49,7 +49,7 @@ private:
     ZAF_BIND_CONTROL(zaf::RichEdit, textEdit);
 
     zaf::Point object_position_in_screen_;
-    zaf::Subject<std::shared_ptr<TextBlockWindow>> text_changed_event_;
+    zaf::Subject<std::shared_ptr<ArgumentObjectWindow>> text_changed_event_;
 
     utility::LineBreakInfo line_break_info_;
 };

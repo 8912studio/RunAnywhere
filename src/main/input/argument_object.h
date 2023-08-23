@@ -7,7 +7,7 @@
 #include <zaf/window/window.h>
 #include "main/command_display_style.h"
 #include "main/input/argument_data.h"
-#include "main/input/text_block_window.h"
+#include "main/input/argument_object_window.h"
 
 namespace ra::main::input {
 
@@ -46,7 +46,7 @@ protected:
 private:
     void PaintText(zaf::Canvas& canvas, const zaf::Rect& text_rect);
     bool InnerOpenWindow(const zaf::Point& object_position_in_screen);
-    void OnTextChanged(const std::shared_ptr<TextBlockWindow>& window);
+    void OnTextChanged(const std::shared_ptr<ArgumentObjectWindow>& window);
     void OnWindowDestroyed();
 
 private:
