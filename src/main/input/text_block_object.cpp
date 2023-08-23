@@ -31,8 +31,8 @@ zaf::Color TextBlockObject::GetBackgroundColor(const zaf::rich_edit::PaintContex
 }
 
 
-void TextBlockObject::OnBeforeOpenWindow(const std::shared_ptr<ArgumentObjectWindow>& window) {
-    window->SetIsMultiline(true);
+void TextBlockObject::OnBeforeOpenWindow(const std::shared_ptr<TextBlockWindow>& window) {
+    //window->SetIsMultiline(true);
 }
 
 }

@@ -681,7 +681,7 @@
     <ClInclude Include="src\main\input\text_block_object.h">
       <Filter>src\main\input</Filter>
     </ClInclude>
-    <ClInclude Include="src\main\input\argument_object_window.h">
+    <ClInclude Include="src\main\input\text_block_window.h">
       <Filter>src\main\input</Filter>
     </ClInclude>
     <ClInclude Include="src\main\input\clipboard_data.h">
@@ -1106,7 +1106,7 @@
     <ClCompile Include="src\main\input\text_block_object.cpp">
       <Filter>src\main\input</Filter>
     </ClCompile>
-    <ClCompile Include="src\main\input\argument_object_window.cpp">
+    <ClCompile Include="src\main\input\text_block_window.cpp">
       <Filter>src\main\input</Filter>
     </ClCompile>
     <ClCompile Include="src\main\input\clipboard_data.cpp">
@@ -1195,7 +1195,7 @@
     <Page Include="src\module\common\text_preview_control.xaml">
       <Filter>src\module\common</Filter>
     </Page>
-    <Page Include="src\main\input\argument_object_window.xaml">
+    <Page Include="src\main\input\text_block_window.xaml">
       <Filter>src\main\input</Filter>
     </Page>
   </ItemGroup>

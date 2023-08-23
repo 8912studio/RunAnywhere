@@ -1,0 +1,55 @@
+<TextBlockWindow ContentSize="400,300">
+
+    <TextBlockWindow.RootControl>
+        <VerticalBox BackgroundColor="White" />
+    </TextBlockWindow.RootControl>
+
+    <HorizontalBox 
+        Name="lineBreakOptions"
+        AutoHeight="true"
+        Padding="12,12,12,8" 
+        BackgroundColor="#f2f2f2">
+        <LineBreakOption 
+            Name="useCRLF" 
+            Text="\r\n" 
+            Tooltip="Use \r\n as line breaks" />
+        <LineBreakOption 
+            Name="useCR" 
+            Margin="8,0,0,0" 
+            Text="\r" 
+            Tooltip="Use \r as line breaks" />
+        <LineBreakOption 
+            Name="useLF" 
+            Margin="8,0,0,0" 
+            Text="\n" 
+            Tooltip="Use \n as line breaks"/>
+    </HorizontalBox>
+
+    <ScrollableControl 
+        Name="scrollableControl" 
+        Border="0" 
+        Padding="8,8,8,8"
+        ScrollBarThickness="10">
+
+        <ScrollableControl.VerticalScrollBar>
+            <ThinScrollBar />
+        </ScrollableControl.VerticalScrollBar>
+
+        <ScrollableControl.HorizontalScrollBar>
+            <ThinScrollBar />
+        </ScrollableControl.HorizontalScrollBar>
+
+        <ScrollableControl.ScrollContent>
+            <RichEdit
+                Name="textEdit"
+                Border="0"
+                Padding="4,4,4,4"
+                IsMultiline="true"
+                FontSize="14"
+                ParagraphAlignment="Center"
+				BackgroundColor="Transparent"
+            />
+        </ScrollableControl.ScrollContent>
+    </ScrollableControl>
+    
+</TextBlockWindow>

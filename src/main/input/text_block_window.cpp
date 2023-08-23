@@ -1,4 +1,4 @@
-#include "main/input/argument_object_window.h"
+#include "main/input/text_block_window.h"
 #include <zaf/base/log.h>
 #include <zaf/base/none.h>
 #include <zaf/base/string/replace.h>
@@ -10,22 +10,22 @@
 
 namespace ra::main::input {
 
-ZAF_DEFINE_TYPE(ArgumentObjectWindow)
-ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///main/input/argument_object_window.xaml")
+ZAF_DEFINE_TYPE(TextBlockWindow)
+ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///main/input/text_block_window.xaml")
 ZAF_DEFINE_TYPE_END;
 
-ArgumentObjectWindow::ArgumentObjectWindow() {
+TextBlockWindow::TextBlockWindow() {
 
 }
 
 
-void ArgumentObjectWindow::AfterParse() {
+void TextBlockWindow::AfterParse() {
 
     __super::AfterParse();
 
     for (auto each_option : { &useCRLF, &useCR, &useLF }) {
         Subscriptions() += (*each_option)->MouseUpEvent().Subscribe(
-            std::bind(&ArgumentObjectWindow::OnLineBreakOptionClick, this, std::placeholders::_1));
+            std::bind(&TextBlockWindow::OnLineBreakOptionClick, this, std::placeholders::_1));
     }
 
     Subscriptions() += textEdit->TextChangedEvent().Subscribe(
@@ -41,22 +41,12 @@ void ArgumentObjectWindow::AfterParse() {
 }
 
 
-void ArgumentObjectWindow::SetObjectPositionInScreen(const zaf::Point& position) {
+void TextBlockWindow::SetObjectPositionInScreen(const zaf::Point& position) {
     object_position_in_screen_ = position;
 }
 
 
-void ArgumentObjectWindow::SetHeaderTitle(
-    const std::wstring& title, 
-    const zaf::Color& text_color) {
-
-    titleLabel->SetText(title);
-    titleLabel->SetTextColor(text_color);
-    titleLabel->SetIsVisible(!title.empty());
-}
-
-
-void ArgumentObjectWindow::SetIsReadOnly(bool read_only) {
+void TextBlockWindow::SetIsReadOnly(bool read_only) {
 
     textEdit->SetIsReadOnly(read_only);
     scrollableControl->SetBackgroundColor(
@@ -66,14 +56,7 @@ void ArgumentObjectWindow::SetIsReadOnly(bool read_only) {
 }
 
 
-void ArgumentObjectWindow::SetIsMultiline(bool multiline) {
-
-    lineBreakOptions->SetIsVisible(multiline);
-    textEdit->SetIsMultiline(multiline);
-}
-
-
-std::wstring ArgumentObjectWindow::GetText() const {
+std::wstring TextBlockWindow::GetText() const {
 
     auto result = textEdit->GetText(
         (line_break_info_.first_line_break == utility::LineBreak::CRLF) ?
@@ -88,7 +71,7 @@ std::wstring ArgumentObjectWindow::GetText() const {
 }
 
 
-void ArgumentObjectWindow::SetText(const std::wstring& text) {
+void TextBlockWindow::SetText(const std::wstring& text) {
     textEdit->SetText(text);
     line_break_info_ = utility::DeterminateLineBreakInfo(text);
     UpdateLineBreakOptions();
@@ -96,12 +79,12 @@ void ArgumentObjectWindow::SetText(const std::wstring& text) {
 }
 
 
-zaf::Observable<std::shared_ptr<ArgumentObjectWindow>> ArgumentObjectWindow::TextChangedEvent() {
+zaf::Observable<std::shared_ptr<TextBlockWindow>> TextBlockWindow::TextChangedEvent() {
     return text_changed_event_.GetObservable();
 }
 
 
-void ArgumentObjectWindow::AdjustPositionAndSize() {
+void TextBlockWindow::AdjustPositionAndSize() {
 
     constexpr float WindowHorizontalBorder = 2;
     constexpr float WindowVerticalBorder = 2;
@@ -146,8 +129,8 @@ void ArgumentObjectWindow::AdjustPositionAndSize() {
 
     window_size.height =
         WindowVerticalBorder +
-        header->Height() +
-        header->Margin().Height() +
+        lineBreakOptions->Height() +
+        lineBreakOptions->Margin().Height() +
         scrollableControl->Padding().Height() +
         actual_edit_height +
         (need_horizontal_scroll_bar ? scrollableControl->HorizontalScrollBar()->Height() : 0);
@@ -158,7 +141,7 @@ void ArgumentObjectWindow::AdjustPositionAndSize() {
 }
 
 
-void ArgumentObjectWindow::UpdateLineBreakOptions() {
+void TextBlockWindow::UpdateLineBreakOptions() {
 
     for (auto each_option : { &useCRLF, &useCR, &useLF }) {
 
@@ -175,7 +158,7 @@ void ArgumentObjectWindow::UpdateLineBreakOptions() {
 }
 
 
-void ArgumentObjectWindow::OnLineBreakOptionClick(const zaf::MouseUpInfo& event_info) {
+void TextBlockWindow::OnLineBreakOptionClick(const zaf::MouseUpInfo& event_info) {
 
     auto option = zaf::As<LineBreakOption>(event_info.Source());
     if (!option) {
@@ -189,7 +172,7 @@ void ArgumentObjectWindow::OnLineBreakOptionClick(const zaf::MouseUpInfo& event_
 }
 
 
-utility::LineBreak ArgumentObjectWindow::GetLineBreakByOption(const LineBreakOption& option) const {
+utility::LineBreak TextBlockWindow::GetLineBreakByOption(const LineBreakOption& option) const {
     if (&option == &*useCR) {
         return utility::LineBreak::CR;
     }
@@ -200,13 +183,13 @@ utility::LineBreak ArgumentObjectWindow::GetLineBreakByOption(const LineBreakOpt
 }
 
 
-void ArgumentObjectWindow::RaiseTextChangedEvent() {
+void TextBlockWindow::RaiseTextChangedEvent() {
 
-    text_changed_event_.GetObserver().OnNext(zaf::As<ArgumentObjectWindow>(shared_from_this()));
+    text_changed_event_.GetObserver().OnNext(zaf::As<TextBlockWindow>(shared_from_this()));
 }
 
 
-void ArgumentObjectWindow::OnDeactivated(const zaf::DeactivatedInfo& event_info) {
+void TextBlockWindow::OnDeactivated(const zaf::DeactivatedInfo& event_info) {
 
     __super::OnDeactivated(event_info);
 
@@ -221,7 +204,7 @@ void ArgumentObjectWindow::OnDeactivated(const zaf::DeactivatedInfo& event_info)
 }
 
 
-void ArgumentObjectWindow::OnMessageReceived(const zaf::MessageReceivedInfo& event_info) {
+void TextBlockWindow::OnMessageReceived(const zaf::MessageReceivedInfo& event_info) {
 
     switch (event_info.Message().ID()) {
         case WM_KEYDOWN: {
@@ -239,7 +222,7 @@ void ArgumentObjectWindow::OnMessageReceived(const zaf::MessageReceivedInfo& eve
 }
 
 
-void ArgumentObjectWindow::OnShow(const zaf::ShowInfo& event_info) {
+void TextBlockWindow::OnShow(const zaf::ShowInfo& event_info) {
 
     __super::OnShow(event_info);
 

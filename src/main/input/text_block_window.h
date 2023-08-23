@@ -12,23 +12,21 @@
 
 namespace ra::main::input {
 
-class ArgumentObjectWindow : public utility::ThinBorderWindow {
+class TextBlockWindow : public utility::ThinBorderWindow {
 public:
     ZAF_DECLARE_TYPE;
 
 public:
-    ArgumentObjectWindow();
+    TextBlockWindow();
 
     void SetObjectPositionInScreen(const zaf::Point& position);
 
-    void SetHeaderTitle(const std::wstring& title, const zaf::Color& text_color);
     void SetIsReadOnly(bool read_only);
-    void SetIsMultiline(bool multiline);
 
     std::wstring GetText() const;
     void SetText(const std::wstring& text);
 
-    zaf::Observable<std::shared_ptr<ArgumentObjectWindow>> TextChangedEvent();
+    zaf::Observable<std::shared_ptr<TextBlockWindow>> TextChangedEvent();
 
 protected:
     void AfterParse() override;
@@ -44,8 +42,6 @@ private:
     void RaiseTextChangedEvent();
 
 private:
-    ZAF_BIND_CONTROL(zaf::Control, header);
-    ZAF_BIND_CONTROL(zaf::Label, titleLabel);
     ZAF_BIND_CONTROL(zaf::Control, lineBreakOptions);
     ZAF_BIND_CONTROL(LineBreakOption, useCRLF);
     ZAF_BIND_CONTROL(LineBreakOption, useCR);
@@ -54,7 +50,7 @@ private:
     ZAF_BIND_CONTROL(zaf::RichEdit, textEdit);
 
     zaf::Point object_position_in_screen_;
-    zaf::Subject<std::shared_ptr<ArgumentObjectWindow>> text_changed_event_;
+    zaf::Subject<std::shared_ptr<TextBlockWindow>> text_changed_event_;
 
     utility::LineBreakInfo line_break_info_;
 };
