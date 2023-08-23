@@ -13,7 +13,7 @@ public:
     GUID ClassID() const override;
     std::shared_ptr<ArgumentData> CreateData(std::wstring text) override;
     zaf::Color GetBackgroundColor(const zaf::rich_edit::PaintContext& context) override;
-    void OnBeforeOpenWindow(const std::shared_ptr<TextBlockWindow>& window) override;
+    std::shared_ptr<ArgumentObjectWindow> CreateArgumentObjectWindow() override;
 };
 
 }

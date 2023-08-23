@@ -1,4 +1,6 @@
 #include "main/input/text_block_object.h"
+#include <zaf/creation.h>
+#include "main/input/text_block_window.h"
 
 namespace ra::main::input {
 
@@ -31,8 +33,8 @@ zaf::Color TextBlockObject::GetBackgroundColor(const zaf::rich_edit::PaintContex
 }
 
 
-void TextBlockObject::OnBeforeOpenWindow(const std::shared_ptr<TextBlockWindow>& window) {
-    //window->SetIsMultiline(true);
+std::shared_ptr<ArgumentObjectWindow> TextBlockObject::CreateArgumentObjectWindow() {
+    return zaf::Create<TextBlockWindow>();
 }
 
 }

@@ -35,14 +35,9 @@ void TextBlockWindow::AfterParse() {
         line_break_info_.all_the_same = true;
         UpdateLineBreakOptions();
 
-        AdjustPositionAndSize();
+        Relayout();
         RaiseTextChangedEvent();
     });
-}
-
-
-void TextBlockWindow::SetObjectPositionInScreen(const zaf::Point& position) {
-    object_position_in_screen_ = position;
 }
 
 
@@ -56,7 +51,7 @@ void TextBlockWindow::SetIsReadOnly(bool read_only) {
 }
 
 
-std::wstring TextBlockWindow::GetText() const {
+std::wstring TextBlockWindow::GetText() {
 
     auto result = textEdit->GetText(
         (line_break_info_.first_line_break == utility::LineBreak::CRLF) ?
@@ -75,23 +70,15 @@ void TextBlockWindow::SetText(const std::wstring& text) {
     textEdit->SetText(text);
     line_break_info_ = utility::DeterminateLineBreakInfo(text);
     UpdateLineBreakOptions();
-    AdjustPositionAndSize();
+    Relayout();
 }
 
 
-zaf::Observable<std::shared_ptr<TextBlockWindow>> TextBlockWindow::TextChangedEvent() {
-    return text_changed_event_.GetObservable();
-}
+zaf::Size TextBlockWindow::CalculateWindowContentSize() {
 
-
-void TextBlockWindow::AdjustPositionAndSize() {
-
-    constexpr float WindowHorizontalBorder = 2;
-    constexpr float WindowVerticalBorder = 2;
     constexpr float MaxContentWidth = 500;
     constexpr std::size_t MinShowLineCount = 2;
     constexpr std::size_t MaxShowLineCount = 10;
-    constexpr float MinWindowWidth = 320.f;
 
     auto edit_size = textEdit->CalculatePreferredSize();
     auto line_count = textEdit->LineCount();
@@ -107,14 +94,10 @@ void TextBlockWindow::AdjustPositionAndSize() {
     scroll_control_padding.right = need_vertical_scroll_bar ? 0 : scroll_control_padding.left;
     scrollableControl->SetPadding(scroll_control_padding);
 
-    zaf::Size window_size;
-    window_size.width =
-        WindowHorizontalBorder +
+    float content_width =
         scrollableControl->Padding().Width() +
         (need_horizontal_scroll_bar ? MaxContentWidth : edit_size.width) +
         (need_vertical_scroll_bar ? scrollableControl->VerticalScrollBar()->Width() : 0);
-
-    window_size.width = std::max(window_size.width, MinWindowWidth);
 
     auto line_height = (edit_size.height - textEdit->Padding().Height()) / line_count;
 
@@ -127,17 +110,14 @@ void TextBlockWindow::AdjustPositionAndSize() {
         line_height * shown_line_count +
         textEdit->Padding().Height();
 
-    window_size.height =
-        WindowVerticalBorder +
+    float content_height =
         lineBreakOptions->Height() +
         lineBreakOptions->Margin().Height() +
         scrollableControl->Padding().Height() +
         actual_edit_height +
         (need_horizontal_scroll_bar ? scrollableControl->HorizontalScrollBar()->Height() : 0);
-    
-    zaf::Rect window_rect{ object_position_in_screen_, window_size };
-    window_rect.position.y -= window_size.height + 4;
-    this->SetRect(window_rect);
+
+    return zaf::Size{ content_width, content_height };
 }
 
 
@@ -180,12 +160,6 @@ utility::LineBreak TextBlockWindow::GetLineBreakByOption(const LineBreakOption& 
         return utility::LineBreak::LF;
     }
     return utility::LineBreak::CRLF;
-}
-
-
-void TextBlockWindow::RaiseTextChangedEvent() {
-
-    text_changed_event_.GetObserver().OnNext(zaf::As<TextBlockWindow>(shared_from_this()));
 }
 
 

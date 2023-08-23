@@ -125,6 +125,7 @@
     <ClInclude Include="src\main\input\active_path_data.h" />
     <ClInclude Include="src\main\input\active_path_object.h" />
     <ClInclude Include="src\main\input\argument_object.h" />
+    <ClInclude Include="src\main\input\argument_object_window.h" />
     <ClInclude Include="src\main\input\clipboard_data.h" />
     <ClInclude Include="src\main\input\command_input_content.h" />
     <ClInclude Include="src\main\input\command_input_edit.h" />
@@ -306,6 +307,7 @@
     <ClCompile Include="src\main\input\active_path_data.cpp" />
     <ClCompile Include="src\main\input\active_path_object.cpp" />
     <ClCompile Include="src\main\input\argument_object.cpp" />
+    <ClCompile Include="src\main\input\argument_object_window.cpp" />
     <ClCompile Include="src\main\input\clipboard_data.cpp" />
     <ClCompile Include="src\main\input\command_input_content.cpp" />
     <ClCompile Include="src\main\input\command_input_edit.cpp" />

@@ -1,4 +1,6 @@
 #include "main/input/active_path_object.h"
+#include <zaf/creation.h>
+#include "main/input/text_block_window.h"
 
 namespace ra::main::input {
 
@@ -29,9 +31,8 @@ zaf::Color ActivePathObject::GetBackgroundColor(const zaf::rich_edit::PaintConte
 }
 
 
-void ActivePathObject::OnBeforeOpenWindow(const std::shared_ptr<TextBlockWindow>& window) {
-    //window->SetIsMultiline(false);
-    //window->SetHeaderTitle(L"@=", zaf::Color::FromRGB(0xd68b00));
+std::shared_ptr<ArgumentObjectWindow> ActivePathObject::CreateArgumentObjectWindow() {
+    return zaf::Create<TextBlockWindow>();
 }
 
 }
