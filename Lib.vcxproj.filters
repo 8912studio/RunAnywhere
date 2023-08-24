@@ -705,6 +705,9 @@
     <ClInclude Include="src\main\input\argument_object_window.h">
       <Filter>src\main\input</Filter>
     </ClInclude>
+    <ClInclude Include="src\main\input\active_path_window.h">
+      <Filter>src\main\input</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -1130,6 +1133,9 @@
     <ClCompile Include="src\main\input\argument_object_window.cpp">
       <Filter>src\main\input</Filter>
     </ClCompile>
+    <ClCompile Include="src\main\input\active_path_window.cpp">
+      <Filter>src\main\input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Page Include="src\module\user_defined\preview\user_defined_command_preview_control.xaml">
@@ -1202,6 +1208,9 @@
       <Filter>src\module\common</Filter>
     </Page>
     <Page Include="src\main\input\text_block_window.xaml">
+      <Filter>src\main\input</Filter>
+    </Page>
+    <Page Include="src\main\input\active_path_window.xaml">
       <Filter>src\main\input</Filter>
     </Page>
   </ItemGroup>

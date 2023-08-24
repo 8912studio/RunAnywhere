@@ -76,14 +76,13 @@ void TextBlockWindow::SetText(const std::wstring& text) {
 
 zaf::Size TextBlockWindow::CalculateWindowContentSize() {
 
-    constexpr float MaxContentWidth = 500;
     constexpr std::size_t MinShowLineCount = 2;
     constexpr std::size_t MaxShowLineCount = 10;
 
     auto edit_size = textEdit->CalculatePreferredSize();
     auto line_count = textEdit->LineCount();
 
-    bool need_horizontal_scroll_bar = edit_size.width > MaxContentWidth;
+    bool need_horizontal_scroll_bar = edit_size.width > MaxWindowContentWidth;
     scrollableControl->SetAllowHorizontalScroll(need_horizontal_scroll_bar);
 
     bool need_vertical_scroll_bar = line_count > MaxShowLineCount;
@@ -96,7 +95,7 @@ zaf::Size TextBlockWindow::CalculateWindowContentSize() {
 
     float content_width =
         scrollableControl->Padding().Width() +
-        (need_horizontal_scroll_bar ? MaxContentWidth : edit_size.width) +
+        (need_horizontal_scroll_bar ? MaxWindowContentWidth : edit_size.width) +
         (need_vertical_scroll_bar ? scrollableControl->VerticalScrollBar()->Width() : 0);
 
     auto line_height = (edit_size.height - textEdit->Padding().Height()) / line_count;
@@ -163,44 +162,10 @@ utility::LineBreak TextBlockWindow::GetLineBreakByOption(const LineBreakOption& 
 }
 
 
-void TextBlockWindow::OnDeactivated(const zaf::DeactivatedInfo& event_info) {
-
-    __super::OnDeactivated(event_info);
-
-    //Close window at next message loop to avoid focus issues.
-    //TODO: Need more elegant method to schedule task at next message loop.
-    Subscriptions() += zaf::rx::Create<zaf::None>([this](zaf::Observer<zaf::None>) {
-        //this->Close();
-        return zaf::Subscription{};
-    })
-    .SubscribeOn(zaf::Scheduler::Main())
-    .Subscribe();
-}
-
-
-void TextBlockWindow::OnMessageReceived(const zaf::MessageReceivedInfo& event_info) {
-
-    switch (event_info.Message().ID()) {
-        case WM_KEYDOWN: {
-            if (zaf::KeyMessage(event_info.Message()).VirtualKey() == VK_ESCAPE) {
-                this->Close();
-                event_info.MarkAsHandled(0);
-            }
-            break;
-        }
-        default:
-            break;
-    }
-
-    __super::OnMessageReceived(event_info);
-}
-
-
 void TextBlockWindow::OnShow(const zaf::ShowInfo& event_info) {
 
     __super::OnShow(event_info);
 
-    SetFocus(this->Handle());
     textEdit->SetIsFocused(true);
 }
 

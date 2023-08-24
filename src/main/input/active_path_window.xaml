@@ -1,0 +1,49 @@
+<ActivePathWindow>
+    
+    <ActivePathWindow.RootControl>
+        <VerticalBox BackgroundColor="White" />
+    </ActivePathWindow.RootControl>
+
+    <HorizontalBox 
+        Name="container" 
+        Padding="12,0,12,0"
+        CrossAxisAlignment="Center" >
+
+        <Label 
+            Name="label" 
+            FixedWidth="38" 
+            ParagraphAlignment="Center" 
+            TextColor="#EB984E"
+            Text="@=">
+            <Label.Font FamilyName="Microsoft YaHei UI" Size="20" Weight="Bold" />
+        </Label>
+
+        <ScrollableControl 
+            Name="scrollContainer" 
+            Border="0" 
+            Margin="2,12,0,0"
+            AllowVerticalScroll="false"
+            ScrollBarThickness="10">
+
+            <ScrollableControl.VerticalScrollBar>
+                <ThinScrollBar />
+            </ScrollableControl.VerticalScrollBar>
+
+            <ScrollableControl.HorizontalScrollBar>
+                <ThinScrollBar />
+            </ScrollableControl.HorizontalScrollBar>
+
+            <ScrollableControl.ScrollContent>
+                <RichEdit 
+                    Name="edit" 
+                    Border="0"
+                    IsMultiline="false"
+                    ParagraphAlignment="Center"
+                    FontSize="14"
+                    BackgroundColor="Transparent" />
+            </ScrollableControl.ScrollContent>
+        </ScrollableControl>
+
+    </HorizontalBox>
+
+</ActivePathWindow>

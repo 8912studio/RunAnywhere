@@ -124,6 +124,7 @@
     <ClInclude Include="src\main\command_display_style.h" />
     <ClInclude Include="src\main\input\active_path_data.h" />
     <ClInclude Include="src\main\input\active_path_object.h" />
+    <ClInclude Include="src\main\input\active_path_window.h" />
     <ClInclude Include="src\main\input\argument_object.h" />
     <ClInclude Include="src\main\input\argument_object_window.h" />
     <ClInclude Include="src\main\input\clipboard_data.h" />
@@ -306,6 +307,7 @@
     <ClCompile Include="src\license_window.cpp" />
     <ClCompile Include="src\main\input\active_path_data.cpp" />
     <ClCompile Include="src\main\input\active_path_object.cpp" />
+    <ClCompile Include="src\main\input\active_path_window.cpp" />
     <ClCompile Include="src\main\input\argument_object.cpp" />
     <ClCompile Include="src\main\input\argument_object_window.cpp" />
     <ClCompile Include="src\main\input\clipboard_data.cpp" />
@@ -429,6 +431,7 @@
     <Page Include="src\about_window.xaml" />
     <Page Include="src\help\help_window.xaml" />
     <Page Include="src\license_window.xaml" />
+    <Page Include="src\main\input\active_path_window.xaml" />
     <Page Include="src\main\input\text_block_window.xaml" />
     <Page Include="src\main\main_window.xaml" />
     <Page Include="src\main\preserve\preserved_command_view.xaml" />

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <zaf/control/rich_edit.h>
 #include <zaf/rx/subject.h>
 #include "utility/thin_border_window.h"
 
@@ -15,6 +16,13 @@ public:
     virtual void SetText(const std::wstring& text) = 0;
 
 protected:
+    static constexpr float MaxWindowContentWidth = 500;
+
+protected:
+    void OnShow(const zaf::ShowInfo& event_info) override;
+    void OnDeactivated(const zaf::DeactivatedInfo& event_info) override;
+    void OnMessageReceived(const zaf::MessageReceivedInfo& event_info) override;
+
     void RaiseTextChangedEvent();
     void Relayout();
 
