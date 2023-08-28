@@ -27,12 +27,14 @@ enum class JSONItemType {
 
 std::string ToJSONValue(std::wstring_view string) {
     auto utf8 = zaf::ToUTF8String(string);
-    return zaf::Base64Encode(utf8.data(), utf8.length());
+    auto encoded = zaf::Base64Encode(utf8.data(), utf8.length());
+    return zaf::ToUTF8String(encoded);
 }
 
 std::wstring FromJSONValue(std::string_view string) {
 
-    auto decoded = zaf::Base64Decode(string);
+    auto wide = zaf::FromUTF8String(string);
+    auto decoded = zaf::Base64Decode(wide);
 
     return zaf::FromUTF8String(std::string_view{
         reinterpret_cast<const char*>(decoded.data()), 

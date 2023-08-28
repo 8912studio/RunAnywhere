@@ -1,7 +1,6 @@
 #include "module/tool/md5/md5_calculating.h"
 #include <fstream>
-#include <boost/algorithm/hex.hpp>
-#include <boost/uuid/detail/md5.hpp>
+#include <zaf/crypto/md5.h>
 #include <zaf/rx/creation.h>
 #include <zaf/rx/scheduler.h>
 #include <zaf/base/error/check.h>
@@ -11,16 +10,11 @@
 namespace ra::mod::tool::md5 {
 namespace {
 
-std::wstring GetMD5String(boost::uuids::detail::md5& md5) {
+std::wstring GetMD5String(zaf::crypto::MD5& md5) {
 
-    boost::uuids::detail::md5::digest_type digest;
-    md5.get_digest(digest);
-
-    std::string hex_string;
-    boost::algorithm::hex(std::begin(digest), std::end(digest), std::back_inserter(hex_string));
-
+    auto hex_string = md5.Finish().ToHexString();
     zaf::Lowercase(hex_string);
-    return zaf::FromUTF8String(hex_string);
+    return hex_string;
 }
 
 }
@@ -47,7 +41,7 @@ zaf::Observable<MD5Result> CalculateFileMD5(const std::filesystem::path& file_pa
         MD5Result result;
         result.total_size = remain_size;
 
-        boost::uuids::detail::md5 md5;
+        zaf::crypto::MD5 md5;
 
         constexpr std::size_t buffer_size = 4096;
         auto buffer = std::make_unique<char[]>(buffer_size);
@@ -66,7 +60,7 @@ zaf::Observable<MD5Result> CalculateFileMD5(const std::filesystem::path& file_pa
                 return;
             }
 
-            md5.process_bytes(buffer.get(), static_cast<std::size_t>(read_size));
+            md5.Update(buffer.get(), static_cast<std::size_t>(read_size));
 
             result.current_size += read_size;
 
@@ -91,14 +85,16 @@ zaf::Observable<MD5Result> CalculateFileMD5(const std::filesystem::path& file_pa
 
 std::wstring CalculateStringMD5(const std::wstring& string, TextEncoding encoding) {
 
-    boost::uuids::detail::md5 md5;
+    zaf::crypto::MD5 md5;
 
     if (encoding == TextEncoding::UTF8) {
         auto utf8_string = zaf::ToUTF8String(string);
-        md5.process_bytes(utf8_string.data(), utf8_string.length());
+        md5.Update(utf8_string.data(), utf8_string.length());
     }
     else if (encoding == TextEncoding::UTF16) {
-        md5.process_bytes(string.data(), string.length() * sizeof(wchar_t));
+        md5.Update(
+            reinterpret_cast<const std::byte*>(string.data()), 
+            string.length() * sizeof(wchar_t));
     }
     else {
         ZAF_NOT_REACHED();

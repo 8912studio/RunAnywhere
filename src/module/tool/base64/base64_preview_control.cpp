@@ -36,7 +36,7 @@ void Base64PreviewControl::ShowParseResult(const Base64CommandParseResult& parse
         (parse_result.operation && *parse_result.operation == Base64Operation::Decode)) {
 
         try {
-            decoded_data = zaf::Base64Decode(zaf::ToUTF8String(parse_result.input_text));
+            decoded_data = zaf::Base64Decode(parse_result.input_text);
             can_decode = true;
         }
         catch (const zaf::Error&) {
@@ -71,7 +71,7 @@ void Base64PreviewControl::ShowParseResult(const Base64CommandParseResult& parse
 
 void Base64PreviewControl::ShowEncodeResult(const Base64CommandParseResult& parse_result) {
 
-    std::string encoded_text;
+    std::wstring encoded_text;
     auto encoding = parse_result.encoding.value_or(TextEncoding::UTF8);
     if (encoding == TextEncoding::UTF8) {
         auto utf8_input = zaf::ToUTF8String(parse_result.input_text);
@@ -85,7 +85,7 @@ void Base64PreviewControl::ShowEncodeResult(const Base64CommandParseResult& pars
     ShowTextContent(
         parse_result.input_text, 
         encoding,
-        zaf::FromUTF8String(encoded_text), 
+        encoded_text, 
         true,
         L"Input is text",
         encoding == TextEncoding::UTF8 ? L"Input text is UTF-8" : L"Input text is UTF-16");
