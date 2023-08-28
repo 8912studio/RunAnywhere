@@ -227,6 +227,7 @@
     <ClInclude Include="src\module\tool\error\error_preview_control.h" />
     <ClInclude Include="src\module\tool\hash\hash_algorithm_creator.h" />
     <ClInclude Include="src\module\tool\hash\hash_calculating.h" />
+    <ClInclude Include="src\module\tool\hash\hash_command.h" />
     <ClInclude Include="src\module\tool\hash\hash_command_parse_result.h" />
     <ClInclude Include="src\module\tool\hash\hash_command_parsing.h" />
     <ClInclude Include="src\module\tool\hash\hash_preview_control.h" />
@@ -384,6 +385,7 @@
     <ClCompile Include="src\module\tool\error\error_command.cpp" />
     <ClCompile Include="src\module\tool\error\error_preview_control.cpp" />
     <ClCompile Include="src\module\tool\hash\hash_calculating.cpp" />
+    <ClCompile Include="src\module\tool\hash\hash_command.cpp" />
     <ClCompile Include="src\module\tool\hash\hash_command_parsing.cpp" />
     <ClCompile Include="src\module\tool\hash\hash_preview_control.cpp" />
     <ClCompile Include="src\module\tool\hash\md5_command.cpp" />

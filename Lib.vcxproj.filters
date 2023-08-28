@@ -711,6 +711,9 @@
     <ClInclude Include="src\module\tool\hash\md5_command.h">
       <Filter>src\module\tool\hash</Filter>
     </ClInclude>
+    <ClInclude Include="src\module\tool\hash\hash_command.h">
+      <Filter>src\module\tool\hash</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -1137,6 +1140,9 @@
       <Filter>src\module\tool\hash</Filter>
     </ClCompile>
     <ClCompile Include="src\module\tool\hash\md5_command.cpp">
+      <Filter>src\module\tool\hash</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\tool\hash\hash_command.cpp">
       <Filter>src\module\tool\hash</Filter>
     </ClCompile>
   </ItemGroup>

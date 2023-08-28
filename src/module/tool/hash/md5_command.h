@@ -1,34 +1,19 @@
 #pragma once
 
-#include "module/command.h"
-#include "module/command_brief.h"
-#include "module/tool/hash/hash_command_parse_result.h"
-#include "module/tool/hash/hash_preview_control.h"
-#include "utility/command_line.h"
+#include "module/tool/hash/hash_command.h"
 
 namespace ra::mod::tool::hash {
 
-class MD5Command : public Command {
+class MD5Command : public HashCommand {
 public:
     static CommandBrief Brief();
 
 public:
     CommandBrief GetBrief() override;
     help::content::Content GetHelpContent() override;
-    bool Interpret(
-        const utility::CommandLine& command_line,
-        const context::DesktopContext& desktop_context, 
-        bool is_reusing) override;
-    std::shared_ptr<CommandPreviewControl> GetPreviewControl() override;
-    std::shared_ptr<CommandExecutor> GetExecutor() override;
 
 private:
-    void CreatePreviewControl();
-
-private:
-    HashCommandParseResult parse_result_;
-    std::shared_ptr<HashPreviewControl> preview_control_;
-    context::DesktopContext desktop_context_;
+    HashAlgorithmCreator GetHashAlgorithmCreator();
 };
 
 }
