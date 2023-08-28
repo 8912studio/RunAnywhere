@@ -1,9 +1,9 @@
-#include "module/tool/md5/md5_command_parsing.h"
+#include "module/tool/hash/hash_command_parsing.h"
 
-namespace ra::mod::tool::md5 {
+namespace ra::mod::tool::hash {
 namespace {
 
-bool ParseNormalText(std::wstring_view text, MD5CommandParseResult& result) {
+bool ParseNormalText(std::wstring_view text, HashCommandParseResult& result) {
 	if (text == L"/c") {
 		result.use_uppercase = true;
 		return true;
@@ -13,9 +13,9 @@ bool ParseNormalText(std::wstring_view text, MD5CommandParseResult& result) {
 
 }
 
-MD5CommandParseResult ParseMD5Command(const utility::CommandLine& command_line) {
+HashCommandParseResult ParseHashCommand(const utility::CommandLine& command_line) {
 
-	MD5CommandParseResult result;
+	HashCommandParseResult result;
 
 	for (const auto& each_argument : command_line.Arguments()) {
 

@@ -14,16 +14,19 @@
 #include "module/common/error_view.h"
 #include "module/common/general_input.h"
 #include "module/common/text_encoding.h"
+#include "module/tool/hash/hash_algorithm_creator.h"
 #include "utility/preview_text_box.h"
 #include "utility/progress_circle.h"
 
-namespace ra::mod::tool::md5 {
+namespace ra::mod::tool::hash {
 
-class MD5PreviewControl : public CommandPreviewControl {
+class HashPreviewControl : public CommandPreviewControl {
 public:
 	ZAF_DECLARE_TYPE;
 
-	void ShowMD5(const GeneralInput& input);
+	explicit HashPreviewControl(HashAlgorithmCreator hash_creator);
+
+	void ShowHash(const GeneralInput& input);
 
 	std::wstring GetText();
 
@@ -47,9 +50,9 @@ private:
 	};
 
 private:
-	void ShowFileMD5(const std::filesystem::path& file_path);
-	void ShowStringMD5(const std::wstring& string, TextEncoding encoding);
-	void SetMD5Text(const std::wstring& md5);
+	void ShowFileHash(const std::filesystem::path& file_path);
+	void ShowStringHash(const std::wstring& string, TextEncoding encoding);
+	void SetHashText(const std::wstring& hash);
 	void AdjustControlStyles();
 	void ChangeLayout(LayoutType type);
 
@@ -57,8 +60,9 @@ private:
 	ZAF_BIND_CONTROL(ContentStatusBar, contentStatusBar);
 	ZAF_BIND_CONTROL(utility::ProgressCircle, progressCircle);
 	ZAF_BIND_CONTROL(ErrorView, errorView);
-	ZAF_BIND_CONTROL(utility::PreviewTextBox, md5ResultControl);
+	ZAF_BIND_CONTROL(utility::PreviewTextBox, hashResultControl);
 
+	HashAlgorithmCreator hash_algorithm_creator_;
 	bool use_upper_case_{};
 
 	zaf::Subject<zaf::None> calculate_finished_event_;

@@ -1,10 +1,11 @@
-#include "module/tool/md5/md5_command.h"
+#include "module/tool/hash/md5_command.h"
 #include <zaf/creation.h>
+#include <zaf/crypto/md5.h>
 #include "module/active_path/active_path_modifying.h"
 #include "module/common/copy_executor.h"
-#include "module/tool/md5/md5_command_parsing.h"
+#include "module/tool/hash/hash_command_parsing.h"
 
-namespace ra::mod::tool::md5 {
+namespace ra::mod::tool::hash {
 
 CommandBrief MD5Command::Brief() {
 	return CommandBrief{
@@ -52,7 +53,7 @@ bool MD5Command::Interpret(
 		return false;
 	}
 
-	parse_result_ = ParseMD5Command(command_line);
+	parse_result_ = ParseHashCommand(command_line);
 	desktop_context_ = desktop_context;
 	return true;
 }
@@ -70,9 +71,11 @@ std::shared_ptr<CommandPreviewControl> MD5Command::GetPreviewControl() {
 
 void MD5Command::CreatePreviewControl() {
 
-	preview_control_ = zaf::Create<MD5PreviewControl>();
+	preview_control_ = zaf::Create<HashPreviewControl>([]() {
+		return zaf::crypto::MD5{};
+	});
 	preview_control_->SetUseUppercase(parse_result_.use_uppercase);
-	preview_control_->ShowMD5(MakeGeneralInput(desktop_context_, parse_result_.general_option));
+	preview_control_->ShowHash(MakeGeneralInput(desktop_context_, parse_result_.general_option));
 }
 
 

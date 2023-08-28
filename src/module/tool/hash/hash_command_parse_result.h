@@ -6,9 +6,9 @@
 #include "module/common/general_option.h"
 #include "module/common/text_encoding.h"
 
-namespace ra::mod::tool::md5 {
+namespace ra::mod::tool::hash {
 
-class MD5CommandParseResult {
+class HashCommandParseResult {
 public:
 	GeneralOption general_option;
 	bool use_uppercase{};

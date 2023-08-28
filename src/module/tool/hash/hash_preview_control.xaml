@@ -1,0 +1,6 @@
+<HashPreviewControl Layouter="VerticalLayouter" FixedHeight="110" Padding="0,0,0,2">
+    <ContentStatusBar Name="contentStatusBar"/>
+    <PreviewTextBox Name="hashResultControl" FontSize="26" IsVisible="false" />
+    <ProgressCircle Name="progressCircle" Padding="0,14,0,14" IsVisible="false" />
+    <ErrorView Name="errorView" IsVisible="false" />
+</HashPreviewControl>

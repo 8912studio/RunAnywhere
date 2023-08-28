@@ -2,11 +2,11 @@
 
 #include "module/command.h"
 #include "module/command_brief.h"
-#include "module/tool/md5/md5_command_parse_result.h"
-#include "module/tool/md5/md5_preview_control.h"
+#include "module/tool/hash/hash_command_parse_result.h"
+#include "module/tool/hash/hash_preview_control.h"
 #include "utility/command_line.h"
 
-namespace ra::mod::tool::md5 {
+namespace ra::mod::tool::hash {
 
 class MD5Command : public Command {
 public:
@@ -26,8 +26,8 @@ private:
     void CreatePreviewControl();
 
 private:
-    MD5CommandParseResult parse_result_;
-    std::shared_ptr<MD5PreviewControl> preview_control_;
+    HashCommandParseResult parse_result_;
+    std::shared_ptr<HashPreviewControl> preview_control_;
     context::DesktopContext desktop_context_;
 };
 

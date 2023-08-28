@@ -1,29 +1,32 @@
-#include "module/tool/md5/md5_calculating.h"
+#include "module/tool/hash/hash_calculating.h"
 #include <fstream>
-#include <zaf/crypto/md5.h>
 #include <zaf/rx/creation.h>
 #include <zaf/rx/scheduler.h>
 #include <zaf/base/error/check.h>
 #include <zaf/base/string/case_conversion.h>
 #include <zaf/base/string/encoding_conversion.h>
 
-namespace ra::mod::tool::md5 {
+namespace ra::mod::tool::hash {
 namespace {
 
-std::wstring GetMD5String(zaf::crypto::MD5& md5) {
+std::wstring GetHashString(zaf::crypto::HashAlgorithm& hash) {
 
-    auto hex_string = md5.Finish().ToHexString();
+    auto hex_string = hash.Finish().ToHexString();
     zaf::Lowercase(hex_string);
     return hex_string;
 }
 
 }
 
-zaf::Observable<MD5Result> CalculateFileMD5(const std::filesystem::path& file_path) {
+zaf::Observable<HashResult> CalculateFileHash(
+    const std::filesystem::path& file_path,
+    HashAlgorithmCreator hash_algorithm_creator) {
 
-    return zaf::rx::Create<MD5Result>(
+    return zaf::rx::Create<HashResult>(
         zaf::Scheduler::CreateOnSingleThread(),
-        [file_path](zaf::Observer<MD5Result> observer, zaf::CancelToken cancel_token) {
+        [file_path, hash_creator = std::move(hash_algorithm_creator)](
+            zaf::Observer<HashResult> observer, 
+            zaf::CancelToken cancel_token) {
 
         std::ifstream file_stream{ file_path, std::ios::in | std::ios::binary };
         if (!file_stream) {
@@ -38,10 +41,10 @@ zaf::Observable<MD5Result> CalculateFileMD5(const std::filesystem::path& file_pa
         auto one_percent_size = double(remain_size) / 100;
         std::streamsize last_callback_size = 0;
 
-        MD5Result result;
+        HashResult result;
         result.total_size = remain_size;
 
-        zaf::crypto::MD5 md5;
+        auto hash = hash_creator();
 
         constexpr std::size_t buffer_size = 4096;
         auto buffer = std::make_unique<char[]>(buffer_size);
@@ -60,7 +63,7 @@ zaf::Observable<MD5Result> CalculateFileMD5(const std::filesystem::path& file_pa
                 return;
             }
 
-            md5.Update(buffer.get(), static_cast<std::size_t>(read_size));
+            hash.Update(buffer.get(), static_cast<std::size_t>(read_size));
 
             result.current_size += read_size;
 
@@ -76,31 +79,34 @@ zaf::Observable<MD5Result> CalculateFileMD5(const std::filesystem::path& file_pa
             }
         }
 
-        result.md5 = GetMD5String(md5);
+        result.result = GetHashString(hash);
         observer.OnNext(result);
         observer.OnCompleted();
     });
 }
 
 
-std::wstring CalculateStringMD5(const std::wstring& string, TextEncoding encoding) {
+std::wstring CalculateStringHash(
+    const std::wstring& string, 
+    TextEncoding encoding,
+    const HashAlgorithmCreator& hash_algorithm_creator) {
 
-    zaf::crypto::MD5 md5;
+    auto hash = hash_algorithm_creator();
 
     if (encoding == TextEncoding::UTF8) {
         auto utf8_string = zaf::ToUTF8String(string);
-        md5.Update(utf8_string.data(), utf8_string.length());
+        hash.Update(utf8_string.data(), utf8_string.length());
     }
     else if (encoding == TextEncoding::UTF16) {
-        md5.Update(
-            reinterpret_cast<const std::byte*>(string.data()), 
+        hash.Update(
+            reinterpret_cast<const std::byte*>(string.data()),
             string.length() * sizeof(wchar_t));
     }
     else {
         ZAF_NOT_REACHED();
     }
 
-    return GetMD5String(md5);
+    return GetHashString(hash);
 }
 
 }

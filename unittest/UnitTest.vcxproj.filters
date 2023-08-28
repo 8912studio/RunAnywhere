@@ -2,14 +2,14 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="case\module\tool\md5\md5_test_file1">
-      <Filter>case\module\tool\md5</Filter>
+    <None Include="case\module\tool\hash\md5_test_file1">
+      <Filter>case\module\tool\hash</Filter>
     </None>
-    <None Include="case\module\tool\md5\md5_test_file2">
-      <Filter>case\module\tool\md5</Filter>
+    <None Include="case\module\tool\hash\md5_test_file2">
+      <Filter>case\module\tool\hash</Filter>
     </None>
-    <None Include="case\module\tool\md5\md5_test_file3">
-      <Filter>case\module\tool\md5</Filter>
+    <None Include="case\module\tool\hash\md5_test_file3">
+      <Filter>case\module\tool\hash</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -49,9 +49,6 @@
     <Filter Include="case\module\tool\rgb">
       <UniqueIdentifier>{c4957a72-a749-47f6-ac35-9e6789bc8a1a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="case\module\tool\md5">
-      <UniqueIdentifier>{fcb77508-bb6b-4737-933c-703701cbd09c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="case\module\tool\hex">
       <UniqueIdentifier>{ad46c9fc-4577-4b95-82f0-cd769c878067}</UniqueIdentifier>
     </Filter>
@@ -66,6 +63,9 @@
     </Filter>
     <Filter Include="case\module\tool\base64">
       <UniqueIdentifier>{6091369f-bb13-4c04-9a86-15315067b94e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="case\module\tool\hash">
+      <UniqueIdentifier>{5b062975-2ce3-444a-b73c-c39afac1b09e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -157,12 +157,6 @@
     <ClCompile Include="case\module\tool\rgb\rgb_command_test.cpp">
       <Filter>case\module\tool\rgb</Filter>
     </ClCompile>
-    <ClCompile Include="case\module\tool\md5\md5_calculating_test.cpp">
-      <Filter>case\module\tool\md5</Filter>
-    </ClCompile>
-    <ClCompile Include="case\module\tool\md5\md5_command_test.cpp">
-      <Filter>case\module\tool\md5</Filter>
-    </ClCompile>
     <ClCompile Include="case\module\tool\tool_module_test.cpp">
       <Filter>case\module\tool</Filter>
     </ClCompile>
@@ -193,14 +187,20 @@
     <ClCompile Include="case\module\active_path\active_path_module_test.cpp">
       <Filter>case\module\active_path</Filter>
     </ClCompile>
-    <ClCompile Include="case\module\tool\md5\md5_command_parsing_test.cpp">
-      <Filter>case\module\tool\md5</Filter>
-    </ClCompile>
     <ClCompile Include="case\module\tool\hex\hex_command_parsing_test.cpp">
       <Filter>case\module\tool\hex</Filter>
     </ClCompile>
     <ClCompile Include="case\module\user_defined\user_defined_command_test.cpp">
       <Filter>case\module\user_defined</Filter>
+    </ClCompile>
+    <ClCompile Include="case\module\tool\hash\md5_calculating_test.cpp">
+      <Filter>case\module\tool\hash</Filter>
+    </ClCompile>
+    <ClCompile Include="case\module\tool\hash\hash_command_parsing_test.cpp">
+      <Filter>case\module\tool\hash</Filter>
+    </ClCompile>
+    <ClCompile Include="case\module\tool\hash\md5_command_test.cpp">
+      <Filter>case\module\tool\hash</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -1,12 +1,12 @@
 #include <gtest/gtest.h>
 #include <zaf/application.h>
 #include <zaf/base/as.h>
-#include "module/tool/md5/md5_command.h"
-#include "module/tool/md5/md5_preview_control.h"
+#include "module/tool/hash/hash_preview_control.h"
+#include "module/tool/hash/md5_command.h"
 
 using namespace ra::context;
 using namespace ra::mod;
-using namespace ra::mod::tool::md5;
+using namespace ra::mod::tool::hash;
 using namespace ra::utility;
 
 TEST(MD5CommandTest, CalculateText) {
@@ -22,7 +22,7 @@ TEST(MD5CommandTest, CalculateText) {
         if (!command.Interpret(command_line, context, false)) {
             return false;
         }
-        auto preview_control = zaf::As<MD5PreviewControl>(command.GetPreviewControl());
+        auto preview_control = zaf::As<HashPreviewControl>(command.GetPreviewControl());
         if (!preview_control) {
             return false;
         }
@@ -57,7 +57,7 @@ TEST(MD5CommandTest, CalculateFile) {
         if (!command.Interpret(command_line, context, false)) {
             return false;
         }
-        auto preview_control = zaf::As<MD5PreviewControl>(command.GetPreviewControl());
+        auto preview_control = zaf::As<HashPreviewControl>(command.GetPreviewControl());
         if (!preview_control) {
             return false;
         }

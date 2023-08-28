@@ -1,11 +1,11 @@
-#include "module/tool/md5/md5_preview_control.h"
+#include "module/tool/hash/hash_preview_control.h"
 #include <zaf/base/string/case_conversion.h>
 #include <zaf/object/type_definition.h>
 #include <zaf/rx/scheduler.h>
 #include "module/common/error_messages.h"
-#include "module/tool/md5/md5_calculating.h"
+#include "module/tool/hash/hash_calculating.h"
 
-namespace ra::mod::tool::md5 {
+namespace ra::mod::tool::hash {
 namespace {
 
 template<bool IsHistorical>
@@ -33,21 +33,27 @@ struct StyleMetrics<true> {
 
 }
 
-ZAF_DEFINE_TYPE(MD5PreviewControl)
-ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/tool/md5/md5_preview_control.xaml")
+ZAF_DEFINE_TYPE(HashPreviewControl)
+ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/tool/hash/hash_preview_control.xaml")
 ZAF_DEFINE_TYPE_END;
 
-void MD5PreviewControl::OnStyleChanged() {
+HashPreviewControl::HashPreviewControl(HashAlgorithmCreator hash_creator) : 
+	hash_algorithm_creator_(std::move(hash_creator)) {
+
+}
+
+
+void HashPreviewControl::OnStyleChanged() {
 
 	auto update_guard = BeginUpdate();
 
-	md5ResultControl->Display(Style());
+	hashResultControl->Display(Style());
 	errorView->ChangeStyle(Style());
 	AdjustControlStyles();
 }
 
 
-void MD5PreviewControl::AdjustControlStyles() {
+void HashPreviewControl::AdjustControlStyles() {
 
 	auto set_style = [this](auto metrics) {
 		progressCircle->SetPadding(metrics.ProgressCirclePadding());
@@ -65,11 +71,11 @@ void MD5PreviewControl::AdjustControlStyles() {
 }
 
 
-void MD5PreviewControl::ChangeLayout(LayoutType type) {
+void HashPreviewControl::ChangeLayout(LayoutType type) {
 
 	progressCircle->SetIsVisible(false);
 	errorView->SetIsVisible(false);
-	md5ResultControl->SetIsVisible(false);
+	hashResultControl->SetIsVisible(false);
 
 	switch (type) {
 	case LayoutType::Progress:
@@ -80,7 +86,7 @@ void MD5PreviewControl::ChangeLayout(LayoutType type) {
 		errorView->SetIsVisible(true);
 		break;
 	case LayoutType::Result:
-		md5ResultControl->SetIsVisible(true);
+		hashResultControl->SetIsVisible(true);
 		break;
 	default:
 		break;
@@ -88,35 +94,36 @@ void MD5PreviewControl::ChangeLayout(LayoutType type) {
 }
 
 
-void MD5PreviewControl::ShowMD5(const GeneralInput& input) {
+void HashPreviewControl::ShowHash(const GeneralInput& input) {
 
 	if (auto file_path = input.GetFile()) {
-		ShowFileMD5(*file_path);
+		ShowFileHash(*file_path);
 	}
 	else if (auto text = input.GetText()) {
-		ShowStringMD5(text->content, text->encoding);
+		ShowStringHash(text->content, text->encoding);
 	}
 }
 
 
-void MD5PreviewControl::ShowFileMD5(const std::filesystem::path& file_path) {
+void HashPreviewControl::ShowFileHash(const std::filesystem::path& file_path) {
 
 	contentStatusBar->ShowFile(file_path);
 	contentStatusBar->SetIconTooltip(L"Input is file");
 
 	ChangeLayout(LayoutType::Progress);
 
-	Subscriptions() += CalculateFileMD5(file_path).ObserveOn(zaf::Scheduler::Main()).Subscribe(
-		[this](const MD5Result& md5_result) {
+	Subscriptions() += CalculateFileHash(file_path, hash_algorithm_creator_)
+		.ObserveOn(zaf::Scheduler::Main())
+		.Subscribe([this](const HashResult& hash_result) {
 
-		if (md5_result.md5.empty()) {
+		if (hash_result.result.empty()) {
 
-			progressCircle->SetMaxValue(md5_result.total_size);
-			progressCircle->SetValue(md5_result.current_size);
+			progressCircle->SetMaxValue(hash_result.total_size);
+			progressCircle->SetValue(hash_result.current_size);
 		}
 		else {
 
-			SetMD5Text(md5_result.md5);
+			SetHashText(hash_result.result);
 			ChangeLayout(LayoutType::Result);
 		}
 	}, 
@@ -130,33 +137,33 @@ void MD5PreviewControl::ShowFileMD5(const std::filesystem::path& file_path) {
 }
 
 
-void MD5PreviewControl::ShowStringMD5(const std::wstring& string, TextEncoding encoding) {
+void HashPreviewControl::ShowStringHash(const std::wstring& string, TextEncoding encoding) {
 
 	contentStatusBar->ShowText(string, encoding);
 	contentStatusBar->SetIconTooltip(L"Input is text");
 	contentStatusBar->SetEncodingTooltip(
 		encoding == TextEncoding::UTF8 ? L"Input text is UTF-8" : L"Input text is UTF-16");
 
-	auto md5 = CalculateStringMD5(string, encoding);
-	SetMD5Text(md5);
+	auto hash = CalculateStringHash(string, encoding, hash_algorithm_creator_);
+	SetHashText(hash);
 
 	ChangeLayout(LayoutType::Result);
 }
 
 
-void MD5PreviewControl::SetMD5Text(const std::wstring& md5) {
+void HashPreviewControl::SetHashText(const std::wstring& hash) {
 
 	if (use_upper_case_) {
-		md5ResultControl->SetText(zaf::ToUppercased(md5));
+		hashResultControl->SetText(zaf::ToUppercased(hash));
 	}
 	else {
-		md5ResultControl->SetText(md5);
+		hashResultControl->SetText(hash);
 	}
 }
 
 
-std::wstring MD5PreviewControl::GetText() {
-	return md5ResultControl->Text();
+std::wstring HashPreviewControl::GetText() {
+	return hashResultControl->Text();
 }
 
 }

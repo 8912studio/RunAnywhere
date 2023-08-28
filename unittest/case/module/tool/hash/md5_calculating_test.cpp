@@ -1,10 +1,19 @@
 #include <gtest/gtest.h>
 #include <zaf/application.h>
 #include <zaf/base/string/case_conversion.h>
-#include "module/tool/md5/md5_calculating.h"
+#include <zaf/crypto/md5.h>
+#include "module/tool/hash/hash_calculating.h"
 
 using namespace ra::mod;
-using namespace ra::mod::tool::md5;
+using namespace ra::mod::tool::hash;
+
+namespace {
+
+zaf::crypto::HashAlgorithm MD5Creator() {
+	return zaf::crypto::MD5{};
+}
+
+}
 
 TEST(MD5CalculatingTest, File) {
 
@@ -30,10 +39,10 @@ TEST(MD5CalculatingTest, File) {
 		std::wstring md5;
 
 		zaf::Application::Instance().Subscriptions() += 
-			CalculateFileMD5(directory_path / each_item.file_name).Subscribe(
-			[&md5](const MD5Result& result) {
+			CalculateFileHash(directory_path / each_item.file_name, MD5Creator).Subscribe(
+			[&md5](const HashResult& result) {
 		
-				md5 = result.md5;
+				md5 = result.result;
 			}, 
 			[&cv, &lock]() {
 
@@ -51,9 +60,9 @@ TEST(MD5CalculatingTest, File) {
 
 TEST(MD5CalculatingTest, String) {
 
-	auto utf8_md5 = CalculateStringMD5(L"CalculateStringMD5", TextEncoding::UTF8);
+	auto utf8_md5 = CalculateStringHash(L"CalculateStringMD5", TextEncoding::UTF8, MD5Creator);
 	ASSERT_EQ(utf8_md5, zaf::ToLowercased(L"16135E49BA3E60456D5454B5B3E27B87"));
 
-	auto utf16_md5 = CalculateStringMD5(L"CalculateStringMD5", TextEncoding::UTF16);
+	auto utf16_md5 = CalculateStringHash(L"CalculateStringMD5", TextEncoding::UTF16, MD5Creator);
 	ASSERT_EQ(utf16_md5, zaf::ToLowercased(L"F51CA9CDF4560B2D4EDC81A8682450E2"));
 }

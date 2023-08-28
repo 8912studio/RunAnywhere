@@ -85,9 +85,6 @@
     <Filter Include="src\module\tool\rgb">
       <UniqueIdentifier>{6c3779b4-6f0b-48dc-823c-4c90a7c3766e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\module\tool\md5">
-      <UniqueIdentifier>{67348dfb-f40d-486e-8ee1-2d2fabc30f1e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\module\tool\hex">
       <UniqueIdentifier>{b232d39e-0af6-4ca9-afcf-8de43679104e}</UniqueIdentifier>
     </Filter>
@@ -117,6 +114,9 @@
     </Filter>
     <Filter Include="src\main\input">
       <UniqueIdentifier>{fb923485-d6d9-4864-adb8-e96e206bba61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\module\tool\hash">
+      <UniqueIdentifier>{213cfd8f-62bc-4d79-8668-d15947884bcd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -501,18 +501,6 @@
     <ClInclude Include="src\module\tool\rgb\rgb_preview_control.h">
       <Filter>src\module\tool\rgb</Filter>
     </ClInclude>
-    <ClInclude Include="src\module\tool\md5\md5_calculating.h">
-      <Filter>src\module\tool\md5</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\tool\md5\md5_command.h">
-      <Filter>src\module\tool\md5</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\tool\md5\md5_command_parse_result.h">
-      <Filter>src\module\tool\md5</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\tool\md5\md5_preview_control.h">
-      <Filter>src\module\tool\md5</Filter>
-    </ClInclude>
     <ClInclude Include="src\module\tool\hex\hex_command.h">
       <Filter>src\module\tool\hex</Filter>
     </ClInclude>
@@ -654,9 +642,6 @@
     <ClInclude Include="src\module\tool\date\date_time_unit.h">
       <Filter>src\module\tool\date</Filter>
     </ClInclude>
-    <ClInclude Include="src\module\tool\md5\md5_command_parsing.h">
-      <Filter>src\module\tool\md5</Filter>
-    </ClInclude>
     <ClInclude Include="src\module\tool\hex\hex_command_parsing.h">
       <Filter>src\module\tool\hex</Filter>
     </ClInclude>
@@ -707,6 +692,24 @@
     </ClInclude>
     <ClInclude Include="src\main\input\active_path_window.h">
       <Filter>src\main\input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\tool\hash\hash_calculating.h">
+      <Filter>src\module\tool\hash</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\tool\hash\hash_algorithm_creator.h">
+      <Filter>src\module\tool\hash</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\tool\hash\hash_preview_control.h">
+      <Filter>src\module\tool\hash</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\tool\hash\hash_command_parse_result.h">
+      <Filter>src\module\tool\hash</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\tool\hash\hash_command_parsing.h">
+      <Filter>src\module\tool\hash</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\tool\hash\md5_command.h">
+      <Filter>src\module\tool\hash</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -962,15 +965,6 @@
     <ClCompile Include="src\module\tool\rgb\rgb_preview_control.cpp">
       <Filter>src\module\tool\rgb</Filter>
     </ClCompile>
-    <ClCompile Include="src\module\tool\md5\md5_calculating.cpp">
-      <Filter>src\module\tool\md5</Filter>
-    </ClCompile>
-    <ClCompile Include="src\module\tool\md5\md5_command.cpp">
-      <Filter>src\module\tool\md5</Filter>
-    </ClCompile>
-    <ClCompile Include="src\module\tool\md5\md5_preview_control.cpp">
-      <Filter>src\module\tool\md5</Filter>
-    </ClCompile>
     <ClCompile Include="src\module\tool\hex\hex_command.cpp">
       <Filter>src\module\tool\hex</Filter>
     </ClCompile>
@@ -1091,9 +1085,6 @@
     <ClCompile Include="src\module\tool\date\date_time_unit.cpp">
       <Filter>src\module\tool\date</Filter>
     </ClCompile>
-    <ClCompile Include="src\module\tool\md5\md5_command_parsing.cpp">
-      <Filter>src\module\tool\md5</Filter>
-    </ClCompile>
     <ClCompile Include="src\module\tool\hex\hex_command_parsing.cpp">
       <Filter>src\module\tool\hex</Filter>
     </ClCompile>
@@ -1136,6 +1127,18 @@
     <ClCompile Include="src\main\input\active_path_window.cpp">
       <Filter>src\main\input</Filter>
     </ClCompile>
+    <ClCompile Include="src\module\tool\hash\hash_calculating.cpp">
+      <Filter>src\module\tool\hash</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\tool\hash\hash_preview_control.cpp">
+      <Filter>src\module\tool\hash</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\tool\hash\hash_command_parsing.cpp">
+      <Filter>src\module\tool\hash</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\tool\hash\md5_command.cpp">
+      <Filter>src\module\tool\hash</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Page Include="src\module\user_defined\preview\user_defined_command_preview_control.xaml">
@@ -1167,9 +1170,6 @@
     </Page>
     <Page Include="src\module\tool\rgb\rgb_preview_control.xaml">
       <Filter>src\module\tool\rgb</Filter>
-    </Page>
-    <Page Include="src\module\tool\md5\md5_preview_control.xaml">
-      <Filter>src\module\tool\md5</Filter>
     </Page>
     <Page Include="src\module\tool\hex\hex_preview_control.xaml">
       <Filter>src\module\tool\hex</Filter>
@@ -1212,6 +1212,9 @@
     </Page>
     <Page Include="src\main\input\active_path_window.xaml">
       <Filter>src\main\input</Filter>
+    </Page>
+    <Page Include="src\module\tool\hash\hash_preview_control.xaml">
+      <Filter>src\module\tool\hash</Filter>
     </Page>
   </ItemGroup>
   <ItemGroup>

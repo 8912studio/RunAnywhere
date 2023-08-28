@@ -43,9 +43,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="case\module\tool\md5\md5_test_file1" />
-    <None Include="case\module\tool\md5\md5_test_file2" />
-    <None Include="case\module\tool\md5\md5_test_file3" />
+    <None Include="case\module\tool\hash\md5_test_file1" />
+    <None Include="case\module\tool\hash\md5_test_file2" />
+    <None Include="case\module\tool\hash\md5_test_file3" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -76,12 +76,12 @@
     <ClCompile Include="case\module\tool\base64\base64_command_parsing_test.cpp" />
     <ClCompile Include="case\module\tool\date\date_command_parsing_test.cpp" />
     <ClCompile Include="case\module\tool\error\error_command_test.cpp" />
+    <ClCompile Include="case\module\tool\hash\md5_calculating_test.cpp" />
+    <ClCompile Include="case\module\tool\hash\hash_command_parsing_test.cpp" />
+    <ClCompile Include="case\module\tool\hash\md5_command_test.cpp" />
     <ClCompile Include="case\module\tool\hex\hex_command_parsing_test.cpp" />
     <ClCompile Include="case\module\tool\hex\hex_command_test.cpp" />
     <ClCompile Include="case\module\tool\hex\hex_preview_control_test.cpp" />
-    <ClCompile Include="case\module\tool\md5\md5_calculating_test.cpp" />
-    <ClCompile Include="case\module\tool\md5\md5_command_parsing_test.cpp" />
-    <ClCompile Include="case\module\tool\md5\md5_command_test.cpp" />
     <ClCompile Include="case\module\tool\rgb\rgb_command_test.cpp" />
     <ClCompile Include="case\module\tool\tool_module_test.cpp" />
     <ClCompile Include="case\module\user_defined\bundle_importer_test.cpp" />
