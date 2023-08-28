@@ -5,6 +5,7 @@
 #include "module/tool/date/date_command.h"
 #include "module/tool/error/error_command.h"
 #include "module/tool/hash/md5_command.h"
+#include "module/tool/hash/sha_command.h"
 #include "module/tool/hex/hex_command.h"
 #include "module/tool/rgb/rgb_command.h"
 #include "module/tool/text_transform/lower_transformer.h"
@@ -60,6 +61,7 @@ ToolModule::ToolModule() {
     command_infos_.push_back(CreateCommandInfo<date::DateCommand>());
     command_infos_.push_back(CreateCommandInfo<error::ErrorCommand>());
     command_infos_.push_back(CreateCommandInfo<hash::MD5Command>());
+    command_infos_.push_back(CreateCommandInfo<hash::SHACommand>());
     command_infos_.push_back(CreateCommandInfo<hex::HexCommand>());
     command_infos_.push_back(CreateCommandInfo<rgb::RGBCommand>());
     command_infos_.push_back(CreateTextTransformCommandInfo<text_transform::LowerTransformer>());

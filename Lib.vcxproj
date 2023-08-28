@@ -232,6 +232,9 @@
     <ClInclude Include="src\module\tool\hash\hash_command_parsing.h" />
     <ClInclude Include="src\module\tool\hash\hash_preview_control.h" />
     <ClInclude Include="src\module\tool\hash\md5_command.h" />
+    <ClInclude Include="src\module\tool\hash\sha_algorithm_type.h" />
+    <ClInclude Include="src\module\tool\hash\sha_command.h" />
+    <ClInclude Include="src\module\tool\hash\sha_algorithm_type_parsing.h" />
     <ClInclude Include="src\module\tool\hex\hex_command.h" />
     <ClInclude Include="src\module\tool\hex\hex_command_parse_result.h" />
     <ClInclude Include="src\module\tool\hex\hex_command_parsing.h" />
@@ -389,6 +392,8 @@
     <ClCompile Include="src\module\tool\hash\hash_command_parsing.cpp" />
     <ClCompile Include="src\module\tool\hash\hash_preview_control.cpp" />
     <ClCompile Include="src\module\tool\hash\md5_command.cpp" />
+    <ClCompile Include="src\module\tool\hash\sha_algorithm_type_parsing.cpp" />
+    <ClCompile Include="src\module\tool\hash\sha_command.cpp" />
     <ClCompile Include="src\module\tool\hex\hex_command.cpp" />
     <ClCompile Include="src\module\tool\hex\hex_command_parsing.cpp" />
     <ClCompile Include="src\module\tool\hex\hex_preview_control.cpp" />

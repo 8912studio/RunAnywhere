@@ -202,6 +202,12 @@
     <ClCompile Include="case\module\tool\hash\md5_command_test.cpp">
       <Filter>case\module\tool\hash</Filter>
     </ClCompile>
+    <ClCompile Include="case\module\tool\hash\sha_algorithm_type_parsing_test.cpp">
+      <Filter>case\module\tool\hash</Filter>
+    </ClCompile>
+    <ClCompile Include="case\module\tool\hash\sha_command_test.cpp">
+      <Filter>case\module\tool\hash</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="case\module\calculator\number_parser_test_utility.h">

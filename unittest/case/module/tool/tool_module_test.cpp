@@ -46,6 +46,21 @@ TEST(ToolModuleTest, CreateMD5Command) {
 }
 
 
+TEST(ToolModuleTest, CreateSHACommand) {
+
+	auto tool_module = std::make_shared<ToolModule>();
+
+	auto command = tool_module->CreateCommand(CommandLine{ L"sha" });
+	ASSERT_NE(command, nullptr);
+
+	command = tool_module->CreateCommand(CommandLine{ L"SHA" });
+	ASSERT_EQ(command, nullptr);
+
+	command = tool_module->CreateCommand(CommandLine{ L"Sha" });
+	ASSERT_EQ(command, nullptr);
+}
+
+
 TEST(ToolModuleTest, CreateRGBCommand) {
 
 	auto tool_module = std::make_shared<ToolModule>();
