@@ -14,6 +14,7 @@
 #include "module/common/error_view.h"
 #include "module/common/general_input.h"
 #include "module/common/text_encoding.h"
+#include "module/common/text_content_control.h"
 #include "module/tool/hash/hash_algorithm_creator.h"
 #include "utility/preview_text_box.h"
 #include "utility/progress_circle.h"
@@ -34,12 +35,15 @@ public:
 		use_upper_case_ = value;
 	}
 
+	zaf::Frame GetExpectedMargin() override;
+
 	//For unittest.
 	zaf::Observable<zaf::None> CalculateFinishedEvent() const {
 		return calculate_finished_event_.GetObservable();
 	}
 
 protected:
+	void AfterParse() override;
 	void OnStyleChanged() override;
 
 private:
@@ -60,7 +64,7 @@ private:
 	ZAF_BIND_CONTROL(ContentStatusBar, contentStatusBar);
 	ZAF_BIND_CONTROL(utility::ProgressCircle, progressCircle);
 	ZAF_BIND_CONTROL(ErrorView, errorView);
-	ZAF_BIND_CONTROL(utility::PreviewTextBox, hashResultControl);
+	ZAF_BIND_CONTROL(TextContentControl, hashResultControl);
 
 	HashAlgorithmCreator hash_algorithm_creator_;
 	bool use_upper_case_{};

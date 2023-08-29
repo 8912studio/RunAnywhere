@@ -13,7 +13,7 @@ struct StyleMetrics;
 
 template<>
 struct StyleMetrics<false> {
-	static constexpr float FixedHeight = 110;
+	static constexpr float FixedHeight = 120;
 	static constexpr auto ProgressCircleAlignment = zaf::AxisAlignment::Center;
 	static constexpr float ProgressCircleThickness = 7;
 	static zaf::Frame ProgressCirclePadding() {
@@ -43,11 +43,21 @@ HashPreviewControl::HashPreviewControl(HashAlgorithmCreator hash_creator) :
 }
 
 
+void HashPreviewControl::AfterParse() {
+
+	__super::AfterParse();
+
+	TextDisplayMode display_mode;
+	display_mode.use_fixed_width_font = true;
+	hashResultControl->SetDisplayMode(display_mode);
+}
+
+
 void HashPreviewControl::OnStyleChanged() {
 
 	auto update_guard = BeginUpdate();
 
-	hashResultControl->Display(Style());
+	hashResultControl->ChangeStyle(Style());
 	errorView->ChangeStyle(Style());
 	AdjustControlStyles();
 }
@@ -163,7 +173,12 @@ void HashPreviewControl::SetHashText(const std::wstring& hash) {
 
 
 std::wstring HashPreviewControl::GetText() {
-	return hashResultControl->Text();
+	return hashResultControl->GetText();
+}
+
+
+zaf::Frame HashPreviewControl::GetExpectedMargin() {
+	return {};
 }
 
 }

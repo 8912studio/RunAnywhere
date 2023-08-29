@@ -14,6 +14,9 @@ public:
     zaf::WordWrapping word_wrapping{ zaf::WordWrapping::NoWrap };
 };
 
+/**
+Min height for normal style: 90. 10 for horizontal srcoll bar.
+*/
 class TextContentControl : public zaf::Control {
 public:
     ZAF_DECLARE_TYPE;
