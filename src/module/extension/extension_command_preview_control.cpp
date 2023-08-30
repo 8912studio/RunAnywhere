@@ -39,7 +39,7 @@ void ExtensionCommandPreviewControl::SetText(const std::wstring& text) {
 void ExtensionCommandPreviewControl::ResetTextBoxHeight() {
 
     zaf::Size max_size{ 
-        scrollControl->Width() - scrollControl->ScrollBarThickness(),
+        scrollControl->Width() - scrollControl->VerticalScrollBarThickness(),
         std::numeric_limits<float>::max() 
     };
 

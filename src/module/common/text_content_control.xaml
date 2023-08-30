@@ -2,7 +2,8 @@
     <ScrollableControl 
         Name="scrollControl" 
         Border="0"
-        ScrollBarThickness="10">
+        VerticalScrollBarThickness="15"
+        HorizontalScrollBarThickness="10">
 
         <ScrollableControl.VerticalScrollBar>
             <ThinScrollBar />

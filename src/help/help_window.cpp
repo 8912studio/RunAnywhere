@@ -94,7 +94,7 @@ void HelpWindow::LayoutScrollButtonContainer() {
     container_position.x =
         content_rect.position.x + 
         content_rect.size.width - scrollButtonContainer->Width() - 
-        scrollable_control->ScrollBarThickness() - 
+        scrollable_control->VerticalScrollBarThickness() - 
         margin;
 
     container_position.y = margin;

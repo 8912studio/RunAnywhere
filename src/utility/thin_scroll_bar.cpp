@@ -15,8 +15,28 @@ protected:
             return;
         }
 
+        constexpr float PaintThickness = 6;
+
+        auto content_rect = ContentRect();
+
+        zaf::Rect paint_rect;
+        if (IsHorizontal()) {
+            paint_rect.position.x = content_rect.position.x;
+            paint_rect.position.y = 
+                content_rect.position.y + content_rect.size.height - PaintThickness;
+            paint_rect.size.width = content_rect.size.width;
+            paint_rect.size.height = PaintThickness;
+        }
+        else {
+            paint_rect.position.x = 
+                content_rect.position.x + content_rect.size.width - PaintThickness;
+            paint_rect.position.y = content_rect.position.y;
+            paint_rect.size.width = PaintThickness;
+            paint_rect.size.height = content_rect.size.height;
+        }
+
         canvas.DrawRoundedRectangle(
-            zaf::RoundedRect{ ContentRect(), 4, 4 }, 
+            zaf::RoundedRect{ paint_rect, 4, 4 },
             ThumbColor());
     }
 };
