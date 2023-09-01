@@ -13,17 +13,17 @@ struct StyleMetrics;
 
 template<>
 struct StyleMetrics<false> {
-	static constexpr float FixedHeight = 120;
+	static constexpr auto ProgressHeight = 90;
 	static constexpr auto ProgressCircleAlignment = zaf::AxisAlignment::Center;
 	static constexpr float ProgressCircleThickness = 7;
 	static zaf::Frame ProgressCirclePadding() {
-		return zaf::Frame{ 0, 14, 0, 14 };
+		return zaf::Frame{ 0, 20, 0, 20 };
 	}
 };
 
 template<>
 struct StyleMetrics<true> {
-	static constexpr float FixedHeight = 60;
+	static constexpr auto ProgressHeight = 28;
 	static constexpr auto ProgressCircleAlignment = zaf::AxisAlignment::Start;
 	static constexpr float ProgressCircleThickness = 3;
 	static zaf::Frame ProgressCirclePadding() {
@@ -49,6 +49,7 @@ void HashPreviewControl::AfterParse() {
 
 	TextDisplayMode display_mode;
 	display_mode.use_fixed_width_font = true;
+	display_mode.word_wrapping = zaf::WordWrapping::Character;
 	hashResultControl->SetDisplayMode(display_mode);
 }
 
@@ -66,10 +67,10 @@ void HashPreviewControl::OnStyleChanged() {
 void HashPreviewControl::AdjustControlStyles() {
 
 	auto set_style = [this](auto metrics) {
+		progressCircle->SetFixedHeight(metrics.ProgressHeight);
 		progressCircle->SetPadding(metrics.ProgressCirclePadding());
 		progressCircle->SetAxisAlignment(metrics.ProgressCircleAlignment);
 		progressCircle->SetThickness(metrics.ProgressCircleThickness);
-		this->SetFixedHeight(metrics.FixedHeight);
 	};
 
 	if (Style() == CommandDisplayStyle::Preserved) {

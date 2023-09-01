@@ -20,7 +20,7 @@ zaf::Frame NormalStylePadding() {
     return zaf::Frame{ 0, 4, 0, 0 };
 }
 
-constexpr float HistoricalStyleMinTextLayoutHeight = 24;
+constexpr float HistoricalStyleMinTextLayoutHeight = 28;
 constexpr std::size_t HistoricalStyleMaxShowLineCount = 2;
 
 zaf::Frame HistoricalStylePadding() {

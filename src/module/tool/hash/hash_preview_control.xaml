@@ -1,6 +1,11 @@
-<HashPreviewControl Layouter="VerticalLayouter" FixedHeight="120">
+<HashPreviewControl Layouter="VerticalLayouter" AutoHeight="true">
     <ContentStatusBar Name="contentStatusBar" Margin="15,0,15,0" />
     <TextContentControl Name="hashResultControl" Margin="15,0,0,0" IsVisible="false" />
-    <ProgressCircle Name="progressCircle" Margin="15,14,15,14" IsVisible="false" />
+    <ProgressCircle 
+        Name="progressCircle" 
+        FixedHeight="90" 
+        Padding="0,20,0,20" 
+        Margin="15,0,15,0" 
+        IsVisible="false" />
     <ErrorView Name="errorView" Margin="15,0,15,0" IsVisible="false" />
 </HashPreviewControl>
