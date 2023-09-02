@@ -67,6 +67,12 @@
     <Filter Include="case\module\tool\hash">
       <UniqueIdentifier>{5b062975-2ce3-444a-b73c-c39afac1b09e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="case\help">
+      <UniqueIdentifier>{5c47d535-bab0-477f-bb84-a3cc49584e3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="case\help\markdown">
+      <UniqueIdentifier>{5491b629-16fc-470e-acbd-13da6643d3cd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="case\module\calculator\decimal_number_parser_test.cpp">
@@ -207,6 +213,9 @@
     </ClCompile>
     <ClCompile Include="case\module\tool\hash\sha_command_test.cpp">
       <Filter>case\module\tool\hash</Filter>
+    </ClCompile>
+    <ClCompile Include="case\help\markdown\markdown_parser_test.cpp">
+      <Filter>case\help\markdown</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -19,6 +19,9 @@ public:
 	ParseReader& operator=(ParseReader&&);
 
 	wchar_t GetChar() const;
+
+	bool IsAtLineEnd() const;
+
 	bool Forward();
 	
 	void SkipWhiteSpaces();

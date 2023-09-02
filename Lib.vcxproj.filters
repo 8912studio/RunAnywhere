@@ -118,6 +118,9 @@
     <Filter Include="src\module\tool\hash">
       <UniqueIdentifier>{213cfd8f-62bc-4d79-8668-d15947884bcd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\help\markdown">
+      <UniqueIdentifier>{07873df4-bbd1-4420-a915-b1a1185cb1aa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\module\calculator\parse\binary_expression_parser.h">
@@ -723,6 +726,33 @@
     <ClInclude Include="src\module\tool\hash\sha_algorithm_type_parsing.h">
       <Filter>src\module\tool\hash</Filter>
     </ClInclude>
+    <ClInclude Include="src\help\markdown\code_block_parser.h">
+      <Filter>src\help\markdown</Filter>
+    </ClInclude>
+    <ClInclude Include="src\help\markdown\header_parser.h">
+      <Filter>src\help\markdown</Filter>
+    </ClInclude>
+    <ClInclude Include="src\help\markdown\inline_code_parser.h">
+      <Filter>src\help\markdown</Filter>
+    </ClInclude>
+    <ClInclude Include="src\help\markdown\markdown_parser.h">
+      <Filter>src\help\markdown</Filter>
+    </ClInclude>
+    <ClInclude Include="src\help\markdown\style.h">
+      <Filter>src\help\markdown</Filter>
+    </ClInclude>
+    <ClInclude Include="src\help\markdown\style_parser.h">
+      <Filter>src\help\markdown</Filter>
+    </ClInclude>
+    <ClInclude Include="src\help\markdown\style_span.h">
+      <Filter>src\help\markdown</Filter>
+    </ClInclude>
+    <ClInclude Include="src\help\markdown\styled_string.h">
+      <Filter>src\help\markdown</Filter>
+    </ClInclude>
+    <ClInclude Include="src\help\markdown\styled_string_builder.h">
+      <Filter>src\help\markdown</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -1159,6 +1189,21 @@
     </ClCompile>
     <ClCompile Include="src\module\tool\hash\sha_algorithm_type_parsing.cpp">
       <Filter>src\module\tool\hash</Filter>
+    </ClCompile>
+    <ClCompile Include="src\help\markdown\code_block_parser.cpp">
+      <Filter>src\help\markdown</Filter>
+    </ClCompile>
+    <ClCompile Include="src\help\markdown\header_parser.cpp">
+      <Filter>src\help\markdown</Filter>
+    </ClCompile>
+    <ClCompile Include="src\help\markdown\inline_code_parser.cpp">
+      <Filter>src\help\markdown</Filter>
+    </ClCompile>
+    <ClCompile Include="src\help\markdown\markdown_parser.cpp">
+      <Filter>src\help\markdown</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\markdown\styled_string_builder.cpp">
+      <Filter>src\help\markdown</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

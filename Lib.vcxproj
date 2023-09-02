@@ -115,6 +115,15 @@
     <ClInclude Include="src\help\help_content_control.h" />
     <ClInclude Include="src\help\help_window.h" />
     <ClInclude Include="src\help\content_layout_info.h" />
+    <ClInclude Include="src\help\markdown\code_block_parser.h" />
+    <ClInclude Include="src\help\markdown\header_parser.h" />
+    <ClInclude Include="src\help\markdown\inline_code_parser.h" />
+    <ClInclude Include="src\help\markdown\markdown_parser.h" />
+    <ClInclude Include="src\help\markdown\style.h" />
+    <ClInclude Include="src\help\markdown\styled_string.h" />
+    <ClInclude Include="src\help\markdown\styled_string_builder.h" />
+    <ClInclude Include="src\help\markdown\style_parser.h" />
+    <ClInclude Include="src\help\markdown\style_span.h" />
     <ClInclude Include="src\hot_key.h" />
     <ClInclude Include="src\hot_key_box.h" />
     <ClInclude Include="src\hot_key_manager.h" />
@@ -306,6 +315,10 @@
     <ClCompile Include="src\help\help_content_building.cpp" />
     <ClCompile Include="src\help\help_content_control.cpp" />
     <ClCompile Include="src\help\help_window.cpp" />
+    <ClCompile Include="src\help\markdown\code_block_parser.cpp" />
+    <ClCompile Include="src\help\markdown\header_parser.cpp" />
+    <ClCompile Include="src\help\markdown\inline_code_parser.cpp" />
+    <ClCompile Include="src\help\markdown\markdown_parser.cpp" />
     <ClCompile Include="src\hot_key_box.cpp" />
     <ClCompile Include="src\hot_key_manager.cpp" />
     <ClCompile Include="src\hot_key_utility.cpp" />
@@ -427,6 +440,7 @@
     <ClCompile Include="src\utility\data_directory.cpp" />
     <ClCompile Include="src\utility\general_number_interpreter.cpp" />
     <ClCompile Include="src\utility\link_button.cpp" />
+    <ClCompile Include="src\utility\markdown\styled_string_builder.cpp" />
     <ClCompile Include="src\utility\numeric_text_formatting.cpp" />
     <ClCompile Include="src\utility\path_trimming.cpp" />
     <ClCompile Include="src\utility\preview_text_box.cpp" />

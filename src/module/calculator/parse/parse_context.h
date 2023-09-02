@@ -29,6 +29,8 @@ public:
 
     std::optional<wchar_t> GetCharAtOffset(int offset) const;
 
+    bool IsAtLineStart() const;
+
     void Forward(std::size_t length);
 
     void SkipWhiteSpaces();
