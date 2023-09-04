@@ -6,17 +6,8 @@ using namespace ra::help::markdown;
 namespace {
 
 bool TestParse(std::wstring_view input, const StyledString& expected) {
-
-    ParseContext context(input);
-    StyledStringBuilder builder;
-
     MarkdownParser parser;
-    auto status = parser.Parse(context, builder);
-    if (status != ParseStatus::Ok) {
-        return false;
-    }
-
-    auto styled_string = builder.Build();
+    auto styled_string = parser.Parse(input);
     return styled_string == expected;
 }
 

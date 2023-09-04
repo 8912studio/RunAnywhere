@@ -17,6 +17,12 @@ public:
         string_.append(1, ch);
     }
 
+    void Append(std::wstring_view string) {
+        string_.append(string);
+    }
+
+    void Append(std::wstring_view string, StyleSpan style_span);
+
     StyledString Build();
 
 private:

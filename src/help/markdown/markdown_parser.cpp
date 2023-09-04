@@ -4,22 +4,23 @@
 
 namespace ra::help::markdown {
 
-ParseStatus MarkdownParser::Parse(
-    ParseContext& context, 
-    StyledStringBuilder& style_string_builder) {
+StyledString MarkdownParser::Parse(std::wstring_view input) {
+
+    ParseContext context(input);
+    StyledStringBuilder styled_string_builder;
 
     while (context.GetCurrentIndex() < context.GetLength()) {
 
-        bool is_succeeded = ParseNextStyle(context, style_string_builder);
+        bool is_succeeded = ParseNextStyle(context, styled_string_builder);
         if (is_succeeded) {
             continue;
         }
         
-        style_string_builder.Append(context.GetCurrentChar());
+        styled_string_builder.Append(context.GetCurrentChar());
         context.Forward(1);
     }
 
-    return ParseStatus::Ok;
+    return styled_string_builder.Build();
 }
 
 

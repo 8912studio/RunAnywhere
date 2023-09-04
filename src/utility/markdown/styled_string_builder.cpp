@@ -19,6 +19,18 @@ void StyledStringBuilder::BeginNewStyle(StyleType style_type) {
 }
 
 
+void StyledStringBuilder::Append(std::wstring_view string, StyleSpan style_span) {
+
+    ZAF_EXPECT(!style_stack_.empty());
+    ZAF_EXPECT(style_span.range.index == 0 && style_span.range.length == string.length());
+
+    string_.append(string);
+
+    auto& current_style_info = style_stack_.back();
+    current_style_info.style_span.interior_spans.push_back(std::move(style_span));
+}
+
+
 void StyledStringBuilder::CommitStyle() {
 
     ZAF_EXPECT(style_stack_.size() > 1);

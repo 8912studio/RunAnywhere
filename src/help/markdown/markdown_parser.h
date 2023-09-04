@@ -1,13 +1,14 @@
 #pragma once
 
-#include <string>
+#include <string_view>
 #include "help/markdown/style_parser.h"
+#include "help/markdown/styled_string.h"
 
 namespace ra::help::markdown {
 
-class MarkdownParser : public StyleParser {
+class MarkdownParser {
 public:
-    ParseStatus Parse(ParseContext& context, StyledStringBuilder& style_string_builder) override;
+    StyledString Parse(std::wstring_view input);
 
 private:
     bool ParseNextStyle(ParseContext& context, StyledStringBuilder& style_string_builder);
