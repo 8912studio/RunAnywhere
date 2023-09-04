@@ -1,5 +1,6 @@
 #include "help/markdown/markdown_parser.h"
 #include "help/markdown/header_parser.h"
+#include "help/markdown/inline_code_parser.h"
 
 namespace ra::help::markdown {
 
@@ -26,10 +27,9 @@ bool MarkdownParser::ParseNextStyle(
     ParseContext& context, 
     StyledStringBuilder& style_string_builder) {
 
-    HeaderParser header_parser;
-
     auto parsers = {
-        &header_parser
+        HeaderParser::Instance(),
+        InlineCodeParser::Instance(),
     };
 
     for (auto each_parser : parsers) {

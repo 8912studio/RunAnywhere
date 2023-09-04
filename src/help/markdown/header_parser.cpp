@@ -2,6 +2,12 @@
 
 namespace ra::help::markdown {
 
+StyleParser* HeaderParser::Instance() {
+    static HeaderParser instance;
+    return &instance;
+}
+
+
 ParseStatus HeaderParser::Parse(ParseContext& context, StyledStringBuilder& style_string_builder) {
 
     if (!context.IsAtLineStart()) {
@@ -33,7 +39,8 @@ ParseStatus HeaderParser::Parse(ParseContext& context, StyledStringBuilder& styl
         return ParseStatus::Mismatched;
     }
 
-    style_string_builder.BeginNewStyle(StyleType::Header1);
+    StyleType style_type = StyleType(std::size_t(StyleType::Header1) + hash_count - 1);
+    style_string_builder.BeginNewStyle(style_type);
 
     do {
         style_string_builder.Append(reader.GetChar());

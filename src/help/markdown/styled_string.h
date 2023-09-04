@@ -25,6 +25,8 @@ public:
         return root_style_span_;
     }
 
+    friend bool operator==(const StyledString&, const StyledString&) = default;
+
 private:
     std::wstring string_;
     StyleSpan root_style_span_;

@@ -16,6 +16,8 @@ enum class StyleType {
 class Style {
 public:
     StyleType type{ StyleType::Normal };
+
+    friend auto operator<=>(const Style&, const Style&) = default;
 };
 
 }
