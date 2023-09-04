@@ -1,5 +1,6 @@
 #pragma once
 
+#include <optional>
 #include <string_view>
 #include "help/markdown/style_parser.h"
 #include "help/markdown/styled_string.h"
@@ -11,7 +12,7 @@ public:
     StyledString Parse(std::wstring_view input);
 
 private:
-    bool ParseNextStyle(ParseContext& context, StyledStringBuilder& style_string_builder);
+    std::optional<std::pair<std::wstring, StyleSpan>> ParseNextStyle(ParseContext& context);
 };
 
 }

@@ -2,7 +2,6 @@
 
 #include <zaf/base/non_copyable.h>
 #include "help/markdown/style_span.h"
-#include "help/markdown/styled_string.h"
 
 namespace ra::help::markdown {
 
@@ -23,7 +22,7 @@ public:
 
     void Append(std::wstring_view string, StyleSpan style_span);
 
-    StyledString Build();
+    std::pair<std::wstring, StyleSpan> BuildIntermediate();
 
 private:
     class NewStyleInfo {

@@ -753,6 +753,9 @@
     <ClInclude Include="src\help\markdown\styled_string_builder.h">
       <Filter>src\help\markdown</Filter>
     </ClInclude>
+    <ClInclude Include="src\help\markdown\plain_string_builder.h">
+      <Filter>src\help\markdown</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -1202,7 +1205,10 @@
     <ClCompile Include="src\help\markdown\markdown_parser.cpp">
       <Filter>src\help\markdown</Filter>
     </ClCompile>
-    <ClCompile Include="src\utility\markdown\styled_string_builder.cpp">
+    <ClCompile Include="src\help\markdown\plain_string_builder.cpp">
+      <Filter>src\help\markdown</Filter>
+    </ClCompile>
+    <ClCompile Include="src\help\markdown\styled_string_builder.cpp">
       <Filter>src\help\markdown</Filter>
     </ClCompile>
   </ItemGroup>

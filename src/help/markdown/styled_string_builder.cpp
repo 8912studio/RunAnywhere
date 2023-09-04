@@ -24,10 +24,12 @@ void StyledStringBuilder::Append(std::wstring_view string, StyleSpan style_span)
     ZAF_EXPECT(!style_stack_.empty());
     ZAF_EXPECT(style_span.range.index == 0 && style_span.range.length == string.length());
 
-    string_.append(string);
-
     auto& current_style_info = style_stack_.back();
+
+    style_span.range.index = string_.length() - current_style_info.absolute_index;
     current_style_info.style_span.interior_spans.push_back(std::move(style_span));
+
+    string_.append(string);
 }
 
 
@@ -47,14 +49,14 @@ void StyledStringBuilder::CommitStyle() {
 }
 
 
-StyledString StyledStringBuilder::Build() {
+std::pair<std::wstring, StyleSpan> StyledStringBuilder::BuildIntermediate() {
 
     ZAF_EXPECT(style_stack_.size() == 1);
 
     auto root_style_info = std::move(style_stack_.back());
     root_style_info.style_span.range.length = string_.length();
 
-    return StyledString{ std::move(string_), std::move(root_style_info.style_span) };
+    return std::make_pair(std::move(string_), std::move(root_style_info.style_span));
 }
 
 }
