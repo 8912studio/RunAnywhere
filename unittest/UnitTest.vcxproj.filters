@@ -73,6 +73,9 @@
     <Filter Include="case\help\markdown">
       <UniqueIdentifier>{5491b629-16fc-470e-acbd-13da6643d3cd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="case\help\markdown\parse">
+      <UniqueIdentifier>{4726aa79-1822-432f-aba6-de91583582a4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="case\module\calculator\decimal_number_parser_test.cpp">
@@ -214,8 +217,11 @@
     <ClCompile Include="case\module\tool\hash\sha_command_test.cpp">
       <Filter>case\module\tool\hash</Filter>
     </ClCompile>
-    <ClCompile Include="case\help\markdown\markdown_parser_test.cpp">
-      <Filter>case\help\markdown</Filter>
+    <ClCompile Include="case\help\markdown\parse\header_parser_test.cpp">
+      <Filter>case\help\markdown\parse</Filter>
+    </ClCompile>
+    <ClCompile Include="case\help\markdown\parse\inline_code_parser_test.cpp">
+      <Filter>case\help\markdown\parse</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

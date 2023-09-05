@@ -4,7 +4,7 @@
 
 namespace ra::help::markdown::parse {
 
-class HeaderParser : public ElementParser {
+class InlineCodeParser : public ElementParser {
 public:
     static ElementParser* Instance();
 
@@ -12,7 +12,7 @@ public:
     std::shared_ptr<element::Element> Parse(ParseContext& context) override;
 
 private:
-    HeaderParser() = default;
+    InlineCodeParser() = default;
 };
 
 }

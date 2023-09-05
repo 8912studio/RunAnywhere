@@ -25,6 +25,7 @@ public:
 	bool Forward();
 	
 	void SkipWhiteSpaces();
+	void SkipSpaces();
 
 	void Discard();
 

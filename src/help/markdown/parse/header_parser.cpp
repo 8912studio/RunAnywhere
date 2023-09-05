@@ -1,8 +1,10 @@
 #include "help/markdown/parse/header_parser.h"
+#include <zaf/base/string/trim.h>
+#include "help/markdown/element/header_element.h"
 
 namespace ra::help::markdown::parse {
 
-HeaderParser* HeaderParser::Instance() {
+ElementParser* HeaderParser::Instance() {
     static HeaderParser instance;
     return &instance;
 }
@@ -10,12 +12,13 @@ HeaderParser* HeaderParser::Instance() {
 
 std::shared_ptr<element::Element> HeaderParser::Parse(ParseContext& context) {
 
-    /*
     if (!context.IsAtLineStart()) {
         return nullptr;
     }
 
     auto reader = context.BeginRead();
+
+    reader.SkipSpaces();
 
     std::size_t hash_count{};
     while (reader.GetChar() == L'#') {
@@ -25,39 +28,51 @@ std::shared_ptr<element::Element> HeaderParser::Parse(ParseContext& context) {
 
     if (hash_count == 0 || hash_count > 3) {
         reader.Discard();
-        return ParseStatus::Mismatched;
+        return nullptr;
     }
 
     if (reader.GetChar() != L' ') {
         reader.Discard();
-        return ParseStatus::Mismatched;
+        return nullptr;
     }
 
     reader.Forward();
 
     if (reader.IsAtLineEnd()) {
         reader.Discard();
-        return ParseStatus::Mismatched;
+        return nullptr;
     }
 
-    StyleType style_type = StyleType(std::size_t(StyleType::Header1) + hash_count - 1);
-    style_string_builder.BeginNewStyle(style_type);
-
-    PlainStringBuilder plain_string_builder;
-    plain_string_builder.SetIsFirstPart(true);
-
+    std::wstring content;
     do {
-        plain_string_builder.Append(reader.GetChar());
+        content.append(1, reader.GetChar());
         reader.Forward();
-    } while (!reader.IsAtLineEnd());
+    } 
+    while (!reader.IsAtLineEnd());
 
-    auto plain_string = plain_string_builder.Build(true);
-    ZAF_EXPECT(!plain_string.empty());
+    //Trim spaces
+    zaf::Trim(content);
 
-    style_string_builder.Append(plain_string);
-    style_string_builder.CommitStyle();
-    return ParseStatus::Ok;
-    */
+    //Remove tailing hashes
+    auto last_not_hash_index = content.find_last_not_of(L'#');
+    if (last_not_hash_index == std::wstring::npos) {
+        reader.Discard();
+        return nullptr;
+    }
+
+    content.erase(last_not_hash_index + 1);
+    //Trim spaces again.
+    zaf::Trim(content);
+
+    if (content.empty()) {
+        reader.Discard();
+        return nullptr;
+    }
+
+    auto depth = element::HeaderDepth(std::size_t(element::HeaderDepth::_1) + hash_count - 1);
+    return std::make_shared<element::HeaderElement>(depth, element::ElementList{
+        std::make_shared<element::Element>(std::move(content))
+    });
 }
 
 }

@@ -51,7 +51,8 @@
   <ItemGroup>
     <ClCompile Include="case\context\discover\window_based_discoverer_test.cpp" />
     <ClCompile Include="case\environment_variable_manager_test.cpp" />
-    <ClCompile Include="case\help\markdown\markdown_parser_test.cpp" />
+    <ClCompile Include="case\help\markdown\parse\header_parser_test.cpp" />
+    <ClCompile Include="case\help\markdown\parse\inline_code_parser_test.cpp" />
     <ClCompile Include="case\main\clipboard_data_test.cpp" />
     <ClCompile Include="case\module\active_path\active_path_modifying_test.cpp" />
     <ClCompile Include="case\module\active_path\active_path_module_test.cpp" />

@@ -79,6 +79,18 @@ void ParseReader::SkipWhiteSpaces() {
 }
 
 
+void ParseReader::SkipSpaces() {
+
+	do {
+
+		if (GetChar() != L' ') {
+			break;
+		}
+	}
+	while (Forward());
+}
+
+
 void ParseReader::Discard() {
 
 	context_ = nullptr;
