@@ -750,6 +750,15 @@
     <ClInclude Include="src\help\markdown\parse\inline_code_parser.h">
       <Filter>src\help\markdown\parse</Filter>
     </ClInclude>
+    <ClInclude Include="src\help\markdown\element\header_element.h">
+      <Filter>src\help\markdown\element</Filter>
+    </ClInclude>
+    <ClInclude Include="src\help\markdown\parse\paragraph_parser.h">
+      <Filter>src\help\markdown\parse</Filter>
+    </ClInclude>
+    <ClInclude Include="src\help\markdown\parse\span_element_parser.h">
+      <Filter>src\help\markdown\parse</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -1194,6 +1203,12 @@
       <Filter>src\help\markdown\parse</Filter>
     </ClCompile>
     <ClCompile Include="src\help\markdown\parse\inline_code_parser.cpp">
+      <Filter>src\help\markdown\parse</Filter>
+    </ClCompile>
+    <ClCompile Include="src\help\markdown\parse\paragraph_parser.cpp">
+      <Filter>src\help\markdown\parse</Filter>
+    </ClCompile>
+    <ClCompile Include="src\help\markdown\parse\span_element_parser.cpp">
       <Filter>src\help\markdown\parse</Filter>
     </ClCompile>
   </ItemGroup>

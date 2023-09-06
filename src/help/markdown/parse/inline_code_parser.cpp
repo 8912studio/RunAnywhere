@@ -20,6 +20,7 @@ std::shared_ptr<element::Element> InlineCodeParser::Parse(ParseContext& context)
     std::wstring content;
     while (reader.GetChar() != L'`' && !reader.IsAtLineEnd()) {
         content.append(1, reader.GetChar());
+        reader.Forward();
     }
 
     if (content.empty()) {
