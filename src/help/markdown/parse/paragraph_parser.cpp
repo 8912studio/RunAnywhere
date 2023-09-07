@@ -1,5 +1,7 @@
 #include "help/markdown/parse/paragraph_parser.h"
 #include <zaf/base/range.h>
+#include <zaf/base/string/trim.h>
+#include "help/markdown/element/factory.h"
 #include "help/markdown/parse/span_element_parser.h"
 
 namespace ra::help::markdown::parse {
@@ -47,12 +49,10 @@ std::shared_ptr<element::Element> ParagraphParser::Parse(ParseContext& context) 
 
     auto& last_line = line_infos.back();
     if (!last_line.tailing_text.empty()) {
-        elements.push_back(std::make_shared<element::Element>(std::move(last_line.tailing_text)));
+        elements.push_back(element::MakeText(std::move(last_line.tailing_text)));
     }
 
-    return std::make_shared<element::Element>(
-        element::ElementType::Paragraph,
-        std::move(elements));
+    return element::MakeParagraph(std::move(elements));
 }
 
 
@@ -67,14 +67,19 @@ ParagraphParser::LineInfo ParagraphParser::ParseOneLine(ParseContext& context) {
         if (span_element) {
 
             if (!text_piece.empty()) {
+
                 //This is the heading text.
                 if (result.elements.empty()) {
-                    result.heading_text = std::move(text_piece);
+
+                    zaf::TrimStart(text_piece);
+                    if (!text_piece.empty()) {
+                        result.heading_text = std::move(text_piece);
+                    }
                 }
                 //The is the middle text.
                 else {
-                    result.elements.push_back(
-                        std::make_shared<element::Element>(std::move(text_piece)));
+
+                    result.elements.push_back(element::MakeText(std::move(text_piece)));
                 }
             }
 
@@ -94,23 +99,25 @@ ParagraphParser::LineInfo ParagraphParser::ParseOneLine(ParseContext& context) {
         std::size_t tailing_space_count{};
         auto last_not_space_index = text_piece.find_last_not_of(L' ');
         if (last_not_space_index != std::wstring::npos) {
-
             tailing_space_count = text_piece.length() - (last_not_space_index + 1);
-            text_piece.erase(last_not_space_index + 1);
         }
         else {
-
             tailing_space_count = text_piece.length();
-            text_piece.clear();
         }
 
         if (tailing_space_count >= 2) {
             result.has_tailing_spaces = true;
         }
 
+        zaf::TrimEnd(text_piece);
         if (!text_piece.empty()) {
+
             if (result.elements.empty()) {
-                result.heading_text = std::move(text_piece);
+
+                zaf::TrimStart(text_piece);
+                if (!text_piece.empty()) {
+                    result.heading_text = std::move(text_piece);
+                }
             }
             else {
                 result.tailing_text = std::move(text_piece);
@@ -139,7 +146,7 @@ void ParagraphParser::MergeLineInfo(
         }
         merged_text.append(current_line.heading_text);
 
-        head_element = std::make_shared<element::Element>(std::move(merged_text));
+        head_element = element::MakeText(std::move(merged_text));
     }
     else {
 
@@ -147,9 +154,8 @@ void ParagraphParser::MergeLineInfo(
         if (current_line.elements.empty()) {
             current_line.tailing_text = std::move(current_line.heading_text);
         }
-        else {
-            head_element = 
-                std::make_shared<element::Element>(std::move(current_line.heading_text));
+        else if (!current_line.heading_text.empty()) {
+            head_element = element::MakeText(std::move(current_line.heading_text));
         }
     }
 

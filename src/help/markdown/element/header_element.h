@@ -12,15 +12,13 @@ enum class HeaderDepth {
 
 class HeaderElement : public Element {
 public:
-    HeaderElement(HeaderDepth depth, ElementList children) : 
-        Element(ElementType::Header, std::move(children)),
-        depth_(depth) {
-
-    }
+    HeaderElement(HeaderDepth depth, ElementList children);
 
     HeaderDepth Depth() const {
         return depth_;
     }
+
+    bool IsEqualTo(const Element& other) const override;
 
 private:
     HeaderDepth depth_{ HeaderDepth::_1 };

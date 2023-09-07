@@ -4,7 +4,6 @@
 #include <string>
 #include <variant>
 #include <vector>
-#include <zaf/base/error/check.h>
 #include <zaf/base/non_copyable.h>
 #include "help/markdown/element/element_type.h"
 
@@ -16,14 +15,10 @@ using ElementList = std::vector<std::shared_ptr<Element>>;
 class Element : zaf::NonCopyableNonMovable {
 public:
     //Construct a text element.
-    explicit Element(std::wstring text) : type_(ElementType::Text), data_(std::move(text)) {
-
-    }
+    explicit Element(std::wstring text);
 
     //Construct an element with children.
-    Element(ElementType type, ElementList children) : type_(type), data_(std::move(children)) {
-        ZAF_EXPECT(type_ != ElementType::Text);
-    }
+    Element(ElementType type, ElementList children);
 
     virtual ~Element() = default;
 
@@ -42,6 +37,8 @@ public:
     const ElementList& Children() const {
         return std::get<ElementList>(data_);
     }
+
+    virtual bool IsEqualTo(const Element& other) const;
 
 private:
     ElementType type_;

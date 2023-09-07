@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include <zaf/base/as.h>
+#include "help/markdown/element/factory.h"
 #include "help/markdown/element/header_element.h"
 #include "help/markdown/parse/header_parser.h"
 
@@ -8,75 +9,29 @@ using namespace ra::help::markdown::parse;
 
 TEST(HeaderParserTest, Parse) {
 
-    {
-        ParseContext context(L"# header1");
-        auto element = zaf::As<HeaderElement>(HeaderParser::Instance()->Parse(context));
-        ASSERT_NE(element, nullptr);
-        ASSERT_EQ(element->Depth(), HeaderDepth::_1);
-        ASSERT_EQ(element->Children().size(), 1);
-        ASSERT_TRUE(element->Children().front()->IsTextElement());
-        ASSERT_EQ(element->Children().front()->Text(), L"header1");
-    }
+    auto test = [](std::wstring_view input, HeaderDepth depth, ElementList expected) {
+        ParseContext context(input);
+        auto element = HeaderParser::Instance()->Parse(context);
+        if (!element) {
+            return false;
+        }
+        return element->IsEqualTo(*MakeHeader(depth, std::move(expected)));
+    };
 
-    {
-        ParseContext context(L"## header2");
-        auto element = zaf::As<HeaderElement>(HeaderParser::Instance()->Parse(context));
-        ASSERT_NE(element, nullptr);
-        ASSERT_EQ(element->Depth(), HeaderDepth::_2);
-        ASSERT_EQ(element->Children().size(), 1);
-        ASSERT_TRUE(element->Children().front()->IsTextElement());
-        ASSERT_EQ(element->Children().front()->Text(), L"header2");
-    }
+    ASSERT_TRUE(test(L"# header1", HeaderDepth::_1, { MakeText(L"header1") }));
+    ASSERT_TRUE(test(L"## header2", HeaderDepth::_2, { MakeText(L"header2") }));
+    ASSERT_TRUE(test(L"### header3", HeaderDepth::_3, { MakeText(L"header3") }));
+    ASSERT_TRUE(test(
+        L"  ##   header head   er  ", 
+        HeaderDepth::_2, 
+        { MakeText(L"header head   er") }));
+    ASSERT_TRUE(test(L"## header  #  #####", HeaderDepth::_2, { MakeText(L"header  #") }));
+    ASSERT_TRUE(test(L"## header  #  #   ", HeaderDepth::_2, { MakeText(L"header  #") }));
+    ASSERT_TRUE(test(L"# header\n", HeaderDepth::_1, { MakeText(L"header") }));
+}
 
-    {
-        ParseContext context(L"### header3");
-        auto element = zaf::As<HeaderElement>(HeaderParser::Instance()->Parse(context));
-        ASSERT_NE(element, nullptr);
-        ASSERT_EQ(element->Depth(), HeaderDepth::_3);
-        ASSERT_EQ(element->Children().size(), 1);
-        ASSERT_TRUE(element->Children().front()->IsTextElement());
-        ASSERT_EQ(element->Children().front()->Text(), L"header3");
-    }
 
-    {
-        ParseContext context(L"  ##   header head   er  ");
-        auto element = zaf::As<HeaderElement>(HeaderParser::Instance()->Parse(context));
-        ASSERT_NE(element, nullptr);
-        ASSERT_EQ(element->Depth(), HeaderDepth::_2);
-        ASSERT_EQ(element->Children().size(), 1);
-        ASSERT_TRUE(element->Children().front()->IsTextElement());
-        ASSERT_EQ(element->Children().front()->Text(), L"header head   er");
-    }
-
-    {
-        ParseContext context(L"## header  #  #####");
-        auto element = zaf::As<HeaderElement>(HeaderParser::Instance()->Parse(context));
-        ASSERT_NE(element, nullptr);
-        ASSERT_EQ(element->Depth(), HeaderDepth::_2);
-        ASSERT_EQ(element->Children().size(), 1);
-        ASSERT_TRUE(element->Children().front()->IsTextElement());
-        ASSERT_EQ(element->Children().front()->Text(), L"header  #");
-    }
-
-    {
-        ParseContext context(L"## header  #  #   ");
-        auto element = zaf::As<HeaderElement>(HeaderParser::Instance()->Parse(context));
-        ASSERT_NE(element, nullptr);
-        ASSERT_EQ(element->Depth(), HeaderDepth::_2);
-        ASSERT_EQ(element->Children().size(), 1);
-        ASSERT_TRUE(element->Children().front()->IsTextElement());
-        ASSERT_EQ(element->Children().front()->Text(), L"header  #");
-    }
-
-    {
-        ParseContext context(L"# header\n");
-        auto element = zaf::As<HeaderElement>(HeaderParser::Instance()->Parse(context));
-        ASSERT_NE(element, nullptr);
-        ASSERT_EQ(element->Depth(), HeaderDepth::_1);
-        ASSERT_EQ(element->Children().size(), 1);
-        ASSERT_TRUE(element->Children().front()->IsTextElement());
-        ASSERT_EQ(element->Children().front()->Text(), L"header");
-    }
+TEST(HeaderParserTest, ContextIndex) {
 
     {
         ParseContext context(L"#");

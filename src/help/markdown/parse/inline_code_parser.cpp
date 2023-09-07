@@ -1,4 +1,5 @@
 #include "help/markdown/parse/inline_code_parser.h"
+#include "help/markdown/element/factory.h"
 
 namespace ra::help::markdown::parse {
 
@@ -35,12 +36,7 @@ std::shared_ptr<element::Element> InlineCodeParser::Parse(ParseContext& context)
 
     reader.Forward();
 
-    return std::make_shared<element::Element>(
-        element::ElementType::InlineCode, 
-        element::ElementList{
-    
-        std::make_shared<element::Element>(std::move(content))
-    });
+    return element::MakeInlineCode(std::move(content));
 }
 
 }

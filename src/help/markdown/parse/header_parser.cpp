@@ -1,6 +1,6 @@
 #include "help/markdown/parse/header_parser.h"
 #include <zaf/base/string/trim.h>
-#include "help/markdown/element/header_element.h"
+#include "help/markdown/element/factory.h"
 
 namespace ra::help::markdown::parse {
 
@@ -70,8 +70,8 @@ std::shared_ptr<element::Element> HeaderParser::Parse(ParseContext& context) {
     }
 
     auto depth = element::HeaderDepth(std::size_t(element::HeaderDepth::_1) + hash_count - 1);
-    return std::make_shared<element::HeaderElement>(depth, element::ElementList{
-        std::make_shared<element::Element>(std::move(content))
+    return element::MakeHeader(depth, {
+        element::MakeText(std::move(content)),
     });
 }
 

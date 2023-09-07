@@ -732,9 +732,6 @@
     <ClInclude Include="src\module\tool\hash\sha_algorithm_type_parsing.h">
       <Filter>src\module\tool\hash</Filter>
     </ClInclude>
-    <ClInclude Include="src\help\markdown\markdown_parser.h">
-      <Filter>src\help\markdown</Filter>
-    </ClInclude>
     <ClInclude Include="src\help\markdown\element\element.h">
       <Filter>src\help\markdown\element</Filter>
     </ClInclude>
@@ -758,6 +755,15 @@
     </ClInclude>
     <ClInclude Include="src\help\markdown\parse\span_element_parser.h">
       <Filter>src\help\markdown\parse</Filter>
+    </ClInclude>
+    <ClInclude Include="src\help\markdown\parse\markdown_parser.h">
+      <Filter>src\help\markdown\parse</Filter>
+    </ClInclude>
+    <ClInclude Include="src\help\markdown\parse\block_element_parser.h">
+      <Filter>src\help\markdown\parse</Filter>
+    </ClInclude>
+    <ClInclude Include="src\help\markdown\element\factory.h">
+      <Filter>src\help\markdown\element</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1196,9 +1202,6 @@
     <ClCompile Include="src\module\tool\hash\sha_algorithm_type_parsing.cpp">
       <Filter>src\module\tool\hash</Filter>
     </ClCompile>
-    <ClCompile Include="src\help\markdown\markdown_parser.cpp">
-      <Filter>src\help\markdown</Filter>
-    </ClCompile>
     <ClCompile Include="src\help\markdown\parse\header_parser.cpp">
       <Filter>src\help\markdown\parse</Filter>
     </ClCompile>
@@ -1210,6 +1213,18 @@
     </ClCompile>
     <ClCompile Include="src\help\markdown\parse\span_element_parser.cpp">
       <Filter>src\help\markdown\parse</Filter>
+    </ClCompile>
+    <ClCompile Include="src\help\markdown\parse\markdown_parser.cpp">
+      <Filter>src\help\markdown\parse</Filter>
+    </ClCompile>
+    <ClCompile Include="src\help\markdown\parse\block_element_parser.cpp">
+      <Filter>src\help\markdown\parse</Filter>
+    </ClCompile>
+    <ClCompile Include="src\help\markdown\element\element.cpp">
+      <Filter>src\help\markdown\element</Filter>
+    </ClCompile>
+    <ClCompile Include="src\help\markdown\element\header_element.cpp">
+      <Filter>src\help\markdown\element</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

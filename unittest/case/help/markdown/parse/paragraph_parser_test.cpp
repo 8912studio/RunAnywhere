@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
 #include <zaf/base/range.h>
+#include "help/markdown/element/factory.h"
 #include "help/markdown/parse/paragraph_parser.h"
 
 using namespace ra::help::markdown::element;
@@ -13,34 +14,38 @@ TEST(ParagraphParserTest, Failure) {
 }
 
 
-TEST(ParagraphParserTest, ParseTextOnly) {
+TEST(ParagraphParserTest, Success) {
 
-    auto test = [](std::wstring_view input, const std::vector<std::wstring_view>& expected) {
+    auto test = [](std::wstring_view input, ElementList expected) {
         ParseContext context(input);
         auto element = ParagraphParser::Instance()->Parse(context);
         if (!element) {
             return false;
         }
-        if (element->Type() != ElementType::Paragraph) {
-            return false;
-        }
-        if (element->Children().size() != expected.size()) {
-            return false;
-        }
-        for (auto index : zaf::Range(0, expected.size())) {
-            if (!element->Children()[index]->IsTextElement()) {
-                return false;
-            }
-            if (element->Children()[index]->Text() != expected[index]) {
-                return false;
-            }
-        }
-        return true;
+        return element->IsEqualTo(*MakeParagraph(std::move(expected)));
     };
 
-    ASSERT_TRUE(test(L"single line paragraph", { L"single line paragraph" }));
-    ASSERT_TRUE(test(L"line1\nline2", { L"line1 line2" }));
-    ASSERT_TRUE(test(L"line1\nline2\n", { L"line1 line2" }));
-    ASSERT_TRUE(test(L"line1 \nline2", { L"line1 line2" }));
-    ASSERT_TRUE(test(L"line1 \n line2", { L"line1 line2" }));
+    ASSERT_TRUE(test(L"single line paragraph", { MakeText(L"single line paragraph") }));
+    ASSERT_TRUE(test(L"line1\nline2", { MakeText(L"line1 line2") }));
+    ASSERT_TRUE(test(L"line1\nline2\n", { MakeText(L"line1 line2") }));
+    ASSERT_TRUE(test(L"line1 \nline2", { MakeText(L"line1 line2") }));
+    ASSERT_TRUE(test(L"line1 \n line2", { MakeText(L"line1 line2") }));
+    ASSERT_TRUE(test(L"line1  \nline2", { MakeText(L"line1\nline2") }));
+    ASSERT_TRUE(test(L"line1   \n line2", { MakeText(L"line1\nline2") }));
+
+    ASSERT_TRUE(test(L"`code`", { MakeInlineCode(L"code") }));
+    ASSERT_TRUE(test(L" `code`  ", { MakeInlineCode(L"code") }));
+    ASSERT_TRUE(test(L"`code`\ntext", { 
+        MakeInlineCode(L"code"),
+        MakeText(L" text"),
+    }));
+    ASSERT_TRUE(test(L"text\n`code`", {
+        MakeText(L"text "),
+        MakeInlineCode(L"code"),
+    }));
+    ASSERT_TRUE(test(L"This is an `inline code`.", {
+        MakeText(L"This is an "),
+        MakeInlineCode(L"inline code"),
+        MakeText(L"."),
+    }));
 }
