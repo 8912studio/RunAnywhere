@@ -1,31 +1,30 @@
 #include <gtest/gtest.h>
 #include <zaf/base/as.h>
+#include "help/markdown/element/factory.h"
 #include "help/markdown/parse/inline_code_parser.h"
 
 using namespace ra::help::markdown::element;
 using namespace ra::help::markdown::parse;
 
-TEST(InlineCodeParser, Parse) {
+TEST(InlineCodeParserTest, Parse) {
 
-    {
-        ParseContext context(L"`abc`");
+    auto test = [](std::wstring_view input, std::wstring_view expected) {
+        ParseContext context(input);
         auto element = InlineCodeParser::Instance()->Parse(context);
-        ASSERT_NE(element, nullptr);
-        ASSERT_EQ(element->Type(), ElementType::InlineCode);
-        ASSERT_EQ(element->Children().size(), 1);
-        ASSERT_TRUE(element->Children().front()->IsTextElement());
-        ASSERT_EQ(element->Children().front()->Text(), L"abc");
-    }
+        if (!element) {
+            return false;
+        }
+        return element->IsEqualTo(*MakeInlineCode(std::wstring(expected)));
+    };
 
-    {
-        ParseContext context(L"` abc  `");
-        auto element = InlineCodeParser::Instance()->Parse(context);
-        ASSERT_NE(element, nullptr);
-        ASSERT_EQ(element->Type(), ElementType::InlineCode);
-        ASSERT_EQ(element->Children().size(), 1);
-        ASSERT_TRUE(element->Children().front()->IsTextElement());
-        ASSERT_EQ(element->Children().front()->Text(), L" abc  ");
-    }
+    ASSERT_TRUE(test(L"`abc`", L"abc"));
+    ASSERT_TRUE(test(L"` abc  `", L" abc  "));
+    ASSERT_TRUE(test(L"``two backquotes``", L"two backquotes"));
+    ASSERT_TRUE(test(L"```three backquotes```", L"three backquotes"));
+}
+
+
+TEST(InlineCodeParserTest, Failure) {
 
     {
         ParseContext context(L"` abc \n ` ");

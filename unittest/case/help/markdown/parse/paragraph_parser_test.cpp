@@ -33,16 +33,40 @@ TEST(ParagraphParserTest, Success) {
     ASSERT_TRUE(test(L"line1  \nline2", { MakeText(L"line1\nline2") }));
     ASSERT_TRUE(test(L"line1   \n line2", { MakeText(L"line1\nline2") }));
 
+    ASSERT_TRUE(test(L"``", { MakeText(L"``") }));
+    ASSERT_TRUE(test(L"``text", { MakeText(L"``text") }));
+    ASSERT_TRUE(test(L"``text`", { MakeText(L"``text`") }));
+    ASSERT_TRUE(test(L"text`", { MakeText(L"text`") }));
+    ASSERT_TRUE(test(L"`text``", { MakeText(L"`text``") }));
+    ASSERT_TRUE(test(L"```", { MakeText(L"```") }));
     ASSERT_TRUE(test(L"`code`", { MakeInlineCode(L"code") }));
     ASSERT_TRUE(test(L" `code`  ", { MakeInlineCode(L"code") }));
+
+    ASSERT_TRUE(test(L"``text`code`  ", { 
+        MakeText(L"``text"),
+        MakeInlineCode(L"code"),
+    }));
+
     ASSERT_TRUE(test(L"`code`\ntext", { 
         MakeInlineCode(L"code"),
         MakeText(L" text"),
     }));
+
+    ASSERT_TRUE(test(L"`code` \ntext", {
+        MakeInlineCode(L"code"),
+        MakeText(L" text"),
+    }));
+
+    ASSERT_TRUE(test(L"`code`  \ntext", {
+        MakeInlineCode(L"code"),
+        MakeText(L"\ntext"),
+    }));
+
     ASSERT_TRUE(test(L"text\n`code`", {
         MakeText(L"text "),
         MakeInlineCode(L"code"),
     }));
+
     ASSERT_TRUE(test(L"This is an `inline code`.", {
         MakeText(L"This is an "),
         MakeInlineCode(L"inline code"),
