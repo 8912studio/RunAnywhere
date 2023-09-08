@@ -20,6 +20,11 @@ inline std::shared_ptr<Element> MakeParagraph(ElementList children) {
 }
 
 
+inline std::shared_ptr<Element> MakeEmphasis(ElementList children) {
+    return std::make_shared<Element>(ElementType::Emphasis, std::move(children));
+}
+
+
 inline std::shared_ptr<Element> MakeInlineCode(std::wstring text) {
     return std::make_shared<Element>(ElementType::InlineCode, ElementList{ 
         std::make_shared<Element>(std::move(text)), 
