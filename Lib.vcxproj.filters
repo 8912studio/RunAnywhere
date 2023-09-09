@@ -765,7 +765,7 @@
     <ClInclude Include="src\help\markdown\element\factory.h">
       <Filter>src\help\markdown\element</Filter>
     </ClInclude>
-    <ClInclude Include="src\help\markdown\parse\emphasis_parser.h">
+    <ClInclude Include="src\help\markdown\parse\bold_parser.h">
       <Filter>src\help\markdown\parse</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1229,7 +1229,7 @@
     <ClCompile Include="src\help\markdown\element\header_element.cpp">
       <Filter>src\help\markdown\element</Filter>
     </ClCompile>
-    <ClCompile Include="src\help\markdown\parse\emphasis_parser.cpp">
+    <ClCompile Include="src\help\markdown\parse\bold_parser.cpp">
       <Filter>src\help\markdown\parse</Filter>
     </ClCompile>
   </ItemGroup>

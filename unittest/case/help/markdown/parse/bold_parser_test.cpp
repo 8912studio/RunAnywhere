@@ -1,15 +1,15 @@
 #include <gtest/gtest.h>
 #include "help/markdown/element/factory.h"
-#include "help/markdown/parse/emphasis_parser.h"
+#include "help/markdown/parse/bold_parser.h"
 
 using namespace ra::help::markdown::element;
 using namespace ra::help::markdown::parse;
 
-TEST(EmphasisParserTest, Parse) {
+TEST(BoldParserTest, Parse) {
 
     auto test = [](std::wstring_view input, ElementList expected) {
         ParseContext context(input);
-        auto element = EmphasisParser::Instance()->Parse(context);
+        auto element = BoldParser::Instance()->Parse(context);
         if (!element) {
             return false;
         }
@@ -21,11 +21,11 @@ TEST(EmphasisParserTest, Parse) {
 }
 
 
-TEST(EmphasisParserTest, Failure) {
+TEST(BoldParserTest, Failure) {
 
     auto test = [](std::wstring_view input) {
         ParseContext context(input);
-        auto element = EmphasisParser::Instance()->Parse(context);
+        auto element = BoldParser::Instance()->Parse(context);
         return !element && (context.GetCurrentIndex() == 0);
     };
 

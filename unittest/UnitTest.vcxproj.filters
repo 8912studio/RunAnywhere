@@ -226,7 +226,7 @@
     <ClCompile Include="case\help\markdown\parse\paragraph_parser_test.cpp">
       <Filter>case\help\markdown\parse</Filter>
     </ClCompile>
-    <ClCompile Include="case\help\markdown\parse\emphasis_parser_test.cpp">
+    <ClCompile Include="case\help\markdown\parse\bold_parser_test.cpp">
       <Filter>case\help\markdown\parse</Filter>
     </ClCompile>
   </ItemGroup>

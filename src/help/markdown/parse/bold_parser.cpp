@@ -1,16 +1,16 @@
-#include "help/markdown/parse/emphasis_parser.h"
+#include "help/markdown/parse/bold_parser.h"
 #include "help/markdown/element/factory.h"
 #include "help/markdown/parse/inline_code_parser.h"
 
 namespace ra::help::markdown::parse {
 
-ElementParser* EmphasisParser::Instance() {
-    static EmphasisParser instance;
+ElementParser* BoldParser::Instance() {
+    static BoldParser instance;
     return &instance;
 }
 
 
-std::shared_ptr<element::Element> EmphasisParser::Parse(ParseContext& context) {
+std::shared_ptr<element::Element> BoldParser::Parse(ParseContext& context) {
 
     std::size_t star_count{};
 
