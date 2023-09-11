@@ -13,7 +13,7 @@ TEST(BoldParserTest, Parse) {
         if (!element) {
             return false;
         }
-        return element->IsEqualTo(*MakeEmphasis(std::move(expected)));
+        return element->IsEqualTo(*MakeBold(std::move(expected)));
     };
 
     ASSERT_TRUE(test(L"**abc**", { MakeText(L"abc")}));

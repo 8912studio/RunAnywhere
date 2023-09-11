@@ -20,8 +20,8 @@ inline std::shared_ptr<Element> MakeParagraph(ElementList children) {
 }
 
 
-inline std::shared_ptr<Element> MakeEmphasis(ElementList children) {
-    return std::make_shared<Element>(ElementType::Emphasis, std::move(children));
+inline std::shared_ptr<Element> MakeBold(ElementList children) {
+    return std::make_shared<Element>(ElementType::Bold, std::move(children));
 }
 
 

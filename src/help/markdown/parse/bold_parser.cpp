@@ -14,7 +14,7 @@ std::shared_ptr<element::Element> BoldParser::Parse(ParseContext& context) {
 
     auto transaction = context.BeginTransaction();
 
-    //Emphasis starts exactly with 2 star chars.
+    //Bold starts exactly with 2 star chars.
     std::size_t star_count{};
     while (context.CurrentChar() == L'*') {
 
@@ -52,7 +52,7 @@ std::shared_ptr<element::Element> BoldParser::Parse(ParseContext& context) {
         }
     }
 
-    //Emphasis ends exactly with 2 star chars.
+    //Bold ends exactly with 2 star chars.
     for (std::size_t tailing_star_count = 0; tailing_star_count < 2; ++tailing_star_count) {
     
         if (context.CurrentChar() != L'*') {
@@ -73,7 +73,7 @@ std::shared_ptr<element::Element> BoldParser::Parse(ParseContext& context) {
     }
 
     transaction.Commit();
-    return element::MakeEmphasis(std::move(children));
+    return element::MakeBold(std::move(children));
 }
 
 }

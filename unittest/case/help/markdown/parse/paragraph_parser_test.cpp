@@ -72,4 +72,9 @@ TEST(ParagraphParserTest, Success) {
         MakeInlineCode(L"inline code"),
         MakeText(L"."),
     }));
+
+    ASSERT_TRUE(test(L"**`code**`", {
+        MakeText(L"**"),
+        MakeInlineCode(L"code**"),
+    }));
 }
