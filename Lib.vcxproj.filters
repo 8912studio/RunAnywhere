@@ -771,6 +771,12 @@
     <ClInclude Include="src\help\markdown\parse\parse_context.h">
       <Filter>src\help\markdown\parse</Filter>
     </ClInclude>
+    <ClInclude Include="src\help\markdown\parse\italics_parser.h">
+      <Filter>src\help\markdown\parse</Filter>
+    </ClInclude>
+    <ClInclude Include="src\help\markdown\parse\emphasis_parser.h">
+      <Filter>src\help\markdown\parse</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -1233,6 +1239,12 @@
       <Filter>src\help\markdown\element</Filter>
     </ClCompile>
     <ClCompile Include="src\help\markdown\parse\bold_parser.cpp">
+      <Filter>src\help\markdown\parse</Filter>
+    </ClCompile>
+    <ClCompile Include="src\help\markdown\parse\italics_parser.cpp">
+      <Filter>src\help\markdown\parse</Filter>
+    </ClCompile>
+    <ClCompile Include="src\help\markdown\parse\emphasis_parser.cpp">
       <Filter>src\help\markdown\parse</Filter>
     </ClCompile>
   </ItemGroup>

@@ -20,6 +20,11 @@ inline std::shared_ptr<Element> MakeParagraph(ElementList children) {
 }
 
 
+inline std::shared_ptr<Element> MakeItalics(ElementList children) {
+    return std::make_shared<Element>(ElementType::Italics, std::move(children));
+}
+
+
 inline std::shared_ptr<Element> MakeBold(ElementList children) {
     return std::make_shared<Element>(ElementType::Bold, std::move(children));
 }

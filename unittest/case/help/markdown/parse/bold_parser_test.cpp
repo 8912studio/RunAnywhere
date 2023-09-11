@@ -29,6 +29,8 @@ TEST(BoldParserTest, Failure) {
         return !element && (context.CurrentIndex() == 0);
     };
 
+    ASSERT_TRUE(test(L"abc"));
+    ASSERT_TRUE(test(L"abc**"));
     ASSERT_TRUE(test(L"*abcd*"));
     ASSERT_TRUE(test(L"**abcd"));
     ASSERT_TRUE(test(L"**abcd*"));

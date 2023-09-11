@@ -26,6 +26,10 @@ std::shared_ptr<element::Element> BoldParser::Parse(ParseContext& context) {
         }
     }
 
+    if (star_count != 2) {
+        return nullptr;
+    }
+
     //Not allow space between heading star and content.
     if (context.CurrentChar() == L' ') {
         return nullptr;

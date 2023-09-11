@@ -229,6 +229,9 @@
     <ClCompile Include="case\help\markdown\parse\bold_parser_test.cpp">
       <Filter>case\help\markdown\parse</Filter>
     </ClCompile>
+    <ClCompile Include="case\help\markdown\parse\italics_parser_test.cpp">
+      <Filter>case\help\markdown\parse</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="case\module\calculator\number_parser_test_utility.h">

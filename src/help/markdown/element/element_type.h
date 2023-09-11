@@ -12,6 +12,7 @@ enum class ElementType {
     CodeBlock,
 
     //Span elements
+    Italics,
     Bold,
     InlineCode,
 
