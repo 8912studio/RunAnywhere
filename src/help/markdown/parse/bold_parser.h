@@ -1,18 +1,18 @@
 #pragma once
 
-#include "help/markdown/parse/element_parser.h"
+#include "help/markdown/parse/emphasis_parser.h"
 
 namespace ra::help::markdown::parse {
 
-class BoldParser : public ElementParser {
+class BoldParser : public EmphasisParser {
 public:
     static ElementParser* Instance();
 
-public:
-    std::shared_ptr<element::Element> Parse(ParseContext& context) override;
+private:
+    static Options GetOptions();
 
 private:
-    BoldParser() = default;
+    BoldParser();
 };
 
 }

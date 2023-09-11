@@ -1,5 +1,7 @@
 #include "help/markdown/parse/span_element_parser.h"
+#include "help/markdown/parse/bold_parser.h"
 #include "help/markdown/parse/inline_code_parser.h"
+#include "help/markdown/parse/italics_parser.h"
 
 namespace ra::help::markdown::parse {
 
@@ -12,6 +14,8 @@ ElementParser* SpanElementParser::Instance() {
 SpanElementParser::SpanElementParser() {
 
     parsers_.assign({
+        ItalicsParser::Instance(),
+        BoldParser::Instance(),
         InlineCodeParser::Instance(),
     });
 }

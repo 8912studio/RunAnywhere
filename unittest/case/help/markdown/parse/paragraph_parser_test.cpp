@@ -77,4 +77,20 @@ TEST(ParagraphParserTest, Success) {
         MakeText(L"**"),
         MakeInlineCode(L"code**"),
     }));
+
+    ASSERT_TRUE(test(L"***abc***", {
+        MakeItalics({ 
+            MakeBold({ MakeText(L"abc") })
+        })
+    }));
+
+    ASSERT_TRUE(test(L"***abc**", {
+        MakeText(L"*"),
+        MakeBold({ MakeText(L"abc") }),
+    }));
+
+    ASSERT_TRUE(test(L"**abc***", {
+        MakeBold({ MakeText(L"abc") }),
+        MakeText(L"*"),
+    }));
 }
