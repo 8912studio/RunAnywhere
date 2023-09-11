@@ -19,16 +19,6 @@ std::optional<wchar_t> ParseContext::GetCharAtOffset(int offset) const {
 }
 
 
-bool ParseContext::IsAtLineStart() const {
-
-	if (current_index_ == 0) {
-		return true;
-	}
-
-	return command_text_[current_index_ - 1] == L'\n';
-}
-
-
 void ParseContext::Forward(std::size_t length) {
 
 	std::size_t new_index = current_index_ + length;

@@ -768,6 +768,9 @@
     <ClInclude Include="src\help\markdown\parse\bold_parser.h">
       <Filter>src\help\markdown\parse</Filter>
     </ClInclude>
+    <ClInclude Include="src\help\markdown\parse\parse_context.h">
+      <Filter>src\help\markdown\parse</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">

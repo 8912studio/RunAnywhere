@@ -61,7 +61,7 @@ ParagraphParser::LineInfo ParagraphParser::ParseOneLine(ParseContext& context) {
     LineInfo result;
     std::wstring text_piece;
 
-    while ((context.GetCurrentChar() != L'\n') && (context.GetCurrentChar() != L'\0')) {
+    while ((context.CurrentChar() != L'\n') && (context.CurrentChar() != L'\0')) {
 
         auto span_element = SpanElementParser::Instance()->Parse(context);
         if (span_element) {
@@ -87,12 +87,12 @@ ParagraphParser::LineInfo ParagraphParser::ParseOneLine(ParseContext& context) {
             continue;
         }
 
-        text_piece.append(1, context.GetCurrentChar());
-        context.Forward(1);
+        text_piece.append(1, context.CurrentChar());
+        context.Forward();
     }
 
     //Eat the last '\n' char
-    context.Forward(1);
+    context.Forward();
 
     if (!text_piece.empty()) {
 

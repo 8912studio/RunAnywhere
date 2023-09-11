@@ -126,6 +126,7 @@
     <ClInclude Include="src\help\markdown\parse\inline_code_parser.h" />
     <ClInclude Include="src\help\markdown\parse\markdown_parser.h" />
     <ClInclude Include="src\help\markdown\parse\paragraph_parser.h" />
+    <ClInclude Include="src\help\markdown\parse\parse_context.h" />
     <ClInclude Include="src\help\markdown\parse\span_element_parser.h" />
     <ClInclude Include="src\hot_key.h" />
     <ClInclude Include="src\hot_key_box.h" />

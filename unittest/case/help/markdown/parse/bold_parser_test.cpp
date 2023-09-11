@@ -26,7 +26,7 @@ TEST(BoldParserTest, Failure) {
     auto test = [](std::wstring_view input) {
         ParseContext context(input);
         auto element = BoldParser::Instance()->Parse(context);
-        return !element && (context.GetCurrentIndex() == 0);
+        return !element && (context.CurrentIndex() == 0);
     };
 
     ASSERT_TRUE(test(L"*abcd*"));

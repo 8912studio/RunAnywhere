@@ -20,12 +20,9 @@ public:
 
 	wchar_t GetChar() const;
 
-	bool IsAtLineEnd() const;
-
 	bool Forward();
 	
 	void SkipWhiteSpaces();
-	void SkipSpaces();
 
 	void Discard();
 

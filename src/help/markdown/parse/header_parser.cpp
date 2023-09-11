@@ -16,39 +16,36 @@ std::shared_ptr<element::Element> HeaderParser::Parse(ParseContext& context) {
         return nullptr;
     }
 
-    auto reader = context.BeginRead();
+    auto transaction = context.BeginTransaction();
 
-    reader.SkipSpaces();
+    context.SkipSpaces();
 
     std::size_t hash_count{};
-    while (reader.GetChar() == L'#') {
+    while (context.CurrentChar() == L'#') {
         ++hash_count;
-        reader.Forward();
+        context.Forward();
     }
 
     if (hash_count == 0 || hash_count > 3) {
-        reader.Discard();
         return nullptr;
     }
 
-    if (reader.GetChar() != L' ') {
-        reader.Discard();
+    if (context.CurrentChar() != L' ') {
         return nullptr;
     }
 
-    reader.Forward();
+    context.Forward();
 
-    if (reader.IsAtLineEnd()) {
-        reader.Discard();
+    if (context.IsAtLineEnd()) {
         return nullptr;
     }
 
     std::wstring content;
     do {
-        content.append(1, reader.GetChar());
-        reader.Forward();
+        content.append(1, context.CurrentChar());
+        context.Forward();
     } 
-    while (!reader.IsAtLineEnd());
+    while (!context.IsAtLineEnd());
 
     //Trim spaces
     zaf::Trim(content);
@@ -56,7 +53,6 @@ std::shared_ptr<element::Element> HeaderParser::Parse(ParseContext& context) {
     //Remove tailing hashes
     auto last_not_hash_index = content.find_last_not_of(L'#');
     if (last_not_hash_index == std::wstring::npos) {
-        reader.Discard();
         return nullptr;
     }
 
@@ -65,9 +61,10 @@ std::shared_ptr<element::Element> HeaderParser::Parse(ParseContext& context) {
     zaf::Trim(content);
 
     if (content.empty()) {
-        reader.Discard();
         return nullptr;
     }
+
+    transaction.Commit();
 
     auto depth = element::HeaderDepth(std::size_t(element::HeaderDepth::_1) + hash_count - 1);
     return element::MakeHeader(depth, {

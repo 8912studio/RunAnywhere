@@ -37,27 +37,27 @@ TEST(HeaderParserTest, ContextIndex) {
         ParseContext context(L"#");
         auto element = zaf::As<HeaderElement>(HeaderParser::Instance()->Parse(context));
         ASSERT_EQ(element, nullptr);
-        ASSERT_EQ(context.GetCurrentIndex(), 0);
+        ASSERT_EQ(context.CurrentIndex(), 0);
     }
 
     {
         ParseContext context(L"# ");
         auto element = zaf::As<HeaderElement>(HeaderParser::Instance()->Parse(context));
         ASSERT_EQ(element, nullptr);
-        ASSERT_EQ(context.GetCurrentIndex(), 0);
+        ASSERT_EQ(context.CurrentIndex(), 0);
     }
 
     {
         ParseContext context(L"#   ");
         auto element = zaf::As<HeaderElement>(HeaderParser::Instance()->Parse(context));
         ASSERT_EQ(element, nullptr);
-        ASSERT_EQ(context.GetCurrentIndex(), 0);
+        ASSERT_EQ(context.CurrentIndex(), 0);
     }
 
     {
         ParseContext context(L"#   #");
         auto element = zaf::As<HeaderElement>(HeaderParser::Instance()->Parse(context));
         ASSERT_EQ(element, nullptr);
-        ASSERT_EQ(context.GetCurrentIndex(), 0);
+        ASSERT_EQ(context.CurrentIndex(), 0);
     }
 }

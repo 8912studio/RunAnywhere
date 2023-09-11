@@ -49,13 +49,6 @@ wchar_t ParseReader::GetChar() const {
 }
 
 
-bool ParseReader::IsAtLineEnd() const {
-
-	auto current_char = GetChar();
-	return current_char == L'\n' || current_char == L'\0';
-}
-
-
 bool ParseReader::Forward() {
 
 	if (context_->GetCurrentIndex() + offset_ == context_->GetLength()) {
@@ -72,18 +65,6 @@ void ParseReader::SkipWhiteSpaces() {
 	do {
 
 		if (!std::iswspace(GetChar())) {
-			break;
-		}
-	}
-	while (Forward());
-}
-
-
-void ParseReader::SkipSpaces() {
-
-	do {
-
-		if (GetChar() != L' ') {
 			break;
 		}
 	}

@@ -30,27 +30,27 @@ TEST(InlineCodeParserTest, Failure) {
         ParseContext context(L"` abc \n ` ");
         auto element = InlineCodeParser::Instance()->Parse(context);
         ASSERT_EQ(element, nullptr);
-        ASSERT_EQ(context.GetCurrentIndex(), 0);
+        ASSERT_EQ(context.CurrentIndex(), 0);
     }
 
     {
         ParseContext context(L"` abc   ");
         auto element = InlineCodeParser::Instance()->Parse(context);
         ASSERT_EQ(element, nullptr);
-        ASSERT_EQ(context.GetCurrentIndex(), 0);
+        ASSERT_EQ(context.CurrentIndex(), 0);
     }
 
     {
         ParseContext context(L" abc `  ");
         auto element = InlineCodeParser::Instance()->Parse(context);
         ASSERT_EQ(element, nullptr);
-        ASSERT_EQ(context.GetCurrentIndex(), 0);
+        ASSERT_EQ(context.CurrentIndex(), 0);
     }
 
     {
         ParseContext context(L"``");
         auto element = InlineCodeParser::Instance()->Parse(context);
         ASSERT_EQ(element, nullptr);
-        ASSERT_EQ(context.GetCurrentIndex(), 0);
+        ASSERT_EQ(context.CurrentIndex(), 0);
     }
 }

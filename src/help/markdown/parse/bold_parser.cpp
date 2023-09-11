@@ -12,32 +12,29 @@ ElementParser* BoldParser::Instance() {
 
 std::shared_ptr<element::Element> BoldParser::Parse(ParseContext& context) {
 
-    std::size_t star_count{};
-
-    auto reader = context.BeginRead();
+    auto transaction = context.BeginTransaction();
 
     //Emphasis starts exactly with 2 star chars.
-    while (reader.GetChar() == L'*') {
+    std::size_t star_count{};
+    while (context.CurrentChar() == L'*') {
 
         ++star_count;
-        reader.Forward();
+        context.Forward();
 
         if (star_count > 2) {
-            reader.Discard();
             return nullptr;
         }
     }
 
     //Not allow space between heading star and content.
-    if (reader.GetChar() == L' ') {
-        reader.Discard();
+    if (context.CurrentChar() == L' ') {
         return nullptr;
     }
 
     element::ElementList children;
     std::wstring text;
 
-    while (reader.GetChar() != L'*' && !reader.IsAtLineEnd()) {
+    while (context.CurrentChar() != L'*' && !context.IsAtLineEnd()) {
 
         auto inline_code = InlineCodeParser::Instance()->Parse(context);
         if (inline_code) {
@@ -50,33 +47,32 @@ std::shared_ptr<element::Element> BoldParser::Parse(ParseContext& context) {
             continue;
         }
         else {
-            text.append(1, reader.GetChar());
-            reader.Forward();
+            text.append(1, context.CurrentChar());
+            context.Forward();
         }
     }
 
     //Emphasis ends exactly with 2 star chars.
     for (std::size_t tailing_star_count = 0; tailing_star_count < 2; ++tailing_star_count) {
     
-        if (reader.GetChar() != L'*') {
-            reader.Discard();
+        if (context.CurrentChar() != L'*') {
             return nullptr;
         }
 
-        reader.Forward();
+        context.Forward();
     }
 
     if (!text.empty()) {
 
         //Not allow space between content and tailing star.
         if (text.back() == L' ') {
-            reader.Discard();
             return nullptr;
         }
 
         children.push_back(element::MakeText(std::move(text)));
     }
 
+    transaction.Commit();
     return element::MakeEmphasis(std::move(children));
 }
 
