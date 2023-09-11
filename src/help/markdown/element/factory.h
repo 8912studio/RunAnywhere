@@ -37,6 +37,13 @@ inline std::shared_ptr<Element> MakeInlineCode(std::wstring text) {
 }
 
 
+inline std::shared_ptr<Element> MakeCodeBlock(std::wstring text) {
+    return std::make_shared<Element>(ElementType::CodeBlock, ElementList{
+        std::make_shared<Element>(std::move(text)),
+    });
+}
+
+
 inline std::shared_ptr<Element> MakeHeader(HeaderDepth depth, ElementList children) {
     return std::make_shared<HeaderElement>(depth, std::move(children));
 }

@@ -52,6 +52,7 @@
     <ClCompile Include="case\context\discover\window_based_discoverer_test.cpp" />
     <ClCompile Include="case\environment_variable_manager_test.cpp" />
     <ClCompile Include="case\help\markdown\parse\bold_parser_test.cpp" />
+    <ClCompile Include="case\help\markdown\parse\code_block_parser_test.cpp" />
     <ClCompile Include="case\help\markdown\parse\header_parser_test.cpp" />
     <ClCompile Include="case\help\markdown\parse\inline_code_parser_test.cpp" />
     <ClCompile Include="case\help\markdown\parse\italics_parser_test.cpp" />
