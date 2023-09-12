@@ -52,35 +52,20 @@ public:
     };
 
 public:
-    explicit ParseContext(std::wstring_view input) : input_(input) {
-
-    }
+    explicit ParseContext(std::wstring_view input);
 
     std::size_t CurrentIndex() const {
         return current_index_;
     }
 
-    wchar_t CurrentChar() const {
-        return input_[current_index_];
-    }
+    wchar_t CurrentChar() const;
+    std::optional<wchar_t> PreviousChar() const;
 
-    std::optional<wchar_t> PreviousChar() const {
-        if (current_index_ == 0) {
-            return std::nullopt;
-        }
-        return input_[current_index_ - 1];
-    }
+    bool IsAtLineStart() const;
+    bool IsAtLineEnd() const;
 
-    bool IsAtLineStart() const {
-        if (current_index_ == 0) {
-            return true;
-        }
-        return input_[current_index_ - 1] == L'\n';
-    }
-
-    bool IsAtLineEnd() const {
-        auto current_char = CurrentChar();
-        return current_char == L'\n' || current_char == L'\0';
+    bool IsEnd() const {
+        return current_index_ == input_.length();
     }
 
     [[nodiscard]]
@@ -88,31 +73,16 @@ public:
         return Transaction{ *this };
     }
 
-    bool Forward() {
-        if (current_index_ == input_.length()) {
-            return false;
-        }
-        current_index_++;
-        return true;
-    }
-
-    void SkipSpaces() {
-        do {
-            if (CurrentChar() != L' ') {
-                break;
-            }
-        }
-        while (Forward());
-    }
+    bool Forward();
+    void SkipSpaces();
 
 private:
-    void Rollback(std::size_t index) {
-        current_index_ = index;
-    }
+    void Rollback(std::size_t index);
 
 private:
-    std::wstring input_;
+    std::wstring_view input_;
     std::size_t current_index_{};
+    const wchar_t* current_pointer_{};
 };
 
 }

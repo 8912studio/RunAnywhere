@@ -7,7 +7,7 @@
 using namespace ra::help::markdown::element;
 using namespace ra::help::markdown::parse;
 
-TEST(HeaderParserTest, Parse) {
+TEST(HeaderParserTest, Success) {
 
     auto test = [](std::wstring_view input, HeaderDepth depth, ElementList expected) {
         ParseContext context(input);
@@ -32,6 +32,16 @@ TEST(HeaderParserTest, Parse) {
 
 
 TEST(HeaderParserTest, ContextIndex) {
+
+    ParseContext context(L"# header line \nParagraph line.");
+    auto element = HeaderParser::Instance()->Parse(context);
+    ASSERT_NE(element, nullptr);
+    ASSERT_TRUE(element->IsEqualTo(*MakeHeader(HeaderDepth::_1, L"header line")));
+    ASSERT_EQ(context.CurrentIndex(), 15);
+}
+
+
+TEST(HeaderParserTest, Failure) {
 
     {
         ParseContext context(L"#");

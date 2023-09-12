@@ -1253,6 +1253,9 @@
     <ClCompile Include="src\help\markdown\parse\code_block_parser.cpp">
       <Filter>src\help\markdown\parse</Filter>
     </ClCompile>
+    <ClCompile Include="src\help\markdown\parse\parse_context.cpp">
+      <Filter>src\help\markdown\parse</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Page Include="src\module\user_defined\preview\user_defined_command_preview_control.xaml">

@@ -19,6 +19,12 @@ inline std::shared_ptr<Element> MakeParagraph(ElementList children) {
     return std::make_shared<Element>(ElementType::Paragraph, std::move(children));
 }
 
+inline std::shared_ptr<Element> MakeParagraph(std::wstring text) {
+    return std::make_shared<Element>(ElementType::Paragraph, ElementList{
+        std::make_shared<Element>(std::move(text))
+    });
+}
+
 
 inline std::shared_ptr<Element> MakeItalics(ElementList children) {
     return std::make_shared<Element>(ElementType::Italics, std::move(children));
@@ -27,6 +33,12 @@ inline std::shared_ptr<Element> MakeItalics(ElementList children) {
 
 inline std::shared_ptr<Element> MakeBold(ElementList children) {
     return std::make_shared<Element>(ElementType::Bold, std::move(children));
+}
+
+inline std::shared_ptr<Element> MakeBold(std::wstring text) {
+    return std::make_shared<Element>(ElementType::Bold, ElementList{
+        std::make_shared<Element>(std::move(text))
+    });
 }
 
 
@@ -46,6 +58,12 @@ inline std::shared_ptr<Element> MakeCodeBlock(std::wstring text) {
 
 inline std::shared_ptr<Element> MakeHeader(HeaderDepth depth, ElementList children) {
     return std::make_shared<HeaderElement>(depth, std::move(children));
+}
+
+inline std::shared_ptr<Element> MakeHeader(HeaderDepth depth, std::wstring text) {
+    return std::make_shared<HeaderElement>(depth, ElementList{
+        std::make_shared<Element>(std::move(text)),
+    });
 }
 
 }

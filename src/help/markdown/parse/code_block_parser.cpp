@@ -24,19 +24,21 @@ std::shared_ptr<element::Element> CodeBlockParser::Parse(ParseContext& context) 
 
     std::wstring content;
 
-    do {
+    while (!context.IsEnd()) {
 
         if (context.IsAtLineStart()) {
             if (ParseTailingLine(context, backquote_count)) {
                 //Remove the last line break.
-                content.pop_back();
+                if (!content.empty()) {
+                    content.pop_back();
+                }
                 break;
             }
         }
 
         content.append(1, context.CurrentChar());
+        context.Forward();
     }
-    while (context.Forward());
 
     transaction.Commit();
     return element::MakeCodeBlock(std::move(content));
@@ -92,6 +94,8 @@ bool CodeBlockParser::ParseTailingLine(
         return false;
     }
 
+    //Eat the tailing line break.
+    context.Forward();
     transaction.Commit();
     return true;
 }

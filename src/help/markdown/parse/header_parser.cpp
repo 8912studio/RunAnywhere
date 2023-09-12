@@ -64,6 +64,8 @@ std::shared_ptr<element::Element> HeaderParser::Parse(ParseContext& context) {
         return nullptr;
     }
 
+    //Eat the tailing line break.
+    context.Forward();
     transaction.Commit();
 
     auto depth = element::HeaderDepth(std::size_t(element::HeaderDepth::_1) + hash_count - 1);

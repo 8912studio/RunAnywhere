@@ -4,6 +4,12 @@
 
 namespace ra::help::markdown::parse {
 
+MarkdownParser* MarkdownParser::Instance() {
+    static MarkdownParser instance;
+    return &instance;
+}
+
+
 std::shared_ptr<element::Element> MarkdownParser::Parse(std::wstring_view input) {
 
     element::ElementList elements;
