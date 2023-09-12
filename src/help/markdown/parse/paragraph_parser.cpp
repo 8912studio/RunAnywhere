@@ -27,15 +27,7 @@ std::shared_ptr<element::Element> ParagraphParser::Parse(ParseContext& context) 
         if (line_info.heading_text.empty() && 
             line_info.elements.empty() && 
             line_info.tailing_text.empty()) {
-
-            if (line_infos.empty()) {
-                //Ignore empty lines if there is no any content in paragraph.
-                continue;
-            }
-            else {
-                //End paragraph if there is an empty line after content.
-                break;
-            }
+            break;
         }
 
         line_infos.push_back(std::move(line_info));

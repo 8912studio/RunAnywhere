@@ -4,6 +4,7 @@
 #include <string_view>
 #include <zaf/base/non_copyable.h>
 #include "help/markdown/element/element.h"
+#include "help/markdown/parse/parse_context.h"
 
 namespace ra::help::markdown::parse {
 
@@ -16,6 +17,9 @@ public:
 
 private:
     MarkdownParser() = default;
+
+    void ParseEmptyLines(ParseContext& context) const;
+    bool ParseEmptyLine(ParseContext& context) const;
 };
 
 }

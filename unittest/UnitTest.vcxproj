@@ -43,6 +43,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="case\help\markdown\parse\markdown_parser_test_1.md" />
     <None Include="case\module\tool\hash\md5_test_file1" />
     <None Include="case\module\tool\hash\md5_test_file2" />
     <None Include="case\module\tool\hash\md5_test_file3" />
