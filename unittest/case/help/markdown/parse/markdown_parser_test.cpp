@@ -57,6 +57,10 @@ TEST(MarkdownParserTest, ParseFiles) {
         }),
         MakeCodeBlock(L"hex [text] [position] [length] /f /u8 /u16"),
         MakeParagraph({
+            MakeInlineCode(L"position"),
+            MakeText(L" starts with "),
+            MakeInlineCode(L"`"),
+            MakeText(L". "),
             MakeInlineCode(L"length"),
             MakeText(L" starts with "),
             MakeInlineCode(L"~"),

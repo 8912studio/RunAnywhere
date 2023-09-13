@@ -18,9 +18,18 @@ TEST(InlineCodeParserTest, Parse) {
     };
 
     ASSERT_TRUE(test(L"`abc`", L"abc"));
-    ASSERT_TRUE(test(L"` abc  `", L" abc  "));
+
+    //Spaces at head and tail will be trimmed.
+    ASSERT_TRUE(test(L"` abc  `", L"abc"));
+    ASSERT_TRUE(test(L"`  abc`", L"abc"));
+    ASSERT_TRUE(test(L"`abc   `", L"abc"));
+
     ASSERT_TRUE(test(L"``two backquotes``", L"two backquotes"));
     ASSERT_TRUE(test(L"```three backquotes```", L"three backquotes"));
+
+    //Backquotes in inline code.
+    ASSERT_TRUE(test(L"`` ` ``", L"`"));
+    ASSERT_TRUE(test(L"`` ``` ``", L"```"));
 }
 
 

@@ -25,6 +25,7 @@ TEST(CodeBlockParserTest, Success) {
     ASSERT_TRUE(test(L"````\nabcd\n````", L"abcd"));
     ASSERT_TRUE(test(L"````\nabcd\n```````", L"abcd"));
     ASSERT_TRUE(test(L"```\nline1\nline2\nline3", L"line1\nline2\nline3"));
+    ASSERT_TRUE(test(L"```\n``\n```", L"``"));
 }
 
 

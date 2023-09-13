@@ -8,4 +8,4 @@ Display content of file in hex byte format.
 hex [text] [position] [length] /f /u8 /u16
 ```
 
-`length` starts with `~`, followed by a number.
+`position` starts with `` ` ``. `length` starts with `~`, followed by a number.

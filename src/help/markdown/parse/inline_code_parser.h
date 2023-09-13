@@ -13,6 +13,11 @@ public:
 
 private:
     InlineCodeParser() = default;
+
+    bool ParseHeadingBackquotes(ParseContext& context, std::size_t& heading_backquote_count) const;
+    void TryToParseContinuousBackquotes(
+        ParseContext& context,
+        std::size_t& backquote_count) const;
 };
 
 }
