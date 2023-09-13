@@ -14,10 +14,6 @@ ElementParser* ParagraphParser::Instance() {
 
 std::shared_ptr<element::Element> ParagraphParser::Parse(ParseContext& context) {
     
-    if (!context.IsAtLineStart()) {
-        return nullptr;
-    }
-
     std::vector<LineInfo> line_infos;
     while (!context.IsEnd()) {
 

@@ -127,6 +127,7 @@
     <ClInclude Include="src\help\markdown\parse\element_parser.h" />
     <ClInclude Include="src\help\markdown\parse\inline_code_parser.h" />
     <ClInclude Include="src\help\markdown\parse\italic_parser.h" />
+    <ClInclude Include="src\help\markdown\parse\list_item_parser.h" />
     <ClInclude Include="src\help\markdown\parse\markdown_parser.h" />
     <ClInclude Include="src\help\markdown\parse\paragraph_parser.h" />
     <ClInclude Include="src\help\markdown\parse\parse_context.h" />
@@ -331,6 +332,7 @@
     <ClCompile Include="src\help\markdown\parse\header_parser.cpp" />
     <ClCompile Include="src\help\markdown\parse\inline_code_parser.cpp" />
     <ClCompile Include="src\help\markdown\parse\italic_parser.cpp" />
+    <ClCompile Include="src\help\markdown\parse\list_item_parser.cpp" />
     <ClCompile Include="src\help\markdown\parse\markdown_parser.cpp" />
     <ClCompile Include="src\help\markdown\parse\paragraph_parser.cpp" />
     <ClCompile Include="src\help\markdown\parse\parse_context.cpp">

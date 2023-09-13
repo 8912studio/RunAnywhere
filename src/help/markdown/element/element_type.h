@@ -10,6 +10,10 @@ enum class ElementType {
     Paragraph,
     Header,
     CodeBlock,
+    OrderedList,
+    OrderedListItem,
+    UnorderedList,
+    UnorderedListItem,
 
     //Span elements
     Italics,
