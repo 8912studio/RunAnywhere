@@ -4,7 +4,7 @@
 
 namespace ra::help::markdown::parse {
 
-class ItalicsParser : public EmphasisParser {
+class ItalicParser : public EmphasisParser {
 public:
     static ElementParser* Instance();
 
@@ -12,7 +12,7 @@ private:
     static Options GetOptions();
 
 private:
-    ItalicsParser();
+    ItalicParser();
 };
 
 }

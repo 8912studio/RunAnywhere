@@ -1,16 +1,16 @@
-#include "help/markdown/parse/italics_parser.h"
+#include "help/markdown/parse/italic_parser.h"
 #include "help/markdown/parse/bold_parser.h"
 #include "help/markdown/parse/inline_code_parser.h"
 
 namespace ra::help::markdown::parse {
 
-ElementParser* ItalicsParser::Instance() {
-    static ItalicsParser instance;
+ElementParser* ItalicParser::Instance() {
+    static ItalicParser instance;
     return &instance;
 }
 
 
-ItalicsParser::Options ItalicsParser::GetOptions() {
+ItalicParser::Options ItalicParser::GetOptions() {
     Options result;
     result.element_type = element::ElementType::Italics;
     result.identity_char = L'*';
@@ -23,7 +23,7 @@ ItalicsParser::Options ItalicsParser::GetOptions() {
 }
 
 
-ItalicsParser::ItalicsParser() : EmphasisParser(GetOptions()) {
+ItalicParser::ItalicParser() : EmphasisParser(GetOptions()) {
 
 }
 

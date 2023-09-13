@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include "help/markdown/element/factory.h"
-#include "help/markdown/parse/italics_parser.h"
+#include "help/markdown/parse/italic_parser.h"
 
 using namespace ra::help::markdown::element;
 using namespace ra::help::markdown::parse;
@@ -9,7 +9,7 @@ TEST(ItalicsParserTest, Success) {
 
     auto test = [](std::wstring_view input, ElementList expected) {
         ParseContext context(input);
-        auto element = ItalicsParser::Instance()->Parse(context);
+        auto element = ItalicParser::Instance()->Parse(context);
         if (!element) {
             return false;
         }
@@ -36,7 +36,7 @@ TEST(ItalicsParserTest, Failure) {
 
     auto test = [](std::wstring_view input) {
         ParseContext context(input);
-        auto element = ItalicsParser::Instance()->Parse(context);
+        auto element = ItalicParser::Instance()->Parse(context);
         return !element && (context.CurrentIndex() == 0);
     };
 
