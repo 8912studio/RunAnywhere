@@ -1,13 +1,11 @@
 #include "help/markdown/parse/list_item_parser.h"
 #include <zaf/base/error/check.h>
+#include "help/markdown/parse/body_parser.h"
 
 namespace ra::help::markdown::parse {
 
 ListItemParser::ListItemParser(element::ElementType element_type) : element_type_(element_type) {
 
-    ZAF_EXPECT(
-        element_type_ == element::ElementType::OrderedListItem ||
-        element_type_ == element::ElementType::UnorderedListItem);
 }
 
 
@@ -19,7 +17,8 @@ std::shared_ptr<element::Element> ListItemParser::Parse(ParseContext& context) {
         return nullptr;
     }
 
-    return nullptr;
+    auto children = BodyParser::Instance()->Parse(context);
+    return std::make_shared<element::Element>(element_type_, std::move(children));
 }
 
 

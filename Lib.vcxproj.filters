@@ -786,6 +786,9 @@
     <ClInclude Include="src\help\markdown\parse\body_parser.h">
       <Filter>src\help\markdown\parse</Filter>
     </ClInclude>
+    <ClInclude Include="src\help\markdown\parse\unordered_list_parser.h">
+      <Filter>src\help\markdown\parse</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -1266,6 +1269,9 @@
       <Filter>src\help\markdown\parse</Filter>
     </ClCompile>
     <ClCompile Include="src\help\markdown\parse\body_parser.cpp">
+      <Filter>src\help\markdown\parse</Filter>
+    </ClCompile>
+    <ClCompile Include="src\help\markdown\parse\unordered_list_parser.cpp">
       <Filter>src\help\markdown\parse</Filter>
     </ClCompile>
   </ItemGroup>

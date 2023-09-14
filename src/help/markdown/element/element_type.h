@@ -11,9 +11,8 @@ enum class ElementType {
     Header,
     CodeBlock,
     OrderedList,
-    OrderedListItem,
     UnorderedList,
-    UnorderedListItem,
+    ListItem,
 
     //Span elements
     Italics,

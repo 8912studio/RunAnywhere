@@ -66,4 +66,9 @@ inline std::shared_ptr<Element> MakeHeader(HeaderDepth depth, std::wstring text)
     });
 }
 
+
+inline std::shared_ptr<Element> MakeListItem(ElementList children) {
+    return std::make_shared<Element>(ElementType::ListItem, std::move(children));
+}
+
 }
