@@ -6,60 +6,29 @@
 
 namespace ra::help::markdown::parse {
 
-ElementParser* ParagraphParser::Instance() {
-    static ParagraphParser instance;
-    return &instance;
-}
-
-
-std::shared_ptr<element::Element> ParagraphParser::Parse(ParseContext& context) {
+std::shared_ptr<element::Element> ParagraphParser::ParseOneLine(ParseContext& context) {
     
-    std::vector<LineInfo> line_infos;
-    while (!context.IsEnd()) {
+    auto line_info = ParseLineInfo(context);
 
-        auto line_info = ParseOneLine(context);
+    //Encounter an empty line, finish the paragraph.
+    if (line_info.heading_text.empty() &&
+        line_info.elements.empty() &&
+        line_info.tailing_text.empty()) {
 
-        //Encounter an empty line.
-        if (line_info.heading_text.empty() && 
-            line_info.elements.empty() && 
-            line_info.tailing_text.empty()) {
-            break;
-        }
-
-        line_infos.push_back(std::move(line_info));
+        return FinishParagraph();
     }
 
-    if (line_infos.empty()) {
-        return nullptr;
-    }
-
-    //Merge line infos to elements.
-    element::ElementList elements;
-    for (auto index : zaf::Range(0, line_infos.size())) {
-
-        LineInfo* prior_line{};
-        if (index > 0) {
-            prior_line = &line_infos[index - 1];
-        }
-
-        MergeLineInfo(prior_line, line_infos[index], elements);
-    }
-
-    auto& last_line = line_infos.back();
-    if (!last_line.tailing_text.empty()) {
-        elements.push_back(element::MakeText(std::move(last_line.tailing_text)));
-    }
-
-    return element::MakeParagraph(std::move(elements));
+    line_infos_.push_back(std::move(line_info));
+    return nullptr;
 }
 
 
-ParagraphParser::LineInfo ParagraphParser::ParseOneLine(ParseContext& context) {
+ParagraphParser::LineInfo ParagraphParser::ParseLineInfo(ParseContext& context) {
 
     LineInfo result;
     std::wstring text_piece;
 
-    while ((context.CurrentChar() != L'\n') && (context.CurrentChar() != L'\0')) {
+    while (!context.IsAtLineEnd()) {
 
         auto span_element = SpanElementParser::Instance()->Parse(context);
         if (span_element) {
@@ -124,6 +93,34 @@ ParagraphParser::LineInfo ParagraphParser::ParseOneLine(ParseContext& context) {
     }
 
     return result;
+}
+
+
+std::shared_ptr<element::Element> ParagraphParser::FinishParagraph() {
+
+    if (line_infos_.empty()) {
+        return nullptr;
+    }
+
+    //Merge line infos to elements.
+    element::ElementList elements;
+    for (auto index : zaf::Range(0, line_infos_.size())) {
+
+        LineInfo* prior_line{};
+        if (index > 0) {
+            prior_line = &line_infos_[index - 1];
+        }
+
+        MergeLineInfo(prior_line, line_infos_[index], elements);
+    }
+
+    auto& last_line = line_infos_.back();
+    if (!last_line.tailing_text.empty()) {
+        elements.push_back(element::MakeText(std::move(last_line.tailing_text)));
+    }
+
+    line_infos_.clear();
+    return element::MakeParagraph(std::move(elements));
 }
 
 

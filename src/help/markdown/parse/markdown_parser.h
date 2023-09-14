@@ -17,9 +17,6 @@ public:
 
 private:
     MarkdownParser() = default;
-
-    void ParseEmptyLines(ParseContext& context) const;
-    bool ParseEmptyLine(ParseContext& context) const;
 };
 
 }
