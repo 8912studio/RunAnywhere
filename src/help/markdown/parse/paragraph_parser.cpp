@@ -6,7 +6,7 @@
 
 namespace ra::help::markdown::parse {
 
-std::shared_ptr<element::Element> ParagraphParser::ParseOneLine(ParseContext& context) {
+ParagraphParser::Status ParagraphParser::ParseOneLine(ParseContext& context) {
     
     auto line_info = ParseLineInfo(context);
 
@@ -15,11 +15,11 @@ std::shared_ptr<element::Element> ParagraphParser::ParseOneLine(ParseContext& co
         line_info.elements.empty() &&
         line_info.tailing_text.empty()) {
 
-        return FinishParagraph();
+        return ParagraphParser::Status::Finished;
     }
 
     line_infos_.push_back(std::move(line_info));
-    return nullptr;
+    return ParagraphParser::Status::Continue;
 }
 
 
@@ -96,7 +96,7 @@ ParagraphParser::LineInfo ParagraphParser::ParseLineInfo(ParseContext& context) 
 }
 
 
-std::shared_ptr<element::Element> ParagraphParser::FinishParagraph() {
+std::shared_ptr<element::Element> ParagraphParser::FinishCurrentElement() {
 
     if (line_infos_.empty()) {
         return nullptr;

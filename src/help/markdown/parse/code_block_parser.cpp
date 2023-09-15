@@ -1,52 +1,52 @@
 #include "help/markdown/parse/code_block_parser.h"
+#include <zaf/base/error/check.h>
 #include "help/markdown/element/factory.h"
 
 namespace ra::help::markdown::parse {
 
-ElementParser* CodeBlockParser::Instance() {
-    static CodeBlockParser instance;
-    return &instance;
-}
+CodeBlockParser::Status CodeBlockParser::ParseOneLine(ParseContext& context) {
 
+    if (!state_) {
 
-std::shared_ptr<element::Element> CodeBlockParser::Parse(ParseContext& context) {
-
-    if (!context.IsAtLineStart()) {
-        return nullptr;
-    }
-
-    auto transaction = context.BeginTransaction();
-
-    std::size_t backquote_count{};
-    if (!ParseHeadingLine(context, backquote_count)) {
-        return nullptr;
-    }
-
-    std::wstring content;
-
-    while (!context.IsEnd()) {
-
-        if (context.IsAtLineStart()) {
-            if (ParseTailingLine(context, backquote_count)) {
-                //Remove the last line break.
-                if (!content.empty()) {
-                    content.pop_back();
-                }
-                break;
-            }
+        std::size_t backquote_count{};
+        if (!ParseHeadingLine(context, backquote_count)) {
+            return Status::Failed;
         }
 
-        content.append(1, context.CurrentChar());
-        context.Forward();
+        state_.emplace();
+        state_->backquote_count = backquote_count;
+        return Status::Continue;
     }
+    else {
 
-    transaction.Commit();
-    return element::MakeCodeBlock(std::move(content));
+        if (ParseTailingLine(context)) {
+            return Status::Finished;
+        }
+
+        ParseContentLine(context);
+        return Status::Continue;
+    }
 }
 
 
-bool CodeBlockParser::ParseHeadingLine(ParseContext& context, std::size_t& backquote_count) const {
+std::shared_ptr<element::Element> CodeBlockParser::FinishCurrentElement() {
 
+    ZAF_EXPECT(state_.has_value());
+
+    if (!state_->content.empty()) {
+        //Remove the last line break.
+        state_->content.pop_back();
+    }
+
+    auto result = element::MakeCodeBlock(std::move(state_->content));
+    state_.reset();
+    return result;
+}
+
+
+bool CodeBlockParser::ParseHeadingLine(ParseContext& context, std::size_t& backquote_count) {
+
+    auto transaction = context.BeginTransaction();
     context.SkipSpaces();
 
     backquote_count = 0;
@@ -68,13 +68,12 @@ bool CodeBlockParser::ParseHeadingLine(ParseContext& context, std::size_t& backq
     }
 
     context.Forward();
+    transaction.Commit();
     return true;
 }
 
 
-bool CodeBlockParser::ParseTailingLine(
-    ParseContext& context, 
-    std::size_t heading_backquote_count) const {
+bool CodeBlockParser::ParseTailingLine(ParseContext& context) {
 
     auto transaction = context.BeginTransaction();
 
@@ -86,7 +85,7 @@ bool CodeBlockParser::ParseTailingLine(
         context.Forward();
     }
 
-    if (tailing_backquote_count < heading_backquote_count) {
+    if (tailing_backquote_count < state_->backquote_count) {
         return false;
     }
 
@@ -98,6 +97,18 @@ bool CodeBlockParser::ParseTailingLine(
     context.Forward();
     transaction.Commit();
     return true;
+}
+
+
+void CodeBlockParser::ParseContentLine(ParseContext& context) {
+
+    while (!context.IsAtLineEnd()) {
+        state_->content += context.CurrentChar();
+        context.Forward();
+    }
+
+    state_->content += L'\n';
+    context.Forward();
 }
 
 }

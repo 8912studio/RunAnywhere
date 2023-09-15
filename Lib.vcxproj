@@ -119,7 +119,7 @@
     <ClInclude Include="src\help\markdown\element\element.h" />
     <ClInclude Include="src\help\markdown\element\factory.h" />
     <ClInclude Include="src\help\markdown\element\header_element.h" />
-    <ClInclude Include="src\help\markdown\parse\block_element_parser.h" />
+    <ClInclude Include="src\help\markdown\parse\block_parser.h" />
     <ClInclude Include="src\help\markdown\parse\body_parser.h" />
     <ClInclude Include="src\help\markdown\parse\bold_parser.h" />
     <ClInclude Include="src\help\markdown\parse\code_block_parser.h" />
@@ -327,7 +327,6 @@
     <ClCompile Include="src\help\help_window.cpp" />
     <ClCompile Include="src\help\markdown\element\element.cpp" />
     <ClCompile Include="src\help\markdown\element\header_element.cpp" />
-    <ClCompile Include="src\help\markdown\parse\block_element_parser.cpp" />
     <ClCompile Include="src\help\markdown\parse\body_parser.cpp" />
     <ClCompile Include="src\help\markdown\parse\bold_parser.cpp" />
     <ClCompile Include="src\help\markdown\parse\code_block_parser.cpp" />

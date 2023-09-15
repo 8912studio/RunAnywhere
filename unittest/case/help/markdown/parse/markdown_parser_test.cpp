@@ -162,3 +162,22 @@ TEST(MarkdownParserTest, ParseParagraph) {
         MakeText(L"*"),
     }));
 }
+
+
+
+TEST(MarkdownParserTest, ParseCodeBlock) {
+
+    auto test = [](std::wstring_view input, std::wstring_view expected) {
+        return TestParser(input, { MakeCodeBlock(std::wstring(expected)) });
+    };
+
+    ASSERT_TRUE(test(L"```\n```", L""));
+    ASSERT_TRUE(test(L"```\n\n```", L""));
+    ASSERT_TRUE(test(L"```\n\n\n```", L"\n"));
+    ASSERT_TRUE(test(L"```\nabc\n```", L"abc"));
+    ASSERT_TRUE(test(L"```\nabc \n    define\n```", L"abc \n    define"));
+    ASSERT_TRUE(test(L"````\nabcd\n````", L"abcd"));
+    ASSERT_TRUE(test(L"````\nabcd\n```````", L"abcd"));
+    ASSERT_TRUE(test(L"```\nline1\nline2\nline3", L"line1\nline2\nline3"));
+    ASSERT_TRUE(test(L"```\n``\n```", L"``"));
+}

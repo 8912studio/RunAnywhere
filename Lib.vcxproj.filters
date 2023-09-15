@@ -759,9 +759,6 @@
     <ClInclude Include="src\help\markdown\parse\markdown_parser.h">
       <Filter>src\help\markdown\parse</Filter>
     </ClInclude>
-    <ClInclude Include="src\help\markdown\parse\block_element_parser.h">
-      <Filter>src\help\markdown\parse</Filter>
-    </ClInclude>
     <ClInclude Include="src\help\markdown\element\factory.h">
       <Filter>src\help\markdown\element</Filter>
     </ClInclude>
@@ -787,6 +784,9 @@
       <Filter>src\help\markdown\parse</Filter>
     </ClInclude>
     <ClInclude Include="src\help\markdown\parse\unordered_list_parser.h">
+      <Filter>src\help\markdown\parse</Filter>
+    </ClInclude>
+    <ClInclude Include="src\help\markdown\parse\block_parser.h">
       <Filter>src\help\markdown\parse</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1239,9 +1239,6 @@
       <Filter>src\help\markdown\parse</Filter>
     </ClCompile>
     <ClCompile Include="src\help\markdown\parse\markdown_parser.cpp">
-      <Filter>src\help\markdown\parse</Filter>
-    </ClCompile>
-    <ClCompile Include="src\help\markdown\parse\block_element_parser.cpp">
       <Filter>src\help\markdown\parse</Filter>
     </ClCompile>
     <ClCompile Include="src\help\markdown\element\element.cpp">

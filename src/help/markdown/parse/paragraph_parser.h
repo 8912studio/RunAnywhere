@@ -1,16 +1,13 @@
 #pragma once
 
-#include <memory>
-#include <zaf/base/non_copyable.h>
-#include "help/markdown/element/element.h"
-#include "help/markdown/parse/parse_context.h"
+#include "help/markdown/parse/block_parser.h"
 
 namespace ra::help::markdown::parse {
 
-class ParagraphParser : zaf::NonCopyable {
+class ParagraphParser : public BlockParser {
 public:
-    std::shared_ptr<element::Element> ParseOneLine(ParseContext& context);
-    std::shared_ptr<element::Element> FinishParagraph();
+    Status ParseOneLine(ParseContext& context) override;
+    std::shared_ptr<element::Element> FinishCurrentElement() override;
 
 private:
     class LineInfo {

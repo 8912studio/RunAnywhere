@@ -1,18 +1,23 @@
 #pragma once
 
-#include "help/markdown/parse/element_parser.h"
+#include "help/markdown/parse/block_parser.h"
 
 namespace ra::help::markdown::parse {
 
-class HeaderParser : public ElementParser {
+class HeaderParser : public BlockParser {
 public:
-    static ElementParser* Instance();
-
-public:
-    std::shared_ptr<element::Element> Parse(ParseContext& context) override;
+    Status ParseOneLine(ParseContext& context) override;
+    std::shared_ptr<element::Element> FinishCurrentElement() override;
 
 private:
-    HeaderParser() = default;
+    class State {
+    public:
+        std::size_t hash_count{};
+        std::wstring content;
+    };
+
+private:
+    std::optional<State> state_;
 };
 
 }

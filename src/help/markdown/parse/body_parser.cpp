@@ -1,7 +1,8 @@
 #include "help/markdown/parse/body_parser.h"
 #include <zaf/base/error/check.h>
 #include "help/markdown/element/factory.h"
-#include "help/markdown/parse/block_element_parser.h"
+#include "help/markdown/parse/code_block_parser.h"
+#include "help/markdown/parse/header_parser.h"
 #include "help/markdown/parse/paragraph_parser.h"
 
 namespace ra::help::markdown::parse {
@@ -14,66 +15,98 @@ BodyParser* BodyParser::Instance() {
 
 element::ElementList BodyParser::Parse(ParseContext& context) {
 
-    ParagraphParser paragraph_parser;
-
     element::ElementList elements;
-
     while (!context.IsEnd()) {
 
         //Context must be at line start each time when parsing a block element.
         ZAF_EXPECT(context.IsAtLineStart());
 
-        auto element = BlockElementParser::Instance()->Parse(context);
-        if (element) {
+        std::shared_ptr<element::Element> element;
+        if (ParseBlockOneLine(context, element)) {
 
-            auto paragraph = paragraph_parser.FinishParagraph();
+            auto paragraph = paragraph_parser_.FinishCurrentElement();
             if (paragraph) {
                 elements.push_back(std::move(paragraph));
             }
 
-            elements.push_back(std::move(element));
+            if (element) {
+                elements.push_back(std::move(element));
+            }
         }
         else {
 
-            auto paragraph = paragraph_parser.ParseOneLine(context);
-            if (paragraph) {
-                elements.push_back(std::move(paragraph));
+            auto status = paragraph_parser_.ParseOneLine(context);
+            if (status == ParagraphParser::Status::Finished) {
+
+                auto paragraph = paragraph_parser_.FinishCurrentElement();
+                if (paragraph) {
+                    elements.push_back(std::move(paragraph));
+                }
             }
         }
     }
 
-    auto paragraph = paragraph_parser.FinishParagraph();
-    if (paragraph) {
-        elements.push_back(std::move(paragraph));
+    if (current_block_parser_) {
+        auto element = current_block_parser_->FinishCurrentElement();
+        if (element) {
+            elements.push_back(std::move(element));
+        }
+    }
+    else {
+        auto paragraph = paragraph_parser_.FinishCurrentElement();
+        if (paragraph) {
+            elements.push_back(std::move(paragraph));
+        }
     }
 
     return elements;
 }
 
 
-void BodyParser::ParseEmptyLines(ParseContext& context) {
+bool BodyParser::ParseBlockOneLine(
+    ParseContext& context,
+    std::shared_ptr<element::Element>& element) {
 
-    while (ParseEmptyLine(context)) {}
-}
+    if (current_block_parser_) {
 
+        auto status = current_block_parser_->ParseOneLine(context);
+        ZAF_EXPECT(status != BlockParser::Status::Failed);
 
-bool BodyParser::ParseEmptyLine(ParseContext& context) {
+        if (status == BlockParser::Status::Continue) {
+            return true;
+        }
 
-    if (!context.IsAtLineStart()) {
+        //Must be Status::Finished here.
+        element = current_block_parser_->FinishCurrentElement();
+        ZAF_EXPECT(element);
+        current_block_parser_ = nullptr;
+        return true;
+    }
+    else {
+
+        std::vector<BlockParser*> block_parsers = {
+            &header_parser_, 
+            &code_block_parser_ 
+        };
+
+        for (auto each_parser : block_parsers) {
+
+            auto status = each_parser->ParseOneLine(context);
+            if (status == BlockParser::Status::Continue) {
+                current_block_parser_ = each_parser;
+                return true;
+            }
+
+            if (status == BlockParser::Status::Finished) {
+
+                element = each_parser->FinishCurrentElement();
+                ZAF_EXPECT(element);
+                return true;
+            }
+        }
+
         return false;
     }
-
-    auto transaction = context.BeginTransaction();
-
-    context.SkipSpaces();
-
-    if (!context.IsAtLineEnd()) {
-        return false;
-    }
-
-    context.Forward();
-    transaction.Commit();
-    return true;
 }
 
 }

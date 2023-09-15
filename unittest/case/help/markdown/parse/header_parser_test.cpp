@@ -11,7 +11,12 @@ TEST(HeaderParserTest, Success) {
 
     auto test = [](std::wstring_view input, HeaderDepth depth, ElementList expected) {
         ParseContext context(input);
-        auto element = HeaderParser::Instance()->Parse(context);
+        HeaderParser parser;
+        auto status = parser.ParseOneLine(context);
+        if (status != HeaderParser::Status::Finished) {
+            return false;
+        }
+        auto element = parser.FinishCurrentElement();
         if (!element) {
             return false;
         }
@@ -31,43 +36,20 @@ TEST(HeaderParserTest, Success) {
 }
 
 
-TEST(HeaderParserTest, ContextIndex) {
-
-    ParseContext context(L"# header line \nParagraph line.");
-    auto element = HeaderParser::Instance()->Parse(context);
-    ASSERT_NE(element, nullptr);
-    ASSERT_TRUE(element->IsEqualTo(*MakeHeader(HeaderDepth::_1, L"header line")));
-    ASSERT_EQ(context.CurrentIndex(), 15);
-}
-
-
 TEST(HeaderParserTest, Failure) {
 
-    {
-        ParseContext context(L"#");
-        auto element = zaf::As<HeaderElement>(HeaderParser::Instance()->Parse(context));
-        ASSERT_EQ(element, nullptr);
-        ASSERT_EQ(context.CurrentIndex(), 0);
-    }
+    auto test = [](std::wstring_view input) {
+        ParseContext context(input);
+        HeaderParser parser;
+        auto status = parser.ParseOneLine(context);
+        if (status != HeaderParser::Status::Failed) {
+            return false;
+        }
+        return context.CurrentIndex() == 0;
+    };
 
-    {
-        ParseContext context(L"# ");
-        auto element = zaf::As<HeaderElement>(HeaderParser::Instance()->Parse(context));
-        ASSERT_EQ(element, nullptr);
-        ASSERT_EQ(context.CurrentIndex(), 0);
-    }
-
-    {
-        ParseContext context(L"#   ");
-        auto element = zaf::As<HeaderElement>(HeaderParser::Instance()->Parse(context));
-        ASSERT_EQ(element, nullptr);
-        ASSERT_EQ(context.CurrentIndex(), 0);
-    }
-
-    {
-        ParseContext context(L"#   #");
-        auto element = zaf::As<HeaderElement>(HeaderParser::Instance()->Parse(context));
-        ASSERT_EQ(element, nullptr);
-        ASSERT_EQ(context.CurrentIndex(), 0);
-    }
+    ASSERT_TRUE(test(L"#"));
+    ASSERT_TRUE(test(L"# "));
+    ASSERT_TRUE(test(L"#   "));
+    ASSERT_TRUE(test(L"#   #"));
 }

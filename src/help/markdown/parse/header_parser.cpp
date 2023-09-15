@@ -1,23 +1,15 @@
 #include "help/markdown/parse/header_parser.h"
+#include <zaf/base/error/check.h>
 #include <zaf/base/string/trim.h>
 #include "help/markdown/element/factory.h"
 
 namespace ra::help::markdown::parse {
 
-ElementParser* HeaderParser::Instance() {
-    static HeaderParser instance;
-    return &instance;
-}
+HeaderParser::Status HeaderParser::ParseOneLine(ParseContext& context) {
 
-
-std::shared_ptr<element::Element> HeaderParser::Parse(ParseContext& context) {
-
-    if (!context.IsAtLineStart()) {
-        return nullptr;
-    }
+    ZAF_EXPECT(!state_.has_value());
 
     auto transaction = context.BeginTransaction();
-
     context.SkipSpaces();
 
     std::size_t hash_count{};
@@ -27,25 +19,24 @@ std::shared_ptr<element::Element> HeaderParser::Parse(ParseContext& context) {
     }
 
     if (hash_count == 0 || hash_count > 3) {
-        return nullptr;
+        return Status::Failed;
     }
 
     if (context.CurrentChar() != L' ') {
-        return nullptr;
+        return Status::Failed;
     }
 
     context.Forward();
 
     if (context.IsAtLineEnd()) {
-        return nullptr;
+        return Status::Failed;
     }
 
     std::wstring content;
     do {
         content.append(1, context.CurrentChar());
         context.Forward();
-    } 
-    while (!context.IsAtLineEnd());
+    } while (!context.IsAtLineEnd());
 
     //Trim spaces
     zaf::Trim(content);
@@ -53,7 +44,7 @@ std::shared_ptr<element::Element> HeaderParser::Parse(ParseContext& context) {
     //Remove tailing hashes
     auto last_not_hash_index = content.find_last_not_of(L'#');
     if (last_not_hash_index == std::wstring::npos) {
-        return nullptr;
+        return Status::Failed;
     }
 
     content.erase(last_not_hash_index + 1);
@@ -61,17 +52,28 @@ std::shared_ptr<element::Element> HeaderParser::Parse(ParseContext& context) {
     zaf::Trim(content);
 
     if (content.empty()) {
-        return nullptr;
+        return Status::Failed;
     }
 
     //Eat the tailing line break.
     context.Forward();
     transaction.Commit();
 
-    auto depth = element::HeaderDepth(std::size_t(element::HeaderDepth::_1) + hash_count - 1);
-    return element::MakeHeader(depth, {
-        element::MakeText(std::move(content)),
-    });
+    state_.emplace();
+    state_->hash_count = hash_count;
+    state_->content = std::move(content);
+    return Status::Finished;
+}
+
+
+std::shared_ptr<element::Element> HeaderParser::FinishCurrentElement() {
+
+    ZAF_EXPECT(state_.has_value());
+
+    auto depth = std::size_t(element::HeaderDepth::_1) + state_->hash_count - 1;
+    auto result = element::MakeHeader(element::HeaderDepth(depth), std::move(state_->content));
+    state_.reset();
+    return result;
 }
 
 }
