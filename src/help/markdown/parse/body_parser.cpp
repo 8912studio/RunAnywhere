@@ -7,63 +7,38 @@
 
 namespace ra::help::markdown::parse {
 
-BodyParser* BodyParser::Instance() {
-    static BodyParser instance;
-    return &instance;
-}
+void BodyParser::ParseOneLine(ParseContext& context) {
 
+    //Each body parser can be used only once.
+    ZAF_EXPECT(!is_finished_);
 
-element::ElementList BodyParser::Parse(ParseContext& context) {
+    std::shared_ptr<element::Element> element;
+    if (ParseOneBlockLine(context, element)) {
 
-    element::ElementList elements;
-    while (!context.IsEnd()) {
-
-        //Context must be at line start each time when parsing a block element.
-        ZAF_EXPECT(context.IsAtLineStart());
-
-        std::shared_ptr<element::Element> element;
-        if (ParseBlockOneLine(context, element)) {
-
-            auto paragraph = paragraph_parser_.FinishCurrentElement();
-            if (paragraph) {
-                elements.push_back(std::move(paragraph));
-            }
-
-            if (element) {
-                elements.push_back(std::move(element));
-            }
+        auto paragraph = paragraph_parser_.FinishCurrentElement();
+        if (paragraph) {
+            elements_.push_back(std::move(paragraph));
         }
-        else {
 
-            auto status = paragraph_parser_.ParseOneLine(context);
-            if (status == ParagraphParser::Status::Finished) {
-
-                auto paragraph = paragraph_parser_.FinishCurrentElement();
-                if (paragraph) {
-                    elements.push_back(std::move(paragraph));
-                }
-            }
-        }
-    }
-
-    if (current_block_parser_) {
-        auto element = current_block_parser_->FinishCurrentElement();
         if (element) {
-            elements.push_back(std::move(element));
+            elements_.push_back(std::move(element));
         }
     }
     else {
-        auto paragraph = paragraph_parser_.FinishCurrentElement();
-        if (paragraph) {
-            elements.push_back(std::move(paragraph));
+
+        auto status = paragraph_parser_.ParseOneLine(context);
+        if (status == ParagraphParser::Status::Finished) {
+
+            auto paragraph = paragraph_parser_.FinishCurrentElement();
+            if (paragraph) {
+                elements_.push_back(std::move(paragraph));
+            }
         }
     }
-
-    return elements;
 }
 
 
-bool BodyParser::ParseBlockOneLine(
+bool BodyParser::ParseOneBlockLine(
     ParseContext& context,
     std::shared_ptr<element::Element>& element) {
 
@@ -86,7 +61,8 @@ bool BodyParser::ParseBlockOneLine(
 
         std::vector<BlockParser*> block_parsers = {
             &header_parser_, 
-            &code_block_parser_ 
+            &code_block_parser_,
+            &unordered_list_parser_,
         };
 
         for (auto each_parser : block_parsers) {
@@ -107,6 +83,26 @@ bool BodyParser::ParseBlockOneLine(
 
         return false;
     }
+}
+
+
+element::ElementList BodyParser::Finish() {
+
+    if (current_block_parser_) {
+        auto element = current_block_parser_->FinishCurrentElement();
+        if (element) {
+            elements_.push_back(std::move(element));
+        }
+    }
+    else {
+        auto paragraph = paragraph_parser_.FinishCurrentElement();
+        if (paragraph) {
+            elements_.push_back(std::move(paragraph));
+        }
+    }
+
+    is_finished_ = true;
+    return std::move(elements_);
 }
 
 }

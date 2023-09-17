@@ -75,6 +75,7 @@ public:
 
     bool Forward();
     void SkipSpaces();
+    bool ParseText(std::wstring_view text);
 
 private:
     void Rollback(std::size_t index);

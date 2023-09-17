@@ -133,6 +133,7 @@
     <ClInclude Include="src\help\markdown\parse\paragraph_parser.h" />
     <ClInclude Include="src\help\markdown\parse\parse_context.h" />
     <ClInclude Include="src\help\markdown\parse\span_element_parser.h" />
+    <ClInclude Include="src\help\markdown\parse\unordered_list_item_parser.h" />
     <ClInclude Include="src\help\markdown\parse\unordered_list_parser.h" />
     <ClInclude Include="src\hot_key.h" />
     <ClInclude Include="src\hot_key_box.h" />
@@ -342,6 +343,7 @@
       <ObjectFileName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)markdown_parse_context.obj</ObjectFileName>
     </ClCompile>
     <ClCompile Include="src\help\markdown\parse\span_element_parser.cpp" />
+    <ClCompile Include="src\help\markdown\parse\unordered_list_item_parser.cpp" />
     <ClCompile Include="src\help\markdown\parse\unordered_list_parser.cpp" />
     <ClCompile Include="src\hot_key_box.cpp" />
     <ClCompile Include="src\hot_key_manager.cpp" />

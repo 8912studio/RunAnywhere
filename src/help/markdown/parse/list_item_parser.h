@@ -1,24 +1,34 @@
 #pragma once
 
-#include "help/markdown/element/element_type.h"
-#include "help/markdown/parse/element_parser.h"
+#include <optional>
+#include "help/markdown/parse/block_parser.h"
 
 namespace ra::help::markdown::parse {
 
-class ListItemParser : public ElementParser {
+class BodyParser;
+
+class ListItemParser : public BlockParser {
 public:
-    std::shared_ptr<element::Element> Parse(ParseContext& context) override;
+    Status ParseOneLine(ParseContext& context) override;
+    std::shared_ptr<element::Element> FinishCurrentElement() override;
 
 protected:
-    explicit ListItemParser(element::ElementType element_type);
-
-    virtual bool ParseIdentity(ParseContext& context) = 0;
+    virtual bool ParseItemIdentity(ParseContext& context) = 0;
 
 private:
-    bool ParseHeadingIdentities(ParseContext& context);
+    class State {
+    public:
+        State();
+        ~State();
+
+        std::unique_ptr<BodyParser> body_parser;
+    };
 
 private:
-    element::ElementType element_type_{};
+    bool ParseItemBody(ParseContext& context);
+
+private:
+    std::optional<State> state_;
 };
 
 }

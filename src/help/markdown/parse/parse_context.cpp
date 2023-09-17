@@ -90,6 +90,22 @@ void ParseContext::SkipSpaces() {
 }
 
 
+bool ParseContext::ParseText(std::wstring_view text) {
+
+    auto transaction = BeginTransaction();
+
+    for (auto ch : text) {
+        if (CurrentChar() != ch) {
+            return false;
+        }
+        Forward();
+    }
+
+    transaction.Commit();
+    return true;
+}
+
+
 void ParseContext::Rollback(std::size_t index) {
     current_index_ = index;
     current_pointer_ = input_.data() + current_index_;

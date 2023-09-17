@@ -1,51 +1,70 @@
 #include "help/markdown/parse/list_item_parser.h"
 #include <zaf/base/error/check.h>
+#include "help/markdown/element/factory.h"
 #include "help/markdown/parse/body_parser.h"
 
 namespace ra::help::markdown::parse {
 
-ListItemParser::ListItemParser(element::ElementType element_type) : element_type_(element_type) {
+ListItemParser::Status ListItemParser::ParseOneLine(ParseContext& context) {
 
+    if (!state_) {
+
+        if (!ParseItemIdentity(context)) {
+            return Status::Failed;
+        }
+
+        state_.emplace();
+        state_->body_parser->ParseOneLine(context);
+        return Status::Continue;
+    }
+    else {
+
+        if (ParseItemBody(context)) {
+            return Status::Continue;
+        }
+        return Status::Finished;
+    }
 }
 
 
-std::shared_ptr<element::Element> ListItemParser::Parse(ParseContext& context) {
+bool ListItemParser::ParseItemBody(ParseContext& context) {
 
     auto transaction = context.BeginTransaction();
 
-    if (!ParseHeadingIdentities(context)) {
-        return nullptr;
+    std::size_t space_count{};
+    while (context.CurrentChar() == L' ') {
+        ++space_count;
+        context.Forward();
     }
 
-    auto children = BodyParser::Instance()->Parse(context);
-    return std::make_shared<element::Element>(element_type_, std::move(children));
+    bool is_current_item_finished = space_count < 4 && !context.IsAtLineEnd();
+    if (is_current_item_finished) {
+        return false;
+    }
+
+    state_->body_parser->ParseOneLine(context);
+
+    transaction.Commit();
+    return true;
 }
 
 
-bool ListItemParser::ParseHeadingIdentities(ParseContext& context) {
+std::shared_ptr<element::Element> ListItemParser::FinishCurrentElement() {
 
-    if (!context.IsAtLineStart()) {
-        return false;
-    }
+    ZAF_EXPECT(state_.has_value());
 
-    context.SkipSpaces();
+    auto result = MakeListItem(state_->body_parser->Finish());
+    state_.reset();
+    return result;
+}
 
-    if (!ParseIdentity(context)) {
-        return false;
-    }
 
-    if (context.CurrentChar() != L'.') {
-        return false;
-    }
+ListItemParser::State::State() : body_parser(std::make_unique<BodyParser>()) {
 
-    context.Forward();
+}
 
-    if (context.CurrentChar() != L' ') {
-        return false;
-    }
+ListItemParser::State::~State() {
 
-    context.Forward();
-    return true;
 }
 
 }

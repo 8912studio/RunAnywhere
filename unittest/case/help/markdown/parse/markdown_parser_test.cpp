@@ -181,3 +181,28 @@ TEST(MarkdownParserTest, ParseCodeBlock) {
     ASSERT_TRUE(test(L"```\nline1\nline2\nline3", L"line1\nline2\nline3"));
     ASSERT_TRUE(test(L"```\n``\n```", L"``"));
 }
+
+
+TEST(MarkdownParserTest, ParseUnorderedList) {
+
+    auto test = [](std::wstring_view input, ElementList expected) {
+        return TestParser(input, { MakeUnorderedList(std::move(expected)) });
+    };
+
+    ASSERT_TRUE(test(L"* item1\n* item2\n* item3\n", {
+        MakeListItem({ MakeParagraph(L"item1") }),
+        MakeListItem({ MakeParagraph(L"item2") }),
+        MakeListItem({ MakeParagraph(L"item3") }),
+    }));
+
+    ASSERT_TRUE(test(L"* item1\n\n* item2\n\n\n* item3\n\n", {
+        MakeListItem({ MakeParagraph(L"item1") }),
+        MakeListItem({ MakeParagraph(L"item2") }),
+        MakeListItem({ MakeParagraph(L"item3") }),
+    }));
+
+    ASSERT_TRUE(test(L"* item1\ntext1\n* item2\ntext1\ntext2", {
+        MakeListItem({ MakeParagraph(L"item1 text1") }),
+        MakeListItem({ MakeParagraph(L"item2 text1 text2") }),
+    }));
+}
