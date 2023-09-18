@@ -10,7 +10,7 @@ namespace ra::help::markdown::parse {
 void BodyParser::ParseOneLine(ParseContext& context) {
 
     //Each body parser can be used only once.
-    ZAF_EXPECT(!is_finished_);
+    ZAF_EXPECT(!is_body_finished_);
 
     std::shared_ptr<element::Element> element;
     if (ParseOneBlockLine(context, element)) {
@@ -23,6 +23,8 @@ void BodyParser::ParseOneLine(ParseContext& context) {
         if (element) {
             elements_.push_back(std::move(element));
         }
+
+        is_last_paragraph_finished_ = true;
     }
     else {
 
@@ -33,6 +35,10 @@ void BodyParser::ParseOneLine(ParseContext& context) {
             if (paragraph) {
                 elements_.push_back(std::move(paragraph));
             }
+            is_last_paragraph_finished_ = true;
+        }
+        else {
+            is_last_paragraph_finished_ = false;
         }
     }
 }
@@ -101,7 +107,7 @@ element::ElementList BodyParser::Finish() {
         }
     }
 
-    is_finished_ = true;
+    is_body_finished_ = true;
     return std::move(elements_);
 }
 

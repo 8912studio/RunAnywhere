@@ -71,21 +71,18 @@ bool UnorderedListParser::ParseNonFirstLine(ParseContext& context) {
 
         state_->parsed_items.push_back(std::move(element));
         state_->current_item_parser.reset();
-        return true;
     }
-    else {
 
-        auto next_item_parser = std::make_unique<UnorderedListItemParser>(state_->identity_char);
-        auto parse_status = next_item_parser->ParseOneLine(context);
-        ZAF_EXPECT(parse_status != Status::Finished);
+    auto next_item_parser = std::make_unique<UnorderedListItemParser>(state_->identity_char);
+    auto parse_status = next_item_parser->ParseOneLine(context);
+    ZAF_EXPECT(parse_status != Status::Finished);
 
-        if (parse_status == Status::Failed) {
-            return false;
-        }
-
-        state_->current_item_parser = std::move(next_item_parser);
-        return true;
+    if (parse_status == Status::Failed) {
+        return false;
     }
+
+    state_->current_item_parser = std::move(next_item_parser);
+    return true;
 }
 
 }

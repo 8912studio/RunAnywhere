@@ -141,7 +141,12 @@ void ParagraphParser::MergeLineInfo(
         }
         merged_text.append(current_line.heading_text);
 
-        head_element = element::MakeText(std::move(merged_text));
+        if (current_line.elements.empty()) {
+            current_line.tailing_text = std::move(merged_text);
+        }
+        else {
+            head_element = element::MakeText(std::move(merged_text));
+        }
     }
     else {
 

@@ -66,6 +66,31 @@ TEST(MarkdownParserTest, ParseFiles) {
             MakeInlineCode(L"~"),
             MakeText(L", followed by a number."),
         }),
+        MakeParagraph({ 
+            MakeBold(L"Switches")
+        }),
+        MakeUnorderedList({
+            MakeListItem({
+                MakeParagraph({ MakeInlineCode(L"/f") }),
+                MakeParagraph({
+                    MakeText(L"Treats "),
+                    MakeInlineCode(L"text"),
+                    MakeText(L" as file path."),
+                }),
+            }),
+            MakeListItem({
+                MakeParagraph({ MakeInlineCode(L"/u8") }),
+                MakeParagraph({
+                    MakeText(L"Treats active path as string and display it in UTF-8 encoding."),
+                }),
+            }),
+            MakeListItem({
+                MakeParagraph({ MakeInlineCode(L"/u16") }),
+                MakeParagraph({
+                    MakeText(L"Treats active path as string and display it in UTF-16 encoding."),
+                }),
+            }),
+        }),
         MakeParagraph({
             MakeText(L"Example:"),
         }),
@@ -97,6 +122,7 @@ TEST(MarkdownParserTest, ParseParagraph) {
     ASSERT_TRUE(test(L"single line paragraph", { MakeText(L"single line paragraph") }));
     ASSERT_TRUE(test(L"line1\nline2", { MakeText(L"line1 line2") }));
     ASSERT_TRUE(test(L"line1\nline2\n", { MakeText(L"line1 line2") }));
+    ASSERT_TRUE(test(L"line1\nline2\nline3", { MakeText(L"line1 line2 line3") }));
     ASSERT_TRUE(test(L"line1 \nline2", { MakeText(L"line1 line2") }));
     ASSERT_TRUE(test(L"line1 \n line2", { MakeText(L"line1 line2") }));
     ASSERT_TRUE(test(L"line1  \nline2", { MakeText(L"line1\nline2") }));
@@ -204,5 +230,32 @@ TEST(MarkdownParserTest, ParseUnorderedList) {
     ASSERT_TRUE(test(L"* item1\ntext1\n* item2\ntext1\ntext2", {
         MakeListItem({ MakeParagraph(L"item1 text1") }),
         MakeListItem({ MakeParagraph(L"item2 text1 text2") }),
+    }));
+
+    ASSERT_TRUE(test(L"* item1\n\n    text1\n\n* item2\n\n    text2\n* item3", {
+        MakeListItem({
+            MakeParagraph(L"item1"), 
+            MakeParagraph(L"text1"),
+        }),
+        MakeListItem({
+            MakeParagraph(L"item2"),
+            MakeParagraph(L"text2"),
+        }),
+        MakeListItem({
+            MakeParagraph(L"item3"),
+        }),
+    }));
+
+    ASSERT_TRUE(test(L"- item1\n    + item1-1\n    + item1-2\n- item2", {
+        MakeListItem({
+            MakeParagraph(L"item1"),
+            MakeUnorderedList({
+                MakeListItem({ MakeParagraph(L"item1-1") }),
+                MakeListItem({ MakeParagraph(L"item1-2") }),
+            }),
+        }),
+        MakeListItem({
+            MakeParagraph(L"item2"),
+        }),
     }));
 }

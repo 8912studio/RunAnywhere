@@ -25,7 +25,8 @@ private:
     };
 
 private:
-    bool ParseItemBody(ParseContext& context);
+    bool ParseItemBodyLine(ParseContext& context);
+    bool InnerParseItemBodyLine(ParseContext& context);
 
 private:
     std::optional<State> state_;

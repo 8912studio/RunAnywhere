@@ -19,7 +19,7 @@ ListItemParser::Status ListItemParser::ParseOneLine(ParseContext& context) {
     }
     else {
 
-        if (ParseItemBody(context)) {
+        if (ParseItemBodyLine(context)) {
             return Status::Continue;
         }
         return Status::Finished;
@@ -27,9 +27,20 @@ ListItemParser::Status ListItemParser::ParseOneLine(ParseContext& context) {
 }
 
 
-bool ListItemParser::ParseItemBody(ParseContext& context) {
+bool ListItemParser::ParseItemBodyLine(ParseContext& context) {
 
     auto transaction = context.BeginTransaction();
+
+    if (InnerParseItemBodyLine(context)) {
+        transaction.Commit();
+        return true;
+    }
+
+    return false;
+}
+
+
+bool ListItemParser::InnerParseItemBodyLine(ParseContext& context) {
 
     std::size_t space_count{};
     while (context.CurrentChar() == L' ') {
@@ -37,15 +48,27 @@ bool ListItemParser::ParseItemBody(ParseContext& context) {
         context.Forward();
     }
 
-    bool is_current_item_finished = space_count < 4 && !context.IsAtLineEnd();
-    if (is_current_item_finished) {
-        return false;
+    auto is_item_body_line = [this, space_count, &context]() {
+    
+        //Indented lines and empty lines belong to item body.
+        if (space_count >= 4 || context.IsAtLineEnd()) {
+            return true;
+        }
+
+        //Lines begin with item identity doesn't belong to item body.
+        if (ParseItemIdentity(context)) {
+            return false;
+        }
+
+        //If last paragraph is not finished, non-indented lines belong to item body as well.
+        return !state_->body_parser->IsLastParagraphFinished();
+    }();
+
+    if (is_item_body_line) {
+        state_->body_parser->ParseOneLine(context);
+        return true;
     }
-
-    state_->body_parser->ParseOneLine(context);
-
-    transaction.Commit();
-    return true;
+    return false;
 }
 
 

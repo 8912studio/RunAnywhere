@@ -16,6 +16,10 @@ public:
     void ParseOneLine(ParseContext& context);
     element::ElementList Finish();
 
+    bool IsLastParagraphFinished() const {
+        return is_last_paragraph_finished_;
+    }
+
 private:
     bool ParseOneBlockLine(ParseContext& context, std::shared_ptr<element::Element>& element);
 
@@ -27,7 +31,8 @@ private:
 
     BlockParser* current_block_parser_{};
     element::ElementList elements_;
-    bool is_finished_{};
+    bool is_last_paragraph_finished_{};
+    bool is_body_finished_{};
 };
 
 }
