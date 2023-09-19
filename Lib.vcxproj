@@ -138,6 +138,10 @@
     <ClInclude Include="src\help\markdown\parse\span_element_parser.h" />
     <ClInclude Include="src\help\markdown\parse\unordered_list_item_parser.h" />
     <ClInclude Include="src\help\markdown\parse\unordered_list_parser.h" />
+    <ClInclude Include="src\help\markdown\render\paragraph_region.h" />
+    <ClInclude Include="src\help\markdown\render\region.h" />
+    <ClInclude Include="src\help\markdown\render\root_region.h" />
+    <ClInclude Include="src\help\markdown\render\text_style.h" />
     <ClInclude Include="src\hot_key.h" />
     <ClInclude Include="src\hot_key_box.h" />
     <ClInclude Include="src\hot_key_manager.h" />
@@ -351,6 +355,8 @@
     <ClCompile Include="src\help\markdown\parse\span_element_parser.cpp" />
     <ClCompile Include="src\help\markdown\parse\unordered_list_item_parser.cpp" />
     <ClCompile Include="src\help\markdown\parse\unordered_list_parser.cpp" />
+    <ClCompile Include="src\help\markdown\render\paragraph_region.cpp" />
+    <ClCompile Include="src\help\markdown\render\root_region.cpp" />
     <ClCompile Include="src\hot_key_box.cpp" />
     <ClCompile Include="src\hot_key_manager.cpp" />
     <ClCompile Include="src\hot_key_utility.cpp" />

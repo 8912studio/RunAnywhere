@@ -127,6 +127,9 @@
     <Filter Include="src\help\markdown\parse">
       <UniqueIdentifier>{854c018c-ae07-4445-bcc0-b5e6660c888f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\help\markdown\render">
+      <UniqueIdentifier>{798a8809-373d-4253-8f9e-d7ff8468afb3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\module\calculator\parse\binary_expression_parser.h">
@@ -801,6 +804,18 @@
     <ClInclude Include="src\help\markdown\parse\list_parser.h">
       <Filter>src\help\markdown\parse</Filter>
     </ClInclude>
+    <ClInclude Include="src\help\markdown\render\paragraph_region.h">
+      <Filter>src\help\markdown\render</Filter>
+    </ClInclude>
+    <ClInclude Include="src\help\markdown\render\region.h">
+      <Filter>src\help\markdown\render</Filter>
+    </ClInclude>
+    <ClInclude Include="src\help\markdown\render\text_style.h">
+      <Filter>src\help\markdown\render</Filter>
+    </ClInclude>
+    <ClInclude Include="src\help\markdown\render\root_region.h">
+      <Filter>src\help\markdown\render</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -1294,6 +1309,12 @@
     </ClCompile>
     <ClCompile Include="src\help\markdown\parse\list_parser.cpp">
       <Filter>src\help\markdown\parse</Filter>
+    </ClCompile>
+    <ClCompile Include="src\help\markdown\render\root_region.cpp">
+      <Filter>src\help\markdown\render</Filter>
+    </ClCompile>
+    <ClCompile Include="src\help\markdown\render\paragraph_region.cpp">
+      <Filter>src\help\markdown\render</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
