@@ -259,3 +259,17 @@ TEST(MarkdownParserTest, ParseUnorderedList) {
         }),
     }));
 }
+
+
+TEST(MarkdownParserTest, ParseOrderedList) {
+
+    auto test = [](std::wstring_view input, ElementList expected) {
+        return TestParser(input, { MakeOrderedList(std::move(expected)) });
+    };
+
+    ASSERT_TRUE(test(L"1. item1\n2. item2\n3. item3", {
+        MakeListItem({ MakeParagraph(L"item1")}),
+        MakeListItem({ MakeParagraph(L"item2")}),
+        MakeListItem({ MakeParagraph(L"item3")}),
+    }));
+}

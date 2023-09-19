@@ -76,4 +76,9 @@ inline std::shared_ptr<Element> MakeUnorderedList(ElementList children) {
     return std::make_shared<Element>(ElementType::UnorderedList, std::move(children));
 }
 
+
+inline std::shared_ptr<Element> MakeOrderedList(ElementList children) {
+    return std::make_shared<Element>(ElementType::OrderedList, std::move(children));
+}
+
 }

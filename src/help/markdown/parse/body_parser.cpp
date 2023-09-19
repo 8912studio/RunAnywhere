@@ -69,6 +69,7 @@ bool BodyParser::ParseOneBlockLine(
             &header_parser_, 
             &code_block_parser_,
             &unordered_list_parser_,
+            &ordered_list_parser_,
         };
 
         for (auto each_parser : block_parsers) {

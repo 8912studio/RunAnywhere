@@ -5,7 +5,7 @@
 namespace ra::help::markdown::parse {
 
 class OrderedListItemParser : public ListItemParser {
-public:
+protected:
     bool ParseItemIdentity(ParseContext& context) override;
 };
 
