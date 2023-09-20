@@ -1,6 +1,11 @@
 #include "help/help_content_control.h"
 #include <zaf/graphic/canvas.h>
 #include <zaf/object/type_definition.h>
+#include "help/markdown/element/factory.h"
+#include "help/markdown/render/paragraph_region.h"
+#include "help/markdown/render/styled_text_builder.h"
+
+using namespace ra::help::markdown;
 
 namespace ra::help {
 
@@ -22,6 +27,24 @@ void HelpContentControl::Paint(zaf::Canvas& canvas, const zaf::Rect& dirty_rect)
 
     auto content_rect = this->ContentRect();
 
+    auto paragraph = element::MakeParagraph({
+        element::MakeText(L"This is a "),
+        element::MakeBold(L"BOLD"),
+        element::MakeText(L" text!"),
+    });
+
+    render::TextStyle basic_style;
+    basic_style.font = zaf::Font::Default();
+    basic_style.font.size = 18;
+
+    render::StyledTextBuilder builder;
+    auto styled_text = builder.Build(*paragraph, basic_style);
+
+    render::ParagraphRegion paragraph_region(styled_text);
+    paragraph_region.Resize(content_rect.size);
+    paragraph_region.Paint(canvas);
+
+    /*
     float start_y = content_rect.position.y;
     if (content_rect.size.height > content_layouter_.GetTotalHeight()) {
         start_y += (content_rect.size.height - content_layouter_.GetTotalHeight()) / 2;
@@ -36,6 +59,7 @@ void HelpContentControl::Paint(zaf::Canvas& canvas, const zaf::Rect& dirty_rect)
         canvas.SetBrushWithColor(each_layout_info.horizontal_info.color);
         canvas.DrawTextLayout(each_layout_info.horizontal_info.text_layout, position);
     }
+    */
 }
 
 

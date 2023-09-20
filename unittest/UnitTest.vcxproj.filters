@@ -79,6 +79,9 @@
     <Filter Include="case\help\markdown\parse">
       <UniqueIdentifier>{4726aa79-1822-432f-aba6-de91583582a4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="case\help\markdown\render">
+      <UniqueIdentifier>{dbba97a0-facf-4f63-a4fb-14aac33286e0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="case\module\calculator\decimal_number_parser_test.cpp">
@@ -237,6 +240,9 @@
     </ClCompile>
     <ClCompile Include="case\help\markdown\parse\header_parser_test.cpp">
       <Filter>case\help\markdown\parse</Filter>
+    </ClCompile>
+    <ClCompile Include="case\help\markdown\render\styled_text_builder_test.cpp">
+      <Filter>case\help\markdown\render</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

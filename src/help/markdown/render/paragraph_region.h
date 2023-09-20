@@ -1,12 +1,20 @@
 #pragma once
 
-#include "help/markdown/render/region.h"
+#include <zaf/graphic/text/text_layout.h>
+#include "help/markdown/render/render_region.h"
+#include "help/markdown/render/styled_text.h"
 
 namespace ra::help::markdown::render {
 
-class ParagraphRegion : public Region {
+class ParagraphRegion : public RenderRegion {
 public:
-    void Initialize(const element::Element& element, const TextStyle& text_style) override;
+    explicit ParagraphRegion(const StyledText& styled_text);
+
+    void Resize(const zaf::Size& size) override;
+    void Paint(zaf::Canvas& canvas) override;
+
+private:
+    zaf::TextLayout text_layout_;
 };
 
 }

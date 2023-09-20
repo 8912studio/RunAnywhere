@@ -58,6 +58,7 @@
     <ClCompile Include="case\help\markdown\parse\italic_parser_test.cpp" />
     <ClCompile Include="case\help\markdown\parse\markdown_parser_test.cpp" />
     <ClCompile Include="case\help\markdown\parse\parse_context_test.cpp" />
+    <ClCompile Include="case\help\markdown\render\styled_text_builder_test.cpp" />
     <ClCompile Include="case\main\clipboard_data_test.cpp" />
     <ClCompile Include="case\module\active_path\active_path_modifying_test.cpp" />
     <ClCompile Include="case\module\active_path\active_path_module_test.cpp" />
