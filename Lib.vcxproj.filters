@@ -822,7 +822,7 @@
     <ClInclude Include="src\help\markdown\render\styled_text_builder.h">
       <Filter>src\help\markdown\render</Filter>
     </ClInclude>
-    <ClInclude Include="src\help\markdown\render\markdown_region_builder.h">
+    <ClInclude Include="src\help\markdown\render\styled_text_layout.h">
       <Filter>src\help\markdown\render</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1326,9 +1326,6 @@
       <Filter>src\help\markdown\render</Filter>
     </ClCompile>
     <ClCompile Include="src\help\markdown\render\styled_text_builder.cpp">
-      <Filter>src\help\markdown\render</Filter>
-    </ClCompile>
-    <ClCompile Include="src\help\markdown\render\markdown_region_builder.cpp">
       <Filter>src\help\markdown\render</Filter>
     </ClCompile>
   </ItemGroup>

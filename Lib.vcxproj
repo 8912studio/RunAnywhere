@@ -141,9 +141,9 @@
     <ClInclude Include="src\help\markdown\render\paragraph_region.h" />
     <ClInclude Include="src\help\markdown\render\render_region.h" />
     <ClInclude Include="src\help\markdown\render\markdown_region.h" />
-    <ClInclude Include="src\help\markdown\render\markdown_region_builder.h" />
     <ClInclude Include="src\help\markdown\render\styled_text.h" />
     <ClInclude Include="src\help\markdown\render\styled_text_builder.h" />
+    <ClInclude Include="src\help\markdown\render\styled_text_layout.h" />
     <ClInclude Include="src\help\markdown\render\text_style.h" />
     <ClInclude Include="src\hot_key.h" />
     <ClInclude Include="src\hot_key_box.h" />
@@ -360,7 +360,6 @@
     <ClCompile Include="src\help\markdown\parse\unordered_list_parser.cpp" />
     <ClCompile Include="src\help\markdown\render\paragraph_region.cpp" />
     <ClCompile Include="src\help\markdown\render\markdown_region.cpp" />
-    <ClCompile Include="src\help\markdown\render\markdown_region_builder.cpp" />
     <ClCompile Include="src\help\markdown\render\styled_text_builder.cpp" />
     <ClCompile Include="src\hot_key_box.cpp" />
     <ClCompile Include="src\hot_key_manager.cpp" />
