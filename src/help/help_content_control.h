@@ -19,6 +19,7 @@ public:
 
 protected:
     void AfterParse() override;
+    void Layout(const zaf::Rect&) override;
     void Paint(zaf::Canvas& canvas, const zaf::Rect&) override;
     void OnRectChanged(const zaf::RectChangedInfo& event_info) override;
     void UpdateHeight();
@@ -27,6 +28,8 @@ private:
     ContentLayouter content_layouter_;
 
     zaf::Subject<float> need_update_height_event_;
+
+    std::shared_ptr<zaf::Control> markdown_region_;
 };
 
 }

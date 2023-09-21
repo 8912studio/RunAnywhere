@@ -1,5 +1,7 @@
 #include "help/markdown/render/paragraph_region.h"
 #include <zaf/base/error/check.h>
+#include <zaf/creation.h>
+#include <zaf/graphic/canvas.h>
 #include <zaf/graphic/graphic_factory.h>
 #include <zaf/graphic/text/text_format_properties.h>
 #include <zaf/graphic/text/text_layout_properties.h>
@@ -32,7 +34,7 @@ StyledTextLayout CreateStyledTextLayout(const StyledText& styled_text) {
 
 }
 
-std::unique_ptr<ParagraphRegion> ParagraphRegion::Create(
+std::shared_ptr<ParagraphRegion> ParagraphRegion::Create(
     const element::Element& element,
     const StyleConfig& style_config) {
 
@@ -43,7 +45,7 @@ std::unique_ptr<ParagraphRegion> ParagraphRegion::Create(
 
     auto styled_text_layout = CreateStyledTextLayout(styled_text);
 
-    return std::make_unique<ParagraphRegion>(std::move(styled_text_layout));
+    return zaf::Create<ParagraphRegion>(std::move(styled_text_layout));
 }
 
 
@@ -53,17 +55,39 @@ ParagraphRegion::ParagraphRegion(StyledTextLayout styled_text_layout) :
 }
 
 
-void ParagraphRegion::Layout(const zaf::Size& layout_size) {
+void ParagraphRegion::Layout(const zaf::Rect& previous_rect) {
 
-    styled_text_layout_.text_layout.SetMaxWidth(layout_size.width);
-    styled_text_layout_.text_layout.SetMaxHeight(layout_size.height);
+    __super::Layout(previous_rect);
+
+    auto content_size = ContentSize();
+    styled_text_layout_.text_layout.SetMaxWidth(content_size.width);
+    styled_text_layout_.text_layout.SetMaxHeight(content_size.height);
 }
 
 
-void ParagraphRegion::Paint(zaf::Canvas& canvas) {
+void ParagraphRegion::Paint(zaf::Canvas& canvas, const zaf::Rect& dirty_rect) {
+
+    __super::Paint(canvas, dirty_rect);
 
     canvas.SetBrushWithColor(zaf::Color::Black());
-    canvas.DrawTextLayout(styled_text_layout_.text_layout, {});
+    canvas.DrawTextLayout(styled_text_layout_.text_layout, ContentRect().position);
+}
+
+
+zaf::Size ParagraphRegion::CalculatePreferredContentSize(const zaf::Size& bound_size) const {
+
+    auto old_width = styled_text_layout_.text_layout.GetMaxWidth();
+    auto old_height = styled_text_layout_.text_layout.GetMaxHeight();
+
+    styled_text_layout_.text_layout.SetMaxWidth(bound_size.width);
+    styled_text_layout_.text_layout.SetMaxHeight(bound_size.height);
+
+    auto metrics = styled_text_layout_.text_layout.GetMetrics();
+
+    styled_text_layout_.text_layout.SetMaxWidth(old_width);
+    styled_text_layout_.text_layout.SetMaxHeight(old_height);
+
+    return zaf::Size{ metrics.Width(), metrics.Height()};
 }
 
 }

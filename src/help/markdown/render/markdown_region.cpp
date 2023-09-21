@@ -1,11 +1,12 @@
 #include "help/markdown/render/markdown_region.h"
 #include <zaf/base/error/check.h>
+#include <zaf/creation.h>
 #include "help/markdown/render/paragraph_region.h"
 
 namespace ra::help::markdown::render {
 namespace {
 
-std::unique_ptr<RenderRegion> CreateBlockRegion(
+std::shared_ptr<RenderRegion> CreateBlockRegion(
     const element::Element& element,
     const StyleConfig& style_config) {
 
@@ -18,42 +19,66 @@ std::unique_ptr<RenderRegion> CreateBlockRegion(
 
 }
 
-std::unique_ptr<MarkdownRegion> MarkdownRegion::Create(
+std::shared_ptr<MarkdownRegion> MarkdownRegion::Create(
     const element::Element& element,
     const StyleConfig& style_config) {
 
     ZAF_EXPECT(element.Type() == element::ElementType::Root);
 
-    std::vector<std::unique_ptr<RenderRegion>> block_regions;
+    std::vector<std::shared_ptr<RenderRegion>> block_regions;
 
     for (const auto& each_child : element.Children()) {
         auto region = CreateBlockRegion(*each_child, style_config);
         block_regions.push_back(std::move(region));
     }
 
-    return std::make_unique<MarkdownRegion>(std::move(block_regions));
+    return zaf::Create<MarkdownRegion>(std::move(block_regions));
 }
 
 
-MarkdownRegion::MarkdownRegion(std::vector<std::unique_ptr<RenderRegion>> block_regions) :
+MarkdownRegion::MarkdownRegion(std::vector<std::shared_ptr<RenderRegion>> block_regions) :
     block_regions_(std::move(block_regions)) {
 
 }
 
 
-void MarkdownRegion::Layout(const zaf::Size& layout_size) {
+void MarkdownRegion::Initialize() {
 
+    __super::Initialize();
+
+    std::vector<std::shared_ptr<zaf::Control>> children;
     for (const auto& each_region : block_regions_) {
-        each_region->Layout(layout_size);
+        children.push_back(each_region);
+    }
+    AddChildren(children);
+}
+
+
+void MarkdownRegion::Layout(const zaf::Rect& previous_rect) {
+
+    __super::Layout(previous_rect);
+
+    zaf::Size bound_size{};
+    bound_size.width = this->Width();
+    bound_size.height = std::numeric_limits<float>::max();
+
+    float region_y{};
+    for (const auto& each_region : block_regions_) {
+
+        zaf::Rect region_rect;
+        region_rect.position.x = 0;
+        region_rect.position.y = region_y;
+        region_rect.size = each_region->CalculatePreferredSize(bound_size);
+        each_region->SetRect(region_rect);
+
+        region_y += region_rect.size.height;
     }
 }
 
 
-void MarkdownRegion::Paint(zaf::Canvas& canvas) {
+zaf::Size MarkdownRegion::CalculatePreferredContentSize(const zaf::Size& bound_size) const {
 
-    for (const auto& each_region : block_regions_) {
-        each_region->Paint(canvas);
-    }
+    return {};
 }
 
 }

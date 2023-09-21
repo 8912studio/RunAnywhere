@@ -17,14 +17,6 @@ void HelpContentControl::AfterParse() {
     __super::AfterParse();
 
     this->SetPadding(zaf::Frame{ 12, 12, 4, 12 });
-}
-
-
-void HelpContentControl::Paint(zaf::Canvas& canvas, const zaf::Rect& dirty_rect) {
-
-    __super::Paint(canvas, dirty_rect);
-
-    auto content_rect = this->ContentRect();
 
     auto root = element::MakeRoot({
         element::MakeParagraph({
@@ -44,11 +36,27 @@ void HelpContentControl::Paint(zaf::Canvas& canvas, const zaf::Rect& dirty_rect)
     style_config.bold_font_weight = zaf::FontWeight::Bold;
     style_config.code_config.font_family_name = L"Consolas";
 
-    auto region = render::MarkdownRegion::Create(*root, style_config);
-    region->Layout(content_rect.size);
-    region->Paint(canvas);
+    markdown_region_ = render::MarkdownRegion::Create(*root, style_config);
+    this->AddChild(markdown_region_);
+}
+
+
+void HelpContentControl::Layout(const zaf::Rect& previous_rect) {
+
+    __super::Layout(previous_rect);
+
+    if (markdown_region_) {
+        markdown_region_->SetRect(zaf::Rect(zaf::Point(), ContentSize()));
+    }
+}
+
+
+void HelpContentControl::Paint(zaf::Canvas& canvas, const zaf::Rect& dirty_rect) {
+
+    __super::Paint(canvas, dirty_rect);
 
     /*
+    auto content_rect = this->ContentRect();
     float start_y = content_rect.position.y;
     if (content_rect.size.height > content_layouter_.GetTotalHeight()) {
         start_y += (content_rect.size.height - content_layouter_.GetTotalHeight()) / 2;
