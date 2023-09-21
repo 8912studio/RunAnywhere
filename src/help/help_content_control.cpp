@@ -36,8 +36,10 @@ void HelpContentControl::AfterParse() {
     style_config.basic_config.font = zaf::Font::Default();
     style_config.basic_config.text_color = zaf::Color::Black();
     style_config.bold_font_weight = zaf::FontWeight::Bold;
-    style_config.code_config.font_family_name = L"Consolas";
-    style_config.code_config.text_color = zaf::Color::Blue();
+    style_config.inline_code_config.font_family_name = L"Consolas";
+    style_config.inline_code_config.text_color = zaf::Color::Blue();
+    style_config.code_block_config.font_family_name = L"Consolas";
+    style_config.code_block_config.text_color = zaf::Color::Black();
 
     markdown_region_ = render::MarkdownRegion::Create(*root, style_config);
     this->AddChild(markdown_region_);

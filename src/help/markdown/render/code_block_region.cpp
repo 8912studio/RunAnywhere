@@ -16,8 +16,8 @@ std::shared_ptr<CodeBlockRegion> CodeBlockRegion::Create(
     if (!element.Children().empty()) {
         TextStyle text_style;
         text_style.font = style_config.basic_config.font;
-        text_style.font.family_name = style_config.code_config.font_family_name;
-        text_style.text_color = style_config.code_config.text_color;
+        text_style.font.family_name = style_config.code_block_config.font_family_name;
+        text_style.text_color = style_config.code_block_config.text_color;
         result->SetStyledText(element.Children().front()->Text(), text_style);
     }
 

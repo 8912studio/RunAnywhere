@@ -11,9 +11,7 @@ public:
     struct BasicConfig {
         zaf::Font font;
         zaf::Color text_color;
-    } basic_config;
-
-    zaf::FontWeight bold_font_weight{};
+    };
 
     struct HeaderConfig {
         float _1_font_size{};
@@ -22,12 +20,19 @@ public:
         float _4_font_size{};
         float _5_font_size{};
         float _6_font_size{};
-    } header_config;
+    };
 
     struct CodeConfig {
         std::wstring font_family_name;
         zaf::Color text_color;
-    } code_config;
+    };
+
+public:
+    BasicConfig basic_config;
+    HeaderConfig header_config;
+    CodeConfig inline_code_config;
+    CodeConfig code_block_config;
+    zaf::FontWeight bold_font_weight{};
 };
 
 }
