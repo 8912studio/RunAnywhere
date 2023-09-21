@@ -1,4 +1,4 @@
-#include "help/markdown/render/paragraph_region.h"
+#include "help/markdown/render/simple_block_region.h"
 #include <zaf/base/error/check.h>
 #include <zaf/control/layout/linear_layouter.h>
 #include <zaf/creation.h>
@@ -7,44 +7,35 @@
 
 namespace ra::help::markdown::render {
 
-std::shared_ptr<ParagraphRegion> ParagraphRegion::Create(
-    const element::Element& element,
-    const StyleConfig& style_config) {
-
-    ZAF_EXPECT(element.Type() == element::ElementType::Paragraph);
-
-    StyledTextBuilder styled_text_builder;
-    auto styled_text = styled_text_builder.Build(element, style_config);
-
-    auto result = zaf::Init(new ParagraphRegion());
-    result->SetStyledText(styled_text);
-    return result;
-}
-
-
-void ParagraphRegion::Initialize() {
+void SimpleBlockRegion::Initialize() {
 
     __super::Initialize();
 
     SetLayouter(zaf::Create<zaf::VerticalLayouter>());
 
     text_box_ = zaf::Create<zaf::TextBox>();
+    text_box_->SetIsEnabled(false);
     AddChild(text_box_);
 }
 
 
-void ParagraphRegion::Paint(zaf::Canvas& canvas, const zaf::Rect& dirty_rect) {
+void SimpleBlockRegion::Paint(zaf::Canvas& canvas, const zaf::Rect& dirty_rect) {
 
     __super::Paint(canvas, dirty_rect);
 }
 
 
-zaf::Size ParagraphRegion::CalculatePreferredContentSize(const zaf::Size& bound_size) const {
+zaf::Size SimpleBlockRegion::CalculatePreferredContentSize(const zaf::Size& bound_size) const {
     return text_box_->CalculatePreferredSize(bound_size);
 }
 
 
-void ParagraphRegion::SetStyledText(const StyledText& styled_text) {
+void SimpleBlockRegion::InitializeContent(
+    const element::Element& element,
+    const StyleConfig& style_config) {
+
+    StyledTextBuilder styled_text_builder;
+    auto styled_text = styled_text_builder.Build(element, style_config);
 
     text_box_->SetText(styled_text.Text());
 

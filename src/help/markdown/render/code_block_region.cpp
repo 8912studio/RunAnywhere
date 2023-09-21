@@ -32,6 +32,7 @@ void CodeBlockRegion::Initialize() {
     SetLayouter(zaf::Create<zaf::VerticalLayouter>());
 
     text_box_ = zaf::Create<zaf::TextBox>();
+    text_box_->SetIsEnabled(false);
     AddChild(text_box_);
 }
 

@@ -21,6 +21,11 @@ private:
         const element::Element& element,
         const TextStyle& basic_style,
         const StyleConfig& style_config);
+
+    static void SetNewStyleByHeader(
+        const element::Element& element, 
+        const StyleConfig& style_config,
+        TextStyle& new_style);
 };
 
 }

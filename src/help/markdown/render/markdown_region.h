@@ -23,6 +23,11 @@ protected:
     zaf::Size CalculatePreferredContentSize(const zaf::Size& bound_size) const override;
 
 private:
+    static std::shared_ptr<RenderRegion> CreateBlockRegion(
+        const element::Element& element,
+        const StyleConfig& style_config);
+
+private:
     std::vector<std::shared_ptr<RenderRegion>> block_regions_;
 };
 

@@ -1,5 +1,7 @@
 #include "help/markdown/render/styled_text_builder.h"
+#include <zaf/base/as.h>
 #include <zaf/base/error/check.h>
+#include "help/markdown/element/header_element.h"
 
 namespace ra::help::markdown::render {
 
@@ -55,6 +57,10 @@ TextStyle StyledTextBuilder::CreateNewStyleByElement(
         //No need to change style of paragraph.
         break;
 
+    case element::ElementType::Header:
+        SetNewStyleByHeader(element, style_config, new_style);
+        break;
+
     case element::ElementType::Bold:
         new_style.font.weight = style_config.bold_font_weight;
         break;
@@ -69,6 +75,19 @@ TextStyle StyledTextBuilder::CreateNewStyleByElement(
     }
 
     return new_style;
+}
+
+
+void StyledTextBuilder::SetNewStyleByHeader(
+    const element::Element& element, 
+    const StyleConfig& style_config,
+    TextStyle& new_style) {
+
+    const auto& header_element = dynamic_cast<const element::HeaderElement&>(element);
+    new_style.font.size = style_config.header_config.font_size[
+        static_cast<int>(header_element.Depth()) - 1
+    ];
+    new_style.font.weight = style_config.bold_font_weight;
 }
 
 }
