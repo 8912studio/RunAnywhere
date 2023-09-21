@@ -29,12 +29,15 @@ void HelpContentControl::AfterParse() {
             element::MakeInlineCode(L"inline code"),
             element::MakeText(L"."),
         }),
+        element::MakeCodeBlock(L"This a code block.\nThis is the second line."),
     });
 
     render::StyleConfig style_config;
     style_config.basic_config.font = zaf::Font::Default();
+    style_config.basic_config.text_color = zaf::Color::Black();
     style_config.bold_font_weight = zaf::FontWeight::Bold;
     style_config.code_config.font_family_name = L"Consolas";
+    style_config.code_config.text_color = zaf::Color::Blue();
 
     markdown_region_ = render::MarkdownRegion::Create(*root, style_config);
     this->AddChild(markdown_region_);

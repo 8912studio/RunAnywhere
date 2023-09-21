@@ -1,6 +1,7 @@
 #include "help/markdown/render/markdown_region.h"
 #include <zaf/base/error/check.h>
 #include <zaf/creation.h>
+#include "help/markdown/render/code_block_region.h"
 #include "help/markdown/render/paragraph_region.h"
 
 namespace ra::help::markdown::render {
@@ -10,11 +11,14 @@ std::shared_ptr<RenderRegion> CreateBlockRegion(
     const element::Element& element,
     const StyleConfig& style_config) {
 
-    if (element.Type() == element::ElementType::Paragraph) {
+    switch (element.Type()) {
+    case element::ElementType::Paragraph:
         return ParagraphRegion::Create(element, style_config);
+    case element::ElementType::CodeBlock:
+        return CodeBlockRegion::Create(element, style_config);
+    default:
+        ZAF_NOT_REACHED();
     }
-
-    ZAF_NOT_REACHED();
 }
 
 }

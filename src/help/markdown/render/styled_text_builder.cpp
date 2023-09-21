@@ -9,6 +9,7 @@ StyledText StyledTextBuilder::Build(
 
     TextStyle basic_style;
     basic_style.font = style_config.basic_config.font;
+    basic_style.text_color = style_config.basic_config.text_color;
 
     StyledText result;
     BuildElement(element, basic_style, style_config, result);
@@ -60,6 +61,7 @@ TextStyle StyledTextBuilder::CreateNewStyleByElement(
 
     case element::ElementType::InlineCode:
         new_style.font.family_name = style_config.code_config.font_family_name;
+        new_style.text_color = style_config.code_config.text_color;
         break;
 
     default:
