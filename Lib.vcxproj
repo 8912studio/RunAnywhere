@@ -144,6 +144,7 @@
     <ClInclude Include="src\help\markdown\render\styled_text.h" />
     <ClInclude Include="src\help\markdown\render\styled_text_builder.h" />
     <ClInclude Include="src\help\markdown\render\styled_text_layout.h" />
+    <ClInclude Include="src\help\markdown\render\style_config.h" />
     <ClInclude Include="src\help\markdown\render\text_style.h" />
     <ClInclude Include="src\hot_key.h" />
     <ClInclude Include="src\hot_key_box.h" />

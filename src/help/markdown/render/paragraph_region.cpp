@@ -32,16 +32,14 @@ StyledTextLayout CreateStyledTextLayout(const StyledText& styled_text) {
 
 }
 
-std::unique_ptr<ParagraphRegion> ParagraphRegion::Create(const element::Element& element) {
+std::unique_ptr<ParagraphRegion> ParagraphRegion::Create(
+    const element::Element& element,
+    const StyleConfig& style_config) {
 
     ZAF_EXPECT(element.Type() == element::ElementType::Paragraph);
 
-    TextStyle basic_style;
-    basic_style.font = zaf::Font::Default();
-    basic_style.font.size = 18;
-
     StyledTextBuilder styled_text_builder;
-    auto styled_text = styled_text_builder.Build(element, basic_style);
+    auto styled_text = styled_text_builder.Build(element, style_config);
 
     auto styled_text_layout = CreateStyledTextLayout(styled_text);
 
@@ -55,10 +53,10 @@ ParagraphRegion::ParagraphRegion(StyledTextLayout styled_text_layout) :
 }
 
 
-void ParagraphRegion::Resize(const zaf::Size& size) {
+void ParagraphRegion::Layout(const zaf::Size& layout_size) {
 
-    styled_text_layout_.text_layout.SetMaxWidth(size.width);
-    styled_text_layout_.text_layout.SetMaxHeight(size.height);
+    styled_text_layout_.text_layout.SetMaxWidth(layout_size.width);
+    styled_text_layout_.text_layout.SetMaxHeight(layout_size.height);
 }
 
 

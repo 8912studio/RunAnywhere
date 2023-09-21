@@ -825,6 +825,9 @@
     <ClInclude Include="src\help\markdown\render\styled_text_layout.h">
       <Filter>src\help\markdown\render</Filter>
     </ClInclude>
+    <ClInclude Include="src\help\markdown\render\style_config.h">
+      <Filter>src\help\markdown\render</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">

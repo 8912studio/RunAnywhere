@@ -7,12 +7,12 @@ using namespace ra::help::markdown::render;
 
 TEST(StyledTextBuilderTest, Build) {
 
-    TextStyle basic_style;
-    basic_style.font = zaf::Font::Default();
+    StyleConfig style_config;
+    style_config.basic_config.font = zaf::Font::Default();
 
     {
         StyledTextBuilder builder;
-        auto styled_text = builder.Build(*MakeParagraph(L"Paragraph"), basic_style);
+        auto styled_text = builder.Build(*MakeParagraph(L"Paragraph"), style_config);
         ASSERT_EQ(styled_text.Text(), L"Paragraph");
         ASSERT_EQ(styled_text.Styles().size(), 1);
         ASSERT_EQ(styled_text.Styles().front().range, zaf::Range(0, 9));
@@ -25,7 +25,7 @@ TEST(StyledTextBuilderTest, Build) {
             MakeText(L" text2"),
         });
         StyledTextBuilder builder;
-        auto styled_text = builder.Build(*element, basic_style);
+        auto styled_text = builder.Build(*element, style_config);
         ASSERT_EQ(styled_text.Text(), L"text1 bold text2");
         ASSERT_EQ(styled_text.Styles().size(), 3);
         ASSERT_EQ(styled_text.Styles()[0].range, zaf::Range(0, 6));

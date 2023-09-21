@@ -12,7 +12,7 @@ class RenderRegion : zaf::NonCopyableNonMovable {
 public:
     virtual ~RenderRegion() = default;
 
-    virtual void Resize(const zaf::Size& size) = 0;
+    virtual void Layout(const zaf::Size& layout_size) = 0;
     virtual void Paint(zaf::Canvas& canvas) = 0;
 };
 

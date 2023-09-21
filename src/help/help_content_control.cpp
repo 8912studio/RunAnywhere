@@ -26,14 +26,26 @@ void HelpContentControl::Paint(zaf::Canvas& canvas, const zaf::Rect& dirty_rect)
 
     auto content_rect = this->ContentRect();
 
-    auto paragraph = element::MakeParagraph({
-        element::MakeText(L"This is a "),
-        element::MakeBold(L"BOLD"),
-        element::MakeText(L" text!"),
+    auto root = element::MakeRoot({
+        element::MakeParagraph({
+            element::MakeText(L"This is a "),
+            element::MakeBold(L"BOLD"),
+            element::MakeText(L" text!"),
+        }),
+        element::MakeParagraph({
+            element::MakeText(L"This is an "),
+            element::MakeInlineCode(L"inline code"),
+            element::MakeText(L"."),
+        }),
     });
 
-    auto region = render::MarkdownRegion::Create(*element::MakeRoot({ paragraph }));
-    region->Resize(content_rect.size);
+    render::StyleConfig style_config;
+    style_config.basic_config.font = zaf::Font::Default();
+    style_config.bold_font_weight = zaf::FontWeight::Bold;
+    style_config.code_config.font_family_name = L"Consolas";
+
+    auto region = render::MarkdownRegion::Create(*root, style_config);
+    region->Layout(content_rect.size);
     region->Paint(canvas);
 
     /*
