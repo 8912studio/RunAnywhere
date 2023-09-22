@@ -104,6 +104,7 @@
     <ClInclude Include="src\entry\main_entry.h" />
     <ClInclude Include="src\entry\register_entry.h" />
     <ClInclude Include="src\environment_variable_manager.h" />
+    <ClInclude Include="src\help\command_help_content_factory.h" />
     <ClInclude Include="src\help\content\body_line.h" />
     <ClInclude Include="src\help\content\content.h" />
     <ClInclude Include="src\help\content\line.h" />
@@ -334,6 +335,7 @@
     <ClCompile Include="src\entry\main_entry.cpp" />
     <ClCompile Include="src\entry\register_entry.cpp" />
     <ClCompile Include="src\environment_variable_manager.cpp" />
+    <ClCompile Include="src\help\command_help_content_factory.cpp" />
     <ClCompile Include="src\help\content_layouter.cpp" />
     <ClCompile Include="src\help\help_content_building.cpp" />
     <ClCompile Include="src\help\help_content_control.cpp" />

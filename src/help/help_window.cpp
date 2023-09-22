@@ -1,11 +1,14 @@
 #include "help_window.h"
 #include <zaf/control/layout/linear_layouter.h>
 #include <zaf/control/scroll_bar.h>
-#include <zaf/control/scrollable_control.h>
 #include <zaf/graphic/alignment.h>
 #include <zaf/object/type_definition.h>
 #include <zaf/rx/creation.h>
 #include <zaf/rx/scheduler.h>
+#include "help/markdown/render/markdown_region.h"
+#include "help/markdown/render/style_config.h"
+
+using namespace ra::help::markdown::render;
 
 namespace ra::help {
 
@@ -18,21 +21,16 @@ void HelpWindow::AfterParse() {
 
     __super::AfterParse();
 
-    content_control_ = zaf::Create<HelpContentControl>();
-    Subscriptions() += content_control_->NeedUpdateHeightEvent().Subscribe(
-        std::bind(&HelpWindow::HelpWindow::OnNeedUpdateHeight, this, std::placeholders::_1));
+    scroll_control_ = zaf::As<zaf::ScrollableControl>(RootControl());
+    scroll_control_->SetScrollBarThickness(10);
 
-    auto& scrollable_control = zaf::As<zaf::ScrollableControl>(*RootControl());
-    scrollable_control.SetScrollBarThickness(10);
-    
-    auto scroll_bar = scrollable_control.VerticalScrollBar();
+    auto scroll_bar = scroll_control_->VerticalScrollBar();
     scroll_bar->SetArrowLength(0);
     scroll_bar->SetPadding(zaf::Frame{ 0, 2, 0, 2 });
     scroll_bar->SetSmallChange(16);
 
-    auto scroll_content_control = scrollable_control.ScrollContent();
-    scroll_content_control->SetLayouter(zaf::Create<zaf::VerticalLayouter>());
-    scroll_content_control->AddChild(content_control_);
+    auto scroll_content = scroll_control_->ScrollContent();
+    scroll_content->SetLayouter(zaf::Create<zaf::VerticalLayouter>());
 
     InitializeScrollControls();
 }
@@ -103,32 +101,79 @@ void HelpWindow::LayoutScrollButtonContainer() {
 }
 
 
-void HelpWindow::OnNeedUpdateHeight(float new_height) {
+void HelpWindow::SetContent(const CommandHelpContentFactory& content_factory) {
 
-    auto& scrollable_control = zaf::As<zaf::ScrollableControl>(*RootControl());
-    scrollable_control.ScrollContent()->SetFixedHeight(new_height);
+    try {
+
+        auto element = content_factory.LoadHelpContent();
+
+        StyleConfig style_config;
+        style_config.basic_config.font = zaf::Font::Default();
+        style_config.basic_config.text_color = zaf::Color::Black();
+        style_config.bold_font_weight = zaf::FontWeight::Bold;
+        style_config.inline_code_config.font_family_name = L"Consolas";
+        style_config.inline_code_config.text_color = zaf::Color::Blue();
+        style_config.code_block_config.font_family_name = L"Consolas";
+        style_config.code_block_config.text_color = zaf::Color::Black();
+        style_config.header_config.font_size[0] = 20;
+        style_config.header_config.font_size[1] = 18;
+        style_config.header_config.font_size[2] = 16;
+
+        auto region = MarkdownRegion::Create(*element, style_config);
+        InstallHelpContent(region);
+    }
+    catch (const zaf::Error&) {
+
+    }
+}
+
+
+void HelpWindow::InstallHelpContent(const std::shared_ptr<zaf::Control>& control) {
+
+    const auto& scroll_content = scroll_control_->ScrollContent();
+    scroll_content->RemoveAllChildren();
+    scroll_content->AddChild(control);
+
+    help_content_control_ = control;
+    UpdateWindowHeight();
+}
+
+
+void HelpWindow::SetContent(const content::Content& content) {
+
+   //content_control_->SetContent(content);
+}
+
+
+void HelpWindow::UpdateWindowHeight() {
+
+    if (!help_content_control_) {
+        return;
+    }
+
+    auto preferred_size = help_content_control_->CalculatePreferredSize(zaf::Size{
+        this->ContentWidth(),
+        std::numeric_limits<float>::max()
+    });
+
+    const auto& scroll_content = scroll_control_->ScrollContent();
+    scroll_content->SetFixedHeight(preferred_size.height);
 
     //Set window height at next message loop to avoid re-enter issues.
     Subscriptions() += zaf::rx::Just(0).SubscribeOn(zaf::Scheduler::Main()).Subscribe(
-        [this, new_height](int) {
+        [this, preferred_size](int) {
 
         constexpr float max_height = 400;
         constexpr float min_height = 60;
 
         constexpr float window_border = 2;
-        float expected_height = new_height + window_border;
+        float expected_height = preferred_size.height + window_border;
 
         float window_height = std::min(max_height, expected_height);
         window_height = std::max(window_height, min_height);
 
         this->SetHeight(std::ceil(window_height));
     });
-}
-
-
-void HelpWindow::SetContent(const content::Content& content) {
-
-    content_control_->SetContent(content);
 }
 
 
@@ -152,6 +197,5 @@ void HelpWindow::ScrollPage(bool scroll_up) {
     int new_value = scroll_bar->Value() + (scroll_up ? -page_size : page_size);
     scroll_bar->SetValue(new_value);
 }
-
 
 }

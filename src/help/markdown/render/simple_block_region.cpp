@@ -15,6 +15,7 @@ void SimpleBlockRegion::Initialize() {
 
     text_box_ = zaf::Create<zaf::TextBox>();
     text_box_->SetIsEnabled(false);
+    text_box_->SetWordWrapping(zaf::WordWrapping::Wrap);
     AddChild(text_box_);
 }
 

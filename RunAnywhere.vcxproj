@@ -67,7 +67,8 @@
       <AdditionalOptions>/WHOLEARCHIVE:zaf /WHOLEARCHIVE:Lib %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <PreBuildEvent>
-      <Command>$(ZafOutDir)zrcb.exe /o $(SolutionDir)src\res.rc /i /e .xaml.png $(SolutionDir)src $(SolutionDir)LICENSE</Command>
+      <Command>$(ZafOutDir)zrcb.exe /o $(SolutionDir)src\res.rc /i /e .xaml.png $(SolutionDir)src $(SolutionDir)LICENSE
+$(ZafOutDir)zrcb.exe /o $(SolutionDir)src\wiki.rc /i /e .md $(SolutionDir)src\help\wiki\CMD</Command>
     </PreBuildEvent>
     <Manifest>
       <EnableDpiAwareness>PerMonitorHighDPIAware</EnableDpiAwareness>
@@ -91,7 +92,8 @@
       <AdditionalOptions>/WHOLEARCHIVE:zaf /WHOLEARCHIVE:Lib %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <PreBuildEvent>
-      <Command>$(ZafOutDir)zrcb.exe /o $(SolutionDir)src\res.rc /i /e .xaml.png $(SolutionDir)src $(SolutionDir)LICENSE</Command>
+      <Command>$(ZafOutDir)zrcb.exe /o $(SolutionDir)src\res.rc /i /e .xaml.png $(SolutionDir)src $(SolutionDir)LICENSE
+$(ZafOutDir)zrcb.exe /o $(SolutionDir)src\wiki.rc /i /e .md $(SolutionDir)src\help\wiki\CMD</Command>
     </PreBuildEvent>
     <Manifest>
       <EnableDpiAwareness>PerMonitorHighDPIAware</EnableDpiAwareness>
@@ -109,6 +111,7 @@
     <ResourceCompile Include="src\app.rc" />
     <ResourceCompile Include="src\res.rc" />
     <ResourceCompile Include="src\version.rc" />
+    <ResourceCompile Include="src\wiki.rc" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="src\icon.ico" />

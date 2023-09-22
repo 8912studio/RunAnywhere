@@ -249,20 +249,19 @@ void MainWindow::ShowHelpWindow() {
 }
 
 
-help::content::Content MainWindow::GetHelpContent() {
+help::CommandHelpContentFactory MainWindow::GetHelpContent() {
 
     if (current_command_) {
-
-        auto result = current_command_->GetHelpContent();
-        if (result.Lines().empty()) {
-            result.AddBodyLine(L"No help information for this command");
-        }
-        return result;
+        return help::CommandHelpContentFactory{ current_command_->GetBrief().Command() };
     }
     else {
 
+        return help::CommandHelpContentFactory{ L"" };
+
+        /*
         auto suggested_commands = module_manager_->QuerySuggestedCommands(inputEdit->Text());
         return help::BuildHelpContentFromSuggestedCommands(std::move(suggested_commands));
+        */
     }
 }
 

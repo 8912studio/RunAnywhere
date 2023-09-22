@@ -5,6 +5,7 @@
 #include <zaf/control/rich_edit.h>
 #include <zaf/window/message/activate_message.h>
 #include <zaf/window/window.h>
+#include "help/command_help_content_factory.h"
 #include "context/desktop_context.h"
 #include "help/help_window.h"
 #include "main/input/command_input_edit.h"
@@ -49,7 +50,7 @@ private:
     void OnHelpButtonClick();
     void UpdateHelpWindowState();
     void ShowHelpWindow();
-    help::content::Content GetHelpContent();
+    help::CommandHelpContentFactory GetHelpContent();
     void UpdateHelpWindowPosition();
     void ExecuteCommand();
     void PreserveCurrentCommand();

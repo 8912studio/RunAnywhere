@@ -84,7 +84,20 @@ void MarkdownRegion::Layout(const zaf::Rect& previous_rect) {
 
 zaf::Size MarkdownRegion::CalculatePreferredContentSize(const zaf::Size& bound_size) const {
 
-    return {};
+    zaf::Size result;
+    result.width = bound_size.width;
+
+    zaf::Size child_bound_size{};
+    child_bound_size.width = bound_size.width;
+    child_bound_size.height = std::numeric_limits<float>::max();
+    
+    for (const auto& each_region : block_regions_) {
+
+        auto child_size = each_region->CalculatePreferredSize(child_bound_size);
+        result.height += child_size.height;
+    }
+
+    return result;
 }
 
 }

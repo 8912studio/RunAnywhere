@@ -31,6 +31,9 @@
     <ResourceCompile Include="src\version.rc">
       <Filter>src</Filter>
     </ResourceCompile>
+    <ResourceCompile Include="src\wiki.rc">
+      <Filter>src</Filter>
+    </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="src\icon.ico">

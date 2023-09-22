@@ -1,3 +1,6 @@
 [submodule "third_party/zaf"]
 	path = third_party/zaf
 	url = https://github.com/Zplutor/zaf.git
+[submodule "src/help/wiki"]
+	path = src/help/wiki
+	url = git@github.com:Zplutor/RunAnywhere.wiki.git

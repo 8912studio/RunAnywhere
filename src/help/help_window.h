@@ -1,7 +1,9 @@
 #pragma once
 
 #include <zaf/control/control_binder.h>
+#include <zaf/control/scrollable_control.h>
 #include <zaf/window/window.h>
+#include "help/command_help_content_factory.h"
 #include "help/content/content.h"
 #include "help/help_content_control.h"
 #include "utility/thin_border_window.h"
@@ -12,6 +14,7 @@ class HelpWindow : public utility::ThinBorderWindow {
 public:
     ZAF_DECLARE_TYPE;
 
+    void SetContent(const CommandHelpContentFactory& content_factory);
     void SetContent(const content::Content& content);
 
     void ScrollLine(bool scroll_up);
@@ -25,7 +28,9 @@ private:
     void InitializeScrollButtonContainer();
     void InitializeScrollButtons();
     void LayoutScrollButtonContainer();
-    void OnNeedUpdateHeight(float new_height);
+
+    void InstallHelpContent(const std::shared_ptr<zaf::Control>& control);
+    void UpdateWindowHeight();
 
 private:
     ZAF_BIND_CONTROL(zaf::Control, scrollButtonContainer);
@@ -34,7 +39,8 @@ private:
     ZAF_BIND_CONTROL(zaf::Control, pageDownButton);
     ZAF_BIND_CONTROL(zaf::Control, pageUpButton);
 
-    std::shared_ptr<HelpContentControl> content_control_;
+    std::shared_ptr<zaf::ScrollableControl> scroll_control_;
+    std::shared_ptr<zaf::Control> help_content_control_;
 };
 
 }
