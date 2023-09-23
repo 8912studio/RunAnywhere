@@ -5,7 +5,6 @@
 #include <zaf/graphic/font/font_weight.h>
 #include <zaf/graphic/graphic_factory.h>
 #include <zaf/graphic/text/text_format_properties.h>
-#include <zaf/graphic/text/text_layout_properties.h>
 
 namespace ra::help {
 namespace {
@@ -42,11 +41,10 @@ zaf::TextLayout CreateTextLayout(
     float layout_width, 
     const LayoutProperties& layout_properties) {
 
-    zaf::TextLayoutProperties text_layout_properties;
-    text_layout_properties.text = text;
-    text_layout_properties.text_format = CreateTextFormat(layout_properties);
-
-    auto text_layout = zaf::GraphicFactory::Instance().CreateTextLayout(text_layout_properties);
+    auto text_layout = zaf::GraphicFactory::Instance().CreateTextLayout(
+        text,
+        CreateTextFormat(layout_properties), 
+        {});
 
     text_layout.SetFontStyle(
         layout_properties.is_italic ? zaf::FontStyle::Italic : zaf::FontStyle::Normal,

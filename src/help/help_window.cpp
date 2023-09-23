@@ -111,6 +111,7 @@ void HelpWindow::SetContent(const CommandHelpContentFactory& content_factory) {
         style_config.basic_config.font = zaf::Font::Default();
         style_config.basic_config.font.size = 14;
         style_config.basic_config.text_color = zaf::Color::Black();
+        style_config.paragraph_config.line_height = 22;
         style_config.bold_font_weight = zaf::FontWeight::Bold;
         style_config.inline_code_config.font_family_name = L"Consolas";
         style_config.inline_code_config.text_color = zaf::Color::Blue();

@@ -15,6 +15,10 @@ public:
         zaf::Color text_color;
     };
 
+    struct ParagraphConfig {
+        float line_height;
+    };
+
     struct HeaderConfig {
         float font_size{};
         float top_spacing{};
@@ -34,6 +38,7 @@ public:
 
 public:
     BasicConfig basic_config;
+    ParagraphConfig paragraph_config;
     std::array<HeaderConfig, 6> header_config;
     CodeConfig inline_code_config;
     CodeConfig code_block_config;

@@ -3,7 +3,6 @@
 #include <zaf/base/string/to_string.h>
 #include <zaf/graphic/graphic_factory.h>
 #include <zaf/graphic/text/text_format_properties.h>
-#include <zaf/graphic/text/text_layout_properties.h>
 
 namespace ra::mod {
 namespace {
@@ -21,13 +20,10 @@ zaf::TextFormat CreateTextFormat() {
 
 zaf::TextLayout CreateCommonTextLayout(const std::wstring& text, float layout_width) {
 
-    zaf::TextLayoutProperties text_layout_properties;
-    text_layout_properties.text = text;
-    text_layout_properties.text_format = CreateTextFormat();
-    text_layout_properties.width = layout_width;
-    text_layout_properties.height = LineHeight;
     auto text_layout = zaf::GraphicFactory::Instance().CreateTextLayout(
-        text_layout_properties);
+        text,
+        CreateTextFormat(),
+        zaf::Size{ layout_width, LineHeight });
 
     text_layout.SetTextAlignment(zaf::TextAlignment::Center);
     text_layout.SetParagraphAlignment(zaf::ParagraphAlignment::Center);

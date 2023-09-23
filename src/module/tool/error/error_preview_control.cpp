@@ -6,7 +6,6 @@
 #include <zaf/graphic/graphic_factory.h>
 #include <zaf/graphic/text/text_format_properties.h>
 #include <zaf/graphic/text/text_layout.h>
-#include <zaf/graphic/text/text_layout_properties.h>
 #include <zaf/object/type_definition.h>
 
 namespace ra::mod::tool::error {
