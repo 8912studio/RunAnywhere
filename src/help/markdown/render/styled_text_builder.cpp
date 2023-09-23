@@ -84,9 +84,8 @@ void StyledTextBuilder::SetNewStyleByHeader(
     TextStyle& new_style) {
 
     const auto& header_element = dynamic_cast<const element::HeaderElement&>(element);
-    new_style.font.size = style_config.header_config.font_size[
-        static_cast<int>(header_element.Depth()) - 1
-    ];
+    auto index = static_cast<int>(header_element.Depth()) - 1;
+    new_style.font.size = style_config.GetHeaderConfig(header_element.Depth()).font_size;
     new_style.font.weight = style_config.bold_font_weight;
 }
 

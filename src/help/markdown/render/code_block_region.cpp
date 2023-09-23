@@ -21,6 +21,7 @@ std::shared_ptr<CodeBlockRegion> CodeBlockRegion::Create(
         result->SetStyledText(element.Children().front()->Text(), text_style);
     }
 
+    result->SetTextBackgroundColor(style_config.code_block_config.background_color);
     return result;
 }
 
@@ -29,6 +30,7 @@ void CodeBlockRegion::Initialize() {
 
     __super::Initialize();
 
+    SetPadding(zaf::Frame{ 10 });
     SetLayouter(zaf::Create<zaf::VerticalLayouter>());
 
     text_box_ = zaf::Create<zaf::TextBox>();
@@ -46,6 +48,13 @@ void CodeBlockRegion::SetStyledText(const std::wstring& text, const TextStyle& t
     text_box_->SetText(text);
     text_box_->SetFont(text_style.font);
     text_box_->SetTextColor(text_style.text_color);
+}
+
+
+void CodeBlockRegion::SetTextBackgroundColor(const zaf::Color& color) {
+
+    this->SetBackgroundColor(color);
+    text_box_->SetBackgroundColor(color);
 }
 
 }

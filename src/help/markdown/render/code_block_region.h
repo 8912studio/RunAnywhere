@@ -22,6 +22,7 @@ private:
     CodeBlockRegion() = default;
 
     void SetStyledText(const std::wstring& text, const TextStyle& text_style);
+    void SetTextBackgroundColor(const zaf::Color& color);
 
 private:
     std::shared_ptr<zaf::TextBox> text_box_;

@@ -23,8 +23,19 @@ protected:
     zaf::Size CalculatePreferredContentSize(const zaf::Size& bound_size) const override;
 
 private:
+    enum class BlockPosition {
+        Start,
+        Middle,
+        End,
+    };
+
     static std::shared_ptr<RenderRegion> CreateBlockRegion(
         const element::Element& element,
+        const StyleConfig& style_config);
+
+    static zaf::Frame GetBlockMargin(
+        const element::Element& element,
+        BlockPosition position,
         const StyleConfig& style_config);
 
 private:

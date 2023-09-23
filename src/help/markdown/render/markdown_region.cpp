@@ -1,6 +1,9 @@
 #include "help/markdown/render/markdown_region.h"
+#include <zaf/base/as.h>
 #include <zaf/base/error/check.h>
+#include <zaf/base/range.h>
 #include <zaf/creation.h>
+#include "help/markdown/element/header_element.h"
 #include "help/markdown/render/code_block_region.h"
 #include "help/markdown/render/simple_block_region.h"
 
@@ -13,9 +16,20 @@ std::shared_ptr<MarkdownRegion> MarkdownRegion::Create(
     ZAF_EXPECT(element.Type() == element::ElementType::Root);
 
     std::vector<std::shared_ptr<RenderRegion>> block_regions;
+    const auto& block_elements = element.Children();
+    for (auto index : zaf::Range(0, block_elements.size())) {
 
-    for (const auto& each_child : element.Children()) {
-        auto region = CreateBlockRegion(*each_child, style_config);
+        const auto& element = block_elements[index];
+        auto region = CreateBlockRegion(*element, style_config);
+
+        auto position =
+            index == 0 ? BlockPosition::Start :
+            index == block_elements.size() - 1 ? BlockPosition::End :
+            BlockPosition::Middle;
+
+        auto margin = GetBlockMargin(*element, position, style_config);
+        region->SetMargin(margin);
+
         block_regions.push_back(std::move(region));
     }
 
@@ -42,6 +56,26 @@ std::shared_ptr<RenderRegion> MarkdownRegion::CreateBlockRegion(
 }
 
 
+zaf::Frame MarkdownRegion::GetBlockMargin(
+    const element::Element& element,
+    BlockPosition position,
+    const StyleConfig& style_config) {
+
+    zaf::Frame result;
+
+    if (position != BlockPosition::Start) {
+
+        result.top = style_config.block_spacing;
+
+        if (auto header_element = zaf::As<element::HeaderElement>(&element)) {
+            result.top += style_config.GetHeaderConfig(header_element->Depth()).top_spacing;
+        }
+    }
+
+    return result;
+}
+
+
 MarkdownRegion::MarkdownRegion(std::vector<std::shared_ptr<RenderRegion>> block_regions) :
     block_regions_(std::move(block_regions)) {
 
@@ -51,6 +85,8 @@ MarkdownRegion::MarkdownRegion(std::vector<std::shared_ptr<RenderRegion>> block_
 void MarkdownRegion::Initialize() {
 
     __super::Initialize();
+
+    this->SetPadding(zaf::Frame{ 12, 12, 2, 12 });
 
     std::vector<std::shared_ptr<zaf::Control>> children;
     for (const auto& each_region : block_regions_) {
@@ -65,19 +101,22 @@ void MarkdownRegion::Layout(const zaf::Rect& previous_rect) {
     __super::Layout(previous_rect);
 
     zaf::Size bound_size{};
-    bound_size.width = this->Width();
+    bound_size.width = this->ContentSize().width;
     bound_size.height = std::numeric_limits<float>::max();
 
     float region_y{};
     for (const auto& each_region : block_regions_) {
 
+        region_y += each_region->Margin().top;
+
         zaf::Rect region_rect;
         region_rect.position.x = 0;
         region_rect.position.y = region_y;
-        region_rect.size = each_region->CalculatePreferredSize(bound_size);
+        region_rect.size.width = bound_size.width;
+        region_rect.size.height = each_region->CalculatePreferredSize(bound_size).height;
         each_region->SetRect(region_rect);
 
-        region_y += region_rect.size.height;
+        region_y += region_rect.size.height + each_region->Margin().bottom;
     }
 }
 
@@ -85,7 +124,10 @@ void MarkdownRegion::Layout(const zaf::Rect& previous_rect) {
 zaf::Size MarkdownRegion::CalculatePreferredContentSize(const zaf::Size& bound_size) const {
 
     zaf::Size result;
-    result.width = bound_size.width;
+    result.width = bound_size.width - this->Border().Width() - this->Padding().Width();
+    if (result.width <= 0) {
+        return {};
+    }
 
     zaf::Size child_bound_size{};
     child_bound_size.width = bound_size.width;
@@ -94,7 +136,7 @@ zaf::Size MarkdownRegion::CalculatePreferredContentSize(const zaf::Size& bound_s
     for (const auto& each_region : block_regions_) {
 
         auto child_size = each_region->CalculatePreferredSize(child_bound_size);
-        result.height += child_size.height;
+        result.height += child_size.height + each_region->Margin().Height();
     }
 
     return result;

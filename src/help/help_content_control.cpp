@@ -17,36 +17,6 @@ void HelpContentControl::AfterParse() {
     __super::AfterParse();
 
     this->SetPadding(zaf::Frame{ 12, 12, 4, 12 });
-
-    auto root = element::MakeRoot({
-        element::MakeHeader(element::HeaderDepth::_1, L"This is header"),
-        element::MakeParagraph({
-            element::MakeText(L"This is a "),
-            element::MakeBold(L"BOLD"),
-            element::MakeText(L" text!"),
-        }),
-        element::MakeParagraph({
-            element::MakeText(L"This is an "),
-            element::MakeInlineCode(L"inline code"),
-            element::MakeText(L"."),
-        }),
-        element::MakeCodeBlock(L"This a code block.\nThis is the second line."),
-    });
-
-    render::StyleConfig style_config;
-    style_config.basic_config.font = zaf::Font::Default();
-    style_config.basic_config.text_color = zaf::Color::Black();
-    style_config.bold_font_weight = zaf::FontWeight::Bold;
-    style_config.inline_code_config.font_family_name = L"Consolas";
-    style_config.inline_code_config.text_color = zaf::Color::Blue();
-    style_config.code_block_config.font_family_name = L"Consolas";
-    style_config.code_block_config.text_color = zaf::Color::Black();
-    style_config.header_config.font_size[0] = 20;
-    style_config.header_config.font_size[1] = 18;
-    style_config.header_config.font_size[2] = 16;
-
-    markdown_region_ = render::MarkdownRegion::Create(*root, style_config);
-    this->AddChild(markdown_region_);
 }
 
 
