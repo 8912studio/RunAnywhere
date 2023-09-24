@@ -68,6 +68,7 @@ TextStyle StyledTextBuilder::CreateNewStyleByElement(
     case element::ElementType::InlineCode:
         new_style.font.family_name = style_config.inline_code_config.font_family_name;
         new_style.text_color = style_config.inline_code_config.text_color;
+        new_style.background_color = style_config.inline_code_config.background_color;
         break;
 
     default:

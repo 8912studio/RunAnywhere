@@ -837,6 +837,9 @@
     <ClInclude Include="src\help\markdown\render\paragraph_region.h">
       <Filter>src\help\markdown\render</Filter>
     </ClInclude>
+    <ClInclude Include="src\help\markdown\render\styled_text_box.h">
+      <Filter>src\help\markdown\render</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -1347,6 +1350,9 @@
       <Filter>src\help</Filter>
     </ClCompile>
     <ClCompile Include="src\help\markdown\render\paragraph_region.cpp">
+      <Filter>src\help\markdown\render</Filter>
+    </ClCompile>
+    <ClCompile Include="src\help\markdown\render\styled_text_box.cpp">
       <Filter>src\help\markdown\render</Filter>
     </ClCompile>
   </ItemGroup>

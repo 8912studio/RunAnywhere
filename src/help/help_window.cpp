@@ -114,10 +114,11 @@ void HelpWindow::SetContent(const CommandHelpContentFactory& content_factory) {
         style_config.paragraph_config.line_height = 22;
         style_config.bold_font_weight = zaf::FontWeight::Bold;
         style_config.inline_code_config.font_family_name = L"Consolas";
-        style_config.inline_code_config.text_color = zaf::Color::Blue();
+        style_config.inline_code_config.text_color = zaf::Color::FromRGB(0xCC4136);
+        style_config.inline_code_config.background_color = zaf::Color::FromRGB(0xF5F5F5);
         style_config.code_block_config.font_family_name = L"Consolas";
-        style_config.code_block_config.text_color = zaf::Color::Black();
-        style_config.code_block_config.background_color = zaf::Color::FromRGB(0xEFEFEF);
+        style_config.code_block_config.text_color = zaf::Color::FromRGB(0xCC4136);
+        style_config.code_block_config.background_color = zaf::Color::FromRGB(0xF5F5F5);
         style_config.header_config[0].font_size = 20;
         style_config.header_config[0].top_spacing = 4;
         style_config.header_config[1].font_size = 18;

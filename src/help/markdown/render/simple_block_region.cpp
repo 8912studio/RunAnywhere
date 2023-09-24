@@ -13,9 +13,7 @@ void SimpleBlockRegion::Initialize() {
 
     SetLayouter(zaf::Create<zaf::VerticalLayouter>());
 
-    text_box_ = zaf::Create<zaf::TextBox>();
-    text_box_->SetIsEnabled(false);
-    text_box_->SetWordWrapping(zaf::WordWrapping::Wrap);
+    text_box_ = zaf::Create<StyledTextBox>();
     AddChild(text_box_);
 }
 
@@ -38,12 +36,7 @@ void SimpleBlockRegion::InitializeContent(
     StyledTextBuilder styled_text_builder;
     auto styled_text = styled_text_builder.Build(element, style_config);
 
-    text_box_->SetText(styled_text.Text());
-
-    for (const auto& each_style : styled_text.Styles()) {
-        text_box_->SetFontAtRange(each_style.style.font, each_style.range);
-        text_box_->SetTextColorAtRange(each_style.style.text_color, each_style.range);
-    }
+    text_box_->SetStyledText(styled_text);
 }
 
 }
