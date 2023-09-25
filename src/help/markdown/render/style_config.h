@@ -16,7 +16,7 @@ public:
     };
 
     struct ParagraphConfig {
-        float line_height;
+        float line_gap{};
     };
 
     struct HeaderConfig {
@@ -43,7 +43,7 @@ public:
     CodeConfig inline_code_config;
     CodeConfig code_block_config;
     zaf::FontWeight bold_font_weight{};
-    float block_spacing{};
+    float block_gap{};
 };
 
 }

@@ -8,6 +8,7 @@ namespace ra::help::markdown::render {
 class StyledTextBox : public zaf::TextBox {
 public:
     void SetStyledText(const StyledText& styled_text);
+    void SetLineGap(float line_gap);
 
 protected:
     void Initialize() override;
@@ -26,6 +27,7 @@ private:
 
 private:
     std::vector<std::pair<zaf::Range, zaf::Color>> background_colors_;
+    float line_gap_{};
 };
 
 }

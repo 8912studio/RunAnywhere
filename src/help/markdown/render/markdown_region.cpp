@@ -67,9 +67,14 @@ zaf::Frame MarkdownRegion::GetBlockMargin(
 
     if (position != BlockPosition::Start) {
 
-        result.top = style_config.block_spacing;
+        result.top = style_config.block_gap;
 
-        if (auto header_element = zaf::As<element::HeaderElement>(&element)) {
+        if (element.Type() == element::ElementType::Paragraph) {
+            //Line gap addes extra spacing before paragraph, making block gap be larger than 
+            //expected, so we need to substrct line gap from block gap.
+            result.top -= style_config.paragraph_config.line_gap;
+        }
+        else if (auto header_element = zaf::As<element::HeaderElement>(&element)) {
             result.top += style_config.GetHeaderConfig(header_element->Depth()).top_spacing;
         }
     }

@@ -36,7 +36,12 @@ void StyledTextBox::PaintBackgroundColorAtRange(
 
     auto range_metrics = text_layout.HitTestRange(range);
     for (const auto& metrics : range_metrics) {
-        canvas.DrawRectangle(metrics.Rect(), color);
+
+        auto rect = metrics.Rect();
+        rect.position.y += line_gap_;
+        rect.size.height -= line_gap_;
+
+        canvas.DrawRectangle(rect, color);
     }
 }
 
@@ -59,5 +64,9 @@ void StyledTextBox::SetStyledText(const StyledText& styled_text) {
     }
 }
 
+
+void StyledTextBox::SetLineGap(float line_gap) {
+    line_gap_ = line_gap;
+}
 
 }

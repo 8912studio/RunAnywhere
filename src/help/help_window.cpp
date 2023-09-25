@@ -111,7 +111,7 @@ void HelpWindow::SetContent(const CommandHelpContentFactory& content_factory) {
         style_config.basic_config.font = zaf::Font::Default();
         style_config.basic_config.font.size = 14;
         style_config.basic_config.text_color = zaf::Color::Black();
-        style_config.paragraph_config.line_height = 22;
+        style_config.paragraph_config.line_gap = 4;
         style_config.bold_font_weight = zaf::FontWeight::Bold;
         style_config.inline_code_config.font_family_name = L"Consolas";
         style_config.inline_code_config.text_color = zaf::Color::FromRGB(0xCC4136);
@@ -125,7 +125,7 @@ void HelpWindow::SetContent(const CommandHelpContentFactory& content_factory) {
         style_config.header_config[1].top_spacing = 4;
         style_config.header_config[2].font_size = 16;
         style_config.header_config[2].top_spacing = 4;
-        style_config.block_spacing = 10;
+        style_config.block_gap = 10;
 
         auto region = MarkdownRegion::Create(*element, style_config);
         InstallHelpContent(region);
