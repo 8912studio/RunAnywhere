@@ -352,3 +352,4 @@ MigrationBackup/
 /build/deploy
 /src/res.rc
 /build/out
+/src/wiki.rc
