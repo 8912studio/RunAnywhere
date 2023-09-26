@@ -831,7 +831,7 @@
     <ClInclude Include="src\help\markdown\render\simple_block_region.h">
       <Filter>src\help\markdown\render</Filter>
     </ClInclude>
-    <ClInclude Include="src\help\command_help_content_factory.h">
+    <ClInclude Include="src\help\built_in_help_content.h">
       <Filter>src\help</Filter>
     </ClInclude>
     <ClInclude Include="src\help\markdown\render\paragraph_region.h">
@@ -1349,7 +1349,7 @@
     <ClCompile Include="src\help\markdown\render\simple_block_region.cpp">
       <Filter>src\help\markdown\render</Filter>
     </ClCompile>
-    <ClCompile Include="src\help\command_help_content_factory.cpp">
+    <ClCompile Include="src\help\built_in_help_content.cpp">
       <Filter>src\help</Filter>
     </ClCompile>
     <ClCompile Include="src\help\markdown\render\paragraph_region.cpp">

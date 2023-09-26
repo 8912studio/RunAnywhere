@@ -1,6 +1,6 @@
 #include "module/tool/hash/md5_command.h"
 #include <zaf/crypto/md5.h>
-#include "help/command_help_content_factory.h"
+#include "help/built_in_help_content.h"
 
 namespace ra::mod::tool::hash {
 
@@ -18,9 +18,7 @@ CommandBrief MD5Command::GetBrief() {
 
 
 std::shared_ptr<help::markdown::element::Element> MD5Command::GetHelpContent() {
-
-	help::CommandHelpContentFactory factory(Brief().Command());
-	return factory.LoadHelpContent();
+	return help::LoadBuiltInHelpContent(Brief().Command());
 }
 
 
