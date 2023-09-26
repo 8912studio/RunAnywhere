@@ -125,7 +125,7 @@ void HelpWindow::SetContent(const CommandHelpContentFactory& content_factory) {
         style_config.header_config[1].top_spacing = 4;
         style_config.header_config[2].font_size = 16;
         style_config.header_config[2].top_spacing = 4;
-        style_config.block_gap = 10;
+        style_config.block_gap = 14;
 
         auto region = MarkdownRegion::Create(*element, style_config);
         InstallHelpContent(region);

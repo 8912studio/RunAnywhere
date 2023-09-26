@@ -9,6 +9,7 @@ void StyledTextBox::Initialize() {
 
     this->SetIsEnabled(false);
     this->SetWordWrapping(zaf::WordWrapping::Wrap);
+    this->SetIgnoreTailingWhiteSpaces(true);
 }
 
 

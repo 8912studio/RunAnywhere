@@ -137,7 +137,7 @@ zaf::Size MarkdownRegion::CalculatePreferredContentSize(const zaf::Size& bound_s
     }
 
     zaf::Size child_bound_size{};
-    child_bound_size.width = bound_size.width;
+    child_bound_size.width = result.width;
     child_bound_size.height = std::numeric_limits<float>::max();
     
     for (const auto& each_region : block_regions_) {
