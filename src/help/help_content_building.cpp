@@ -10,7 +10,7 @@ std::shared_ptr<Element> BuildHelpContentFromSuggestedCommands(
     std::vector<mod::CommandBrief>&& commands) {
 
     ElementList block_elements;
-    block_elements.push_back(MakeHeader(HeaderDepth::_1, L"Suggestions"));
+    block_elements.push_back(MakeHeader(HeaderDepth::_2, L"Suggestions"));
 
     zaf::Sort(commands, [](const auto& command1, const auto& command2) {
         return command1.Command() < command2.Command();

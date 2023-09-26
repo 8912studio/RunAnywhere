@@ -126,7 +126,7 @@ void HelpWindow::UpdateWindowHeight() {
     }
 
     auto preferred_size = help_content_control_->CalculatePreferredSize(zaf::Size{
-        this->ContentWidth(),
+        this->ContentWidth() - scroll_control_->HorizontalScrollBarThickness(),
         std::numeric_limits<float>::max()
     });
 

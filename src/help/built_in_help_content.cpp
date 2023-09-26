@@ -4,7 +4,6 @@
 #include <zaf/base/string/encoding_conversion.h>
 #include <zaf/resource/resource_factory.h>
 #include "help/markdown/element/factory.h"
-#include "help/markdown/element/header_element.h"
 #include "help/markdown/parse/markdown_parser.h"
 #include "built_in_help_content.h"
 
@@ -12,8 +11,9 @@ using namespace ra::help::markdown::element;
 using namespace ra::help::markdown::parse;
 
 namespace ra::help {
+namespace {
 
-std::shared_ptr<markdown::element::Element> LoadBuiltInHelpContent(std::wstring_view command) {
+std::shared_ptr<markdown::element::Element> LoadMarkdownFromResource(std::wstring_view command) {
 
     try {
 
@@ -26,30 +26,44 @@ std::shared_ptr<markdown::element::Element> LoadBuiltInHelpContent(std::wstring_
         stream.Read(stream.GetLength(), &file_content[0]);
 
         auto input = zaf::FromUTF8String(file_content);
-        auto root_element = MarkdownParser::Instance()->Parse(input);
-
-        //Remove content before header1.
-        ElementList new_children;
-        bool has_found_header1{};
-        for (const auto& each_element : root_element->Children()) {
-
-            if (each_element->Type() == ElementType::Header) {
-                auto& header_element = zaf::As<HeaderElement>(*each_element);
-                if (header_element.Depth() == HeaderDepth::_1) {
-                    has_found_header1 = true;
-                }
-            }
-
-            if (has_found_header1) {
-                new_children.push_back(each_element);
-            }
-        }
-
-        return MakeRoot(std::move(new_children));
+        return MarkdownParser::Instance()->Parse(input);
     }
     catch (const zaf::Error&) {
         return nullptr;
     }
+}
+
+
+ElementList RemoveContentBeforeHeader(const ElementList& elements) {
+
+    ElementList result;
+    bool has_found_header1{};
+
+    for (const auto& each_element : elements) {
+
+        if (each_element->Type() == ElementType::Header) {
+            has_found_header1 = true;
+        }
+
+        if (has_found_header1) {
+            result.push_back(each_element);
+        }
+    }
+
+    return result;
+}
+
+}
+
+std::shared_ptr<markdown::element::Element> LoadBuiltInHelpContent(std::wstring_view command) {
+
+    auto root_element = LoadMarkdownFromResource(command);
+    if (!root_element) {
+        return nullptr;
+    }
+
+    auto new_children = RemoveContentBeforeHeader(root_element->Children());
+    return MakeRoot(std::move(new_children));
 }
 
 }

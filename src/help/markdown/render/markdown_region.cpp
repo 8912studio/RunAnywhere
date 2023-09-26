@@ -131,10 +131,7 @@ void MarkdownRegion::Layout(const zaf::Rect& previous_rect) {
 zaf::Size MarkdownRegion::CalculatePreferredContentSize(const zaf::Size& bound_size) const {
 
     zaf::Size result;
-    result.width = bound_size.width - this->Border().Width() - this->Padding().Width();
-    if (result.width <= 0) {
-        return {};
-    }
+    result.width = bound_size.width;
 
     zaf::Size child_bound_size{};
     child_bound_size.width = result.width;
