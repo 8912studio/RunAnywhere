@@ -26,6 +26,9 @@ TEST(HeaderParserTest, Success) {
     ASSERT_TRUE(test(L"# header1", HeaderDepth::_1, { MakeText(L"header1") }));
     ASSERT_TRUE(test(L"## header2", HeaderDepth::_2, { MakeText(L"header2") }));
     ASSERT_TRUE(test(L"### header3", HeaderDepth::_3, { MakeText(L"header3") }));
+    ASSERT_TRUE(test(L"#### header4", HeaderDepth::_4, { MakeText(L"header4") }));
+    ASSERT_TRUE(test(L"##### header5", HeaderDepth::_5, { MakeText(L"header5") }));
+    ASSERT_TRUE(test(L"###### header6", HeaderDepth::_6, { MakeText(L"header6") }));
     ASSERT_TRUE(test(
         L"  ##   header head   er  ", 
         HeaderDepth::_2, 

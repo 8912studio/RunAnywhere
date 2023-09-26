@@ -18,7 +18,7 @@ HeaderParser::Status HeaderParser::ParseOneLine(ParseContext& context) {
         context.Forward();
     }
 
-    if (hash_count == 0 || hash_count > 3) {
+    if (hash_count == 0 || hash_count > 6) {
         return Status::Failed;
     }
 
