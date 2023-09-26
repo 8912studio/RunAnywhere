@@ -12,6 +12,7 @@
 #include <zaf/window/message/message.h>
 #include "context/desktop_context_discovering.h"
 #include "help/help_content_building.h"
+#include "help/markdown/element/factory.h"
 #include "main/preserve/preserved_command_view.h"
 #include "main/preview_control_creating.h"
 #include "module/active_path/active_path_module.h"
@@ -242,27 +243,29 @@ void MainWindow::ShowHelpWindow() {
         help_window_->SetOwner(this->shared_from_this());
     }
 
-    help_window_->SetContent(GetHelpContent());
+    help_window_->SetContent(*GetHelpContent());
 
     UpdateHelpWindowPosition();
     help_window_->Show();
 }
 
 
-help::CommandHelpContentFactory MainWindow::GetHelpContent() {
+std::shared_ptr<help::markdown::element::Element> MainWindow::GetHelpContent() {
+
+    std::shared_ptr<help::markdown::element::Element> result;
 
     if (current_command_) {
-        return help::CommandHelpContentFactory{ current_command_->GetBrief().Command() };
+        result = current_command_->GetHelpContent();
     }
     else {
-
-        return help::CommandHelpContentFactory{ L"" };
-
-        /*
         auto suggested_commands = module_manager_->QuerySuggestedCommands(inputEdit->Text());
-        return help::BuildHelpContentFromSuggestedCommands(std::move(suggested_commands));
-        */
+        result = help::BuildHelpContentFromSuggestedCommands(std::move(suggested_commands));
     }
+
+    if (!result) {
+        result = help::markdown::element::MakeRoot({});
+    }
+    return result;
 }
 
 

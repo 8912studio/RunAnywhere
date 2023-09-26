@@ -75,12 +75,15 @@ CommandBrief UserDefinedCommand::GetBrief() {
 }
 
 
-help::content::Content UserDefinedCommand::GetHelpContent() {
+std::shared_ptr<help::markdown::element::Element> UserDefinedCommand::GetHelpContent() {
 
+    return nullptr;
+    /*
     help::content::Content result;
     result.AddTitleLine(entry_->Keyword() + L" command");
     result.AddBodyLine(entry_->Description());
     return result;
+    */
 }
 
 

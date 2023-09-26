@@ -20,8 +20,11 @@ CommandBrief HexCommand::GetBrief() {
 }
 
 
-help::content::Content HexCommand::GetHelpContent() {
+std::shared_ptr<help::markdown::element::Element> HexCommand::GetHelpContent() {
 
+    return nullptr;
+
+    /*
     help::content::Content result;
 
     result.AddTitleLine(L"hex command");
@@ -39,6 +42,7 @@ help::content::Content HexCommand::GetHelpContent() {
         "Use `x` or `0x` as prefix for hexadecimal.");
 
     return result;
+    */
 }
 
 

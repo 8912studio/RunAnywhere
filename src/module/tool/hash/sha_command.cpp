@@ -17,8 +17,8 @@ CommandBrief SHACommand::GetBrief() {
 }
 
 
-help::content::Content SHACommand::GetHelpContent() {
-	return {};
+std::shared_ptr<help::markdown::element::Element> SHACommand::GetHelpContent() {
+	return nullptr;
 }
 
 

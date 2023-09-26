@@ -318,8 +318,11 @@ CommandBrief RGBCommand::GetBrief() {
 }
 
 
-help::content::Content RGBCommand::GetHelpContent() {
+std::shared_ptr<help::markdown::element::Element> RGBCommand::GetHelpContent() {
 
+    return nullptr;
+
+    /*
     help::content::Content result;
 
     result.AddTitleLine(L"RGB command");
@@ -369,6 +372,7 @@ help::content::Content RGBCommand::GetHelpContent() {
     );
 
     return result;
+    */
 }
 
 

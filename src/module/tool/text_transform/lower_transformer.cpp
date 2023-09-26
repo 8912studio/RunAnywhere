@@ -13,8 +13,9 @@ CommandBrief LowerTransformer::GetBrief() {
 }
 
 
-help::content::Content LowerTransformer::GetHelpContent() {
-
+std::shared_ptr<help::markdown::element::Element> LowerTransformer::GetHelpContent() {
+	return nullptr;
+	/*
 	help::content::Content result;
 
 	result.AddTitleLine(L"low command");
@@ -27,6 +28,7 @@ help::content::Content LowerTransformer::GetHelpContent() {
 	result.AddBodyLine(L"Or use text block(press ALT+T to insert) to contain arbitrary text.");
 
 	return result;
+	*/
 }
 
 

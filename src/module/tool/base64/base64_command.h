@@ -13,7 +13,7 @@ public:
 
 public:
     CommandBrief GetBrief() override;
-    help::content::Content GetHelpContent() override;
+    std::shared_ptr<help::markdown::element::Element> GetHelpContent() override;
     bool Interpret(
         const utility::CommandLine& command_line,
         const context::DesktopContext& desktop_context,

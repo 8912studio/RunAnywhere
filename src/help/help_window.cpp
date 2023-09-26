@@ -101,11 +101,9 @@ void HelpWindow::LayoutScrollButtonContainer() {
 }
 
 
-void HelpWindow::SetContent(const CommandHelpContentFactory& content_factory) {
+void HelpWindow::SetContent(const markdown::element::Element& content) {
 
     try {
-
-        auto element = content_factory.LoadHelpContent();
 
         StyleConfig style_config;
         style_config.basic_config.font = zaf::Font::Default();
@@ -119,15 +117,15 @@ void HelpWindow::SetContent(const CommandHelpContentFactory& content_factory) {
         style_config.code_block_config.font_family_name = L"Consolas";
         style_config.code_block_config.text_color = zaf::Color::FromRGB(0xCC4136);
         style_config.code_block_config.background_color = zaf::Color::FromRGB(0xF5F5F5);
-        style_config.header_config[0].font_size = 20;
+        style_config.header_config[0].font_size = 18;
         style_config.header_config[0].top_spacing = 4;
-        style_config.header_config[1].font_size = 18;
+        style_config.header_config[1].font_size = 17;
         style_config.header_config[1].top_spacing = 4;
         style_config.header_config[2].font_size = 16;
         style_config.header_config[2].top_spacing = 4;
         style_config.block_gap = 14;
 
-        auto region = MarkdownRegion::Create(*element, style_config);
+        auto region = MarkdownRegion::Create(content, style_config);
         InstallHelpContent(region);
     }
     catch (const zaf::Error&) {
@@ -144,12 +142,6 @@ void HelpWindow::InstallHelpContent(const std::shared_ptr<zaf::Control>& control
 
     help_content_control_ = control;
     UpdateWindowHeight();
-}
-
-
-void HelpWindow::SetContent(const content::Content& content) {
-
-   //content_control_->SetContent(content);
 }
 
 

@@ -16,7 +16,7 @@ CommandBrief TextTransformCommand::GetBrief() {
 }
 
 
-help::content::Content TextTransformCommand::GetHelpContent() {
+std::shared_ptr<help::markdown::element::Element> TextTransformCommand::GetHelpContent() {
     return transformer_->GetHelpContent();
 }
 

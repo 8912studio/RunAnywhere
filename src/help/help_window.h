@@ -3,9 +3,9 @@
 #include <zaf/control/control_binder.h>
 #include <zaf/control/scrollable_control.h>
 #include <zaf/window/window.h>
-#include "help/command_help_content_factory.h"
 #include "help/content/content.h"
 #include "help/help_content_control.h"
+#include "help/markdown/element/element.h"
 #include "utility/thin_border_window.h"
 
 namespace ra::help {
@@ -14,8 +14,7 @@ class HelpWindow : public utility::ThinBorderWindow {
 public:
     ZAF_DECLARE_TYPE;
 
-    void SetContent(const CommandHelpContentFactory& content_factory);
-    void SetContent(const content::Content& content);
+    void SetContent(const markdown::element::Element& content);
 
     void ScrollLine(bool scroll_up);
     void ScrollPage(bool scroll_up);

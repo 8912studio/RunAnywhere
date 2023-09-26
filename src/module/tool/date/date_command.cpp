@@ -19,8 +19,11 @@ CommandBrief DateCommand::GetBrief() {
 }
 
 
-help::content::Content DateCommand::GetHelpContent() {
+std::shared_ptr<help::markdown::element::Element> DateCommand::GetHelpContent() {
 
+	return nullptr;
+
+	/*
 	help::content::Content result;
 	result.AddTitleLine(L"Date command");
 	result.AddBodyLine(L"Convert between human readable date time string and UNIX timestamp.");
@@ -54,6 +57,7 @@ help::content::Content DateCommand::GetHelpContent() {
 	result.AddTwoPartsLine(L"/e", L"Show the result as UNIX timestamp.");
 
 	return result;
+	*/
 }
 
 

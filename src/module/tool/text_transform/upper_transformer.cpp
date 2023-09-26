@@ -13,8 +13,10 @@ CommandBrief UpperTransformer::GetBrief() {
 }
 
 
-help::content::Content UpperTransformer::GetHelpContent() {
+std::shared_ptr<help::markdown::element::Element> UpperTransformer::GetHelpContent() {
 
+	return nullptr;
+	/*
 	help::content::Content result;
 
 	result.AddTitleLine(L"up command");
@@ -27,6 +29,7 @@ help::content::Content UpperTransformer::GetHelpContent() {
 	result.AddBodyLine(L"Or use text block(press ALT+T to insert) to contain arbitrary text.");
 
 	return result;
+	*/
 }
 
 

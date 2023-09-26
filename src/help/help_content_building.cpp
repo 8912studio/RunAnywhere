@@ -1,31 +1,34 @@
 #include "help/help_content_building.h"
 #include <zaf/base/container/utility/sort.h>
+#include "help/markdown/element/factory.h"
+
+using namespace ra::help::markdown::element;
 
 namespace ra::help {
 
-content::Content BuildHelpContentFromSuggestedCommands(
+std::shared_ptr<Element> BuildHelpContentFromSuggestedCommands(
     std::vector<mod::CommandBrief>&& commands) {
 
-    help::content::Content help_content;
-    help_content.AddTitleLine(L"Suggestions");
+    ElementList block_elements;
+    block_elements.push_back(MakeHeader(HeaderDepth::_1, L"Suggestions"));
 
-    if (commands.empty()) {
-        help_content.AddBodyLine(L"No suggestions");
-        return help_content;
-    }
-
-    zaf::Sort(
-        commands,
-        [](const mod::CommandBrief& command1, const mod::CommandBrief& command2) {
-            return command1.Command() < command2.Command();
-        }
-    );
+    zaf::Sort(commands, [](const auto& command1, const auto& command2) {
+        return command1.Command() < command2.Command();
+    });
 
     for (const auto& each_command : commands) {
-        help_content.AddTwoPartsLine(each_command.Command(), each_command.Description());
+
+        block_elements.push_back(MakeParagraph({
+            MakeInlineCode(each_command.Command()),
+            MakeText(L"  " + each_command.Description()),
+        }));
     }
 
-    return help_content;
+    if (block_elements.empty()) {
+        block_elements.push_back(MakeParagraph(L"No suggestions"));
+    }
+
+    return MakeRoot(block_elements);
 }
 
 }

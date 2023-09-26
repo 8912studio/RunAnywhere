@@ -19,8 +19,9 @@ CommandBrief ActivePathCommand::GetBrief() {
 }
 
 
-help::content::Content ActivePathCommand::GetHelpContent() {
-
+std::shared_ptr<help::markdown::element::Element> ActivePathCommand::GetHelpContent() {
+	return nullptr;
+	/*
 	help::content::Content result;
 
 	result.AddTitleLine(L"@ command");
@@ -43,6 +44,7 @@ help::content::Content ActivePathCommand::GetHelpContent() {
 	result.AddTwoPartsLine(L"n", L"Show name only. It must be the last suffix if it is present.");
 
 	return result;
+	*/
 }
 
 

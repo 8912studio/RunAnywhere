@@ -46,8 +46,11 @@ CommandBrief ErrorCommand::GetBrief() {
 }
 
 
-help::content::Content ErrorCommand::GetHelpContent() {
+std::shared_ptr<help::markdown::element::Element> ErrorCommand::GetHelpContent() {
 
+    return nullptr;
+
+    /*
     help::content::Content result;
 
     result.AddTitleLine(L"err command");
@@ -64,6 +67,7 @@ help::content::Content ErrorCommand::GetHelpContent() {
         L"error message.");
 
     return result;
+    */
 }
 
 

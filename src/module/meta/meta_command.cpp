@@ -25,12 +25,15 @@ CommandBrief MetaCommand::GetBrief() {
 }
 
 
-help::content::Content MetaCommand::GetHelpContent() {
-
+std::shared_ptr<help::markdown::element::Element> MetaCommand::GetHelpContent() {
+    
+    return nullptr;
+    /*
     help::content::Content result;
     result.AddTitleLine(MetaCommandPrefix + command_info_.command + L" command");
     result.AddBodyLine(command_info_.description);
     return result;
+    */
 }
 
 

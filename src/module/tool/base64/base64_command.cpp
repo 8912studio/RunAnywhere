@@ -14,8 +14,11 @@ CommandBrief Base64Command::GetBrief() {
 }
 
 
-help::content::Content Base64Command::GetHelpContent() {
+std::shared_ptr<help::markdown::element::Element> Base64Command::GetHelpContent() {
 
+    return nullptr;
+
+    /*
     help::content::Content result;
     result.AddTitleLine(L"Base64 command");
     result.AddBodyLine(L"Base64 encode or decode specified text.");
@@ -38,6 +41,7 @@ help::content::Content Base64Command::GetHelpContent() {
     result.AddTwoPartsLine(L"/h", L"Display decoded content in hex format");
 
     return result;
+    */
 }
 
 

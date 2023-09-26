@@ -1,11 +1,11 @@
 #pragma once
 
-#include "help/content/content.h"
+#include "help/markdown/element/element.h"
 #include "module/command_brief.h"
 
 namespace ra::help {
 
-content::Content BuildHelpContentFromSuggestedCommands(
+std::shared_ptr<markdown::element::Element> BuildHelpContentFromSuggestedCommands(
     std::vector<mod::CommandBrief>&& commands);
 
 }
