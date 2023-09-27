@@ -142,6 +142,7 @@
     <ClInclude Include="src\help\markdown\parse\unordered_list_parser.h" />
     <ClInclude Include="src\help\markdown\render\body_region.h" />
     <ClInclude Include="src\help\markdown\render\code_block_region.h" />
+    <ClInclude Include="src\help\markdown\render\compound_region.h" />
     <ClInclude Include="src\help\markdown\render\header_region.h" />
     <ClInclude Include="src\help\markdown\render\list_item_region.h" />
     <ClInclude Include="src\help\markdown\render\paragraph_region.h" />
@@ -372,6 +373,7 @@
     <ClCompile Include="src\help\markdown\parse\unordered_list_parser.cpp" />
     <ClCompile Include="src\help\markdown\render\body_region.cpp" />
     <ClCompile Include="src\help\markdown\render\code_block_region.cpp" />
+    <ClCompile Include="src\help\markdown\render\compound_region.cpp" />
     <ClCompile Include="src\help\markdown\render\list_item_region.cpp" />
     <ClCompile Include="src\help\markdown\render\markdown_region.cpp" />
     <ClCompile Include="src\help\markdown\render\paragraph_region.cpp" />

@@ -1,7 +1,6 @@
 <HelpWindow 
     Size="350,400"
-    InitialRectStyle="Custom"
-    ActivateOption="NoActivate">
+    InitialRectStyle="Custom">
 
     <HelpWindow.RootControl>
         <ScrollableControl 

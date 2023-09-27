@@ -1,5 +1,6 @@
 #include "module/tool/date/date_command.h"
 #include <zaf/creation.h>
+#include "help/built_in_help_content.h"
 #include "module/common/command_error_control.h"
 #include "module/common/copy_executor.h"
 #include "module/tool/date/date_command_parsing.h"
@@ -20,44 +21,7 @@ CommandBrief DateCommand::GetBrief() {
 
 
 std::shared_ptr<help::markdown::element::Element> DateCommand::GetHelpContent() {
-
-	return nullptr;
-
-	/*
-	help::content::Content result;
-	result.AddTitleLine(L"Date command");
-	result.AddBodyLine(L"Convert between human readable date time string and UNIX timestamp.");
-
-	result.AddTitleLine(L"Usage");
-	result.AddBodyLine(L"date [timestamp] [adjustment] [switches]");
-	result.AddBodyLine(L"If `timestamp` is omitted, current date time will be used.");
-
-	result.AddTitleLine(L"Adjustment");
-	result.AddBodyLine(
-		L"`adjustment` is used to adjust the time by a specified amount of unit. "
-		L"It starts with a `+` or `-` character, and then an integer, followed by an unit "
-		L"identifier, such as +10s, -7d."
-	);
-
-	result.AddBodyLine(L"Available unit identifiers are:");
-	result.AddTwoPartsLine(L"s", L"seconds");
-	result.AddTwoPartsLine(L"min", L"minutes");
-	result.AddTwoPartsLine(L"h", L"hours");
-	result.AddTwoPartsLine(L"d", L"days");
-	result.AddTwoPartsLine(L"w", L"weeks");
-	result.AddTwoPartsLine(L"mon", L"months");
-	result.AddTwoPartsLine(L"y", L"years");
-
-	result.AddBodyLine(
-		L"If unit identifier is omitted, seconds will be used. There can be multiple adjustments"
-		L"as arguments."
-	);
-
-	result.AddTitleLine(L"Switches");
-	result.AddTwoPartsLine(L"/e", L"Show the result as UNIX timestamp.");
-
-	return result;
-	*/
+	return help::LoadBuiltInHelpContent(Brief().Command());
 }
 
 

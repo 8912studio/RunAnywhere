@@ -1,21 +1,16 @@
 #pragma once
 
 #include "help/markdown/element/element.h"
-#include "help/markdown/render/render_region.h"
+#include "help/markdown/render/compound_region.h"
 #include "help/markdown/render/style_config.h"
 
 namespace ra::help::markdown::render {
 
-class BodyRegion : public RenderRegion {
+class BodyRegion : public CompoundRegion {
 public:
     static std::shared_ptr<BodyRegion> Create(
         const element::ElementList& block_elements, 
         const StyleConfig& style_config);
-
-protected:
-    void Initialize() override;
-    void Layout(const zaf::Rect& previous_rect) override;
-    zaf::Size CalculatePreferredContentSize(const zaf::Size& bound_size) const override;
 
 private:
     enum class BlockPosition {
@@ -35,9 +30,6 @@ private:
 
 private:
     explicit BodyRegion(std::vector<std::shared_ptr<RenderRegion>> block_regions);
-
-private:
-    std::vector<std::shared_ptr<RenderRegion>> block_regions_;
 };
 
 }
