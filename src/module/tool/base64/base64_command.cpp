@@ -1,5 +1,6 @@
 #include "module/tool/base64/base64_command.h"
 #include <zaf/creation.h>
+#include "help/built_in_help_content.h"
 #include "module/common/copy_executor.h"
 
 namespace ra::mod::tool::base64 {
@@ -15,33 +16,7 @@ CommandBrief Base64Command::GetBrief() {
 
 
 std::shared_ptr<help::markdown::element::Element> Base64Command::GetHelpContent() {
-
-    return nullptr;
-
-    /*
-    help::content::Content result;
-    result.AddTitleLine(L"Base64 command");
-    result.AddBodyLine(L"Base64 encode or decode specified text.");
-
-    result.AddTitleLine(L"Usage");
-    result.AddBodyLine(L"b64 <text> [switches]");
-    result.AddBodyLine(
-        L"If there are space characters in `text`, enclose it in double quotation marks( \" ). "
-        L"Or use text block(press ALT+T to insert) to contain arbitrary text."
-    );
-    result.AddBodyLine(
-        L"The command detects if `text` is a Base64-encoded string, if so, decoding mode is used; "
-        L"otherwise encoding mode is used."
-    );
-    result.AddTitleLine(L"Switches");
-    result.AddTwoPartsLine(L"/e", L"Use encoding mode");
-    result.AddTwoPartsLine(L"/d", L"Use decoding mode");
-    result.AddTwoPartsLine(L"/u8", L"Encode `text` in UTF-8 encoding");
-    result.AddTwoPartsLine(L"/u16", L"Encode `text` in UTF-16 encoding");
-    result.AddTwoPartsLine(L"/h", L"Display decoded content in hex format");
-
-    return result;
-    */
+    return help::LoadBuiltInHelpContent(Brief().Command());
 }
 
 
