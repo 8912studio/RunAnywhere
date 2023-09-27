@@ -3,8 +3,7 @@
 #include <memory>
 #include <vector>
 #include "help/markdown/element/element.h"
-#include "help/markdown/render/render_region.h"
-#include "help/markdown/render/style_config.h"
+#include "help/markdown/render/body_region.h"
 
 namespace ra::help::markdown::render {
 
@@ -14,32 +13,15 @@ public:
         const element::Element& element,
         const StyleConfig& style_config);
 
-public:
-    explicit MarkdownRegion(std::vector<std::shared_ptr<RenderRegion>> block_regions);
-
 protected:
     void Initialize() override;
-    void Layout(const zaf::Rect& previous_rect) override;
     zaf::Size CalculatePreferredContentSize(const zaf::Size& bound_size) const override;
 
 private:
-    enum class BlockPosition {
-        Start,
-        Middle,
-        End,
-    };
-
-    static std::shared_ptr<RenderRegion> CreateBlockRegion(
-        const element::Element& element,
-        const StyleConfig& style_config);
-
-    static zaf::Frame GetBlockMargin(
-        const element::Element& element,
-        BlockPosition position,
-        const StyleConfig& style_config);
+    explicit MarkdownRegion(std::shared_ptr<BodyRegion> body_region);
 
 private:
-    std::vector<std::shared_ptr<RenderRegion>> block_regions_;
+    std::shared_ptr<BodyRegion> body_region_;
 };
 
 }
