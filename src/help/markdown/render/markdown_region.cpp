@@ -5,8 +5,8 @@
 #include <zaf/creation.h>
 #include "help/markdown/element/header_element.h"
 #include "help/markdown/render/code_block_region.h"
+#include "help/markdown/render/header_region.h"
 #include "help/markdown/render/paragraph_region.h"
-#include "help/markdown/render/simple_block_region.h"
 
 namespace ra::help::markdown::render {
 
@@ -45,11 +45,8 @@ std::shared_ptr<RenderRegion> MarkdownRegion::CreateBlockRegion(
     switch (element.Type()) {
     case element::ElementType::Paragraph: 
         return ParagraphRegion::Create(element, style_config);
-    case element::ElementType::Header: {
-        auto region = zaf::Create<SimpleBlockRegion>();
-        region->InitializeContent(element, style_config);
-        return region;
-    }
+    case element::ElementType::Header: 
+        return HeaderRegion::Create(element, style_config);
     case element::ElementType::CodeBlock:
         return CodeBlockRegion::Create(element, style_config);
     default:

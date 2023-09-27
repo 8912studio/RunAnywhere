@@ -12,20 +12,23 @@ std::shared_ptr<Element> BuildHelpContentFromSuggestedCommands(
     ElementList block_elements;
     block_elements.push_back(MakeHeader(HeaderDepth::_2, L"Suggestions"));
 
-    zaf::Sort(commands, [](const auto& command1, const auto& command2) {
-        return command1.Command() < command2.Command();
-    });
+    if (commands.empty()) {
 
-    for (const auto& each_command : commands) {
-
-        block_elements.push_back(MakeParagraph({
-            MakeInlineCode(each_command.Command()),
-            MakeText(L"  " + each_command.Description()),
-        }));
-    }
-
-    if (block_elements.empty()) {
         block_elements.push_back(MakeParagraph(L"No suggestions"));
+    }
+    else {
+
+        zaf::Sort(commands, [](const auto& command1, const auto& command2) {
+            return command1.Command() < command2.Command();
+        });
+
+        for (const auto& each_command : commands) {
+
+            block_elements.push_back(MakeParagraph({
+                MakeInlineCode(each_command.Command()),
+                MakeText(L"  " + each_command.Description()),
+            }));
+        }
     }
 
     return MakeRoot(block_elements);
