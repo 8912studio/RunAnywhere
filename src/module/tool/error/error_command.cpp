@@ -1,5 +1,6 @@
 #include "module/tool/error/error_command.h"
 #include <zaf/creation.h>
+#include "help/built_in_help_content.h"
 #include "module/common/error_view.h"
 #include "module/common/command_error_control.h"
 #include "module/common/copy_executor.h"
@@ -47,27 +48,7 @@ CommandBrief ErrorCommand::GetBrief() {
 
 
 std::shared_ptr<help::markdown::element::Element> ErrorCommand::GetHelpContent() {
-
-    return nullptr;
-
-    /*
-    help::content::Content result;
-
-    result.AddTitleLine(L"err command");
-    result.AddBodyLine(L"Show error message for specified system error code.");
-
-    result.AddTitleLine(L"Usage");
-    result.AddBodyLine(L"err <code>");
-    result.AddBodyLine(
-        L"`code` is a value returned by GetLastError() function, or a HRESULT returned by some "
-        L"COM interfaces. Note that not all COM errors are supported.");
-    result.AddBodyLine(
-        L"`code` can be a signed/unsigned decimal, or a hexadecimal which begins with `x` or "
-        L"`0x`. It will be converted to a 32bit unsigned integer to find the corresponding "
-        L"error message.");
-
-    return result;
-    */
+    return help::LoadBuiltInHelpContent(Brief().Command());
 }
 
 

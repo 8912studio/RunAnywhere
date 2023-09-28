@@ -1,5 +1,6 @@
 #include "module/tool/text_transform/upper_transformer.h"
 #include <zaf/base/string/case_conversion.h>
+#include "help/built_in_help_content.h"
 
 namespace ra::mod::tool::text_transform {
 
@@ -14,22 +15,7 @@ CommandBrief UpperTransformer::GetBrief() {
 
 
 std::shared_ptr<help::markdown::element::Element> UpperTransformer::GetHelpContent() {
-
-	return nullptr;
-	/*
-	help::content::Content result;
-
-	result.AddTitleLine(L"up command");
-	result.AddBodyLine(L"Transform all characters in specified text to uppercase.");
-
-	result.AddTitleLine(L"Usage");
-	result.AddBodyLine(L"up <text>");
-	result.AddBodyLine(
-		L"If there are space characters in `text`, enclose it in double quotation marks( \" ).");
-	result.AddBodyLine(L"Or use text block(press ALT+T to insert) to contain arbitrary text.");
-
-	return result;
-	*/
+	return help::LoadBuiltInHelpContent(Brief().Command());
 }
 
 

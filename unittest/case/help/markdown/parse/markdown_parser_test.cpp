@@ -258,6 +258,16 @@ TEST(MarkdownParserTest, ParseUnorderedList) {
             MakeParagraph(L"item2"),
         }),
     }));
+
+    ASSERT_TRUE(test(L"* item1\n\n    - subitem\n\n    paragraph", {
+        MakeListItem({
+            MakeParagraph(L"item1"),
+            MakeUnorderedList({
+                MakeListItem({ MakeParagraph(L"subitem") }),
+            }),
+            MakeParagraph(L"paragraph")
+        }),
+    }));
 }
 
 

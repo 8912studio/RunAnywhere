@@ -1,5 +1,6 @@
 #include "module/tool/hex/hex_command.h"
 #include <zaf/creation.h>
+#include "help/built_in_help_content.h"
 #include "module/active_path/active_path_modifying.h"
 #include "module/common/command_error_control.h"
 #include "module/common/general_input.h"
@@ -21,28 +22,7 @@ CommandBrief HexCommand::GetBrief() {
 
 
 std::shared_ptr<help::markdown::element::Element> HexCommand::GetHelpContent() {
-
-    return nullptr;
-
-    /*
-    help::content::Content result;
-
-    result.AddTitleLine(L"hex command");
-    result.AddBodyLine(L"Display bytes of active file's content in hex and ASCII format.");
-
-    result.AddTitleLine(L"Usage");
-    result.AddBodyLine(L"hex [position] [length]");
-    result.AddBodyLine(L"`position` specifies the begin position of content to display. "
-        "Default is 0 if it is omitted.");
-    result.AddBodyLine(L"`length` specifies the length of content to display. "
-        "It is prefixed with letter `l` or `L`. Default is 128 if it is omitted. "
-        "The max supported length is 4096. Use two `l` or `L` letters to specify the max length, "
-        "for example `ll`.");
-    result.AddBodyLine(L"Both `position` and `length` can be in decimal or hexadecimal format. "
-        "Use `x` or `0x` as prefix for hexadecimal.");
-
-    return result;
-    */
+    return help::LoadBuiltInHelpContent(Brief().Command());
 }
 
 
