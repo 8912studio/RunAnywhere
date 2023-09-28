@@ -14,6 +14,21 @@ void BodyParser::ParseOneLine(ParseContext& context) {
 
     std::size_t initial_index = context.CurrentIndex();
 
+    InnerParseOneLine(context);
+
+    //Parse again if the index didn't advance, it will happend when list item parser finishes a
+    //list item, which ends without a fence string.
+    if (context.CurrentIndex() == initial_index) {
+        InnerParseOneLine(context);
+    }
+
+    //Make sure each call advances the context, if not, there must be some error in parsing.
+    ZAF_EXPECT(context.CurrentIndex() > initial_index);
+}
+
+
+void BodyParser::InnerParseOneLine(ParseContext& context) {
+
     std::shared_ptr<element::Element> element;
     if (ParseOneBlockLine(context, element)) {
 
@@ -43,9 +58,6 @@ void BodyParser::ParseOneLine(ParseContext& context) {
             is_last_paragraph_finished_ = false;
         }
     }
-
-    //Make sure each call advances the context, if not, there must be some error in parsing.
-    ZAF_EXPECT(context.CurrentIndex() > initial_index);
 }
 
 

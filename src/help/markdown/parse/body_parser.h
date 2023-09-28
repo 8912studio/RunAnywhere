@@ -22,6 +22,7 @@ public:
     }
 
 private:
+    void InnerParseOneLine(ParseContext& context);
     bool ParseOneBlockLine(ParseContext& context, std::shared_ptr<element::Element>& element);
 
 private:
