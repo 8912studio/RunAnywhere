@@ -12,6 +12,8 @@ void BodyParser::ParseOneLine(ParseContext& context) {
     //Each body parser can be used only once.
     ZAF_EXPECT(!is_body_finished_);
 
+    std::size_t initial_index = context.CurrentIndex();
+
     std::shared_ptr<element::Element> element;
     if (ParseOneBlockLine(context, element)) {
 
@@ -41,6 +43,9 @@ void BodyParser::ParseOneLine(ParseContext& context) {
             is_last_paragraph_finished_ = false;
         }
     }
+
+    //Make sure each call advances the context, if not, there must be some error in parsing.
+    ZAF_EXPECT(context.CurrentIndex() > initial_index);
 }
 
 
