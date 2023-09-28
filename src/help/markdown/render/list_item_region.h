@@ -29,6 +29,7 @@ private:
 private:
     std::shared_ptr<StyledTextBox> identity_text_box_;
     std::shared_ptr<BodyRegion> body_region_;
+    float identity_gap_{};
 };
 
 }

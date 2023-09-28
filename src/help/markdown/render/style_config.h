@@ -44,6 +44,7 @@ public:
     CodeConfig code_block_config;
     zaf::FontWeight bold_font_weight{};
     float block_gap{};
+    float list_item_identity_gap{};
 };
 
 }
