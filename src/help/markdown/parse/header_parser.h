@@ -7,7 +7,7 @@ namespace ra::help::markdown::parse {
 class HeaderParser : public BlockParser {
 public:
     Status ParseOneLine(ParseContext& context) override;
-    std::shared_ptr<element::Element> FinishCurrentElement() override;
+    Result FinishCurrentElement() override;
 
 private:
     class State {

@@ -11,7 +11,7 @@ std::shared_ptr<MarkdownRegion> MarkdownRegion::Create(
 
     ZAF_EXPECT(element.Type() == element::ElementType::Root);
 
-    auto body_region = BodyRegion::Create(element.Children(), style_config);
+    auto body_region = BodyRegion::Create(element.Children(), style_config, 0);
     return zaf::Init(new MarkdownRegion(body_region));
 }
 

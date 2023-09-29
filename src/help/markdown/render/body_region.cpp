@@ -11,13 +11,14 @@ namespace ra::help::markdown::render {
 
 std::shared_ptr<BodyRegion> BodyRegion::Create(
     const element::ElementList& block_elements, 
-    const StyleConfig& style_config) {
+    const StyleConfig& style_config,
+    std::size_t depth) {
 
     std::vector<std::shared_ptr<RenderRegion>> block_regions;
     for (auto index : zaf::Range(0, block_elements.size())) {
 
         const auto& element = block_elements[index];
-        auto region = CreateBlockRegion(*element, style_config);
+        auto region = CreateBlockRegion(*element, style_config, depth);
 
         auto position =
             index == 0 ? BlockPosition::Start :
@@ -36,7 +37,8 @@ std::shared_ptr<BodyRegion> BodyRegion::Create(
 
 std::shared_ptr<RenderRegion> BodyRegion::CreateBlockRegion(
     const element::Element& element, 
-    const StyleConfig& style_config) {
+    const StyleConfig& style_config,
+    std::size_t depth) {
 
     switch (element.Type()) {
     case element::ElementType::Paragraph:
@@ -46,7 +48,7 @@ std::shared_ptr<RenderRegion> BodyRegion::CreateBlockRegion(
     case element::ElementType::CodeBlock:
         return CodeBlockRegion::Create(element, style_config);
     case element::ElementType::UnorderedList:
-        return UnorderedListRegion::Create(element, style_config);
+        return UnorderedListRegion::Create(element, style_config, depth);
     default:
         ZAF_NOT_REACHED();
     }

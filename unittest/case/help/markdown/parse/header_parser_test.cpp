@@ -16,11 +16,11 @@ TEST(HeaderParserTest, Success) {
         if (status != HeaderParser::Status::Finished) {
             return false;
         }
-        auto element = parser.FinishCurrentElement();
-        if (!element) {
+        auto header_result = parser.FinishCurrentElement();
+        if (!header_result.element) {
             return false;
         }
-        return element->IsEqualTo(*MakeHeader(depth, std::move(expected)));
+        return header_result.element->IsEqualTo(*MakeHeader(depth, std::move(expected)));
     };
 
     ASSERT_TRUE(test(L"# header1", HeaderDepth::_1, { MakeText(L"header1") }));

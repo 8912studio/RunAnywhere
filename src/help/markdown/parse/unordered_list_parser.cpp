@@ -33,9 +33,10 @@ std::unique_ptr<ListItemParser> UnorderedListParser::CreateNonFirstItemParser(
 
 
 std::shared_ptr<element::Element> UnorderedListParser::CreateListElement(
+    element::ListItemStyle item_style,
     element::ElementList list_items) {
 
-    return element::MakeUnorderedList(std::move(list_items));
+    return element::MakeUnorderedList(item_style, std::move(list_items));
 }
 
 }

@@ -22,8 +22,8 @@ std::shared_ptr<element::Element> MarkdownParser::Parse(std::wstring_view input)
         body_parser.ParseOneLine(context);
     }
 
-    auto elements = body_parser.Finish();
-    return element::MakeRoot(std::move(elements));
+    auto body_result = body_parser.Finish();
+    return element::MakeRoot(std::move(body_result.elements));
 }
 
 }

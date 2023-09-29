@@ -10,7 +10,7 @@ class BodyParser;
 class ListItemParser : public BlockParser {
 public:
     Status ParseOneLine(ParseContext& context) override;
-    std::shared_ptr<element::Element> FinishCurrentElement() override;
+    Result FinishCurrentElement() override;
 
 protected:
     virtual bool ParseItemIdentity(ParseContext& context) = 0;

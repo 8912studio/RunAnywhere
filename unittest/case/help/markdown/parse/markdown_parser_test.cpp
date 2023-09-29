@@ -69,7 +69,7 @@ TEST(MarkdownParserTest, ParseFiles) {
         MakeParagraph({ 
             MakeBold(L"Switches")
         }),
-        MakeUnorderedList({
+        MakeUnorderedList(ListItemStyle::Blocks, {
             MakeListItem({
                 MakeParagraph({ MakeInlineCode(L"/f") }),
                 MakeParagraph({
@@ -211,28 +211,31 @@ TEST(MarkdownParserTest, ParseCodeBlock) {
 
 TEST(MarkdownParserTest, ParseUnorderedList) {
 
-    auto test = [](std::wstring_view input, ElementList expected) {
-        return TestParser(input, { MakeUnorderedList(std::move(expected)) });
+    auto test = [](std::wstring_view input, ListItemStyle item_style, ElementList expected) {
+        return TestParser(input, { MakeUnorderedList(item_style, std::move(expected)) });
     };
 
-    ASSERT_TRUE(test(L"* item1\n* item2\n* item3\n", {
+    ASSERT_TRUE(test(L"* item1\n* item2\n* item3\n", ListItemStyle::Lines, {
         MakeListItem({ MakeParagraph(L"item1") }),
         MakeListItem({ MakeParagraph(L"item2") }),
         MakeListItem({ MakeParagraph(L"item3") }),
     }));
 
-    ASSERT_TRUE(test(L"* item1\n\n* item2\n\n\n* item3\n\n", {
+    ASSERT_TRUE(test(L"* item1\n\n* item2\n\n\n* item3\n\n", ListItemStyle::Blocks, {
         MakeListItem({ MakeParagraph(L"item1") }),
         MakeListItem({ MakeParagraph(L"item2") }),
         MakeListItem({ MakeParagraph(L"item3") }),
     }));
 
-    ASSERT_TRUE(test(L"* item1\ntext1\n* item2\ntext1\ntext2", {
+    ASSERT_TRUE(test(L"* item1\ntext1\n* item2\ntext1\ntext2", ListItemStyle::Lines, {
         MakeListItem({ MakeParagraph(L"item1 text1") }),
         MakeListItem({ MakeParagraph(L"item2 text1 text2") }),
     }));
 
-    ASSERT_TRUE(test(L"* item1\n\n    text1\n\n* item2\n\n    text2\n* item3", {
+    ASSERT_TRUE(test(
+        L"* item1\n\n    text1\n\n* item2\n\n    text2\n* item3",
+        ListItemStyle::Blocks, {
+
         MakeListItem({
             MakeParagraph(L"item1"), 
             MakeParagraph(L"text1"),
@@ -246,10 +249,10 @@ TEST(MarkdownParserTest, ParseUnorderedList) {
         }),
     }));
 
-    ASSERT_TRUE(test(L"- item1\n    + item1-1\n    + item1-2\n- item2", {
+    ASSERT_TRUE(test(L"- item1\n    + item1-1\n    + item1-2\n- item2", ListItemStyle::Lines, {
         MakeListItem({
             MakeParagraph(L"item1"),
-            MakeUnorderedList({
+            MakeUnorderedList(ListItemStyle::Lines, {
                 MakeListItem({ MakeParagraph(L"item1-1") }),
                 MakeListItem({ MakeParagraph(L"item1-2") }),
             }),
@@ -259,14 +262,34 @@ TEST(MarkdownParserTest, ParseUnorderedList) {
         }),
     }));
 
-    ASSERT_TRUE(test(L"* item1\n\n    - subitem\n\n    paragraph", {
+    ASSERT_TRUE(test(L"* item1\n\n    - subitem\n\n    paragraph", ListItemStyle::Blocks, {
         MakeListItem({
             MakeParagraph(L"item1"),
-            MakeUnorderedList({
+            MakeUnorderedList(ListItemStyle::Lines, {
                 MakeListItem({ MakeParagraph(L"subitem") }),
             }),
             MakeParagraph(L"paragraph")
         }),
+    }));
+
+    ASSERT_TRUE(test(L"* item1\n    - subitem\n\n    paragraph", ListItemStyle::Blocks, {
+        MakeListItem({
+            MakeParagraph(L"item1"),
+            MakeUnorderedList(ListItemStyle::Lines, {
+                MakeListItem({ MakeParagraph(L"subitem") }),
+            }),
+            MakeParagraph(L"paragraph")
+        }),
+    }));
+
+    ASSERT_TRUE(test(L"* item1\n\n    - subitem\n* item2", ListItemStyle::Blocks, {
+        MakeListItem({
+            MakeParagraph(L"item1"),
+            MakeUnorderedList(ListItemStyle::Lines, {
+                MakeListItem({ MakeParagraph(L"subitem") }),
+            }),
+        }),
+        MakeListItem({ MakeParagraph(L"item2")}),
     }));
 }
 
@@ -274,7 +297,7 @@ TEST(MarkdownParserTest, ParseUnorderedList) {
 TEST(MarkdownParserTest, ParseOrderedList) {
 
     auto test = [](std::wstring_view input, ElementList expected) {
-        return TestParser(input, { MakeOrderedList(std::move(expected)) });
+        return TestParser(input, { MakeOrderedList(ListItemStyle::Lines, std::move(expected)) });
     };
 
     ASSERT_TRUE(test(L"1. item1\n2. item2\n3. item3", {

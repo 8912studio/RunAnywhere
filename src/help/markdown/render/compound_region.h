@@ -1,6 +1,8 @@
 #pragma once
 
+#include "help/markdown/element/element.h"
 #include "help/markdown/render/render_region.h"
+#include "help/markdown/render/style_config.h"
 
 namespace ra::help::markdown::render {
 

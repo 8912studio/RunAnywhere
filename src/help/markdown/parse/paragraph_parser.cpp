@@ -96,10 +96,10 @@ ParagraphParser::LineInfo ParagraphParser::ParseLineInfo(ParseContext& context) 
 }
 
 
-std::shared_ptr<element::Element> ParagraphParser::FinishCurrentElement() {
+ParagraphParser::Result ParagraphParser::FinishCurrentElement() {
 
     if (line_infos_.empty()) {
-        return nullptr;
+        return {};
     }
 
     //Merge line infos to elements.

@@ -30,6 +30,11 @@ public:
         zaf::Color background_color;
     };
 
+    struct ListConfig {
+        float indent{};
+        float item_identity_gap{};
+    };
+
 public:
     const HeaderConfig& GetHeaderConfig(element::HeaderDepth depth) const {
         auto index = static_cast<int>(depth) - 1;
@@ -42,9 +47,9 @@ public:
     std::array<HeaderConfig, 6> header_config;
     CodeConfig inline_code_config;
     CodeConfig code_block_config;
+    ListConfig list_config;
     zaf::FontWeight bold_font_weight{};
     float block_gap{};
-    float list_item_identity_gap{};
 };
 
 }

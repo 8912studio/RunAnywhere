@@ -858,6 +858,12 @@
     <ClInclude Include="src\help\markdown\render\compound_region.h">
       <Filter>src\help\markdown\render</Filter>
     </ClInclude>
+    <ClInclude Include="src\help\markdown\element\list_element.h">
+      <Filter>src\help\markdown\element</Filter>
+    </ClInclude>
+    <ClInclude Include="src\help\markdown\parse\empty_line_info.h">
+      <Filter>src\help\markdown\parse</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -1390,6 +1396,9 @@
     </ClCompile>
     <ClCompile Include="src\help\markdown\render\compound_region.cpp">
       <Filter>src\help\markdown\render</Filter>
+    </ClCompile>
+    <ClCompile Include="src\help\markdown\element\list_element.cpp">
+      <Filter>src\help\markdown\element</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

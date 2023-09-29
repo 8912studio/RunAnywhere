@@ -29,18 +29,15 @@ void BodyParser::ParseOneLine(ParseContext& context) {
 
 void BodyParser::InnerParseOneLine(ParseContext& context) {
 
-    std::shared_ptr<element::Element> element;
-    if (ParseOneBlockLine(context, element)) {
+    BlockParser::Result block_result;
+    if (ParseOneBlockLine(context, block_result)) {
 
-        auto paragraph = paragraph_parser_.FinishCurrentElement();
-        if (paragraph) {
-            elements_.push_back(std::move(paragraph));
+        auto paragraph_result = paragraph_parser_.FinishCurrentElement();
+        if (paragraph_result.element) {
+            elements_.push_back(std::move(paragraph_result.element));
         }
 
-        if (element) {
-            elements_.push_back(std::move(element));
-        }
-
+        HandleBlockResult(std::move(block_result));
         is_last_paragraph_finished_ = true;
     }
     else {
@@ -48,14 +45,22 @@ void BodyParser::InnerParseOneLine(ParseContext& context) {
         auto status = paragraph_parser_.ParseOneLine(context);
         if (status == ParagraphParser::Status::Finished) {
 
-            auto paragraph = paragraph_parser_.FinishCurrentElement();
-            if (paragraph) {
-                elements_.push_back(std::move(paragraph));
+            auto paragraph_result = paragraph_parser_.FinishCurrentElement();
+            if (paragraph_result.element) {
+                elements_.push_back(std::move(paragraph_result.element));
             }
+            
             is_last_paragraph_finished_ = true;
+            empty_line_info_.has_trailing_empty_line = true;
         }
         else {
+
             is_last_paragraph_finished_ = false;
+
+            if (empty_line_info_.has_trailing_empty_line) {
+                empty_line_info_.has_middle_empty_line = true;
+            }
+            empty_line_info_.has_trailing_empty_line = false;
         }
     }
 }
@@ -63,7 +68,7 @@ void BodyParser::InnerParseOneLine(ParseContext& context) {
 
 bool BodyParser::ParseOneBlockLine(
     ParseContext& context,
-    std::shared_ptr<element::Element>& element) {
+    BlockParser::Result& block_result) {
 
     if (current_block_parser_) {
 
@@ -75,8 +80,8 @@ bool BodyParser::ParseOneBlockLine(
         }
 
         //Must be Status::Finished here.
-        element = current_block_parser_->FinishCurrentElement();
-        ZAF_EXPECT(element);
+        block_result = current_block_parser_->FinishCurrentElement();
+        ZAF_EXPECT(block_result.element);
         current_block_parser_ = nullptr;
         return true;
     }
@@ -99,8 +104,8 @@ bool BodyParser::ParseOneBlockLine(
 
             if (status == BlockParser::Status::Finished) {
 
-                element = each_parser->FinishCurrentElement();
-                ZAF_EXPECT(element);
+                block_result = each_parser->FinishCurrentElement();
+                ZAF_EXPECT(block_result.element);
                 return true;
             }
         }
@@ -110,23 +115,42 @@ bool BodyParser::ParseOneBlockLine(
 }
 
 
-element::ElementList BodyParser::Finish() {
+void BodyParser::HandleBlockResult(BlockParser::Result&& block_result) {
+
+    if (!block_result.element) {
+        return;
+    }
+
+    elements_.push_back(std::move(block_result.element));
+
+    if (empty_line_info_.has_trailing_empty_line) {
+        empty_line_info_.has_middle_empty_line = true;
+    }
+
+    empty_line_info_.has_trailing_empty_line = 
+        block_result.empty_line_info.has_trailing_empty_line;
+}
+
+
+BodyParser::Result BodyParser::Finish() {
 
     if (current_block_parser_) {
-        auto element = current_block_parser_->FinishCurrentElement();
-        if (element) {
-            elements_.push_back(std::move(element));
-        }
+        auto block_result = current_block_parser_->FinishCurrentElement();
+        HandleBlockResult(std::move(block_result));
     }
     else {
-        auto paragraph = paragraph_parser_.FinishCurrentElement();
-        if (paragraph) {
-            elements_.push_back(std::move(paragraph));
+        auto paragraph_result = paragraph_parser_.FinishCurrentElement();
+        if (paragraph_result.element) {
+            elements_.push_back(std::move(paragraph_result.element));
         }
     }
 
     is_body_finished_ = true;
-    return std::move(elements_);
+
+    Result result;
+    result.elements = std::move(elements_);
+    result.empty_line_info = empty_line_info_;
+    return result;
 }
 
 }

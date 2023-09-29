@@ -14,7 +14,8 @@ public:
     static std::shared_ptr<ListItemRegion> Create(
         const std::wstring& item_identity,
         const element::Element& element, 
-        const StyleConfig& style_config);
+        const StyleConfig& style_config,
+        std::size_t depth);
 
 protected:
     void Initialize() override;
@@ -29,6 +30,7 @@ private:
 private:
     std::shared_ptr<StyledTextBox> identity_text_box_;
     std::shared_ptr<BodyRegion> body_region_;
+    float indent_{};
     float identity_gap_{};
 };
 

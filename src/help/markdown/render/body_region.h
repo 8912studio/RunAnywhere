@@ -10,7 +10,8 @@ class BodyRegion : public CompoundRegion {
 public:
     static std::shared_ptr<BodyRegion> Create(
         const element::ElementList& block_elements, 
-        const StyleConfig& style_config);
+        const StyleConfig& style_config,
+        std::size_t depth);
 
 private:
     enum class BlockPosition {
@@ -21,7 +22,8 @@ private:
 
     static std::shared_ptr<RenderRegion> CreateBlockRegion(
         const element::Element& element,
-        const StyleConfig& style_config);
+        const StyleConfig& style_config,
+        std::size_t depth);
 
     static zaf::Frame GetBlockMargin(
         const element::Element& element,

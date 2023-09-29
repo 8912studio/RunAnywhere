@@ -10,7 +10,8 @@ class UnorderedListRegion : public CompoundRegion {
 public:
     static std::shared_ptr<UnorderedListRegion> Create(
         const element::Element& element,
-        const StyleConfig& style_config);
+        const StyleConfig& style_config,
+        std::size_t depth);
 
 private:
     explicit UnorderedListRegion(std::vector<std::shared_ptr<RenderRegion>> item_regions);

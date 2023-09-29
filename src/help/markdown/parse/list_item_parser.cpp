@@ -68,17 +68,23 @@ bool ListItemParser::InnerParseItemBodyLine(ParseContext& context) {
         state_->body_parser->ParseOneLine(context);
         return true;
     }
+
     return false;
 }
 
 
-std::shared_ptr<element::Element> ListItemParser::FinishCurrentElement() {
+ListItemParser::Result ListItemParser::FinishCurrentElement() {
 
     ZAF_EXPECT(state_.has_value());
 
-    auto result = MakeListItem(state_->body_parser->Finish());
+    auto body_result = state_->body_parser->Finish();
+
+    Result item_result;
+    item_result.element = MakeListItem(std::move(body_result.elements));
+    item_result.empty_line_info = body_result.empty_line_info;
+
     state_.reset();
-    return result;
+    return item_result;
 }
 
 

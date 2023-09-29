@@ -30,9 +30,10 @@ std::unique_ptr<ListItemParser> OrderedListParser::CreateItemParser(ParseContext
 
 
 std::shared_ptr<element::Element> OrderedListParser::CreateListElement(
+    element::ListItemStyle item_style,
     element::ElementList list_items) {
 
-    return element::MakeOrderedList(std::move(list_items));
+    return element::MakeOrderedList(item_style, std::move(list_items));
 }
 
 }

@@ -2,6 +2,7 @@
 
 #include "help/markdown/element/element.h"
 #include "help/markdown/element/header_element.h"
+#include "help/markdown/element/list_element.h"
 
 namespace ra::help::markdown::element {
 
@@ -72,13 +73,13 @@ inline std::shared_ptr<Element> MakeListItem(ElementList children) {
 }
 
 
-inline std::shared_ptr<Element> MakeUnorderedList(ElementList children) {
-    return std::make_shared<Element>(ElementType::UnorderedList, std::move(children));
+inline std::shared_ptr<Element> MakeUnorderedList(ListItemStyle item_type, ElementList children) {
+    return std::make_shared<UnorderedListElement>(item_type, std::move(children));
 }
 
 
-inline std::shared_ptr<Element> MakeOrderedList(ElementList children) {
-    return std::make_shared<Element>(ElementType::OrderedList, std::move(children));
+inline std::shared_ptr<Element> MakeOrderedList(ListItemStyle item_type, ElementList children) {
+    return std::make_shared<OrderedListElement>(item_type, std::move(children));
 }
 
 }

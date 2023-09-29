@@ -66,7 +66,7 @@ HeaderParser::Status HeaderParser::ParseOneLine(ParseContext& context) {
 }
 
 
-std::shared_ptr<element::Element> HeaderParser::FinishCurrentElement() {
+HeaderParser::Result HeaderParser::FinishCurrentElement() {
 
     ZAF_EXPECT(state_.has_value());
 

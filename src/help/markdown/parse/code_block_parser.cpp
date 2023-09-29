@@ -29,7 +29,7 @@ CodeBlockParser::Status CodeBlockParser::ParseOneLine(ParseContext& context) {
 }
 
 
-std::shared_ptr<element::Element> CodeBlockParser::FinishCurrentElement() {
+CodeBlockParser::Result CodeBlockParser::FinishCurrentElement() {
 
     ZAF_EXPECT(state_.has_value());
 

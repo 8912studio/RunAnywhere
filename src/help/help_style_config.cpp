@@ -34,9 +34,11 @@ StyleConfig CreateStyleConfig() {
 
     style_config.code_block_config = style_config.inline_code_config;
 
+    style_config.list_config.indent = 8;
+    style_config.list_config.item_identity_gap = 8;
+
     style_config.paragraph_config.line_gap = 4;
     style_config.block_gap = 14;
-    style_config.list_item_identity_gap = 8;
     style_config.bold_font_weight = zaf::FontWeight::Bold;
 
     InitializeHeaderConfigs(style_config);

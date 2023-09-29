@@ -20,20 +20,26 @@ ListParser::Status ListParser::ParseOneLine(ParseContext& context) {
 }
 
 
-std::shared_ptr<element::Element> ListParser::FinishCurrentElement() {
+ListParser::Result ListParser::FinishCurrentElement() {
 
     ZAF_EXPECT(state_.has_value());
 
     if (state_->current_item_parser) {
-
-        auto element = state_->current_item_parser->FinishCurrentElement();
-        ZAF_EXPECT(element);
-        state_->parsed_items.push_back(std::move(element));
+        FinishCurrentItem();
     }
 
-    auto result = CreateListElement(std::move(state_->parsed_items));
+    auto item_style =
+        state_->empty_line_info.has_middle_empty_line ?
+        element::ListItemStyle::Blocks :
+        element::ListItemStyle::Lines;
+
+    Result list_result;
+    list_result.element = CreateListElement(item_style, std::move(state_->parsed_items));
+    list_result.empty_line_info.has_trailing_empty_line = 
+        state_->empty_line_info.has_trailing_empty_line;
+
     state_.reset();
-    return result;
+    return list_result;
 }
 
 
@@ -60,12 +66,7 @@ bool ListParser::ParseNonFirstLine(ParseContext& context) {
         }
 
         ZAF_EXPECT(parse_status == Status::Finished);
-
-        auto element = state_->current_item_parser->FinishCurrentElement();
-        ZAF_EXPECT(element);
-
-        state_->parsed_items.push_back(std::move(element));
-        state_->current_item_parser.reset();
+        FinishCurrentItem();
     }
 
     auto next_item_parser = CreateNonFirstItemParser(context);
@@ -75,6 +76,27 @@ bool ListParser::ParseNonFirstLine(ParseContext& context) {
 
     state_->current_item_parser = std::move(next_item_parser);
     return true;
+}
+
+
+void ListParser::FinishCurrentItem() {
+
+    auto item_result = state_->current_item_parser->FinishCurrentElement();
+    ZAF_EXPECT(item_result.element);
+
+    state_->parsed_items.push_back(std::move(item_result.element));
+
+    if (item_result.empty_line_info.has_middle_empty_line) {
+        state_->empty_line_info.has_middle_empty_line = true;
+    }
+    else if (state_->empty_line_info.has_trailing_empty_line) {
+        state_->empty_line_info.has_middle_empty_line = true;
+    }
+
+    state_->empty_line_info.has_trailing_empty_line = 
+        item_result.empty_line_info.has_trailing_empty_line;
+
+    state_->current_item_parser.reset();
 }
 
 }
