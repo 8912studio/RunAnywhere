@@ -13,8 +13,11 @@ private:
     class State {
     public:
         std::size_t hash_count{};
-        std::wstring content;
+        element::ElementList children;
     };
+
+private:
+    static element::ElementList ParseChildren(ParseContext& context);
 
 private:
     std::optional<State> state_;

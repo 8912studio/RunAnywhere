@@ -2,6 +2,7 @@
 #include <zaf/base/error/check.h>
 #include <zaf/base/string/trim.h>
 #include "help/markdown/element/factory.h"
+#include "help/markdown/parse/span_element_parser.h"
 
 namespace ra::help::markdown::parse {
 
@@ -32,26 +33,8 @@ HeaderParser::Status HeaderParser::ParseOneLine(ParseContext& context) {
         return Status::Failed;
     }
 
-    std::wstring content;
-    do {
-        content.append(1, context.CurrentChar());
-        context.Forward();
-    } while (!context.IsAtLineEnd());
-
-    //Trim spaces
-    zaf::Trim(content);
-
-    //Remove tailing hashes
-    auto last_not_hash_index = content.find_last_not_of(L'#');
-    if (last_not_hash_index == std::wstring::npos) {
-        return Status::Failed;
-    }
-
-    content.erase(last_not_hash_index + 1);
-    //Trim spaces again.
-    zaf::Trim(content);
-
-    if (content.empty()) {
+    auto children = ParseChildren(context);
+    if (children.empty()) {
         return Status::Failed;
     }
 
@@ -61,8 +44,52 @@ HeaderParser::Status HeaderParser::ParseOneLine(ParseContext& context) {
 
     state_.emplace();
     state_->hash_count = hash_count;
-    state_->content = std::move(content);
+    state_->children = std::move(children);
     return Status::Finished;
+}
+
+
+element::ElementList HeaderParser::ParseChildren(ParseContext& context) {
+
+    element::ElementList result;
+    context.SkipSpaces();
+
+    std::wstring text;
+    while (!context.IsAtLineEnd()) {
+
+        auto span = SpanElementParser::Instance()->Parse(context);
+        if (span) {
+
+            if (!text.empty()) {
+                result.push_back(element::MakeText(std::move(text)));
+            }
+
+            result.push_back(std::move(span));
+        }
+        else {
+
+            text.append(1, context.CurrentChar());
+            context.Forward();
+        }
+    }
+
+    zaf::TrimEnd(text);
+
+    //Remove tailing hashes
+    auto last_not_hash_index = text.find_last_not_of(L'#');
+    if (last_not_hash_index == std::wstring::npos) {
+        text.clear();
+    }
+    else {
+        text.erase(last_not_hash_index + 1);
+        zaf::TrimEnd(text);
+    }
+
+    if (!text.empty()) {
+        result.push_back(element::MakeText(std::move(text)));
+    }
+
+    return result;
 }
 
 
@@ -71,7 +98,7 @@ HeaderParser::Result HeaderParser::FinishCurrentElement() {
     ZAF_EXPECT(state_.has_value());
 
     auto depth = std::size_t(element::HeaderDepth::_1) + state_->hash_count - 1;
-    auto result = element::MakeHeader(element::HeaderDepth(depth), std::move(state_->content));
+    auto result = element::MakeHeader(element::HeaderDepth(depth), std::move(state_->children));
     state_.reset();
     return result;
 }
