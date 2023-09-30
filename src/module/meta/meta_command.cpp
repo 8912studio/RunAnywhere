@@ -31,7 +31,10 @@ CommandBrief MetaCommand::GetBrief() {
 std::shared_ptr<help::markdown::element::Element> MetaCommand::GetHelpContent() {
     
     return MakeRoot({
-        MakeHeader(HeaderDepth::_2, MetaCommandPrefix + command_info_.command + L" Command"),
+        MakeHeader(HeaderDepth::_2, {
+            MakeInlineCode(MetaCommandPrefix + command_info_.command),
+            MakeText(L" Command"),
+        }),
         MakeParagraph(command_info_.description),
     });
 }
