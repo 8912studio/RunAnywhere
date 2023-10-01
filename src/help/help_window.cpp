@@ -29,8 +29,9 @@ void HelpWindow::AfterParse() {
     scroll_bar->SetPadding(zaf::Frame{ 0, 2, 0, 2 });
     scroll_bar->SetSmallChange(16);
 
-    auto scroll_content = scroll_control_->ScrollContent();
-    scroll_content->SetLayouter(zaf::Create<zaf::VerticalLayouter>());
+    auto content_layouter = zaf::Create<zaf::VerticalLayouter>();
+    content_layouter->SetAxisAlignment(zaf::AxisAlignment::Center);
+    scroll_control_->ScrollContent()->SetLayouter(content_layouter);
 
     InitializeScrollControls();
 }
@@ -130,24 +131,33 @@ void HelpWindow::UpdateWindowHeight() {
         std::numeric_limits<float>::max()
     });
 
+    help_content_control_->SetFixedHeight(preferred_size.height);
+
+    constexpr float max_window_height = 400;
+    constexpr float min_window_height = 60;
+    constexpr float window_border = 2;
+
+    float actual_window_height{};
+    float actual_content_height{};
+
+    float expected_window_height = preferred_size.height + window_border;
+    if (expected_window_height < min_window_height) {
+        actual_window_height = min_window_height;
+        actual_content_height = min_window_height - window_border;
+    }
+    else if (expected_window_height > max_window_height) {
+        actual_window_height = max_window_height;
+        actual_content_height = preferred_size.height;
+    }
+    else {
+        actual_window_height = expected_window_height;
+        actual_content_height = preferred_size.height;
+    }
+
     const auto& scroll_content = scroll_control_->ScrollContent();
-    scroll_content->SetFixedHeight(preferred_size.height);
+    scroll_content->SetFixedHeight(actual_content_height);
 
-    //Set window height at next message loop to avoid re-enter issues.
-    Subscriptions() += zaf::rx::Just(0).SubscribeOn(zaf::Scheduler::Main()).Subscribe(
-        [this, preferred_size](int) {
-
-        constexpr float max_height = 400;
-        constexpr float min_height = 60;
-
-        constexpr float window_border = 2;
-        float expected_height = preferred_size.height + window_border;
-
-        float window_height = std::min(max_height, expected_height);
-        window_height = std::max(window_height, min_height);
-
-        this->SetHeight(std::ceil(window_height));
-    });
+    this->SetHeight(std::ceil(actual_window_height));
 }
 
 

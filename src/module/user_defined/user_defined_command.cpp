@@ -5,11 +5,14 @@
 #include <zaf/base/string/join.h>
 #include <zaf/creation.h>
 #include "environment_variable_manager.h"
+#include "help/markdown/element/factory.h"
 #include "module/active_path/active_path_modifying.h"
 #include "module/active_path/active_path_option_parsing.h"
 #include "module/user_defined/parse/entry_command_parsing.h"
 #include "module/user_defined/parse/variable_formatter.h"
 #include "module/user_defined/preview/user_defined_command_preview_control.h"
+
+using namespace ra::help::markdown::element;
 
 namespace ra::mod::user_defined {
 namespace {
@@ -77,13 +80,12 @@ CommandBrief UserDefinedCommand::GetBrief() {
 
 std::shared_ptr<help::markdown::element::Element> UserDefinedCommand::GetHelpContent() {
 
-    return nullptr;
-    /*
-    help::content::Content result;
-    result.AddTitleLine(entry_->Keyword() + L" command");
-    result.AddBodyLine(entry_->Description());
-    return result;
-    */
+    return MakeRoot({
+        MakeHeader(HeaderDepth::_2, {
+            MakeInlineCode(entry_->Keyword()),
+        }),
+        MakeParagraph(entry_->Description()),
+    });
 }
 
 

@@ -10,11 +10,17 @@ std::shared_ptr<Element> BuildHelpContentFromSuggestedCommands(
     std::vector<mod::CommandBrief>&& commands) {
 
     ElementList block_elements;
-    block_elements.push_back(MakeHeader(HeaderDepth::_2, L"Suggestions"));
 
     if (commands.empty()) {
-
         block_elements.push_back(MakeParagraph(L"No suggestions"));
+    }
+    else if (commands.size() == 1) {
+
+        block_elements.push_back(MakeHeader(HeaderDepth::_2, {
+            MakeInlineCode(commands.front().Command()),
+        }));
+
+        block_elements.push_back(MakeParagraph(commands.front().Description()));
     }
     else {
 
