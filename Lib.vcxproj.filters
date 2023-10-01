@@ -801,9 +801,6 @@
     <ClInclude Include="src\help\markdown\render\simple_block_region.h">
       <Filter>src\help\markdown\render</Filter>
     </ClInclude>
-    <ClInclude Include="src\help\built_in_help_content.h">
-      <Filter>src\help</Filter>
-    </ClInclude>
     <ClInclude Include="src\help\markdown\render\paragraph_region.h">
       <Filter>src\help\markdown\render</Filter>
     </ClInclude>
@@ -833,6 +830,9 @@
     </ClInclude>
     <ClInclude Include="src\help\markdown\parse\empty_line_info.h">
       <Filter>src\help\markdown\parse</Filter>
+    </ClInclude>
+    <ClInclude Include="src\help\built_in_help_content_manager.h">
+      <Filter>src\help</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1334,9 +1334,6 @@
     <ClCompile Include="src\help\markdown\render\simple_block_region.cpp">
       <Filter>src\help\markdown\render</Filter>
     </ClCompile>
-    <ClCompile Include="src\help\built_in_help_content.cpp">
-      <Filter>src\help</Filter>
-    </ClCompile>
     <ClCompile Include="src\help\markdown\render\paragraph_region.cpp">
       <Filter>src\help\markdown\render</Filter>
     </ClCompile>
@@ -1363,6 +1360,9 @@
     </ClCompile>
     <ClCompile Include="src\help\markdown\element\list_element.cpp">
       <Filter>src\help\markdown\element</Filter>
+    </ClCompile>
+    <ClCompile Include="src\help\built_in_help_content_manager.cpp">
+      <Filter>src\help</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

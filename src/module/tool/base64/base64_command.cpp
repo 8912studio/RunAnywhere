@@ -1,6 +1,6 @@
 #include "module/tool/base64/base64_command.h"
 #include <zaf/creation.h>
-#include "help/built_in_help_content.h"
+#include "help/built_in_help_content_manager.h"
 #include "module/common/copy_executor.h"
 
 namespace ra::mod::tool::base64 {
@@ -16,7 +16,7 @@ CommandBrief Base64Command::GetBrief() {
 
 
 std::shared_ptr<help::markdown::element::Element> Base64Command::GetHelpContent() {
-    return help::LoadBuiltInHelpContent(Brief().Command());
+    return help::BuiltInHelpContentManager::Instance().GetDetail(Brief().Command());
 }
 
 

@@ -1,6 +1,6 @@
 #include "module/tool/hash/md5_command.h"
 #include <zaf/crypto/md5.h>
-#include "help/built_in_help_content.h"
+#include "help/built_in_help_content_manager.h"
 
 namespace ra::mod::tool::hash {
 
@@ -18,7 +18,7 @@ CommandBrief MD5Command::GetBrief() {
 
 
 std::shared_ptr<help::markdown::element::Element> MD5Command::GetHelpContent() {
-	return help::LoadBuiltInHelpContent(Brief().Command());
+	return help::BuiltInHelpContentManager::Instance().GetDetail(Brief().Command());
 }
 
 

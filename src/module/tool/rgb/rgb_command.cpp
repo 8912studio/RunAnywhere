@@ -4,7 +4,7 @@
 #include <zaf/base/string/split.h>
 #include <zaf/base/string/to_numeric.h>
 #include <zaf/creation.h>
-#include "help/built_in_help_content.h"
+#include "help/built_in_help_content_manager.h"
 #include "module/calculator/parse/decimal_number_parser.h"
 #include "module/calculator/parse/non_decimal_number_parser.h"
 #include "module/common/command_error_control.h"
@@ -320,7 +320,7 @@ CommandBrief RGBCommand::GetBrief() {
 
 
 std::shared_ptr<help::markdown::element::Element> RGBCommand::GetHelpContent() {
-    return help::LoadBuiltInHelpContent(Brief().Command());
+    return help::BuiltInHelpContentManager::Instance().GetDetail(Brief().Command());
 }
 
 

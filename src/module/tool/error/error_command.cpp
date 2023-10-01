@@ -1,6 +1,6 @@
 #include "module/tool/error/error_command.h"
 #include <zaf/creation.h>
-#include "help/built_in_help_content.h"
+#include "help/built_in_help_content_manager.h"
 #include "module/common/error_view.h"
 #include "module/common/command_error_control.h"
 #include "module/common/copy_executor.h"
@@ -48,7 +48,7 @@ CommandBrief ErrorCommand::GetBrief() {
 
 
 std::shared_ptr<help::markdown::element::Element> ErrorCommand::GetHelpContent() {
-    return help::LoadBuiltInHelpContent(Brief().Command());
+    return help::BuiltInHelpContentManager::Instance().GetDetail(Brief().Command());
 }
 
 

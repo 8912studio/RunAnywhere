@@ -1,6 +1,6 @@
 #include "module/tool/hex/hex_command.h"
 #include <zaf/creation.h>
-#include "help/built_in_help_content.h"
+#include "help/built_in_help_content_manager.h"
 #include "module/active_path/active_path_modifying.h"
 #include "module/common/command_error_control.h"
 #include "module/common/general_input.h"
@@ -22,7 +22,7 @@ CommandBrief HexCommand::GetBrief() {
 
 
 std::shared_ptr<help::markdown::element::Element> HexCommand::GetHelpContent() {
-    return help::LoadBuiltInHelpContent(Brief().Command());
+    return help::BuiltInHelpContentManager::Instance().GetDetail(Brief().Command());
 }
 
 

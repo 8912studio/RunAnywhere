@@ -1,6 +1,6 @@
 #include "module/tool/date/date_command.h"
 #include <zaf/creation.h>
-#include "help/built_in_help_content.h"
+#include "help/built_in_help_content_manager.h"
 #include "module/common/command_error_control.h"
 #include "module/common/copy_executor.h"
 #include "module/tool/date/date_command_parsing.h"
@@ -21,7 +21,7 @@ CommandBrief DateCommand::GetBrief() {
 
 
 std::shared_ptr<help::markdown::element::Element> DateCommand::GetHelpContent() {
-	return help::LoadBuiltInHelpContent(Brief().Command());
+	return help::BuiltInHelpContentManager::Instance().GetDetail(Brief().Command());
 }
 
 

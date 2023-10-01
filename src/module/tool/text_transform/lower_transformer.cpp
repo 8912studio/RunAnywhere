@@ -1,6 +1,6 @@
 #include "module/tool/text_transform/lower_transformer.h"
 #include <zaf/base/string/case_conversion.h>
-#include "help/built_in_help_content.h"
+#include "help/built_in_help_content_manager.h"
 
 namespace ra::mod::tool::text_transform {
 
@@ -15,7 +15,7 @@ CommandBrief LowerTransformer::GetBrief() {
 
 
 std::shared_ptr<help::markdown::element::Element> LowerTransformer::GetHelpContent() {
-	return help::LoadBuiltInHelpContent(Brief().Command());
+	return help::BuiltInHelpContentManager::Instance().GetDetail(Brief().Command());
 }
 
 
