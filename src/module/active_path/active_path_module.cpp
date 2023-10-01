@@ -1,4 +1,5 @@
 #include "module/active_path/active_path_module.h"
+#include "help/built_in_help_content_manager.h"
 #include "module/active_path/active_path_command.h"
 #include "module/active_path/active_path_option_parsing.h"
 
@@ -8,7 +9,14 @@ std::vector<CommandBrief> ActivePathModule::QuerySuggestedCommands(
 	const std::wstring& command_text) {
 
 	if (command_text.empty() || command_text.front() == ActivePathCommand::PrefixChar) {
-		return { ActivePathCommand::Brief() };
+
+		auto description = help::BuiltInHelpContentManager::Instance().GetDescription(
+			ActivePathCommand::HelpContentIdentity);
+
+		return { {
+			std::wstring(1, ActivePathCommand::PrefixChar),
+			description,
+		} };
 	}
 
 	return {};

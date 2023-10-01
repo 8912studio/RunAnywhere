@@ -7,8 +7,8 @@ namespace ra::mod::active_path {
 
 class ActivePathCommand : public Command {
 public:
-    static CommandBrief Brief();
     static constexpr wchar_t PrefixChar = L'@';
+    static constexpr const wchar_t* HelpContentIdentity = L"at";
 
 public:
     explicit ActivePathCommand(const ActivePathOption& option);
