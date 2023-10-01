@@ -2,6 +2,7 @@
 #include "module/meta/meta_command.h"
 #include "module/meta/meta_command_info.h"
 #include "module/meta/meta_command_prefix.h"
+#include "help/markdown/element/factory.h"
 
 namespace ra::mod::meta {
 namespace {
@@ -43,7 +44,9 @@ std::vector<CommandBrief> MetaModule::QuerySuggestedCommands(const std::wstring&
             continue;
         }
 
-        result.emplace_back(MetaCommandPrefix + each_info.command, each_info.description);
+        result.emplace_back(
+            MetaCommandPrefix + each_info.command,
+            help::markdown::element::MakeParagraph(each_info.description));
     }
 
     return result;

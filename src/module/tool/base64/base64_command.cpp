@@ -5,18 +5,18 @@
 
 namespace ra::mod::tool::base64 {
 
-CommandBrief Base64Command::Brief() {
-    return CommandBrief{ L"b64", L"Base64 encoding and decoding" };
+std::wstring Base64Command::Keyword() {
+    return L"b64";
 }
 
 
 CommandBrief Base64Command::GetBrief() {
-    return Brief();
+    return { Keyword(), L"" };
 }
 
 
 std::shared_ptr<help::markdown::element::Element> Base64Command::GetHelpContent() {
-    return help::BuiltInHelpContentManager::Instance().GetDetail(Brief().Command());
+    return help::BuiltInHelpContentManager::Instance().GetDetail(Keyword());
 }
 
 

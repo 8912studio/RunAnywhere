@@ -4,18 +4,18 @@
 
 namespace ra::mod::tool::text_transform {
 
-CommandBrief LowerTransformer::Brief() {
-    return CommandBrief{ L"low", L"Transform text to lowercase" };
+std::wstring LowerTransformer::Keyword() {
+    return L"low";
 }
 
 
 CommandBrief LowerTransformer::GetBrief() {
-    return Brief();
+    return { Keyword(), L"" };
 }
 
 
 std::shared_ptr<help::markdown::element::Element> LowerTransformer::GetHelpContent() {
-	return help::BuiltInHelpContentManager::Instance().GetDetail(Brief().Command());
+	return help::BuiltInHelpContentManager::Instance().GetDetail(Keyword());
 }
 
 

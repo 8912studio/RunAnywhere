@@ -10,7 +10,7 @@ namespace ra::mod::tool::hex {
 
 class HexCommand : public Command {
 public:
-    static CommandBrief Brief();
+    static std::wstring Keyword();
 
 public:
     CommandBrief GetBrief() override;

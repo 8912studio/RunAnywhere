@@ -1364,6 +1364,9 @@
     <ClCompile Include="src\help\built_in_help_content_manager.cpp">
       <Filter>src\help</Filter>
     </ClCompile>
+    <ClCompile Include="src\module\command_brief.cpp">
+      <Filter>src\module</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Page Include="src\module\user_defined\preview\user_defined_command_preview_control.xaml">

@@ -425,6 +425,7 @@
     <ClCompile Include="src\module\calculator\parse\parse_result.cpp" />
     <ClCompile Include="src\module\calculator\parse\unary_expression_parser.cpp" />
     <ClCompile Include="src\module\calculator\preview\calculator_preview_control.cpp" />
+    <ClCompile Include="src\module\command_brief.cpp" />
     <ClCompile Include="src\module\command_preview_control.cpp" />
     <ClCompile Include="src\module\common\binary_content\binary_column_header.cpp" />
     <ClCompile Include="src\module\common\binary_content\binary_content_common.cpp" />

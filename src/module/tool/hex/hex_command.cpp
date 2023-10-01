@@ -8,21 +8,18 @@
 
 namespace ra::mod::tool::hex {
 
-CommandBrief HexCommand::Brief() {
-    return CommandBrief{
-        L"hex",
-        L"Display bytes of file content in hex format",
-    };
+std::wstring HexCommand::Keyword() {
+    return L"hex";
 }
 
 
 CommandBrief HexCommand::GetBrief() {
-    return Brief();
+    return { Keyword(), L"" };
 }
 
 
 std::shared_ptr<help::markdown::element::Element> HexCommand::GetHelpContent() {
-    return help::BuiltInHelpContentManager::Instance().GetDetail(Brief().Command());
+    return help::BuiltInHelpContentManager::Instance().GetDetail(Keyword());
 }
 
 

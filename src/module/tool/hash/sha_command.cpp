@@ -4,16 +4,13 @@
 
 namespace ra::mod::tool::hash {
 
-CommandBrief SHACommand::Brief() {
-	return CommandBrief{
-		L"sha",
-		L"Calculate SHA hash"
-	};
+std::wstring SHACommand::Keyword() {
+	return L"sha";
 }
 
 
 CommandBrief SHACommand::GetBrief() {
-	return Brief();
+	return { Keyword(), L"" };
 }
 
 

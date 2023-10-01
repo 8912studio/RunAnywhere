@@ -10,7 +10,7 @@ namespace ra::mod::tool::rgb {
 
 class RGBCommand : public Command {
 public:
-    static CommandBrief Brief();
+    static std::wstring Keyword();
 
     static std::optional<RGBCommandParseResult> Parse(const utility::CommandLine& command_line);
 

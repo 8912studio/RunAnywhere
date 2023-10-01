@@ -4,21 +4,18 @@
 
 namespace ra::mod::tool::hash {
 
-CommandBrief MD5Command::Brief() {
-	return CommandBrief{
-		L"md5",
-		L"Calculate MD5 hash"
-	};
+std::wstring MD5Command::Keyword() {
+	return L"md5";
 }
 
 
 CommandBrief MD5Command::GetBrief() {
-	return Brief();
+	return { Keyword(), L"" };
 }
 
 
 std::shared_ptr<help::markdown::element::Element> MD5Command::GetHelpContent() {
-	return help::BuiltInHelpContentManager::Instance().GetDetail(Brief().Command());
+	return help::BuiltInHelpContentManager::Instance().GetDetail(Keyword());
 }
 
 

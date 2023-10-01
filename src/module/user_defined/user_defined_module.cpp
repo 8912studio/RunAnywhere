@@ -1,5 +1,6 @@
 #include "module/user_defined/user_defined_module.h"
 #include <Windows.h>
+#include "help/markdown/element/factory.h"
 #include "module/user_defined/bundle_definition.h"
 #include "module/user_defined/bundle_parser.h"
 #include "module/user_defined/legacy/legacy_entry_file.h"
@@ -111,7 +112,10 @@ std::vector<CommandBrief> UserDefinedModule::QuerySuggestedCommands(
 
     std::vector<CommandBrief> result;
     for (const auto& each_entry : found_entries) {
-        result.emplace_back(each_entry->Keyword(), each_entry->Description());
+
+        result.emplace_back(
+            each_entry->Keyword(),
+            help::markdown::element::MakeParagraph(each_entry->Description()));
     }
 
     return result;

@@ -6,7 +6,7 @@ namespace ra::mod::tool::hash {
 
 class MD5Command : public HashCommand {
 public:
-    static CommandBrief Brief();
+    static std::wstring Keyword();
 
 public:
     CommandBrief GetBrief() override;

@@ -9,7 +9,7 @@ namespace ra::mod::tool::base64 {
 
 class Base64Command : public Command {
 public:
-    static CommandBrief Brief();
+    static std::wstring Keyword();
 
 public:
     CommandBrief GetBrief() override;

@@ -4,18 +4,18 @@
 
 namespace ra::mod::tool::text_transform {
 
-CommandBrief UpperTransformer::Brief() {
-    return CommandBrief{ L"up", L"Transform text to uppercase" };
+std::wstring UpperTransformer::Keyword() {
+    return L"up";
 }
 
 
 CommandBrief UpperTransformer::GetBrief() {
-    return Brief();
+    return { Keyword(), L"" };
 }
 
 
 std::shared_ptr<help::markdown::element::Element> UpperTransformer::GetHelpContent() {
-	return help::BuiltInHelpContentManager::Instance().GetDetail(Brief().Command());
+	return help::BuiltInHelpContentManager::Instance().GetDetail(Keyword());
 }
 
 

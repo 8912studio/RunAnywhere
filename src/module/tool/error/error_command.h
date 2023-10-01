@@ -10,7 +10,7 @@ namespace ra::mod::tool::error {
 
 class ErrorCommand : public Command {
 public:
-    static CommandBrief Brief();
+    static std::wstring Keyword();
     static std::optional<ErrorCommandParseResult> Parse(const utility::CommandLine& command_line);
 
 public:

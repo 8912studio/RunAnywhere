@@ -10,7 +10,7 @@ namespace ra::mod::tool::date {
 
 class DateCommand : public Command {
 public:
-    static CommandBrief Brief();
+    static std::wstring Keyword();
 
 public:
     CommandBrief GetBrief() override;

@@ -7,21 +7,18 @@
 
 namespace ra::mod::tool::date { 
 
-CommandBrief DateCommand::Brief() {
-	return CommandBrief{
-		L"date",
-		L"Convert between date string and UNIX timestamp"
-	};
+std::wstring DateCommand::Keyword() {
+	return L"date";
 }
 
 
 CommandBrief DateCommand::GetBrief() {
-	return Brief();
+	return { Keyword(), L"" };
 }
 
 
 std::shared_ptr<help::markdown::element::Element> DateCommand::GetHelpContent() {
-	return help::BuiltInHelpContentManager::Instance().GetDetail(Brief().Command());
+	return help::BuiltInHelpContentManager::Instance().GetDetail(Keyword());
 }
 
 

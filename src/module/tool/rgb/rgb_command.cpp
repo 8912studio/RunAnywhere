@@ -289,11 +289,8 @@ bool ParseArgument(const utility::CommandLinePiece& argument, RGBCommandParseCon
 
 }
 
-CommandBrief RGBCommand::Brief() {
-    return CommandBrief{
-        L"rgb",
-        L"Show color using RGB format"
-    };
+std::wstring RGBCommand::Keyword() {
+    return L"rgb";
 }
 
 
@@ -315,12 +312,12 @@ std::optional<RGBCommandParseResult> RGBCommand::Parse(const utility::CommandLin
 
 
 CommandBrief RGBCommand::GetBrief() {
-    return Brief();
+    return { Keyword(), L"" };
 }
 
 
 std::shared_ptr<help::markdown::element::Element> RGBCommand::GetHelpContent() {
-    return help::BuiltInHelpContentManager::Instance().GetDetail(Brief().Command());
+    return help::BuiltInHelpContentManager::Instance().GetDetail(Keyword());
 }
 
 

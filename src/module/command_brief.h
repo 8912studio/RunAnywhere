@@ -1,28 +1,29 @@
 #pragma once
 
 #include <string>
+#include "help/markdown/element/element.h"
 
 namespace ra::mod {
 
 class CommandBrief {
 public:
-    CommandBrief(const std::wstring& command, const std::wstring& description) : 
-        command_(command),
-        description_(description) {
+    CommandBrief(
+        std::wstring keyword,
+        std::shared_ptr<help::markdown::element::Element> description);
 
+    CommandBrief(std::wstring keyword, std::wstring description);
+
+    const std::wstring& Keyword() const {
+        return keyword_;
     }
 
-    const std::wstring& Command() const {
-        return command_;
-    }
-
-    const std::wstring Description() const {
+    const std::shared_ptr<help::markdown::element::Element>& Description() const {
         return description_;
     }
 
 private:
-    std::wstring command_;
-    std::wstring description_;
+    std::wstring keyword_;
+    std::shared_ptr<help::markdown::element::Element> description_;
 };
 
 }

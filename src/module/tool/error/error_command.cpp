@@ -8,11 +8,8 @@
 
 namespace ra::mod::tool::error {
 
-CommandBrief ErrorCommand::Brief() {
-    return CommandBrief{
-        L"err",
-        L"Show error message"
-    };
+std::wstring ErrorCommand::Keyword() {
+    return L"err";
 }
 
 
@@ -43,12 +40,12 @@ std::optional<ErrorCommandParseResult> ErrorCommand::Parse(
 
 
 CommandBrief ErrorCommand::GetBrief() {
-    return Brief();
+    return { Keyword(), L"" };
 }
 
 
 std::shared_ptr<help::markdown::element::Element> ErrorCommand::GetHelpContent() {
-    return help::BuiltInHelpContentManager::Instance().GetDetail(Brief().Command());
+    return help::BuiltInHelpContentManager::Instance().GetDetail(Keyword());
 }
 
 

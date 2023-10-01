@@ -6,7 +6,7 @@ namespace ra::mod::tool::text_transform {
 
 class UpperTransformer : public TextTransformer {
 public:
-    static CommandBrief Brief();
+    static std::wstring Keyword();
 
 public:
     CommandBrief GetBrief() override;

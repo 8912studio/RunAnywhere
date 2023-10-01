@@ -18,10 +18,10 @@ BuiltInHelpContentManager& BuiltInHelpContentManager::Instance() {
 }
 
 
-std::shared_ptr<markdown::element::Element> BuiltInHelpContentManager::GetBrief(
+std::shared_ptr<markdown::element::Element> BuiltInHelpContentManager::GetDescription(
     const std::wstring& command) {
 
-    return GetHelpContent(command).brief;
+    return GetHelpContent(command).description;
 }
 
 
@@ -43,15 +43,13 @@ const BuiltInHelpContentManager::HelpContent& BuiltInHelpContentManager::GetHelp
 
         new_detail = MakeRoot({
             MakeHeader(HeaderDepth::_2, { MakeInlineCode(command) }),
-            MakeParagraph({ 
-                MakeItalics({ MakeText(L"No help content.") })
-            }),
+            MakeParagraph(L"No help content."),
         });
     }
 
     HelpContent result;
     result.detail = new_detail;
-    result.brief = GetBriefFromDetail(*new_detail);
+    result.description = GetDescriptionFromDetail(*new_detail);
 
     auto insert_result = map_.insert(std::make_pair(command, std::move(result)));
     return insert_result.first->second;
@@ -113,7 +111,7 @@ ElementList BuiltInHelpContentManager::RemoveContentBeforeHeader(const ElementLi
 }
 
 
-std::shared_ptr<markdown::element::Element> BuiltInHelpContentManager::GetBriefFromDetail(
+std::shared_ptr<markdown::element::Element> BuiltInHelpContentManager::GetDescriptionFromDetail(
     const markdown::element::Element& root) {
 
     ZAF_EXPECT(root.Type() == ElementType::Root);

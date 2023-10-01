@@ -7,7 +7,7 @@ namespace ra::mod::tool::hash {
 
 class SHACommand : public HashCommand {
 public:
-    static CommandBrief Brief();
+    static std::wstring Keyword();
 
 public:
     CommandBrief GetBrief() override;

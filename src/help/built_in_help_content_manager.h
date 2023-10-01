@@ -14,13 +14,13 @@ public:
     static BuiltInHelpContentManager& Instance();
 
 public:
-    std::shared_ptr<markdown::element::Element> GetBrief(const std::wstring& command);
+    std::shared_ptr<markdown::element::Element> GetDescription(const std::wstring& command);
     std::shared_ptr<markdown::element::Element> GetDetail(const std::wstring& command);
 
 private:
     class HelpContent {
     public:
-        std::shared_ptr<markdown::element::Element> brief;
+        std::shared_ptr<markdown::element::Element> description;
         std::shared_ptr<markdown::element::Element> detail;
     };
 
@@ -34,7 +34,7 @@ private:
     static markdown::element::ElementList RemoveContentBeforeHeader(
         const markdown::element::ElementList& elements);
 
-    static std::shared_ptr<markdown::element::Element> GetBriefFromDetail(
+    static std::shared_ptr<markdown::element::Element> GetDescriptionFromDetail(
         const markdown::element::Element& root);
 
 private:
