@@ -2,7 +2,6 @@
 
 #include <memory>
 #include <string>
-#include "help/content/content.h"
 #include "module/extension/extension_module_manager.h"
 #include "module/user_defined/user_defined_module.h"
 #include "utility/command_line.h"

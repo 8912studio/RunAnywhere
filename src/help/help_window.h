@@ -3,8 +3,6 @@
 #include <zaf/control/control_binder.h>
 #include <zaf/control/scrollable_control.h>
 #include <zaf/window/window.h>
-#include "help/content/content.h"
-#include "help/help_content_control.h"
 #include "help/markdown/element/element.h"
 #include "utility/thin_border_window.h"
 

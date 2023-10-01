@@ -3,7 +3,6 @@
 #include <memory>
 #include <string>
 #include <zaf/base/non_copyable.h>
-#include "help/content/content.h"
 #include "module/command.h"
 #include "module/command_brief.h"
 #include "utility/command_line.h"

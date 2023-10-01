@@ -40,9 +40,6 @@
     <Filter Include="src\help">
       <UniqueIdentifier>{7adb72ac-73e5-47e6-b879-f7647278fcac}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\help\content">
-      <UniqueIdentifier>{51492167-9cbe-4df2-9b87-bc357631b2b9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="third_party">
       <UniqueIdentifier>{e46e8735-35d7-4a25-8577-36ece8f2490a}</UniqueIdentifier>
     </Filter>
@@ -342,35 +339,8 @@
     <ClInclude Include="src\help\help_window.h">
       <Filter>src\help</Filter>
     </ClInclude>
-    <ClInclude Include="src\help\content\line.h">
-      <Filter>src\help\content</Filter>
-    </ClInclude>
-    <ClInclude Include="src\help\content\content.h">
-      <Filter>src\help\content</Filter>
-    </ClInclude>
-    <ClInclude Include="src\help\content\single_text_line.h">
-      <Filter>src\help\content</Filter>
-    </ClInclude>
-    <ClInclude Include="src\help\content\title_line.h">
-      <Filter>src\help\content</Filter>
-    </ClInclude>
-    <ClInclude Include="src\help\content\body_line.h">
-      <Filter>src\help\content</Filter>
-    </ClInclude>
-    <ClInclude Include="src\help\content\two_parts_line.h">
-      <Filter>src\help\content</Filter>
-    </ClInclude>
     <ClInclude Include="src\module_manager.h">
       <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\help\help_content_control.h">
-      <Filter>src\help</Filter>
-    </ClInclude>
-    <ClInclude Include="src\help\content_layouter.h">
-      <Filter>src\help</Filter>
-    </ClInclude>
-    <ClInclude Include="src\help\content_layout_info.h">
-      <Filter>src\help</Filter>
     </ClInclude>
     <ClInclude Include="src\module\command_brief.h">
       <Filter>src\module</Filter>
@@ -1018,12 +988,6 @@
     </ClCompile>
     <ClCompile Include="src\module_manager.cpp">
       <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\help\help_content_control.cpp">
-      <Filter>src\help</Filter>
-    </ClCompile>
-    <ClCompile Include="src\help\content_layouter.cpp">
-      <Filter>src\help</Filter>
     </ClCompile>
     <ClCompile Include="src\help\help_content_building.cpp">
       <Filter>src\help</Filter>
