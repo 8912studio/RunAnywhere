@@ -17,9 +17,9 @@ public:
     virtual ~Command() = default;
 
     /**
-    Gets brief info of current command.
+    Gets keyword of current command.
     */
-    virtual CommandBrief GetBrief() = 0;
+    virtual std::wstring GetKeyword() = 0;
 
     /**
     Gets help content of current command.

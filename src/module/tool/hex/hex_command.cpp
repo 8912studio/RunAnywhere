@@ -13,8 +13,8 @@ std::wstring HexCommand::Keyword() {
 }
 
 
-CommandBrief HexCommand::GetBrief() {
-    return { Keyword(), L"" };
+std::wstring HexCommand::GetKeyword() {
+    return Keyword();
 }
 
 

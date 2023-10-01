@@ -23,8 +23,8 @@ private:
 
 }
 
-CommandBrief MetaCommand::GetBrief() {
-    return CommandBrief{ MetaCommandPrefix + command_info_.command, command_info_.description };
+std::wstring MetaCommand::GetKeyword() {
+    return MetaCommandPrefix + command_info_.command;
 }
 
 

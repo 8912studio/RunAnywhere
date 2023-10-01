@@ -311,8 +311,8 @@ std::optional<RGBCommandParseResult> RGBCommand::Parse(const utility::CommandLin
 }
 
 
-CommandBrief RGBCommand::GetBrief() {
-    return { Keyword(), L"" };
+std::wstring RGBCommand::GetKeyword() {
+    return Keyword();
 }
 
 

@@ -9,8 +9,8 @@ std::wstring SHACommand::Keyword() {
 }
 
 
-CommandBrief SHACommand::GetBrief() {
-	return { Keyword(), L"" };
+std::wstring SHACommand::GetKeyword() {
+	return Keyword();
 }
 
 

@@ -9,8 +9,8 @@ std::wstring LowerTransformer::Keyword() {
 }
 
 
-CommandBrief LowerTransformer::GetBrief() {
-    return { Keyword(), L"" };
+std::wstring LowerTransformer::GetKeyword() {
+    return Keyword();
 }
 
 

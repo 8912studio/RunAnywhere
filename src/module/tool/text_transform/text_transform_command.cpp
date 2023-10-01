@@ -11,8 +11,8 @@ TextTransformCommand::TextTransformCommand(std::unique_ptr<TextTransformer> tran
 }
 
 
-CommandBrief TextTransformCommand::GetBrief() {
-    return transformer_->GetBrief();
+std::wstring TextTransformCommand::GetKeyword() {
+    return transformer_->GetKeyword();
 }
 
 

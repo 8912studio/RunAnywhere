@@ -9,8 +9,8 @@ std::wstring UpperTransformer::Keyword() {
 }
 
 
-CommandBrief UpperTransformer::GetBrief() {
-    return { Keyword(), L"" };
+std::wstring UpperTransformer::GetKeyword() {
+    return Keyword();
 }
 
 

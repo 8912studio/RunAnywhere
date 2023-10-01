@@ -12,8 +12,8 @@ std::wstring DateCommand::Keyword() {
 }
 
 
-CommandBrief DateCommand::GetBrief() {
-	return { Keyword(), L"" };
+std::wstring DateCommand::GetKeyword() {
+	return Keyword();
 }
 
 

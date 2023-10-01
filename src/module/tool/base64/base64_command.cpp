@@ -10,8 +10,8 @@ std::wstring Base64Command::Keyword() {
 }
 
 
-CommandBrief Base64Command::GetBrief() {
-    return { Keyword(), L"" };
+std::wstring Base64Command::GetKeyword() {
+    return Keyword();
 }
 
 

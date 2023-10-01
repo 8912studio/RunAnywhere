@@ -16,7 +16,7 @@ public:
         const calculator::EvaluateResult& evaluate_result, 
         const calculator::Modifier& modifier);
 
-    CommandBrief GetBrief() override;
+    std::wstring GetKeyword() override;
     bool Interpret(
         const utility::CommandLine& command_line, 
         const context::DesktopContext& desktop_context, 

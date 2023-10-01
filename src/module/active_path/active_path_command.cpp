@@ -14,8 +14,8 @@ ActivePathCommand::ActivePathCommand(const ActivePathOption& option) : option_(o
 }
 
 
-CommandBrief ActivePathCommand::GetBrief() {
-	return Brief();
+std::wstring ActivePathCommand::GetKeyword() {
+	return std::wstring(1, PrefixChar);
 }
 
 

@@ -73,8 +73,8 @@ UserDefinedCommand::UserDefinedCommand(
 }
 
 
-CommandBrief UserDefinedCommand::GetBrief() {
-    return CommandBrief{ entry_->Command(), entry_->Description() };
+std::wstring UserDefinedCommand::GetKeyword() {
+    return entry_->Command();
 }
 
 

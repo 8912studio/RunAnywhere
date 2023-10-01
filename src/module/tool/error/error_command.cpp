@@ -39,8 +39,8 @@ std::optional<ErrorCommandParseResult> ErrorCommand::Parse(
 }
 
 
-CommandBrief ErrorCommand::GetBrief() {
-    return { Keyword(), L"" };
+std::wstring ErrorCommand::GetKeyword() {
+    return Keyword();
 }
 
 

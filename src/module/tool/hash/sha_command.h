@@ -10,7 +10,7 @@ public:
     static std::wstring Keyword();
 
 public:
-    CommandBrief GetBrief() override;
+    std::wstring GetKeyword() override;
     std::shared_ptr<help::markdown::element::Element> GetHelpContent() override;
 
 private:

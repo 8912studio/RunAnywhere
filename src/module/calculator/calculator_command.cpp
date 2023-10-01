@@ -21,8 +21,8 @@ CalculatorCommand::CalculatorCommand(
 }
 
 
-CommandBrief CalculatorCommand::GetBrief() {
-    return Brief();
+std::wstring CalculatorCommand::GetKeyword() {
+    return {};
 }
 
 

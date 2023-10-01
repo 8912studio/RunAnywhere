@@ -11,7 +11,7 @@ public:
     TextTransformer() = default;
     virtual ~TextTransformer() = default;
 
-    virtual CommandBrief GetBrief() = 0;
+    virtual std::wstring GetKeyword() = 0;
     virtual std::shared_ptr<help::markdown::element::Element> GetHelpContent() = 0;
     virtual void Transform(std::wstring& text) = 0;
 };

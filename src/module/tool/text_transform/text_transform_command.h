@@ -12,7 +12,7 @@ class TextTransformCommand : public Command {
 public:
     explicit TextTransformCommand(std::unique_ptr<TextTransformer> transformer);
 
-    CommandBrief GetBrief() override;
+    std::wstring GetKeyword() override;
     std::shared_ptr<help::markdown::element::Element> GetHelpContent() override;
     bool Interpret(
         const utility::CommandLine& command_line,

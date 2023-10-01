@@ -9,8 +9,8 @@ std::wstring MD5Command::Keyword() {
 }
 
 
-CommandBrief MD5Command::GetBrief() {
-	return { Keyword(), L"" };
+std::wstring MD5Command::GetKeyword() {
+	return Keyword();
 }
 
 

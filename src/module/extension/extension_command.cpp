@@ -21,8 +21,8 @@ ExtensionCommand::~ExtensionCommand() {
 }
 
 
-CommandBrief ExtensionCommand::GetBrief() {
-    return CommandBrief{ L"", L"" };
+std::wstring ExtensionCommand::GetKeyword() {
+    return {};
 }
 
 

@@ -127,7 +127,7 @@ void MainWindow::InterpretCommand() {
 
     //Try to reuse current command.
     if (current_command_) {
-        if (current_command_->GetBrief().Keyword() == command_line.Command()) {
+        if (current_command_->GetKeyword() == command_line.Command()) {
 
             if (current_command_->Interpret(command_line, desktop_context_, true)) {
                 return;
