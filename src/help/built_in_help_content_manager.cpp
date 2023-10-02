@@ -43,7 +43,7 @@ const BuiltInHelpContentManager::HelpContent& BuiltInHelpContentManager::GetHelp
 
         new_detail = MakeRoot({
             MakeHeader(HeaderDepth::_2, { MakeInlineCode(command) }),
-            MakeParagraph(L"No help content."),
+            MakeParagraph({ MakeItalic(L"No help content.") }),
         });
     }
 

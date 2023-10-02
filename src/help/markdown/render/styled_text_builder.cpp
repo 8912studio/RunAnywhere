@@ -65,6 +65,10 @@ TextStyle StyledTextBuilder::CreateNewStyleByElement(
         new_style.font.weight = style_config.bold_font_weight;
         break;
 
+    case element::ElementType::Italic:
+        new_style.font.style = zaf::FontStyle::Italic;
+        break;
+
     case element::ElementType::InlineCode:
         new_style.font.family_name = style_config.inline_code_config.font_family_name;
         new_style.text_color = style_config.inline_code_config.text_color;

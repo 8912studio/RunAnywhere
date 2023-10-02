@@ -13,7 +13,7 @@ TEST(ItalicsParserTest, Success) {
         if (!element) {
             return false;
         }
-        return element->IsEqualTo(*MakeItalics(std::move(expected)));
+        return element->IsEqualTo(*MakeItalic(std::move(expected)));
     };
 
     ASSERT_TRUE(test(L"*abc*", { MakeText(L"abc") }));

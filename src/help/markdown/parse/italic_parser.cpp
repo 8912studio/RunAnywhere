@@ -12,7 +12,7 @@ ElementParser* ItalicParser::Instance() {
 
 ItalicParser::Options ItalicParser::GetOptions() {
     Options result;
-    result.element_type = element::ElementType::Italics;
+    result.element_type = element::ElementType::Italic;
     result.identity_char = L'*';
     result.identity_char_count = 1;
     result.children_parsers = {

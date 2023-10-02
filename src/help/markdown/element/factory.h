@@ -27,8 +27,14 @@ inline std::shared_ptr<Element> MakeParagraph(std::wstring text) {
 }
 
 
-inline std::shared_ptr<Element> MakeItalics(ElementList children) {
-    return std::make_shared<Element>(ElementType::Italics, std::move(children));
+inline std::shared_ptr<Element> MakeItalic(ElementList children) {
+    return std::make_shared<Element>(ElementType::Italic, std::move(children));
+}
+
+inline std::shared_ptr<Element> MakeItalic(std::wstring text) {
+    return std::make_shared<Element>(ElementType::Italic, ElementList{ 
+        MakeText(std::move(text)) 
+    });
 }
 
 

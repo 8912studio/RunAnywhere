@@ -13,7 +13,7 @@ std::shared_ptr<Element> BuildHelpContentFromSuggestedCommands(
     ElementList block_elements;
 
     if (commands.empty()) {
-        block_elements.push_back(MakeParagraph(L"No suggestions"));
+        block_elements.push_back(MakeParagraph({ MakeItalic(L"No suggestions") }));
     }
     else if (commands.size() == 1) {
 

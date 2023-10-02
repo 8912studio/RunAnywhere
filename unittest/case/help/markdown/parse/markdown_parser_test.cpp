@@ -173,7 +173,7 @@ TEST(MarkdownParserTest, ParseParagraph) {
     }));
 
     ASSERT_TRUE(test(L"***abc***", {
-        MakeItalics({
+        MakeItalic({
             MakeBold({ MakeText(L"abc") })
         })
     }));

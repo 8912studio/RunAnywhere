@@ -15,7 +15,7 @@ enum class ElementType {
     ListItem,
 
     //Span elements
-    Italics,
+    Italic,
     Bold,
     InlineCode,
 
