@@ -1,5 +1,6 @@
 #include "module/tool/hash/sha_command.h"
 #include <zaf/crypto/sha.h>
+#include "help/built_in_help_content_manager.h"
 #include "module/tool/hash/sha_algorithm_type_parsing.h"
 
 namespace ra::mod::tool::hash {
@@ -15,7 +16,7 @@ std::wstring SHACommand::GetKeyword() {
 
 
 std::shared_ptr<help::markdown::element::Element> SHACommand::GetHelpContent() {
-	return nullptr;
+	return help::BuiltInHelpContentManager::Instance().GetDetail(Keyword());
 }
 
 
