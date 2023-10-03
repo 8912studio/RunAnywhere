@@ -9,14 +9,12 @@ namespace ra::mod::calculator {
 
 class CalculatorCommand : public Command {
 public:
-    static CommandBrief Brief();
-
-public:
     CalculatorCommand(
         const calculator::EvaluateResult& evaluate_result, 
         const calculator::Modifier& modifier);
 
     std::wstring GetKeyword() override;
+    std::shared_ptr<help::markdown::element::Element> GetHelpContent() override;
     bool Interpret(
         const utility::CommandLine& command_line, 
         const context::DesktopContext& desktop_context, 

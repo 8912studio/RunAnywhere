@@ -1,15 +1,11 @@
 #include "module/calculator/calculator_command.h"
 #include <zaf/creation.h>
+#include "help/built_in_help_content_manager.h"
 #include "module/calculator/preview/calculator_preview_control.h"
 #include "module/calculator/result_text_builder.h"
 #include "module/common/copy_executor.h"
 
 namespace ra::mod::calculator {
-
-CommandBrief CalculatorCommand::Brief() {
-    return CommandBrief{ L"<math-expr>", L"Calculate the math expression" };
-}
-
 
 CalculatorCommand::CalculatorCommand(
     const calculator::EvaluateResult& evaluate_result,
@@ -23,6 +19,11 @@ CalculatorCommand::CalculatorCommand(
 
 std::wstring CalculatorCommand::GetKeyword() {
     return {};
+}
+
+
+std::shared_ptr<help::markdown::element::Element> CalculatorCommand::GetHelpContent() {
+    return help::BuiltInHelpContentManager::Instance().GetDetail(L"calc");
 }
 
 

@@ -39,14 +39,25 @@ std::shared_ptr<Element> BuildHelpContentFromSuggestedCommands(
     else {
 
         zaf::Sort(commands, [](const auto& command1, const auto& command2) {
+
+            if (!command1.Keyword().empty() && command2.Keyword().empty()) {
+                return true;
+            }
+
+            if (command1.Keyword().empty() && !command2.Keyword().empty()) {
+                return false;
+            }
+
             return command1.Keyword() < command2.Keyword();
         });
 
         for (const auto& each_command : commands) {
 
             ElementList new_children;
-            new_children.push_back(MakeInlineCode(each_command.Keyword()));
-            new_children.push_back(MakeText(L"  "));
+            if (!each_command.Keyword().empty()) {
+                new_children.push_back(MakeInlineCode(each_command.Keyword()));
+                new_children.push_back(MakeText(L"  "));
+            }
             zaf::Append(new_children, each_command.Description()->Children());
 
             block_elements.push_back(MakeParagraph(std::move(new_children)));

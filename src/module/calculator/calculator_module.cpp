@@ -9,7 +9,9 @@ std::vector<CommandBrief> CalculatorModule::QuerySuggestedCommands(
     const std::wstring& command_text) {
 
     if (command_text.empty()) {
-        return { CalculatorCommand::Brief() };
+        return { 
+            CommandBrief{ L"", L"Input mathematical expression to invoke the calculator." }
+        };
     }
 
     return {};
