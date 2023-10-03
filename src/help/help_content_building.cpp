@@ -7,6 +7,19 @@ using namespace ra::help::markdown::element;
 
 namespace ra::help {
 
+std::shared_ptr<markdown::element::Element> GetNoHelpContentParagraph() {
+    return MakeParagraph({ MakeItalic(L"No help content.") });
+}
+
+
+std::shared_ptr<markdown::element::Element> BuildDescriptionParagraph(std::wstring description) {
+    if (!description.empty()) {
+        return MakeParagraph(std::move(description));
+    }
+    return GetNoHelpContentParagraph();
+}
+
+
 std::shared_ptr<Element> BuildHelpContentFromSuggestedCommands(
     std::vector<mod::CommandBrief>&& commands) {
 

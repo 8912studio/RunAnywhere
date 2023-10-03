@@ -4,6 +4,7 @@
 #include <zaf/base/error/check.h>
 #include <zaf/base/string/encoding_conversion.h>
 #include <zaf/resource/resource_factory.h>
+#include "help/help_content_building.h"
 #include "help/markdown/element/factory.h"
 #include "help/markdown/parse/markdown_parser.h"
 
@@ -43,7 +44,7 @@ const BuiltInHelpContentManager::HelpContent& BuiltInHelpContentManager::GetHelp
 
         new_detail = MakeRoot({
             MakeHeader(HeaderDepth::_2, { MakeInlineCode(command) }),
-            MakeParagraph({ MakeItalic(L"No help content.") }),
+            GetNoHelpContentParagraph()
         });
     }
 
