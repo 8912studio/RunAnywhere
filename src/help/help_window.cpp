@@ -27,7 +27,7 @@ void HelpWindow::AfterParse() {
     auto scroll_bar = scroll_control_->VerticalScrollBar();
     scroll_bar->SetArrowLength(0);
     scroll_bar->SetPadding(zaf::Frame{ 0, 2, 0, 2 });
-    scroll_bar->SetSmallChange(16);
+    scroll_bar->SetSmallChange(22);
 
     auto content_layouter = zaf::Create<zaf::VerticalLayouter>();
     content_layouter->SetAxisAlignment(zaf::AxisAlignment::Center);
