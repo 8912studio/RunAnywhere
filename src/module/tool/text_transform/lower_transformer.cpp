@@ -14,8 +14,11 @@ std::wstring LowerTransformer::GetKeyword() {
 }
 
 
-std::shared_ptr<help::markdown::element::Element> LowerTransformer::GetHelpContent() {
-	return help::BuiltInHelpContentManager::Instance().GetDetail(Keyword());
+help::HelpContent LowerTransformer::GetHelpContent() {
+    return {
+        Keyword(),
+        help::BuiltInHelpContentManager::Instance().GetDetail(Keyword())
+    };
 }
 
 

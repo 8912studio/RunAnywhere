@@ -22,8 +22,12 @@ std::wstring CalculatorCommand::GetKeyword() {
 }
 
 
-std::shared_ptr<help::markdown::element::Element> CalculatorCommand::GetHelpContent() {
-    return help::BuiltInHelpContentManager::Instance().GetDetail(L"calc");
+help::HelpContent CalculatorCommand::GetHelpContent() {
+    constexpr const wchar_t* HelpContentID = L"calc";
+    return {
+        HelpContentID,
+        help::BuiltInHelpContentManager::Instance().GetDetail(HelpContentID)
+    };
 }
 
 

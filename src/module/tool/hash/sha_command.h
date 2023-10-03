@@ -11,7 +11,7 @@ public:
 
 public:
     std::wstring GetKeyword() override;
-    std::shared_ptr<help::markdown::element::Element> GetHelpContent() override;
+    help::HelpContent GetHelpContent() override;
 
 private:
     HashCommandParseResult ParseCommand(const utility::CommandLine& command_line) override;

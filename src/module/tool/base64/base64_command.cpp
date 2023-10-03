@@ -15,8 +15,11 @@ std::wstring Base64Command::GetKeyword() {
 }
 
 
-std::shared_ptr<help::markdown::element::Element> Base64Command::GetHelpContent() {
-    return help::BuiltInHelpContentManager::Instance().GetDetail(Keyword());
+help::HelpContent Base64Command::GetHelpContent() {
+    return { 
+        Keyword(), 
+        help::BuiltInHelpContentManager::Instance().GetDetail(Keyword()) 
+    };
 }
 
 

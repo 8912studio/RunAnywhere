@@ -3,7 +3,7 @@
 #include <string>
 #include <zaf/base/non_copyable.h>
 #include "context/desktop_context.h"
-#include "help/markdown/element/element.h"
+#include "help/help_content.h"
 #include "module/command_brief.h"
 #include "module/command_executor.h"
 #include "module/command_preview_control.h"
@@ -24,9 +24,7 @@ public:
     /**
     Gets help content of current command.
     */
-    virtual std::shared_ptr<help::markdown::element::Element> GetHelpContent() {
-        return nullptr;
-    }
+    virtual help::HelpContent GetHelpContent() = 0;
 
     /**
     Interprets specified command line, preparing for executing.

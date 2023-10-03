@@ -28,14 +28,16 @@ std::wstring MetaCommand::GetKeyword() {
 }
 
 
-std::shared_ptr<help::markdown::element::Element> MetaCommand::GetHelpContent() {
-    
-    return MakeRoot({
+help::HelpContent MetaCommand::GetHelpContent() {
+
+    auto element = MakeRoot({
         MakeHeader(HeaderDepth::_2, {
-            MakeInlineCode(MetaCommandPrefix + command_info_.command),
+            MakeInlineCode(GetKeyword()),
         }),
         MakeParagraph(command_info_.description),
     });
+
+    return { GetKeyword(), element };
 }
 
 

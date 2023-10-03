@@ -13,7 +13,7 @@ public:
     explicit TextTransformCommand(std::unique_ptr<TextTransformer> transformer);
 
     std::wstring GetKeyword() override;
-    std::shared_ptr<help::markdown::element::Element> GetHelpContent() override;
+    help::HelpContent GetHelpContent() override;
     bool Interpret(
         const utility::CommandLine& command_line,
         const context::DesktopContext& desktop_context,

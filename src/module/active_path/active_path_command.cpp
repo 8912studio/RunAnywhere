@@ -15,8 +15,11 @@ std::wstring ActivePathCommand::GetKeyword() {
 }
 
 
-std::shared_ptr<help::markdown::element::Element> ActivePathCommand::GetHelpContent() {
-	return help::BuiltInHelpContentManager::Instance().GetDetail(HelpContentIdentity);
+help::HelpContent ActivePathCommand::GetHelpContent() {
+	return {
+		HelpContentIdentity,
+		help::BuiltInHelpContentManager::Instance().GetDetail(HelpContentIdentity)
+	};
 }
 
 

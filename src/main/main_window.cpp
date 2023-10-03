@@ -252,21 +252,13 @@ void MainWindow::ShowHelpWindow() {
 
 help::HelpContent MainWindow::GetHelpContent() {
 
-    std::shared_ptr<help::markdown::element::Element> element;
-
     if (current_command_) {
-        element = current_command_->GetHelpContent();
-    }
-    else {
-        auto suggested_commands = module_manager_->QuerySuggestedCommands(inputEdit->Text());
-        element = help::BuildHelpContentFromSuggestedCommands(std::move(suggested_commands));
+        return current_command_->GetHelpContent();
     }
 
-    if (!element) {
-        element = help::markdown::element::MakeRoot({});
-    }
-
-    return help::HelpContent(L"", std::move(element));
+    auto suggested_commands = module_manager_->QuerySuggestedCommands(inputEdit->Text());
+    auto element = help::BuildHelpContentFromSuggestedCommands(std::move(suggested_commands));
+    return { L"suggestions", std::move(element) };
 }
 
 

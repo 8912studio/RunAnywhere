@@ -18,8 +18,11 @@ std::wstring HexCommand::GetKeyword() {
 }
 
 
-std::shared_ptr<help::markdown::element::Element> HexCommand::GetHelpContent() {
-    return help::BuiltInHelpContentManager::Instance().GetDetail(Keyword());
+help::HelpContent HexCommand::GetHelpContent() {
+    return {
+        Keyword(),
+        help::BuiltInHelpContentManager::Instance().GetDetail(Keyword()) 
+    };
 }
 
 

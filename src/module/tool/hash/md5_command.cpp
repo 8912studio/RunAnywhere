@@ -14,8 +14,11 @@ std::wstring MD5Command::GetKeyword() {
 }
 
 
-std::shared_ptr<help::markdown::element::Element> MD5Command::GetHelpContent() {
-	return help::BuiltInHelpContentManager::Instance().GetDetail(Keyword());
+help::HelpContent MD5Command::GetHelpContent() {
+	return {
+		Keyword(),
+		help::BuiltInHelpContentManager::Instance().GetDetail(Keyword())
+	};
 }
 
 

@@ -316,8 +316,11 @@ std::wstring RGBCommand::GetKeyword() {
 }
 
 
-std::shared_ptr<help::markdown::element::Element> RGBCommand::GetHelpContent() {
-    return help::BuiltInHelpContentManager::Instance().GetDetail(Keyword());
+help::HelpContent RGBCommand::GetHelpContent() {
+    return {
+        Keyword(),
+        help::BuiltInHelpContentManager::Instance().GetDetail(Keyword())
+    };
 }
 
 

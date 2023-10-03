@@ -17,8 +17,11 @@ std::wstring DateCommand::GetKeyword() {
 }
 
 
-std::shared_ptr<help::markdown::element::Element> DateCommand::GetHelpContent() {
-	return help::BuiltInHelpContentManager::Instance().GetDetail(Keyword());
+help::HelpContent DateCommand::GetHelpContent() {
+	return {
+		Keyword(),
+		help::BuiltInHelpContentManager::Instance().GetDetail(Keyword())
+	};
 }
 
 

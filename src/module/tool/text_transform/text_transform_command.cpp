@@ -16,7 +16,7 @@ std::wstring TextTransformCommand::GetKeyword() {
 }
 
 
-std::shared_ptr<help::markdown::element::Element> TextTransformCommand::GetHelpContent() {
+help::HelpContent TextTransformCommand::GetHelpContent() {
     return transformer_->GetHelpContent();
 }
 

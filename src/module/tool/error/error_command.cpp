@@ -44,8 +44,11 @@ std::wstring ErrorCommand::GetKeyword() {
 }
 
 
-std::shared_ptr<help::markdown::element::Element> ErrorCommand::GetHelpContent() {
-    return help::BuiltInHelpContentManager::Instance().GetDetail(Keyword());
+help::HelpContent ErrorCommand::GetHelpContent() {
+    return {
+        Keyword(),
+        help::BuiltInHelpContentManager::Instance().GetDetail(Keyword()) 
+    };
 }
 
 

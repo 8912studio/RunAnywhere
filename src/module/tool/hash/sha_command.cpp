@@ -15,8 +15,11 @@ std::wstring SHACommand::GetKeyword() {
 }
 
 
-std::shared_ptr<help::markdown::element::Element> SHACommand::GetHelpContent() {
-	return help::BuiltInHelpContentManager::Instance().GetDetail(Keyword());
+help::HelpContent SHACommand::GetHelpContent() {
+	return {
+		Keyword(),
+		help::BuiltInHelpContentManager::Instance().GetDetail(Keyword()) 
+	};
 }
 
 

@@ -79,14 +79,18 @@ std::wstring UserDefinedCommand::GetKeyword() {
 }
 
 
-std::shared_ptr<help::markdown::element::Element> UserDefinedCommand::GetHelpContent() {
+help::HelpContent UserDefinedCommand::GetHelpContent() {
 
-    return MakeRoot({
+    auto content_id = entry_->BundleMeta()->BundleID() + L'|' + entry_->Keyword();
+
+    auto element = MakeRoot({
         MakeHeader(HeaderDepth::_2, {
             MakeInlineCode(entry_->Keyword()),
         }),
         help::BuildDescriptionParagraph(entry_->Description())
     });
+
+    return { content_id, element };
 }
 
 
