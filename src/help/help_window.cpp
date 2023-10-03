@@ -1,4 +1,5 @@
 #include "help_window.h"
+#include <zaf/base/auto_reset.h>
 #include <zaf/control/layout/linear_layouter.h>
 #include <zaf/control/scroll_bar.h>
 #include <zaf/graphic/alignment.h>
@@ -27,6 +28,7 @@ void HelpWindow::AfterParse() {
     scroll_bar->SetArrowLength(0);
     scroll_bar->SetPadding(zaf::Frame{ 0, 2, 0, 2 });
     scroll_bar->SetSmallChange(22);
+    Subscriptions() += scroll_bar->ScrollEvent().Subscribe(std::bind(&HelpWindow::OnScroll, this));
 
     auto content_layouter = zaf::Create<zaf::VerticalLayouter>();
     content_layouter->SetAxisAlignment(zaf::AxisAlignment::Center);
@@ -103,6 +105,8 @@ void HelpWindow::LayoutScrollButtonContainer() {
 
 void HelpWindow::SetContent(const HelpContent& content) {
 
+    auto auto_reset = zaf::MakeAutoReset(is_setting_content_, true);
+
     content_id_ = content.ID();
     markdown_region_ = MarkdownRegion::Create(*content.Element(), GetHelpStyleConfig());
 
@@ -111,6 +115,10 @@ void HelpWindow::SetContent(const HelpContent& content) {
     scroll_content->AddChild(markdown_region_);
     
     UpdateWindowHeight();
+
+    if (last_scroll_value_ && last_scroll_content_id_ == content_id_) {
+        scroll_control_->VerticalScrollBar()->SetValue(*last_scroll_value_);
+    }
 }
 
 
@@ -152,6 +160,15 @@ void HelpWindow::UpdateWindowHeight() {
     scroll_content->SetFixedHeight(actual_content_height);
 
     this->SetHeight(std::ceil(actual_window_height));
+}
+
+
+void HelpWindow::OnScroll() {
+
+    if (!is_setting_content_) {
+        last_scroll_content_id_ = content_id_;
+        last_scroll_value_ = scroll_control_->VerticalScrollBar()->Value();
+    }
 }
 
 

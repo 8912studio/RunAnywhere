@@ -31,6 +31,7 @@ private:
     void LayoutScrollButtonContainer();
 
     void UpdateWindowHeight();
+    void OnScroll();
 
 private:
     ZAF_BIND_CONTROL(zaf::Control, scrollButtonContainer);
@@ -42,6 +43,9 @@ private:
     std::shared_ptr<zaf::ScrollableControl> scroll_control_;
     std::shared_ptr<markdown::render::MarkdownRegion> markdown_region_;
     std::wstring content_id_;
+    bool is_setting_content_{};
+    std::wstring last_scroll_content_id_;
+    std::optional<int> last_scroll_value_;
 };
 
 }
