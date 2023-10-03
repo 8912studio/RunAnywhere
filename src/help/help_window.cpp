@@ -6,7 +6,6 @@
 #include <zaf/rx/creation.h>
 #include <zaf/rx/scheduler.h>
 #include "help/help_style_config.h"
-#include "help/markdown/render/markdown_region.h"
 
 using namespace ra::help::markdown::render;
 
@@ -102,36 +101,31 @@ void HelpWindow::LayoutScrollButtonContainer() {
 }
 
 
-void HelpWindow::SetContent(const markdown::element::Element& content) {
+void HelpWindow::SetContent(const HelpContent& content) {
 
-    auto region = MarkdownRegion::Create(content, GetHelpStyleConfig());
-    InstallHelpContent(region);
-}
-
-
-void HelpWindow::InstallHelpContent(const std::shared_ptr<zaf::Control>& control) {
+    content_id_ = content.ID();
+    markdown_region_ = MarkdownRegion::Create(*content.Element(), GetHelpStyleConfig());
 
     const auto& scroll_content = scroll_control_->ScrollContent();
     scroll_content->RemoveAllChildren();
-    scroll_content->AddChild(control);
-
-    help_content_control_ = control;
+    scroll_content->AddChild(markdown_region_);
+    
     UpdateWindowHeight();
 }
 
 
 void HelpWindow::UpdateWindowHeight() {
 
-    if (!help_content_control_) {
+    if (!markdown_region_) {
         return;
     }
 
-    auto preferred_size = help_content_control_->CalculatePreferredSize(zaf::Size{
+    auto preferred_size = markdown_region_->CalculatePreferredSize(zaf::Size{
         this->ContentWidth() - scroll_control_->HorizontalScrollBarThickness(),
         std::numeric_limits<float>::max()
     });
 
-    help_content_control_->SetFixedHeight(preferred_size.height);
+    markdown_region_->SetFixedHeight(preferred_size.height);
 
     constexpr float max_window_height = 400;
     constexpr float min_window_height = 60;

@@ -834,6 +834,9 @@
     <ClInclude Include="src\help\built_in_help_content_manager.h">
       <Filter>src\help</Filter>
     </ClInclude>
+    <ClInclude Include="src\help\help_content.h">
+      <Filter>src\help</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">

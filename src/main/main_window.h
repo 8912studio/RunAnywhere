@@ -50,7 +50,7 @@ private:
     void OnHelpButtonClick();
     void UpdateHelpWindowState();
     void ShowHelpWindow();
-    std::shared_ptr<help::markdown::element::Element> GetHelpContent();
+    help::HelpContent GetHelpContent();
     void UpdateHelpWindowPosition();
     void ExecuteCommand();
     void PreserveCurrentCommand();

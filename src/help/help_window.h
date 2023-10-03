@@ -3,7 +3,9 @@
 #include <zaf/control/control_binder.h>
 #include <zaf/control/scrollable_control.h>
 #include <zaf/window/window.h>
+#include "help/help_content.h"
 #include "help/markdown/element/element.h"
+#include "help/markdown/render/markdown_region.h"
 #include "utility/thin_border_window.h"
 
 namespace ra::help {
@@ -12,7 +14,9 @@ class HelpWindow : public utility::ThinBorderWindow {
 public:
     ZAF_DECLARE_TYPE;
 
-    void SetContent(const markdown::element::Element& content);
+    void SetContent(const HelpContent& content);
+
+    void SetContent(std::wstring content_id, const markdown::element::Element& content);
 
     void ScrollLine(bool scroll_up);
     void ScrollPage(bool scroll_up);
@@ -26,7 +30,6 @@ private:
     void InitializeScrollButtons();
     void LayoutScrollButtonContainer();
 
-    void InstallHelpContent(const std::shared_ptr<zaf::Control>& control);
     void UpdateWindowHeight();
 
 private:
@@ -37,7 +40,8 @@ private:
     ZAF_BIND_CONTROL(zaf::Control, pageUpButton);
 
     std::shared_ptr<zaf::ScrollableControl> scroll_control_;
-    std::shared_ptr<zaf::Control> help_content_control_;
+    std::shared_ptr<markdown::render::MarkdownRegion> markdown_region_;
+    std::wstring content_id_;
 };
 
 }

@@ -243,29 +243,30 @@ void MainWindow::ShowHelpWindow() {
         help_window_->SetOwner(this->shared_from_this());
     }
 
-    help_window_->SetContent(*GetHelpContent());
+    help_window_->SetContent(GetHelpContent());
 
     UpdateHelpWindowPosition();
     help_window_->Show();
 }
 
 
-std::shared_ptr<help::markdown::element::Element> MainWindow::GetHelpContent() {
+help::HelpContent MainWindow::GetHelpContent() {
 
-    std::shared_ptr<help::markdown::element::Element> result;
+    std::shared_ptr<help::markdown::element::Element> element;
 
     if (current_command_) {
-        result = current_command_->GetHelpContent();
+        element = current_command_->GetHelpContent();
     }
     else {
         auto suggested_commands = module_manager_->QuerySuggestedCommands(inputEdit->Text());
-        result = help::BuildHelpContentFromSuggestedCommands(std::move(suggested_commands));
+        element = help::BuildHelpContentFromSuggestedCommands(std::move(suggested_commands));
     }
 
-    if (!result) {
-        result = help::markdown::element::MakeRoot({});
+    if (!element) {
+        element = help::markdown::element::MakeRoot({});
     }
-    return result;
+
+    return help::HelpContent(L"", std::move(element));
 }
 
 
