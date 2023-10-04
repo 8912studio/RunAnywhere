@@ -19,9 +19,9 @@ std::wstring GetLicenseContent() {
         auto license_stream = zaf::ResourceFactory::Instance().LoadURI(L"res:///LICENSE");
 
         std::string text;
-        text.resize(license_stream.GetLength());
+        text.resize(license_stream.GetSize());
 
-        auto read_length = license_stream.Read(license_stream.GetLength(), &text[0]);
+        auto read_length = license_stream.Read(license_stream.GetSize(), &text[0]);
         text.resize(read_length);
         return zaf::FromUTF8String(text);
     }
