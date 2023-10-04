@@ -15,7 +15,7 @@
 #include "module/common/general_input.h"
 #include "module/common/text_encoding.h"
 #include "module/common/text_content_control.h"
-#include "module/tool/hash/hash_algorithm_creator.h"
+#include "module/tool/hash/hash_algorithm_info.h"
 #include "utility/preview_text_box.h"
 #include "utility/progress_circle.h"
 
@@ -25,7 +25,7 @@ class HashPreviewControl : public CommandPreviewControl {
 public:
 	ZAF_DECLARE_TYPE;
 
-	explicit HashPreviewControl(HashAlgorithmCreator hash_creator);
+	explicit HashPreviewControl(HashAlgorithmInfo algorithm_info);
 
 	void ShowHash(const GeneralInput& input);
 
@@ -54,6 +54,7 @@ private:
 	};
 
 private:
+	void ShowAlgorithmLabel();
 	void ShowFileHash(const std::filesystem::path& file_path);
 	void ShowStringHash(const std::wstring& string, TextEncoding encoding);
 	void SetHashText(const std::wstring& hash);
@@ -61,12 +62,13 @@ private:
 	void ChangeLayout(LayoutType type);
 
 private:
+	ZAF_BIND_CONTROL(zaf::Label, algorithmLabel);
 	ZAF_BIND_CONTROL(ContentStatusBar, contentStatusBar);
 	ZAF_BIND_CONTROL(utility::ProgressCircle, progressCircle);
 	ZAF_BIND_CONTROL(ErrorView, errorView);
 	ZAF_BIND_CONTROL(TextContentControl, hashResultControl);
 
-	HashAlgorithmCreator hash_algorithm_creator_;
+	HashAlgorithmInfo hash_algorithm_info_;
 	bool use_upper_case_{};
 
 	zaf::Subject<zaf::None> calculate_finished_event_;

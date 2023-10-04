@@ -260,7 +260,7 @@
     <ClInclude Include="src\module\tool\error\error_command.h" />
     <ClInclude Include="src\module\tool\error\error_command_parse_result.h" />
     <ClInclude Include="src\module\tool\error\error_preview_control.h" />
-    <ClInclude Include="src\module\tool\hash\hash_algorithm_creator.h" />
+    <ClInclude Include="src\module\tool\hash\hash_algorithm_info.h" />
     <ClInclude Include="src\module\tool\hash\hash_calculating.h" />
     <ClInclude Include="src\module\tool\hash\hash_command.h" />
     <ClInclude Include="src\module\tool\hash\hash_command_parse_result.h" />

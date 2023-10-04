@@ -37,8 +37,8 @@ ZAF_DEFINE_TYPE(HashPreviewControl)
 ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/tool/hash/hash_preview_control.xaml")
 ZAF_DEFINE_TYPE_END;
 
-HashPreviewControl::HashPreviewControl(HashAlgorithmCreator hash_creator) : 
-	hash_algorithm_creator_(std::move(hash_creator)) {
+HashPreviewControl::HashPreviewControl(HashAlgorithmInfo algorithm_info) :
+	hash_algorithm_info_(std::move(algorithm_info)) {
 
 }
 
@@ -47,10 +47,25 @@ void HashPreviewControl::AfterParse() {
 
 	__super::AfterParse();
 
+	ShowAlgorithmLabel();
+
 	TextDisplayMode display_mode;
 	display_mode.use_fixed_width_font = true;
 	display_mode.word_wrapping = zaf::WordWrapping::Character;
 	hashResultControl->SetDisplayMode(display_mode);
+}
+
+
+void HashPreviewControl::ShowAlgorithmLabel() {
+
+	if (hash_algorithm_info_.displayed_name.empty()) {
+		algorithmLabel->SetIsVisible(false);
+		return;
+	}
+
+	algorithmLabel->SetText(hash_algorithm_info_.displayed_name);
+	algorithmLabel->SetTooltip(hash_algorithm_info_.tooltip);
+	algorithmLabel->SetIsVisible(true);
 }
 
 
@@ -123,7 +138,7 @@ void HashPreviewControl::ShowFileHash(const std::filesystem::path& file_path) {
 
 	ChangeLayout(LayoutType::Progress);
 
-	Subscriptions() += CalculateFileHash(file_path, hash_algorithm_creator_)
+	Subscriptions() += CalculateFileHash(file_path, hash_algorithm_info_.algorithm_creator)
 		.ObserveOn(zaf::Scheduler::Main())
 		.Subscribe([this](const HashResult& hash_result) {
 
@@ -155,7 +170,7 @@ void HashPreviewControl::ShowStringHash(const std::wstring& string, TextEncoding
 	contentStatusBar->SetEncodingTooltip(
 		encoding == TextEncoding::UTF8 ? L"Input text is UTF-8" : L"Input text is UTF-16");
 
-	auto hash = CalculateStringHash(string, encoding, hash_algorithm_creator_);
+	auto hash = CalculateStringHash(string, encoding, hash_algorithm_info_.algorithm_creator);
 	SetHashText(hash);
 
 	ChangeLayout(LayoutType::Result);

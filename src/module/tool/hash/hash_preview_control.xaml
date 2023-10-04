@@ -1,5 +1,16 @@
 <HashPreviewControl Layouter="VerticalLayouter" AutoHeight="true">
-    <ContentStatusBar Name="contentStatusBar" Margin="15,0,15,0" />
+    <HorizontalBox AutoHeight="true" Margin="15,0,15,0" CrossAxisAlignment="Center" >
+        <Label 
+            Name="algorithmLabel"         
+            FixedSize="26,18"
+            Margin="0,0,6,0"
+            TextAlignment="Center"
+            ParagraphAlignment="Center"
+            FontSize="11"
+            TextColor="White"
+            BackgroundColor="#79A3EF" />
+        <ContentStatusBar Name="contentStatusBar" />
+    </HorizontalBox>
     <TextContentControl Name="hashResultControl" Margin="15,0,0,0" IsVisible="false" />
     <ProgressCircle 
         Name="progressCircle" 

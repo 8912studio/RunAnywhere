@@ -40,7 +40,7 @@ std::shared_ptr<CommandPreviewControl> HashCommand::GetPreviewControl() {
 
 void HashCommand::CreatePreviewControl() {
 
-	preview_control_ = zaf::Create<HashPreviewControl>(GetHashAlgorithmCreator());
+	preview_control_ = zaf::Create<HashPreviewControl>(GetHashAlgorithmInfo());
 	preview_control_->SetUseUppercase(parse_result_.use_uppercase);
 	preview_control_->ShowHash(MakeGeneralInput(desktop_context_, parse_result_.general_option));
 }

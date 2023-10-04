@@ -15,7 +15,7 @@ public:
 
 private:
     HashCommandParseResult ParseCommand(const utility::CommandLine& command_line) override;
-    HashAlgorithmCreator GetHashAlgorithmCreator() override;
+    HashAlgorithmInfo GetHashAlgorithmInfo() override;
 
 private:
     std::optional<SHAAlgorithmType> sha_algorithm_type;

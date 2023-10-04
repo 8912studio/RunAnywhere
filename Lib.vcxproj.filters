@@ -678,7 +678,7 @@
     <ClInclude Include="src\module\tool\hash\hash_calculating.h">
       <Filter>src\module\tool\hash</Filter>
     </ClInclude>
-    <ClInclude Include="src\module\tool\hash\hash_algorithm_creator.h">
+    <ClInclude Include="src\module\tool\hash\hash_algorithm_info.h">
       <Filter>src\module\tool\hash</Filter>
     </ClInclude>
     <ClInclude Include="src\module\tool\hash\hash_preview_control.h">

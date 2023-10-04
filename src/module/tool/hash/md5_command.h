@@ -13,7 +13,7 @@ public:
     help::HelpContent GetHelpContent() override;
 
 private:
-    HashAlgorithmCreator GetHashAlgorithmCreator();
+    HashAlgorithmInfo GetHashAlgorithmInfo();
 };
 
 }

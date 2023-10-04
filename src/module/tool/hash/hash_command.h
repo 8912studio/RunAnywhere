@@ -20,7 +20,7 @@ public:
 
 protected:
     virtual HashCommandParseResult ParseCommand(const utility::CommandLine& command_line);
-    virtual HashAlgorithmCreator GetHashAlgorithmCreator() = 0;
+    virtual HashAlgorithmInfo GetHashAlgorithmInfo() = 0;
 
 private:
     void CreatePreviewControl();

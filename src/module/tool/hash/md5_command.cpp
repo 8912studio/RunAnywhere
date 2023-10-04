@@ -22,10 +22,13 @@ help::HelpContent MD5Command::GetHelpContent() {
 }
 
 
-HashAlgorithmCreator MD5Command::GetHashAlgorithmCreator() {
-	return []() {
+HashAlgorithmInfo MD5Command::GetHashAlgorithmInfo() {
+
+	HashAlgorithmInfo result;
+	result.algorithm_creator = []() {
 		return zaf::crypto::MD5{};
 	};
+	return result;
 }
 
 }

@@ -30,20 +30,36 @@ HashCommandParseResult SHACommand::ParseCommand(const utility::CommandLine& comm
 }
 
 
-HashAlgorithmCreator SHACommand::GetHashAlgorithmCreator() {
+HashAlgorithmInfo SHACommand::GetHashAlgorithmInfo() {
+
+	HashAlgorithmInfo result;
 
 	switch (sha_algorithm_type.value_or(SHAAlgorithmType::SHA256)) {
 	case SHAAlgorithmType::SHA1:
-		return []() { return zaf::crypto::SHA1{}; };
+		result.displayed_name = L"1";
+		result.tooltip = L"SHA1 algorithm";
+		result.algorithm_creator = []() { return zaf::crypto::SHA1{}; };
+		break;
 	case SHAAlgorithmType::SHA256:
-		return []() { return zaf::crypto::SHA256{}; };
+		result.displayed_name = L"256";
+		result.tooltip = L"SHA256 algorithm";
+		result.algorithm_creator = []() { return zaf::crypto::SHA256{}; };
+		break;
 	case SHAAlgorithmType::SHA384:
-		return []() { return zaf::crypto::SHA384{}; };
+		result.displayed_name = L"384";
+		result.tooltip = L"SHA384 algorithm";
+		result.algorithm_creator = []() { return zaf::crypto::SHA384{}; };
+		break;
 	case SHAAlgorithmType::SHA512:
-		return []() { return zaf::crypto::SHA512{}; };
+		result.displayed_name = L"512";
+		result.tooltip = L"SHA512 algorithm";
+		result.algorithm_creator = []() { return zaf::crypto::SHA512{}; };
+		break;
 	default:
 		ZAF_NOT_REACHED();
 	}
+
+	return result;
 }
 
 }

@@ -4,7 +4,7 @@
 #include <string>
 #include <zaf/rx/observable.h>
 #include "module/common/text_encoding.h"
-#include "module/tool/hash/hash_algorithm_creator.h"
+#include "module/tool/hash/hash_algorithm_info.h"
 
 namespace ra::mod::tool::hash {
 
