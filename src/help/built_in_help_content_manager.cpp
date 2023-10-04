@@ -78,10 +78,10 @@ std::shared_ptr<Element> BuiltInHelpContentManager::LoadMarkdownFromResource(
         auto uri = std::format(L"res:///CMD-{}.md", command);
         auto stream = zaf::ResourceFactory::Instance().LoadURI(uri);
 
-        //TODO: Should not copy memory.
-        std::string file_content;
-        file_content.resize(static_cast<std::size_t>(stream.GetSize()), 0);
-        stream.Read(stream.GetSize(), &file_content[0]);
+        std::string_view file_content{
+            reinterpret_cast<const char*>(stream.GetUnderlyingBuffer()), 
+            stream.GetSize() 
+        };
 
         auto input = zaf::FromUTF8String(file_content);
         return MarkdownParser::Instance()->Parse(input);
