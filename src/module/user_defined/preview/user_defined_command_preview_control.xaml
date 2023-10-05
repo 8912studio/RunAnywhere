@@ -1,6 +1,6 @@
 <UserDefinedCommandPreviewControl Layouter="VerticalLayouter" AutoHeight="true">
     <HorizontalBox CrossAxisAlignment="Center" AutoHeight="true">
-        <ImageBox FixedSize="20,20" URI="res:///resource/file.png" />
+        <ImageBox FixedSize="20,20" ImageLayout="Stretch" URI="res:///resource/file.png" />
         <Label 
             Name="entryInfoLabel" 
             FixedHeight="30" 
