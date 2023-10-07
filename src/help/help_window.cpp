@@ -105,8 +105,12 @@ void HelpWindow::LayoutScrollButtonContainer() {
 
 void HelpWindow::SetContent(const HelpContent& content) {
 
+    //We always reset the content even if the content ids are the same, in case the content 
+    //changes.
+
     auto auto_reset = zaf::MakeAutoReset(is_setting_content_, true);
 
+    auto last_content_id = content_id_;
     content_id_ = content.ID();
     markdown_region_ = MarkdownRegion::Create(*content.Element(), GetHelpStyleConfig());
 
@@ -118,6 +122,9 @@ void HelpWindow::SetContent(const HelpContent& content) {
 
     if (last_scroll_value_ && last_scroll_content_id_ == content_id_) {
         scroll_control_->VerticalScrollBar()->SetValue(*last_scroll_value_);
+    }
+    else if (last_content_id != content_id_) {
+        scroll_control_->VerticalScrollBar()->SetValue(0);
     }
 }
 
