@@ -49,11 +49,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)third_party\everything\ipc;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)third_party\everything\ipc;$(SolutionDir)third_party\curlion\src;$(SolutionDir)third_party\curl\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)third_party\everything\ipc;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)third_party\everything\ipc;$(SolutionDir)third_party\curlion\src;$(SolutionDir)third_party\curl\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -217,6 +217,14 @@
     <ClInclude Include="src\module\calculator\parse\terminal_parser.h" />
     <ClInclude Include="src\module\calculator\parse\unary_expression_parser.h" />
     <ClInclude Include="src\module\calculator\preview\calculator_preview_control.h" />
+    <ClInclude Include="src\module\chat_gpt\chat_gpt_command.h" />
+    <ClInclude Include="src\module\chat_gpt\chat_gpt_executor.h" />
+    <ClInclude Include="src\module\chat_gpt\chat_gpt_module.h" />
+    <ClInclude Include="src\module\chat_gpt\comm\asio_scheduler.h" />
+    <ClInclude Include="src\module\chat_gpt\comm\chat_completion.h" />
+    <ClInclude Include="src\module\chat_gpt\comm\open_ai_client.h" />
+    <ClInclude Include="src\module\chat_gpt\comm\socket_manager.h" />
+    <ClInclude Include="src\module\chat_gpt\comm\socket_timer.h" />
     <ClInclude Include="src\module\command.h" />
     <ClInclude Include="src\module\command_brief.h" />
     <ClInclude Include="src\module\command_executor.h" />
@@ -321,6 +329,16 @@
     <ClInclude Include="src\utility\text_utility.h" />
     <ClInclude Include="src\utility\thin_border_window.h" />
     <ClInclude Include="src\utility\thin_scroll_bar.h" />
+    <ClInclude Include="third_party\curlion\src\connection.h" />
+    <ClInclude Include="third_party\curlion\src\connection_manager.h" />
+    <ClInclude Include="third_party\curlion\src\curlion.h" />
+    <ClInclude Include="third_party\curlion\src\error.h" />
+    <ClInclude Include="third_party\curlion\src\http_connection.h" />
+    <ClInclude Include="third_party\curlion\src\http_form.h" />
+    <ClInclude Include="third_party\curlion\src\log.h" />
+    <ClInclude Include="third_party\curlion\src\socket_factory.h" />
+    <ClInclude Include="third_party\curlion\src\socket_watcher.h" />
+    <ClInclude Include="third_party\curlion\src\timer.h" />
     <ClInclude Include="third_party\everything\ipc\everything_ipc.h" />
   </ItemGroup>
   <ItemGroup>
@@ -426,6 +444,13 @@
     <ClCompile Include="src\module\calculator\parse\parse_result.cpp" />
     <ClCompile Include="src\module\calculator\parse\unary_expression_parser.cpp" />
     <ClCompile Include="src\module\calculator\preview\calculator_preview_control.cpp" />
+    <ClCompile Include="src\module\chat_gpt\chat_gpt_command.cpp" />
+    <ClCompile Include="src\module\chat_gpt\chat_gpt_executor.cpp" />
+    <ClCompile Include="src\module\chat_gpt\chat_gpt_module.cpp" />
+    <ClCompile Include="src\module\chat_gpt\comm\asio_scheduler.cpp" />
+    <ClCompile Include="src\module\chat_gpt\comm\open_ai_client.cpp" />
+    <ClCompile Include="src\module\chat_gpt\comm\socket_manager.cpp" />
+    <ClCompile Include="src\module\chat_gpt\comm\socket_timer.cpp" />
     <ClCompile Include="src\module\command_brief.cpp" />
     <ClCompile Include="src\module\command_preview_control.cpp" />
     <ClCompile Include="src\module\common\binary_content\binary_column_header.cpp" />
@@ -504,6 +529,10 @@
     <ClCompile Include="src\utility\text_utility.cpp" />
     <ClCompile Include="src\utility\thin_border_window.cpp" />
     <ClCompile Include="src\utility\thin_scroll_bar.cpp" />
+    <ClCompile Include="third_party\curlion\src\connection.cpp" />
+    <ClCompile Include="third_party\curlion\src\connection_manager.cpp" />
+    <ClCompile Include="third_party\curlion\src\http_connection.cpp" />
+    <ClCompile Include="third_party\curlion\src\http_form.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="src\about_window.xaml" />

@@ -127,6 +127,15 @@
     <Filter Include="src\help\markdown\render">
       <UniqueIdentifier>{798a8809-373d-4253-8f9e-d7ff8468afb3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\module\chat_gpt">
+      <UniqueIdentifier>{5cb616c8-a017-44cc-9c6d-e1d2a54f13d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\module\chat_gpt\comm">
+      <UniqueIdentifier>{cc57a812-887c-4228-b21c-4f5e5878d3be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="third_party\curlion">
+      <UniqueIdentifier>{191c8493-fac9-4521-bea7-5dc513c0dbce}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\module\calculator\parse\binary_expression_parser.h">
@@ -837,6 +846,60 @@
     <ClInclude Include="src\help\help_content.h">
       <Filter>src\help</Filter>
     </ClInclude>
+    <ClInclude Include="src\module\chat_gpt\chat_gpt_module.h">
+      <Filter>src\module\chat_gpt</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\chat_gpt\chat_gpt_command.h">
+      <Filter>src\module\chat_gpt</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\chat_gpt\comm\chat_completion.h">
+      <Filter>src\module\chat_gpt\comm</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\chat_gpt\comm\open_ai_client.h">
+      <Filter>src\module\chat_gpt\comm</Filter>
+    </ClInclude>
+    <ClInclude Include="third_party\curlion\src\connection.h">
+      <Filter>third_party\curlion</Filter>
+    </ClInclude>
+    <ClInclude Include="third_party\curlion\src\connection_manager.h">
+      <Filter>third_party\curlion</Filter>
+    </ClInclude>
+    <ClInclude Include="third_party\curlion\src\curlion.h">
+      <Filter>third_party\curlion</Filter>
+    </ClInclude>
+    <ClInclude Include="third_party\curlion\src\error.h">
+      <Filter>third_party\curlion</Filter>
+    </ClInclude>
+    <ClInclude Include="third_party\curlion\src\http_connection.h">
+      <Filter>third_party\curlion</Filter>
+    </ClInclude>
+    <ClInclude Include="third_party\curlion\src\http_form.h">
+      <Filter>third_party\curlion</Filter>
+    </ClInclude>
+    <ClInclude Include="third_party\curlion\src\log.h">
+      <Filter>third_party\curlion</Filter>
+    </ClInclude>
+    <ClInclude Include="third_party\curlion\src\socket_factory.h">
+      <Filter>third_party\curlion</Filter>
+    </ClInclude>
+    <ClInclude Include="third_party\curlion\src\socket_watcher.h">
+      <Filter>third_party\curlion</Filter>
+    </ClInclude>
+    <ClInclude Include="third_party\curlion\src\timer.h">
+      <Filter>third_party\curlion</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\chat_gpt\comm\socket_manager.h">
+      <Filter>src\module\chat_gpt\comm</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\chat_gpt\comm\socket_timer.h">
+      <Filter>src\module\chat_gpt\comm</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\chat_gpt\comm\asio_scheduler.h">
+      <Filter>src\module\chat_gpt\comm</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\chat_gpt\chat_gpt_executor.h">
+      <Filter>src\module\chat_gpt</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -1369,6 +1432,39 @@
     </ClCompile>
     <ClCompile Include="src\module\command_brief.cpp">
       <Filter>src\module</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\chat_gpt\chat_gpt_module.cpp">
+      <Filter>src\module\chat_gpt</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\chat_gpt\chat_gpt_command.cpp">
+      <Filter>src\module\chat_gpt</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\chat_gpt\comm\open_ai_client.cpp">
+      <Filter>src\module\chat_gpt\comm</Filter>
+    </ClCompile>
+    <ClCompile Include="third_party\curlion\src\connection.cpp">
+      <Filter>third_party\curlion</Filter>
+    </ClCompile>
+    <ClCompile Include="third_party\curlion\src\connection_manager.cpp">
+      <Filter>third_party\curlion</Filter>
+    </ClCompile>
+    <ClCompile Include="third_party\curlion\src\http_connection.cpp">
+      <Filter>third_party\curlion</Filter>
+    </ClCompile>
+    <ClCompile Include="third_party\curlion\src\http_form.cpp">
+      <Filter>third_party\curlion</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\chat_gpt\comm\socket_manager.cpp">
+      <Filter>src\module\chat_gpt\comm</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\chat_gpt\comm\socket_timer.cpp">
+      <Filter>src\module\chat_gpt\comm</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\chat_gpt\comm\asio_scheduler.cpp">
+      <Filter>src\module\chat_gpt\comm</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\chat_gpt\chat_gpt_executor.cpp">
+      <Filter>src\module\chat_gpt</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

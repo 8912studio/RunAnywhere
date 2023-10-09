@@ -4,3 +4,6 @@
 [submodule "src/help/wiki"]
 	path = src/help/wiki
 	url = https://github.com/Zplutor/RunAnywhere.wiki.git
+[submodule "third_party/curlion"]
+	path = third_party/curlion
+	url = git@github.com:Zplutor/curlion.git
