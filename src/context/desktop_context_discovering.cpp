@@ -1,5 +1,6 @@
 #include "context/desktop_context_discovering.h"
 #include <Windows.h>
+#include <objbase.h>
 #include <zaf/base/error/com_error.h>
 #include <zaf/rx/creation.h>
 #include <zaf/rx/scheduler.h>

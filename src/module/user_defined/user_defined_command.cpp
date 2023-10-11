@@ -1,5 +1,6 @@
 #include "module/user_defined/user_defined_command.h"
 #include <Windows.h>
+#include <shellapi.h>
 #include <zaf/base/container/utility/contain.h>
 #include <zaf/base/range.h>
 #include <zaf/base/string/join.h>

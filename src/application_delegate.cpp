@@ -1,4 +1,5 @@
 #include "application_delegate.h"
+#include <shellapi.h>
 #include <zaf/application.h>
 #include <zaf/base/registry/registry.h>
 #include <zaf/creation.h>

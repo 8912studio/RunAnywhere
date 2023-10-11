@@ -24,6 +24,9 @@ public:
     zaf::Observable<ChatCompletion> CreateChatCompletion(const std::vector<Message>& messages);
 
 private:
+    static std::string CreateRequestBody(const std::vector<Message>& messages);
+
+private:
     std::wstring api_key_;
 
     std::unique_ptr<OpenAIClientImpl> impl_;

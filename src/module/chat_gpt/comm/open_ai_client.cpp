@@ -1,4 +1,6 @@
 #include "module/chat_gpt/comm/open_ai_client.h"
+#include <boost/json.hpp>
+#include <zaf/base/string/encoding_conversion.h>
 #include <zaf/rx/creation.h>
 #include <zaf/rx/scheduler.h>
 #include <zaf/rx/subject.h>
@@ -56,7 +58,12 @@ zaf::Observable<ChatCompletion> OpenAIClient::CreateChatCompletion(
     zaf::ReplaySubject<ChatCompletion> subject;
 
     auto connection = std::make_shared<curlion::HttpConnection>();
-    connection->SetUrl("http://www.qq.com");
+    connection->SetUrl("https://api.openai.com/v1/chat/completions");
+    connection->SetRequestHeaders({
+        { "Content-Type", "application/json" },
+        { "Authorization", "Bearer" },
+    });
+    connection->SetRequestBody(CreateRequestBody(messages));
     connection->SetFinishedCallback([observer = subject.AsObserver(), messages](
         const std::shared_ptr<curlion::Connection>& connection) {
     
@@ -93,6 +100,26 @@ zaf::Observable<ChatCompletion> OpenAIClient::CreateChatCompletion(
     }
 
     return subject.AsObservable().ObserveOn(zaf::Scheduler::Main());
+}
+
+
+std::string OpenAIClient::CreateRequestBody(const std::vector<Message>& messages) {
+
+    boost::json::object root;
+    root["model"] = "gpt-3.5-turbo";
+    root["temperature"] = 0.6;
+
+    boost::json::array message_array;
+    for (const auto& each_message : messages) {
+        
+        boost::json::object message_item;
+        message_item["role"] = zaf::ToUTF8String(each_message.Role());
+        message_item["content"] = zaf::ToUTF8String(each_message.Content());
+        message_array.push_back(std::move(message_item));
+    }
+    root["messages"] = std::move(message_array);
+
+    return boost::json::serialize(root);
 }
 
 }

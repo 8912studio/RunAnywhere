@@ -1,4 +1,5 @@
 #include "tray_icon.h"
+#include <shellapi.h>
 #include "resource.h"
 
 namespace ra {

@@ -1,4 +1,5 @@
 #include "about_window.h"
+#include <shellapi.h>
 #include <zaf/application.h>
 #include <zaf/object/type_definition.h>
 #include "license_window.h"
