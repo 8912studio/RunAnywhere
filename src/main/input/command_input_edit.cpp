@@ -94,7 +94,7 @@ void CommandInputEdit::SetInputContent(const CommandInputContent& content) {
 
 
 zaf::Observable<zaf::None> CommandInputEdit::CommandChangedEvent() {
-    return command_changed_event_.GetObservable();
+    return command_changed_event_.AsObservable();
 }
 
 
@@ -104,7 +104,7 @@ void CommandInputEdit::OnTextChanged(const zaf::TextChangedInfo& event_info) {
 
 
 void CommandInputEdit::RaiseCommandChangedEvent() {
-    command_changed_event_.GetObserver().OnNext({});
+    command_changed_event_.AsObserver().OnNext({});
 }
 
 

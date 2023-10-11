@@ -157,8 +157,8 @@ void HashPreviewControl::ShowFileHash(const std::filesystem::path& file_path) {
 		ChangeLayout(LayoutType::Error);
 	}, 
 	[this]() {
-		calculate_finished_event_.GetObserver().OnNext({});
-		calculate_finished_event_.GetObserver().OnCompleted();
+		calculate_finished_event_.AsObserver().OnNext({});
+		calculate_finished_event_.AsObserver().OnCompleted();
 	});
 }
 

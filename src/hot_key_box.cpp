@@ -100,7 +100,7 @@ void HotKeyBox::SetHotKey(const HotKey& hot_key) {
     hot_key_ = hot_key;
     UpdateText();
 
-    hot_key_changed_subject_.GetObserver().OnNext(hot_key_);
+    hot_key_changed_subject_.AsObserver().OnNext(hot_key_);
 }
 
 

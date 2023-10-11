@@ -1,6 +1,9 @@
 #include "module/chat_gpt/comm/open_ai_client.h"
 #include <zaf/rx/creation.h>
+#include <zaf/rx/scheduler.h>
+#include <zaf/rx/subject.h>
 #include "module/chat_gpt/comm/asio_scheduler.h"
+#include "module/chat_gpt/comm/error.h"
 #include "module/chat_gpt/comm/socket_manager.h"
 #include "module/chat_gpt/comm/socket_timer.h"
 
@@ -47,19 +50,49 @@ OpenAIClient::~OpenAIClient() {
 }
 
 
-zaf::Observable<ChatCompletion> OpenAIClient::CreateChatCompletion() {
+zaf::Observable<ChatCompletion> OpenAIClient::CreateChatCompletion(
+    const std::vector<Message>& messages) {
+
+    zaf::ReplaySubject<ChatCompletion> subject;
 
     auto connection = std::make_shared<curlion::HttpConnection>();
     connection->SetUrl("http://www.qq.com");
-    connection->SetFinishedCallback([](const std::shared_ptr<curlion::Connection>& connection) {
+    connection->SetFinishedCallback([observer = subject.AsObserver(), messages](
+        const std::shared_ptr<curlion::Connection>& connection) {
     
-        auto result = connection->GetResult();
+        auto curl_code = connection->GetResult();
+        if (curl_code != CURLE_OK) {
+            observer.OnError(zaf::Error(std::error_code(curl_code, CURLErrorCategory())));
+            return;
+        }
+
+        auto http_code = connection->GetResponseCode();
+        if (http_code != 200) {
+            observer.OnError(zaf::Error(std::error_code(http_code, HTTPErrorCategory())));
+            return;
+        }
+
         auto response_body = connection->GetResponseBody();
-        int x = 0;
+
+        std::wstring mock_response;
+        if (messages.empty()) {
+            mock_response = L"Input your question.";
+        }
+        else {
+            mock_response = L"Here is the response to " + messages.back().Content();
+        }
+
+        observer.OnNext(ChatCompletion(Message(RoleAssistant, mock_response)));
+        observer.OnCompleted();
     });
 
-    impl_->GetConnectionManager().StartConnection(connection);
-    return zaf::rx::Just(ChatCompletion{});
+    auto error_condition = impl_->GetConnectionManager().StartConnection(connection);
+    if (error_condition) {
+        std::error_code error_code(error_condition.value(), error_condition.category());
+        subject.AsObserver().OnError(zaf::Error(error_code));
+    }
+
+    return subject.AsObservable().ObserveOn(zaf::Scheduler::Main());
 }
 
 }

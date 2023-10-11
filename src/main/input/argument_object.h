@@ -26,7 +26,7 @@ public:
     void OpenWindow();
 
     zaf::Observable<zaf::None> TextChangedEvent() {
-        return text_changed_event_.GetObservable();
+        return text_changed_event_.AsObservable();
     }
 
     void Paint(

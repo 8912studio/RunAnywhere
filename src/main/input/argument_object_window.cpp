@@ -12,12 +12,12 @@ void ArgumentObjectWindow::SetObjectPositionInScreen(const zaf::Point& position)
 
 
 zaf::Observable<std::shared_ptr<ArgumentObjectWindow>> ArgumentObjectWindow::TextChangedEvent() {
-    return text_changed_event_.GetObservable();
+    return text_changed_event_.AsObservable();
 }
 
 
 void ArgumentObjectWindow::RaiseTextChangedEvent() {
-    text_changed_event_.GetObserver().OnNext(zaf::As<ArgumentObjectWindow>(shared_from_this()));
+    text_changed_event_.AsObserver().OnNext(zaf::As<ArgumentObjectWindow>(shared_from_this()));
 }
 
 

@@ -29,7 +29,7 @@ public:
     }
 
     zaf::Observable<zaf::None> HotKeyPressedEvent() {
-        return hot_key_pressed_subject_.GetObservable();
+        return hot_key_pressed_subject_.AsObservable();
     }
 
 private:

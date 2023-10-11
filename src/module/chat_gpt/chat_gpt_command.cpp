@@ -28,6 +28,12 @@ bool ChatGPTCommand::Interpret(
     const context::DesktopContext& desktop_context,
     bool is_reusing) {
 
+    const auto& raw_text = command_line.RawText();
+    if (raw_text.empty()) {
+        return false;
+    }
+
+    input_ = raw_text.substr(1);
     return true;
 }
 
@@ -43,7 +49,7 @@ std::shared_ptr<CommandPreviewControl> ChatGPTCommand::GetPreviewControl() {
 
 
 std::shared_ptr<CommandExecutor> ChatGPTCommand::GetExecutor() {
-    return std::make_shared<ChatGPTExecutor>(client_);
+    return std::make_shared<ChatGPTExecutor>(client_, std::move(input_));
 }
 
 }

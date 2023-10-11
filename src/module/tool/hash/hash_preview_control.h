@@ -39,7 +39,7 @@ public:
 
 	//For unittest.
 	zaf::Observable<zaf::None> CalculateFinishedEvent() const {
-		return calculate_finished_event_.GetObservable();
+		return calculate_finished_event_.AsObservable();
 	}
 
 protected:

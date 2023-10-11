@@ -18,7 +18,7 @@ public:
     void SetHotKey(const HotKey& hot_key);
 
     zaf::Observable<HotKey> HotKeyChangedEvent() {
-        return hot_key_changed_subject_.GetObservable();
+        return hot_key_changed_subject_.AsObservable();
     }
 
 protected:

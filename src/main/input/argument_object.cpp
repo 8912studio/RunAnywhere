@@ -142,7 +142,7 @@ void ArgumentObject::OnTextChanged(const std::shared_ptr<ArgumentObjectWindow>& 
         this->NeedRepaint();
     }
 
-    text_changed_event_.GetObserver().OnNext({});
+    text_changed_event_.AsObserver().OnNext({});
 }
 
 

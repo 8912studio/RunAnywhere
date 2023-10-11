@@ -29,6 +29,7 @@ public:
 
 private:
     std::shared_ptr<comm::OpenAIClient> client_;
+    std::wstring input_;
 };
 
 }
