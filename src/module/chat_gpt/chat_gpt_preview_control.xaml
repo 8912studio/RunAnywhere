@@ -1,0 +1,4 @@
+<ChatGPTPreviewControl Layouter="VerticalLayouter" FixedHeight="90">
+    <TextBox Name="questionControl" />
+    <TextBox Name="answerControl" />
+</ChatGPTPreviewControl>

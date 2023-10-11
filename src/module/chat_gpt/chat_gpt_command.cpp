@@ -1,4 +1,5 @@
 #include "module/chat_gpt/chat_gpt_command.h"
+#include <zaf/creation.h>
 #include "help/markdown/element/factory.h"
 #include "module/chat_gpt/chat_gpt_executor.h"
 
@@ -33,23 +34,23 @@ bool ChatGPTCommand::Interpret(
         return false;
     }
 
-    input_ = raw_text.substr(1);
+    if (!preview_control_) {
+        preview_control_ = zaf::Create<ChatGPTPreviewControl>();
+    }
+
+    question_ = raw_text.substr(1);
+    preview_control_->SetQuestion(question_);
     return true;
 }
 
 
-std::wstring ChatGPTCommand::GetPreviewText() {
-    return L"test";
-}
-
-
 std::shared_ptr<CommandPreviewControl> ChatGPTCommand::GetPreviewControl() {
-    return nullptr;
+    return preview_control_;
 }
 
 
 std::shared_ptr<CommandExecutor> ChatGPTCommand::GetExecutor() {
-    return std::make_shared<ChatGPTExecutor>(client_, std::move(input_));
+    return std::make_shared<ChatGPTExecutor>(client_, std::move(question_));
 }
 
 }
