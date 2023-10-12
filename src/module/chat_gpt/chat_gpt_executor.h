@@ -7,13 +7,15 @@ namespace ra::mod::chat_gpt {
 
 class ChatGPTExecutor : public CommandExecutor {
 public:
-    explicit ChatGPTExecutor(std::shared_ptr<comm::OpenAIClient>, std::wstring input);
+    explicit ChatGPTExecutor(std::shared_ptr<comm::OpenAIClient>);
+
+    void SetQuestion(std::wstring question);
 
     void Execute() override;
 
 private:
     std::shared_ptr<comm::OpenAIClient> client_;
-    std::wstring input_;
+    std::wstring question_;
 };
 
 }

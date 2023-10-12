@@ -2,16 +2,20 @@
 
 namespace ra::mod::chat_gpt {
 
-ChatGPTExecutor::ChatGPTExecutor(std::shared_ptr<comm::OpenAIClient> client, std::wstring input) :
-    client_(std::move(client)),
-    input_(std::move(input)) {
+ChatGPTExecutor::ChatGPTExecutor(std::shared_ptr<comm::OpenAIClient> client) :
+    client_(std::move(client)) {
 
+}
+
+
+void ChatGPTExecutor::SetQuestion(std::wstring question) {
+    question_ = std::move(question);
 }
 
 
 void ChatGPTExecutor::Execute() {
 
-    Message message{ std::move(input_) };
+    Message message{ std::move(question_) };
     client_->CreateChatCompletion({ std::move(message) });
 }
 

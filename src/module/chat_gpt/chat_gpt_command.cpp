@@ -1,7 +1,6 @@
 #include "module/chat_gpt/chat_gpt_command.h"
 #include <zaf/creation.h>
 #include "help/markdown/element/factory.h"
-#include "module/chat_gpt/chat_gpt_executor.h"
 
 namespace ra::mod::chat_gpt {
 
@@ -34,12 +33,18 @@ bool ChatGPTCommand::Interpret(
         return false;
     }
 
+    auto question = raw_text.substr(1);
+
     if (!preview_control_) {
         preview_control_ = zaf::Create<ChatGPTPreviewControl>();
     }
+    preview_control_->SetQuestion(question);
 
-    question_ = raw_text.substr(1);
-    preview_control_->SetQuestion(question_);
+    if (!executor_) {
+        executor_ = zaf::Create<ChatGPTExecutor>(client_);
+    }
+    executor_->SetQuestion(question);
+
     return true;
 }
 
@@ -50,7 +55,7 @@ std::shared_ptr<CommandPreviewControl> ChatGPTCommand::GetPreviewControl() {
 
 
 std::shared_ptr<CommandExecutor> ChatGPTCommand::GetExecutor() {
-    return std::make_shared<ChatGPTExecutor>(client_, std::move(question_));
+    return executor_;
 }
 
 }

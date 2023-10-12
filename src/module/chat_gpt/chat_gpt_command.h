@@ -1,5 +1,6 @@
 #pragma once
 
+#include "module/chat_gpt/chat_gpt_executor.h"
 #include "module/chat_gpt/chat_gpt_preview_control.h"
 #include "module/chat_gpt/comm/open_ai_client.h"
 #include "module/command.h"
@@ -27,9 +28,9 @@ public:
     std::shared_ptr<CommandExecutor> GetExecutor() override;
 
 private:
-    std::shared_ptr<ChatGPTPreviewControl> preview_control_;
     std::shared_ptr<comm::OpenAIClient> client_;
-    std::wstring question_;
+    std::shared_ptr<ChatGPTPreviewControl> preview_control_;
+    std::shared_ptr<ChatGPTExecutor> executor_;
 };
 
 }

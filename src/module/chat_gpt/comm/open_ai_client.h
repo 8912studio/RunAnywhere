@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <mutex>
+#include <optional>
 #include <string>
 #include <vector>
 #include <zaf/base/non_copyable.h>
@@ -24,7 +25,11 @@ public:
     zaf::Observable<ChatCompletion> CreateChatCompletion(const std::vector<Message>& messages);
 
 private:
+    static zaf::Observable<ChatCompletion> CreateMockChatCompletion(
+        const std::vector<Message>& messages);
+
     static std::string CreateRequestBody(const std::vector<Message>& messages);
+    static std::optional<ChatCompletion> ParseChatCompletion(const std::string& response);
 
 private:
     std::wstring api_key_;
