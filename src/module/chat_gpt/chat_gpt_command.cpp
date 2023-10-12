@@ -40,12 +40,28 @@ bool ChatGPTCommand::Interpret(
     }
     preview_control_->SetQuestion(question);
 
-    if (!executor_) {
-        executor_ = zaf::Create<ChatGPTExecutor>(client_);
-    }
+    InitializeExecutor();
     executor_->SetQuestion(question);
 
     return true;
+}
+
+
+void ChatGPTCommand::InitializeExecutor() {
+
+    if (executor_) {
+        return;
+    }
+
+    executor_ = zaf::Create<ChatGPTExecutor>(client_);
+
+    Subscriptions() += executor_->FinishEvent().Subscribe([this](
+    const comm::ChatCompletion& completion) {
+        preview_control_->SetAnswer(completion.Message().Content());
+    },
+    [this](const zaf::Error& error) {
+    
+    });
 }
 
 

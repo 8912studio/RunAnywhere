@@ -1,5 +1,6 @@
 #pragma once
 
+#include <zaf/rx/subscription_host.h>
 #include "module/chat_gpt/chat_gpt_executor.h"
 #include "module/chat_gpt/chat_gpt_preview_control.h"
 #include "module/chat_gpt/comm/open_ai_client.h"
@@ -7,7 +8,7 @@
 
 namespace ra::mod::chat_gpt {
 
-class ChatGPTCommand : public Command {
+class ChatGPTCommand : public Command, zaf::SubscriptionHost {
 public:
     static constexpr wchar_t HeadingChar = L'>';
 
@@ -26,6 +27,9 @@ public:
     std::shared_ptr<CommandPreviewControl> GetPreviewControl() override;
 
     std::shared_ptr<CommandExecutor> GetExecutor() override;
+
+private:
+    void InitializeExecutor();
 
 private:
     std::shared_ptr<comm::OpenAIClient> client_;
