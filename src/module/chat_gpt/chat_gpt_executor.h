@@ -11,7 +11,7 @@ public:
 
     void SetQuestion(std::wstring question);
 
-    void Execute() override;
+    ExecuteResult Execute() override;
 
 private:
     std::shared_ptr<comm::OpenAIClient> client_;

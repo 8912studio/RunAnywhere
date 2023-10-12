@@ -13,8 +13,9 @@ public:
 
     }
 
-    void Execute() {
+    ExecuteResult Execute() {
         handler_();
+        return PostExecuteAction::Dispose;
     }
 
 private:

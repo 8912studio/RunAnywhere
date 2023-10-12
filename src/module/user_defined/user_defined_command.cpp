@@ -27,7 +27,7 @@ public:
 
     }
 
-    void Execute() override {
+    ExecuteResult Execute() override {
 
         //Update current process' environment variables in order to inherit them in child process.
         EnvironmentVariableManager::Instance().Update();
@@ -46,6 +46,7 @@ public:
         }
 
         ShellExecuteEx(&shell_execute_info);
+        return PostExecuteAction::Dispose;
     }
 
 private:

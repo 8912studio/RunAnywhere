@@ -18,9 +18,10 @@ CopyExecutor::CopyExecutor(std::wstring text) : text_(std::move(text)) {
 }
 
 
-void CopyExecutor::Execute() {
+ExecuteResult CopyExecutor::Execute() {
 
     utility::SetStringToClipboard(text_);
+    return PostExecuteAction::Dispose;
 }
 
 }

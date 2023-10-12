@@ -284,11 +284,18 @@ void MainWindow::UpdateHelpWindowPosition() {
 
 void MainWindow::ExecuteCommand() {
 
+    mod::PostExecuteAction post_execute_action{ mod::PostExecuteAction::Dispose };
+
     if (current_command_) {
         auto executor = current_command_->GetExecutor();
         if (executor) {
-            executor->Execute();
+            post_execute_action = executor->Execute().PostExecuteAction();
         }
+    }
+
+    if (post_execute_action == mod::PostExecuteAction::Preserve) {
+        PreserveCurrentCommand();
+        return;
     }
 
     if (!OptionStorage::Instance().RememberLastCommand()) {

@@ -11,7 +11,7 @@ public:
     static std::shared_ptr<CopyExecutor> TryCreate(std::wstring text);
 
 public:
-    void Execute() override;
+    ExecuteResult Execute() override;
 
 private:
     explicit CopyExecutor(std::wstring text);

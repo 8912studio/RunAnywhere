@@ -13,10 +13,11 @@ void ChatGPTExecutor::SetQuestion(std::wstring question) {
 }
 
 
-void ChatGPTExecutor::Execute() {
+ExecuteResult ChatGPTExecutor::Execute() {
 
     Message message{ std::move(question_) };
     client_->CreateChatCompletion({ std::move(message) });
+    return PostExecuteAction::Preserve;
 }
 
 }
