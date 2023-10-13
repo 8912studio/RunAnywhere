@@ -136,6 +136,9 @@
     <Filter Include="third_party\curlion">
       <UniqueIdentifier>{191c8493-fac9-4521-bea7-5dc513c0dbce}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\option">
+      <UniqueIdentifier>{32764fcc-90a1-4ac4-9452-576fdd616afe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\module\calculator\parse\binary_expression_parser.h">
@@ -909,6 +912,9 @@
     <ClInclude Include="src\module\chat_gpt\chat_gpt_preview_control.h">
       <Filter>src\module\chat_gpt</Filter>
     </ClInclude>
+    <ClInclude Include="src\option\option_text_box.h">
+      <Filter>src\option</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -1477,6 +1483,9 @@
     </ClCompile>
     <ClCompile Include="src\module\chat_gpt\chat_gpt_preview_control.cpp">
       <Filter>src\module\chat_gpt</Filter>
+    </ClCompile>
+    <ClCompile Include="src\option\option_text_box.cpp">
+      <Filter>src\option</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

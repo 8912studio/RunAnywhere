@@ -9,6 +9,7 @@
 #include "module/chat_gpt/comm/error.h"
 #include "module/chat_gpt/comm/socket_manager.h"
 #include "module/chat_gpt/comm/socket_timer.h"
+#include "option_storage.h"
 
 namespace ra::mod::chat_gpt::comm {
 
@@ -60,13 +61,20 @@ zaf::Observable<ChatCompletion> OpenAIClient::CreateChatCompletion(
 
     zaf::ReplaySubject<ChatCompletion> subject;
 
+    auto api_key = zaf::ToUTF8String(OptionStorage::Instance().OpenAIAPIKey());
+
     auto connection = std::make_shared<curlion::HttpConnection>();
     connection->SetUrl("https://api.openai.com/v1/chat/completions");
     connection->SetRequestHeaders({
         { "Content-Type", "application/json" },
-        { "Authorization", "Bearer" },
+        { "Authorization", "Bearer " + api_key },
     });
-    //connection->SetProxy("http://127.0.0.1:12377");
+
+    auto proxy = OptionStorage::Instance().Proxy();
+    if (!proxy.empty()) {
+        connection->SetProxy(zaf::ToUTF8String(proxy));
+    }
+    
     connection->SetUsePost(1);
     connection->SetRequestBody(CreateRequestBody(messages));
 

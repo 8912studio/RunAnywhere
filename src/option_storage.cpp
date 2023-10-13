@@ -9,6 +9,8 @@ namespace {
 constexpr const wchar_t* AutoHideValueName = L"AutoHideOnLostFocus";
 constexpr const wchar_t* RememberLastCommandValueName = L"RememberLastCommand";
 constexpr const wchar_t* MaxPreservedCommandCountValueName = L"MaxPreservedCommandCount";
+constexpr const wchar_t* OpenAIAPIKeyValueName = L"OpenAIAPIKey";
+constexpr const wchar_t* ProxyValueName = L"Proxy";
 
 }
 
@@ -32,7 +34,7 @@ OptionStorage::OptionStorage() {
 }
 
 
-std::optional<bool> OptionStorage::GetBoolValue(const std::wstring& name) {
+std::optional<bool> OptionStorage::GetBoolValue(const std::wstring& name) const {
 
     try {
         auto value = option_key_.GetDWordValue(name);
@@ -55,7 +57,7 @@ void OptionStorage::SetBoolValue(const std::wstring& name, bool value) {
 }
 
 
-std::optional<std::size_t> OptionStorage::GetUIntValue(const std::wstring& name) {
+std::optional<std::size_t> OptionStorage::GetUIntValue(const std::wstring& name) const {
 
     try {
         return option_key_.GetDWordValue(name);
@@ -70,6 +72,28 @@ void OptionStorage::SetUIntValue(const std::wstring& name, std::size_t value) {
 
     try {
         option_key_.SetDWordValue(name, static_cast<std::uint32_t>(value));
+    }
+    catch (const zaf::Error&) {
+
+    }
+}
+
+
+std::optional<std::wstring> OptionStorage::GetStringValue(const std::wstring& name) const {
+
+    try {
+        return option_key_.GetStringValue(name);
+    }
+    catch (const zaf::Error&) {
+        return std::nullopt;
+    }
+}
+
+
+void OptionStorage::SetStringValue(const std::wstring& name, const std::wstring& value) {
+
+    try {
+        option_key_.SetStringValue(name, value);
     }
     catch (const zaf::Error&) {
 
@@ -129,6 +153,48 @@ void OptionStorage::SetMaxPreservedCommandCount(std::size_t count) {
 
     *max_preserved_command_count_ = new_count;
     SetUIntValue(MaxPreservedCommandCountValueName, new_count);
+}
+
+
+std::wstring OptionStorage::OpenAIAPIKey() {
+
+    if (!open_ai_api_key_) {
+        open_ai_api_key_ = GetStringValue(OpenAIAPIKeyValueName);
+    }
+
+    return open_ai_api_key_.value_or(std::wstring{});
+}
+
+
+void OptionStorage::SetOpenAIAPIKey(const std::wstring& key) {
+
+    if (open_ai_api_key_ == key) {
+        return;
+    }
+
+    SetStringValue(OpenAIAPIKeyValueName, key);
+    open_ai_api_key_ = key;
+}
+
+
+std::wstring OptionStorage::Proxy() {
+
+    if (!proxy_) {
+        proxy_ = GetStringValue(ProxyValueName);
+    }
+
+    return proxy_.value_or(std::wstring{});
+}
+
+
+void OptionStorage::SetProxy(const std::wstring& proxy) {
+
+    if (proxy_ == proxy) {
+        return;
+    }
+
+    SetStringValue(ProxyValueName, proxy);
+    proxy_ = proxy;
 }
 
 }

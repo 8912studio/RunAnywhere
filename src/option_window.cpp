@@ -51,6 +51,8 @@ void OptionWindow::AfterParse() {
     UpdateAutoRunCheckBoxState();
 
     InitializeMaxPreservedCount();
+    InitializeOpenAIAPIKey();
+    InitializeProxy();
 
     UpdateAutoHideCheckBoxState();
     UpdateRememberLastCommandCheckBoxState();
@@ -99,6 +101,26 @@ void OptionWindow::InitializeMaxPreservedCount() {
     Subscriptions() += maxPreservedCount->ValueChangedEvent().Subscribe(std::bind([this]() {
         OptionStorage::Instance().SetMaxPreservedCommandCount(maxPreservedCount->Value());
     }));
+}
+
+
+void OptionWindow::InitializeOpenAIAPIKey() {
+
+    apiKeyEdit->SetText(OptionStorage::Instance().OpenAIAPIKey());
+
+    Subscriptions() += apiKeyEdit->ValueChangedEvent().Subscribe([](const std::wstring& value) {
+        OptionStorage::Instance().SetOpenAIAPIKey(value);
+    });
+}
+
+
+void OptionWindow::InitializeProxy() {
+
+    proxyEdit->SetText(OptionStorage::Instance().Proxy());
+
+    Subscriptions() += proxyEdit->ValueChangedEvent().Subscribe([](const std::wstring& value) {
+        OptionStorage::Instance().SetProxy(value);
+    });
 }
 
 

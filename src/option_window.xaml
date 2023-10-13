@@ -1,4 +1,4 @@
-<OptionWindow Size="400,355" IsSizable="false" CanMaximize="false" Title="Option">
+<OptionWindow Size="400,500" IsSizable="false" CanMaximize="false" Title="Option">
     
     <OptionWindow.RootControl>
         <VerticalBox Padding="20,20,20,20" BackgroundColor="White" />
@@ -36,7 +36,7 @@
     <CheckBox 
         Name="autoRunCheckBox"
         FixedHeight="30" 
-        Margin="0,20,0,0"
+        Margin="0,10,0,0"
         ParagraphAlignment="Center"
         Text="Auto run on system boot" />
     <CheckBox
@@ -49,9 +49,40 @@
         FixedHeight="30"
         ParagraphAlignment="Center"
         Text="Remember last executed command"/>
+
+    <VerticalBox AutoHeight="true" Margin="0,10,0,0">
+        <Label 
+            FixedHeight="24" 
+            ParagraphAlignment="Center" 
+            Text="OpenAI API Key (Experimental)" />
+        <Label 
+            FixedHeight="22"
+            ParagraphAlignment="Top" 
+            TextColor="Red"
+            WordWrapping="Wrap"
+            Text="Caution: there is a leak risk of the key as it is stored locally" />
+        <OptionTextBox
+            Name="apiKeyEdit"
+            Padding="4,0,4,0"
+            ParagraphAlignment="Center"
+            FixedHeight="30" />
+    </VerticalBox>
+
+    <VerticalBox AutoHeight="true" Margin="0,10,0,0">
+        <Label
+            FixedHeight="30" 
+            ParagraphAlignment="Center" 
+            Text="Proxy (Example: http://127.0.0.1:1234)" />
+        <OptionTextBox
+            Name="proxyEdit"
+            Padding="4,0,4,0" 
+            ParagraphAlignment="Center" 
+            FixedHeight="30" />
+    </VerticalBox>
+
     <Button 
         Name="registerFileAssociationButton" 
         FixedSize="180,30"
-        Margin="0,20,0,0"
+        Margin="0,24,0,0"
         Text="Register file association" />
 </OptionWindow>

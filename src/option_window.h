@@ -8,6 +8,7 @@
 #include <zaf/control/spin_box.h>
 #include <zaf/window/dialog.h>
 #include "hot_key_box.h"
+#include "option/option_text_box.h"
 
 namespace ra {
 
@@ -25,6 +26,8 @@ private:
     void CheckIfHotKeyValid();
 
     void InitializeMaxPreservedCount();
+    void InitializeOpenAIAPIKey();
+    void InitializeProxy();
 
     void UpdateAutoRunCheckBoxState();
     bool CheckIfSetAutoRun();
@@ -46,6 +49,8 @@ private:
     ZAF_BIND_CONTROL(zaf::CheckBox, autoRunCheckBox);
     ZAF_BIND_CONTROL(zaf::CheckBox, autoHideCheckBox);
     ZAF_BIND_CONTROL(zaf::CheckBox, rememberLastCommandCheckBox);
+    ZAF_BIND_CONTROL(option::OptionTextBox, apiKeyEdit);
+    ZAF_BIND_CONTROL(option::OptionTextBox, proxyEdit);
     ZAF_BIND_CONTROL(zaf::Button, registerFileAssociationButton);
 };
 
