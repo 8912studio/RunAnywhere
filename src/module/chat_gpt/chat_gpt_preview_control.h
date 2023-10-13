@@ -10,11 +10,9 @@ class ChatGPTPreviewControl : public CommandPreviewControl {
 public:
     ZAF_DECLARE_TYPE;
 
-    void SetQuestion(const std::wstring& question);
     void SetAnswer(const std::wstring& answer);
 
 private:
-    ZAF_BIND_CONTROL(zaf::TextBox, questionControl);
     ZAF_BIND_CONTROL(zaf::TextBox, answerControl);
 };
 

@@ -133,13 +133,53 @@ zaf::Observable<ChatCompletion> OpenAIClient::CreateMockChatCompletion(
 
     zaf::ReplaySubject<ChatCompletion> subject;
 
-    std::wstring mock_response;
-    if (messages.empty()) {
-        mock_response = L"Input your question.";
+    std::wstring mock_response = LR"(Sure! Here's an example of a C++ code that uses `std::vector`:
+
+```cpp
+#include <iostream>
+#include <vector>
+
+int main() {
+    std::vector<int> numbers;
+
+    // Adding elements to the vector
+    numbers.push_back(10);
+    numbers.push_back(20);
+    numbers.push_back(30);
+
+    // Accessing elements of the vector
+    std::cout << "First element: " << numbers[0] << std::endl;
+    std::cout << "Second element: " << numbers.at(1) << std::endl;
+
+    // Modifying elements of the vector
+    numbers[0] = 100;
+    numbers.at(1) = 200;
+
+    // Removing elements from the vector
+    numbers.pop_back();
+
+    // Iterating over the vector
+    std::cout << "Vector elements: ";
+    for (int number : numbers) {
+        std::cout << number << " ";
     }
-    else {
-        mock_response = L"Here is the response to " + messages.back().Content();
-    }
+    std::cout << std::endl;
+
+    // Checking the size of the vector
+    std::cout << "Vector size: " << numbers.size() << std::endl;
+
+    // Clearing the vector
+    numbers.clear();
+
+    // Checking if the vector is empty
+    std::cout << "Is vector empty? " << (numbers.empty() ? "Yes" : "No") << std::endl;
+
+    return 0;
+}
+```
+
+This code demonstrates various operations with `std::vector`, such as adding elements, accessing elements, modifying elements, removing elements, iterating over the vector, checking the size, clearing the vector, and checking if the vector is empty.
+)";
 
     subject.AsObserver().OnNext(ChatCompletion(Message(RoleAssistant, mock_response)));
     subject.AsObserver().OnCompleted();

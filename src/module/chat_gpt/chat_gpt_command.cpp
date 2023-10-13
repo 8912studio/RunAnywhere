@@ -38,7 +38,6 @@ bool ChatGPTCommand::Interpret(
     if (!preview_control_) {
         preview_control_ = zaf::Create<ChatGPTPreviewControl>();
     }
-    preview_control_->SetQuestion(question);
 
     InitializeExecutor();
     executor_->SetQuestion(question);
