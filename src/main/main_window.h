@@ -40,6 +40,10 @@ private:
     void InitializeHelpButton();
     void InitializeToolbar();
 
+    void AdjustPositionBeforeShow();
+    void AdjustPositionOnFirstShow();
+    void EnsureInVisibleArea();
+
     void OnCommandChanged();
     void UpdateCommandState();
     void InterpretCommand();

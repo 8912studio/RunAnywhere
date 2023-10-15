@@ -87,23 +87,85 @@ void MainWindow::ShowOnTop() {
         UpdateCommandState();
     });
 
-    //First show, center the window in screen
-    if (!this->Handle()) {
-
-        auto size = this->Size();
-        auto dpi = GetDPI();
-
-        auto screen_width = zaf::ToDIPs(static_cast<float>(GetSystemMetrics(SM_CXSCREEN)), dpi);
-        auto screen_height = zaf::ToDIPs(static_cast<float>(GetSystemMetrics(SM_CYSCREEN)), dpi);
-        zaf::Point position(
-            (screen_width - size.width) / 2,
-            (screen_height - size.height) / 2 - size.height * 2); //Make the window a bit higher
-
-        this->SetPosition(position);
-    }
-
+    AdjustPositionBeforeShow();
     this->Show();
     SetForegroundWindow(this->Handle());
+}
+
+
+void MainWindow::AdjustPositionBeforeShow() {
+
+    if (!this->Handle()) {
+        AdjustPositionOnFirstShow();
+    }
+    else {
+        EnsureInVisibleArea();
+    }
+}
+
+
+void MainWindow::AdjustPositionOnFirstShow(){
+
+    //First show, center the window in screen of primary monitor.
+    RECT work_area_rect{};
+    BOOL is_succeeded = SystemParametersInfo(SPI_GETWORKAREA, 0, &work_area_rect, 0);
+    if (!is_succeeded) {
+        return;
+    }
+
+    auto window_size = this->Size();
+    auto dpi = this->GetDPI();
+
+    auto screen_width = zaf::ToDIPs(
+        static_cast<float>(work_area_rect.right - work_area_rect.left),
+        dpi);
+
+    auto screen_height = zaf::ToDIPs(
+        static_cast<float>(work_area_rect.bottom - work_area_rect.top),
+        dpi);
+
+    zaf::Point position{
+        (screen_width - window_size.width) / 2,
+        //Make the window a bit higher
+        (screen_height - window_size.height) / 2 - window_size.height * 2
+    };
+
+    this->SetPosition(position);
+}
+
+
+void MainWindow::EnsureInVisibleArea() {
+
+    //Ensure the window is in visible area of the nearest monitor.
+    HMONITOR monitor = MonitorFromWindow(this->Handle(), MONITOR_DEFAULTTONEAREST);
+
+    MONITORINFO monitor_info{};
+    monitor_info.cbSize = sizeof(monitor_info);
+    BOOL is_succeeded = GetMonitorInfo(monitor, &monitor_info);
+    if (!is_succeeded) {
+        return;
+    }
+
+    auto screen_rect = zaf::ToDIPs(zaf::Rect::FromRECT(monitor_info.rcWork), this->GetDPI());
+    auto window_rect = this->Rect();
+
+    //Adjust horizontal coordinations.
+    if (window_rect.Left() < screen_rect.Left()) {
+        window_rect.position.x = screen_rect.Left();
+    }
+    else if (window_rect.Right() >= screen_rect.Right()) {
+        window_rect.position.x = screen_rect.Right() - window_rect.size.width;
+    }
+
+    //Adjust vertical coordinations.
+    if (window_rect.Top() < screen_rect.Top()) {
+        window_rect.position.y = screen_rect.Top();
+    }
+    else if (window_rect.Bottom() >= screen_rect.Bottom()) {
+        window_rect.position.y = screen_rect.Bottom() - window_rect.size.height;
+    }
+
+    this->SetPosition(window_rect.position);
 }
 
 
