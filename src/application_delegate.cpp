@@ -12,7 +12,7 @@
 #include "main/main_window.h"
 #include "module/user_defined/bundle_definition.h"
 #include "module/user_defined/import/import_bundle_window.h"
-#include "option_window.h"
+#include "option/option_window.h"
 #include "registry_define.h"
 #include "resource.h"
 #include "tray_icon.h"

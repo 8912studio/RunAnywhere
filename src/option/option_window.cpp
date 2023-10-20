@@ -1,10 +1,10 @@
-#include "option_window.h"
+#include "option/option_window.h"
 #include <zaf/application.h>
 #include <zaf/base/registry/registry.h>
 #include <zaf/object/type_definition.h>
 #include "entry/register_entry.h"
 #include "hot_key_manager.h"
-#include "option_storage.h"
+#include "option/option_storage.h"
 
 namespace ra {
 namespace {
@@ -22,7 +22,7 @@ std::wstring GetAutoRunPath() {
 }
 
 ZAF_DEFINE_TYPE(OptionWindow)
-ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///option_window.xaml")
+ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///option/option_window.xaml")
 ZAF_DEFINE_TYPE_END
 
 std::weak_ptr<OptionWindow> g_instance;

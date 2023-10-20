@@ -20,7 +20,7 @@
 #include "module/common/copy_executor.h"
 #include "module/meta/meta_module.h"
 #include "module/user_defined/user_defined_module.h"
-#include "option_storage.h"
+#include "option/option_storage.h"
 
 namespace ra {
 

@@ -300,9 +300,6 @@
     <ClInclude Include="src\about_window.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\option_window.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="src\preview_view.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -385,9 +382,6 @@
       <Filter>src\module\extension</Filter>
     </ClInclude>
     <ClInclude Include="src\environment_variable_manager.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\option_storage.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\module\user_defined\bundle_parser.h">
@@ -915,6 +909,12 @@
     <ClInclude Include="src\option\option_text_box.h">
       <Filter>src\option</Filter>
     </ClInclude>
+    <ClInclude Include="src\option\option_storage.h">
+      <Filter>src\option</Filter>
+    </ClInclude>
+    <ClInclude Include="src\option\option_window.h">
+      <Filter>src\option</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -1025,9 +1025,6 @@
     <ClCompile Include="src\about_window.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\option_window.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="src\preview_view.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -1089,9 +1086,6 @@
       <Filter>src\module\extension</Filter>
     </ClCompile>
     <ClCompile Include="src\environment_variable_manager.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\option_storage.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\module\user_defined\bundle_parser.cpp">
@@ -1487,6 +1481,12 @@
     <ClCompile Include="src\option\option_text_box.cpp">
       <Filter>src\option</Filter>
     </ClCompile>
+    <ClCompile Include="src\option\option_storage.cpp">
+      <Filter>src\option</Filter>
+    </ClCompile>
+    <ClCompile Include="src\option\option_window.cpp">
+      <Filter>src\option</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Page Include="src\module\user_defined\preview\user_defined_command_preview_control.xaml">
@@ -1496,9 +1496,6 @@
       <Filter>src\module\calculator\preview</Filter>
     </Page>
     <Page Include="src\about_window.xaml">
-      <Filter>src</Filter>
-    </Page>
-    <Page Include="src\option_window.xaml">
       <Filter>src</Filter>
     </Page>
     <Page Include="src\preview_view.xaml">
@@ -1566,6 +1563,9 @@
     </Page>
     <Page Include="src\module\chat_gpt\chat_gpt_preview_control.xaml">
       <Filter>src\module\chat_gpt</Filter>
+    </Page>
+    <Page Include="src\option\option_window.xaml">
+      <Filter>src\option</Filter>
     </Page>
   </ItemGroup>
   <ItemGroup>

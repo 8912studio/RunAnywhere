@@ -4,7 +4,7 @@
 #include "about_window.h"
 #include "application_delegate.h"
 #include "main/main_window.h"
-#include "option_window.h"
+#include "option/option_window.h"
 
 namespace ra::mod::meta {
 namespace {
