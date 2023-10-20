@@ -10,7 +10,7 @@
 #include "hot_key_box.h"
 #include "option/option_text_box.h"
 
-namespace ra {
+namespace ra::option {
 
 class OptionWindow : public zaf::Dialog {
 public:

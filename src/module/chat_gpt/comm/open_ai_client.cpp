@@ -61,7 +61,7 @@ zaf::Observable<ChatCompletion> OpenAIClient::CreateChatCompletion(
 
     zaf::ReplaySubject<ChatCompletion> subject;
 
-    auto api_key = zaf::ToUTF8String(OptionStorage::Instance().OpenAIAPIKey());
+    auto api_key = zaf::ToUTF8String(option::OptionStorage::Instance().OpenAIAPIKey());
 
     auto connection = std::make_shared<curlion::HttpConnection>();
     connection->SetUrl("https://api.openai.com/v1/chat/completions");
@@ -70,7 +70,7 @@ zaf::Observable<ChatCompletion> OpenAIClient::CreateChatCompletion(
         { "Authorization", "Bearer " + api_key },
     });
 
-    auto proxy = OptionStorage::Instance().Proxy();
+    auto proxy = option::OptionStorage::Instance().Proxy();
     if (!proxy.empty()) {
         connection->SetProxy(zaf::ToUTF8String(proxy));
     }

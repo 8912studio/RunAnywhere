@@ -3,7 +3,7 @@
 #include <zaf/base/registry/registry.h>
 #include "registry_define.h"
 
-namespace ra {
+namespace ra::option {
 namespace {
 
 constexpr const wchar_t* AutoHideValueName = L"AutoHideOnLostFocus";

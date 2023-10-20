@@ -6,7 +6,7 @@
 #include "hot_key_manager.h"
 #include "option/option_storage.h"
 
-namespace ra {
+namespace ra::option {
 namespace {
 
 constexpr const wchar_t* const AutoRunRegistryPath =

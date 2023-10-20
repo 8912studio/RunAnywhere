@@ -30,7 +30,7 @@ std::vector<MetaCommandInfo> CreateMetaCommandInfos() {
             L"option",
             L"Show option window",
             []() {
-                OptionWindow::ShowInstance();
+                option::OptionWindow::ShowInstance();
             }
         },
         /*

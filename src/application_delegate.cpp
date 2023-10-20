@@ -142,7 +142,7 @@ void ApplicationDelegate::InitializeTrayIconWindow() {
                 break;
 
             case NIN_BALLOONUSERCLICK:
-                ra::OptionWindow::ShowInstance();
+                ra::option::OptionWindow::ShowInstance();
                 break;
             }
         }
@@ -154,7 +154,7 @@ void ApplicationDelegate::InitializeTrayIconWindow() {
                 break;
 
             case ID_TRAYICON_OPTION:
-                ra::OptionWindow::ShowInstance();
+                ra::option::OptionWindow::ShowInstance();
                 break;
 
             case ID_TRAYICON_ABOUT:

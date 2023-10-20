@@ -360,7 +360,7 @@ void MainWindow::ExecuteCommand() {
         return;
     }
 
-    if (!OptionStorage::Instance().RememberLastCommand()) {
+    if (!option::OptionStorage::Instance().RememberLastCommand()) {
         inputEdit->SetText({});
     }
     this->Hide();
@@ -387,7 +387,7 @@ void MainWindow::PreserveCurrentCommand() {
     {
         auto update_guard = preservedCommandsView->BeginUpdate();
 
-        auto max_count = OptionStorage::Instance().MaxPreservedCommandCount();
+        auto max_count = option::OptionStorage::Instance().MaxPreservedCommandCount();
         while (preservedCommandsView->ChildCount() >= max_count) {
             preservedCommandsView->RemoveChildAtIndex(0);
         }
@@ -566,7 +566,7 @@ void MainWindow::OnDeactivated(const zaf::DeactivatedInfo& event_info) {
 
     __super::OnDeactivated(event_info);
 
-    if (!OptionStorage::Instance().AutoHideOnLostFocus()) {
+    if (!option::OptionStorage::Instance().AutoHideOnLostFocus()) {
         return;
     }
 

@@ -3,7 +3,7 @@
 #include <optional>
 #include <zaf/base/registry/registry_key.h>
 
-namespace ra {
+namespace ra::option {
 
 class OptionStorage {
 public:
