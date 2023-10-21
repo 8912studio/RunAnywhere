@@ -113,6 +113,7 @@ void HelpWindow::SetContent(const HelpContent& content) {
     auto last_content_id = content_id_;
     content_id_ = content.ID();
     markdown_region_ = MarkdownRegion::Create(*content.Element(), GetHelpStyleConfig());
+    markdown_region_->SetPadding(zaf::Frame{ 12, 12, 2, 12 });
 
     const auto& scroll_content = scroll_control_->ScrollContent();
     scroll_content->RemoveAllChildren();

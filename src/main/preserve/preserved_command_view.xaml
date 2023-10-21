@@ -2,8 +2,8 @@
     Layouter="VerticalLayouter" 
     AutoHeight="true"
     Padding="0,0,0,6">
-    <Control FixedHeight="1" Margin="10,0,10,6" BackgroundColor="#DDDDDD" />
-    <HorizontalBox Padding="15,0,10,0" AutoHeight="true" CrossAxisAlignment="Center">
+    <Control FixedHeight="1" Margin="10,0,2,6" BackgroundColor="#DDDDDD" />
+    <HorizontalBox Padding="15,0,4,0" AutoHeight="true" CrossAxisAlignment="Center">
         <Control 
             FixedSize="8,16"
             BackgroundImage="res:///resource/preserved_command.png"

@@ -9,8 +9,6 @@
 
     <PreservedCommandListView 
         Name="preservedCommandListView"
-        AutoHeight="true" 
-        BackgroundColor="#F5F5F5"
         IsVisible="false" />
     
     <HorizontalBox FixedHeight="58" Padding="5,10,15,0" >

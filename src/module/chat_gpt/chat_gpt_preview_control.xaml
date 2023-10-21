@@ -1,16 +1,2 @@
-<ChatGPTPreviewControl Layouter="VerticalLayouter" FixedHeight="100">
-    <ScrollableControl 
-        Border="0"
-        AllowHorizontalScroll="false"
-        VerticalScrollBarThickness="10">
-        <ScrollableControl.VerticalScrollBar>
-            <ThinScrollBar />
-        </ScrollableControl.VerticalScrollBar>
-        <ScrollableControl.ScrollContent>
-            <TextBox 
-                Name="answerControl" 
-                WordWrapping="Wrap"
-                FontSize="14" />
-        </ScrollableControl.ScrollContent>
-    </ScrollableControl>
+<ChatGPTPreviewControl Layouter="VerticalLayouter" BackgroundColor="White">
 </ChatGPTPreviewControl>

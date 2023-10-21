@@ -13,7 +13,7 @@ void ThinScrollControl::AfterParse() {
     __super::AfterParse();
 
     this->SetBorder({});
-
+    this->SetScrollBarThickness(10);
     this->SetVerticalScrollBar(zaf::Create<ThinScrollBar>());
     this->SetHorizontalScrollBar(zaf::Create<ThinScrollBar>());
 }

@@ -27,8 +27,6 @@ void MarkdownRegion::Initialize() {
     __super::Initialize();
 
     this->SetLayouter(zaf::Create<zaf::VerticalLayouter>());
-    this->SetPadding(zaf::Frame{ 12, 12, 2, 12 });
-
     AddChild(body_region_);
 }
 
