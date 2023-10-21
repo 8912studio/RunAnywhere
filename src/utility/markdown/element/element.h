@@ -7,7 +7,7 @@
 #include <zaf/base/non_copyable.h>
 #include "utility/markdown/element/element_type.h"
 
-namespace ra::help::markdown::element {
+namespace ra::utility::markdown::element {
 
 class Element;
 using ElementList = std::vector<std::shared_ptr<Element>>;

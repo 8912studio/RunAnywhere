@@ -2,7 +2,7 @@
 
 #include "utility/markdown/parse/list_parser.h"
 
-namespace ra::help::markdown::parse {
+namespace ra::utility::markdown::parse {
 
 class OrderedListParser : public ListParser {
 protected:

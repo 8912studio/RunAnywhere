@@ -28,7 +28,7 @@ std::wstring ExtensionCommand::GetKeyword() {
 
 
 help::HelpContent ExtensionCommand::GetHelpContent() {
-    return { L"", help::markdown::element::MakeRoot({}) };
+    return { L"", utility::markdown::element::MakeRoot({}) };
 }
 
 

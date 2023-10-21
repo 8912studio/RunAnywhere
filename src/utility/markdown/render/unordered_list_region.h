@@ -4,7 +4,7 @@
 #include "utility/markdown/render/compound_region.h"
 #include "utility/markdown/render/style_config.h"
 
-namespace ra::help::markdown::render {
+namespace ra::utility::markdown::render {
 
 class UnorderedListRegion : public CompoundRegion {
 public:

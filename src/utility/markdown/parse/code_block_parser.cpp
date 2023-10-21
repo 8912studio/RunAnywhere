@@ -2,7 +2,7 @@
 #include <zaf/base/error/check.h>
 #include "utility/markdown/element/factory.h"
 
-namespace ra::help::markdown::parse {
+namespace ra::utility::markdown::parse {
 
 CodeBlockParser::Status CodeBlockParser::ParseOneLine(ParseContext& context) {
 

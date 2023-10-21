@@ -5,7 +5,7 @@
 #include "utility/markdown/parse/empty_line_info.h"
 #include "utility/markdown/parse/parse_context.h"
 
-namespace ra::help::markdown::parse {
+namespace ra::utility::markdown::parse {
 
 /**
 Base class of block element parsers.

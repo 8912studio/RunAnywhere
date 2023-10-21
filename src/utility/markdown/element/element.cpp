@@ -3,7 +3,7 @@
 #include <zaf/base/range.h>
 #include "utility/markdown/element/header_element.h"
 
-namespace ra::help::markdown::element {
+namespace ra::utility::markdown::element {
 
 Element::Element(std::wstring text) : type_(ElementType::Text), data_(std::move(text)) {
 

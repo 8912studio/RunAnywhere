@@ -6,7 +6,7 @@
 #include <zaf/graphic/font/font.h>
 #include "utility/markdown/element/header_element.h"
 
-namespace ra::help::markdown::render {
+namespace ra::utility::markdown::render {
 
 class StyleConfig {
 public:

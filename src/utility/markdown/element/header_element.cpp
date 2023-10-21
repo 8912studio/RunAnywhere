@@ -1,6 +1,6 @@
 #include "utility/markdown/element/header_element.h"
 
-namespace ra::help::markdown::element {
+namespace ra::utility::markdown::element {
 
 HeaderElement::HeaderElement(HeaderDepth depth, ElementList children) :
     Element(ElementType::Header, std::move(children)),

@@ -3,7 +3,7 @@
 #include "utility/markdown/element/factory.h"
 #include "utility/markdown/parse/ordered_list_item_parser.h"
 
-namespace ra::help::markdown::parse {
+namespace ra::utility::markdown::parse {
 
 std::unique_ptr<ListItemParser> OrderedListParser::CreateFirstItemParser(ParseContext& context) {
     return CreateItemParser(context);

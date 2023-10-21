@@ -4,7 +4,7 @@
 #include <zaf/graphic/color.h>
 #include <zaf/graphic/font/font.h>
 
-namespace ra::help::markdown::render {
+namespace ra::utility::markdown::render {
 
 class TextStyle {
 public:

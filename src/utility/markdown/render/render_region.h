@@ -2,7 +2,7 @@
 
 #include <zaf/control/control.h>
 
-namespace ra::help::markdown::render {
+namespace ra::utility::markdown::render {
 
 class RenderRegion : public zaf::Control {
 

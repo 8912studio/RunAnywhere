@@ -46,7 +46,7 @@ std::vector<CommandBrief> MetaModule::QuerySuggestedCommands(const std::wstring&
 
         result.emplace_back(
             MetaCommandPrefix + each_info.command,
-            help::markdown::element::MakeParagraph(each_info.description));
+            utility::markdown::element::MakeParagraph(each_info.description));
     }
 
     return result;

@@ -2,7 +2,7 @@
 #include <zaf/base/error/check.h>
 #include <zaf/creation.h>
 
-namespace ra::help::markdown::render {
+namespace ra::utility::markdown::render {
 
 std::shared_ptr<HeaderRegion> HeaderRegion::Create(
     const element::Element& element,

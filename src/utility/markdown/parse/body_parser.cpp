@@ -5,7 +5,7 @@
 #include "utility/markdown/parse/header_parser.h"
 #include "utility/markdown/parse/paragraph_parser.h"
 
-namespace ra::help::markdown::parse {
+namespace ra::utility::markdown::parse {
 
 void BodyParser::ParseOneLine(ParseContext& context) {
 

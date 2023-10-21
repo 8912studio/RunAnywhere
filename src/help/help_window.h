@@ -16,7 +16,7 @@ public:
 
     void SetContent(const HelpContent& content);
 
-    void SetContent(std::wstring content_id, const markdown::element::Element& content);
+    void SetContent(std::wstring content_id, const utility::markdown::element::Element& content);
 
     void ScrollLine(bool scroll_up);
     void ScrollPage(bool scroll_up);
@@ -41,7 +41,7 @@ private:
     ZAF_BIND_CONTROL(zaf::Control, pageUpButton);
 
     std::shared_ptr<zaf::ScrollableControl> scroll_control_;
-    std::shared_ptr<markdown::render::MarkdownRegion> markdown_region_;
+    std::shared_ptr<utility::markdown::render::MarkdownRegion> markdown_region_;
     std::wstring content_id_;
     bool is_setting_content_{};
     std::wstring last_scroll_content_id_;

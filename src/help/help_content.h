@@ -8,7 +8,7 @@ namespace ra::help {
 
 class HelpContent {
 public:
-    HelpContent(std::wstring id, std::shared_ptr<markdown::element::Element> element) :
+    HelpContent(std::wstring id, std::shared_ptr<utility::markdown::element::Element> element) :
         id_(std::move(id)),
         element_(std::move(element)) {
 
@@ -19,13 +19,13 @@ public:
         return id_;
     }
 
-    const std::shared_ptr<markdown::element::Element>& Element() const {
+    const std::shared_ptr<utility::markdown::element::Element>& Element() const {
         return element_;
     }
 
 private:
     std::wstring id_;
-    std::shared_ptr<markdown::element::Element> element_;
+    std::shared_ptr<utility::markdown::element::Element> element_;
 };
 
 }

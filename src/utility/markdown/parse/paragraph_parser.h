@@ -2,7 +2,7 @@
 
 #include "utility/markdown/parse/block_parser.h"
 
-namespace ra::help::markdown::parse {
+namespace ra::utility::markdown::parse {
 
 class ParagraphParser : public BlockParser {
 public:

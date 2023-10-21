@@ -1,7 +1,7 @@
 #include "utility/markdown/element/list_element.h"
 #include <zaf/base/error/check.h>
 
-namespace ra::help::markdown::element {
+namespace ra::utility::markdown::element {
 
 ListElement::ListElement(ElementType type, ElementList children, ListItemStyle item_style) :
     Element(type, std::move(children)),

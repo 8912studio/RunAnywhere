@@ -2,7 +2,7 @@
 #include <zaf/base/error/check.h>
 #include <zaf/creation.h>
 
-namespace ra::help::markdown::render {
+namespace ra::utility::markdown::render {
 namespace {
 
 //We fail to find a proper way to calculate the default line height,

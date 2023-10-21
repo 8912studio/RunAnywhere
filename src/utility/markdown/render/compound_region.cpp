@@ -1,6 +1,6 @@
 #include "utility/markdown/render/compound_region.h"
 
-namespace ra::help::markdown::render {
+namespace ra::utility::markdown::render {
 
 CompoundRegion::CompoundRegion(std::vector<std::shared_ptr<RenderRegion>> child_regions) :
     child_regions_(std::move(child_regions)) {

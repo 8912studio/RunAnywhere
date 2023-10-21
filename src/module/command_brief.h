@@ -9,7 +9,7 @@ class CommandBrief {
 public:
     CommandBrief(
         std::wstring keyword,
-        std::shared_ptr<help::markdown::element::Element> description);
+        std::shared_ptr<utility::markdown::element::Element> description);
 
     CommandBrief(std::wstring keyword, std::wstring description);
 
@@ -17,13 +17,13 @@ public:
         return keyword_;
     }
 
-    const std::shared_ptr<help::markdown::element::Element>& Description() const {
+    const std::shared_ptr<utility::markdown::element::Element>& Description() const {
         return description_;
     }
 
 private:
     std::wstring keyword_;
-    std::shared_ptr<help::markdown::element::Element> description_;
+    std::shared_ptr<utility::markdown::element::Element> description_;
 };
 
 }

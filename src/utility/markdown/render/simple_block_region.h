@@ -7,7 +7,7 @@
 #include "utility/markdown/render/styled_text.h"
 #include "utility/markdown/render/styled_text_box.h"
 
-namespace ra::help::markdown::render {
+namespace ra::utility::markdown::render {
 
 class SimpleBlockRegion : public RenderRegion {
 public:

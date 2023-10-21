@@ -3,16 +3,16 @@
 #include <zaf/base/container/utility/sort.h>
 #include "utility/markdown/element/factory.h"
 
-using namespace ra::help::markdown::element;
+using namespace ra::utility::markdown::element;
 
 namespace ra::help {
 
-std::shared_ptr<markdown::element::Element> GetNoHelpContentParagraph() {
+std::shared_ptr<Element> GetNoHelpContentParagraph() {
     return MakeParagraph({ MakeItalic(L"No help content.") });
 }
 
 
-std::shared_ptr<markdown::element::Element> BuildDescriptionParagraph(std::wstring description) {
+std::shared_ptr<Element> BuildDescriptionParagraph(std::wstring description) {
     if (!description.empty()) {
         return MakeParagraph(std::move(description));
     }

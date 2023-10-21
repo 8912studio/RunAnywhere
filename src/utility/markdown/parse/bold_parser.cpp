@@ -1,7 +1,7 @@
 #include "utility/markdown/parse/bold_parser.h"
 #include "utility/markdown/parse/inline_code_parser.h"
 
-namespace ra::help::markdown::parse {
+namespace ra::utility::markdown::parse {
 
 ElementParser* BoldParser::Instance() {
     static BoldParser instance;

@@ -4,7 +4,7 @@
 #include <string_view>
 #include <zaf/base/non_copyable.h>
 
-namespace ra::help::markdown::parse {
+namespace ra::utility::markdown::parse {
 
 class ParseContext : zaf::NonCopyableNonMovable {
 public:

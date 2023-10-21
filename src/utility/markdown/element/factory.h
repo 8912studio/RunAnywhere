@@ -4,7 +4,7 @@
 #include "utility/markdown/element/header_element.h"
 #include "utility/markdown/element/list_element.h"
 
-namespace ra::help::markdown::element {
+namespace ra::utility::markdown::element {
 
 inline std::shared_ptr<Element> MakeRoot(ElementList children) {
     return std::make_shared<Element>(ElementType::Root, std::move(children));

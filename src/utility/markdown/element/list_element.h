@@ -2,7 +2,7 @@
 
 #include "utility/markdown/element/element.h"
 
-namespace ra::help::markdown::element {
+namespace ra::utility::markdown::element {
 
 enum class ListItemStyle {
     Lines,

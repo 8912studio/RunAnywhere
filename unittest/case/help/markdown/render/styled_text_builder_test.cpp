@@ -2,8 +2,8 @@
 #include "utility/markdown/element/factory.h"
 #include "utility/markdown/render/styled_text_builder.h"
 
-using namespace ra::help::markdown::element;
-using namespace ra::help::markdown::render;
+using namespace ra::utility::markdown::element;
+using namespace ra::utility::markdown::render;
 
 TEST(StyledTextBuilderTest, Build) {
 

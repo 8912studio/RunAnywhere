@@ -3,7 +3,7 @@
 #include "utility/markdown/parse/inline_code_parser.h"
 #include "utility/markdown/parse/italic_parser.h"
 
-namespace ra::help::markdown::parse {
+namespace ra::utility::markdown::parse {
 
 ElementParser* SpanElementParser::Instance() {
     static SpanElementParser instance;

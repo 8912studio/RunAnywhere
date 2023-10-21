@@ -3,7 +3,7 @@
 #include <zaf/control/layout/linear_layouter.h>
 #include <zaf/creation.h>
 
-namespace ra::help::markdown::render {
+namespace ra::utility::markdown::render {
 
 std::shared_ptr<CodeBlockRegion> CodeBlockRegion::Create(
     const element::Element& element, 

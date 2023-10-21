@@ -5,7 +5,7 @@
 #include "utility/markdown/parse/parse_context.h"
 #include "module/calculator/parse/parse_status.h"
 
-namespace ra::help::markdown::parse {
+namespace ra::utility::markdown::parse {
 
 class ElementParser : zaf::NonCopyableNonMovable {
 public:

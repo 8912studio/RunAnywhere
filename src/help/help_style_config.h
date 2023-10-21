@@ -4,6 +4,6 @@
 
 namespace ra::help {
 
-const markdown::render::StyleConfig& GetHelpStyleConfig();
+const utility::markdown::render::StyleConfig& GetHelpStyleConfig();
 
 }

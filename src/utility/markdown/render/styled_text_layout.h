@@ -2,7 +2,7 @@
 
 #include <zaf/graphic/text/text_layout.h>
 
-namespace ra::help::markdown::render {
+namespace ra::utility::markdown::render {
 
 class StyledTextLayout {
 public:

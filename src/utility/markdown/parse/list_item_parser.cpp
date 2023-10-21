@@ -3,7 +3,7 @@
 #include "utility/markdown/element/factory.h"
 #include "utility/markdown/parse/body_parser.h"
 
-namespace ra::help::markdown::parse {
+namespace ra::utility::markdown::parse {
 
 ListItemParser::Status ListItemParser::ParseOneLine(ParseContext& context) {
 

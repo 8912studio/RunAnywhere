@@ -3,7 +3,7 @@
 #include <zaf/base/error/check.h>
 #include "utility/markdown/element/header_element.h"
 
-namespace ra::help::markdown::render {
+namespace ra::utility::markdown::render {
 
 StyledText StyledTextBuilder::Build(
     const element::Element& element, 

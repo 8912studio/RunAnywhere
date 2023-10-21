@@ -5,7 +5,7 @@
 #include <zaf/graphic/canvas.h>
 #include "utility/markdown/render/styled_text_builder.h"
 
-namespace ra::help::markdown::render {
+namespace ra::utility::markdown::render {
 
 void SimpleBlockRegion::Initialize() {
 

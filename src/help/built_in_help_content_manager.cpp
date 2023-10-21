@@ -8,8 +8,8 @@
 #include "utility/markdown/element/factory.h"
 #include "utility/markdown/parse/markdown_parser.h"
 
-using namespace ra::help::markdown::element;
-using namespace ra::help::markdown::parse;
+using namespace ra::utility::markdown::element;
+using namespace ra::utility::markdown::parse;
 
 namespace ra::help {
 
@@ -19,7 +19,7 @@ BuiltInHelpContentManager& BuiltInHelpContentManager::Instance() {
 }
 
 
-std::shared_ptr<markdown::element::Element> BuiltInHelpContentManager::GetDescription(
+std::shared_ptr<Element> BuiltInHelpContentManager::GetDescription(
     const std::wstring& command) {
 
     return GetHelpContent(command).description;
@@ -112,8 +112,7 @@ ElementList BuiltInHelpContentManager::RemoveContentBeforeHeader(const ElementLi
 }
 
 
-std::shared_ptr<markdown::element::Element> BuiltInHelpContentManager::GetDescriptionFromDetail(
-    const markdown::element::Element& root) {
+std::shared_ptr<Element> BuiltInHelpContentManager::GetDescriptionFromDetail(const Element& root) {
 
     ZAF_EXPECT(root.Type() == ElementType::Root);
 

@@ -2,7 +2,7 @@
 
 #include "utility/markdown/parse/emphasis_parser.h"
 
-namespace ra::help::markdown::parse {
+namespace ra::utility::markdown::parse {
 
 class BoldParser : public EmphasisParser {
 public:

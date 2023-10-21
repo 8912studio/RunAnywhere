@@ -6,7 +6,7 @@
 #include "utility/markdown/element/list_element.h"
 #include "utility/markdown/render/list_item_region.h"
 
-namespace ra::help::markdown::render {
+namespace ra::utility::markdown::render {
 
 std::shared_ptr<UnorderedListRegion> UnorderedListRegion::Create(
     const element::Element& element, 

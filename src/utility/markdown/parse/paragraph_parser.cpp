@@ -4,7 +4,7 @@
 #include "utility/markdown/element/factory.h"
 #include "utility/markdown/parse/span_element_parser.h"
 
-namespace ra::help::markdown::parse {
+namespace ra::utility::markdown::parse {
 
 ParagraphParser::Status ParagraphParser::ParseOneLine(ParseContext& context) {
     

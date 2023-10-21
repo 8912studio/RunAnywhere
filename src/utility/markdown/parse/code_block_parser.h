@@ -3,7 +3,7 @@
 #include <optional>
 #include "utility/markdown/parse/block_parser.h"
 
-namespace ra::help::markdown::parse {
+namespace ra::utility::markdown::parse {
 
 class CodeBlockParser : public BlockParser {
 public:

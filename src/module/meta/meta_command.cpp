@@ -2,7 +2,7 @@
 #include "module/meta/meta_command_prefix.h"
 #include "utility/markdown/element/factory.h"
 
-using namespace ra::help::markdown::element;
+using namespace ra::utility::markdown::element;
 
 namespace ra::mod::meta {
 namespace {

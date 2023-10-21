@@ -5,7 +5,7 @@
 #include "utility/markdown/element/element.h"
 #include "utility/markdown/render/body_region.h"
 
-namespace ra::help::markdown::render {
+namespace ra::utility::markdown::render {
 
 class MarkdownRegion : public RenderRegion {
 public:

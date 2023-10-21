@@ -2,7 +2,7 @@
 #include <zaf/base/error/check.h>
 #include <zaf/creation.h>
 
-namespace ra::help::markdown::render {
+namespace ra::utility::markdown::render {
 
 std::shared_ptr<ListItemRegion> ListItemRegion::Create(
     const std::wstring& item_identity,

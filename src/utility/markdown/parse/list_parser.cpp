@@ -1,7 +1,7 @@
 #include "utility/markdown/parse/list_parser.h" 
 #include <zaf/base/error/check.h>
 
-namespace ra::help::markdown::parse {
+namespace ra::utility::markdown::parse {
 
 ListParser::Status ListParser::ParseOneLine(ParseContext& context) {
 

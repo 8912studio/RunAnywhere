@@ -1,7 +1,7 @@
 #include "help/help_style_config.h"
 #include <zaf/base/range.h>
 
-using namespace ra::help::markdown::render;
+using namespace ra::utility::markdown::render;
 
 namespace ra::help {
 namespace {

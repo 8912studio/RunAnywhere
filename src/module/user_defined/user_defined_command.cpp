@@ -14,7 +14,7 @@
 #include "module/user_defined/parse/variable_formatter.h"
 #include "module/user_defined/preview/user_defined_command_preview_control.h"
 
-using namespace ra::help::markdown::element;
+using namespace ra::utility::markdown::element;
 
 namespace ra::mod::user_defined {
 namespace {

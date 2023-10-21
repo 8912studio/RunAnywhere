@@ -11,7 +11,7 @@
 #include "utility/markdown/parse/parse_context.h"
 #include "utility/markdown/parse/unordered_list_parser.h"
 
-namespace ra::help::markdown::parse {
+namespace ra::utility::markdown::parse {
 
 class BodyParser : zaf::NonCopyableNonMovable {
 public:

@@ -4,7 +4,7 @@
 #include <zaf/base/range.h>
 #include "utility/markdown/render/text_style.h"
 
-namespace ra::help::markdown::render {
+namespace ra::utility::markdown::render {
 
 class RangedTextStyle {
 public:

@@ -7,7 +7,7 @@
 #include "utility/markdown/render/paragraph_region.h"
 #include "utility/markdown/render/unordered_list_region.h"
 
-namespace ra::help::markdown::render {
+namespace ra::utility::markdown::render {
 
 std::shared_ptr<BodyRegion> BodyRegion::Create(
     const element::ElementList& block_elements, 

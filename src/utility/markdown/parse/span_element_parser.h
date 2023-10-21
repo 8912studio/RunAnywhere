@@ -2,7 +2,7 @@
 
 #include "utility/markdown/parse/element_parser.h"
 
-namespace ra::help::markdown::parse {
+namespace ra::utility::markdown::parse {
 
 class SpanElementParser : public ElementParser {
 public:

@@ -18,7 +18,7 @@ std::wstring ChatGPTCommand::GetKeyword() {
 help::HelpContent ChatGPTCommand::GetHelpContent() {
     return help::HelpContent{
         L"",
-        help::markdown::element::MakeRoot({})
+        utility::markdown::element::MakeRoot({})
     };
 }
 

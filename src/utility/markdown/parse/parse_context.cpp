@@ -1,6 +1,6 @@
 #include "utility/markdown/parse/parse_context.h"
 
-namespace ra::help::markdown::parse {
+namespace ra::utility::markdown::parse {
 
 ParseContext::ParseContext(std::wstring_view input) : 
     input_(input),

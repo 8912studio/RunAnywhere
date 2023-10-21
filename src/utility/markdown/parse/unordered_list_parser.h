@@ -3,7 +3,7 @@
 #include <optional>
 #include "utility/markdown/parse/list_parser.h"
 
-namespace ra::help::markdown::parse {
+namespace ra::utility::markdown::parse {
 
 class UnorderedListParser : public ListParser {
 protected:

@@ -6,7 +6,7 @@
 #include "utility/markdown/render/style_config.h"
 #include "utility/markdown/render/text_style.h"
 
-namespace ra::help::markdown::render {
+namespace ra::utility::markdown::render {
 
 class CodeBlockRegion : public RenderRegion {
 public:

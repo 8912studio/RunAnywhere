@@ -1,6 +1,6 @@
 #pragma once
 
-namespace ra::help::markdown::element {
+namespace ra::utility::markdown::element {
 
 enum class ElementType {
 

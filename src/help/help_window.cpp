@@ -8,7 +8,7 @@
 #include <zaf/rx/scheduler.h>
 #include "help/help_style_config.h"
 
-using namespace ra::help::markdown::render;
+using namespace ra::utility::markdown::render;
 
 namespace ra::help {
 

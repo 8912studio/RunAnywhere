@@ -1,7 +1,7 @@
 #include "utility/markdown/render/styled_text_box.h"
 #include <zaf/graphic/canvas.h>
 
-namespace ra::help::markdown::render {
+namespace ra::utility::markdown::render {
 
 void StyledTextBox::Initialize() {
 

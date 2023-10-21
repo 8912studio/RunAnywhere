@@ -4,7 +4,7 @@
 #include "utility/markdown/parse/block_parser.h"
 #include "utility/markdown/parse/list_item_parser.h"
 
-namespace ra::help::markdown::parse {
+namespace ra::utility::markdown::parse {
 
 class ListParser : public BlockParser {
 public:

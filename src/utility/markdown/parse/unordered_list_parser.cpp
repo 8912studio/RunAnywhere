@@ -3,7 +3,7 @@
 #include "utility/markdown/element/factory.h"
 #include "utility/markdown/parse/unordered_list_item_parser.h"
 
-namespace ra::help::markdown::parse {
+namespace ra::utility::markdown::parse {
 
 std::unique_ptr<ListItemParser> UnorderedListParser::CreateFirstItemParser(ParseContext& context) {
 

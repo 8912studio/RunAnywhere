@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include "utility/markdown/parse/parse_context.h"
 
-using namespace ra::help::markdown::parse;
+using namespace ra::utility::markdown::parse;
 
 TEST(ParseContextTest, LineBreak) {
 

@@ -4,8 +4,8 @@
 #include "utility/markdown/element/header_element.h"
 #include "utility/markdown/parse/header_parser.h"
 
-using namespace ra::help::markdown::element;
-using namespace ra::help::markdown::parse;
+using namespace ra::utility::markdown::element;
+using namespace ra::utility::markdown::parse;
 
 TEST(HeaderParserTest, Success) {
 

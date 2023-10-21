@@ -1,7 +1,7 @@
 #include "utility/markdown/parse/emphasis_parser.h"
 #include "utility/markdown/element/factory.h"
 
-namespace ra::help::markdown::parse {
+namespace ra::utility::markdown::parse {
 
 std::shared_ptr<element::Element> EmphasisParser::Parse(ParseContext& context) {
 

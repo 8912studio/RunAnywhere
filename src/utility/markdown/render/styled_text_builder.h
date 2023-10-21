@@ -4,7 +4,7 @@
 #include "utility/markdown/render/style_config.h"
 #include "utility/markdown/render/styled_text.h"
 
-namespace ra::help::markdown::render {
+namespace ra::utility::markdown::render {
 
 class StyledTextBuilder {
 public:

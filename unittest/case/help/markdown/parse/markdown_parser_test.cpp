@@ -5,8 +5,8 @@
 #include "utility/markdown/element/factory.h"
 #include "utility/markdown/parse/markdown_parser.h"
 
-using namespace ra::help::markdown::element;
-using namespace ra::help::markdown::parse;
+using namespace ra::utility::markdown::element;
+using namespace ra::utility::markdown::parse;
 
 namespace {
 

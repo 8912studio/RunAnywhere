@@ -1,6 +1,6 @@
 #include "utility/markdown/parse/ordered_list_item_parser.h"
 
-namespace ra::help::markdown::parse {
+namespace ra::utility::markdown::parse {
 namespace {
 
 bool IsDigitChar(wchar_t ch) {

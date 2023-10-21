@@ -2,7 +2,7 @@
 #include <zaf/base/string/trim.h>
 #include "utility/markdown/element/factory.h"
 
-namespace ra::help::markdown::parse {
+namespace ra::utility::markdown::parse {
 
 ElementParser* InlineCodeParser::Instance() {
     static InlineCodeParser instance;
