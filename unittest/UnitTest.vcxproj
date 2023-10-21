@@ -45,22 +45,15 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="case\help\markdown\parse\markdown_parser_test_1.md" />
     <None Include="case\module\tool\hash\md5_test_file1" />
     <None Include="case\module\tool\hash\md5_test_file2" />
     <None Include="case\module\tool\hash\md5_test_file3" />
+    <None Include="case\utility\markdown\parse\markdown_parser_test_1.md" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="case\context\discover\window_based_discoverer_test.cpp" />
     <ClCompile Include="case\environment_variable_manager_test.cpp" />
-    <ClCompile Include="case\help\markdown\parse\bold_parser_test.cpp" />
-    <ClCompile Include="case\help\markdown\parse\header_parser_test.cpp" />
-    <ClCompile Include="case\help\markdown\parse\inline_code_parser_test.cpp" />
-    <ClCompile Include="case\help\markdown\parse\italic_parser_test.cpp" />
-    <ClCompile Include="case\help\markdown\parse\markdown_parser_test.cpp" />
-    <ClCompile Include="case\help\markdown\parse\parse_context_test.cpp" />
-    <ClCompile Include="case\help\markdown\render\styled_text_builder_test.cpp" />
     <ClCompile Include="case\main\clipboard_data_test.cpp" />
     <ClCompile Include="case\module\active_path\active_path_modifying_test.cpp" />
     <ClCompile Include="case\module\active_path\active_path_module_test.cpp" />
@@ -103,6 +96,13 @@
     <ClCompile Include="case\module\user_defined\parse\variable_formatter_test.cpp" />
     <ClCompile Include="case\module\user_defined\user_defined_command_test.cpp" />
     <ClCompile Include="case\utility\command_line_test.cpp" />
+    <ClCompile Include="case\utility\markdown\parse\bold_parser_test.cpp" />
+    <ClCompile Include="case\utility\markdown\parse\header_parser_test.cpp" />
+    <ClCompile Include="case\utility\markdown\parse\inline_code_parser_test.cpp" />
+    <ClCompile Include="case\utility\markdown\parse\italic_parser_test.cpp" />
+    <ClCompile Include="case\utility\markdown\parse\markdown_parser_test.cpp" />
+    <ClCompile Include="case\utility\markdown\parse\parse_context_test.cpp" />
+    <ClCompile Include="case\utility\markdown\render\styled_text_builder_test.cpp" />
     <ClCompile Include="case\utility\numeric_text_formatting_test.cpp" />
     <ClCompile Include="case\utility\text_utility_test.cpp" />
     <ClCompile Include="main.cpp" />

@@ -11,8 +11,8 @@
     <None Include="case\module\tool\hash\md5_test_file3">
       <Filter>case\module\tool\hash</Filter>
     </None>
-    <None Include="case\help\markdown\parse\markdown_parser_test_1.md">
-      <Filter>case\help\markdown\parse</Filter>
+    <None Include="case\utility\markdown\parse\markdown_parser_test_1.md">
+      <Filter>case\utility\markdown\parse</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -70,17 +70,14 @@
     <Filter Include="case\module\tool\hash">
       <UniqueIdentifier>{5b062975-2ce3-444a-b73c-c39afac1b09e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="case\help">
-      <UniqueIdentifier>{5c47d535-bab0-477f-bb84-a3cc49584e3e}</UniqueIdentifier>
+    <Filter Include="case\utility\markdown">
+      <UniqueIdentifier>{330aa0a1-f199-43c6-8b5b-9bcda80b9c54}</UniqueIdentifier>
     </Filter>
-    <Filter Include="case\help\markdown">
-      <UniqueIdentifier>{5491b629-16fc-470e-acbd-13da6643d3cd}</UniqueIdentifier>
+    <Filter Include="case\utility\markdown\parse">
+      <UniqueIdentifier>{1f2f2b0c-687a-403a-9c9e-c1c53ca9d156}</UniqueIdentifier>
     </Filter>
-    <Filter Include="case\help\markdown\parse">
-      <UniqueIdentifier>{4726aa79-1822-432f-aba6-de91583582a4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="case\help\markdown\render">
-      <UniqueIdentifier>{dbba97a0-facf-4f63-a4fb-14aac33286e0}</UniqueIdentifier>
+    <Filter Include="case\utility\markdown\render">
+      <UniqueIdentifier>{2f965ecc-b12b-4463-a444-d9a243f4bc10}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -223,26 +220,26 @@
     <ClCompile Include="case\module\tool\hash\sha_command_test.cpp">
       <Filter>case\module\tool\hash</Filter>
     </ClCompile>
-    <ClCompile Include="case\help\markdown\parse\inline_code_parser_test.cpp">
-      <Filter>case\help\markdown\parse</Filter>
+    <ClCompile Include="case\utility\markdown\parse\bold_parser_test.cpp">
+      <Filter>case\utility\markdown\parse</Filter>
     </ClCompile>
-    <ClCompile Include="case\help\markdown\parse\bold_parser_test.cpp">
-      <Filter>case\help\markdown\parse</Filter>
+    <ClCompile Include="case\utility\markdown\parse\header_parser_test.cpp">
+      <Filter>case\utility\markdown\parse</Filter>
     </ClCompile>
-    <ClCompile Include="case\help\markdown\parse\italic_parser_test.cpp">
-      <Filter>case\help\markdown\parse</Filter>
+    <ClCompile Include="case\utility\markdown\parse\inline_code_parser_test.cpp">
+      <Filter>case\utility\markdown\parse</Filter>
     </ClCompile>
-    <ClCompile Include="case\help\markdown\parse\markdown_parser_test.cpp">
-      <Filter>case\help\markdown\parse</Filter>
+    <ClCompile Include="case\utility\markdown\parse\italic_parser_test.cpp">
+      <Filter>case\utility\markdown\parse</Filter>
     </ClCompile>
-    <ClCompile Include="case\help\markdown\parse\parse_context_test.cpp">
-      <Filter>case\help\markdown\parse</Filter>
+    <ClCompile Include="case\utility\markdown\parse\markdown_parser_test.cpp">
+      <Filter>case\utility\markdown\parse</Filter>
     </ClCompile>
-    <ClCompile Include="case\help\markdown\parse\header_parser_test.cpp">
-      <Filter>case\help\markdown\parse</Filter>
+    <ClCompile Include="case\utility\markdown\parse\parse_context_test.cpp">
+      <Filter>case\utility\markdown\parse</Filter>
     </ClCompile>
-    <ClCompile Include="case\help\markdown\render\styled_text_builder_test.cpp">
-      <Filter>case\help\markdown\render</Filter>
+    <ClCompile Include="case\utility\markdown\render\styled_text_builder_test.cpp">
+      <Filter>case\utility\markdown\render</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
