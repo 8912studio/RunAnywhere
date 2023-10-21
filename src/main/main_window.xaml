@@ -7,8 +7,8 @@
         <VerticalBox BackgroundColor="White" />
     </MainWindow.RootControl>
 
-    <VerticalBox 
-        Name="preservedCommandsView"
+    <PreservedCommandListView 
+        Name="preservedCommandListView"
         AutoHeight="true" 
         BackgroundColor="#F5F5F5"
         IsVisible="false" />

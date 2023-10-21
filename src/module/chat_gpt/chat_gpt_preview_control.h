@@ -12,6 +12,12 @@ public:
 
     void SetAnswer(const std::wstring& answer);
 
+protected:
+    void OnRectChanged(const zaf::RectChangedInfo& event_info) override;
+
+private:
+    void ResetHeight();
+
 private:
     ZAF_BIND_CONTROL(zaf::TextBox, answerControl);
 };

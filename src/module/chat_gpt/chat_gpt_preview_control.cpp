@@ -10,6 +10,24 @@ ZAF_DEFINE_TYPE_END;
 void ChatGPTPreviewControl::SetAnswer(const std::wstring& answer) {
 
     answerControl->SetText(answer);
+    ResetHeight();
+}
+
+
+void ChatGPTPreviewControl::OnRectChanged(const zaf::RectChangedInfo& event_info) {
+
+    __super::OnRectChanged(event_info);
+
+    if (event_info.PreviousRect().size.width != this->Width()) {
+        ResetHeight();
+    }
+}
+
+
+void ChatGPTPreviewControl::ResetHeight() {
+
+    auto preferred_size = answerControl->CalculatePreferredSize(this->ContentSize());
+    this->SetFixedHeight(preferred_size.height);
 }
 
 }

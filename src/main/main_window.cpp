@@ -256,8 +256,8 @@ void MainWindow::UpdateWindowRect() {
     }
 
     float preserved_commands_view_height{};
-    if (preservedCommandsView->IsVisible()) {
-        preserved_commands_view_height = preservedCommandsView->Height();
+    if (preservedCommandListView->IsVisible()) {
+        preserved_commands_view_height = preservedCommandListView->Height();
     }
 
     auto window_rect = this->Rect();
@@ -336,8 +336,8 @@ void MainWindow::UpdateHelpWindowPosition() {
     help_window_position.x = main_window_rect.Right() + window_gap;
     help_window_position.y = main_window_rect.position.y;
     
-    if (preservedCommandsView->IsVisible()) {
-        help_window_position.y += preservedCommandsView->Height();
+    if (preservedCommandListView->IsVisible()) {
+        help_window_position.y += preservedCommandListView->Height();
     }
 
     help_window_->SetPosition(help_window_position);
@@ -380,20 +380,20 @@ void MainWindow::PreserveCurrentCommand() {
     Subscriptions() += preserved_command_view->CloseEvent().Subscribe(
         [this](const std::shared_ptr<PreservedCommandView>& view) {
     
-        preservedCommandsView->RemoveChild(view);
+        preservedCommandListView->RemoveView(view);
         UpdateWindowRect();
     });
 
     {
-        auto update_guard = preservedCommandsView->BeginUpdate();
+        auto update_guard = preservedCommandListView->BeginUpdate();
 
         auto max_count = option::OptionStorage::Instance().MaxPreservedCommandCount();
-        while (preservedCommandsView->ChildCount() >= max_count) {
-            preservedCommandsView->RemoveChildAtIndex(0);
+        while (preservedCommandListView->ViewCount() >= max_count) {
+            preservedCommandListView->RemoveFirstView();
         }
 
-        preservedCommandsView->AddChild(preserved_command_view);
-        preservedCommandsView->SetIsVisible(true);
+        preservedCommandListView->AddView(preserved_command_view);
+        preservedCommandListView->SetIsVisible(true);
     }
 
     inputEdit->SetText({});
@@ -402,11 +402,7 @@ void MainWindow::PreserveCurrentCommand() {
 
 void MainWindow::RemoveTheFirstPreservedCommand() {
 
-    if (preservedCommandsView->ChildCount() == 0) {
-        return;
-    }
-
-    preservedCommandsView->RemoveChildAtIndex(0);
+    preservedCommandListView->RemoveFirstView();
     UpdateWindowRect();
 }
 
@@ -532,7 +528,8 @@ std::optional<zaf::HitTestResult> MainWindow::HitTest(const zaf::HitTestMessage&
         return std::nullopt;
     }
 
-    if (preservedCommandsView->AbsoluteRect().Contain(mouse_position)) {
+    if (preservedCommandListView->IsVisible() && 
+        preservedCommandListView->AbsoluteRect().Contain(mouse_position)) {
         return std::nullopt;
     }
 

@@ -9,6 +9,7 @@
 #include "help/help_window.h"
 #include "help/markdown/element/element.h"
 #include "main/input/command_input_edit.h"
+#include "main/preserve/preserved_command_list_view.h"
 #include "main/toolbar/command_toolbar.h"
 #include "main/toolbar/toolbar_button.h"
 #include "module/command_preview_control.h"
@@ -68,7 +69,7 @@ private:
     ZAF_BIND_CONTROL(main::input::CommandInputEdit, inputEdit);
     ZAF_BIND_CONTROL(PreviewView, previewView);
     ZAF_BIND_CONTROL(zaf::Control, helpButton);
-    ZAF_BIND_CONTROL(zaf::Control, preservedCommandsView);
+    ZAF_BIND_CONTROL(PreservedCommandListView, preservedCommandListView);
     ZAF_BIND_CONTROL(CommandToolbar, toolbar);
 
     float initial_height_{};

@@ -171,6 +171,7 @@
     <ClInclude Include="src\main\input\text_block_object.h" />
     <ClInclude Include="src\main\input\text_block_window.h" />
     <ClInclude Include="src\main\main_window.h" />
+    <ClInclude Include="src\main\preserve\preserved_command_list_view.h" />
     <ClInclude Include="src\main\preserve\preserved_command_view.h" />
     <ClInclude Include="src\main\preview_control_creating.h" />
     <ClInclude Include="src\main\toolbar\command_toolbar.h" />
@@ -333,6 +334,7 @@
     <ClInclude Include="src\utility\text_utility.h" />
     <ClInclude Include="src\utility\thin_border_window.h" />
     <ClInclude Include="src\utility\thin_scroll_bar.h" />
+    <ClInclude Include="src\utility\thin_scroll_control.h" />
     <ClInclude Include="third_party\curlion\src\connection.h" />
     <ClInclude Include="third_party\curlion\src\connection_manager.h" />
     <ClInclude Include="third_party\curlion\src\curlion.h" />
@@ -413,6 +415,7 @@
     <ClCompile Include="src\main\input\text_block_object.cpp" />
     <ClCompile Include="src\main\input\text_block_window.cpp" />
     <ClCompile Include="src\main\main_window.cpp" />
+    <ClCompile Include="src\main\preserve\preserved_command_list_view.cpp" />
     <ClCompile Include="src\main\preserve\preserved_command_view.cpp" />
     <ClCompile Include="src\main\preview_control_creating.cpp" />
     <ClCompile Include="src\main\toolbar\command_toolbar.cpp" />
@@ -535,6 +538,7 @@
     <ClCompile Include="src\utility\text_utility.cpp" />
     <ClCompile Include="src\utility\thin_border_window.cpp" />
     <ClCompile Include="src\utility\thin_scroll_bar.cpp" />
+    <ClCompile Include="src\utility\thin_scroll_control.cpp" />
     <ClCompile Include="third_party\curlion\src\connection.cpp" />
     <ClCompile Include="third_party\curlion\src\connection_manager.cpp" />
     <ClCompile Include="third_party\curlion\src\http_connection.cpp" />
@@ -547,6 +551,7 @@
     <Page Include="src\main\input\active_path_window.xaml" />
     <Page Include="src\main\input\text_block_window.xaml" />
     <Page Include="src\main\main_window.xaml" />
+    <Page Include="src\main\preserve\preserved_command_list_view.xaml" />
     <Page Include="src\main\preserve\preserved_command_view.xaml" />
     <Page Include="src\main\toolbar\command_toolbar.xaml" />
     <Page Include="src\module\calculator\preview\calculator_preview_control.xaml" />
