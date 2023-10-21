@@ -4,8 +4,8 @@
 #include <zaf/control/scrollable_control.h>
 #include <zaf/window/window.h>
 #include "help/help_content.h"
-#include "help/markdown/element/element.h"
-#include "help/markdown/render/markdown_region.h"
+#include "utility/markdown/element/element.h"
+#include "utility/markdown/render/markdown_region.h"
 #include "utility/thin_border_window.h"
 
 namespace ra::help {

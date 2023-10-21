@@ -1,6 +1,6 @@
 #pragma once
 
-#include "help/markdown/render/style_config.h"
+#include "utility/markdown/render/style_config.h"
 
 namespace ra::help {
 

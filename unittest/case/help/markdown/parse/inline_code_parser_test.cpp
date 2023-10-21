@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include <zaf/base/as.h>
-#include "help/markdown/element/factory.h"
-#include "help/markdown/parse/inline_code_parser.h"
+#include "utility/markdown/element/factory.h"
+#include "utility/markdown/parse/inline_code_parser.h"
 
 using namespace ra::help::markdown::element;
 using namespace ra::help::markdown::parse;

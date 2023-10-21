@@ -7,7 +7,7 @@
 #include <zaf/creation.h>
 #include "environment_variable_manager.h"
 #include "help/help_content_building.h"
-#include "help/markdown/element/factory.h"
+#include "utility/markdown/element/factory.h"
 #include "module/active_path/active_path_modifying.h"
 #include "module/active_path/active_path_option_parsing.h"
 #include "module/user_defined/parse/entry_command_parsing.h"

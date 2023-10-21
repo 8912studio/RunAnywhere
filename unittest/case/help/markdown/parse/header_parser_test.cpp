@@ -1,8 +1,8 @@
 #include <gtest/gtest.h>
 #include <zaf/base/as.h>
-#include "help/markdown/element/factory.h"
-#include "help/markdown/element/header_element.h"
-#include "help/markdown/parse/header_parser.h"
+#include "utility/markdown/element/factory.h"
+#include "utility/markdown/element/header_element.h"
+#include "utility/markdown/parse/header_parser.h"
 
 using namespace ra::help::markdown::element;
 using namespace ra::help::markdown::parse;

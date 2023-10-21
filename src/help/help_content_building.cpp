@@ -1,7 +1,7 @@
 #include "help/help_content_building.h"
 #include <zaf/base/container/utility/append.h>
 #include <zaf/base/container/utility/sort.h>
-#include "help/markdown/element/factory.h"
+#include "utility/markdown/element/factory.h"
 
 using namespace ra::help::markdown::element;
 

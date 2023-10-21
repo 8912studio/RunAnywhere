@@ -12,7 +12,7 @@
 #include <zaf/window/message/message.h>
 #include "context/desktop_context_discovering.h"
 #include "help/help_content_building.h"
-#include "help/markdown/element/factory.h"
+#include "utility/markdown/element/factory.h"
 #include "main/preserve/preserved_command_view.h"
 #include "main/preview_control_creating.h"
 #include "module/active_path/active_path_module.h"

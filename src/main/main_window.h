@@ -7,7 +7,7 @@
 #include <zaf/window/window.h>
 #include "context/desktop_context.h"
 #include "help/help_window.h"
-#include "help/markdown/element/element.h"
+#include "utility/markdown/element/element.h"
 #include "main/input/command_input_edit.h"
 #include "main/preserve/preserved_command_list_view.h"
 #include "main/toolbar/command_toolbar.h"

@@ -2,8 +2,8 @@
 #include <filesystem>
 #include <fstream>
 #include <zaf/base/string/encoding_conversion.h>
-#include "help/markdown/element/factory.h"
-#include "help/markdown/parse/markdown_parser.h"
+#include "utility/markdown/element/factory.h"
+#include "utility/markdown/parse/markdown_parser.h"
 
 using namespace ra::help::markdown::element;
 using namespace ra::help::markdown::parse;

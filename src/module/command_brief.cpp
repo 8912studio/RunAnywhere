@@ -1,6 +1,6 @@
 #include "module/command_brief.h"
 #include <zaf/base/error/check.h>
-#include "help/markdown/element/factory.h"
+#include "utility/markdown/element/factory.h"
 
 namespace ra::mod {
 

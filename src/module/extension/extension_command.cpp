@@ -1,6 +1,6 @@
 #include "module/extension/extension_command.h"
 #include <zaf/creation.h>
-#include "help/markdown/element/factory.h"
+#include "utility/markdown/element/factory.h"
 #include "module/common/copy_executor.h"
 #include "module/extension/extension_command_preview_control.h"
 

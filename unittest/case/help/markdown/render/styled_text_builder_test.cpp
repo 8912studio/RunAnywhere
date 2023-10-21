@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
-#include "help/markdown/element/factory.h"
-#include "help/markdown/render/styled_text_builder.h"
+#include "utility/markdown/element/factory.h"
+#include "utility/markdown/render/styled_text_builder.h"
 
 using namespace ra::help::markdown::element;
 using namespace ra::help::markdown::render;

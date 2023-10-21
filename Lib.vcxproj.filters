@@ -115,18 +115,6 @@
     <Filter Include="src\module\tool\hash">
       <UniqueIdentifier>{213cfd8f-62bc-4d79-8668-d15947884bcd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\help\markdown">
-      <UniqueIdentifier>{07873df4-bbd1-4420-a915-b1a1185cb1aa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\help\markdown\element">
-      <UniqueIdentifier>{19d90cae-26ca-4f6d-b612-96670e11c129}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\help\markdown\parse">
-      <UniqueIdentifier>{854c018c-ae07-4445-bcc0-b5e6660c888f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\help\markdown\render">
-      <UniqueIdentifier>{798a8809-373d-4253-8f9e-d7ff8468afb3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\module\chat_gpt">
       <UniqueIdentifier>{5cb616c8-a017-44cc-9c6d-e1d2a54f13d6}</UniqueIdentifier>
     </Filter>
@@ -138,6 +126,18 @@
     </Filter>
     <Filter Include="src\option">
       <UniqueIdentifier>{32764fcc-90a1-4ac4-9452-576fdd616afe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\utility\markdown">
+      <UniqueIdentifier>{138f4994-2a37-4c84-899e-909487eed12f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\utility\markdown\element">
+      <UniqueIdentifier>{8ac8f101-397d-4a4e-9b48-9f42d853b5a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\utility\markdown\parse">
+      <UniqueIdentifier>{a7497c58-1150-49f4-a1cd-22387d5f7a63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\utility\markdown\render">
+      <UniqueIdentifier>{dac6b018-0f9e-4e89-b6df-d6ebcf6d1678}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -711,131 +711,8 @@
     <ClInclude Include="src\module\tool\hash\sha_algorithm_type_parsing.h">
       <Filter>src\module\tool\hash</Filter>
     </ClInclude>
-    <ClInclude Include="src\help\markdown\element\element.h">
-      <Filter>src\help\markdown\element</Filter>
-    </ClInclude>
-    <ClInclude Include="src\help\markdown\element\element_type.h">
-      <Filter>src\help\markdown\element</Filter>
-    </ClInclude>
-    <ClInclude Include="src\help\markdown\parse\element_parser.h">
-      <Filter>src\help\markdown\parse</Filter>
-    </ClInclude>
-    <ClInclude Include="src\help\markdown\parse\header_parser.h">
-      <Filter>src\help\markdown\parse</Filter>
-    </ClInclude>
-    <ClInclude Include="src\help\markdown\parse\inline_code_parser.h">
-      <Filter>src\help\markdown\parse</Filter>
-    </ClInclude>
-    <ClInclude Include="src\help\markdown\element\header_element.h">
-      <Filter>src\help\markdown\element</Filter>
-    </ClInclude>
-    <ClInclude Include="src\help\markdown\parse\paragraph_parser.h">
-      <Filter>src\help\markdown\parse</Filter>
-    </ClInclude>
-    <ClInclude Include="src\help\markdown\parse\span_element_parser.h">
-      <Filter>src\help\markdown\parse</Filter>
-    </ClInclude>
-    <ClInclude Include="src\help\markdown\parse\markdown_parser.h">
-      <Filter>src\help\markdown\parse</Filter>
-    </ClInclude>
-    <ClInclude Include="src\help\markdown\element\factory.h">
-      <Filter>src\help\markdown\element</Filter>
-    </ClInclude>
-    <ClInclude Include="src\help\markdown\parse\bold_parser.h">
-      <Filter>src\help\markdown\parse</Filter>
-    </ClInclude>
-    <ClInclude Include="src\help\markdown\parse\parse_context.h">
-      <Filter>src\help\markdown\parse</Filter>
-    </ClInclude>
-    <ClInclude Include="src\help\markdown\parse\italic_parser.h">
-      <Filter>src\help\markdown\parse</Filter>
-    </ClInclude>
-    <ClInclude Include="src\help\markdown\parse\emphasis_parser.h">
-      <Filter>src\help\markdown\parse</Filter>
-    </ClInclude>
-    <ClInclude Include="src\help\markdown\parse\code_block_parser.h">
-      <Filter>src\help\markdown\parse</Filter>
-    </ClInclude>
-    <ClInclude Include="src\help\markdown\parse\list_item_parser.h">
-      <Filter>src\help\markdown\parse</Filter>
-    </ClInclude>
-    <ClInclude Include="src\help\markdown\parse\body_parser.h">
-      <Filter>src\help\markdown\parse</Filter>
-    </ClInclude>
-    <ClInclude Include="src\help\markdown\parse\unordered_list_parser.h">
-      <Filter>src\help\markdown\parse</Filter>
-    </ClInclude>
-    <ClInclude Include="src\help\markdown\parse\block_parser.h">
-      <Filter>src\help\markdown\parse</Filter>
-    </ClInclude>
-    <ClInclude Include="src\help\markdown\parse\unordered_list_item_parser.h">
-      <Filter>src\help\markdown\parse</Filter>
-    </ClInclude>
-    <ClInclude Include="src\help\markdown\parse\ordered_list_item_parser.h">
-      <Filter>src\help\markdown\parse</Filter>
-    </ClInclude>
-    <ClInclude Include="src\help\markdown\parse\ordered_list_parser.h">
-      <Filter>src\help\markdown\parse</Filter>
-    </ClInclude>
-    <ClInclude Include="src\help\markdown\parse\list_parser.h">
-      <Filter>src\help\markdown\parse</Filter>
-    </ClInclude>
-    <ClInclude Include="src\help\markdown\render\render_region.h">
-      <Filter>src\help\markdown\render</Filter>
-    </ClInclude>
-    <ClInclude Include="src\help\markdown\render\text_style.h">
-      <Filter>src\help\markdown\render</Filter>
-    </ClInclude>
-    <ClInclude Include="src\help\markdown\render\markdown_region.h">
-      <Filter>src\help\markdown\render</Filter>
-    </ClInclude>
-    <ClInclude Include="src\help\markdown\render\styled_text.h">
-      <Filter>src\help\markdown\render</Filter>
-    </ClInclude>
-    <ClInclude Include="src\help\markdown\render\styled_text_builder.h">
-      <Filter>src\help\markdown\render</Filter>
-    </ClInclude>
-    <ClInclude Include="src\help\markdown\render\styled_text_layout.h">
-      <Filter>src\help\markdown\render</Filter>
-    </ClInclude>
-    <ClInclude Include="src\help\markdown\render\style_config.h">
-      <Filter>src\help\markdown\render</Filter>
-    </ClInclude>
-    <ClInclude Include="src\help\markdown\render\code_block_region.h">
-      <Filter>src\help\markdown\render</Filter>
-    </ClInclude>
-    <ClInclude Include="src\help\markdown\render\simple_block_region.h">
-      <Filter>src\help\markdown\render</Filter>
-    </ClInclude>
-    <ClInclude Include="src\help\markdown\render\paragraph_region.h">
-      <Filter>src\help\markdown\render</Filter>
-    </ClInclude>
-    <ClInclude Include="src\help\markdown\render\styled_text_box.h">
-      <Filter>src\help\markdown\render</Filter>
-    </ClInclude>
     <ClInclude Include="src\help\help_style_config.h">
       <Filter>src\help</Filter>
-    </ClInclude>
-    <ClInclude Include="src\help\markdown\render\header_region.h">
-      <Filter>src\help\markdown\render</Filter>
-    </ClInclude>
-    <ClInclude Include="src\help\markdown\render\unordered_list_region.h">
-      <Filter>src\help\markdown\render</Filter>
-    </ClInclude>
-    <ClInclude Include="src\help\markdown\render\list_item_region.h">
-      <Filter>src\help\markdown\render</Filter>
-    </ClInclude>
-    <ClInclude Include="src\help\markdown\render\body_region.h">
-      <Filter>src\help\markdown\render</Filter>
-    </ClInclude>
-    <ClInclude Include="src\help\markdown\render\compound_region.h">
-      <Filter>src\help\markdown\render</Filter>
-    </ClInclude>
-    <ClInclude Include="src\help\markdown\element\list_element.h">
-      <Filter>src\help\markdown\element</Filter>
-    </ClInclude>
-    <ClInclude Include="src\help\markdown\parse\empty_line_info.h">
-      <Filter>src\help\markdown\parse</Filter>
     </ClInclude>
     <ClInclude Include="src\help\built_in_help_content_manager.h">
       <Filter>src\help</Filter>
@@ -920,6 +797,129 @@
     </ClInclude>
     <ClInclude Include="src\main\preserve\preserved_command_list_view.h">
       <Filter>src\main\preserve</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\markdown\element\element.h">
+      <Filter>src\utility\markdown\element</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\markdown\element\element_type.h">
+      <Filter>src\utility\markdown\element</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\markdown\element\factory.h">
+      <Filter>src\utility\markdown\element</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\markdown\element\header_element.h">
+      <Filter>src\utility\markdown\element</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\markdown\element\list_element.h">
+      <Filter>src\utility\markdown\element</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\markdown\parse\block_parser.h">
+      <Filter>src\utility\markdown\parse</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\markdown\parse\body_parser.h">
+      <Filter>src\utility\markdown\parse</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\markdown\parse\bold_parser.h">
+      <Filter>src\utility\markdown\parse</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\markdown\parse\code_block_parser.h">
+      <Filter>src\utility\markdown\parse</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\markdown\parse\element_parser.h">
+      <Filter>src\utility\markdown\parse</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\markdown\parse\emphasis_parser.h">
+      <Filter>src\utility\markdown\parse</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\markdown\parse\empty_line_info.h">
+      <Filter>src\utility\markdown\parse</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\markdown\parse\header_parser.h">
+      <Filter>src\utility\markdown\parse</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\markdown\parse\inline_code_parser.h">
+      <Filter>src\utility\markdown\parse</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\markdown\parse\italic_parser.h">
+      <Filter>src\utility\markdown\parse</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\markdown\parse\list_item_parser.h">
+      <Filter>src\utility\markdown\parse</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\markdown\parse\list_parser.h">
+      <Filter>src\utility\markdown\parse</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\markdown\parse\markdown_parser.h">
+      <Filter>src\utility\markdown\parse</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\markdown\parse\ordered_list_item_parser.h">
+      <Filter>src\utility\markdown\parse</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\markdown\parse\ordered_list_parser.h">
+      <Filter>src\utility\markdown\parse</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\markdown\parse\paragraph_parser.h">
+      <Filter>src\utility\markdown\parse</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\markdown\parse\parse_context.h">
+      <Filter>src\utility\markdown\parse</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\markdown\parse\span_element_parser.h">
+      <Filter>src\utility\markdown\parse</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\markdown\parse\unordered_list_item_parser.h">
+      <Filter>src\utility\markdown\parse</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\markdown\parse\unordered_list_parser.h">
+      <Filter>src\utility\markdown\parse</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\markdown\render\body_region.h">
+      <Filter>src\utility\markdown\render</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\markdown\render\code_block_region.h">
+      <Filter>src\utility\markdown\render</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\markdown\render\compound_region.h">
+      <Filter>src\utility\markdown\render</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\markdown\render\header_region.h">
+      <Filter>src\utility\markdown\render</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\markdown\render\list_item_region.h">
+      <Filter>src\utility\markdown\render</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\markdown\render\markdown_region.h">
+      <Filter>src\utility\markdown\render</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\markdown\render\paragraph_region.h">
+      <Filter>src\utility\markdown\render</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\markdown\render\render_region.h">
+      <Filter>src\utility\markdown\render</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\markdown\render\simple_block_region.h">
+      <Filter>src\utility\markdown\render</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\markdown\render\style_config.h">
+      <Filter>src\utility\markdown\render</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\markdown\render\styled_text.h">
+      <Filter>src\utility\markdown\render</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\markdown\render\styled_text_box.h">
+      <Filter>src\utility\markdown\render</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\markdown\render\styled_text_builder.h">
+      <Filter>src\utility\markdown\render</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\markdown\render\styled_text_layout.h">
+      <Filter>src\utility\markdown\render</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\markdown\render\text_style.h">
+      <Filter>src\utility\markdown\render</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\markdown\render\unordered_list_region.h">
+      <Filter>src\utility\markdown\render</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1346,101 +1346,8 @@
     <ClCompile Include="src\module\tool\hash\sha_algorithm_type_parsing.cpp">
       <Filter>src\module\tool\hash</Filter>
     </ClCompile>
-    <ClCompile Include="src\help\markdown\parse\header_parser.cpp">
-      <Filter>src\help\markdown\parse</Filter>
-    </ClCompile>
-    <ClCompile Include="src\help\markdown\parse\inline_code_parser.cpp">
-      <Filter>src\help\markdown\parse</Filter>
-    </ClCompile>
-    <ClCompile Include="src\help\markdown\parse\paragraph_parser.cpp">
-      <Filter>src\help\markdown\parse</Filter>
-    </ClCompile>
-    <ClCompile Include="src\help\markdown\parse\span_element_parser.cpp">
-      <Filter>src\help\markdown\parse</Filter>
-    </ClCompile>
-    <ClCompile Include="src\help\markdown\parse\markdown_parser.cpp">
-      <Filter>src\help\markdown\parse</Filter>
-    </ClCompile>
-    <ClCompile Include="src\help\markdown\element\element.cpp">
-      <Filter>src\help\markdown\element</Filter>
-    </ClCompile>
-    <ClCompile Include="src\help\markdown\element\header_element.cpp">
-      <Filter>src\help\markdown\element</Filter>
-    </ClCompile>
-    <ClCompile Include="src\help\markdown\parse\bold_parser.cpp">
-      <Filter>src\help\markdown\parse</Filter>
-    </ClCompile>
-    <ClCompile Include="src\help\markdown\parse\italic_parser.cpp">
-      <Filter>src\help\markdown\parse</Filter>
-    </ClCompile>
-    <ClCompile Include="src\help\markdown\parse\emphasis_parser.cpp">
-      <Filter>src\help\markdown\parse</Filter>
-    </ClCompile>
-    <ClCompile Include="src\help\markdown\parse\code_block_parser.cpp">
-      <Filter>src\help\markdown\parse</Filter>
-    </ClCompile>
-    <ClCompile Include="src\help\markdown\parse\parse_context.cpp">
-      <Filter>src\help\markdown\parse</Filter>
-    </ClCompile>
-    <ClCompile Include="src\help\markdown\parse\list_item_parser.cpp">
-      <Filter>src\help\markdown\parse</Filter>
-    </ClCompile>
-    <ClCompile Include="src\help\markdown\parse\body_parser.cpp">
-      <Filter>src\help\markdown\parse</Filter>
-    </ClCompile>
-    <ClCompile Include="src\help\markdown\parse\unordered_list_parser.cpp">
-      <Filter>src\help\markdown\parse</Filter>
-    </ClCompile>
-    <ClCompile Include="src\help\markdown\parse\unordered_list_item_parser.cpp">
-      <Filter>src\help\markdown\parse</Filter>
-    </ClCompile>
-    <ClCompile Include="src\help\markdown\parse\ordered_list_item_parser.cpp">
-      <Filter>src\help\markdown\parse</Filter>
-    </ClCompile>
-    <ClCompile Include="src\help\markdown\parse\ordered_list_parser.cpp">
-      <Filter>src\help\markdown\parse</Filter>
-    </ClCompile>
-    <ClCompile Include="src\help\markdown\parse\list_parser.cpp">
-      <Filter>src\help\markdown\parse</Filter>
-    </ClCompile>
-    <ClCompile Include="src\help\markdown\render\markdown_region.cpp">
-      <Filter>src\help\markdown\render</Filter>
-    </ClCompile>
-    <ClCompile Include="src\help\markdown\render\styled_text_builder.cpp">
-      <Filter>src\help\markdown\render</Filter>
-    </ClCompile>
-    <ClCompile Include="src\help\markdown\render\code_block_region.cpp">
-      <Filter>src\help\markdown\render</Filter>
-    </ClCompile>
-    <ClCompile Include="src\help\markdown\render\simple_block_region.cpp">
-      <Filter>src\help\markdown\render</Filter>
-    </ClCompile>
-    <ClCompile Include="src\help\markdown\render\paragraph_region.cpp">
-      <Filter>src\help\markdown\render</Filter>
-    </ClCompile>
-    <ClCompile Include="src\help\markdown\render\styled_text_box.cpp">
-      <Filter>src\help\markdown\render</Filter>
-    </ClCompile>
     <ClCompile Include="src\help\help_style_config.cpp">
       <Filter>src\help</Filter>
-    </ClCompile>
-    <ClCompile Include="src\help\markdown\render\header_region.cpp">
-      <Filter>src\help\markdown\render</Filter>
-    </ClCompile>
-    <ClCompile Include="src\help\markdown\render\unordered_list_region.cpp">
-      <Filter>src\help\markdown\render</Filter>
-    </ClCompile>
-    <ClCompile Include="src\help\markdown\render\list_item_region.cpp">
-      <Filter>src\help\markdown\render</Filter>
-    </ClCompile>
-    <ClCompile Include="src\help\markdown\render\body_region.cpp">
-      <Filter>src\help\markdown\render</Filter>
-    </ClCompile>
-    <ClCompile Include="src\help\markdown\render\compound_region.cpp">
-      <Filter>src\help\markdown\render</Filter>
-    </ClCompile>
-    <ClCompile Include="src\help\markdown\element\list_element.cpp">
-      <Filter>src\help\markdown\element</Filter>
     </ClCompile>
     <ClCompile Include="src\help\built_in_help_content_manager.cpp">
       <Filter>src\help</Filter>
@@ -1498,6 +1405,99 @@
     </ClCompile>
     <ClCompile Include="src\main\preserve\preserved_command_list_view.cpp">
       <Filter>src\main\preserve</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\markdown\element\element.cpp">
+      <Filter>src\utility\markdown\element</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\markdown\element\header_element.cpp">
+      <Filter>src\utility\markdown\element</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\markdown\element\list_element.cpp">
+      <Filter>src\utility\markdown\element</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\markdown\parse\body_parser.cpp">
+      <Filter>src\utility\markdown\parse</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\markdown\parse\bold_parser.cpp">
+      <Filter>src\utility\markdown\parse</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\markdown\parse\code_block_parser.cpp">
+      <Filter>src\utility\markdown\parse</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\markdown\parse\emphasis_parser.cpp">
+      <Filter>src\utility\markdown\parse</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\markdown\parse\header_parser.cpp">
+      <Filter>src\utility\markdown\parse</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\markdown\parse\inline_code_parser.cpp">
+      <Filter>src\utility\markdown\parse</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\markdown\parse\italic_parser.cpp">
+      <Filter>src\utility\markdown\parse</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\markdown\parse\list_item_parser.cpp">
+      <Filter>src\utility\markdown\parse</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\markdown\parse\list_parser.cpp">
+      <Filter>src\utility\markdown\parse</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\markdown\parse\markdown_parser.cpp">
+      <Filter>src\utility\markdown\parse</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\markdown\parse\ordered_list_item_parser.cpp">
+      <Filter>src\utility\markdown\parse</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\markdown\parse\ordered_list_parser.cpp">
+      <Filter>src\utility\markdown\parse</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\markdown\parse\paragraph_parser.cpp">
+      <Filter>src\utility\markdown\parse</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\markdown\parse\parse_context.cpp">
+      <Filter>src\utility\markdown\parse</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\markdown\parse\span_element_parser.cpp">
+      <Filter>src\utility\markdown\parse</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\markdown\parse\unordered_list_item_parser.cpp">
+      <Filter>src\utility\markdown\parse</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\markdown\parse\unordered_list_parser.cpp">
+      <Filter>src\utility\markdown\parse</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\markdown\render\body_region.cpp">
+      <Filter>src\utility\markdown\render</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\markdown\render\code_block_region.cpp">
+      <Filter>src\utility\markdown\render</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\markdown\render\compound_region.cpp">
+      <Filter>src\utility\markdown\render</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\markdown\render\header_region.cpp">
+      <Filter>src\utility\markdown\render</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\markdown\render\list_item_region.cpp">
+      <Filter>src\utility\markdown\render</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\markdown\render\markdown_region.cpp">
+      <Filter>src\utility\markdown\render</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\markdown\render\paragraph_region.cpp">
+      <Filter>src\utility\markdown\render</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\markdown\render\simple_block_region.cpp">
+      <Filter>src\utility\markdown\render</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\markdown\render\styled_text_box.cpp">
+      <Filter>src\utility\markdown\render</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\markdown\render\styled_text_builder.cpp">
+      <Filter>src\utility\markdown\render</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\markdown\render\unordered_list_region.cpp">
+      <Filter>src\utility\markdown\render</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

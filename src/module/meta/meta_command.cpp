@@ -1,6 +1,6 @@
 #include "module/meta/meta_command.h"
 #include "module/meta/meta_command_prefix.h"
-#include "help/markdown/element/factory.h"
+#include "utility/markdown/element/factory.h"
 
 using namespace ra::help::markdown::element;
 

@@ -1,6 +1,6 @@
 #include "module/chat_gpt/chat_gpt_command.h"
 #include <zaf/creation.h>
-#include "help/markdown/element/factory.h"
+#include "utility/markdown/element/factory.h"
 
 namespace ra::mod::chat_gpt {
 
