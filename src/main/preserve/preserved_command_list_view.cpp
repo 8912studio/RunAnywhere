@@ -1,4 +1,5 @@
 #include "main/preserve/preserved_command_list_view.h"
+#include <zaf/control/scroll_bar.h>
 #include <zaf/object/type_definition.h>
 
 namespace ra {
@@ -17,6 +18,9 @@ void PreservedCommandListView::AddView(const std::shared_ptr<PreservedCommandVie
 
     listView->AddChild(view);
     ResetHeight();
+
+    //Scroll to the new added view.
+    scrollControl->VerticalScrollBar()->SetValue(static_cast<int>(view->Position().y));
 }
 
 
