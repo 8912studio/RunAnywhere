@@ -15,27 +15,44 @@ void PreservedCommandListView::AfterParse() {
 
 void PreservedCommandListView::AddView(const std::shared_ptr<PreservedCommandView>& view) {
 
-    scrollControl->ScrollContent()->AddChild(view);
+    listView->AddChild(view);
+    ResetHeight();
 }
 
 
 void PreservedCommandListView::RemoveView(const std::shared_ptr<PreservedCommandView>& view) {
 
-    scrollControl->ScrollContent()->RemoveChild(view);
+    listView->RemoveChild(view);
+    ResetHeight();
 }
 
 
 void PreservedCommandListView::RemoveFirstView() {
 
-    const auto& scroll_content = scrollControl->ScrollContent();
-    if (scroll_content->ChildCount() > 0) {
-        scroll_content->RemoveChildAtIndex(0);
+    if (listView->ChildCount() > 0) {
+        listView->RemoveChildAtIndex(0);
     }
+    ResetHeight();
 }
 
 
 std::size_t PreservedCommandListView::ViewCount() const {
-    return scrollControl->ScrollContent()->ChildCount();
+    return listView->ChildCount();
+}
+
+
+void PreservedCommandListView::ResetHeight() {
+
+    float total_height{};
+
+    for (const auto& each_view : listView->Children()) {
+        total_height += each_view->Height();
+    }
+
+    constexpr float max_height = 500;
+    total_height = std::min(total_height, max_height);
+
+    this->SetFixedHeight(total_height);
 }
 
 }

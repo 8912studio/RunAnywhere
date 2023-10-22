@@ -21,7 +21,11 @@ protected:
     void AfterParse() override;
 
 private:
+    void ResetHeight();
+
+private:
     ZAF_BIND_CONTROL(utility::ThinScrollControl, scrollControl);
+    ZAF_BIND_CONTROL(zaf::Control, listView);
 };
 
 }

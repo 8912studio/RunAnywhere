@@ -137,35 +137,42 @@ void MainWindow::AdjustPositionOnFirstShow(){
 void MainWindow::EnsureInVisibleArea() {
 
     //Ensure the window is in visible area of the nearest monitor.
+    auto adjusted_rect = EnsureRectInVisibleArea(this->Rect());
+    this->SetPosition(adjusted_rect.position);
+}
+
+
+zaf::Rect MainWindow::EnsureRectInVisibleArea(const zaf::Rect& rect) const {
+
     HMONITOR monitor = MonitorFromWindow(this->Handle(), MONITOR_DEFAULTTONEAREST);
 
     MONITORINFO monitor_info{};
     monitor_info.cbSize = sizeof(monitor_info);
     BOOL is_succeeded = GetMonitorInfo(monitor, &monitor_info);
     if (!is_succeeded) {
-        return;
+        return rect;
     }
 
     auto screen_rect = zaf::ToDIPs(zaf::Rect::FromRECT(monitor_info.rcWork), this->GetDPI());
-    auto window_rect = this->Rect();
+    auto result = rect;
 
     //Adjust horizontal coordinations.
-    if (window_rect.Left() < screen_rect.Left()) {
-        window_rect.position.x = screen_rect.Left();
+    if (result.Left() < screen_rect.Left()) {
+        result.position.x = screen_rect.Left();
     }
-    else if (window_rect.Right() >= screen_rect.Right()) {
-        window_rect.position.x = screen_rect.Right() - window_rect.size.width;
+    else if (result.Right() >= screen_rect.Right()) {
+        result.position.x = screen_rect.Right() - result.size.width;
     }
 
     //Adjust vertical coordinations.
-    if (window_rect.Top() < screen_rect.Top()) {
-        window_rect.position.y = screen_rect.Top();
+    if (result.Top() < screen_rect.Top()) {
+        result.position.y = screen_rect.Top();
     }
-    else if (window_rect.Bottom() >= screen_rect.Bottom()) {
-        window_rect.position.y = screen_rect.Bottom() - window_rect.size.height;
+    else if (result.Bottom() >= screen_rect.Bottom()) {
+        result.position.y = screen_rect.Bottom() - result.size.height;
     }
 
-    this->SetPosition(window_rect.position);
+    return result;
 }
 
 
@@ -264,6 +271,8 @@ void MainWindow::UpdateWindowRect() {
     float main_y = window_rect.position.y + last_preserved_commands_view_height_;
     window_rect.position.y = main_y - preserved_commands_view_height;
     window_rect.size.height = main_height + preserved_commands_view_height;
+
+    window_rect = EnsureRectInVisibleArea(window_rect);
     this->SetRect(window_rect);
 
     last_preserved_commands_view_height_ = preserved_commands_view_height;

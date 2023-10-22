@@ -44,6 +44,7 @@ private:
     void AdjustPositionBeforeShow();
     void AdjustPositionOnFirstShow();
     void EnsureInVisibleArea();
+    zaf::Rect EnsureRectInVisibleArea(const zaf::Rect& rect) const;
 
     void OnCommandChanged();
     void UpdateCommandState();
