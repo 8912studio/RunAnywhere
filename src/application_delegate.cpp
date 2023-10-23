@@ -86,6 +86,11 @@ ApplicationDelegate::ApplicationDelegate(const entry::ApplicationSwithes& switch
 }
 
 
+void ApplicationDelegate::HideMainWindow() {
+    main_window_->Hide();
+}
+
+
 void ApplicationDelegate::ReloadModules() {
 
     module_manager_->GetUserDefinedModule().Reload();

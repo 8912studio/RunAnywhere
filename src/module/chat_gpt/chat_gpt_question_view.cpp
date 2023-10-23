@@ -1,6 +1,9 @@
 #include "module/chat_gpt/chat_gpt_question_view.h"
 #include <zaf/object/type_definition.h>
+#include "application_delegate.h"
 #include "module/common/error_messages.h"
+#include "option/option_storage.h"
+#include "option/option_window.h"
 
 namespace ra::mod::chat_gpt {
 
@@ -15,18 +18,36 @@ void ChatGPTQuestionView::AfterParse() {
     TextDisplayMode display_mode;
     display_mode.word_wrapping = zaf::WordWrapping::Wrap;
     questionControl->SetDisplayMode(display_mode);
+
+    Subscriptions() += openOptionButton->ClickEvent().Subscribe(std::bind([]() {
+        ApplicationDelegate::GetFromApplication()->HideMainWindow();
+        option::OptionWindow::ShowInstance();
+    }));
 }
 
 
 void ChatGPTQuestionView::SetQuestion(const std::wstring& question) {
 
-    if (!question.empty()) {
-        questionControl->SetText(question);
-        questionControl->SetIsVisible(true);
+    if (option::OptionStorage::Instance().OpenAIAPIKey().empty()) {
+
+        errorView->ShowErrorText(L"API key is required");
+        errorContainer->SetFixedHeight(120);
+        errorContainer->SetIsVisible(true);
+        openOptionButton->SetIsVisible(true);
     }
     else {
-        errorView->ShowHintText(ErrorMessages::NoContentToDisplay);
-        errorView->SetIsVisible(true);
+
+        hintContainer->SetIsVisible(true);
+
+        if (!question.empty()) {
+            questionControl->SetText(question);
+            questionControl->SetIsVisible(true);
+        }
+        else {
+            errorView->ShowHintText(ErrorMessages::NoContentToDisplay);
+            errorContainer->SetFixedHeight(90);
+            errorContainer->SetIsVisible(true);
+        }
     }
 }
 

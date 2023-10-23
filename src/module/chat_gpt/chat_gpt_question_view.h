@@ -5,6 +5,7 @@
 #include "main/command_display_style.h"
 #include "module/common/error_view.h"
 #include "module/common/text_content_control.h"
+#include "utility/link_button.h"
 
 namespace ra::mod::chat_gpt {
 
@@ -20,8 +21,11 @@ protected:
     void AfterParse() override;
 
 private:
+    ZAF_BIND_CONTROL(zaf::Control, hintContainer);
     ZAF_BIND_CONTROL(TextContentControl, questionControl);
+    ZAF_BIND_CONTROL(zaf::Control, errorContainer);
     ZAF_BIND_CONTROL(ErrorView, errorView);
+    ZAF_BIND_CONTROL(utility::LinkButton, openOptionButton);
 };
 
 }

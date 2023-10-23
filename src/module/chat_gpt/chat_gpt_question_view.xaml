@@ -1,10 +1,49 @@
 <ChatGPTQuestionView AutoHeight="true">
-    <Label 
+
+    <HorizontalBox 
+        Name="hintContainer"
         FixedHeight="30" 
-        ParagraphAlignment="Center"
-        FontSize="14" 
-        TextColor="#808080" 
-        Text="Message to send:" />
+        CrossAxisAlignment="Center"
+        IsVisible="false">
+
+        <Label 
+            FixedSize="26,18"
+            TextAlignment="Center"
+            ParagraphAlignment="Center"
+            TextColor="White"
+            BackgroundColor="#10A37F"
+            FontSize="10"
+            Text="GPT" />
+
+        <Label 
+            Name="messageLabel"
+            Margin="6,0,0,0"
+            ParagraphAlignment="Center"
+            FontSize="14" 
+            TextColor="#808080" 
+            Text="Message to send:" />
+        
+    </HorizontalBox>
+    
     <TextContentControl Name="questionControl" IsVisible="false" />
-    <ErrorView Name="errorView" FixedHeight="90" IsVisible="false" />
+
+    <VerticalBox 
+        Name="errorContainer" 
+        AxisAlignment="Center"
+        CrossAxisAlignment="Center"
+        IsVisible="false">
+        
+        <ErrorView Name="errorView" AutoHeight="true" />
+
+        <LinkButton 
+            Name="openOptionButton" 
+            AutoWidth="true" 
+            FixedHeight="30"
+            Margin="0,4,0,0"
+            FontSize="14"
+            Text="Provide in option window"
+            IsVisible="false" />
+
+    </VerticalBox>
+
 </ChatGPTQuestionView>

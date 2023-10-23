@@ -15,6 +15,7 @@ public:
 public:
 	explicit ApplicationDelegate(const entry::ApplicationSwithes& switches);
 
+	void HideMainWindow();
 	void ReloadModules();
 
 	void ApplicationBeginRun(const zaf::ApplicationBeginRunInfo&) override;

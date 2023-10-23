@@ -61,13 +61,13 @@ void ChatGPTCommand::InitializeExecutor() {
 
     executor_ = zaf::Create<ChatGPTExecutor>(client_);
 
-    Subscriptions() += executor_->FinishEvent().Subscribe([this](
-    const comm::ChatCompletion& completion) {
-        preview_control_->ShowAnswer(completion.Message().Content());
-    },
-    [this](const zaf::Error& error) {
+    Subscriptions() += executor_->FinishEvent().Subscribe(
+        [this](const comm::ChatCompletion& completion) {
+            preview_control_->ShowAnswer(completion.Message().Content());
+        },
+        [this](const zaf::Error& error) {
     
-    });
+        });
 }
 
 
