@@ -1,0 +1,10 @@
+<ChatGPTQuestionView AutoHeight="true">
+    <Label 
+        FixedHeight="30" 
+        ParagraphAlignment="Center"
+        FontSize="14" 
+        TextColor="#808080" 
+        Text="Message to send:" />
+    <TextContentControl Name="questionControl" IsVisible="false" />
+    <ErrorView Name="errorView" FixedHeight="90" IsVisible="false" />
+</ChatGPTQuestionView>

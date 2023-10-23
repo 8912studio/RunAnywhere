@@ -921,6 +921,18 @@
     <ClInclude Include="src\utility\markdown\render\unordered_list_region.h">
       <Filter>src\utility\markdown\render</Filter>
     </ClInclude>
+    <ClInclude Include="src\module\chat_gpt\chat_gpt_question_view.h">
+      <Filter>src\module\chat_gpt</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\chat_gpt\chat_gpt_answer_view.h">
+      <Filter>src\module\chat_gpt</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\chat_gpt\chat_gpt_command_parsing.h">
+      <Filter>src\module\chat_gpt</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\chat_gpt\chat_gpt_command_parse_result.h">
+      <Filter>src\module\chat_gpt</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -1499,6 +1511,15 @@
     <ClCompile Include="src\utility\markdown\render\unordered_list_region.cpp">
       <Filter>src\utility\markdown\render</Filter>
     </ClCompile>
+    <ClCompile Include="src\module\chat_gpt\chat_gpt_question_view.cpp">
+      <Filter>src\module\chat_gpt</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\chat_gpt\chat_gpt_answer_view.cpp">
+      <Filter>src\module\chat_gpt</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\chat_gpt\chat_gpt_command_parsing.cpp">
+      <Filter>src\module\chat_gpt</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Page Include="src\module\user_defined\preview\user_defined_command_preview_control.xaml">
@@ -1581,6 +1602,9 @@
     </Page>
     <Page Include="src\main\preserve\preserved_command_list_view.xaml">
       <Filter>src\main\preserve</Filter>
+    </Page>
+    <Page Include="src\module\chat_gpt\chat_gpt_question_view.xaml">
+      <Filter>src\module\chat_gpt</Filter>
     </Page>
   </ItemGroup>
   <ItemGroup>

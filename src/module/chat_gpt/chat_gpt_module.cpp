@@ -1,5 +1,6 @@
 #include "module/chat_gpt/chat_gpt_module.h"
 #include "module/chat_gpt/chat_gpt_command.h"
+#include "module/chat_gpt/chat_gpt_command_parsing.h"
 
 namespace ra::mod::chat_gpt {
 
@@ -10,12 +11,7 @@ std::vector<CommandBrief> ChatGPTModule::QuerySuggestedCommands(const std::wstri
 
 std::unique_ptr<Command> ChatGPTModule::CreateCommand(const utility::CommandLine& command_line) {
 
-    auto command = command_line.Command();
-    if (command.empty()) {
-        return nullptr;
-    }
-
-    if (command.front() != ChatGPTCommand::HeadingChar) {
+    if (!IsChatGPTCommand(command_line)) {
         return nullptr;
     }
 

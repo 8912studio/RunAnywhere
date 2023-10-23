@@ -10,9 +10,6 @@ namespace ra::mod::chat_gpt {
 
 class ChatGPTCommand : public Command, zaf::SubscriptionHost {
 public:
-    static constexpr wchar_t HeadingChar = L'>';
-
-public:
     explicit ChatGPTCommand(std::shared_ptr<comm::OpenAIClient> client);
 
     std::wstring GetKeyword() override;
@@ -29,6 +26,7 @@ public:
     std::shared_ptr<CommandExecutor> GetExecutor() override;
 
 private:
+    void InitializePreviewControl();
     void InitializeExecutor();
 
 private:

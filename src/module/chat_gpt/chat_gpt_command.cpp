@@ -1,5 +1,6 @@
 #include "module/chat_gpt/chat_gpt_command.h"
 #include <zaf/creation.h>
+#include "module/chat_gpt/chat_gpt_command_parsing.h"
 #include "utility/markdown/element/factory.h"
 
 namespace ra::mod::chat_gpt {
@@ -28,21 +29,27 @@ bool ChatGPTCommand::Interpret(
     const context::DesktopContext& desktop_context,
     bool is_reusing) {
 
-    const auto& raw_text = command_line.RawText();
-    if (raw_text.empty()) {
+    auto parse_result = ParseChatGPTCommand(command_line);
+    if (!parse_result) {
         return false;
     }
 
-    auto question = raw_text.substr(1);
+    InitializePreviewControl();
+    InitializeExecutor();
 
-    if (!preview_control_) {
-        preview_control_ = zaf::Create<ChatGPTPreviewControl>();
+    preview_control_->ShowQuestion(parse_result->question);
+    executor_->SetQuestion(parse_result->question);
+    return true;
+}
+
+
+void ChatGPTCommand::InitializePreviewControl() {
+
+    if (preview_control_) {
+        return;
     }
 
-    InitializeExecutor();
-    executor_->SetQuestion(question);
-
-    return true;
+    preview_control_ = zaf::Create<ChatGPTPreviewControl>();
 }
 
 
@@ -56,7 +63,7 @@ void ChatGPTCommand::InitializeExecutor() {
 
     Subscriptions() += executor_->FinishEvent().Subscribe([this](
     const comm::ChatCompletion& completion) {
-        preview_control_->SetAnswer(completion.Message().Content());
+        preview_control_->ShowAnswer(completion.Message().Content());
     },
     [this](const zaf::Error& error) {
     

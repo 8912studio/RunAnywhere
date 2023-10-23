@@ -177,10 +177,14 @@
     <ClInclude Include="src\module\calculator\parse\terminal_parser.h" />
     <ClInclude Include="src\module\calculator\parse\unary_expression_parser.h" />
     <ClInclude Include="src\module\calculator\preview\calculator_preview_control.h" />
+    <ClInclude Include="src\module\chat_gpt\chat_gpt_answer_view.h" />
     <ClInclude Include="src\module\chat_gpt\chat_gpt_command.h" />
+    <ClInclude Include="src\module\chat_gpt\chat_gpt_command_parse_result.h" />
+    <ClInclude Include="src\module\chat_gpt\chat_gpt_command_parsing.h" />
     <ClInclude Include="src\module\chat_gpt\chat_gpt_executor.h" />
     <ClInclude Include="src\module\chat_gpt\chat_gpt_module.h" />
     <ClInclude Include="src\module\chat_gpt\chat_gpt_preview_control.h" />
+    <ClInclude Include="src\module\chat_gpt\chat_gpt_question_view.h" />
     <ClInclude Include="src\module\chat_gpt\comm\asio_scheduler.h" />
     <ClInclude Include="src\module\chat_gpt\comm\chat_completion.h" />
     <ClInclude Include="src\module\chat_gpt\comm\error.h" />
@@ -417,10 +421,13 @@
     <ClCompile Include="src\module\calculator\parse\parse_result.cpp" />
     <ClCompile Include="src\module\calculator\parse\unary_expression_parser.cpp" />
     <ClCompile Include="src\module\calculator\preview\calculator_preview_control.cpp" />
+    <ClCompile Include="src\module\chat_gpt\chat_gpt_answer_view.cpp" />
     <ClCompile Include="src\module\chat_gpt\chat_gpt_command.cpp" />
+    <ClCompile Include="src\module\chat_gpt\chat_gpt_command_parsing.cpp" />
     <ClCompile Include="src\module\chat_gpt\chat_gpt_executor.cpp" />
     <ClCompile Include="src\module\chat_gpt\chat_gpt_module.cpp" />
     <ClCompile Include="src\module\chat_gpt\chat_gpt_preview_control.cpp" />
+    <ClCompile Include="src\module\chat_gpt\chat_gpt_question_view.cpp" />
     <ClCompile Include="src\module\chat_gpt\comm\asio_scheduler.cpp" />
     <ClCompile Include="src\module\chat_gpt\comm\open_ai_client.cpp" />
     <ClCompile Include="src\module\chat_gpt\comm\socket_manager.cpp" />
@@ -556,6 +563,7 @@
     <Page Include="src\main\toolbar\command_toolbar.xaml" />
     <Page Include="src\module\calculator\preview\calculator_preview_control.xaml" />
     <Page Include="src\module\chat_gpt\chat_gpt_preview_control.xaml" />
+    <Page Include="src\module\chat_gpt\chat_gpt_question_view.xaml" />
     <Page Include="src\module\common\binary_content\binary_content_control.xaml" />
     <Page Include="src\module\common\content_status_bar.xaml" />
     <Page Include="src\module\common\error_view.xaml" />
