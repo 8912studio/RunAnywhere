@@ -7,7 +7,7 @@ namespace ra::mod::chat_gpt {
 
 class ChatGPTAnswerView : public zaf::VerticalBox {
 public:
-    void SetAnswer(const std::wstring& answer);
+    void SetAnswer(zaf::Observable<std::wstring> observable_answer);
 
 protected:
     void OnRectChanged(const zaf::RectChangedInfo& event_info) override;

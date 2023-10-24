@@ -61,12 +61,23 @@ void ChatGPTCommand::InitializeExecutor() {
 
     executor_ = zaf::Create<ChatGPTExecutor>(client_);
 
+    zaf::Subject<std::wstring> map_subject;
+
+    auto map_observable = map_subject.AsObservable();
+    Subscriptions() += executor_->BeginEvent().Subscribe([this, map_observable](zaf::None) {
+        preview_control_->ShowAnswer(map_observable);
+    });
+
+    auto map_observer = map_subject.AsObserver();
     Subscriptions() += executor_->FinishEvent().Subscribe(
-        [this](const comm::ChatCompletion& completion) {
-            preview_control_->ShowAnswer(completion.Message().Content());
+        [map_observer](const comm::ChatCompletion& completion) {
+            map_observer.OnNext(completion.Message().Content());
         },
-        [this](const zaf::Error& error) {
-    
+        [map_observer](const zaf::Error& error) {
+            map_observer.OnError(error);
+        }, 
+        [map_observer]() {
+            map_observer.OnCompleted();
         });
 }
 

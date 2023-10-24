@@ -23,6 +23,10 @@ public:
         main::input::CommandInputContent command_input_content,
         std::unique_ptr<mod::Command> command);
 
+    const std::shared_ptr<mod::CommandPreviewControl>& PreviewControl() const {
+        return preview_control_;
+    }
+
     zaf::Observable<std::shared_ptr<PreservedCommandView>> CloseEvent() {
         return close_event_.GetObservable();
     }
@@ -40,6 +44,7 @@ private:
 
     main::input::CommandInputContent command_input_content_;
     std::unique_ptr<mod::Command> command_;
+    std::shared_ptr<mod::CommandPreviewControl> preview_control_;
 
     zaf::Event<std::shared_ptr<PreservedCommandView>> close_event_;
 };

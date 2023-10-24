@@ -26,10 +26,10 @@ void PreservedCommandView::AfterParse() {
     commandEdit->SetStyle(CommandDisplayStyle::Preserved);
     commandEdit->SetInputContent(command_input_content_);
 
-    auto preview_control = CreateCommandPreviewControl(*command_);
-    preview_control->SetStyle(CommandDisplayStyle::Preserved);
-    preview_control->SetIsVisible(true);
-    previewContainer->AddChild(preview_control);
+    preview_control_ = CreateCommandPreviewControl(*command_);
+    preview_control_->SetStyle(CommandDisplayStyle::Preserved);
+    preview_control_->SetIsVisible(true);
+    previewContainer->AddChild(preview_control_);
 
     InitializeToolbar();
 

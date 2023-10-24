@@ -15,6 +15,9 @@ void ChatGPTExecutor::SetQuestion(std::wstring question) {
 
 ExecuteResult ChatGPTExecutor::Execute() {
 
+    begin_event_.AsObserver().OnNext({});
+    begin_event_.AsObserver().OnCompleted();
+
     Message message{ std::move(question_) };
 
     //TODO: Need a better way to forward subscription.

@@ -21,11 +21,24 @@ protected:
     void AfterParse() override;
 
 private:
+    class ViewItem {
+    public:
+        std::shared_ptr<PreservedCommandView> view;
+        zaf::SubscriptionSet subscriptions;
+    };
+
+    void RemoveExcessViews();
+    void OnPreviewContentChanged(const mod::CommandPreviewContentChangedInfo& event_info);
     void ResetHeight();
+    void ScrollToView(const std::shared_ptr<PreservedCommandView>& view);
+
+    void RemoveFirstViewWithoutResetHeight();
 
 private:
     ZAF_BIND_CONTROL(utility::ThinScrollControl, scrollControl);
     ZAF_BIND_CONTROL(zaf::Control, listView);
+
+    std::vector<std::unique_ptr<ViewItem>> view_items_;
 };
 
 }

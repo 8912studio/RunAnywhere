@@ -12,7 +12,7 @@ public:
     ZAF_DECLARE_TYPE;
 
     void ShowQuestion(const std::wstring& question);
-    void ShowAnswer(const std::wstring& answer);
+    void ShowAnswer(zaf::Observable<std::wstring> observable_answer);
 
     zaf::Frame GetExpectedMargin() override;
 

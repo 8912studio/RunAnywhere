@@ -1,10 +1,12 @@
 #include "module/chat_gpt/comm/open_ai_client.h"
 #include <boost/json.hpp>
+#include <zaf/application.h>
 #include <zaf/base/error/basic_error.h>
 #include <zaf/base/string/encoding_conversion.h>
 #include <zaf/rx/creation.h>
 #include <zaf/rx/scheduler.h>
 #include <zaf/rx/subject.h>
+#include <zaf/rx/timer.h>
 #include "module/chat_gpt/comm/asio_scheduler.h"
 #include "module/chat_gpt/comm/error.h"
 #include "module/chat_gpt/comm/socket_manager.h"
@@ -133,8 +135,11 @@ zaf::Observable<ChatCompletion> OpenAIClient::CreateMockChatCompletion(
 
     zaf::ReplaySubject<ChatCompletion> subject;
 
-    std::wstring mock_response = LR"(Sure! Here's an example of a C++ code that uses `std::vector`:
-
+    zaf::Application::Instance().Subscriptions() +=
+        zaf::rx::Timer(std::chrono::seconds(3), zaf::Scheduler::Main()).Subscribe(
+            [observer = subject.AsObserver()](int) {
+    
+        std::wstring mock_response = LR"(Sure! Here's an example of a C++ code that uses `std::vector`:
 ```cpp
 #include <iostream>
 #include <vector>
@@ -181,8 +186,10 @@ int main() {
 This code demonstrates various operations with `std::vector`, such as adding elements, accessing elements, modifying elements, removing elements, iterating over the vector, checking the size, clearing the vector, and checking if the vector is empty.
 )";
 
-    subject.AsObserver().OnNext(ChatCompletion(Message(RoleAssistant, mock_response)));
-    subject.AsObserver().OnCompleted();
+        observer.OnNext(ChatCompletion(Message(RoleAssistant, mock_response)));
+        observer.OnCompleted();
+    });
+    
     return subject.AsObservable();
 }
 

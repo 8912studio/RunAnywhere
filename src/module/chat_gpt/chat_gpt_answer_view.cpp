@@ -1,5 +1,7 @@
 #include "module/chat_gpt/chat_gpt_answer_view.h"
+#include <zaf/creation.h>
 #include "help/help_style_config.h"
+#include "module/chat_gpt/progress_indicator.h"
 #include "utility/markdown/parse/markdown_parser.h"
 
 using namespace ra::utility::markdown::parse;
@@ -7,13 +9,26 @@ using namespace ra::utility::markdown::render;
 
 namespace ra::mod::chat_gpt {
 
-void ChatGPTAnswerView::SetAnswer(const std::wstring& answer) {
+void ChatGPTAnswerView::SetAnswer(zaf::Observable<std::wstring> observable_answer) {
 
-    auto root_element = MarkdownParser::Instance()->Parse(answer);
-    markdown_region_ = MarkdownRegion::Create(*root_element, help::GetHelpStyleConfig());
+    auto progress_indicator = zaf::Create<ProgressIndicator>();
+    progress_indicator->StartAnimation();
 
-    this->AddChild(markdown_region_);
+    this->RemoveAllChildren();
+    this->AddChild(progress_indicator);
+
     ResetHeight();
+
+    Subscriptions() += observable_answer.Subscribe([this](const std::wstring& answer) {
+
+        auto root_element = MarkdownParser::Instance()->Parse(answer);
+        markdown_region_ = MarkdownRegion::Create(*root_element, help::GetHelpStyleConfig());
+
+        this->RemoveAllChildren();
+        this->AddChild(markdown_region_);
+
+        ResetHeight();
+    });
 }
 
 
@@ -30,6 +45,7 @@ void ChatGPTAnswerView::OnRectChanged(const zaf::RectChangedInfo& event_info) {
 void ChatGPTAnswerView::ResetHeight() {
 
     if (!markdown_region_) {
+        this->SetFixedHeight(90);
         return;
     }
 

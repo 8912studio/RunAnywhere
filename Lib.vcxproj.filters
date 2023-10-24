@@ -933,6 +933,9 @@
     <ClInclude Include="src\module\chat_gpt\chat_gpt_command_parse_result.h">
       <Filter>src\module\chat_gpt</Filter>
     </ClInclude>
+    <ClInclude Include="src\module\chat_gpt\progress_indicator.h">
+      <Filter>src\module\chat_gpt</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -1518,6 +1521,9 @@
       <Filter>src\module\chat_gpt</Filter>
     </ClCompile>
     <ClCompile Include="src\module\chat_gpt\chat_gpt_command_parsing.cpp">
+      <Filter>src\module\chat_gpt</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\chat_gpt\progress_indicator.cpp">
       <Filter>src\module\chat_gpt</Filter>
     </ClCompile>
   </ItemGroup>

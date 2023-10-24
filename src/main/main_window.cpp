@@ -44,6 +44,16 @@ void MainWindow::AfterParse() {
     InitializeTextBox();
     InitializeHelpButton();
     InitializeToolbar();
+
+    Subscriptions() += preservedCommandListView->RectChangedEvent().Subscribe(
+        [this](const zaf::RectChangedInfo& event_info) {
+    
+        if (preservedCommandListView->IsVisible() && 
+            (preservedCommandListView->Height() != event_info.PreviousRect().size.height)) {
+
+            UpdateWindowRect();
+        }
+    });
 }
 
 
@@ -390,29 +400,17 @@ void MainWindow::PreserveCurrentCommand() {
         [this](const std::shared_ptr<PreservedCommandView>& view) {
     
         preservedCommandListView->RemoveView(view);
-        UpdateWindowRect();
     });
 
-    {
-        auto update_guard = preservedCommandListView->BeginUpdate();
-
-        auto max_count = option::OptionStorage::Instance().MaxPreservedCommandCount();
-        while (preservedCommandListView->ViewCount() >= max_count) {
-            preservedCommandListView->RemoveFirstView();
-        }
-
-        preservedCommandListView->AddView(preserved_command_view);
-        preservedCommandListView->SetIsVisible(true);
-    }
+    preservedCommandListView->AddView(preserved_command_view);
+    preservedCommandListView->SetIsVisible(true);
 
     inputEdit->SetText({});
 }
 
 
 void MainWindow::RemoveTheFirstPreservedCommand() {
-
     preservedCommandListView->RemoveFirstView();
-    UpdateWindowRect();
 }
 
 

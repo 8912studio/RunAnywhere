@@ -18,11 +18,15 @@ void ChatGPTPreviewControl::ShowQuestion(const std::wstring& question) {
 }
 
 
-void ChatGPTPreviewControl::ShowAnswer(const std::wstring& answer) {
+void ChatGPTPreviewControl::ShowAnswer(zaf::Observable<std::wstring> observable_answer) {
 
     auto answer_view = zaf::Create<ChatGPTAnswerView>();
-    answer_view->SetAnswer(answer);
+    answer_view->SetAnswer(observable_answer);
     ShowContentView(answer_view);
+
+    Subscriptions() += observable_answer.Subscribe([this](const std::wstring&) {
+        RaiseContentChangedEvent();
+    });
 }
 
 

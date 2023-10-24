@@ -1,6 +1,7 @@
 #include "main/preserve/preserved_command_list_view.h"
 #include <zaf/control/scroll_bar.h>
 #include <zaf/object/type_definition.h>
+#include "option/option_storage.h"
 
 namespace ra {
 
@@ -16,47 +17,122 @@ void PreservedCommandListView::AfterParse() {
 
 void PreservedCommandListView::AddView(const std::shared_ptr<PreservedCommandView>& view) {
 
-    listView->AddChild(view);
+    {
+        auto update_guard = this->BeginUpdate();
+        RemoveExcessViews();
+
+        auto view_item = std::make_unique<ViewItem>();
+        view_item->view = view;
+        view_item->subscriptions += view->PreviewControl()->ContentChangedEvent().Subscribe(std::bind(
+            &PreservedCommandListView::OnPreviewContentChanged,
+            this,
+            std::placeholders::_1));
+
+        view_items_.push_back(std::move(view_item));
+        listView->AddChild(view);
+    }
+
+    ResetHeight();
+    ScrollToView(view);
+}
+
+
+void PreservedCommandListView::RemoveExcessViews() {
+
+    auto max_count = option::OptionStorage::Instance().MaxPreservedCommandCount();
+    while (view_items_.size() >= max_count) {
+        RemoveFirstViewWithoutResetHeight();
+    }
+}
+
+
+void PreservedCommandListView::OnPreviewContentChanged(
+    const mod::CommandPreviewContentChangedInfo& event_info) {
+
     ResetHeight();
 
-    //Scroll to the new added view.
+    auto preview_control = zaf::As<mod::CommandPreviewControl>(event_info.Source());
+    if (!preview_control) {
+        return;
+    }
+
+    auto iterator = std::find_if(
+        view_items_.begin(),
+        view_items_.end(),
+        [&preview_control](const auto& item) {
+        return item->view->PreviewControl() == preview_control;
+    });
+
+    if (iterator == view_items_.end()) {
+        return;
+    }
+
+    ScrollToView((*iterator)->view);
+}
+
+
+void PreservedCommandListView::ScrollToView(const std::shared_ptr<PreservedCommandView>& view) {
+
     scrollControl->VerticalScrollBar()->SetValue(static_cast<int>(view->Position().y));
 }
 
 
 void PreservedCommandListView::RemoveView(const std::shared_ptr<PreservedCommandView>& view) {
 
-    listView->RemoveChild(view);
+    auto iterator = std::find_if(
+        view_items_.begin(),
+        view_items_.end(), 
+        [&view](const auto& item) {
+    
+        return item->view == view;
+    });
+
+    if (iterator == view_items_.end()) {
+        return;
+    }
+
+    auto index = std::distance(view_items_.begin(), iterator);
+    listView->RemoveChildAtIndex(index);
+
+    view_items_.erase(iterator);
+
     ResetHeight();
 }
 
 
 void PreservedCommandListView::RemoveFirstView() {
 
-    if (listView->ChildCount() > 0) {
-        listView->RemoveChildAtIndex(0);
-    }
+    RemoveFirstViewWithoutResetHeight();
     ResetHeight();
 }
 
 
+void PreservedCommandListView::RemoveFirstViewWithoutResetHeight() {
+
+    if (!view_items_.empty()) {
+        listView->RemoveChildAtIndex(0);
+        view_items_.erase(view_items_.begin());
+    }
+}
+
+
 std::size_t PreservedCommandListView::ViewCount() const {
-    return listView->ChildCount();
+    return view_items_.size();
 }
 
 
 void PreservedCommandListView::ResetHeight() {
 
-    float total_height{};
+    float new_height{};
 
-    for (const auto& each_view : listView->Children()) {
-        total_height += each_view->Height();
+    for (const auto& each_item : view_items_) {
+        new_height += each_item->view->Height();
     }
 
     constexpr float max_height = 500;
-    total_height = std::min(total_height, max_height);
+    new_height = std::min(new_height, max_height);
 
-    this->SetFixedHeight(total_height);
+    this->SetFixedHeight(new_height);
 }
 
 }
