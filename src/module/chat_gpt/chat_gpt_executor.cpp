@@ -1,5 +1,6 @@
 #include "module/chat_gpt/chat_gpt_executor.h"
-#include <zaf/base/error/basic_error.h>
+#include "module/chat_gpt/local_error.h"
+#include "option/option_storage.h"
 
 namespace ra::mod::chat_gpt {
 
@@ -26,10 +27,17 @@ ExecuteResult ChatGPTExecutor::Execute() {
 
 void ChatGPTExecutor::InnerExecute() {
 
+    if (option::OptionStorage::Instance().OpenAIAPIKey().empty()) {
+        finish_event_.AsObserver().OnError(zaf::Error{
+            make_error_code(LocalErrc::NoAPIKey)
+        });
+        return;
+    }
+
     //Not allow to send empty question.
     if (question_.empty()) {
         finish_event_.AsObserver().OnError(zaf::Error{ 
-            zaf::make_error_code(zaf::BasicErrc::InvalidValue) 
+            make_error_code(LocalErrc::EmptyQuestion) 
         });
         return;
     }

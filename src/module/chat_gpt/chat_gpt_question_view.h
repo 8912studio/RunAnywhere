@@ -21,7 +21,12 @@ protected:
     void AfterParse() override;
 
 private:
+    void ShowNoAPIKeyError();
+    void ShowQuestion(const std::wstring& question);
+
+private:
     ZAF_BIND_CONTROL(zaf::Control, hintContainer);
+    ZAF_BIND_CONTROL(zaf::Control, messageLabel);
     ZAF_BIND_CONTROL(TextContentControl, questionControl);
     ZAF_BIND_CONTROL(zaf::Control, errorContainer);
     ZAF_BIND_CONTROL(ErrorView, errorView);

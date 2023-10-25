@@ -3,8 +3,7 @@
     <HorizontalBox 
         Name="hintContainer"
         FixedHeight="30" 
-        CrossAxisAlignment="Center"
-        IsVisible="false">
+        CrossAxisAlignment="Center">
 
         <Label 
             FixedSize="26,18"
@@ -29,6 +28,7 @@
 
     <VerticalBox 
         Name="errorContainer" 
+        FixedHeight="90"
         AxisAlignment="Center"
         CrossAxisAlignment="Center"
         IsVisible="false">

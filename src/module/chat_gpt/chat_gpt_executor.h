@@ -15,10 +15,6 @@ public:
         return begin_event_.AsObservable();
     }
 
-    /**
-    Error
-        zaf::BasicErrc::InvalidValid - Value of question is invalid.
-    */
     zaf::Observable<comm::ChatCompletion> FinishEvent() const {
         return finish_event_.AsObservable();
     }

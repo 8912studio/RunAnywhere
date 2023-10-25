@@ -2,6 +2,7 @@
 #include <zaf/creation.h>
 #include <zaf/object/type_definition.h>
 #include "help/help_style_config.h"
+#include "module/chat_gpt/local_error.h"
 #include "module/chat_gpt/progress_indicator.h"
 #include "utility/markdown/parse/markdown_parser.h"
 
@@ -61,9 +62,11 @@ void ChatGPTAnswerView::ShowContent(const std::shared_ptr<zaf::Control>& content
 
 void ChatGPTAnswerView::ShowError(const zaf::Error& error) {
 
-    //Invalid question.
-    if (error.Code() == zaf::BasicErrc::InvalidValue) {
+    if (error.Code() == LocalErrc::EmptyQuestion) {
         errorView->ShowHintText(L"No response for empty message");
+    }
+    else if (error.Code() == LocalErrc::NoAPIKey) {
+        errorView->ShowErrorText(L"No API key");
     }
     else {
         errorView->ShowErrorText(L"Unknown error");

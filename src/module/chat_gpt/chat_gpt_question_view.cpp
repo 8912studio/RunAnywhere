@@ -29,25 +29,35 @@ void ChatGPTQuestionView::AfterParse() {
 void ChatGPTQuestionView::SetQuestion(const std::wstring& question) {
 
     if (option::OptionStorage::Instance().OpenAIAPIKey().empty()) {
-
-        errorView->ShowErrorText(L"API key is required");
-        errorContainer->SetFixedHeight(120);
-        errorContainer->SetIsVisible(true);
-        openOptionButton->SetIsVisible(true);
+        ShowNoAPIKeyError();
     }
     else {
+        ShowQuestion(question);
+    }
+}
 
-        hintContainer->SetIsVisible(true);
 
-        if (!question.empty()) {
-            questionControl->SetText(question);
-            questionControl->SetIsVisible(true);
-        }
-        else {
-            errorView->ShowHintText(ErrorMessages::NoContentToDisplay);
-            errorContainer->SetFixedHeight(90);
-            errorContainer->SetIsVisible(true);
-        }
+void ChatGPTQuestionView::ShowNoAPIKeyError() {
+
+    messageLabel->SetIsVisible(false);
+
+    errorView->ShowErrorText(L"API key is required");
+    errorContainer->SetIsVisible(true);
+    openOptionButton->SetIsVisible(true);
+}
+
+
+void ChatGPTQuestionView::ShowQuestion(const std::wstring& question) {
+
+    messageLabel->SetIsVisible(true);
+
+    if (!question.empty()) {
+        questionControl->SetText(question);
+        questionControl->SetIsVisible(true);
+    }
+    else {
+        errorView->ShowHintText(ErrorMessages::NoContentToDisplay);
+        errorContainer->SetIsVisible(true);
     }
 }
 
