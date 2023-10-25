@@ -12,6 +12,7 @@ public:
     void StopAnimation();
 
 protected:
+    void AfterParse() override;
     void Paint(zaf::Canvas& canvas, const zaf::Rect& dirty_rect) override;
 
 private:

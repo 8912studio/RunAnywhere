@@ -2,6 +2,7 @@
 
 #include <zaf/control/control_binder.h>
 #include <zaf/control/linear_box.h>
+#include "module/chat_gpt/progress_indicator.h"
 #include "module/common/error_view.h"
 #include "utility/markdown/render/markdown_region.h"
 
@@ -25,6 +26,7 @@ private:
     void ResetContentHeight();
 
 private:
+    ZAF_BIND_CONTROL(ProgressIndicator, progressIndicator);
     ZAF_BIND_CONTROL(zaf::Control, contentView);
     ZAF_BIND_CONTROL(ErrorView, errorView);
 

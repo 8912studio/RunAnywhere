@@ -3,7 +3,6 @@
 #include <zaf/object/type_definition.h>
 #include "help/help_style_config.h"
 #include "module/chat_gpt/local_error.h"
-#include "module/chat_gpt/progress_indicator.h"
 #include "utility/markdown/parse/markdown_parser.h"
 
 using namespace ra::utility::markdown::parse;
@@ -17,12 +16,14 @@ ZAF_DEFINE_TYPE_END;
 
 void ChatGPTAnswerView::SetAnswer(zaf::Observable<std::wstring> observable_answer) {
 
-    auto progress_indicator = zaf::Create<ProgressIndicator>();
-    progress_indicator->StartAnimation();
-    progress_indicator->SetFixedHeight(90);
-    ShowContent(progress_indicator);
+    progressIndicator->StartAnimation();
+    progressIndicator->SetIsVisible(true);
 
-    Subscriptions() += observable_answer.Subscribe([this](const std::wstring& answer) {
+    Subscriptions() += observable_answer.Finally([this]() {
+        progressIndicator->StopAnimation();
+        progressIndicator->SetIsVisible(false);
+    })
+    .Subscribe([this](const std::wstring& answer) {
 
         auto root_element = MarkdownParser::Instance()->Parse(answer);
         markdown_region_ = MarkdownRegion::Create(*root_element, help::GetHelpStyleConfig());

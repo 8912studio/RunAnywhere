@@ -15,6 +15,14 @@ ZAF_DEFINE_TYPE(ProgressIndicator)
 ZAF_DEFINE_TYPE_END;
 
 
+void ProgressIndicator::AfterParse() {
+
+    __super::AfterParse();
+
+    this->SetFixedHeight(28);
+}
+
+
 void ProgressIndicator::StartAnimation() {
 
     timer_ = zaf::rx::Interval(std::chrono::milliseconds(800), zaf::Scheduler::Main()).Subscribe(
@@ -35,9 +43,9 @@ void ProgressIndicator::Paint(zaf::Canvas& canvas, const zaf::Rect& dirty_rect) 
 
     __super::Paint(canvas, dirty_rect);
 
-    constexpr float ellipse_radius = 4;
+    constexpr float ellipse_radius = 2;
     constexpr float ellipse_diameter = ellipse_radius * 2;
-    constexpr float ellipse_spacing = ellipse_diameter * 2;
+    constexpr float ellipse_spacing = ellipse_diameter;
 
     constexpr float total_width = 
         ellipse_diameter * EllipseCount + 
@@ -45,7 +53,7 @@ void ProgressIndicator::Paint(zaf::Canvas& canvas, const zaf::Rect& dirty_rect) 
 
     constexpr float total_height = ellipse_diameter;
 
-    float ellipse_x = (this->Width() - total_width) / 2 + ellipse_radius;
+    float ellipse_x = ellipse_radius;
     const float ellipse_y = this->Height() / 2;
 
     for (auto index : zaf::Range(0, EllipseCount)) {
