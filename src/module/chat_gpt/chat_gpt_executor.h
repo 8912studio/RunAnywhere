@@ -15,6 +15,10 @@ public:
         return begin_event_.AsObservable();
     }
 
+    /**
+    Error
+        zaf::BasicErrc::InvalidValid - Value of question is invalid.
+    */
     zaf::Observable<comm::ChatCompletion> FinishEvent() const {
         return finish_event_.AsObservable();
     }
@@ -22,6 +26,9 @@ public:
     void SetQuestion(std::wstring question);
 
     ExecuteResult Execute() override;
+
+private:
+    void InnerExecute();
 
 private:
     std::shared_ptr<comm::OpenAIClient> client_;

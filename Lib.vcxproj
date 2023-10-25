@@ -564,6 +564,7 @@
     <Page Include="src\main\preserve\preserved_command_view.xaml" />
     <Page Include="src\main\toolbar\command_toolbar.xaml" />
     <Page Include="src\module\calculator\preview\calculator_preview_control.xaml" />
+    <Page Include="src\module\chat_gpt\chat_gpt_answer_view.xaml" />
     <Page Include="src\module\chat_gpt\chat_gpt_preview_control.xaml" />
     <Page Include="src\module\chat_gpt\chat_gpt_question_view.xaml" />
     <Page Include="src\module\common\binary_content\binary_content_control.xaml" />

@@ -1,4 +1,5 @@
 #include "module/chat_gpt/chat_gpt_executor.h"
+#include <zaf/base/error/basic_error.h>
 
 namespace ra::mod::chat_gpt {
 
@@ -18,21 +19,34 @@ ExecuteResult ChatGPTExecutor::Execute() {
     begin_event_.AsObserver().OnNext({});
     begin_event_.AsObserver().OnCompleted();
 
+    InnerExecute();
+    return PostExecuteAction::Preserve;
+}
+
+
+void ChatGPTExecutor::InnerExecute() {
+
+    //Not allow to send empty question.
+    if (question_.empty()) {
+        finish_event_.AsObserver().OnError(zaf::Error{ 
+            zaf::make_error_code(zaf::BasicErrc::InvalidValue) 
+        });
+        return;
+    }
+
     Message message{ std::move(question_) };
 
     //TODO: Need a better way to forward subscription.
     Subscriptions() += client_->CreateChatCompletion({ std::move(message) }).Subscribe(
-    [this](const comm::ChatCompletion& completion) {
-        finish_event_.AsObserver().OnNext(completion);
-    }, 
-    [this](const zaf::Error& error) {
-        finish_event_.AsObserver().OnError(error);
-    },
-    [this]() {
-        finish_event_.AsObserver().OnCompleted();
-    });
-
-    return PostExecuteAction::Preserve;
+        [this](const comm::ChatCompletion& completion) {
+            finish_event_.AsObserver().OnNext(completion);
+        },
+        [this](const zaf::Error& error) {
+            finish_event_.AsObserver().OnError(error);
+        },
+        [this]() {
+            finish_event_.AsObserver().OnCompleted();
+        });
 }
 
 }

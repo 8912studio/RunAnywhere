@@ -53,12 +53,13 @@ void ChatGPTPreviewControl::OnStyleChanged() {
         return;
     }
 
-    auto question_view = zaf::As<ChatGPTQuestionView>(contentView->Children().front());
-    if (!question_view) {
-        return;
+    const auto& child = contentView->Children().front();
+    if (auto question_view = zaf::As<ChatGPTQuestionView>(child)) {
+        question_view->ChangeStyle(this->Style());
     }
-
-    question_view->ChangeStyle(this->Style());
+    else if (auto answer_view = zaf::As<ChatGPTAnswerView>(child)) {
+        answer_view->ChangeStyle(this->Style());
+    }
 }
 
 }

@@ -1612,6 +1612,9 @@
     <Page Include="src\module\chat_gpt\chat_gpt_question_view.xaml">
       <Filter>src\module\chat_gpt</Filter>
     </Page>
+    <Page Include="src\module\chat_gpt\chat_gpt_answer_view.xaml">
+      <Filter>src\module\chat_gpt</Filter>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
