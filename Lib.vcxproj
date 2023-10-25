@@ -332,7 +332,7 @@
     <ClInclude Include="src\utility\markdown\render\styled_text_layout.h" />
     <ClInclude Include="src\utility\markdown\render\style_config.h" />
     <ClInclude Include="src\utility\markdown\render\text_style.h" />
-    <ClInclude Include="src\utility\markdown\render\unordered_list_region.h" />
+    <ClInclude Include="src\utility\markdown\render\list_region.h" />
     <ClInclude Include="src\utility\numeric_text_formatting.h" />
     <ClInclude Include="src\utility\path_trimming.h" />
     <ClInclude Include="src\utility\preview_text_box.h" />
@@ -541,7 +541,7 @@
     <ClCompile Include="src\utility\markdown\render\simple_block_region.cpp" />
     <ClCompile Include="src\utility\markdown\render\styled_text_box.cpp" />
     <ClCompile Include="src\utility\markdown\render\styled_text_builder.cpp" />
-    <ClCompile Include="src\utility\markdown\render\unordered_list_region.cpp" />
+    <ClCompile Include="src\utility\markdown\render\list_region.cpp" />
     <ClCompile Include="src\utility\numeric_text_formatting.cpp" />
     <ClCompile Include="src\utility\path_trimming.cpp" />
     <ClCompile Include="src\utility\preview_text_box.cpp" />

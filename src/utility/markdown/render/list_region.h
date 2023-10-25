@@ -6,15 +6,15 @@
 
 namespace ra::utility::markdown::render {
 
-class UnorderedListRegion : public CompoundRegion {
+class ListRegion : public CompoundRegion {
 public:
-    static std::shared_ptr<UnorderedListRegion> Create(
+    static std::shared_ptr<ListRegion> Create(
         const element::Element& element,
         const StyleConfig& style_config,
         std::size_t depth);
 
 private:
-    explicit UnorderedListRegion(std::vector<std::shared_ptr<RenderRegion>> item_regions);
+    explicit ListRegion(std::vector<std::shared_ptr<RenderRegion>> item_regions);
 };
 
 }

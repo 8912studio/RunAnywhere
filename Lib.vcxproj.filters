@@ -918,7 +918,7 @@
     <ClInclude Include="src\utility\markdown\render\text_style.h">
       <Filter>src\utility\markdown\render</Filter>
     </ClInclude>
-    <ClInclude Include="src\utility\markdown\render\unordered_list_region.h">
+    <ClInclude Include="src\utility\markdown\render\list_region.h">
       <Filter>src\utility\markdown\render</Filter>
     </ClInclude>
     <ClInclude Include="src\module\chat_gpt\chat_gpt_question_view.h">
@@ -1514,7 +1514,7 @@
     <ClCompile Include="src\utility\markdown\render\styled_text_builder.cpp">
       <Filter>src\utility\markdown\render</Filter>
     </ClCompile>
-    <ClCompile Include="src\utility\markdown\render\unordered_list_region.cpp">
+    <ClCompile Include="src\utility\markdown\render\list_region.cpp">
       <Filter>src\utility\markdown\render</Filter>
     </ClCompile>
     <ClCompile Include="src\module\chat_gpt\chat_gpt_question_view.cpp">

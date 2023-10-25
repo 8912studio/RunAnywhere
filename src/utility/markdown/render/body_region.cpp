@@ -4,8 +4,8 @@
 #include "utility/markdown/element/header_element.h"
 #include "utility/markdown/render/code_block_region.h"
 #include "utility/markdown/render/header_region.h"
+#include "utility/markdown/render/list_region.h"
 #include "utility/markdown/render/paragraph_region.h"
-#include "utility/markdown/render/unordered_list_region.h"
 
 namespace ra::utility::markdown::render {
 
@@ -47,8 +47,9 @@ std::shared_ptr<RenderRegion> BodyRegion::CreateBlockRegion(
         return HeaderRegion::Create(element, style_config);
     case element::ElementType::CodeBlock:
         return CodeBlockRegion::Create(element, style_config);
+    case element::ElementType::OrderedList:
     case element::ElementType::UnorderedList:
-        return UnorderedListRegion::Create(element, style_config, depth);
+        return ListRegion::Create(element, style_config, depth);
     default:
         ZAF_NOT_REACHED();
     }
