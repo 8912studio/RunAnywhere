@@ -66,6 +66,7 @@ zaf::Observable<ChatCompletion> OpenAIClient::CreateChatCompletion(
     auto api_key = zaf::ToUTF8String(option::OptionStorage::Instance().OpenAIAPIKey());
 
     auto connection = std::make_shared<curlion::HttpConnection>();
+    connection->SetConnectTimeoutInMilliseconds(5000);
     connection->SetUrl("https://api.openai.com/v1/chat/completions");
     connection->SetRequestHeaders({
         { "Content-Type", "application/json" },
@@ -105,7 +106,10 @@ zaf::Observable<ChatCompletion> OpenAIClient::CreateChatCompletion(
     
         auto curl_code = connection->GetResult();
         if (curl_code != CURLE_OK) {
-            observer.OnError(zaf::Error(std::error_code(curl_code, CURLErrorCategory())));
+            observer.OnError(zaf::Error{ 
+                std::error_code(curl_code, CURLErrorCategory()),
+                connection->GetError()
+            });
             return;
         }
 

@@ -1,7 +1,10 @@
 #include "module/chat_gpt/chat_gpt_answer_view.h"
+#include <zaf/base/string/encoding_conversion.h>
 #include <zaf/creation.h>
 #include <zaf/object/type_definition.h>
+#include <curlion.h>
 #include "help/help_style_config.h"
+#include "module/chat_gpt/comm/error.h"
 #include "module/chat_gpt/local_error.h"
 #include "utility/markdown/parse/markdown_parser.h"
 
@@ -63,16 +66,26 @@ void ChatGPTAnswerView::ShowContent(const std::shared_ptr<zaf::Control>& content
 
 void ChatGPTAnswerView::ShowError(const zaf::Error& error) {
 
-    if (error.Code() == LocalErrc::EmptyQuestion) {
-        errorView->ShowHintText(L"No response for empty message");
-    }
-    else if (error.Code() == LocalErrc::NoAPIKey) {
-        errorView->ShowErrorText(L"No API key");
-    }
-    else {
-        errorView->ShowErrorText(L"Unknown error");
-    }
+    auto error_text = [&error]() -> std::wstring {
+        if (error.Code() == LocalErrc::EmptyQuestion) {
+            return L"No response for empty message";
+        }
+        if (error.Code() == LocalErrc::NoAPIKey) {
+            return L"No API key";
+        }
 
+        const auto& error_category = error.Code().category();
+
+        if (error_category == comm::CURLErrorCategory() ||
+            error_category == comm::HTTPErrorCategory() ||
+            error_category == curlion::CurlMultiErrorCategory()) {
+            return L"Network error";
+        }
+
+        return L"Unknown error";
+    }();
+    
+    errorView->ShowErrorText(error_text);
     errorView->SetIsVisible(true);
     contentView->SetIsVisible(false);
 }

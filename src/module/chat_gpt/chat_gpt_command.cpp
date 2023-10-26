@@ -98,6 +98,9 @@ void ChatGPTCommand::CreateExecutor() {
             if (error.Code().category() == LocalCategory()) {
                 command_state_ = CommandState::Failed;
             }
+            else {
+                command_state_ = CommandState::Waiting;
+            }
         }, 
         [this, map_observer]() {
             map_observer.OnCompleted();
