@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <zaf/base/event/event.h>
 #include <zaf/base/non_copyable.h>
 #include "context/desktop_context.h"
 #include "help/help_content.h"
@@ -62,6 +63,27 @@ public:
         Returns nullptr if the command cannot execute.
     */
     virtual std::shared_ptr<CommandExecutor> GetExecutor() = 0;
+
+    /**
+    Command state updated event.
+
+    Some commands might have interior logic and change preview controls and executors once their
+    states are updated, use this event to get notified.
+    */
+    zaf::Observable<Command*> StateUpdatedEvent() const {
+        return state_updated_event_.GetObservable();
+    }
+
+protected:
+    /**
+    Called by dervied class to notify that state is updated.
+    */
+    void NotifyStateUpdated() {
+        state_updated_event_.Raise(this);
+    }
+
+private:
+    zaf::Event<Command*> state_updated_event_;
 };
 
 }

@@ -28,7 +28,7 @@ private:
     };
 
     void RemoveExcessViews();
-    void OnPreviewContentChanged(const mod::CommandPreviewContentChangedInfo& event_info);
+    void OnViewStateUpdated(const std::shared_ptr<PreservedCommandView>& view);
     void ResetHeight();
     void ScrollToView(const std::shared_ptr<PreservedCommandView>& view);
 

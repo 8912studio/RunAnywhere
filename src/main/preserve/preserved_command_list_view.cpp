@@ -23,8 +23,8 @@ void PreservedCommandListView::AddView(const std::shared_ptr<PreservedCommandVie
 
         auto view_item = std::make_unique<ViewItem>();
         view_item->view = view;
-        view_item->subscriptions += view->PreviewControl()->ContentChangedEvent().Subscribe(std::bind(
-            &PreservedCommandListView::OnPreviewContentChanged,
+        view_item->subscriptions += view->StateUpdatedEvent().Subscribe(std::bind(
+            &PreservedCommandListView::OnViewStateUpdated,
             this,
             std::placeholders::_1));
 
@@ -46,21 +46,16 @@ void PreservedCommandListView::RemoveExcessViews() {
 }
 
 
-void PreservedCommandListView::OnPreviewContentChanged(
-    const mod::CommandPreviewContentChangedInfo& event_info) {
+void PreservedCommandListView::OnViewStateUpdated(
+    const std::shared_ptr<PreservedCommandView>& view) {
 
     ResetHeight();
-
-    auto preview_control = zaf::As<mod::CommandPreviewControl>(event_info.Source());
-    if (!preview_control) {
-        return;
-    }
 
     auto iterator = std::find_if(
         view_items_.begin(),
         view_items_.end(),
-        [&preview_control](const auto& item) {
-        return item->view->PreviewControl() == preview_control;
+        [&view](const auto& item) {
+        return item->view == view;
     });
 
     if (iterator == view_items_.end()) {

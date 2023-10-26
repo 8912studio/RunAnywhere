@@ -26,13 +26,29 @@ public:
     std::shared_ptr<CommandExecutor> GetExecutor() override;
 
 private:
-    void InitializePreviewControl();
-    void InitializeExecutor();
+    enum class CommandState {
+        //The command is waiting for executing.
+        Waiting,
+        //The command is executing.
+        Executing,
+        //The command has failed.
+        Failed,
+        //The command has completed.
+        Completed,
+    };
+
+private:
+    void CreateExecutor();
 
 private:
     std::shared_ptr<comm::OpenAIClient> client_;
     std::shared_ptr<ChatGPTPreviewControl> preview_control_;
-    std::shared_ptr<ChatGPTExecutor> executor_;
+
+    CommandState command_state_{ CommandState::Waiting };
+    std::wstring question_;
+    std::wstring answer_;
+    
+    std::shared_ptr<ChatGPTExecutor> chat_gpt_executor_;
 };
 
 }

@@ -23,11 +23,11 @@ public:
         main::input::CommandInputContent command_input_content,
         std::unique_ptr<mod::Command> command);
 
-    const std::shared_ptr<mod::CommandPreviewControl>& PreviewControl() const {
-        return preview_control_;
+    zaf::Observable<std::shared_ptr<PreservedCommandView>> StateUpdatedEvent() const {
+        return state_updated_event_.GetObservable();
     }
 
-    zaf::Observable<std::shared_ptr<PreservedCommandView>> CloseEvent() {
+    zaf::Observable<std::shared_ptr<PreservedCommandView>> CloseEvent() const {
         return close_event_.GetObservable();
     }
 
@@ -36,6 +36,7 @@ protected:
 
 private:
     void InitializeToolbar();
+    void UpdateCommandState();
 
 private:
     ZAF_BIND_CONTROL(main::input::CommandInputEdit, commandEdit);
@@ -44,8 +45,8 @@ private:
 
     main::input::CommandInputContent command_input_content_;
     std::unique_ptr<mod::Command> command_;
-    std::shared_ptr<mod::CommandPreviewControl> preview_control_;
 
+    zaf::Event<std::shared_ptr<PreservedCommandView>> state_updated_event_;
     zaf::Event<std::shared_ptr<PreservedCommandView>> close_event_;
 };
 

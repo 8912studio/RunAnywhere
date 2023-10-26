@@ -23,15 +23,21 @@ void PreservedCommandView::AfterParse() {
 
     __super::AfterParse();
 
+    InitializeToolbar();
+
     commandEdit->SetStyle(CommandDisplayStyle::Preserved);
     commandEdit->SetInputContent(command_input_content_);
 
-    preview_control_ = CreateCommandPreviewControl(*command_);
-    preview_control_->SetStyle(CommandDisplayStyle::Preserved);
-    preview_control_->SetIsVisible(true);
-    previewContainer->AddChild(preview_control_);
+    UpdateCommandState();
 
-    InitializeToolbar();
+    Subscriptions() += command_->StateUpdatedEvent().Subscribe([this](mod::Command*) {
+        UpdateCommandState();
+        state_updated_event_.Raise(zaf::As<PreservedCommandView>(shared_from_this()));
+    });
+}
+
+
+void PreservedCommandView::InitializeToolbar() {
 
     Subscriptions() += MouseEnterEvent().Subscribe(std::bind([this]() {
         toolbar->SetIsVisible(true);
@@ -42,12 +48,6 @@ void PreservedCommandView::AfterParse() {
             toolbar->SetIsVisible(false);
         }
     }));
-}
-
-
-void PreservedCommandView::InitializeToolbar() {
-
-    toolbar->UpdateStyle(CommandDisplayStyle::Preserved, command_->GetExecutor());
 
     Subscriptions() += toolbar->CloseEvent().Subscribe(std::bind([this]() {
         close_event_.Raise(zaf::As<PreservedCommandView>(shared_from_this()));
@@ -56,6 +56,27 @@ void PreservedCommandView::InitializeToolbar() {
     Subscriptions() += toolbar->ExecuteEvent().Subscribe(std::bind([this]() {
         command_->GetExecutor()->Execute();
     }));
+}
+
+
+void PreservedCommandView::UpdateCommandState() {
+
+    auto new_preview_control = CreateCommandPreviewControl(*command_);
+    new_preview_control->SetStyle(CommandDisplayStyle::Preserved);
+    new_preview_control->SetIsVisible(true);
+
+    std::shared_ptr<mod::CommandPreviewControl> old_preview_control;
+    if (previewContainer->ChildCount() > 0) {
+        old_preview_control = zaf::As<mod::CommandPreviewControl>(
+            previewContainer->Children().front());
+    }
+
+    if (new_preview_control != old_preview_control) {
+        previewContainer->RemoveAllChildren();
+        previewContainer->AddChild(new_preview_control);
+    }
+
+    toolbar->UpdateStyle(CommandDisplayStyle::Preserved, command_->GetExecutor());
 }
 
 }

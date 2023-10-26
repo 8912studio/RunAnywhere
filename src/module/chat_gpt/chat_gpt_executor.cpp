@@ -1,4 +1,5 @@
 #include "module/chat_gpt/chat_gpt_executor.h"
+#include <zaf/base/error/check.h>
 #include "module/chat_gpt/local_error.h"
 #include "option/option_storage.h"
 
@@ -16,6 +17,10 @@ void ChatGPTExecutor::SetQuestion(std::wstring question) {
 
 
 ExecuteResult ChatGPTExecutor::Execute() {
+
+    //One exectuor can only execute once.
+    ZAF_EXPECT(!has_executed_);
+    has_executed_ = true;
 
     begin_event_.AsObserver().OnNext({});
     begin_event_.AsObserver().OnCompleted();

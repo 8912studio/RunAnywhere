@@ -28,6 +28,7 @@ private:
 
 private:
     std::shared_ptr<comm::OpenAIClient> client_;
+    bool has_executed_{};
     std::wstring question_;
     zaf::Subject<zaf::None> begin_event_;
     zaf::Subject<comm::ChatCompletion> finish_event_;

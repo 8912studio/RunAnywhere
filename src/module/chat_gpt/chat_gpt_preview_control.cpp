@@ -23,10 +23,6 @@ void ChatGPTPreviewControl::ShowAnswer(zaf::Observable<std::wstring> observable_
     auto answer_view = zaf::Create<ChatGPTAnswerView>();
     answer_view->SetAnswer(observable_answer);
     ShowContentView(answer_view);
-
-    Subscriptions() += observable_answer.Subscribe([this](const std::wstring&) {
-        RaiseContentChangedEvent();
-    });
 }
 
 
