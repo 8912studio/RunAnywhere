@@ -296,11 +296,19 @@ TEST(MarkdownParserTest, ParseUnorderedList) {
 
 TEST(MarkdownParserTest, ParseOrderedList) {
 
-    auto test = [](std::wstring_view input, ElementList expected) {
-        return TestParser(input, { MakeOrderedList(ListItemStyle::Lines, std::move(expected)) });
+    auto test = [](std::wstring_view input, std::size_t first_number, ElementList expected) {
+        return TestParser(input, { 
+            MakeOrderedList(ListItemStyle::Lines, first_number, std::move(expected)) 
+        });
     };
 
-    ASSERT_TRUE(test(L"1. item1\n2. item2\n3. item3", {
+    ASSERT_TRUE(test(L"1. item1\n2. item2\n3. item3", 1, {
+        MakeListItem({ MakeParagraph(L"item1")}),
+        MakeListItem({ MakeParagraph(L"item2")}),
+        MakeListItem({ MakeParagraph(L"item3")}),
+    }));
+
+    ASSERT_TRUE(test(L"5. item1\n6. item2\n7. item3", 5, {
         MakeListItem({ MakeParagraph(L"item1")}),
         MakeListItem({ MakeParagraph(L"item2")}),
         MakeListItem({ MakeParagraph(L"item3")}),

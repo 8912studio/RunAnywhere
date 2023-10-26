@@ -1,4 +1,5 @@
 #include "utility/markdown/parse/ordered_list_item_parser.h"
+#include <zaf/base/string/to_numeric.h>
 
 namespace ra::utility::markdown::parse {
 namespace {
@@ -14,13 +15,17 @@ bool OrderedListItemParser::ParseItemIdentity(ParseContext& context) {
     auto transaction = context.BeginTransaction();
     context.SkipSpaces();
 
-    std::size_t digit_count{};
+    std::wstring number_string;
     while (IsDigitChar(context.CurrentChar())) {
-        ++digit_count;
+        number_string += context.CurrentChar();
         context.Forward();
     }
 
-    if (digit_count == 0) {
+    if (number_string.empty()) {
+        return false;
+    }
+
+    if (!zaf::TryToNumeric<std::size_t>(number_string, number_)) {
         return false;
     }
 

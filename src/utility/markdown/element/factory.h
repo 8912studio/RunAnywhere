@@ -84,8 +84,12 @@ inline std::shared_ptr<Element> MakeUnorderedList(ListItemStyle item_type, Eleme
 }
 
 
-inline std::shared_ptr<Element> MakeOrderedList(ListItemStyle item_type, ElementList children) {
-    return std::make_shared<OrderedListElement>(item_type, std::move(children));
+inline std::shared_ptr<Element> MakeOrderedList(
+    ListItemStyle item_type,
+    std::size_t first_number, 
+    ElementList children) {
+
+    return std::make_shared<OrderedListElement>(item_type, first_number, std::move(children));
 }
 
 }

@@ -13,7 +13,10 @@ protected:
         element::ElementList list_items) override;
 
 private:
-    std::unique_ptr<ListItemParser> CreateItemParser(ParseContext& context);
+    std::unique_ptr<ListItemParser> CreateItemParser(ParseContext& context, bool is_first);
+
+private:
+    std::size_t first_number_{};
 };
 
 }

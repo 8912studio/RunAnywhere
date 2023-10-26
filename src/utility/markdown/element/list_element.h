@@ -27,7 +27,16 @@ private:
 
 class OrderedListElement : public ListElement {
 public:
-    OrderedListElement(ListItemStyle item_style, ElementList children);
+    OrderedListElement(ListItemStyle item_style, std::size_t first_number, ElementList children);
+
+    std::size_t FirstNumber() const {
+        return first_number_;
+    }
+
+    bool IsEqualTo(const Element& other) const override;
+
+private:
+    std::size_t first_number_{};
 };
 
 

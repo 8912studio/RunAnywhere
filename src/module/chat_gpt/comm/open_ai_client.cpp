@@ -59,7 +59,7 @@ OpenAIClient::~OpenAIClient() {
 zaf::Observable<ChatCompletion> OpenAIClient::CreateChatCompletion(
     const std::vector<Message>& messages) {
 
-    return CreateMockChatCompletion(messages);
+    //return CreateMockChatCompletion(messages);
 
     zaf::ReplaySubject<ChatCompletion> subject;
 
@@ -89,8 +89,15 @@ zaf::Observable<ChatCompletion> OpenAIClient::CreateChatCompletion(
         const char* data,
         std::size_t size) {
     
-        std::string content(data, size);
-        OutputDebugStringA(content.c_str());
+        if (data_type == curlion::Connection::DebugDataType::Information ||
+            data_type == curlion::Connection::DebugDataType::SentHeader ||
+            data_type == curlion::Connection::DebugDataType::SentBody ||
+            data_type == curlion::Connection::DebugDataType::ReceivedHeader ||
+            data_type == curlion::Connection::DebugDataType::ReceivedBody) {
+
+            std::string content(data, size);
+            OutputDebugStringA(content.c_str());
+        }
     });
 
     connection->SetFinishedCallback([observer = subject.AsObserver(), messages](

@@ -16,8 +16,12 @@ std::wstring UnorderedListItemIdentityCreator(std::size_t index, std::size_t dep
     return depth % 2 ? L"\u25e6" : L"\u2022";
 }
 
-std::wstring OrderedListItemIdentityCreator(std::size_t index, std::size_t depth) {
-    return std::to_wstring(index + 1) + L'.';
+std::wstring OrderedListItemIdentityCreator(
+    std::size_t first_number,
+    std::size_t index,
+    std::size_t depth) {
+
+    return std::to_wstring(first_number + index) + L'.';
 }
 
 }
@@ -38,10 +42,18 @@ std::shared_ptr<ListRegion> ListRegion::Create(
         item_margin.top = style_config.block_gap - style_config.paragraph_config.line_gap;
     }
 
-    ItemIdentityCreator identity_creator =
-        element.Type() == element::ElementType::UnorderedList ?
-        UnorderedListItemIdentityCreator :
-        OrderedListItemIdentityCreator;
+    ItemIdentityCreator identity_creator;
+    if (element.Type() == element::ElementType::UnorderedList) {
+        identity_creator = UnorderedListItemIdentityCreator;
+    }
+    else {
+        const auto& ordered_list_element = zaf::As<element::OrderedListElement>(element);
+        identity_creator = std::bind(
+            OrderedListItemIdentityCreator, 
+            ordered_list_element.FirstNumber(),
+            std::placeholders::_1,
+            std::placeholders::_2);
+    }
 
     std::vector<std::shared_ptr<RenderRegion>> item_regions;
     for (auto index : zaf::Range(0, list_element.Children().size())) {
