@@ -8,8 +8,6 @@
 namespace ra::utility {
 namespace {
 
-constexpr wchar_t ObjectReplacementChar = L'\ufffc';
-
 std::vector<CommandLinePiece> ExpandObjectText(
     std::wstring_view text, 
     const CommandLine::ObjectTextGetter& object_text_getter,

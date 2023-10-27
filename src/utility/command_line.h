@@ -7,6 +7,9 @@
 
 namespace ra::utility {
 
+constexpr wchar_t ObjectReplacementChar = L'\ufffc';
+
+
 enum class CommandLinePieceType {
     NormalText,
     TextBlock,

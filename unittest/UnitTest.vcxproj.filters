@@ -79,6 +79,9 @@
     <Filter Include="case\utility\markdown\render">
       <UniqueIdentifier>{2f965ecc-b12b-4463-a444-d9a243f4bc10}</UniqueIdentifier>
     </Filter>
+    <Filter Include="case\module\chat_gpt">
+      <UniqueIdentifier>{2d69bef3-35d4-4bce-8499-619eea514f3f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="case\module\calculator\decimal_number_parser_test.cpp">
@@ -240,6 +243,9 @@
     </ClCompile>
     <ClCompile Include="case\utility\markdown\render\styled_text_builder_test.cpp">
       <Filter>case\utility\markdown\render</Filter>
+    </ClCompile>
+    <ClCompile Include="case\module\chat_gpt\chat_gpt_command_parsing_test.cpp">
+      <Filter>case\module\chat_gpt</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
