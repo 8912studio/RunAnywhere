@@ -136,7 +136,8 @@ void OptionStorage::SetRememberLastCommand(bool value) {
 std::size_t OptionStorage::MaxPreservedCommandCount() {
 
     if (!max_preserved_command_count_) {
-        max_preserved_command_count_ = GetUIntValue(MaxPreservedCommandCountValueName).value_or(1);
+        max_preserved_command_count_ = GetUIntValue(MaxPreservedCommandCountValueName)
+            .value_or(MaxMaxPreservedCommandCount);
     }
     return *max_preserved_command_count_;
 }
