@@ -51,6 +51,7 @@ Name: "Addition\NPPPlugin"; Description: "Notepad++ plugin"; Types: full; Flags:
 [Files]
 Source: "InstallHelper.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion; Components: "Main"
+Source: "libcurl-x64.dll"; DestDir: "{app}"; Flags: ignoreversion; Components: "Main"
 Source: "RunAnywhereVSHost_x64.vsix"; DestDir: "{app}\ExtensionsForOthers"; Components: "Main"
 Source: "RunAnywhereVSHost_x86.vsix"; DestDir: "{app}\ExtensionsForOthers"; Components: "Main"
 Source: "RunAnywhereVSCodeHost.vsix"; DestDir: "{app}\ExtensionsForOthers"; Components: "Main"
