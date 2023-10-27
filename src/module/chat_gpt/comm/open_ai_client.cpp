@@ -67,6 +67,7 @@ zaf::Observable<ChatCompletion> OpenAIClient::CreateChatCompletion(
 
     auto connection = std::make_shared<curlion::HttpConnection>();
     connection->SetConnectTimeoutInMilliseconds(5000);
+    connection->SetIdleTimeoutInSeconds(60);
     connection->SetUrl("https://api.openai.com/v1/chat/completions");
     connection->SetRequestHeaders({
         { "Content-Type", "application/json" },

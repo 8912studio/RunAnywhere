@@ -62,7 +62,7 @@ void PreservedCommandListView::OnViewStateUpdated(
         return;
     }
 
-    if (iterator == view_items_.rbegin().base()) {
+    if (std::next(iterator) == view_items_.end()) {
         ScrollToView((*iterator)->view);
     }
 }
