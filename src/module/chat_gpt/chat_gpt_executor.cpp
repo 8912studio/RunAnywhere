@@ -49,17 +49,8 @@ void ChatGPTExecutor::InnerExecute() {
 
     Message message{ std::move(question_) };
 
-    //TODO: Need a better way to forward subscription.
-    Subscriptions() += client_->CreateChatCompletion({ std::move(message) }).Subscribe(
-        [this](const comm::ChatCompletion& completion) {
-            finish_event_.AsObserver().OnNext(completion);
-        },
-        [this](const zaf::Error& error) {
-            finish_event_.AsObserver().OnError(error);
-        },
-        [this]() {
-            finish_event_.AsObserver().OnCompleted();
-        });
+    Subscriptions() += client_->CreateChatCompletion({ std::move(message) })
+        .Subscribe(finish_event_.AsObserver());
 }
 
 }

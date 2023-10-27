@@ -83,12 +83,7 @@ void ChatGPTCommand::CreateExecutor() {
         });
 
     auto map_observer = bridge_subject.AsObserver();
-    Subscriptions() += chat_gpt_executor_->FinishEvent().Finally([this]() {
-        //Destroy executor in order to re-create a new one next time.
-        chat_gpt_executor_.reset();
-        NotifyStateUpdated();
-    })
-    .Subscribe(
+    Subscriptions() += chat_gpt_executor_->FinishEvent().Do(
         [this, map_observer](const comm::ChatCompletion& completion) {
             answer_ = completion.Message().Content();
             map_observer.OnNext(answer_);
@@ -101,11 +96,17 @@ void ChatGPTCommand::CreateExecutor() {
             else {
                 command_state_ = CommandState::Waiting;
             }
-        }, 
+        },
         [this, map_observer]() {
             map_observer.OnCompleted();
             command_state_ = CommandState::Completed;
-        });
+        }
+    ).Finally([this]() {
+        //Destroy executor in order to re-create a new one next time.
+        chat_gpt_executor_.reset();
+        NotifyStateUpdated();
+    })
+    .Subscribe();
 }
 
 }
