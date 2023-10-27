@@ -51,7 +51,7 @@ bool ListItemParser::InnerParseItemBodyLine(ParseContext& context) {
     auto is_item_body_line = [this, space_count, &context]() {
     
         //Indented lines and empty lines belong to item body.
-        if (space_count >= 4 || context.IsAtLineEnd()) {
+        if (space_count >= 3 || context.IsAtLineEnd()) {
             return true;
         }
 

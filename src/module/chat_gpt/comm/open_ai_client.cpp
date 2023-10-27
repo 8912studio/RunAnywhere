@@ -59,7 +59,7 @@ OpenAIClient::~OpenAIClient() {
 zaf::Observable<ChatCompletion> OpenAIClient::CreateChatCompletion(
     const std::vector<Message>& messages) {
 
-    //return CreateMockChatCompletion(messages);
+    return CreateMockChatCompletion(messages);
 
     zaf::ReplaySubject<ChatCompletion> subject;
 
@@ -151,52 +151,55 @@ zaf::Observable<ChatCompletion> OpenAIClient::CreateMockChatCompletion(
         zaf::rx::Timer(std::chrono::seconds(3), zaf::Scheduler::Main()).Subscribe(
             [observer = subject.AsObserver()](int) {
     
-        std::wstring mock_response = LR"(Sure! Here's an example of a C++ code that uses `std::vector`:
-```cpp
-#include <iostream>
-#include <vector>
+        std::wstring mock_response = LR"(To use CryptProtectData() in Windows, follow these steps:
 
-int main() {
-    std::vector<int> numbers;
+1. Include the necessary header file: 
+   ```
+   #include <wincrypt.h>
+   ```
 
-    // Adding elements to the vector
-    numbers.push_back(10);
-    numbers.push_back(20);
-    numbers.push_back(30);
+2. Link against the `Crypt32.lib` library by adding it to your project settings.
 
-    // Accessing elements of the vector
-    std::cout << "First element: " << numbers[0] << std::endl;
-    std::cout << "Second element: " << numbers.at(1) << std::endl;
+3. Declare the necessary variables:
+   ```cpp
+   DATA_BLOB inputData;
+   DATA_BLOB encryptedData;
+   LPCWSTR description = L"Data description"; // optional description for encrypted data
+   ```
 
-    // Modifying elements of the vector
-    numbers[0] = 100;
-    numbers.at(1) = 200;
+4. Prepare the data to be encrypted:
+   ```cpp
+   // Convert your data to a byte array
+   BYTE* dataToEncrypt = reinterpret_cast<BYTE*>(yourData);
+   DWORD dataSize = sizeof(yourData);
+   
+   // Set the input data blob
+   inputData.pbData = dataToEncrypt;
+   inputData.cbData = dataSize;
+   ```
 
-    // Removing elements from the vector
-    numbers.pop_back();
+5. Call CryptProtectData() to encrypt the data:
+   ```cpp
+   if (CryptProtectData(&inputData, description, NULL, NULL, NULL, 0, &encryptedData))
+   {
+       // Encrypted data is in encryptedData.pbData
+       // Encrypted data size is in encryptedData.cbData
+       // ...
+       
+       // Free the encrypted data when done
+       LocalFree(encryptedData.pbData);
+   }
+   else
+   {
+       // Encryption failed
+       DWORD errorCode = GetLastError();
+       // Handle the error
+   }
+   ```
 
-    // Iterating over the vector
-    std::cout << "Vector elements: ";
-    for (int number : numbers) {
-        std::cout << number << " ";
-    }
-    std::cout << std::endl;
+Note: CryptProtectData() uses the user's logon credentials to encrypt the data. The encrypted data can only be decrypted by the same user on the same machine.
 
-    // Checking the size of the vector
-    std::cout << "Vector size: " << numbers.size() << std::endl;
-
-    // Clearing the vector
-    numbers.clear();
-
-    // Checking if the vector is empty
-    std::cout << "Is vector empty? " << (numbers.empty() ? "Yes" : "No") << std::endl;
-
-    return 0;
-}
-```
-
-This code demonstrates various operations with `std::vector`, such as adding elements, accessing elements, modifying elements, removing elements, iterating over the vector, checking the size, clearing the vector, and checking if the vector is empty.
-)";
+Make sure to handle any errors that may occur during the encryption process and free any allocated memory appropriately.)";
 
         observer.OnNext(ChatCompletion(Message(RoleAssistant, mock_response)));
         observer.OnCompleted();

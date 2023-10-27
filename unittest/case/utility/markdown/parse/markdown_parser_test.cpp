@@ -233,7 +233,7 @@ TEST(MarkdownParserTest, ParseUnorderedList) {
     }));
 
     ASSERT_TRUE(test(
-        L"* item1\n\n    text1\n\n* item2\n\n    text2\n* item3",
+        L"* item1\n\n   text1\n\n* item2\n\n    text2\n* item3",
         ListItemStyle::Blocks, {
 
         MakeListItem({
@@ -249,7 +249,7 @@ TEST(MarkdownParserTest, ParseUnorderedList) {
         }),
     }));
 
-    ASSERT_TRUE(test(L"- item1\n    + item1-1\n    + item1-2\n- item2", ListItemStyle::Lines, {
+    ASSERT_TRUE(test(L"- item1\n    + item1-1\n   + item1-2\n- item2", ListItemStyle::Lines, {
         MakeListItem({
             MakeParagraph(L"item1"),
             MakeUnorderedList(ListItemStyle::Lines, {
@@ -272,7 +272,7 @@ TEST(MarkdownParserTest, ParseUnorderedList) {
         }),
     }));
 
-    ASSERT_TRUE(test(L"* item1\n    - subitem\n\n    paragraph", ListItemStyle::Blocks, {
+    ASSERT_TRUE(test(L"* item1\n   - subitem\n\n     paragraph", ListItemStyle::Blocks, {
         MakeListItem({
             MakeParagraph(L"item1"),
             MakeUnorderedList(ListItemStyle::Lines, {
