@@ -35,8 +35,7 @@ ListParser::Result ListParser::FinishCurrentElement() {
 
     Result list_result;
     list_result.element = CreateListElement(item_style, std::move(state_->parsed_items));
-    list_result.empty_line_info.has_trailing_empty_line = 
-        state_->empty_line_info.has_trailing_empty_line;
+    list_result.empty_line_info = state_->empty_line_info;
 
     state_.reset();
     return list_result;

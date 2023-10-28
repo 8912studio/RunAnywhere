@@ -102,6 +102,8 @@
     <ClCompile Include="case\utility\markdown\parse\inline_code_parser_test.cpp" />
     <ClCompile Include="case\utility\markdown\parse\italic_parser_test.cpp" />
     <ClCompile Include="case\utility\markdown\parse\markdown_parser_test.cpp" />
+    <ClCompile Include="case\utility\markdown\parse\ordered_list_item_parser_test.cpp" />
+    <ClCompile Include="case\utility\markdown\parse\ordered_list_parser_test.cpp" />
     <ClCompile Include="case\utility\markdown\parse\parse_context_test.cpp" />
     <ClCompile Include="case\utility\markdown\render\styled_text_builder_test.cpp" />
     <ClCompile Include="case\utility\numeric_text_formatting_test.cpp" />

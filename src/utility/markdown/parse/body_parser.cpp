@@ -123,7 +123,8 @@ void BodyParser::HandleBlockResult(BlockParser::Result&& block_result) {
 
     elements_.push_back(std::move(block_result.element));
 
-    if (empty_line_info_.has_trailing_empty_line) {
+    if (block_result.empty_line_info.has_middle_empty_line || 
+        empty_line_info_.has_trailing_empty_line) {
         empty_line_info_.has_middle_empty_line = true;
     }
 

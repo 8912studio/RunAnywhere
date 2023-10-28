@@ -247,6 +247,12 @@
     <ClCompile Include="case\module\chat_gpt\chat_gpt_command_parsing_test.cpp">
       <Filter>case\module\chat_gpt</Filter>
     </ClCompile>
+    <ClCompile Include="case\utility\markdown\parse\ordered_list_item_parser_test.cpp">
+      <Filter>case\utility\markdown\parse</Filter>
+    </ClCompile>
+    <ClCompile Include="case\utility\markdown\parse\ordered_list_parser_test.cpp">
+      <Filter>case\utility\markdown\parse</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="case\module\calculator\number_parser_test_utility.h">

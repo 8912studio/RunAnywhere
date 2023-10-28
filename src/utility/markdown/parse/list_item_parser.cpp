@@ -9,11 +9,13 @@ ListItemParser::Status ListItemParser::ParseOneLine(ParseContext& context) {
 
     if (!state_) {
 
+        std::size_t begin_index = context.CurrentIndex();
         if (!ParseItemIdentity(context)) {
             return Status::Failed;
         }
 
         state_.emplace();
+        state_->indent_char_count = context.CurrentIndex() - begin_index;
         state_->body_parser->ParseOneLine(context);
         return Status::Continue;
     }
@@ -43,15 +45,15 @@ bool ListItemParser::ParseItemBodyLine(ParseContext& context) {
 bool ListItemParser::InnerParseItemBodyLine(ParseContext& context) {
 
     std::size_t space_count{};
-    while (context.CurrentChar() == L' ') {
+    while (context.CurrentChar() == L' ' && space_count < state_->indent_char_count) {
         ++space_count;
         context.Forward();
     }
-
+    
     auto is_item_body_line = [this, space_count, &context]() {
     
         //Indented lines and empty lines belong to item body.
-        if (space_count >= 3 || context.IsAtLineEnd()) {
+        if (space_count >= state_->indent_char_count || context.IsAtLineEnd()) {
             return true;
         }
 

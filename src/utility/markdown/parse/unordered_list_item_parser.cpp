@@ -16,6 +16,8 @@ UnorderedListItemParser::UnorderedListItemParser(wchar_t identity_char) :
 bool UnorderedListItemParser::ParseItemIdentity(ParseContext& context) {
 
     auto transaction = context.BeginTransaction();
+    context.SkipSpaces();
+
     auto ch = context.CurrentChar();
 
     if (identity_char_) {

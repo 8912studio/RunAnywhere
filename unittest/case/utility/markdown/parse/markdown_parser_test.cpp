@@ -221,6 +221,13 @@ TEST(MarkdownParserTest, ParseUnorderedList) {
         MakeListItem({ MakeParagraph(L"item3") }),
     }));
 
+    //Spaces at the head of lines.
+    ASSERT_TRUE(test(L" * item1\n  * item2\n  * item3\n", ListItemStyle::Lines, {
+        MakeListItem({ MakeParagraph(L"item1") }),
+        MakeListItem({ MakeParagraph(L"item2") }),
+        MakeListItem({ MakeParagraph(L"item3") }),
+    }));
+
     ASSERT_TRUE(test(L"* item1\n\n* item2\n\n\n* item3\n\n", ListItemStyle::Blocks, {
         MakeListItem({ MakeParagraph(L"item1") }),
         MakeListItem({ MakeParagraph(L"item2") }),
@@ -249,18 +256,24 @@ TEST(MarkdownParserTest, ParseUnorderedList) {
         }),
     }));
 
-    ASSERT_TRUE(test(L"- item1\n    + item1-1\n   + item1-2\n- item2", ListItemStyle::Lines, {
-        MakeListItem({
-            MakeParagraph(L"item1"),
-            MakeUnorderedList(ListItemStyle::Lines, {
-                MakeListItem({ MakeParagraph(L"item1-1") }),
-                MakeListItem({ MakeParagraph(L"item1-2") }),
+    ASSERT_TRUE(test(
+LR"(- item1
+    + item1-1
+   + item1-2
+- item2)",
+        ListItemStyle::Lines, 
+        {
+            MakeListItem({
+                MakeParagraph(L"item1"),
+                MakeUnorderedList(ListItemStyle::Lines, {
+                    MakeListItem({ MakeParagraph(L"item1-1") }),
+                    MakeListItem({ MakeParagraph(L"item1-2") }),
+                }),
             }),
-        }),
-        MakeListItem({
-            MakeParagraph(L"item2"),
-        }),
-    }));
+            MakeListItem({
+                MakeParagraph(L"item2"),
+            }),
+        }));
 
     ASSERT_TRUE(test(L"* item1\n\n    - subitem\n\n    paragraph", ListItemStyle::Blocks, {
         MakeListItem({
@@ -272,7 +285,29 @@ TEST(MarkdownParserTest, ParseUnorderedList) {
         }),
     }));
 
-    ASSERT_TRUE(test(L"* item1\n   - subitem\n\n     paragraph", ListItemStyle::Blocks, {
+    //Paragraph in sub list.
+    ASSERT_TRUE(test(
+LR"(* item1
+   - subitem
+
+     paragraph)", ListItemStyle::Blocks, {
+        MakeListItem({
+            MakeParagraph(L"item1"),
+            MakeUnorderedList(ListItemStyle::Blocks, {
+                MakeListItem({ 
+                    MakeParagraph(L"subitem"),
+                    MakeParagraph(L"paragraph") 
+                }),
+            }),
+        }),
+    }));
+
+    //Paragraph not in sub list.
+    ASSERT_TRUE(test(
+LR"(* item1
+   - subitem
+
+    paragraph)", ListItemStyle::Blocks, {
         MakeListItem({
             MakeParagraph(L"item1"),
             MakeUnorderedList(ListItemStyle::Lines, {
@@ -308,9 +343,34 @@ TEST(MarkdownParserTest, ParseOrderedList) {
         MakeListItem({ MakeParagraph(L"item3")}),
     }));
 
+    //Spaces at the head of lines.
+    ASSERT_TRUE(test(L" 1. item1\n  2. item2\n   3. item3", 1, {
+        MakeListItem({ MakeParagraph(L"item1")}),
+        MakeListItem({ MakeParagraph(L"item2")}),
+        MakeListItem({ MakeParagraph(L"item3")}),
+    }));
+
     ASSERT_TRUE(test(L"5. item1\n6. item2\n7. item3", 5, {
         MakeListItem({ MakeParagraph(L"item1")}),
         MakeListItem({ MakeParagraph(L"item2")}),
         MakeListItem({ MakeParagraph(L"item3")}),
     }));
+
+    //Code block in list
+    ASSERT_TRUE(test(
+LR"(1. code
+   ```
+   void Function() {
+       int x = 0;
+   }
+   ```
+2. line)", 
+        1,
+        {
+            MakeListItem({
+                MakeParagraph(L"code"),
+                MakeCodeBlock(L"void Function() {\n    int x = 0;\n}"),
+            }),
+            MakeListItem({ MakeParagraph(L"line")}),
+        }));
 }
