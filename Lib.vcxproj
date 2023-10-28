@@ -554,6 +554,7 @@
     <ClCompile Include="third_party\curlion\src\connection_manager.cpp" />
     <ClCompile Include="third_party\curlion\src\http_connection.cpp" />
     <ClCompile Include="third_party\curlion\src\http_form.cpp" />
+    <ClCompile Include="third_party\curlion\src\log.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="src\about_window.xaml" />

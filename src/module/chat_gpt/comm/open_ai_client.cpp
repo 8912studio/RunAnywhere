@@ -21,6 +21,10 @@ public:
 
         std::call_once(once_flag_, [this]() {
 
+            curlion::SetLogger([](const std::string& log) {
+                OutputDebugStringA(log.c_str());
+            });
+
             io_service_ = std::make_shared<boost::asio::io_service>();
 
             socket_manager_ = std::make_shared<SocketManager>(io_service_);
@@ -59,7 +63,7 @@ OpenAIClient::~OpenAIClient() {
 zaf::Observable<ChatCompletion> OpenAIClient::CreateChatCompletion(
     const std::vector<Message>& messages) {
 
-    return CreateMockChatCompletion(messages);
+    //return CreateMockChatCompletion(messages);
 
     zaf::ReplaySubject<ChatCompletion> subject;
 
