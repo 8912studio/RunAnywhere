@@ -49,8 +49,21 @@ std::optional<ChatGPTCommandParseResult> ParseChatGPTCommand(
 
         auto ch = raw_text[index];
         if (ch != utility::ObjectReplacementChar) {
+
+            //Insert space between object text and plain text.
+            if (ch != L' ' && raw_text[index - 1] == utility::ObjectReplacementChar) {
+                if (!content.empty() && content.back() != L' ') {
+                    content += L' ';
+                }
+            }
+            
             content += ch;
             continue;
+        }
+
+        //Insert space between plain text and object text.
+        if (!content.empty() && content.back() != L' ') {
+            content += L' ';
         }
 
         for (; object_index < arguments.size(); ++object_index) {
@@ -59,14 +72,11 @@ std::optional<ChatGPTCommandParseResult> ParseChatGPTCommand(
             auto object_type = piece.Type();
 
             if (object_type == utility::CommandLinePieceType::TextBlock) {
-                content += L' ';
                 content += piece.Content();
-                content += L' ';
                 break;
             }
             else if (object_type == utility::CommandLinePieceType::ActivePath) {
                 //Ignore active path object.
-                content += L' ';
                 break;
             }
         }
