@@ -5,6 +5,7 @@
 #include "utility/markdown/render/render_region.h"
 #include "utility/markdown/render/style_config.h"
 #include "utility/markdown/render/text_style.h"
+#include "utility/thin_scroll_control.h"
 
 namespace ra::utility::markdown::render {
 
@@ -25,6 +26,7 @@ private:
     void SetTextBackgroundColor(const zaf::Color& color);
 
 private:
+    std::shared_ptr<utility::ThinScrollControl> scroll_control_;
     std::shared_ptr<zaf::TextBox> text_box_;
 };
 

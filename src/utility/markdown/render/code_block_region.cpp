@@ -1,6 +1,7 @@
 #include "utility/markdown/render/code_block_region.h"
 #include <zaf/base/error/check.h>
 #include <zaf/control/layout/linear_layouter.h>
+#include <zaf/control/scroll_bar.h>
 #include <zaf/creation.h>
 
 namespace ra::utility::markdown::render {
@@ -30,18 +31,29 @@ void CodeBlockRegion::Initialize() {
 
     __super::Initialize();
 
-    SetPadding(zaf::Frame{ 10 });
+    SetPadding(zaf::Frame{ 10, 10, 10, 2 });
     SetLayouter(zaf::Create<zaf::VerticalLayouter>());
+
+    scroll_control_ = zaf::Create<utility::ThinScrollControl>();
+    scroll_control_->SetAllowVerticalScroll(false);
+    scroll_control_->SetAutoHideScrollBars(true);
+    AddChild(scroll_control_);
 
     text_box_ = zaf::Create<zaf::TextBox>();
     text_box_->SetIsEnabled(false);
-    text_box_->SetWordWrapping(zaf::WordWrapping::Wrap);
-    AddChild(text_box_);
+    text_box_->SetPadding(zaf::Frame{ 0, 0, 0, 8 });
+    text_box_->SetWordWrapping(zaf::WordWrapping::NoWrap);
+    scroll_control_->SetScrollContent(text_box_);
 }
 
 
 zaf::Size CodeBlockRegion::CalculatePreferredContentSize(const zaf::Size& bound_size) const {
-    return text_box_->CalculatePreferredSize(bound_size);
+
+    auto result = text_box_->CalculatePreferredSize(bound_size);
+    if (result.width > bound_size.width) {
+        result.height += scroll_control_->HorizontalScrollBar()->Height();
+    }
+    return result;
 }
 
 
