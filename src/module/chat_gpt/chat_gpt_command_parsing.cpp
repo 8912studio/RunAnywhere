@@ -10,12 +10,12 @@ std::optional<std::size_t> FindHeadingCharIndex(std::wstring_view text) {
 
     for (auto index : zaf::Range(0, text.length())) {
 
-        if (std::iswspace(text[index])) {
-            continue;
-        }
-
         if (text[index] == HeadingChar) {
             return index;
+        }
+
+        if (!std::iswspace(text[index])) {
+            break;
         }
     }
 

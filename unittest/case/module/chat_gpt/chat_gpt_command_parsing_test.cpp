@@ -61,4 +61,10 @@ TEST(ChatGPTCommandParsingTest, ParseFail) {
 
     result = ParseChatGPTCommand(CommandLine{ L"hi" });
     ASSERT_FALSE(result.has_value());
+
+    result = ParseChatGPTCommand(CommandLine{ L"hi>" });
+    ASSERT_FALSE(result.has_value());
+
+    result = ParseChatGPTCommand(CommandLine{ L"hi >" });
+    ASSERT_FALSE(result.has_value());
 }
