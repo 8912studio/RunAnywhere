@@ -11,7 +11,7 @@ class ThinScrollBarThumb : public zaf::ScrollBarThumb {
 protected:
     void Paint(zaf::Canvas& canvas, const zaf::Rect&) override {
 
-        if (!IsEnabled()) {
+        if (!IsEnabledInContext()) {
             return;
         }
 

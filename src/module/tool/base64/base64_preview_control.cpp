@@ -192,7 +192,7 @@ void Base64PreviewControl::ShowBinaryContent(
 
 std::wstring Base64PreviewControl::GetResultText() const {
 
-    if (textContent->IsVisible()) {
+    if (textContent->IsVisibleInContext()) {
         return textContent->GetText();
     }
     return {};

@@ -48,7 +48,7 @@ void MainWindow::AfterParse() {
     Subscriptions() += preservedCommandListView->RectChangedEvent().Subscribe(
         [this](const zaf::RectChangedInfo& event_info) {
     
-        if (preservedCommandListView->IsVisible() && 
+        if (preservedCommandListView->IsVisibleInContext() && 
             (preservedCommandListView->Height() != event_info.PreviousRect().size.height)) {
 
             UpdateWindowRect();
@@ -264,16 +264,16 @@ void MainWindow::ShowEmptyPreview() {
 void MainWindow::UpdateWindowRect() {
 
     float main_height = initial_height_;
-    if (previewView->IsVisible()) {
+    if (previewView->IsVisibleInContext()) {
         main_height += previewView->GetExpectedHeight();
     }
 
-    if (toolbar->IsVisible()) {
+    if (toolbar->IsVisibleInContext()) {
         main_height += toolbar->Height();
     }
 
     float preserved_commands_view_height{};
-    if (preservedCommandListView->IsVisible()) {
+    if (preservedCommandListView->IsVisibleInContext()) {
         preserved_commands_view_height = preservedCommandListView->Height();
     }
 
@@ -355,7 +355,7 @@ void MainWindow::UpdateHelpWindowPosition() {
     help_window_position.x = main_window_rect.Right() + window_gap;
     help_window_position.y = main_window_rect.position.y;
     
-    if (preservedCommandListView->IsVisible()) {
+    if (preservedCommandListView->IsVisibleInContext()) {
         help_window_position.y += preservedCommandListView->Height();
     }
 
@@ -535,7 +535,7 @@ std::optional<zaf::HitTestResult> MainWindow::HitTest(const zaf::HitTestMessage&
         return std::nullopt;
     }
 
-    if (preservedCommandListView->IsVisible() && 
+    if (preservedCommandListView->IsVisibleInContext() &&
         preservedCommandListView->AbsoluteRect().Contain(mouse_position)) {
         return std::nullopt;
     }

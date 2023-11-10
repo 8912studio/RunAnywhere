@@ -100,7 +100,7 @@ void UserDefinedCommandPreviewControl::AdjustCommandContainerLayout() {
 
     for (const auto& each_child : commandContainer->Children()) {
 
-        if (!each_child->IsVisible()) {
+        if (!each_child->IsVisibleInContext()) {
             continue;
         }
 
