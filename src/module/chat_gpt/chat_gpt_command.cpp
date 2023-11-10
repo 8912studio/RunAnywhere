@@ -72,23 +72,29 @@ void ChatGPTCommand::CreateExecutor() {
 
     chat_gpt_executor_ = zaf::Create<ChatGPTExecutor>(client_);
 
+    Subscriptions() += chat_gpt_executor_->BeginEvent().Subscribe(
+        std::bind(&ChatGPTCommand::OnBeginExecute, this));
+}
+
+
+void ChatGPTCommand::OnBeginExecute() {
+
     zaf::Subject<std::wstring> bridge_subject;
 
-    auto map_observable = bridge_subject.AsObservable();
-    Subscriptions() += chat_gpt_executor_->BeginEvent().Subscribe(
-        [this, map_observable](zaf::None) {
-            preview_control_->ShowAnswer(map_observable);
-            command_state_ = CommandState::Executing;
-            NotifyStateUpdated();
-        });
+    preview_control_->ShowAnswer(bridge_subject.AsObservable());
+    command_state_ = CommandState::Executing;
+    NotifyStateUpdated();
 
     auto map_observer = bridge_subject.AsObserver();
+
     Subscriptions() += chat_gpt_executor_->FinishEvent().Do(
         [this, map_observer](const comm::ChatCompletion& completion) {
+
             answer_ = completion.Message().Content();
             map_observer.OnNext(answer_);
         },
         [this, map_observer](const zaf::Error& error) {
+
             map_observer.OnError(error);
             if (error.Code().category() == LocalCategory()) {
                 command_state_ = CommandState::Failed;
@@ -98,10 +104,12 @@ void ChatGPTCommand::CreateExecutor() {
             }
         },
         [this, map_observer]() {
+
             map_observer.OnCompleted();
             command_state_ = CommandState::Completed;
         }
-    ).Finally([this]() {
+    )
+    .Finally([this]() {
         //Destroy executor in order to re-create a new one next time.
         chat_gpt_executor_.reset();
         NotifyStateUpdated();

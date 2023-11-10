@@ -39,6 +39,7 @@ private:
 
 private:
     void CreateExecutor();
+    void OnBeginExecute();
 
 private:
     std::shared_ptr<comm::OpenAIClient> client_;
