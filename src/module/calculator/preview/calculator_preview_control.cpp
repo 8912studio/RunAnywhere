@@ -140,7 +140,7 @@ void CalculatorPreviewControl::ShowHighlightBit() {
 		return;
 	}
 
-	resultLabel->SetTextColorAtRange(
+	resultLabel->SetTextColorInRange(
 		zaf::Color::Red(),
 		zaf::Range{ *highlight_position, 1 });
 }

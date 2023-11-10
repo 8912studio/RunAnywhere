@@ -53,8 +53,8 @@ void StyledTextBox::SetStyledText(const StyledText& styled_text) {
 
     for (const auto& each_style : styled_text.Styles()) {
 
-        this->SetFontAtRange(each_style.style.font, each_style.range);
-        this->SetTextColorAtRange(each_style.style.text_color, each_style.range);
+        this->SetFontInRange(each_style.style.font, each_style.range);
+        this->SetTextColorInRange(each_style.style.text_color, each_style.range);
 
         if (each_style.style.background_color) {
 
