@@ -82,4 +82,45 @@ zaf::Size ListItemRegion::CalculatePreferredContentSize(const zaf::Size& bound_s
     };
 }
 
+
+void ListItemRegion::ChangeSelection(
+    const zaf::Point& begin_position,
+    const zaf::Point& end_position) {
+
+    ChangeSelectionOfIdentity(
+        this->TranslatePositionToChild(begin_position, *identity_text_box_),
+        this->TranslatePositionToChild(end_position, *identity_text_box_));
+
+    body_region_->ChangeSelection(
+        this->TranslatePositionToChild(begin_position, *body_region_),
+        this->TranslatePositionToChild(end_position, *body_region_));
+}
+
+
+void ListItemRegion::ChangeSelectionOfIdentity(
+    const zaf::Point& begin_position, 
+    const zaf::Point& end_position) {
+
+    auto has_selection = [this, &begin_position, &end_position]() {
+    
+        //There is no intersection between the range and the identity, no selection.
+        if (begin_position.y >= identity_text_box_->Height() ||
+            end_position.y < 0) {
+            return false;
+        }
+
+        //The identity is selected if the y of begin position is above the identity.
+        if (begin_position.y < 0) {
+            return true;
+        }
+
+        //Finally, the identity is selected if the begin position is in the rectangle of identity.
+        auto begin_index = identity_text_box_->FindIndexAtPosition(begin_position);
+        return begin_index < identity_text_box_->TextLength();
+    };
+
+    identity_text_box_->SetSelectionRange(
+        has_selection() ? zaf::Range{ 0, identity_text_box_->TextLength() } : zaf::Range{});
+}
+
 }

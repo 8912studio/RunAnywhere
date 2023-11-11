@@ -63,4 +63,17 @@ zaf::Size CompoundRegion::CalculatePreferredContentSize(const zaf::Size& bound_s
     return result;
 }
 
+
+void CompoundRegion::ChangeSelection(
+    const zaf::Point& begin_position,
+    const zaf::Point& end_position) {
+
+    for (const auto& each_child : child_regions_) {
+
+        each_child->ChangeSelection(
+            this->TranslatePositionToChild(begin_position, *each_child), 
+            this->TranslatePositionToChild(end_position, *each_child));
+    }
+}
+
 }

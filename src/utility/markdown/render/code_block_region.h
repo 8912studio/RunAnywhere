@@ -1,9 +1,9 @@
 #pragma once
 
-#include <zaf/control/text_box.h>
 #include "utility/markdown/element/element.h"
 #include "utility/markdown/render/render_region.h"
 #include "utility/markdown/render/style_config.h"
+#include "utility/markdown/render/styled_text_box.h"
 #include "utility/markdown/render/text_style.h"
 #include "utility/thin_scroll_control.h"
 
@@ -14,6 +14,11 @@ public:
     static std::shared_ptr<CodeBlockRegion> Create(
         const element::Element& element, 
         const StyleConfig& style_config);
+
+public:
+    void ChangeSelection(
+        const zaf::Point& begin_position,
+        const zaf::Point& end_position) override;
 
 protected:
     void Initialize() override;
@@ -27,7 +32,7 @@ private:
 
 private:
     std::shared_ptr<utility::ThinScrollControl> scroll_control_;
-    std::shared_ptr<zaf::TextBox> text_box_;
+    std::shared_ptr<StyledTextBox> text_box_;
 };
 
 }

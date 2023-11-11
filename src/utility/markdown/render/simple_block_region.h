@@ -15,6 +15,10 @@ public:
 
     void InitializeContent(const element::Element& element, const StyleConfig& style_config);
 
+    void ChangeSelection(
+        const zaf::Point& begin_position,
+        const zaf::Point& end_position) override;
+
 protected:
     void Initialize() override;
     void Paint(zaf::Canvas& canvas, const zaf::Rect& dirty_rect) override;

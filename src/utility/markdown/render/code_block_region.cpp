@@ -1,4 +1,5 @@
 #include "utility/markdown/render/code_block_region.h"
+#include <zaf/base/log.h>
 #include <zaf/base/error/check.h>
 #include <zaf/control/layout/linear_layouter.h>
 #include <zaf/control/scroll_bar.h>
@@ -39,7 +40,7 @@ void CodeBlockRegion::Initialize() {
     scroll_control_->SetAutoHideScrollBars(true);
     AddChild(scroll_control_);
 
-    text_box_ = zaf::Create<zaf::TextBox>();
+    text_box_ = zaf::Create<StyledTextBox>();
     text_box_->SetIsEnabled(false);
     text_box_->SetPadding(zaf::Frame{ 0, 0, 0, 8 });
     text_box_->SetWordWrapping(zaf::WordWrapping::NoWrap);
@@ -68,6 +69,16 @@ void CodeBlockRegion::SetTextBackgroundColor(const zaf::Color& color) {
 
     this->SetBackgroundColor(color);
     text_box_->SetBackgroundColor(color);
+}
+
+
+void CodeBlockRegion::ChangeSelection(
+    const zaf::Point& begin_position,
+    const zaf::Point& end_position) {
+
+    text_box_->SetSelectionByPositionRange(
+        this->TranslatePositionToChild(begin_position, *scroll_control_),
+        this->TranslatePositionToChild(end_position, *scroll_control_));
 }
 
 }

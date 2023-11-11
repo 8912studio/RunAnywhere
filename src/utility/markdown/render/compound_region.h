@@ -7,6 +7,11 @@
 namespace ra::utility::markdown::render {
 
 class CompoundRegion : public RenderRegion {
+public:
+    void ChangeSelection(
+        const zaf::Point& begin_position,
+        const zaf::Point& end_position) override;
+
 protected:
     explicit CompoundRegion(std::vector<std::shared_ptr<RenderRegion>> child_regions);
 

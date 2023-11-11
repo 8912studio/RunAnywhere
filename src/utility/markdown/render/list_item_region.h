@@ -17,6 +17,11 @@ public:
         const StyleConfig& style_config,
         std::size_t depth);
 
+public:
+    void ChangeSelection(
+        const zaf::Point& begin_position,
+        const zaf::Point& end_position) override;
+
 protected:
     void Initialize() override;
     void Layout(const zaf::Rect&) override;
@@ -26,6 +31,10 @@ private:
     explicit ListItemRegion(std::shared_ptr<BodyRegion> body_region);
 
     void InitializeStyle(const std::wstring& identity, const StyleConfig& style_config);
+
+    void ChangeSelectionOfIdentity(
+        const zaf::Point& begin_position,
+        const zaf::Point& end_position);
 
 private:
     std::shared_ptr<StyledTextBox> identity_text_box_;

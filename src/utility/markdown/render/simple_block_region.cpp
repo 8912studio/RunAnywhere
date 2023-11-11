@@ -39,4 +39,14 @@ void SimpleBlockRegion::InitializeContent(
     text_box_->SetStyledText(styled_text);
 }
 
+
+void SimpleBlockRegion::ChangeSelection(
+    const zaf::Point& begin_position,
+    const zaf::Point& end_position) {
+
+    text_box_->SetSelectionByPositionRange(
+        this->TranslatePositionToChild(begin_position, *text_box_),
+        this->TranslatePositionToChild(end_position, *text_box_));
+}
+
 }

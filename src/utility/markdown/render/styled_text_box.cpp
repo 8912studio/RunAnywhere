@@ -70,4 +70,34 @@ void StyledTextBox::SetLineGap(float line_gap) {
     line_gap_ = line_gap;
 }
 
+
+void StyledTextBox::SetSelectionByPositionRange(const zaf::Point& begin, const zaf::Point& end) {
+
+    //There is no intersection between the range and the text box, clear the selection.
+    if (end.y < 0 || begin.y >= this->Height()) {
+        this->SetSelectionRange({});
+        return;
+    }
+
+    std::size_t begin_index{};
+    if (begin.y < 0) {
+        begin_index = 0;
+    }
+    else {
+        begin_index = this->FindIndexAtPosition(begin);
+    }
+
+    std::size_t end_index{};
+    if (end.y >= this->Height()) {
+        end_index = this->TextLength();
+    }
+    else {
+        end_index = this->FindIndexAtPosition(end);
+    }
+
+    auto min = std::min(begin_index, end_index);
+    auto max = std::max(begin_index, end_index);
+    this->SetSelectionRange(zaf::Range{ min, max - min });
+}
+
 }
