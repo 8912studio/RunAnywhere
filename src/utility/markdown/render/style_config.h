@@ -32,7 +32,7 @@ public:
 
     struct ListConfig {
         float indent{};
-        float item_identity_gap{};
+        float item_marker_gap{};
     };
 
 public:

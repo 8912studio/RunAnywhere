@@ -35,7 +35,7 @@ StyleConfig CreateStyleConfig() {
     style_config.code_block_config = style_config.inline_code_config;
 
     style_config.list_config.indent = 8;
-    style_config.list_config.item_identity_gap = 8;
+    style_config.list_config.item_marker_gap = 8;
 
     style_config.paragraph_config.line_gap = 4;
     style_config.block_gap = 14;

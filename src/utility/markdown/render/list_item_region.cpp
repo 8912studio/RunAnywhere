@@ -5,7 +5,7 @@
 namespace ra::utility::markdown::render {
 
 std::shared_ptr<ListItemRegion> ListItemRegion::Create(
-    const std::wstring& item_identity,
+    const std::wstring& item_marker,
     const element::Element& element, 
     const StyleConfig& style_config,
     std::size_t depth) {
@@ -14,22 +14,22 @@ std::shared_ptr<ListItemRegion> ListItemRegion::Create(
 
     auto body_region = BodyRegion::Create(element.Children(), style_config, depth + 1);
     auto result = zaf::Init(new ListItemRegion(std::move(body_region)));
-    result->InitializeStyle(item_identity, style_config);
+    result->InitializeStyle(item_marker, style_config);
     return result;
 }
 
 
 void ListItemRegion::InitializeStyle(
-    const std::wstring& identity, 
+    const std::wstring& marker, 
     const StyleConfig& style_config) {
 
-    identity_text_box_->SetText(identity);
-    identity_text_box_->SetFont(style_config.basic_config.font);
-    identity_text_box_->SetTextColor(style_config.basic_config.text_color);
-    identity_text_box_->SetPadding(zaf::Frame{ 0, style_config.paragraph_config.line_gap, 0, 0 });
+    marker_text_box_->SetText(marker);
+    marker_text_box_->SetFont(style_config.basic_config.font);
+    marker_text_box_->SetTextColor(style_config.basic_config.text_color);
+    marker_text_box_->SetPadding(zaf::Frame{ 0, style_config.paragraph_config.line_gap, 0, 0 });
 
     indent_ = style_config.list_config.indent;
-    identity_gap_ = style_config.list_config.item_identity_gap;
+    marker_gap_ = style_config.list_config.item_marker_gap;
 }
 
 
@@ -43,8 +43,8 @@ void ListItemRegion::Initialize() {
 
     __super::Initialize();
 
-    identity_text_box_ = zaf::Create<StyledTextBox>();
-    AddChild(identity_text_box_);
+    marker_text_box_ = zaf::Create<StyledTextBox>();
+    AddChild(marker_text_box_);
 
     AddChild(body_region_);
 }
@@ -54,22 +54,22 @@ void ListItemRegion::Layout(const zaf::Rect& previous_rect) {
 
     __super::Layout(previous_rect);
 
-    zaf::Rect identity_rect{
+    zaf::Rect marker_rect{
         zaf::Point(indent_, 0),
-        identity_text_box_->CalculatePreferredSize(),
+        marker_text_box_->CalculatePreferredSize(),
     };
-    identity_text_box_->SetRect(identity_rect);
+    marker_text_box_->SetRect(marker_rect);
 
     zaf::Rect body_rect(zaf::Point(), ContentSize());
-    body_rect.Deflate(zaf::Frame(identity_rect.Right() + identity_gap_, 0, 0, 0));
+    body_rect.Deflate(zaf::Frame(marker_rect.Right() + marker_gap_, 0, 0, 0));
     body_region_->SetRect(body_rect);
 }
 
 
 zaf::Size ListItemRegion::CalculatePreferredContentSize(const zaf::Size& bound_size) const {
 
-    auto identity_size = identity_text_box_->CalculatePreferredSize();
-    float non_body_width = indent_ + identity_size.width + identity_gap_;
+    auto marker_size = marker_text_box_->CalculatePreferredSize();
+    float non_body_width = indent_ + marker_size.width + marker_gap_;
 
     auto body_bound_size = bound_size;
     body_bound_size.width -= non_body_width;
@@ -78,7 +78,7 @@ zaf::Size ListItemRegion::CalculatePreferredContentSize(const zaf::Size& bound_s
 
     return zaf::Size{
         non_body_width + body_size.width,
-        std::max(identity_size.height, body_size.height)
+        std::max(marker_size.height, body_size.height)
     };
 }
 
@@ -90,9 +90,9 @@ void ListItemRegion::BeginSelection(const zaf::Point& position) {
 
 void ListItemRegion::ChangeSelection(const PositionRange& position_range) {
 
-    ChangeSelectionOfIdentity(PositionRange{
-        this->TranslatePositionToChild(position_range.Begin(), *identity_text_box_),
-        this->TranslatePositionToChild(position_range.End(), *identity_text_box_)
+    ChangeSelectionOfMarker(PositionRange{
+        this->TranslatePositionToChild(position_range.Begin(), *marker_text_box_),
+        this->TranslatePositionToChild(position_range.End(), *marker_text_box_)
     });
 
     body_region_->ChangeSelection(PositionRange{
@@ -107,7 +107,7 @@ void ListItemRegion::EndSelection() {
 }
 
 
-void ListItemRegion::ChangeSelectionOfIdentity(const PositionRange& position_range) {
+void ListItemRegion::ChangeSelectionOfMarker(const PositionRange& position_range) {
 
     auto has_selection = [this, &position_range]() {
 
@@ -115,24 +115,24 @@ void ListItemRegion::ChangeSelectionOfIdentity(const PositionRange& position_ran
         const auto& begin_position = sorted.first;
         const auto& end_position = sorted.second;
     
-        //There is no intersection between the range and the identity, no selection.
-        if (begin_position.y >= identity_text_box_->Height() ||
+        //There is no intersection between the range and the marker, no selection.
+        if (begin_position.y >= marker_text_box_->Height() ||
             end_position.y < 0) {
             return false;
         }
 
-        //The identity is selected if the y of begin position is above the identity.
+        //The marker is selected if the y of begin position is above the marker.
         if (begin_position.y < 0) {
             return true;
         }
 
-        //Finally, the identity is selected if the begin position is in the rectangle of identity.
-        auto begin_index = identity_text_box_->FindIndexAtPosition(begin_position);
-        return begin_index < identity_text_box_->TextLength();
+        //Finally, the marker is selected if the begin position is in the rectangle of marker.
+        auto begin_index = marker_text_box_->FindIndexAtPosition(begin_position);
+        return begin_index < marker_text_box_->TextLength();
     };
 
-    identity_text_box_->SetSelectionRange(
-        has_selection() ? zaf::Range{ 0, identity_text_box_->TextLength() } : zaf::Range{});
+    marker_text_box_->SetSelectionRange(
+        has_selection() ? zaf::Range{ 0, marker_text_box_->TextLength() } : zaf::Range{});
 }
 
 }

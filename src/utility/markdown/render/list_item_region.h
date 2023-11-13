@@ -12,7 +12,7 @@ namespace ra::utility::markdown::render {
 class ListItemRegion : public RenderRegion {
 public:
     static std::shared_ptr<ListItemRegion> Create(
-        const std::wstring& item_identity,
+        const std::wstring& item_marker,
         const element::Element& element, 
         const StyleConfig& style_config,
         std::size_t depth);
@@ -32,15 +32,15 @@ protected:
 private:
     explicit ListItemRegion(std::shared_ptr<BodyRegion> body_region);
 
-    void InitializeStyle(const std::wstring& identity, const StyleConfig& style_config);
+    void InitializeStyle(const std::wstring& marker, const StyleConfig& style_config);
 
-    void ChangeSelectionOfIdentity(const PositionRange& position_range);
+    void ChangeSelectionOfMarker(const PositionRange& position_range);
 
 private:
-    std::shared_ptr<StyledTextBox> identity_text_box_;
+    std::shared_ptr<StyledTextBox> marker_text_box_;
     std::shared_ptr<BodyRegion> body_region_;
     float indent_{};
-    float identity_gap_{};
+    float marker_gap_{};
 };
 
 }
