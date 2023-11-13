@@ -83,25 +83,37 @@ zaf::Size ListItemRegion::CalculatePreferredContentSize(const zaf::Size& bound_s
 }
 
 
-void ListItemRegion::ChangeSelection(
-    const zaf::Point& begin_position,
-    const zaf::Point& end_position) {
-
-    ChangeSelectionOfIdentity(
-        this->TranslatePositionToChild(begin_position, *identity_text_box_),
-        this->TranslatePositionToChild(end_position, *identity_text_box_));
-
-    body_region_->ChangeSelection(
-        this->TranslatePositionToChild(begin_position, *body_region_),
-        this->TranslatePositionToChild(end_position, *body_region_));
+void ListItemRegion::BeginSelection(const zaf::Point& position) {
+    body_region_->BeginSelection(this->TranslatePositionToChild(position, *body_region_));
 }
 
 
-void ListItemRegion::ChangeSelectionOfIdentity(
-    const zaf::Point& begin_position, 
-    const zaf::Point& end_position) {
+void ListItemRegion::ChangeSelection(const PositionRange& position_range) {
 
-    auto has_selection = [this, &begin_position, &end_position]() {
+    ChangeSelectionOfIdentity(PositionRange{
+        this->TranslatePositionToChild(position_range.Begin(), *identity_text_box_),
+        this->TranslatePositionToChild(position_range.End(), *identity_text_box_)
+    });
+
+    body_region_->ChangeSelection(PositionRange{
+        this->TranslatePositionToChild(position_range.Begin(), *body_region_),
+        this->TranslatePositionToChild(position_range.End(), *body_region_)
+    });
+}
+
+
+void ListItemRegion::EndSelection() {
+    body_region_->EndSelection();
+}
+
+
+void ListItemRegion::ChangeSelectionOfIdentity(const PositionRange& position_range) {
+
+    auto has_selection = [this, &position_range]() {
+
+        auto sorted = position_range.Sort();
+        const auto& begin_position = sorted.first;
+        const auto& end_position = sorted.second;
     
         //There is no intersection between the range and the identity, no selection.
         if (begin_position.y >= identity_text_box_->Height() ||

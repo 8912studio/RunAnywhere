@@ -18,9 +18,11 @@ public:
         std::size_t depth);
 
 public:
-    void ChangeSelection(
-        const zaf::Point& begin_position,
-        const zaf::Point& end_position) override;
+    void BeginSelection(const zaf::Point& position) override;
+
+    void ChangeSelection(const PositionRange& position_range) override;
+
+    void EndSelection() override;
 
 protected:
     void Initialize() override;
@@ -32,9 +34,7 @@ private:
 
     void InitializeStyle(const std::wstring& identity, const StyleConfig& style_config);
 
-    void ChangeSelectionOfIdentity(
-        const zaf::Point& begin_position,
-        const zaf::Point& end_position);
+    void ChangeSelectionOfIdentity(const PositionRange& position_range);
 
 private:
     std::shared_ptr<StyledTextBox> identity_text_box_;

@@ -157,7 +157,8 @@ zaf::Observable<ChatCompletion> OpenAIClient::CreateMockChatCompletion(
         zaf::rx::Timer(std::chrono::seconds(3), zaf::Scheduler::Main()).Subscribe(
             [observer = subject.AsObserver()](int) {
     
-        std::wstring mock_response = LR"(To use CryptProtectData() in Windows, follow these steps:
+        std::wstring mock_response =
+LR"(To use CryptProtectData() in Windows, follow these steps:
 
 1. Include the necessary header file: 
    ```

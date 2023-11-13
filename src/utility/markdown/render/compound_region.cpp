@@ -64,15 +64,32 @@ zaf::Size CompoundRegion::CalculatePreferredContentSize(const zaf::Size& bound_s
 }
 
 
-void CompoundRegion::ChangeSelection(
-    const zaf::Point& begin_position,
-    const zaf::Point& end_position) {
+void CompoundRegion::BeginSelection(const zaf::Point& position) {
 
     for (const auto& each_child : child_regions_) {
 
-        each_child->ChangeSelection(
-            this->TranslatePositionToChild(begin_position, *each_child), 
-            this->TranslatePositionToChild(end_position, *each_child));
+        auto position_in_child = this->TranslatePositionToChild(position, *each_child);
+        each_child->BeginSelection(position_in_child);
+    }
+}
+
+
+void CompoundRegion::ChangeSelection(const PositionRange& position_range) {
+
+    for (const auto& each_child : child_regions_) {
+
+        each_child->ChangeSelection(PositionRange{
+            this->TranslatePositionToChild(position_range.Begin(), *each_child),
+            this->TranslatePositionToChild(position_range.End(), *each_child)
+        });
+    }
+}
+
+
+void CompoundRegion::EndSelection() {
+
+    for (const auto& each_child : child_regions_) {
+        each_child->EndSelection();
     }
 }
 

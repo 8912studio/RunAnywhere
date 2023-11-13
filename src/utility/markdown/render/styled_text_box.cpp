@@ -71,7 +71,11 @@ void StyledTextBox::SetLineGap(float line_gap) {
 }
 
 
-void StyledTextBox::SetSelectionByPositionRange(const zaf::Point& begin, const zaf::Point& end) {
+void StyledTextBox::SetSelectionByPositionRange(const PositionRange& position_range) {
+
+    auto sorted = position_range.Sort();
+    const auto& begin = sorted.first;
+    const auto& end = sorted.second;
 
     //There is no intersection between the range and the text box, clear the selection.
     if (end.y < 0 || begin.y >= this->Height()) {

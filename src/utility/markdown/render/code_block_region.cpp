@@ -72,13 +72,46 @@ void CodeBlockRegion::SetTextBackgroundColor(const zaf::Color& color) {
 }
 
 
-void CodeBlockRegion::ChangeSelection(
-    const zaf::Point& begin_position,
-    const zaf::Point& end_position) {
+void CodeBlockRegion::BeginSelection(const zaf::Point& position) {
 
-    text_box_->SetSelectionByPositionRange(
-        this->TranslatePositionToChild(begin_position, *scroll_control_),
-        this->TranslatePositionToChild(end_position, *scroll_control_));
+    auto position_in_text_box = this->TranslatePositionToChild(position, *scroll_control_);
+
+    zaf::Rect text_box_rect{
+        zaf::Point{},
+        text_box_->Size()
+    }; 
+
+    if (!text_box_rect.Contain(position_in_text_box)) {
+        return;
+    }
+
+    auto horizontal_scroll_bar = scroll_control_->HorizontalScrollBar();
+    begin_selection_x_offset_ = static_cast<float>(horizontal_scroll_bar->Value());
+}
+
+
+void CodeBlockRegion::ChangeSelection(const PositionRange& position_range) {
+
+    auto begin_position_in_text_box =
+        this->TranslatePositionToChild(position_range.Begin(), *scroll_control_);
+
+    if (begin_selection_x_offset_) {
+
+        auto horizontal_scroll_bar = scroll_control_->HorizontalScrollBar();
+        auto current_x_offset = static_cast<float>(horizontal_scroll_bar->Value());
+
+        begin_position_in_text_box.x -= current_x_offset - *begin_selection_x_offset_ ;
+    }
+
+    text_box_->SetSelectionByPositionRange(PositionRange{
+        begin_position_in_text_box,
+        this->TranslatePositionToChild(position_range.End(), *scroll_control_)
+    });
+}
+
+
+void CodeBlockRegion::EndSelection() {
+    begin_selection_x_offset_.reset();
 }
 
 }

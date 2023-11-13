@@ -40,13 +40,12 @@ void SimpleBlockRegion::InitializeContent(
 }
 
 
-void SimpleBlockRegion::ChangeSelection(
-    const zaf::Point& begin_position,
-    const zaf::Point& end_position) {
+void SimpleBlockRegion::ChangeSelection(const PositionRange& position_range) {
 
-    text_box_->SetSelectionByPositionRange(
-        this->TranslatePositionToChild(begin_position, *text_box_),
-        this->TranslatePositionToChild(end_position, *text_box_));
+    text_box_->SetSelectionByPositionRange(PositionRange{
+        this->TranslatePositionToChild(position_range.Begin(), *text_box_),
+        this->TranslatePositionToChild(position_range.End(), *text_box_)
+    });
 }
 
 }

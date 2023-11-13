@@ -16,9 +16,11 @@ public:
         const StyleConfig& style_config);
 
 public:
-    void ChangeSelection(
-        const zaf::Point& begin_position,
-        const zaf::Point& end_position) override;
+    void BeginSelection(const zaf::Point& position) override;
+
+    void ChangeSelection(const PositionRange& position_range) override;
+
+    void EndSelection() override;
 
 protected:
     void Initialize() override;
@@ -33,6 +35,8 @@ private:
 private:
     std::shared_ptr<utility::ThinScrollControl> scroll_control_;
     std::shared_ptr<StyledTextBox> text_box_;
+
+    std::optional<float> begin_selection_x_offset_;
 };
 
 }

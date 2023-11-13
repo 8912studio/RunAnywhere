@@ -15,9 +15,7 @@ public:
 
     void InitializeContent(const element::Element& element, const StyleConfig& style_config);
 
-    void ChangeSelection(
-        const zaf::Point& begin_position,
-        const zaf::Point& end_position) override;
+    void ChangeSelection(const PositionRange& position_range) override;
 
 protected:
     void Initialize() override;

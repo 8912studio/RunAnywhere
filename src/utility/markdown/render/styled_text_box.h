@@ -1,6 +1,7 @@
 #pragma once
 
 #include <zaf/control/text_box.h>
+#include "utility/markdown/render/position_range.h"
 #include "utility/markdown/render/styled_text.h"
 
 namespace ra::utility::markdown::render {
@@ -10,7 +11,7 @@ public:
     void SetStyledText(const StyledText& styled_text);
     void SetLineGap(float line_gap);
 
-    void SetSelectionByPositionRange(const zaf::Point& begin, const zaf::Point& end);
+    void SetSelectionByPositionRange(const PositionRange& position_range);
 
 protected:
     void Initialize() override;

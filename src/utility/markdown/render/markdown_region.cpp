@@ -37,9 +37,7 @@ zaf::Size MarkdownRegion::CalculatePreferredContentSize(const zaf::Size& bound_s
 
 
 
-void MarkdownRegion::ChangeSelection(
-    const zaf::Point& current_position, 
-    const zaf::Point& begin_position) {
+void MarkdownRegion::ChangeSelection(const PositionRange& position_range) {
 
 }
 
@@ -51,12 +49,15 @@ void MarkdownRegion::OnMouseDown(const zaf::PreMouseDownInfo& event_info) {
         return;
     }
 
-    auto position_in_body = this->TranslatePositionToChild(
+    begin_selection_position_ = this->TranslatePositionToChild(
         event_info.PositionAtSender(),
         *body_region_);
 
-    begin_selection_position_ = position_in_body;
-    body_region_->ChangeSelection(*begin_selection_position_, *begin_selection_position_);
+    body_region_->BeginSelection(*begin_selection_position_);
+    body_region_->ChangeSelection(PositionRange{
+        *begin_selection_position_, 
+        *begin_selection_position_ 
+    });
 
     CaptureMouse();
     event_info.MarkAsHandled();
@@ -72,6 +73,8 @@ void MarkdownRegion::OnMouseUp(const zaf::PreMouseUpInfo& event_info) {
 
     if (begin_selection_position_) {
         begin_selection_position_.reset();
+
+        body_region_->EndSelection();
         ReleaseMouse();
         event_info.MarkAsHandled();
     }
@@ -93,21 +96,11 @@ void MarkdownRegion::OnMouseMove(const zaf::PreMouseMoveInfo& event_info) {
         event_info.PositionAtSender(), 
         *body_region_);
 
-    zaf::Point begin_position;
-    zaf::Point end_position;
+    body_region_->ChangeSelection(PositionRange{ 
+        *begin_selection_position_, 
+        current_position
+    });
 
-    if (std::tie(current_position.y, current_position.x) < 
-        std::tie(begin_selection_position_->y, begin_selection_position_->x)) {
-
-        begin_position = current_position;
-        end_position = *begin_selection_position_;
-    }
-    else {
-        begin_position = *begin_selection_position_;
-        end_position = current_position;
-    }
-
-    body_region_->ChangeSelection(begin_position, end_position);
     event_info.MarkAsHandled();
 }
 
