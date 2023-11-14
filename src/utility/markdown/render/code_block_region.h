@@ -31,6 +31,8 @@ private:
 
     void SetStyledText(const std::wstring& text, const TextStyle& text_style);
     void SetTextBackgroundColor(const zaf::Color& color);
+    
+    bool IsPositionInTextBox(const zaf::Point& position) const;
 
 private:
     std::shared_ptr<utility::ThinScrollControl> scroll_control_;

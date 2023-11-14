@@ -13,7 +13,9 @@ public:
 
     void SetLineSpacingByParagraphStyle(const StyleConfig& style_config);
 
-    void SetSelectionByPositionRange(const PositionRange& position_range);
+    void SetSelectionByPositionRange(
+        const PositionRange& position_range, 
+        bool scroll_to_selection = false);
 
 protected:
     void Initialize() override;

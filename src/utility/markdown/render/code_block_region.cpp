@@ -74,14 +74,7 @@ void CodeBlockRegion::SetTextBackgroundColor(const zaf::Color& color) {
 
 void CodeBlockRegion::BeginSelection(const zaf::Point& position) {
 
-    auto position_in_text_box = this->TranslatePositionToChild(position, *scroll_control_);
-
-    zaf::Rect text_box_rect{
-        zaf::Point{},
-        text_box_->Size()
-    }; 
-
-    if (!text_box_rect.Contain(position_in_text_box)) {
+    if (!IsPositionInTextBox(position)) {
         return;
     }
 
@@ -95,18 +88,35 @@ void CodeBlockRegion::ChangeSelection(const PositionRange& position_range) {
     auto begin_position_in_text_box =
         this->TranslatePositionToChild(position_range.Begin(), *scroll_control_);
 
+    bool scroll_to_selection{ false };
     if (begin_selection_x_offset_) {
 
         auto horizontal_scroll_bar = scroll_control_->HorizontalScrollBar();
         auto current_x_offset = static_cast<float>(horizontal_scroll_bar->Value());
 
         begin_position_in_text_box.x -= current_x_offset - *begin_selection_x_offset_ ;
+
+        //If both begin and end position are in the rectangle of the text box, scroll to the 
+        //selection.
+        if (IsPositionInTextBox(position_range.End())) {
+            scroll_to_selection = true;
+        }
     }
 
-    text_box_->SetSelectionByPositionRange(PositionRange{
+    PositionRange position_range_in_text_box{ 
         begin_position_in_text_box,
-        this->TranslatePositionToChild(position_range.End(), *scroll_control_)
-    });
+        this->TranslatePositionToChild(position_range.End(), *scroll_control_) 
+    };
+    text_box_->SetSelectionByPositionRange(position_range_in_text_box, scroll_to_selection);
+}
+
+
+bool CodeBlockRegion::IsPositionInTextBox(const zaf::Point& position) const {
+
+    auto position_in_text_box = this->TranslatePositionToChild(position, *scroll_control_);
+    return 
+        (position_in_text_box.y >= 0) && 
+        (position_in_text_box.y < text_box_->Height());
 }
 
 

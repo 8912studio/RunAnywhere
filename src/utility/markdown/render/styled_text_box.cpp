@@ -96,7 +96,9 @@ void StyledTextBox::SetLineSpacingByParagraphStyle(const StyleConfig& style_conf
 }
 
 
-void StyledTextBox::SetSelectionByPositionRange(const PositionRange& position_range) {
+void StyledTextBox::SetSelectionByPositionRange(
+    const PositionRange& position_range,
+    bool scroll_to_selection) {
 
     auto sorted = position_range.Sort();
     const auto& begin = sorted.first;
@@ -104,7 +106,7 @@ void StyledTextBox::SetSelectionByPositionRange(const PositionRange& position_ra
 
     //There is no intersection between the range and the text box, clear the selection.
     if (end.y < 0 || begin.y >= this->Height()) {
-        this->SetSelectionRange({});
+        this->SetSelectionRange({}, scroll_to_selection);
         return;
     }
 
@@ -126,7 +128,7 @@ void StyledTextBox::SetSelectionByPositionRange(const PositionRange& position_ra
 
     auto min = std::min(begin_index, end_index);
     auto max = std::max(begin_index, end_index);
-    this->SetSelectionRange(zaf::Range{ min, max - min });
+    this->SetSelectionRange(zaf::Range{ min, max - min }, scroll_to_selection);
 }
 
 }
