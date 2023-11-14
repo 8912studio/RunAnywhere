@@ -7,22 +7,19 @@
 
 namespace ra::utility::markdown::render {
 
-class MarkdownRegion : public RenderRegion {
+class MarkdownRegion : public zaf::Control {
 public:
     static std::shared_ptr<MarkdownRegion> Create(
         const element::Element& element,
         const StyleConfig& style_config);
 
-public:
-    void ChangeSelection(const PositionRange& position_range) override;
-
 protected:
     void Initialize() override;
     zaf::Size CalculatePreferredContentSize(const zaf::Size& bound_size) const override;
 
-    void OnMouseDown(const zaf::PreMouseDownInfo&) override;
-    void OnMouseUp(const zaf::PreMouseUpInfo&) override;
-    void OnMouseMove(const zaf::PreMouseMoveInfo&) override;
+    void OnMouseDown(const zaf::MouseDownInfo&) override;
+    void OnMouseUp(const zaf::MouseUpInfo&) override;
+    void OnMouseMove(const zaf::MouseMoveInfo&) override;
 
 private:
     explicit MarkdownRegion(std::shared_ptr<BodyRegion> body_region);

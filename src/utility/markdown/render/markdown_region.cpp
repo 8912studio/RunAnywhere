@@ -36,16 +36,14 @@ zaf::Size MarkdownRegion::CalculatePreferredContentSize(const zaf::Size& bound_s
 }
 
 
-
-void MarkdownRegion::ChangeSelection(const PositionRange& position_range) {
-
-}
-
-
-void MarkdownRegion::OnMouseDown(const zaf::PreMouseDownInfo& event_info) {
+void MarkdownRegion::OnMouseDown(const zaf::MouseDownInfo& event_info) {
 
     __super::OnMouseDown(event_info);
     if (event_info.IsHandled()) {
+        return;
+    }
+
+    if (event_info.Message().MouseButton() != zaf::MouseButton::Left) {
         return;
     }
 
@@ -64,7 +62,7 @@ void MarkdownRegion::OnMouseDown(const zaf::PreMouseDownInfo& event_info) {
 }
 
 
-void MarkdownRegion::OnMouseUp(const zaf::PreMouseUpInfo& event_info) {
+void MarkdownRegion::OnMouseUp(const zaf::MouseUpInfo& event_info) {
 
     __super::OnMouseUp(event_info);
     if (event_info.IsHandled()) {
@@ -81,7 +79,7 @@ void MarkdownRegion::OnMouseUp(const zaf::PreMouseUpInfo& event_info) {
 }
 
 
-void MarkdownRegion::OnMouseMove(const zaf::PreMouseMoveInfo& event_info) {
+void MarkdownRegion::OnMouseMove(const zaf::MouseMoveInfo& event_info) {
 
     __super::OnMouseMove(event_info);
     if (event_info.IsHandled()) {
