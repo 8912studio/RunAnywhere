@@ -26,7 +26,7 @@ void ListItemRegion::InitializeStyle(
     marker_text_box_->SetText(marker);
     marker_text_box_->SetFont(style_config.basic_config.font);
     marker_text_box_->SetTextColor(style_config.basic_config.text_color);
-    marker_text_box_->SetPadding(zaf::Frame{ 0, style_config.paragraph_config.line_gap, 0, 0 });
+    marker_text_box_->SetLineSpacingByParagraphStyle(style_config);
 
     indent_ = style_config.list_config.indent;
     marker_gap_ = style_config.list_config.item_marker_gap;

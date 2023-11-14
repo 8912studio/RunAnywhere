@@ -1,4 +1,5 @@
 #include "utility/markdown/render/styled_text_box.h"
+#include <zaf/creation.h>
 #include <zaf/graphic/canvas.h>
 
 namespace ra::utility::markdown::render {
@@ -66,8 +67,32 @@ void StyledTextBox::SetStyledText(const StyledText& styled_text) {
 }
 
 
-void StyledTextBox::SetLineGap(float line_gap) {
-    line_gap_ = line_gap;
+void StyledTextBox::SetLineSpacingByParagraphStyle(const StyleConfig& style_config) {
+
+    if (style_config.paragraph_config.line_gap == 0) {
+        return;
+    }
+
+    line_gap_ = style_config.paragraph_config.line_gap;
+
+    //We fail to find a proper way to calculate the default line height,
+    //so we have to do it by creating a mock text box.
+    auto default_line_height = [&style_config]() {
+        auto text_box = zaf::Create<StyledTextBox>();
+        text_box->SetPadding({});
+        text_box->SetBorder({});
+        text_box->SetFont(style_config.basic_config.font);
+        text_box->SetText(L"H");
+        return text_box->CalculatePreferredSize().height;
+    }();
+
+    auto new_line_height = default_line_height + style_config.paragraph_config.line_gap;
+
+    this->SetLineSpacing(zaf::LineSpacing{
+        zaf::LineSpacingMethod::Uniform,
+        new_line_height,
+        new_line_height * 0.8f,
+    });
 }
 
 

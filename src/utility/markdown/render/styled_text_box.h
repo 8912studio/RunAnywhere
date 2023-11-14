@@ -2,6 +2,7 @@
 
 #include <zaf/control/text_box.h>
 #include "utility/markdown/render/position_range.h"
+#include "utility/markdown/render/style_config.h"
 #include "utility/markdown/render/styled_text.h"
 
 namespace ra::utility::markdown::render {
@@ -9,7 +10,8 @@ namespace ra::utility::markdown::render {
 class StyledTextBox : public zaf::TextBox {
 public:
     void SetStyledText(const StyledText& styled_text);
-    void SetLineGap(float line_gap);
+
+    void SetLineSpacingByParagraphStyle(const StyleConfig& style_config);
 
     void SetSelectionByPositionRange(const PositionRange& position_range);
 
