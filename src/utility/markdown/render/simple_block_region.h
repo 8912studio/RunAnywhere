@@ -16,6 +16,7 @@ public:
     void InitializeContent(const element::Element& element, const StyleConfig& style_config);
 
     void ChangeSelection(const PositionRange& position_range) override;
+    bool BuildSelectedText(SelectedTextBuilder& builder) override;
 
 protected:
     void Initialize() override;

@@ -124,4 +124,16 @@ void CodeBlockRegion::EndSelection() {
     begin_selection_x_offset_.reset();
 }
 
+
+bool CodeBlockRegion::BuildSelectedText(SelectedTextBuilder& builder) {
+
+    auto selected_text = text_box_->SelectedText();
+    if (selected_text.empty()) {
+        return false;
+    }
+
+    builder.Append(selected_text);
+    return true;
+}
+
 }

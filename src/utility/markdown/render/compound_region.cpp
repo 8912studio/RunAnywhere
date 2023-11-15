@@ -93,4 +93,21 @@ void CompoundRegion::EndSelection() {
     }
 }
 
+
+bool CompoundRegion::BuildSelectedText(SelectedTextBuilder& builder) {
+
+    bool has_selection{};
+
+    for (auto index : zaf::Range(0, child_regions_.size())) {
+
+        auto child_has_selection = child_regions_[index]->BuildSelectedText(builder);
+        if (child_has_selection) {
+            builder.AppendLineBreak();
+            has_selection = true;
+        }
+    }
+
+    return has_selection;
+}
+
 }

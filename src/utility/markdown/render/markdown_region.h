@@ -21,6 +21,8 @@ protected:
     void OnMouseUp(const zaf::MouseUpInfo&) override;
     void OnMouseMove(const zaf::MouseMoveInfo&) override;
 
+    void OnKeyDown(const zaf::KeyDownInfo&) override;
+
 private:
     explicit MarkdownRegion(std::shared_ptr<BodyRegion> body_region);
 

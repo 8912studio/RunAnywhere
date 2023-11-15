@@ -135,4 +135,16 @@ void ListItemRegion::ChangeSelectionOfMarker(const PositionRange& position_range
         has_selection() ? zaf::Range{ 0, marker_text_box_->TextLength() } : zaf::Range{});
 }
 
+
+bool ListItemRegion::BuildSelectedText(SelectedTextBuilder& builder) {
+
+    auto marker_text = marker_text_box_->SelectedText();
+    if (!marker_text.empty()) {
+        builder.Append(marker_text);
+    }
+
+    auto body_has_selection = body_region_->BuildSelectedText(builder);
+    return body_has_selection || !marker_text.empty();
+}
+
 }

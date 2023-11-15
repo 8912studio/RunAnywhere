@@ -326,6 +326,7 @@
     <ClInclude Include="src\utility\markdown\render\paragraph_region.h" />
     <ClInclude Include="src\utility\markdown\render\render_region.h" />
     <ClInclude Include="src\utility\markdown\render\position_range.h" />
+    <ClInclude Include="src\utility\markdown\render\selected_text_builder.h" />
     <ClInclude Include="src\utility\markdown\render\simple_block_region.h" />
     <ClInclude Include="src\utility\markdown\render\styled_text.h" />
     <ClInclude Include="src\utility\markdown\render\styled_text_box.h" />

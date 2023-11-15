@@ -9,10 +9,10 @@ namespace ra::utility::markdown::render {
 class CompoundRegion : public RenderRegion {
 public:
     void BeginSelection(const zaf::Point& position) override;
-
     void ChangeSelection(const PositionRange& position_range) override;
-
     void EndSelection() override;
+
+    bool BuildSelectedText(SelectedTextBuilder& builder) override;
 
 protected:
     explicit CompoundRegion(std::vector<std::shared_ptr<RenderRegion>> child_regions);

@@ -942,6 +942,9 @@
     <ClInclude Include="src\utility\markdown\render\position_range.h">
       <Filter>src\utility\markdown\render</Filter>
     </ClInclude>
+    <ClInclude Include="src\utility\markdown\render\selected_text_builder.h">
+      <Filter>src\utility\markdown\render</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">

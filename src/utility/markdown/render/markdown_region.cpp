@@ -2,6 +2,7 @@
 #include <zaf/base/error/check.h>
 #include <zaf/control/layout/linear_layouter.h>
 #include <zaf/creation.h>
+#include "utility/clipboard.h"
 
 namespace ra::utility::markdown::render {
 
@@ -26,6 +27,8 @@ void MarkdownRegion::Initialize() {
 
     __super::Initialize();
 
+    this->SetCanFocused(true);
+
     this->SetLayouter(zaf::Create<zaf::VerticalLayouter>());
     AddChild(body_region_);
 }
@@ -42,6 +45,8 @@ void MarkdownRegion::OnMouseDown(const zaf::MouseDownInfo& event_info) {
     if (event_info.IsHandled()) {
         return;
     }
+
+    this->SetIsFocused(true);
 
     if (event_info.Message().MouseButton() != zaf::MouseButton::Left) {
         return;
@@ -100,6 +105,25 @@ void MarkdownRegion::OnMouseMove(const zaf::MouseMoveInfo& event_info) {
     });
 
     event_info.MarkAsHandled();
+}
+
+
+void MarkdownRegion::OnKeyDown(const zaf::KeyDownInfo& event_info) {
+
+    __super::OnKeyDown(event_info);
+    if (event_info.IsHandled()) {
+        return;
+    }
+
+    if ((GetKeyState(VK_CONTROL) >> 15) && event_info.Message().VirtualKey() == L'C') {
+
+        SelectedTextBuilder text_builder;
+        if (body_region_->BuildSelectedText(text_builder)) {
+            SetStringToClipboard(text_builder.Text());
+        }
+
+        event_info.MarkAsHandled();
+    }
 }
 
 }

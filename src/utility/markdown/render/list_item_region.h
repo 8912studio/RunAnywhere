@@ -19,10 +19,10 @@ public:
 
 public:
     void BeginSelection(const zaf::Point& position) override;
-
     void ChangeSelection(const PositionRange& position_range) override;
-
     void EndSelection() override;
+
+    bool BuildSelectedText(SelectedTextBuilder& builder) override;
 
 protected:
     void Initialize() override;

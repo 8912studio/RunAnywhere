@@ -2,6 +2,7 @@
 
 #include <zaf/control/control.h>
 #include "utility/markdown/render/position_range.h"
+#include "utility/markdown/render/selected_text_builder.h"
 
 namespace ra::utility::markdown::render {
 
@@ -12,6 +13,8 @@ public:
     virtual void ChangeSelection(const PositionRange& position_range) = 0;
 
     virtual void EndSelection() { }
+
+    virtual bool BuildSelectedText(SelectedTextBuilder& builder) = 0;
 };
 
 }
