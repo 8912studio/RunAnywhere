@@ -146,7 +146,7 @@ void CommandInputEdit::OnSysKeyDown(const zaf::SysKeyDownInfo& event_info) {
         event_info.MarkAsHandled();
     }
 
-    __super::OnKeyDown(event_info);
+    __super::OnSysKeyDown(event_info);
 }
 
 

@@ -342,7 +342,7 @@ std::vector<std::size_t> BinaryColumnBody::HandleSelectedBytesOnMouseMove(
 }
 
 
-void BinaryColumnBody::OnMouseDown(const zaf::MouseMoveInfo& event_info) {
+void BinaryColumnBody::OnMouseDown(const zaf::MouseDownInfo& event_info) {
 
     __super::OnMouseDown(event_info);
 
