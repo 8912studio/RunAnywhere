@@ -126,9 +126,19 @@ void ListItemRegion::ChangeSelectionOfMarker(const PositionRange& position_range
             return true;
         }
 
-        //Finally, the marker is selected if the begin position is in the rectangle of marker.
+        //Finally, the marker is selected if either the begin position or the end position is in 
+        //the rectangle of marker.
         auto begin_index = marker_text_box_->FindIndexAtPosition(begin_position);
-        return begin_index < marker_text_box_->TextLength();
+        if (begin_index < marker_text_box_->TextLength()) {
+            return true;
+        }
+
+        auto end_index = marker_text_box_->FindIndexAtPosition(end_position);
+        if (end_index < marker_text_box_->TextLength()) {
+            return true;
+        }
+
+        return false;
     };
 
     marker_text_box_->SetSelectionRange(
