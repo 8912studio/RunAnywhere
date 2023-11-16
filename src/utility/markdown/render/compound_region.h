@@ -12,7 +12,7 @@ public:
     void ChangeSelection(const PositionRange& position_range) override;
     void EndSelection() override;
 
-    bool BuildSelectedText(SelectedTextBuilder& builder) override;
+    void BuildSelectedText(SelectedTextBuilder& builder) override;
 
 protected:
     explicit CompoundRegion(std::vector<std::shared_ptr<RenderRegion>> child_regions);

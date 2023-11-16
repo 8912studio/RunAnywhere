@@ -118,7 +118,9 @@ void MarkdownRegion::OnKeyDown(const zaf::KeyDownInfo& event_info) {
     if ((GetKeyState(VK_CONTROL) >> 15) && event_info.Message().VirtualKey() == L'C') {
 
         SelectedTextBuilder text_builder;
-        if (body_region_->BuildSelectedText(text_builder)) {
+        body_region_->BuildSelectedText(text_builder);
+
+        if (!text_builder.Text().empty()) {
             SetStringToClipboard(text_builder.Text());
         }
 

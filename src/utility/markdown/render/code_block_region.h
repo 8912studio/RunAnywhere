@@ -20,7 +20,7 @@ public:
     void ChangeSelection(const PositionRange& position_range) override;
     void EndSelection() override;
 
-    bool BuildSelectedText(SelectedTextBuilder& builder) override;
+    void BuildSelectedText(SelectedTextBuilder& builder) override;
 
 protected:
     void Initialize() override;

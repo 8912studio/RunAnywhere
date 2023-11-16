@@ -49,15 +49,12 @@ void SimpleBlockRegion::ChangeSelection(const PositionRange& position_range) {
 }
 
 
-bool SimpleBlockRegion::BuildSelectedText(SelectedTextBuilder& builder) {
+void SimpleBlockRegion::BuildSelectedText(SelectedTextBuilder& builder) {
 
     auto selected_text = text_box_->SelectedText();
-    if (selected_text.empty()) {
-        return false;
+    if (!selected_text.empty()) {
+        builder.Append(selected_text);
     }
-
-    builder.Append(selected_text);
-    return true;
 }
 
 }

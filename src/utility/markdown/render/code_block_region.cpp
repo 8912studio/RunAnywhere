@@ -125,15 +125,12 @@ void CodeBlockRegion::EndSelection() {
 }
 
 
-bool CodeBlockRegion::BuildSelectedText(SelectedTextBuilder& builder) {
+void CodeBlockRegion::BuildSelectedText(SelectedTextBuilder& builder) {
 
     auto selected_text = text_box_->SelectedText();
-    if (selected_text.empty()) {
-        return false;
+    if (!selected_text.empty()) {
+        builder.Append(selected_text);
     }
-
-    builder.Append(selected_text);
-    return true;
 }
 
 }

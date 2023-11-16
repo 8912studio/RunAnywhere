@@ -136,15 +136,15 @@ void ListItemRegion::ChangeSelectionOfMarker(const PositionRange& position_range
 }
 
 
-bool ListItemRegion::BuildSelectedText(SelectedTextBuilder& builder) {
+void ListItemRegion::BuildSelectedText(SelectedTextBuilder& builder) {
 
     auto marker_text = marker_text_box_->SelectedText();
     if (!marker_text.empty()) {
         builder.Append(marker_text);
+        builder.Append(L" ");
     }
 
-    auto body_has_selection = body_region_->BuildSelectedText(builder);
-    return body_has_selection || !marker_text.empty();
+    body_region_->BuildSelectedText(builder);
 }
 
 }

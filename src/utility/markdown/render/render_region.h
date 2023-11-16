@@ -14,7 +14,7 @@ public:
 
     virtual void EndSelection() { }
 
-    virtual bool BuildSelectedText(SelectedTextBuilder& builder) = 0;
+    virtual void BuildSelectedText(SelectedTextBuilder& builder) = 0;
 };
 
 }
