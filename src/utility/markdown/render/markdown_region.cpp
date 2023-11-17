@@ -84,9 +84,9 @@ void MarkdownRegion::OnMouseUp(const zaf::MouseUpInfo& event_info) {
 }
 
 
-void MarkdownRegion::OnMouseMove(const zaf::MouseMoveInfo& event_info) {
+void MarkdownRegion::OnPreMouseMove(const zaf::PreMouseMoveInfo& event_info) {
 
-    __super::OnMouseMove(event_info);
+    __super::OnPreMouseMove(event_info);
     if (event_info.IsHandled()) {
         return;
     }
@@ -96,11 +96,11 @@ void MarkdownRegion::OnMouseMove(const zaf::MouseMoveInfo& event_info) {
     }
 
     auto current_position = this->TranslatePositionToChild(
-        event_info.PositionAtSender(), 
+        event_info.PositionAtSender(),
         *body_region_);
 
-    body_region_->ChangeSelection(PositionRange{ 
-        *begin_selection_position_, 
+    body_region_->ChangeSelection(PositionRange{
+        *begin_selection_position_,
         current_position
     });
 
