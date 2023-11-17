@@ -142,6 +142,10 @@ void StyledTextBox::SetSelectionByPositionRange(
 
 void StyledTextBox::SetIsInFocusContext(bool is_focused) {
 
+    if (is_in_focus_context_ == is_focused) {
+        return;
+    }
+
     is_in_focus_context_ = is_focused;
     NeedRepaint();
 }

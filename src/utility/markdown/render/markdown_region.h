@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <vector>
+#include <zaf/window/popup_menu.h>
 #include "utility/markdown/element/element.h"
 #include "utility/markdown/render/body_region.h"
 
@@ -32,10 +33,17 @@ protected:
 private:
     explicit MarkdownRegion(std::shared_ptr<BodyRegion> body_region);
 
+    void CopySelectionToClipboard();
+
+    void HandleLeftButtonDown(const zaf::MouseDownInfo&);
+    void HandleRightButtonDown(const zaf::MouseDownInfo&);
+
 private:
     std::shared_ptr<BodyRegion> body_region_;
     bool can_select_{};
     std::optional<zaf::Point> begin_selection_position_;
+
+    std::weak_ptr<zaf::PopupMenu> popup_menu_;
 };
 
 }

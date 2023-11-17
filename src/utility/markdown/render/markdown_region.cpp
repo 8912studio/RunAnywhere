@@ -44,6 +44,17 @@ zaf::Size MarkdownRegion::CalculatePreferredContentSize(const zaf::Size& bound_s
 }
 
 
+void MarkdownRegion::CopySelectionToClipboard() {
+
+    SelectedTextBuilder text_builder;
+    body_region_->BuildSelectedText(text_builder);
+
+    if (!text_builder.Text().empty()) {
+        SetStringToClipboard(text_builder.Text());
+    }
+}
+
+
 void MarkdownRegion::OnMouseDown(const zaf::MouseDownInfo& event_info) {
 
     __super::OnMouseDown(event_info);
@@ -57,9 +68,22 @@ void MarkdownRegion::OnMouseDown(const zaf::MouseDownInfo& event_info) {
 
     this->SetIsFocused(true);
 
-    if (event_info.Message().MouseButton() != zaf::MouseButton::Left) {
+    auto mouse_button = event_info.Message().MouseButton();
+    if (mouse_button == zaf::MouseButton::Left) {
+        HandleLeftButtonDown(event_info);
+    }
+    else if (mouse_button == zaf::MouseButton::Right) {
+        HandleRightButtonDown(event_info);
+    }
+    else {
         return;
     }
+
+    event_info.MarkAsHandled();
+}
+
+
+void MarkdownRegion::HandleLeftButtonDown(const zaf::MouseDownInfo& event_info) {
 
     begin_selection_position_ = this->TranslatePositionToChild(
         event_info.PositionAtSender(),
@@ -67,12 +91,34 @@ void MarkdownRegion::OnMouseDown(const zaf::MouseDownInfo& event_info) {
 
     body_region_->BeginSelection(*begin_selection_position_);
     body_region_->ChangeSelection(PositionRange{
-        *begin_selection_position_, 
-        *begin_selection_position_ 
+        *begin_selection_position_,
+        *begin_selection_position_
     });
 
     CaptureMouse();
-    event_info.MarkAsHandled();
+}
+
+
+void MarkdownRegion::HandleRightButtonDown(const zaf::MouseDownInfo& event_info) {
+
+    auto copy_menu_item = zaf::Create<zaf::MenuItem>();
+    copy_menu_item->SetText(L"Copy");
+    Subscriptions() += copy_menu_item->MouseUpEvent().Subscribe(
+        [this](const zaf::MouseUpInfo& event_info) {
+    
+        CopySelectionToClipboard();
+        event_info.MarkAsHandled();
+    });
+
+    auto menu = zaf::Create<zaf::PopupMenu>();
+    menu->AddMenuItem(copy_menu_item);
+
+    Subscriptions() += menu->DestroyedEvent().Subscribe(std::bind([this]() {
+        body_region_->ChangeFocus(this->IsFocused());
+    }));
+
+    popup_menu_ = menu;
+    menu->PopupOnControl(shared_from_this(), event_info.PositionAtSender());
 }
 
 
@@ -137,14 +183,7 @@ void MarkdownRegion::OnKeyDown(const zaf::KeyDownInfo& event_info) {
     }
 
     if ((GetKeyState(VK_CONTROL) >> 15) && event_info.Message().VirtualKey() == L'C') {
-
-        SelectedTextBuilder text_builder;
-        body_region_->BuildSelectedText(text_builder);
-
-        if (!text_builder.Text().empty()) {
-            SetStringToClipboard(text_builder.Text());
-        }
-
+        CopySelectionToClipboard();
         event_info.MarkAsHandled();
     }
 }
@@ -168,6 +207,10 @@ void MarkdownRegion::OnFocusLost(const zaf::FocusLostInfo& event_info) {
     __super::OnFocusLost(event_info);
 
     if (!can_select_) {
+        return;
+    }
+
+    if (!popup_menu_.expired()) {
         return;
     }
 
