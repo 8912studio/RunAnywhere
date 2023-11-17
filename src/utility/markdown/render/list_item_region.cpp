@@ -157,4 +157,10 @@ void ListItemRegion::BuildSelectedText(SelectedTextBuilder& builder) {
     body_region_->BuildSelectedText(builder);
 }
 
+void ListItemRegion::ChangeFocus(bool is_focused) {
+
+    marker_text_box_->SetIsInFocusContext(is_focused);
+    body_region_->ChangeFocus(is_focused);
+}
+
 }

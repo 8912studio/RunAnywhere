@@ -22,6 +22,8 @@ public:
 
     void BuildSelectedText(SelectedTextBuilder& builder) override;
 
+    void ChangeFocus(bool is_focused) override;
+
 protected:
     void Initialize() override;
     zaf::Size CalculatePreferredContentSize(const zaf::Size& bound_size) const override;

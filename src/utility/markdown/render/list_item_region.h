@@ -24,6 +24,8 @@ public:
 
     void BuildSelectedText(SelectedTextBuilder& builder) override;
 
+    void ChangeFocus(bool is_focused) override;
+
 protected:
     void Initialize() override;
     void Layout(const zaf::Rect&) override;

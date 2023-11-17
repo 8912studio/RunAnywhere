@@ -18,6 +18,8 @@ public:
     void ChangeSelection(const PositionRange& position_range) override;
     void BuildSelectedText(SelectedTextBuilder& builder) override;
 
+    void ChangeFocus(bool is_focused) override;
+
 protected:
     void Initialize() override;
     void Paint(zaf::Canvas& canvas, const zaf::Rect& dirty_rect) override;

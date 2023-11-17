@@ -57,4 +57,9 @@ void SimpleBlockRegion::BuildSelectedText(SelectedTextBuilder& builder) {
     }
 }
 
+
+void SimpleBlockRegion::ChangeFocus(bool is_focused) {
+    text_box_->SetIsInFocusContext(is_focused);
+}
+
 }

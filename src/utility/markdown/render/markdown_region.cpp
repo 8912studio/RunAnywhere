@@ -27,10 +27,15 @@ void MarkdownRegion::Initialize() {
 
     __super::Initialize();
 
-    this->SetCanFocused(true);
-
     this->SetLayouter(zaf::Create<zaf::VerticalLayouter>());
     AddChild(body_region_);
+}
+
+
+void MarkdownRegion::SetCanSelect(bool can_select) {
+
+    can_select_ = can_select;
+    this->SetCanFocused(can_select_);
 }
 
 
@@ -43,6 +48,10 @@ void MarkdownRegion::OnMouseDown(const zaf::MouseDownInfo& event_info) {
 
     __super::OnMouseDown(event_info);
     if (event_info.IsHandled()) {
+        return;
+    }
+
+    if (!can_select_) {
         return;
     }
 
@@ -74,6 +83,10 @@ void MarkdownRegion::OnMouseUp(const zaf::MouseUpInfo& event_info) {
         return;
     }
 
+    if (!can_select_) {
+        return;
+    }
+
     if (begin_selection_position_) {
         begin_selection_position_.reset();
 
@@ -88,6 +101,10 @@ void MarkdownRegion::OnPreMouseMove(const zaf::PreMouseMoveInfo& event_info) {
 
     __super::OnPreMouseMove(event_info);
     if (event_info.IsHandled()) {
+        return;
+    }
+
+    if (!can_select_) {
         return;
     }
 
@@ -115,6 +132,10 @@ void MarkdownRegion::OnKeyDown(const zaf::KeyDownInfo& event_info) {
         return;
     }
 
+    if (!can_select_) {
+        return;
+    }
+
     if ((GetKeyState(VK_CONTROL) >> 15) && event_info.Message().VirtualKey() == L'C') {
 
         SelectedTextBuilder text_builder;
@@ -126,6 +147,32 @@ void MarkdownRegion::OnKeyDown(const zaf::KeyDownInfo& event_info) {
 
         event_info.MarkAsHandled();
     }
+}
+
+
+void MarkdownRegion::OnFocusGained(const zaf::FocusGainedInfo& event_info) {
+
+    __super::OnFocusGained(event_info);
+
+    if (!can_select_) {
+        return;
+    }
+
+    body_region_->ChangeFocus(true);
+    event_info.MarkAsHandled();
+}
+
+
+void MarkdownRegion::OnFocusLost(const zaf::FocusLostInfo& event_info) {
+
+    __super::OnFocusLost(event_info);
+
+    if (!can_select_) {
+        return;
+    }
+
+    body_region_->ChangeFocus(false);
+    event_info.MarkAsHandled();
 }
 
 }

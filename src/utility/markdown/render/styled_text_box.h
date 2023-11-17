@@ -17,6 +17,8 @@ public:
         const PositionRange& position_range, 
         bool scroll_to_selection = false);
 
+    void SetIsInFocusContext(bool is_focused);
+
 protected:
     void Initialize() override;
     void PaintTextBackground(
@@ -35,6 +37,7 @@ private:
 private:
     std::vector<std::pair<zaf::Range, zaf::Color>> background_colors_;
     float line_gap_{};
+    bool is_in_focus_context_{};
 };
 
 }

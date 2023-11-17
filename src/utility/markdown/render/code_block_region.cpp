@@ -133,4 +133,9 @@ void CodeBlockRegion::BuildSelectedText(SelectedTextBuilder& builder) {
     }
 }
 
+
+void CodeBlockRegion::ChangeFocus(bool is_focused) {
+    text_box_->SetIsInFocusContext(is_focused);
+}
+
 }

@@ -14,6 +14,8 @@ public:
 
     void BuildSelectedText(SelectedTextBuilder& builder) override;
 
+    void ChangeFocus(bool is_focused) override;
+
 protected:
     explicit CompoundRegion(std::vector<std::shared_ptr<RenderRegion>> child_regions);
 

@@ -102,4 +102,12 @@ void CompoundRegion::BuildSelectedText(SelectedTextBuilder& builder) {
     }
 }
 
+
+void CompoundRegion::ChangeFocus(bool is_focused) {
+
+    for (const auto& each_child : child_regions_) {
+        each_child->ChangeFocus(is_focused);
+    }
+}
+
 }

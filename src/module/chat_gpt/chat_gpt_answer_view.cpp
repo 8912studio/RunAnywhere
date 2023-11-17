@@ -30,6 +30,7 @@ void ChatGPTAnswerView::SetAnswer(zaf::Observable<std::wstring> observable_answe
 
         auto root_element = MarkdownParser::Instance()->Parse(answer);
         markdown_region_ = MarkdownRegion::Create(*root_element, help::GetHelpStyleConfig());
+        markdown_region_->SetCanSelect(true);
         ShowContent(markdown_region_);
     },
     [this](const zaf::Error& error) {

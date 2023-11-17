@@ -13,6 +13,9 @@ public:
         const element::Element& element,
         const StyleConfig& style_config);
 
+public:
+    void SetCanSelect(bool can_select);
+
 protected:
     void Initialize() override;
     zaf::Size CalculatePreferredContentSize(const zaf::Size& bound_size) const override;
@@ -23,12 +26,15 @@ protected:
 
     void OnKeyDown(const zaf::KeyDownInfo&) override;
 
+    void OnFocusGained(const zaf::FocusGainedInfo&) override;
+    void OnFocusLost(const zaf::FocusLostInfo&) override;
+
 private:
     explicit MarkdownRegion(std::shared_ptr<BodyRegion> body_region);
 
 private:
     std::shared_ptr<BodyRegion> body_region_;
-
+    bool can_select_{};
     std::optional<zaf::Point> begin_selection_position_;
 };
 

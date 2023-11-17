@@ -11,6 +11,12 @@ void StyledTextBox::Initialize() {
     this->SetIsEnabled(false);
     this->SetWordWrapping(zaf::WordWrapping::Wrap);
     this->SetIgnoreTailingWhiteSpaces(true);
+    this->SetSelectionBackgroundColorPicker([this](const zaf::Control& control) {
+        return 
+            is_in_focus_context_ ? 
+            zaf::Color::FromARGB(0x300078d7) :
+            zaf::Color::FromARGB(0x30848484);
+    });
 }
 
 
@@ -20,13 +26,15 @@ void StyledTextBox::PaintTextBackground(
     const zaf::TextLayout& text_layout, 
     const zaf::Rect& layout_rect) {
 
-    __super::PaintTextBackground(canvas, dirty_rect, text_layout, layout_rect);
+    {
+        auto region_guard = canvas.PushRegion(layout_rect, layout_rect);
 
-    auto region_guard = canvas.PushRegion(layout_rect, layout_rect);
-
-    for (const auto& each_pair : background_colors_) {
-        PaintBackgroundColorAtRange(canvas, text_layout, each_pair.first, each_pair.second);
+        for (const auto& each_pair : background_colors_) {
+            PaintBackgroundColorAtRange(canvas, text_layout, each_pair.first, each_pair.second);
+        }
     }
+
+    __super::PaintTextBackground(canvas, dirty_rect, text_layout, layout_rect);
 }
 
 
@@ -129,6 +137,13 @@ void StyledTextBox::SetSelectionByPositionRange(
     auto min = std::min(begin_index, end_index);
     auto max = std::max(begin_index, end_index);
     this->SetSelectionRange(zaf::Range{ min, max - min }, scroll_to_selection);
+}
+
+
+void StyledTextBox::SetIsInFocusContext(bool is_focused) {
+
+    is_in_focus_context_ = is_focused;
+    NeedRepaint();
 }
 
 }
