@@ -1,5 +1,8 @@
 #include "module/chat_gpt/chat_gpt_command.h"
 #include <zaf/creation.h>
+#include <zaf/rx/creation.h>
+#include <zaf/window/window.h>
+#include "module/chat_gpt/answer_result.h"
 #include "module/chat_gpt/chat_gpt_command_parsing.h"
 #include "module/chat_gpt/local_error.h"
 #include "module/common/copy_executor.h"
@@ -79,7 +82,7 @@ void ChatGPTCommand::CreateExecutor() {
 
 void ChatGPTCommand::OnBeginExecute() {
 
-    zaf::Subject<std::wstring> bridge_subject;
+    zaf::Subject<AnswerResult> bridge_subject;
 
     preview_control_->ShowAnswer(bridge_subject.AsObservable());
     command_state_ = CommandState::Executing;
@@ -87,34 +90,55 @@ void ChatGPTCommand::OnBeginExecute() {
 
     auto map_observer = bridge_subject.AsObserver();
 
-    Subscriptions() += chat_gpt_executor_->FinishEvent().Do(
-        [this, map_observer](const comm::ChatCompletion& completion) {
+    Subscriptions() += chat_gpt_executor_->FinishEvent()
+        //Map the result to AnswerResult class.
+        .Map<AnswerResult>([](const comm::ChatCompletion& completion) {
+            return AnswerResult{ completion.Message().Content() };
+        })
+        //Map the error to AnswerResult class.
+        .Catch([](const zaf::Error& error) {
+            return zaf::rx::Just(AnswerResult{ error });
+        })
+        //If the window is being resized or moved, we can't change the size of the window, as the 
+        //window manager will reset the size during resizing or moving. Hence we display the result  
+        //only when the window is not being resized or moved.
+        .FlatMap<AnswerResult>([this](const AnswerResult& result) {
 
-            answer_ = completion.Message().Content();
-            map_observer.OnNext(answer_);
-        },
-        [this, map_observer](const zaf::Error& error) {
+            auto window = preview_control_->Window();
+            if (!window) {
+                return zaf::rx::Just(result);
+            }
 
-            map_observer.OnError(error);
-            if (error.Code().category() == LocalCategory()) {
-                command_state_ = CommandState::Failed;
+            return window->WhenNotSizingOrMoving().Map<AnswerResult>([result](zaf::None) {
+                return result;
+            });
+        })
+        .Do([this, map_observer](const AnswerResult& result) {
+
+            if (auto answer = result.Answer()) {
+                answer_ = *answer;
             }
-            else {
-                command_state_ = CommandState::Waiting;
+            else if (auto error = result.Error()) {
+                if (error->Code().category() == LocalCategory()) {
+                    command_state_ = CommandState::Failed;
+                }
+                else {
+                    command_state_ = CommandState::Waiting;
+                }
             }
+            map_observer.OnNext(result);
         },
         [this, map_observer]() {
 
             map_observer.OnCompleted();
             command_state_ = CommandState::Completed;
-        }
-    )
-    .Finally([this]() {
-        //Destroy executor in order to re-create a new one next time.
-        chat_gpt_executor_.reset();
-        NotifyStateUpdated();
-    })
-    .Subscribe();
+        })
+        .Finally([this]() {
+            //Destroy executor in order to re-create a new one next time.
+            chat_gpt_executor_.reset();
+            NotifyStateUpdated();
+        })
+        .Subscribe();
 }
 
 }

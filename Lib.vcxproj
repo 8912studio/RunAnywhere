@@ -177,6 +177,7 @@
     <ClInclude Include="src\module\calculator\parse\terminal_parser.h" />
     <ClInclude Include="src\module\calculator\parse\unary_expression_parser.h" />
     <ClInclude Include="src\module\calculator\preview\calculator_preview_control.h" />
+    <ClInclude Include="src\module\chat_gpt\answer_result.h" />
     <ClInclude Include="src\module\chat_gpt\chat_gpt_answer_view.h" />
     <ClInclude Include="src\module\chat_gpt\chat_gpt_command.h" />
     <ClInclude Include="src\module\chat_gpt\chat_gpt_command_parse_result.h" />

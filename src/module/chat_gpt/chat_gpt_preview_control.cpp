@@ -18,7 +18,7 @@ void ChatGPTPreviewControl::ShowQuestion(const std::wstring& question) {
 }
 
 
-void ChatGPTPreviewControl::ShowAnswer(zaf::Observable<std::wstring> observable_answer) {
+void ChatGPTPreviewControl::ShowAnswer(zaf::Observable<AnswerResult> observable_answer) {
 
     auto answer_view = zaf::Create<ChatGPTAnswerView>();
     answer_view->SetAnswer(observable_answer);

@@ -17,25 +17,25 @@ ZAF_DEFINE_TYPE(ChatGPTAnswerView)
 ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/chat_gpt/chat_gpt_answer_view.xaml")
 ZAF_DEFINE_TYPE_END;
 
-void ChatGPTAnswerView::SetAnswer(zaf::Observable<std::wstring> observable_answer) {
+void ChatGPTAnswerView::SetAnswer(zaf::Observable<AnswerResult> observable_answer) {
 
+    //Display progress indicator when waiting for the answer.
     progressIndicator->StartAnimation();
     progressIndicator->SetIsVisible(true);
 
-    Subscriptions() += observable_answer.Finally([this]() {
+    Subscriptions() += observable_answer.Do([this](const AnswerResult& result) {
+        if (auto answer = result.Answer()) {
+            ShowAnswer(*answer);
+        }
+        else if (auto error = result.Error()) {
+            ShowError(*error);
+        }
+    })
+    .Finally([this]() {
         progressIndicator->StopAnimation();
         progressIndicator->SetIsVisible(false);
     })
-    .Subscribe([this](const std::wstring& answer) {
-
-        auto root_element = MarkdownParser::Instance()->Parse(answer);
-        markdown_region_ = MarkdownRegion::Create(*root_element, help::GetHelpStyleConfig());
-        markdown_region_->SetCanSelect(true);
-        ShowContent(markdown_region_);
-    },
-    [this](const zaf::Error& error) {
-        ShowError(error);
-    });
+    .Subscribe();
 }
 
 
@@ -52,6 +52,15 @@ void ChatGPTAnswerView::OnRectChanged(const zaf::RectChangedInfo& event_info) {
     if (event_info.PreviousRect().size.width != this->Width()) {
         ResetContentHeight();
     }
+}
+
+
+void ChatGPTAnswerView::ShowAnswer(const std::wstring& answer) {
+
+    auto root_element = MarkdownParser::Instance()->Parse(answer);
+    markdown_region_ = MarkdownRegion::Create(*root_element, help::GetHelpStyleConfig());
+    markdown_region_->SetCanSelect(true);
+    ShowContent(markdown_region_);
 }
 
 
