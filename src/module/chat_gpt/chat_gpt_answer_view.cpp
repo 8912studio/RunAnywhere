@@ -23,19 +23,18 @@ void ChatGPTAnswerView::SetAnswer(zaf::Observable<AnswerResult> observable_answe
     progressIndicator->StartAnimation();
     progressIndicator->SetIsVisible(true);
 
-    Subscriptions() += observable_answer.Do([this](const AnswerResult& result) {
+    Subscriptions() += observable_answer.Subscribe([this](const AnswerResult& result) {
+
         if (auto answer = result.Answer()) {
             ShowAnswer(*answer);
         }
         else if (auto error = result.Error()) {
             ShowError(*error);
         }
-    })
-    .Finally([this]() {
+
         progressIndicator->StopAnimation();
         progressIndicator->SetIsVisible(false);
-    })
-    .Subscribe();
+    });
 }
 
 

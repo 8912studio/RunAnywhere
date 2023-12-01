@@ -113,10 +113,11 @@ void ChatGPTCommand::OnBeginExecute() {
                 return result;
             });
         })
-        .Do([this, map_observer](const AnswerResult& result) {
+        .Subscribe([this, map_observer](const AnswerResult& result) {
 
             if (auto answer = result.Answer()) {
                 answer_ = *answer;
+                command_state_ = CommandState::Completed;
             }
             else if (auto error = result.Error()) {
                 if (error->Code().category() == LocalCategory()) {
@@ -126,19 +127,14 @@ void ChatGPTCommand::OnBeginExecute() {
                     command_state_ = CommandState::Waiting;
                 }
             }
-            map_observer.OnNext(result);
-        },
-        [this, map_observer]() {
 
+            map_observer.OnNext(result);
             map_observer.OnCompleted();
-            command_state_ = CommandState::Completed;
-        })
-        .Finally([this]() {
+
             //Destroy executor in order to re-create a new one next time.
             chat_gpt_executor_.reset();
             NotifyStateUpdated();
-        })
-        .Subscribe();
+        });
 }
 
 }
