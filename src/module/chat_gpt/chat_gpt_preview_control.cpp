@@ -33,14 +33,6 @@ void ChatGPTPreviewControl::ShowContentView(const std::shared_ptr<zaf::Control>&
 }
 
 
-zaf::Frame ChatGPTPreviewControl::GetExpectedMargin() {
-
-    auto result = __super::GetExpectedMargin();
-    result.right = 5;
-    return result;
-}
-
-
 void ChatGPTPreviewControl::OnStyleChanged() {
 
     __super::OnStyleChanged();

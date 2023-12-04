@@ -1,7 +1,12 @@
 <PreservedCommandListView Layouter="StretchLayouter">
-	<ThinScrollControl Name="scrollControl" AllowHorizontalScroll="false">
+	<ThinScrollControl 
+		Name="scrollControl"
+		AllowHorizontalScroll="false" 
+		UseOverlayScrollBars="true">
+		
 		<ThinScrollControl.ScrollContent>
 			<VerticalBox Name="listView" AutoHeight="true" />
 		</ThinScrollControl.ScrollContent>
+		
 	</ThinScrollControl>
 </PreservedCommandListView>

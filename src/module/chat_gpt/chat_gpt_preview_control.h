@@ -15,8 +15,6 @@ public:
     void ShowQuestion(const std::wstring& question);
     void ShowAnswer(zaf::Observable<AnswerResult> observable_answer);
 
-    zaf::Frame GetExpectedMargin() override;
-
 protected:
     void OnStyleChanged() override;
 
