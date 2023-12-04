@@ -53,22 +53,17 @@ void BinaryContentControl::ChangeStyle(CommandDisplayStyle style) {
 
 void BinaryContentControl::AdjustBodyHeight() {
 
-    const float min_height = [this]() {
-        if (style_ == CommandDisplayStyle::Preserved) {
-            return LineHeight;
-        }
-        else {
-            //LineHeight is the header.
-            return 90 - LineHeight;
-        }
-    }();
-
-    const float max_height = [this]() {
-        int lines_per_page = style_ == CommandDisplayStyle::Preserved ? 2 : 8;
-        return LineHeight * lines_per_page;
-    }();
-
     float body_height = body->CalculatePreferredSize().height;
+    if (style_ == CommandDisplayStyle::Preserved) {
+        scrollControl->SetFixedHeight(body_height);
+        return;
+    }
+
+    //LineHeight is the header.
+    constexpr float min_height = 90 - LineHeight;
+    
+    constexpr int lines_per_page = 8;
+    constexpr float max_height = LineHeight * lines_per_page;
 
     float scroll_height = std::max(body_height, min_height);
     scroll_height = std::min(scroll_height, max_height);

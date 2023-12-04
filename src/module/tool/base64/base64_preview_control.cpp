@@ -6,22 +6,6 @@
 #include "module/tool/base64/decoded_data_interpreting.h"
 
 namespace ra::mod::tool::base64 {
-namespace {
-
-template<bool IsHistorical>
-struct StyleMetrics;
-
-template<>
-struct StyleMetrics<false> {
-    static constexpr std::size_t BinaryLinesPerPage = 8;
-};
-
-template<>
-struct StyleMetrics<true> {
-    static constexpr std::size_t BinaryLinesPerPage = 2;
-};
-
-}
 
 ZAF_DEFINE_TYPE(Base64PreviewControl)
 ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/tool/base64/base64_preview_control.xaml")
