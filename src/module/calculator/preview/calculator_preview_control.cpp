@@ -2,6 +2,7 @@
 #include <zaf/graphic/font/font.h>
 #include <zaf/object/type_definition.h>
 #include "module/calculator/result_text_builder.h"
+#include "module/common/style_constants.h"
 #include "utility/numeric_text_formatting.h"
 
 namespace ra::mod::calculator {
@@ -11,7 +12,7 @@ constexpr float NormalStyleFixedHeight = 90;
 constexpr float HistoricalStyleFixedHeight = 28;
 
 constexpr float NormalStyleDefaultFontSize = 32;
-constexpr float HistoricalStyleDefaultFontSize = 16;
+constexpr float HistoricalStyleDefaultFontSize = StyleConstants::PreservedBodyFontSize;
 
 }
 

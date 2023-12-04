@@ -212,6 +212,7 @@
     <ClInclude Include="src\module\common\general_input.h" />
     <ClInclude Include="src\module\common\general_option.h" />
     <ClInclude Include="src\module\common\parse_status.h" />
+    <ClInclude Include="src\module\common\style_constants.h" />
     <ClInclude Include="src\module\common\text_content_control.h" />
     <ClInclude Include="src\module\common\text_encoding.h" />
     <ClInclude Include="src\module\common\text_preview_control.h" />

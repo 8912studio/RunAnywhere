@@ -7,12 +7,13 @@
 #include <zaf/graphic/text/text_format_properties.h>
 #include <zaf/graphic/text/text_layout.h>
 #include <zaf/object/type_definition.h>
+#include "module/common/style_constants.h"
 
 namespace ra::mod::tool::error {
 namespace {
 
 constexpr float MaxFontSize = 26;
-constexpr float MinFontSize = 16;
+constexpr float MinFontSize = StyleConstants::PreservedBodyFontSize;
 
 template<bool IsHistroical>
 struct StyleMetrics;

@@ -4,6 +4,7 @@
 #include <zaf/object/type_definition.h>
 #include <zaf/graphic/graphic_factory.h>
 #include <zaf/graphic/image/wic/imaging_factory.h>
+#include "module/common/style_constants.h"
 
 namespace ra::mod::tool::rgb {
 namespace {
@@ -27,7 +28,7 @@ template<>
 struct StyleMetrics<true> {
     static constexpr float FixedHeight = 28;
     static constexpr auto AxisAlignment = zaf::AxisAlignment::Start;
-    static constexpr float FontSize = 16;
+    static constexpr float FontSize = StyleConstants::PreservedBodyFontSize;
     static constexpr float TextLeftMargin = 8;
 
     static zaf::Size ColorControlSize() {

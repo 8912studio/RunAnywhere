@@ -3,12 +3,13 @@
 #include <zaf/base/log.h>
 #include <zaf/control/scroll_bar.h>
 #include <zaf/object/type_definition.h>
+#include "module/common/style_constants.h"
 #include "utility/text_utility.h"
 
 namespace ra::mod {
 namespace {
 
-constexpr float MultiLineFontSize = 16;
+constexpr float MultiLineFontSize = StyleConstants::PreservedBodyFontSize;
 constexpr float SingleLineMinFontSize = MultiLineFontSize;
 constexpr float SingleLineMaxFontSize = 26;
 constexpr std::size_t SingleLineMaxCalculateLength = 100;
@@ -21,9 +22,8 @@ zaf::Frame NormalStylePadding() {
 }
 
 constexpr float HistoricalStyleMinTextLayoutHeight = 28;
-constexpr std::size_t HistoricalStyleMaxShowLineCount = 2;
 
-zaf::Frame HistoricalStylePadding() {
+zaf::Frame PreservedStylePadding() {
     return zaf::Frame{};
 }
 
@@ -74,7 +74,7 @@ void TextContentControl::ChangeStyle(CommandDisplayStyle style) {
     auto update_guard = this->BeginUpdate();
 
     this->SetPadding(
-        style_ == CommandDisplayStyle::Preserved ? HistoricalStylePadding() : NormalStylePadding());
+        style_ == CommandDisplayStyle::Preserved ? PreservedStylePadding() : NormalStylePadding());
 
     AdjustLayout();
 }
@@ -183,16 +183,18 @@ TextContentControl::LayoutInfo TextContentControl::AdjustForMultiLineText() {
 
     zaf::Size text_boundary_size{ GetTextLayoutWidth(), GetMinTextHeight() };
     auto text_preferred_size = textBox->CalculatePreferredSize(text_boundary_size);
-    auto max_show_line_count = 
-        style_ == CommandDisplayStyle::Preserved ?
-        HistoricalStyleMaxShowLineCount :
-        NormalStyleMaxShowLineCount;
+    auto required_height = text_preferred_size.height;
 
-    auto required_height = CalculateRequriedHeightForMultiLineEdit(
-        text_preferred_size,
-        textBox->LineCount(),
-        text_boundary_size,
-        max_show_line_count);
+    //Restrict max height for normal style. 
+    //No need to do restriction for preserved style.
+    if (style_ == CommandDisplayStyle::Normal) {
+
+        required_height = CalculateRequriedHeightForMultiLineEdit(
+            text_preferred_size,
+            textBox->LineCount(),
+            text_boundary_size,
+            NormalStyleMaxShowLineCount);
+    }
 
     LayoutInfo layout_info;
     layout_info.required_height = required_height;

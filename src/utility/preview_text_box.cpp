@@ -1,6 +1,7 @@
 #include "utility/preview_text_box.h"
 #include <zaf/graphic/color.h>
 #include <zaf/object/type_definition.h>
+#include "module/common/style_constants.h"
 
 namespace ra::utility {
 
@@ -28,7 +29,7 @@ void PreviewTextBox::Display(CommandDisplayStyle style) {
 
 	if (style == CommandDisplayStyle::Preserved) {
 		this->SetTextAlignment(zaf::TextAlignment::Left);
-		this->SetFontSize(16);
+		this->SetFontSize(mod::StyleConstants::PreservedBodyFontSize);
 	}
 	else {
 		this->SetTextAlignment(zaf::TextAlignment::Center);
