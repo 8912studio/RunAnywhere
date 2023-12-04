@@ -6,6 +6,7 @@
 #include "help/help_style_config.h"
 #include "module/chat_gpt/comm/error.h"
 #include "module/chat_gpt/local_error.h"
+#include "module/common/style_constants.h"
 #include "utility/markdown/parse/markdown_parser.h"
 
 using namespace ra::utility::markdown::parse;
@@ -57,7 +58,11 @@ void ChatGPTAnswerView::OnRectChanged(const zaf::RectChangedInfo& event_info) {
 void ChatGPTAnswerView::ShowAnswer(const std::wstring& answer) {
 
     auto root_element = MarkdownParser::Instance()->Parse(answer);
-    markdown_region_ = MarkdownRegion::Create(*root_element, help::GetHelpStyleConfig());
+
+    auto style_config = help::GetHelpStyleConfig();
+    style_config.basic_config.font.size = StyleConstants::PreservedBodyFontSize;
+
+    markdown_region_ = MarkdownRegion::Create(*root_element, style_config);
     markdown_region_->SetCanSelect(true);
     ShowContent(markdown_region_);
 }

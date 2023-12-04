@@ -4,7 +4,7 @@ namespace ra::mod {
 
 class StyleConstants {
 public:
-    static constexpr float PreservedBodyFontSize = 16.f;
+    static constexpr float PreservedBodyFontSize = 14.f;
 
 private:
     StyleConstants() = delete;
