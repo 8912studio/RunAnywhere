@@ -9,11 +9,11 @@
 namespace ra::mod {
 namespace {
 
-constexpr float MultiLineFontSize = StyleConstants::PreservedBodyFontSize;
-constexpr float SingleLineMinFontSize = MultiLineFontSize;
+constexpr float SingleLineMinFontSize = 16;
 constexpr float SingleLineMaxFontSize = 26;
 constexpr std::size_t SingleLineMaxCalculateLength = 100;
 
+constexpr float NormalStyleMultiLineFontSize = 16;
 constexpr float NormalStyleMinTextLayoutHeight = 76;
 constexpr std::size_t NormalStyleMaxShowLineCount = 10;
 
@@ -21,7 +21,8 @@ zaf::Frame NormalStylePadding() {
     return zaf::Frame{ 0, 4, 0, 0 };
 }
 
-constexpr float HistoricalStyleMinTextLayoutHeight = 28;
+constexpr float PreservedStyleMultiLineFontSize = StyleConstants::PreservedBodyFontSize;
+constexpr float PreservedStyleMinTextLayoutHeight = 28;
 
 zaf::Frame PreservedStylePadding() {
     return zaf::Frame{};
@@ -178,7 +179,10 @@ float TextContentControl::GetTextLayoutWidth() const {
 TextContentControl::LayoutInfo TextContentControl::AdjustForMultiLineText() {
 
     textBox->SetTextAlignment(zaf::TextAlignment::Left);
-    textBox->SetFontSize(MultiLineFontSize);
+    textBox->SetFontSize(
+        style_ == CommandDisplayStyle::Preserved ? 
+        PreservedStyleMultiLineFontSize : 
+        NormalStyleMultiLineFontSize);
     textBox->SetWordWrapping(display_mode_.word_wrapping);
 
     zaf::Size text_boundary_size{ GetTextLayoutWidth(), GetMinTextHeight() };
@@ -196,6 +200,8 @@ TextContentControl::LayoutInfo TextContentControl::AdjustForMultiLineText() {
             NormalStyleMaxShowLineCount);
     }
 
+    required_height = std::max(required_height, GetMinTextHeight());
+
     LayoutInfo layout_info;
     layout_info.required_height = required_height;
     layout_info.need_horizontal_scroll = text_preferred_size.width > text_boundary_size.width;
@@ -206,7 +212,7 @@ TextContentControl::LayoutInfo TextContentControl::AdjustForMultiLineText() {
 float TextContentControl::GetMinTextHeight() const {
 
     return style_ == CommandDisplayStyle::Preserved ?
-        HistoricalStyleMinTextLayoutHeight :
+        PreservedStyleMinTextLayoutHeight :
         NormalStyleMinTextLayoutHeight;
 }
 
