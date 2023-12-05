@@ -9,9 +9,15 @@
             TextColor="#808080"
             FontSize="14" />
     </HorizontalBox>
-    <VerticalBox Name="commandContainer" AxisAlignment="Center">
-        <Label Name="commandLabel" ParagraphAlignment="Center" />
-        <VerticalBox Name="argumentContainer" AutoHeight="true" />
-        <Label Name="workingDirectoryLabel" ParagraphAlignment="Center" TextColor="Gray" />
-    </VerticalBox>
+	<ThinScrollControl Name="scrollContainer" AllowHorizontalScroll="false">
+		<ThinScrollControl.ScrollContent>
+			<VerticalBox Name="scrollContent" AxisAlignment="Center">
+				<VerticalBox Name="commandContainer" AutoHeight="true">
+					<Label Name="commandLabel" ParagraphAlignment="Center" />
+					<VerticalBox Name="argumentContainer" AutoHeight="true" />
+					<Label Name="workingDirectoryLabel" ParagraphAlignment="Center" TextColor="Gray" />
+				</VerticalBox>
+			</VerticalBox>
+		</ThinScrollControl.ScrollContent>
+	</ThinScrollControl>    
 </UserDefinedCommandPreviewControl>

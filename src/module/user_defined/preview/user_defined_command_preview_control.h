@@ -26,13 +26,16 @@ public:
 protected:
     void AfterParse() override;
     void OnStyleChanged() override;
+    zaf::Frame GetExpectedMargin() override;
 
 private:
     void BuildArgumentLabels(const std::vector<std::wstring>& arguments);
-    void AdjustCommandContainerLayout();
+    void ResetHeight();
 
 private:
     ZAF_BIND_CONTROL(zaf::Label, entryInfoLabel);
+    ZAF_BIND_CONTROL(zaf::Control, scrollContainer);
+    ZAF_BIND_CONTROL(zaf::Control, scrollContent);
     ZAF_BIND_CONTROL(zaf::Control, commandContainer);
     ZAF_BIND_CONTROL(zaf::Label, commandLabel);
     ZAF_BIND_CONTROL(zaf::Control, argumentContainer);
