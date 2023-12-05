@@ -8,7 +8,7 @@
 namespace ra::mod::user_defined {
 namespace {
 
-constexpr float MinCommandContentHeight = 90;
+constexpr float MinCommandContentHeight = 30;
 constexpr float MaxCommandContentHeight = 240;
 
 template<bool IsPreserved>
@@ -20,7 +20,7 @@ struct StyleMetrics<false> {
     static constexpr float LabelFontSize = 16;
 
     static zaf::Frame Margin() {
-        return zaf::Frame{ 0, 6, 0, 10 };
+        return zaf::Frame{ 0, 8, 0, 10 };
     }
 };
 
