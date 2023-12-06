@@ -253,6 +253,10 @@
     <ClInclude Include="src\module\tool\hex\hex_command_parse_result.h" />
     <ClInclude Include="src\module\tool\hex\hex_command_parsing.h" />
     <ClInclude Include="src\module\tool\hex\hex_preview_control.h" />
+    <ClInclude Include="src\module\tool\json\json_command.h" />
+    <ClInclude Include="src\module\tool\json\json_command_parse_result.h" />
+    <ClInclude Include="src\module\tool\json\json_command_parsing.h" />
+    <ClInclude Include="src\module\tool\json\json_formatting.h" />
     <ClInclude Include="src\module\tool\rgb\rgb_command.h" />
     <ClInclude Include="src\module\tool\rgb\rgb_command_parse_result.h" />
     <ClInclude Include="src\module\tool\rgb\rgb_preview_control.h" />
@@ -481,6 +485,9 @@
     <ClCompile Include="src\module\tool\hex\hex_command.cpp" />
     <ClCompile Include="src\module\tool\hex\hex_command_parsing.cpp" />
     <ClCompile Include="src\module\tool\hex\hex_preview_control.cpp" />
+    <ClCompile Include="src\module\tool\json\json_command.cpp" />
+    <ClCompile Include="src\module\tool\json\json_command_parsing.cpp" />
+    <ClCompile Include="src\module\tool\json\json_formatting.cpp" />
     <ClCompile Include="src\module\tool\rgb\rgb_command.cpp" />
     <ClCompile Include="src\module\tool\rgb\rgb_preview_control.cpp" />
     <ClCompile Include="src\module\tool\text_transform\lower_transformer.cpp" />

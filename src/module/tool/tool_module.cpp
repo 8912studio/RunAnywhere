@@ -8,6 +8,7 @@
 #include "module/tool/hash/md5_command.h"
 #include "module/tool/hash/sha_command.h"
 #include "module/tool/hex/hex_command.h"
+#include "module/tool/json/json_command.h"
 #include "module/tool/rgb/rgb_command.h"
 #include "module/tool/text_transform/lower_transformer.h"
 #include "module/tool/text_transform/text_transform_command.h"
@@ -65,6 +66,7 @@ ToolModule::ToolModule() {
     command_infos_.push_back(CreateCommandInfo<hash::SHACommand>());
     command_infos_.push_back(CreateCommandInfo<hex::HexCommand>());
     command_infos_.push_back(CreateCommandInfo<rgb::RGBCommand>());
+    command_infos_.push_back(CreateCommandInfo<json::JSONCommand>());
     command_infos_.push_back(CreateTextTransformCommandInfo<text_transform::LowerTransformer>());
     command_infos_.push_back(CreateTextTransformCommandInfo<text_transform::UpperTransformer>());
 }
