@@ -1,19 +1,24 @@
 #include "utility/markdown/render/styled_text_box.h"
 #include <zaf/creation.h>
 #include <zaf/graphic/canvas.h>
+#include <zaf/object/type_definition.h>
 
 namespace ra::utility::markdown::render {
+
+ZAF_DEFINE_TYPE(StyledTextBox)
+ZAF_DEFINE_TYPE_END;
 
 void StyledTextBox::Initialize() {
 
     __super::Initialize();
 
+    //StyledTextBox is disabled by default, users can enable it explicitly.
     this->SetIsEnabled(false);
     this->SetWordWrapping(zaf::WordWrapping::Wrap);
     this->SetIgnoreTailingWhiteSpaces(true);
     this->SetSelectionBackgroundColorPicker([this](const zaf::Control& control) {
         return 
-            is_in_focus_context_ ? 
+            is_in_focus_context_ || this->IsFocused() ?
             zaf::Color::FromARGB(0x300078d7) :
             zaf::Color::FromARGB(0x30848484);
     });

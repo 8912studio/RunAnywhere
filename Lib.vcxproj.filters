@@ -915,9 +915,6 @@
     <ClInclude Include="src\utility\markdown\render\styled_text_builder.h">
       <Filter>src\utility\markdown\render</Filter>
     </ClInclude>
-    <ClInclude Include="src\utility\markdown\render\styled_text_layout.h">
-      <Filter>src\utility\markdown\render</Filter>
-    </ClInclude>
     <ClInclude Include="src\utility\markdown\render\text_style.h">
       <Filter>src\utility\markdown\render</Filter>
     </ClInclude>
@@ -963,7 +960,10 @@
     <ClInclude Include="src\module\tool\json\json_command_parsing.h">
       <Filter>src\module\tool\json</Filter>
     </ClInclude>
-    <ClInclude Include="src\module\tool\json\json_formatting.h">
+    <ClInclude Include="src\module\tool\json\json_formatter.h">
+      <Filter>src\module\tool\json</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\tool\json\json_command_preview_control.h">
       <Filter>src\module\tool\json</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1568,7 +1568,10 @@
     <ClCompile Include="src\module\tool\json\json_command_parsing.cpp">
       <Filter>src\module\tool\json</Filter>
     </ClCompile>
-    <ClCompile Include="src\module\tool\json\json_formatting.cpp">
+    <ClCompile Include="src\module\tool\json\json_formatter.cpp">
+      <Filter>src\module\tool\json</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\tool\json\json_command_preview_control.cpp">
       <Filter>src\module\tool\json</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1659,6 +1662,9 @@
     </Page>
     <Page Include="src\module\chat_gpt\chat_gpt_answer_view.xaml">
       <Filter>src\module\chat_gpt</Filter>
+    </Page>
+    <Page Include="src\module\tool\json\json_command_preview_control.xaml">
+      <Filter>src\module\tool\json</Filter>
     </Page>
   </ItemGroup>
   <ItemGroup>

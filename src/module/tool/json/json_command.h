@@ -1,8 +1,8 @@
 #pragma once
 
 #include "module/command.h"
-#include "module/common/text_preview_control.h"
 #include "module/tool/json/json_command_parsing.h"
+#include "module/tool/json/json_command_preview_control.h"
 
 namespace ra::mod::tool::json {
 
@@ -26,7 +26,7 @@ public:
 private:
     JSONCommandParseResult parse_result_;
 
-    std::shared_ptr<TextPreviewControl> preview_control_;
+    std::shared_ptr<JSONCommandPreviewControl> preview_control_;
     std::shared_ptr<CommandExecutor> executor_;
 };
 

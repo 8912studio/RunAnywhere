@@ -1,0 +1,7 @@
+<JSONCommandPreviewControl Layouter="VerticalLayouter" AutoHeight="true">
+	<ThinScrollControl Name="scrollControl" AllowHorizontalScroll="false">
+		<ScrollableControl.ScrollContent>
+			<StyledTextBox Name="contentControl" IsEnabled="true" ParagraphAlignment="Center" />
+		</ScrollableControl.ScrollContent>
+	</ThinScrollControl>
+</JSONCommandPreviewControl>

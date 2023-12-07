@@ -26,6 +26,11 @@ public:
         text_ += text;
     }
 
+    void Append(std::wstring_view text, TextStyle style) {
+        Append(text);
+        AddStyleToPendingText(std::move(style));
+    }
+
     bool HasPendingText() const {
 
         if (text_.empty()) {

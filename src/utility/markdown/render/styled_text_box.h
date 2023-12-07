@@ -9,6 +9,9 @@ namespace ra::utility::markdown::render {
 
 class StyledTextBox : public zaf::TextBox {
 public:
+    ZAF_DECLARE_TYPE;
+
+public:
     void SetStyledText(const StyledText& styled_text);
 
     void SetLineSpacingByParagraphStyle(const StyleConfig& style_config);

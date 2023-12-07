@@ -30,10 +30,10 @@ bool JSONCommand::Interpret(
 
     parse_result_ = ParseJSONCommand(command_line);
 
-    preview_control_ = zaf::Create<TextPreviewControl>();
-    preview_control_->SetText(parse_result_.formatted_result);
+    preview_control_ = zaf::Create<JSONCommandPreviewControl>();
+    preview_control_->SetText(parse_result_.styled_text);
 
-    executor_ = CopyExecutor::TryCreate(parse_result_.formatted_result);
+    executor_ = CopyExecutor::TryCreate(parse_result_.styled_text.Text());
     return true;
 }
 

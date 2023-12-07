@@ -256,7 +256,8 @@
     <ClInclude Include="src\module\tool\json\json_command.h" />
     <ClInclude Include="src\module\tool\json\json_command_parse_result.h" />
     <ClInclude Include="src\module\tool\json\json_command_parsing.h" />
-    <ClInclude Include="src\module\tool\json\json_formatting.h" />
+    <ClInclude Include="src\module\tool\json\json_command_preview_control.h" />
+    <ClInclude Include="src\module\tool\json\json_formatter.h" />
     <ClInclude Include="src\module\tool\rgb\rgb_command.h" />
     <ClInclude Include="src\module\tool\rgb\rgb_command_parse_result.h" />
     <ClInclude Include="src\module\tool\rgb\rgb_preview_control.h" />
@@ -337,7 +338,6 @@
     <ClInclude Include="src\utility\markdown\render\styled_text.h" />
     <ClInclude Include="src\utility\markdown\render\styled_text_box.h" />
     <ClInclude Include="src\utility\markdown\render\styled_text_builder.h" />
-    <ClInclude Include="src\utility\markdown\render\styled_text_layout.h" />
     <ClInclude Include="src\utility\markdown\render\style_config.h" />
     <ClInclude Include="src\utility\markdown\render\text_style.h" />
     <ClInclude Include="src\utility\markdown\render\list_region.h" />
@@ -487,7 +487,8 @@
     <ClCompile Include="src\module\tool\hex\hex_preview_control.cpp" />
     <ClCompile Include="src\module\tool\json\json_command.cpp" />
     <ClCompile Include="src\module\tool\json\json_command_parsing.cpp" />
-    <ClCompile Include="src\module\tool\json\json_formatting.cpp" />
+    <ClCompile Include="src\module\tool\json\json_command_preview_control.cpp" />
+    <ClCompile Include="src\module\tool\json\json_formatter.cpp" />
     <ClCompile Include="src\module\tool\rgb\rgb_command.cpp" />
     <ClCompile Include="src\module\tool\rgb\rgb_preview_control.cpp" />
     <ClCompile Include="src\module\tool\text_transform\lower_transformer.cpp" />
@@ -592,6 +593,7 @@
     <Page Include="src\module\tool\error\error_preview_control.xaml" />
     <Page Include="src\module\tool\hash\hash_preview_control.xaml" />
     <Page Include="src\module\tool\hex\hex_preview_control.xaml" />
+    <Page Include="src\module\tool\json\json_command_preview_control.xaml" />
     <Page Include="src\module\tool\rgb\rgb_preview_control.xaml" />
     <Page Include="src\module\user_defined\import\import_bundle_window.xaml" />
     <Page Include="src\module\user_defined\preview\user_defined_command_preview_control.xaml" />
