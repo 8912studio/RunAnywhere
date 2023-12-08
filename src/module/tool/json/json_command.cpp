@@ -1,6 +1,7 @@
 #include "module/tool/json/json_command.h"
 #include <zaf/creation.h>
 #include "module/common/copy_executor.h"
+#include "module/tool/json/json_command_parsing.h"
 
 namespace ra::mod::tool::json {
 
@@ -28,12 +29,15 @@ bool JSONCommand::Interpret(
         return false;
     }
 
-    parse_result_ = ParseJSONCommand(command_line);
+    auto parse_result = ParseJSONCommand(command_line);
 
     preview_control_ = zaf::Create<JSONCommandPreviewControl>();
-    preview_control_->SetText(parse_result_.styled_text);
+    preview_control_->ShowResult(parse_result);
 
-    executor_ = CopyExecutor::TryCreate(parse_result_.styled_text.Text());
+    if (auto styled_text = parse_result.StyledText()) {
+        executor_ = CopyExecutor::TryCreate(styled_text->Text());
+    }
+    
     return true;
 }
 

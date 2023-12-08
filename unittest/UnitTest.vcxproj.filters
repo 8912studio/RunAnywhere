@@ -82,6 +82,9 @@
     <Filter Include="case\module\chat_gpt">
       <UniqueIdentifier>{2d69bef3-35d4-4bce-8499-619eea514f3f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="case\module\tool\json">
+      <UniqueIdentifier>{0424e0fe-7e1b-47ae-9bdd-796c3571a177}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="case\module\calculator\decimal_number_parser_test.cpp">
@@ -252,6 +255,9 @@
     </ClCompile>
     <ClCompile Include="case\utility\markdown\parse\ordered_list_parser_test.cpp">
       <Filter>case\utility\markdown\parse</Filter>
+    </ClCompile>
+    <ClCompile Include="case\module\tool\json\json_command_preview_control_test.cpp">
+      <Filter>case\module\tool\json</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

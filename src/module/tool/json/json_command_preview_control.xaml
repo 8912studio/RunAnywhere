@@ -1,7 +1,16 @@
 <JSONCommandPreviewControl Layouter="VerticalLayouter" AutoHeight="true">
-	<ThinScrollControl Name="scrollControl" AllowHorizontalScroll="false">
-		<ScrollableControl.ScrollContent>
-			<StyledTextBox Name="contentControl" IsEnabled="true" ParagraphAlignment="Center" />
-		</ScrollableControl.ScrollContent>
-	</ThinScrollControl>
+	<VerticalBox Name="contentView" AutoHeight="true" IsVisible="false">
+		<HorizontalBox Name="parseErrorView" FixedHeight="30" IsVisible="false">
+			<Label Name="parseErrorLabel" />
+		</HorizontalBox>
+		<ThinScrollControl Name="scrollControl">
+			<ScrollableControl.ScrollContent>
+				<StyledTextBox 
+					Name="textBox" 
+					ParagraphAlignment="Center"
+					IsEnabled="true" />
+			</ScrollableControl.ScrollContent>
+		</ThinScrollControl>
+	</VerticalBox>
+	<ErrorView Name="genericErrorView" IsVisible="false" />
 </JSONCommandPreviewControl>

@@ -1,6 +1,7 @@
 #include "module/tool/json/json_command_parsing.h"
 #include <sstream>
 #include <boost/json.hpp>
+#include <zaf/base/error/basic_error.h>
 #include <zaf/base/string/encoding_conversion.h>
 #include "module/tool/json/json_formatter.h"
 
@@ -10,20 +11,24 @@ JSONCommandParseResult ParseJSONCommand(const utility::CommandLine& command_line
 
     const auto& arguments = command_line.Arguments();
     if (arguments.empty()) {
-        return {};
+        return JSONCommandParseResult{ 
+            zaf::make_error_code(zaf::BasicErrc::InvalidValue),
+            0, 
+            {} 
+        };
     }
 
-    try {
+    const auto& original_text = arguments.front().Content();
 
-        auto root = boost::json::parse(zaf::ToUTF8String(arguments.front().Content()));
+    boost::json::parser parser;
+    std::error_code error;
+    auto parsed_length = parser.write_some(zaf::ToUTF8String(original_text), error);
 
-        JSONCommandParseResult result;
-        result.styled_text = JSONFormatter{}.Format(root);
-        return result;
+    if (error) {
+        return JSONCommandParseResult{ error, parsed_length, original_text };
     }
-    catch (const boost::system::system_error&) {
-        return {};
-    }
+
+    return JSONCommandParseResult{ JSONFormatter{}.Format(parser.release()) };
 }
 
 }
