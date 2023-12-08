@@ -66,13 +66,16 @@ TEST(JSONCommandPreviewControlTest, GetAdjacentLinesAtErrorIndex_AdjacentLines) 
 
     auto test = [](
         std::size_t error_index,
+        std::size_t expected_line_index,
         const std::vector<std::wstring>& expected_lines) {
 
         auto result = JSONCommandPreviewControl::GetAdjacentLinesAtErrorIndex(
             L"000\n111\n222\n333\n444\n555\n666\n777\n888\n999",
             error_index);
 
-        return(result.lines == expected_lines);
+        return 
+            (result.lines == expected_lines) &&
+            (result.error_line_index == expected_line_index);
     };
 
     std::vector<std::wstring> expected{
@@ -81,7 +84,7 @@ TEST(JSONCommandPreviewControlTest, GetAdjacentLinesAtErrorIndex_AdjacentLines) 
         L"222",
         L"333",
     };
-    ASSERT_TRUE(test(0, expected));
+    ASSERT_TRUE(test(0, 0, expected));
 
     expected = {
         L"000",
@@ -90,7 +93,7 @@ TEST(JSONCommandPreviewControlTest, GetAdjacentLinesAtErrorIndex_AdjacentLines) 
         L"333",
         L"444",
     };
-    ASSERT_TRUE(test(4, expected));
+    ASSERT_TRUE(test(4, 1, expected));
 
     expected = {
         L"000",
@@ -100,7 +103,7 @@ TEST(JSONCommandPreviewControlTest, GetAdjacentLinesAtErrorIndex_AdjacentLines) 
         L"444",
         L"555",
     };
-    ASSERT_TRUE(test(8, expected));
+    ASSERT_TRUE(test(8, 2, expected));
 
     expected = {
         L"000",
@@ -111,7 +114,7 @@ TEST(JSONCommandPreviewControlTest, GetAdjacentLinesAtErrorIndex_AdjacentLines) 
         L"555",
         L"666",
     };
-    ASSERT_TRUE(test(12, expected));
+    ASSERT_TRUE(test(12, 3, expected));
 
     expected = {
         L"111",
@@ -122,7 +125,7 @@ TEST(JSONCommandPreviewControlTest, GetAdjacentLinesAtErrorIndex_AdjacentLines) 
         L"666",
         L"777"
     };
-    ASSERT_TRUE(test(16, expected));
+    ASSERT_TRUE(test(16, 3, expected));
 
     expected = {
         L"222",
@@ -133,7 +136,7 @@ TEST(JSONCommandPreviewControlTest, GetAdjacentLinesAtErrorIndex_AdjacentLines) 
         L"777",
         L"888",
     };
-    ASSERT_TRUE(test(20, expected));
+    ASSERT_TRUE(test(20, 3, expected));
 
     expected = {
         L"333",
@@ -144,7 +147,7 @@ TEST(JSONCommandPreviewControlTest, GetAdjacentLinesAtErrorIndex_AdjacentLines) 
         L"888",
         L"999",
     };
-    ASSERT_TRUE(test(24, expected));
+    ASSERT_TRUE(test(24, 3, expected));
 
     expected = {
         L"444",
@@ -154,7 +157,7 @@ TEST(JSONCommandPreviewControlTest, GetAdjacentLinesAtErrorIndex_AdjacentLines) 
         L"888",
         L"999",
     };
-    ASSERT_TRUE(test(28, expected));
+    ASSERT_TRUE(test(28, 3, expected));
 
     expected = {
         L"555",
@@ -163,7 +166,7 @@ TEST(JSONCommandPreviewControlTest, GetAdjacentLinesAtErrorIndex_AdjacentLines) 
         L"888", //<-
         L"999",
     };
-    ASSERT_TRUE(test(32, expected));
+    ASSERT_TRUE(test(32, 3, expected));
 
     expected = {
         L"666",
@@ -171,5 +174,5 @@ TEST(JSONCommandPreviewControlTest, GetAdjacentLinesAtErrorIndex_AdjacentLines) 
         L"888", 
         L"999", //<-
     };
-    ASSERT_TRUE(test(36, expected));
+    ASSERT_TRUE(test(36, 3, expected));
 }

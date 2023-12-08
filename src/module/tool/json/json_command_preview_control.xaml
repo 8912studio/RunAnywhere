@@ -1,7 +1,19 @@
 <JSONCommandPreviewControl Layouter="VerticalLayouter" AutoHeight="true">
 	<VerticalBox Name="contentView" AutoHeight="true" IsVisible="false">
-		<HorizontalBox Name="parseErrorView" FixedHeight="30" IsVisible="false">
-			<Label Name="parseErrorLabel" />
+		<HorizontalBox
+			Name="parseErrorView" 
+			CrossAxisAlignment="Center" 
+			FixedHeight="30"
+			IsVisible="false">
+			<ImageBox
+				FixedSize="20,20"
+				URI="res:///resource/error_small.png"
+				ImageLayout="Stretch" />
+			<Label 
+				Name="parseErrorLabel" 
+				Margin="8,0,0,0"
+				FontSize="16" 
+				ParagraphAlignment="Center" />
 		</HorizontalBox>
 		<ThinScrollControl Name="scrollControl">
 			<ScrollableControl.ScrollContent>
@@ -12,5 +24,5 @@
 			</ScrollableControl.ScrollContent>
 		</ThinScrollControl>
 	</VerticalBox>
-	<ErrorView Name="genericErrorView" IsVisible="false" />
+	<ErrorView Name="genericErrorView" Margin="0,0,15,0" IsVisible="false" />
 </JSONCommandPreviewControl>

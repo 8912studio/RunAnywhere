@@ -1,9 +1,14 @@
 #include "module/tool/json/json_command_preview_control.h"
+#include <format>
 #include <boost/json.hpp>
 #include <zaf/base/error/basic_error.h>
 #include <zaf/base/range.h>
 #include <zaf/base/string/join.h>
+#include <zaf/control/scroll_bar.h>
 #include <zaf/object/type_definition.h>
+#include "module/common/error_messages.h"
+
+using namespace ra::utility::markdown::render;
 
 namespace ra::mod::tool::json {
 
@@ -11,17 +16,11 @@ ZAF_DEFINE_TYPE(JSONCommandPreviewControl)
 ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/tool/json/json_command_preview_control.xaml")
 ZAF_DEFINE_TYPE_END;
 
-void JSONCommandPreviewControl::AfterParse() {
-
-    __super::AfterParse();
-}
-
-
 void JSONCommandPreviewControl::Layout(const zaf::Rect& previous_rect) {
 
     __super::Layout(previous_rect);
 
-    ResetHeight();
+    ResetScrollControlHeight();
 }
 
 
@@ -51,66 +50,65 @@ void JSONCommandPreviewControl::ShowParseError(const JSONCommandParseResult::Err
 
     contentView->SetIsVisible(true);
     parseErrorView->SetIsVisible(true);
-    parseErrorLabel->SetText(L"Parse error");
 
-    auto error_lines = GetAdjacentLinesAtErrorIndex(error.original_text, error.last_parsed_index);
+    auto error_info = GetAdjacentLinesAtErrorIndex(
+        error.original_text, 
+        error.last_parsed_index);
 
-    std::wstring error_text;
-    for (auto line_index : zaf::Range(0, error_lines.lines.size())) {
+    parseErrorLabel->SetText(std::format(
+        L"Parse error at line {} char {}",
+        error_info.error_line_index + 1,
+        error_info.error_char_index + 1));
 
-        error_text.append(error_lines.lines[line_index]);
-        error_text.append(1, L'\n');
-
-        if (line_index == error_lines.error_line_index) {
-            error_text.append(error_lines.error_char_index, L' ');
-            error_text.append(1, L'^');
-            error_text.append(1, L'\n');
-        }
-    }
-
-    utility::markdown::render::StyledText styled_text;
-    styled_text.Append(error_text);
-
-    utility::markdown::render::TextStyle style;
-    style.font.family_name = L"Consolas";
-    style.font.size = 16;
-    styled_text.AddStyleToPendingText(style);
-
-    textBox->SetStyledText(styled_text);
+    auto error_text = GenerateParseErrorText(error_info);
+    textBox->SetStyledText(error_text);
+    textBox->SetPadding(zaf::Frame{ 0, 10, 0, 0 });
 }
 
 
 void JSONCommandPreviewControl::ShowGenericError(const JSONCommandParseResult::ErrorInfo& error) {
 
+    genericErrorView->SetIsVisible(true);
+    genericErrorView->ShowHintText(ErrorMessages::NoContentToDisplay);
 }
 
 
 void JSONCommandPreviewControl::OnStyleChanged() {
-    ResetHeight();
+
+    genericErrorView->ChangeStyle(Style());
+    ResetScrollControlHeight();
 }
 
 
-void JSONCommandPreviewControl::ResetHeight() {
+void JSONCommandPreviewControl::ResetScrollControlHeight() {
 
-    if (contentView->IsVisible()) {
-
-        auto content_size = textBox->CalculatePreferredSize();
-        if (Style() == CommandDisplayStyle::Preserved) {
-            scrollControl->SetFixedHeight(content_size.height);
-        }
-        else {
-
-            constexpr float min_height = 80;
-            constexpr int max_line_count = 10;
-
-            auto line_height = content_size.height / textBox->LineCount();
-            auto max_height = line_height * max_line_count;
-
-            auto height = std::min(content_size.height, max_height);
-            height = std::max(height, min_height);
-            scrollControl->SetFixedHeight(height);
-        }
+    if (!contentView->IsVisible()) {
+        return;
     }
+
+    auto content_height = textBox->CalculatePreferredSize().height;
+
+    if (Style() == CommandDisplayStyle::Preserved) {
+        content_height += scrollControl->HorizontalScrollBar()->Height();
+    }
+    else {
+
+        constexpr int max_line_count = 10;
+
+        auto line_height = content_height / textBox->LineCount();
+        auto max_height = line_height * max_line_count;
+
+        float min_height = 80;
+        if (parseErrorView->IsVisible()) {
+            min_height -= parseErrorView->Height();
+        }
+
+        content_height = std::min(content_height, max_height);
+        content_height = std::max(content_height, min_height);
+    }
+
+    content_height += scrollControl->HorizontalScrollBar()->Height();
+    scrollControl->SetFixedHeight(content_height);
 }
 
 
@@ -118,8 +116,6 @@ zaf::Frame JSONCommandPreviewControl::GetExpectedMargin() {
 
     auto result = __super::GetExpectedMargin();
     result.right = 0;
-    result.top = 4;
-    result.bottom = 6;
     return result;
 }
 
@@ -189,13 +185,69 @@ JSONCommandPreviewControl::ErrorLineInfo JSONCommandPreviewControl::GetAdjacentL
         result.lines.emplace_back(line);
     }
 
-    result.error_line_index = *error_line_index;
+    result.error_line_index = *error_line_index - begin_line_index;
 
     const auto& error_line_range = line_ranges[*error_line_index];
     result.error_char_index = error_index - error_line_range.index;
     if (result.error_char_index > error_line_range.length) {
         result.error_char_index = error_line_range.length;
     }
+    return result;
+}
+
+
+StyledText JSONCommandPreviewControl::GenerateParseErrorText(const ErrorLineInfo& error_info) {
+
+    const auto& error_line = error_info.lines[error_info.error_line_index];
+
+    constexpr std::size_t adjacent_char_count = 20;
+
+    std::size_t shown_begin_index{};
+    bool has_more_at_head{};
+    if (error_info.error_char_index > adjacent_char_count) {
+        has_more_at_head = true;
+        shown_begin_index = error_info.error_char_index - adjacent_char_count;
+    }
+
+    std::size_t shown_end_index = error_info.error_char_index + adjacent_char_count + 1;
+    bool has_more_at_tail{ true };
+    if (shown_end_index > error_line.length()) {
+        has_more_at_tail = false;
+        shown_end_index = error_line.length();
+    }
+
+    const std::wstring ellipsis(L"...");
+    StyledText result;
+    if (has_more_at_head) {
+        result.Append(ellipsis);
+    }
+
+    result.Append(error_line.substr(shown_begin_index, shown_end_index - shown_begin_index));
+
+    if (has_more_at_tail) {
+        result.Append(ellipsis);
+    }
+
+    result.Append(L"\n");
+
+    TextStyle style;
+    style.font.family_name = L"Consolas";
+    style.font.size = 16;
+    style.text_color = zaf::Color::FromRGB(0xAA3322);
+    result.AddStyleToPendingText(style);
+
+    std::size_t heading_space_count = error_info.error_char_index - shown_begin_index;
+    if (has_more_at_head) {
+        heading_space_count += ellipsis.size();
+    }
+
+    result.Append(std::wstring(heading_space_count, L' '));
+    result.Append(L"^");
+
+    style.text_color = zaf::Color::Black();
+    style.font.weight = zaf::FontWeight::Bold;
+    result.AddStyleToPendingText(style);
+
     return result;
 }
 
