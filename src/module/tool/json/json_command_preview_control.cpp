@@ -7,6 +7,7 @@
 #include <zaf/control/scroll_bar.h>
 #include <zaf/object/type_definition.h>
 #include "module/common/error_messages.h"
+#include "module/common/style_constants.h"
 
 using namespace ra::utility::markdown::render;
 
@@ -20,6 +21,9 @@ void JSONCommandPreviewControl::Layout(const zaf::Rect& previous_rect) {
 
     __super::Layout(previous_rect);
 
+    if (error_line_info_) {
+        ResetParseError();
+    }
     ResetScrollControlHeight();
 }
 
@@ -29,7 +33,9 @@ void JSONCommandPreviewControl::ShowResult(const JSONCommandParseResult& result)
     if (auto styled_text = result.StyledText()) {
 
         contentView->SetIsVisible(true);
-        textBox->SetStyledText(*styled_text);
+
+        parsed_json_ = *styled_text;
+        ResetParsedJSON();
     }
     else if (auto error = result.Error()) {
 
@@ -51,18 +57,16 @@ void JSONCommandPreviewControl::ShowParseError(const JSONCommandParseResult::Err
     contentView->SetIsVisible(true);
     parseErrorView->SetIsVisible(true);
 
-    auto error_info = GetAdjacentLinesAtErrorIndex(
+    error_line_info_ = GetAdjacentLinesAtErrorIndex(
         error.original_text, 
         error.last_parsed_index);
 
     parseErrorLabel->SetText(std::format(
         L"Parse error at line {} char {}",
-        error_info.error_line_index + 1,
-        error_info.error_char_index + 1));
+        error_line_info_->error_line_index + 1,
+        error_line_info_->error_char_index + 1));
 
-    auto error_text = GenerateParseErrorText(error_info);
-    textBox->SetStyledText(error_text);
-    textBox->SetPadding(zaf::Frame{ 0, 10, 0, 0 });
+    ResetParseError();
 }
 
 
@@ -76,7 +80,52 @@ void JSONCommandPreviewControl::ShowGenericError(const JSONCommandParseResult::E
 void JSONCommandPreviewControl::OnStyleChanged() {
 
     genericErrorView->ChangeStyle(Style());
+
+    if (error_line_info_) {
+        parseErrorLabel->SetFontSize(BodyFontSize());
+        ResetParseError();
+    }
+    else {
+        ResetParsedJSON();
+    }
+
     ResetScrollControlHeight();
+}
+
+
+void JSONCommandPreviewControl::ResetParsedJSON() {
+
+    float font_size = BodyFontSize();
+
+    parsed_json_.VisitStyles([font_size](RangedTextStyle& style) {
+        style.style.font.size = font_size;
+    });
+
+    textBox->SetStyledText(parsed_json_);
+}
+
+
+void JSONCommandPreviewControl::ResetParseError() {
+
+    zaf::Font font = zaf::Font::Default();
+    font.family_name = L"Consolas";
+    font.size = BodyFontSize();
+
+    textBox->SetFont(font);
+    textBox->SetText(L"H");
+    auto char_width = textBox->CalculatePreferredSize().width;
+    auto max_length = static_cast<std::size_t>(textBox->Width() / char_width);
+
+    auto error_content = GetShownErrorContent(*error_line_info_, max_length);
+    auto error_text = GenerateParseErrorText(error_content, font);
+    textBox->SetStyledText(error_text);
+
+    if (Style() != CommandDisplayStyle::Preserved) {
+        textBox->SetPadding(zaf::Frame{ 0, 10, 0, 0 });
+    }
+    else {
+        textBox->SetPadding(zaf::Frame{});
+    }
 }
 
 
@@ -86,12 +135,14 @@ void JSONCommandPreviewControl::ResetScrollControlHeight() {
         return;
     }
 
-    auto content_height = textBox->CalculatePreferredSize().height;
-
-    if (Style() == CommandDisplayStyle::Preserved) {
-        content_height += scrollControl->HorizontalScrollBar()->Height();
+    if (this->Width() <= 0) {
+        return;
     }
-    else {
+
+    auto content_height = textBox->CalculatePreferredSize().height;
+    float bottom_margin{};
+
+    if (Style() != CommandDisplayStyle::Preserved) {
 
         constexpr int max_line_count = 10;
 
@@ -105,10 +156,19 @@ void JSONCommandPreviewControl::ResetScrollControlHeight() {
 
         content_height = std::min(content_height, max_height);
         content_height = std::max(content_height, min_height);
+        bottom_margin = 10;
     }
 
-    content_height += scrollControl->HorizontalScrollBar()->Height();
     scrollControl->SetFixedHeight(content_height);
+    scrollControl->SetMargin(zaf::Frame{ 0, 0, 0, bottom_margin });
+}
+
+
+float JSONCommandPreviewControl::BodyFontSize() const {
+    return Style() ==
+        CommandDisplayStyle::Preserved ?
+        StyleConstants::PreservedBodyFontSize :
+        StyleConstants::NormalBodyMinFontSize;
 }
 
 
@@ -196,52 +256,97 @@ JSONCommandPreviewControl::ErrorLineInfo JSONCommandPreviewControl::GetAdjacentL
 }
 
 
-StyledText JSONCommandPreviewControl::GenerateParseErrorText(const ErrorLineInfo& error_info) {
+JSONCommandPreviewControl::ErrorContent JSONCommandPreviewControl::GetShownErrorContent(
+    const ErrorLineInfo& error_info, 
+    std::size_t max_char_count) {
+
+    if (max_char_count == 0) {
+        return {};
+    }
+
+    //The last char index is reserved for the error index that extends beyond the end of the line.
+    auto revised_max_char_count = max_char_count - 1;
 
     const auto& error_line = error_info.lines[error_info.error_line_index];
+    if (revised_max_char_count == 0 || error_line.length() <= revised_max_char_count) {
+        ErrorContent result;
+        result.shown_text = error_line;
+        result.error_index = error_info.error_char_index;
+        return result;
+    }
 
-    constexpr std::size_t adjacent_char_count = 20;
+    const std::size_t adjacent_char_count = (revised_max_char_count - 1) / 2;
 
-    std::size_t shown_begin_index{};
+    std::size_t end_index = error_info.error_char_index + 1 + adjacent_char_count;
+    
+    std::size_t begin_index{};
     bool has_more_at_head{};
     if (error_info.error_char_index > adjacent_char_count) {
         has_more_at_head = true;
-        shown_begin_index = error_info.error_char_index - adjacent_char_count;
+        begin_index = error_info.error_char_index - adjacent_char_count;
+    }
+    else {
+        begin_index = 0;
+        end_index += adjacent_char_count - error_info.error_char_index;
     }
 
-    std::size_t shown_end_index = error_info.error_char_index + adjacent_char_count + 1;
     bool has_more_at_tail{ true };
-    if (shown_end_index > error_line.length()) {
+    if (end_index > error_line.length()) {
+
         has_more_at_tail = false;
-        shown_end_index = error_line.length();
+
+        auto extra_count = end_index - error_line.length();
+        end_index = error_line.length();
+
+        if (begin_index >= extra_count) {
+            begin_index -= extra_count;
+        }
+        else {
+            begin_index = 0;
+            has_more_at_head = false;
+        }
     }
 
     const std::wstring ellipsis(L"...");
-    StyledText result;
-    if (has_more_at_head) {
-        result.Append(ellipsis);
-    }
 
-    result.Append(error_line.substr(shown_begin_index, shown_end_index - shown_begin_index));
+    if (has_more_at_head) {
+        begin_index = std::min(begin_index + ellipsis.size() - 1, error_info.error_char_index);
+    }
 
     if (has_more_at_tail) {
-        result.Append(ellipsis);
+        end_index = std::max(end_index - (ellipsis.size() - 1), error_info.error_char_index);
     }
 
-    result.Append(L"\n");
+    ErrorContent result;
+    if (has_more_at_head) {
+        result.shown_text.append(ellipsis);
+    }
+
+    result.shown_text.append(error_line.substr(begin_index, end_index - begin_index));
+
+    if (has_more_at_tail) {
+        result.shown_text.append(ellipsis);
+    }
+
+    result.error_index = error_info.error_char_index - begin_index;
+    return result;
+}
+
+
+StyledText JSONCommandPreviewControl::GenerateParseErrorText(
+    const ErrorContent& error_info,
+    const zaf::Font& font) {
+
+    StyledText result;
+    result.Append(error_info.shown_text);
 
     TextStyle style;
-    style.font.family_name = L"Consolas";
-    style.font.size = 16;
+    style.font = font;
     style.text_color = zaf::Color::FromRGB(0xAA3322);
     result.AddStyleToPendingText(style);
 
-    std::size_t heading_space_count = error_info.error_char_index - shown_begin_index;
-    if (has_more_at_head) {
-        heading_space_count += ellipsis.size();
-    }
-
-    result.Append(std::wstring(heading_space_count, L' '));
+    result.Append(L"\n");
+    result.Append(std::wstring(error_info.error_index, L' '));
     result.Append(L"^");
 
     style.text_color = zaf::Color::Black();

@@ -22,6 +22,12 @@ public:
         return styles_;
     }
 
+    void VisitStyles(const std::function<void(RangedTextStyle&)>& visitor) {
+        for (auto& each_style : styles_) {
+            visitor(each_style);
+        }
+    }
+
     void Append(std::wstring_view text) {
         text_ += text;
     }

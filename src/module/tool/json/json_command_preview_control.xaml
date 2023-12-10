@@ -15,7 +15,7 @@
 				FontSize="16" 
 				ParagraphAlignment="Center" />
 		</HorizontalBox>
-		<ThinScrollControl Name="scrollControl">
+		<ThinScrollControl Name="scrollControl" AllowHorizontalScroll="false">
 			<ScrollableControl.ScrollContent>
 				<StyledTextBox 
 					Name="textBox" 

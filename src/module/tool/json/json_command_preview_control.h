@@ -22,8 +22,19 @@ public:
         std::size_t error_char_index{};
     };
     static ErrorLineInfo GetAdjacentLinesAtErrorIndex(std::wstring_view text, std::size_t index);
+
+    class ErrorContent {
+    public:
+        std::wstring shown_text;
+        std::size_t error_index{};
+    };
+    static ErrorContent GetShownErrorContent(
+        const ErrorLineInfo& error_info, 
+        std::size_t max_char_count);
+
     static utility::markdown::render::StyledText GenerateParseErrorText(
-        const ErrorLineInfo& error_info);
+        const ErrorContent& error_info,
+        const zaf::Font& font);
 
 public:
     void ShowResult(const JSONCommandParseResult& result);
@@ -36,7 +47,10 @@ protected:
 private:
     void ShowParseError(const JSONCommandParseResult::ErrorInfo& error);
     void ShowGenericError(const JSONCommandParseResult::ErrorInfo& error);
+    void ResetParsedJSON();
+    void ResetParseError();
     void ResetScrollControlHeight();
+    float BodyFontSize() const;
 
 private:
     ZAF_BIND_CONTROL(zaf::Control, contentView);
@@ -45,6 +59,9 @@ private:
     ZAF_BIND_CONTROL(zaf::ScrollableControl, scrollControl);
     ZAF_BIND_CONTROL(utility::markdown::render::StyledTextBox, textBox);
     ZAF_BIND_CONTROL(ErrorView, genericErrorView);
+
+    utility::markdown::render::StyledText parsed_json_;
+    std::optional<ErrorLineInfo> error_line_info_;
 };
 
 }
