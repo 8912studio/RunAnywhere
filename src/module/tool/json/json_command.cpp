@@ -1,5 +1,6 @@
 #include "module/tool/json/json_command.h"
 #include <zaf/creation.h>
+#include "help/built_in_help_content_manager.h"
 #include "module/common/copy_executor.h"
 #include "module/tool/json/json_command_parsing.h"
 
@@ -16,7 +17,10 @@ std::wstring JSONCommand::GetKeyword() {
 
 
 help::HelpContent JSONCommand::GetHelpContent() {
-    return help::HelpContent{ L"", nullptr };
+    return {
+        Keyword(),
+        help::BuiltInHelpContentManager::Instance().GetDetail(Keyword())
+    };
 }
 
 
