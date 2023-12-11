@@ -3,7 +3,7 @@
 namespace ra::mod::chat_gpt {
 namespace {
 
-class LocalErrorCategory : public std::error_category {
+class LocalErrorCategoryClass : public std::error_category {
 public:
     const char* name() const noexcept override {
         return "ChatGPTLocalError";
@@ -16,8 +16,8 @@ public:
 
 }
 
-const std::error_category& LocalCategory() {
-    static LocalErrorCategory category;
+const std::error_category& LocalErrorCategory() {
+    static LocalErrorCategoryClass category;
     return category;
 }
 

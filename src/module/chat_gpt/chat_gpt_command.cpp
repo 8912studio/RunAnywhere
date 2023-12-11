@@ -10,7 +10,11 @@
 
 namespace ra::mod::chat_gpt {
 
-ChatGPTCommand::ChatGPTCommand(std::shared_ptr<comm::OpenAIClient> client) : 
+ChatGPTCommand::ChatGPTCommand(
+    std::shared_ptr<Conversation> conversation,
+    std::shared_ptr<comm::OpenAIClient> client)
+    : 
+    conversation_(std::move(conversation)),
     client_(std::move(client)) {
 
     preview_control_ = zaf::Create<ChatGPTPreviewControl>();
@@ -73,7 +77,7 @@ void ChatGPTCommand::CreateExecutor() {
         return;
     }
 
-    chat_gpt_executor_ = zaf::Create<ChatGPTExecutor>(client_);
+    chat_gpt_executor_ = zaf::Create<ChatGPTExecutor>(conversation_, client_);
 
     Subscriptions() += chat_gpt_executor_->BeginEvent().Subscribe(
         std::bind(&ChatGPTCommand::OnBeginExecute, this));
@@ -120,7 +124,7 @@ void ChatGPTCommand::OnBeginExecute() {
                 command_state_ = CommandState::Completed;
             }
             else if (auto error = result.Error()) {
-                if (error->Code().category() == LocalCategory()) {
+                if (error->Code().category() == LocalErrorCategory()) {
                     command_state_ = CommandState::Failed;
                 }
                 else {

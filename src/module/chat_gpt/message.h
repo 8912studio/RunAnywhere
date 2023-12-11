@@ -4,6 +4,7 @@
 
 namespace ra::mod::chat_gpt {
 
+constexpr const wchar_t* RoleSystem = L"system";
 constexpr const wchar_t* RoleUser = L"user";
 constexpr const wchar_t* RoleAssistant = L"assistant";
 

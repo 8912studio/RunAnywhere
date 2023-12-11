@@ -15,15 +15,28 @@ std::unique_ptr<Command> ChatGPTModule::CreateCommand(const utility::CommandLine
         return nullptr;
     }
 
-    return std::make_unique<ChatGPTCommand>(GetClient());
+    return std::make_unique<ChatGPTCommand>(GetConversation(), GetClient());
 }
 
 
 const std::shared_ptr<comm::OpenAIClient>& ChatGPTModule::GetClient() {
-    std::call_once(client_once_flag_, [this]() {
+    Initialize();
+    return client_;
+}
+
+
+const std::shared_ptr<Conversation> ChatGPTModule::GetConversation() {
+    Initialize();
+    return conversation_;
+}
+
+
+void ChatGPTModule::Initialize() {
+
+    std::call_once(init_once_flag_, [this]() {
+        conversation_ = std::make_shared<Conversation>();
         client_ = std::make_shared<comm::OpenAIClient>();
     });
-    return client_;
 }
 
 }

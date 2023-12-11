@@ -4,13 +4,16 @@
 #include "module/chat_gpt/chat_gpt_executor.h"
 #include "module/chat_gpt/chat_gpt_preview_control.h"
 #include "module/chat_gpt/comm/open_ai_client.h"
+#include "module/chat_gpt/conversation.h"
 #include "module/command.h"
 
 namespace ra::mod::chat_gpt {
 
 class ChatGPTCommand : public Command, zaf::SubscriptionHost {
 public:
-    explicit ChatGPTCommand(std::shared_ptr<comm::OpenAIClient> client);
+    ChatGPTCommand(
+        std::shared_ptr<Conversation> conversation,
+        std::shared_ptr<comm::OpenAIClient> client);
 
     std::wstring GetKeyword() override;
 
@@ -42,7 +45,9 @@ private:
     void OnBeginExecute();
 
 private:
+    std::shared_ptr<Conversation> conversation_;
     std::shared_ptr<comm::OpenAIClient> client_;
+    
     std::shared_ptr<ChatGPTPreviewControl> preview_control_;
 
     CommandState command_state_{ CommandState::Waiting };

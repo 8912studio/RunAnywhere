@@ -5,7 +5,11 @@
 
 namespace ra::mod::chat_gpt {
 
-ChatGPTExecutor::ChatGPTExecutor(std::shared_ptr<comm::OpenAIClient> client) :
+ChatGPTExecutor::ChatGPTExecutor(
+    std::shared_ptr<Conversation> conversation,
+    std::shared_ptr<comm::OpenAIClient> client) 
+    :
+    conversation_(std::move(conversation)),
     client_(std::move(client)) {
 
 }
@@ -47,9 +51,9 @@ void ChatGPTExecutor::InnerExecute() {
         return;
     }
 
-    Message message{ std::move(question_) };
+    conversation_->AddMessage(Message{ std::move(question_) });
 
-    Subscriptions() += client_->CreateChatCompletion({ std::move(message) })
+    Subscriptions() += client_->CreateChatCompletion(*conversation_)
         .Subscribe(finish_event_.AsObserver());
 }
 

@@ -8,7 +8,7 @@
 #include <zaf/base/non_copyable.h>
 #include <zaf/rx/observable.h>
 #include "module/chat_gpt/comm/chat_completion.h"
-#include "module/chat_gpt/message.h"
+#include "module/chat_gpt/conversation.h"
 
 namespace ra::mod::chat_gpt::comm {
 
@@ -22,13 +22,13 @@ public:
     OpenAIClient();
     ~OpenAIClient();
 
-    zaf::Observable<ChatCompletion> CreateChatCompletion(const std::vector<Message>& messages);
+    zaf::Observable<ChatCompletion> CreateChatCompletion(const Conversation& conversation);
 
 private:
     static zaf::Observable<ChatCompletion> CreateMockChatCompletion(
-        const std::vector<Message>& messages);
+        const Conversation& conversation);
 
-    static std::string CreateRequestBody(const std::vector<Message>& messages);
+    static std::string CreateRequestBody(const Conversation& conversation);
     static std::optional<ChatCompletion> ParseChatCompletion(const std::string& response);
 
 private:

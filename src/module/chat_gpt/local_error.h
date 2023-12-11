@@ -9,10 +9,10 @@ enum class LocalErrc {
     NoAPIKey,
 };
 
-const std::error_category& LocalCategory();
+const std::error_category& LocalErrorCategory();
 
 inline std::error_code make_error_code(LocalErrc errc) noexcept {
-    return std::error_code{ static_cast<int>(errc), LocalCategory() };
+    return std::error_code{ static_cast<int>(errc), LocalErrorCategory() };
 }
 
 }
