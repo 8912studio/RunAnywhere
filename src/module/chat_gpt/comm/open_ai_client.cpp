@@ -61,7 +61,7 @@ OpenAIClient::~OpenAIClient() {
 
 
 zaf::Observable<ChatCompletion> OpenAIClient::CreateChatCompletion(
-    const Conversation& conversation) {
+    const std::vector<const Message*>& messages) {
 
 #ifndef NDEBUG
     //return CreateMockChatCompletion(conversation);
@@ -86,7 +86,7 @@ zaf::Observable<ChatCompletion> OpenAIClient::CreateChatCompletion(
     }
     
     connection->SetUsePost(true);
-    connection->SetRequestBody(CreateRequestBody(conversation));
+    connection->SetRequestBody(CreateRequestBody(messages));
 
     curl_easy_setopt(connection->GetHandle(), CURLOPT_SSL_OPTIONS, CURLSSLOPT_NATIVE_CA);
 
@@ -216,18 +216,18 @@ Make sure to handle any errors that may occur during the encryption process and 
 }
 
 
-std::string OpenAIClient::CreateRequestBody(const Conversation& conversation) {
+std::string OpenAIClient::CreateRequestBody(const std::vector<const Message*>& messages) {
 
     boost::json::object root;
     root["model"] = "gpt-3.5-turbo";
     root["temperature"] = 0.6f;
 
     boost::json::array message_array;
-    for (const auto& each_message : conversation.Messages()) {
+    for (const auto& each_message : messages) {
         
         boost::json::object message_item;
-        message_item["role"] = zaf::ToUTF8String(each_message.Role());
-        message_item["content"] = zaf::ToUTF8String(each_message.Content());
+        message_item["role"] = zaf::ToUTF8String(each_message->Role());
+        message_item["content"] = zaf::ToUTF8String(each_message->Content());
         message_array.push_back(std::move(message_item));
     }
     root["messages"] = std::move(message_array);

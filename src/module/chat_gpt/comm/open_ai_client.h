@@ -22,13 +22,14 @@ public:
     OpenAIClient();
     ~OpenAIClient();
 
-    zaf::Observable<ChatCompletion> CreateChatCompletion(const Conversation& conversation);
+    zaf::Observable<ChatCompletion> CreateChatCompletion(
+        const std::vector<const Message*>& messages);
 
 private:
     static zaf::Observable<ChatCompletion> CreateMockChatCompletion(
         const Conversation& conversation);
 
-    static std::string CreateRequestBody(const Conversation& conversation);
+    static std::string CreateRequestBody(const std::vector<const Message*>& messages);
     static std::optional<ChatCompletion> ParseChatCompletion(const std::string& response);
 
 private:
