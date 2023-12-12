@@ -113,6 +113,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="case\module\calculator\number_parser_test_utility.h" />
+    <ClCompile Include="case\module\tool\json\json_command_parsing_test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\src\res.rc" />

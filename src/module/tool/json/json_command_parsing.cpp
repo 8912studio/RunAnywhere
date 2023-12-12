@@ -11,21 +11,30 @@ JSONCommandParseResult ParseJSONCommand(const utility::CommandLine& command_line
 
     const auto& arguments = command_line.Arguments();
     if (arguments.empty()) {
-        return JSONCommandParseResult{ 
+        return JSONCommandParseResult{
             zaf::make_error_code(zaf::BasicErrc::InvalidValue),
-            0, 
-            {} 
+            0,
+            {}
         };
     }
 
     const auto& original_text = arguments.front().Content();
+    auto utf8_text = zaf::ToUTF8String(original_text);
 
     boost::json::parser parser;
     std::error_code error;
-    auto parsed_length = parser.write_some(zaf::ToUTF8String(original_text), error);
+    auto parsed_length = parser.write_some(utf8_text, error);
 
     if (error) {
         return JSONCommandParseResult{ error, parsed_length, original_text };
+    }
+
+    if (parsed_length != utf8_text.length()) {
+        return JSONCommandParseResult{ 
+            make_error_code(boost::json::error::extra_data), 
+            parsed_length, 
+            original_text 
+        };
     }
 
     return JSONCommandParseResult{ JSONFormatter{}.Format(parser.release()) };
