@@ -2,17 +2,14 @@
 
 #include <zaf/base/none.h>
 #include <zaf/rx/subscription_host.h>
-#include "module/chat_gpt/comm/open_ai_client.h"
-#include "module/chat_gpt/conversation.h"
+#include "module/chat_gpt/dialog.h"
 #include "module/command_executor.h"
 
 namespace ra::mod::chat_gpt {
 
 class ChatGPTExecutor : public CommandExecutor, zaf::SubscriptionHost {
 public:
-    ChatGPTExecutor(
-        std::shared_ptr<Conversation> conversation,
-        std::shared_ptr<comm::OpenAIClient>);
+    explicit ChatGPTExecutor(std::shared_ptr<Dialog>);
 
     zaf::Observable<zaf::None> BeginEvent() const {
         return begin_event_.AsObservable();
@@ -30,8 +27,7 @@ private:
     void InnerExecute();
 
 private:
-    std::shared_ptr<Conversation> conversation_;
-    std::shared_ptr<comm::OpenAIClient> client_;
+    std::shared_ptr<Dialog> dialog_;
     bool has_executed_{};
     std::wstring question_;
     zaf::Subject<zaf::None> begin_event_;

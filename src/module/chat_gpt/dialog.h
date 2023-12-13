@@ -14,12 +14,19 @@ public:
     zaf::Observable<comm::ChatCompletion> Chat(std::wstring content);
 
 private:
+    class Round {
+    public:
+        Message question;
+        Message answer;
+    };
+
+private:
     std::shared_ptr<comm::OpenAIClient> client_;
 
-    std::deque<Message> history_messages_;
-    std::size_t max_history_message_count_{};
+    std::deque<Round> history_rounds_;
+    std::size_t max_history_rounds_count_{ 5 };
 
-    std::optional<Message> ongoing_message_;
+    std::optional<Message> ongoing_question_;
 };
 
 }

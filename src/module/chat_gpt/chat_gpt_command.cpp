@@ -10,12 +10,7 @@
 
 namespace ra::mod::chat_gpt {
 
-ChatGPTCommand::ChatGPTCommand(
-    std::shared_ptr<Conversation> conversation,
-    std::shared_ptr<comm::OpenAIClient> client)
-    : 
-    conversation_(std::move(conversation)),
-    client_(std::move(client)) {
+ChatGPTCommand::ChatGPTCommand(std::shared_ptr<Dialog> dialog) : dialog_(std::move(dialog)) {
 
     preview_control_ = zaf::Create<ChatGPTPreviewControl>();
 }
@@ -77,7 +72,7 @@ void ChatGPTCommand::CreateExecutor() {
         return;
     }
 
-    chat_gpt_executor_ = zaf::Create<ChatGPTExecutor>(conversation_, client_);
+    chat_gpt_executor_ = zaf::Create<ChatGPTExecutor>(dialog_);
 
     Subscriptions() += chat_gpt_executor_->BeginEvent().Subscribe(
         std::bind(&ChatGPTCommand::OnBeginExecute, this));

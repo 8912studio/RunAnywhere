@@ -26,8 +26,7 @@ public:
         const std::vector<const Message*>& messages);
 
 private:
-    static zaf::Observable<ChatCompletion> CreateMockChatCompletion(
-        const Conversation& conversation);
+    static zaf::Observable<ChatCompletion> CreateMockChatCompletion();
 
     static std::string CreateRequestBody(const std::vector<const Message*>& messages);
     static std::optional<ChatCompletion> ParseChatCompletion(const std::string& response);

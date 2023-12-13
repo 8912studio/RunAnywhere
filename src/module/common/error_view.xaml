@@ -8,9 +8,9 @@
     />
     <Label 
         Name="textLabel" 
-        AutoSize="true" 
+        AutoWidth="true" 
         TextAlignment="Center"
-        ParagraphAligment="Center" 
+        ParagraphAlignment="Center" 
         FontSize="22"
     />
 </ErrorView>

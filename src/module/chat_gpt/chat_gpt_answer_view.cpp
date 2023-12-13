@@ -81,11 +81,15 @@ void ChatGPTAnswerView::ShowContent(const std::shared_ptr<zaf::Control>& content
 void ChatGPTAnswerView::ShowError(const zaf::Error& error) {
 
     auto error_text = [&error]() -> std::wstring {
+
         if (error.Code() == LocalErrc::EmptyQuestion) {
             return L"No response for empty message";
         }
         if (error.Code() == LocalErrc::NoAPIKey) {
             return L"No API key";
+        }
+        if (error.Code() == LocalErrc::ChatOngoing) {
+            return L"A chat is in progress, try again later";
         }
 
         const auto& error_category = error.Code().category();

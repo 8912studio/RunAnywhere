@@ -139,7 +139,7 @@ void JSONCommandPreviewControl::ResetScrollControlHeight() {
         return;
     }
 
-    auto content_height = textBox->CalculatePreferredSize().height;
+    auto content_height = textBox->CalculatePreferredSize(textBox->ContentSize()).height;
     float bottom_margin{};
 
     if (Style() != CommandDisplayStyle::Preserved) {
