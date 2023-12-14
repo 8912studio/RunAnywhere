@@ -99,23 +99,31 @@ TEST(MarkdownParserTest, ParseFiles) {
 
     ASSERT_TRUE(test(L"markdown_parser_test_2.md", {
         MakeParagraph(L"Here's how you can do it:"),
-        MakeOrderedList(ListItemStyle::Blocks, 1, {
-            MakeParagraph(L"Include the necessary header file at the top of your source file:"),
+        MakeOrderedList(ListItemStyle::Lines, 1, {
+            MakeListItem({
+                MakeParagraph(L"Include the header file at the top of your source file:"),
+            }),
         }),
         MakeCodeBlock(L"#include <QDebug>"),
-        MakeOrderedList(ListItemStyle::Blocks, 2, {
-            MakeParagraph(L"Use the qDebug() function to print the debug information:"),
+        MakeOrderedList(ListItemStyle::Lines, 2, {
+            MakeListItem({
+                MakeParagraph(L"Use the qDebug() function to print the debug information:"),
+            }),
         }),
         MakeCodeBlock(LR"(qDebug() << "Debug information";)"),
-        MakeOrderedList(ListItemStyle::Blocks, 3, {
-            MakeParagraph(L"You can also include variables or values in the debug output:")
+        MakeOrderedList(ListItemStyle::Lines, 3, {
+            MakeListItem({
+                MakeParagraph(L"You can also include variables or values in the debug output:")
+            }),
         }),
-        MakeCodeBlock(L"int value = 42;\r\nqDebug() << \"The value is:\" << value;"),
+        MakeCodeBlock(L"int value = 42;\nqDebug() << \"The value is:\" << value;"),
         MakeOrderedList(ListItemStyle::Blocks, 4, {
-            MakeParagraph(L"To build and run the application with debug output."),
-        }),
-        MakeOrderedList(ListItemStyle::Blocks, 5, {
-            MakeParagraph(L"When you run the application,"),
+            MakeListItem({
+                MakeParagraph(L"To build and run the application with debug output."),
+            }),
+            MakeListItem({
+                MakeParagraph(L"When you run the application,"),
+            })
         }),
         MakeParagraph(L"Note: qDebug() statements are only displayed in the console"),
         MakeParagraph(L"Here's an example of using qInfo() for release mode:"),
@@ -411,7 +419,9 @@ function
 ```)";
 
     ASSERT_TRUE(TestParser(input, {
-        MakeOrderedList(ListItemStyle::Lines, 1, { MakeParagraph(L"code") }),
+        MakeOrderedList(ListItemStyle::Lines, 1, { 
+            MakeListItem({ MakeParagraph(L"code") })
+        }),
         MakeCodeBlock(L"function"),
     }));
 }

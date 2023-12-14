@@ -6,8 +6,9 @@ enum class ElementType {
 
     Root,
 
-    //Block elements
     Paragraph,
+
+    //Block elements
     Header,
     CodeBlock,
     OrderedList,
@@ -21,5 +22,14 @@ enum class ElementType {
 
     Text,
 };
+
+
+inline bool IsBlockElementType(ElementType type) {
+    return
+        type == ElementType::Header ||
+        type == ElementType::CodeBlock ||
+        type == ElementType::OrderedList ||
+        type == ElementType::UnorderedList;
+}
 
 }

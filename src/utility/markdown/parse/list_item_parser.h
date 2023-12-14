@@ -32,6 +32,7 @@ private:
 private:
     bool ParseItemBodyLine(ParseContext& context);
     bool InnerParseItemBodyLine(ParseContext& context);
+    bool IsAtBlockHead(ParseContext& context) const;
 
 private:
     std::optional<State> state_;

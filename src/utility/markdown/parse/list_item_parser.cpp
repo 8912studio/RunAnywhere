@@ -57,8 +57,8 @@ bool ListItemParser::InnerParseItemBodyLine(ParseContext& context) {
             return true;
         }
 
-        //Lines begin with item identity doesn't belong to item body.
-        if (ParseItemIdentity(context)) {
+        //Non-indented block lines don't belogn to item body.
+        if (IsAtBlockHead(context)) {
             return false;
         }
 
@@ -72,6 +72,21 @@ bool ListItemParser::InnerParseItemBodyLine(ParseContext& context) {
     }
 
     return false;
+}
+
+
+bool ListItemParser::IsAtBlockHead(ParseContext& context) const {
+
+    auto transaction = context.BeginTransaction();
+
+    BodyParser body_parser;
+    body_parser.ParseOneLine(context);
+    auto result = body_parser.Finish();
+    if (result.elements.empty()) {
+        return false;
+    }
+
+    return IsBlockElementType(result.elements.front()->Type());
 }
 
 

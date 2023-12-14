@@ -1,6 +1,6 @@
 Here's how you can do it:
 
-1. Include the necessary header file at the top of your source file:
+1. Include the header file at the top of your source file:
 ```cpp
 #include <QDebug>
 ```
@@ -20,7 +20,7 @@ qDebug() << "The value is:" << value;
 
 5. When you run the application,
 
-Note: qDebug() statements are only displayed in the console when the application is running in debug mode.
+Note: qDebug() statements are only displayed in the console
 
 Here's an example of using qInfo() for release mode:
 ```cpp
