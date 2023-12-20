@@ -125,6 +125,18 @@ void CodeBlockRegion::EndSelection() {
 }
 
 
+void CodeBlockRegion::SelectWord(const zaf::Point& position) {
+
+    if (!IsPositionInTextBox(position)) {
+        return;
+    }
+
+    auto position_in_text_box = this->TranslatePositionToChild(position, *scroll_control_);
+    auto index = text_box_->FindIndexAtPosition(position_in_text_box);
+    text_box_->SelectWordAtIndex(index);
+}
+
+
 void CodeBlockRegion::BuildSelectedText(SelectedTextBuilder& builder) {
 
     auto selected_text = text_box_->SelectedText();

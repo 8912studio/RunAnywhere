@@ -24,6 +24,7 @@ protected:
     void OnMouseDown(const zaf::MouseDownInfo&) override;
     void OnMouseUp(const zaf::MouseUpInfo&) override;
     void OnPreMouseMove(const zaf::PreMouseMoveInfo&) override;
+    void OnDoubleClick(const zaf::DoubleClickInfo&) override;
 
     void OnKeyDown(const zaf::KeyDownInfo&) override;
 

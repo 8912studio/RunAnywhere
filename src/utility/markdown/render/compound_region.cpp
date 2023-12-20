@@ -94,6 +94,22 @@ void CompoundRegion::EndSelection() {
 }
 
 
+void CompoundRegion::SelectWord(const zaf::Point& position) {
+
+    for (const auto& each_child : child_regions_) {
+
+        auto position_in_child = this->TranslatePositionToChild(position, *each_child);
+
+        zaf::Rect child_rect{ zaf::Point{}, each_child->Size() };
+        if (child_rect.Contain(position_in_child)) {
+
+            each_child->SelectWord(position_in_child);
+            break;
+        }
+    }
+}
+
+
 void CompoundRegion::BuildSelectedText(SelectedTextBuilder& builder) {
 
     for (const auto& each_child : child_regions_) {

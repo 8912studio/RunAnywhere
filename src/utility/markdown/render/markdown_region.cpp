@@ -36,6 +36,7 @@ void MarkdownRegion::SetCanSelect(bool can_select) {
 
     can_select_ = can_select;
     this->SetCanFocused(can_select_);
+    this->SetCanDoubleClick(can_select_);
 }
 
 
@@ -168,6 +169,18 @@ void MarkdownRegion::OnPreMouseMove(const zaf::PreMouseMoveInfo& event_info) {
     });
 
     event_info.MarkAsHandled();
+}
+
+
+void MarkdownRegion::OnDoubleClick(const zaf::DoubleClickInfo& event_info) {
+
+    __super::OnDoubleClick(event_info);
+
+    if (!can_select_) {
+        return;
+    }
+
+    body_region_->SelectWord(this->TranslatePositionToChild(event_info.Position(), *body_region_));
 }
 
 

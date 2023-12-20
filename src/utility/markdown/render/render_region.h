@@ -12,6 +12,8 @@ public:
     virtual void ChangeSelection(const PositionRange& position_range) = 0;
     virtual void EndSelection() { }
 
+    virtual void SelectWord(const zaf::Point& position) = 0;
+
     virtual void BuildSelectedText(SelectedTextBuilder& builder) = 0;
 
     virtual void ChangeFocus(bool is_focused) = 0;

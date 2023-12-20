@@ -16,6 +16,7 @@ public:
     void InitializeContent(const element::Element& element, const StyleConfig& style_config);
 
     void ChangeSelection(const PositionRange& position_range) override;
+    void SelectWord(const zaf::Point& position) override;
     void BuildSelectedText(SelectedTextBuilder& builder) override;
 
     void ChangeFocus(bool is_focused) override;

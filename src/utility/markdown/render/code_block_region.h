@@ -20,6 +20,8 @@ public:
     void ChangeSelection(const PositionRange& position_range) override;
     void EndSelection() override;
 
+    void SelectWord(const zaf::Point& position) override;
+
     void BuildSelectedText(SelectedTextBuilder& builder) override;
 
     void ChangeFocus(bool is_focused) override;

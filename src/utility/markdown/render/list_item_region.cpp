@@ -107,6 +107,11 @@ void ListItemRegion::EndSelection() {
 }
 
 
+void ListItemRegion::SelectWord(const zaf::Point& position) {
+    body_region_->SelectWord(this->TranslatePositionToChild(position, *body_region_));
+}
+
+
 void ListItemRegion::ChangeSelectionOfMarker(const PositionRange& position_range) {
 
     auto has_selection = [this, &position_range]() {

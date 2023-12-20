@@ -49,6 +49,14 @@ void SimpleBlockRegion::ChangeSelection(const PositionRange& position_range) {
 }
 
 
+void SimpleBlockRegion::SelectWord(const zaf::Point& position) {
+
+    auto position_in_text_box = this->TranslatePositionToChild(position, *text_box_);
+    auto index = text_box_->FindIndexAtPosition(position_in_text_box);
+    text_box_->SelectWordAtIndex(index);
+}
+
+
 void SimpleBlockRegion::BuildSelectedText(SelectedTextBuilder& builder) {
 
     auto selected_text = text_box_->SelectedText();
