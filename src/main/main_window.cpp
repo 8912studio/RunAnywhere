@@ -523,24 +523,24 @@ std::optional<zaf::HitTestResult> MainWindow::HitTest(const zaf::HitTestMessage&
 
     auto mouse_position = message.MousePosition();
 
-    if (inputEdit->AbsoluteRect().Contain(mouse_position)) {
+    if (inputEdit->RectInWindow()->Contain(mouse_position)) {
         return std::nullopt;
     }
 
-    if (previewView->AbsoluteRect().Contain(mouse_position)) {
+    if (previewView->RectInWindow()->Contain(mouse_position)) {
         return std::nullopt;
     }
 
-    if (helpButton->AbsoluteRect().Contain(mouse_position)) {
+    if (helpButton->RectInWindow()->Contain(mouse_position)) {
         return std::nullopt;
     }
 
     if (preservedCommandListView->IsVisibleInContext() &&
-        preservedCommandListView->AbsoluteRect().Contain(mouse_position)) {
+        preservedCommandListView->RectInWindow()->Contain(mouse_position)) {
         return std::nullopt;
     }
 
-    if (toolbar->AbsoluteRect().Contain(mouse_position)) {
+    if (toolbar->RectInWindow()->Contain(mouse_position)) {
         return std::nullopt;
     }
 
