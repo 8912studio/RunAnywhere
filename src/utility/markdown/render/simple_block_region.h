@@ -15,6 +15,7 @@ public:
 
     void InitializeContent(const element::Element& element, const StyleConfig& style_config);
 
+    bool ChangeMouseCursor(const zaf::Point& mouse_position) override;
     void ChangeSelection(const PositionRange& position_range) override;
     void SelectWord(const zaf::Point& position) override;
     void BuildSelectedText(SelectedTextBuilder& builder) override;

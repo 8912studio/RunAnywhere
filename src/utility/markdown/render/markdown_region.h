@@ -21,6 +21,7 @@ protected:
     void Initialize() override;
     zaf::Size CalculatePreferredContentSize(const zaf::Size& bound_size) const override;
 
+    void OnMouseCursorChanging(const zaf::MouseCursorChangingInfo&) override;
     void OnMouseDown(const zaf::MouseDownInfo&) override;
     void OnMouseUp(const zaf::MouseUpInfo&) override;
     void OnPreMouseMove(const zaf::PreMouseMoveInfo&) override;

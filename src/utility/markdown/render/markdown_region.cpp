@@ -56,6 +56,23 @@ void MarkdownRegion::CopySelectionToClipboard() {
 }
 
 
+void MarkdownRegion::OnMouseCursorChanging(const zaf::MouseCursorChangingInfo& event_info) {
+
+    __super::OnMouseCursorChanging(event_info);
+    if (event_info.IsHandled()) {
+        return;
+    }
+
+    if (!can_select_) {
+        return;
+    }
+
+    if (body_region_->ChangeMouseCursor(body_region_->GetMousePosition())) {
+        event_info.MarkAsHandled();
+    }
+}
+
+
 void MarkdownRegion::OnMouseDown(const zaf::MouseDownInfo& event_info) {
 
     __super::OnMouseDown(event_info);

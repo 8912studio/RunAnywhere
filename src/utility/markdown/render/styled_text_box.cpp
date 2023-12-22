@@ -145,6 +145,16 @@ void StyledTextBox::SetSelectionByPositionRange(
 }
 
 
+bool StyledTextBox::TryToChangeMouseCursor(const zaf::Point& position) {
+
+    if (this->IsPositionInsideText(position)) {
+        SetCursor(LoadCursor(nullptr, IDC_IBEAM));
+        return true;
+    }
+    return false;
+}
+
+
 void StyledTextBox::SetIsInFocusContext(bool is_focused) {
 
     if (is_in_focus_context_ == is_focused) {

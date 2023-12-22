@@ -8,6 +8,8 @@ namespace ra::utility::markdown::render {
 
 class RenderRegion : public zaf::Control {
 public:
+    virtual bool ChangeMouseCursor(const zaf::Point& mouse_position) = 0;
+
     virtual void BeginSelection(const zaf::Point& position) { }
     virtual void ChangeSelection(const PositionRange& position_range) = 0;
     virtual void EndSelection() { }

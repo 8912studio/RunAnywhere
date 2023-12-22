@@ -83,6 +83,18 @@ zaf::Size ListItemRegion::CalculatePreferredContentSize(const zaf::Size& bound_s
 }
 
 
+bool ListItemRegion::ChangeMouseCursor(const zaf::Point& mouse_position) {
+    
+    auto position_in_marker = this->TranslatePositionToChild(mouse_position, *marker_text_box_);
+    if (marker_text_box_->RectInSelf().Contain(position_in_marker)) {
+        return marker_text_box_->TryToChangeMouseCursor(position_in_marker);
+    }
+
+    return body_region_->ChangeMouseCursor(
+        this->TranslatePositionToChild(mouse_position, *body_region_));
+}
+
+
 void ListItemRegion::BeginSelection(const zaf::Point& position) {
     body_region_->BeginSelection(this->TranslatePositionToChild(position, *body_region_));
 }
@@ -129,6 +141,11 @@ void ListItemRegion::ChangeSelectionOfMarker(const PositionRange& position_range
         //The marker is selected if the y of begin position is above the marker.
         if (begin_position.y < 0) {
             return true;
+        }
+
+        //No selection is the begin postion and the end position are identical.
+        if (begin_position == end_position) {
+            return false;
         }
 
         //Finally, the marker is selected if either the begin position or the end position is in 

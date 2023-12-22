@@ -40,6 +40,12 @@ void SimpleBlockRegion::InitializeContent(
 }
 
 
+bool SimpleBlockRegion::ChangeMouseCursor(const zaf::Point& mouse_position) {
+    return text_box_->TryToChangeMouseCursor(
+        this->TranslatePositionToChild(mouse_position, *text_box_));
+}
+
+
 void SimpleBlockRegion::ChangeSelection(const PositionRange& position_range) {
 
     text_box_->SetSelectionByPositionRange(PositionRange{
