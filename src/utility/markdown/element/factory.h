@@ -1,5 +1,6 @@
 #pragma once
 
+#include "utility/markdown/element/code_block_element.h"
 #include "utility/markdown/element/element.h"
 #include "utility/markdown/element/header_element.h"
 #include "utility/markdown/element/list_element.h"
@@ -56,10 +57,8 @@ inline std::shared_ptr<Element> MakeInlineCode(std::wstring text) {
 }
 
 
-inline std::shared_ptr<Element> MakeCodeBlock(std::wstring text) {
-    return std::make_shared<Element>(ElementType::CodeBlock, ElementList{
-        std::make_shared<Element>(std::move(text)),
-    });
+inline std::shared_ptr<Element> MakeCodeBlock(std::wstring language, std::wstring code) {
+    return std::make_shared<CodeBlockElement>(std::move(language), std::move(code));
 }
 
 

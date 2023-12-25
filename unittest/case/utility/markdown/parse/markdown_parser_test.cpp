@@ -55,7 +55,7 @@ TEST(MarkdownParserTest, ParseFiles) {
         MakeParagraph({
             MakeBold(L"Usage")
         }),
-        MakeCodeBlock(L"hex [text] [position] [length] /f /u8 /u16"),
+        MakeCodeBlock({}, L"hex [text] [position] [length] /f /u8 /u16"),
         MakeParagraph({
             MakeInlineCode(L"position"),
             MakeText(L" starts with "),
@@ -94,7 +94,7 @@ TEST(MarkdownParserTest, ParseFiles) {
         MakeParagraph({
             MakeText(L"Example:"),
         }),
-        MakeCodeBlock(L"hex `32 ~16\nhex \"string to display\" /u8"),
+        MakeCodeBlock({}, L"hex `32 ~16\nhex \"string to display\" /u8"),
     }));
 
     ASSERT_TRUE(test(L"markdown_parser_test_2.md", {
@@ -104,19 +104,19 @@ TEST(MarkdownParserTest, ParseFiles) {
                 MakeParagraph(L"Include the header file at the top of your source file:"),
             }),
         }),
-        MakeCodeBlock(L"#include <QDebug>"),
+        MakeCodeBlock(L"cpp", L"#include <QDebug>"),
         MakeOrderedList(ListItemStyle::Lines, 2, {
             MakeListItem({
                 MakeParagraph(L"Use the qDebug() function to print the debug information:"),
             }),
         }),
-        MakeCodeBlock(LR"(qDebug() << "Debug information";)"),
+        MakeCodeBlock(L"cpp", LR"(qDebug() << "Debug information";)"),
         MakeOrderedList(ListItemStyle::Lines, 3, {
             MakeListItem({
                 MakeParagraph(L"You can also include variables or values in the debug output:")
             }),
         }),
-        MakeCodeBlock(L"int value = 42;\nqDebug() << \"The value is:\" << value;"),
+        MakeCodeBlock(L"cpp", L"int value = 42;\nqDebug() << \"The value is:\" << value;"),
         MakeOrderedList(ListItemStyle::Blocks, 4, {
             MakeListItem({
                 MakeParagraph(L"To build and run the application with debug output."),
@@ -127,7 +127,7 @@ TEST(MarkdownParserTest, ParseFiles) {
         }),
         MakeParagraph(L"Note: qDebug() statements are only displayed in the console"),
         MakeParagraph(L"Here's an example of using qInfo() for release mode:"),
-        MakeCodeBlock(LR"(qInfo() << "Information message";)"),
+        MakeCodeBlock(L"cpp", LR"(qInfo() << "Information message";)"),
         MakeParagraph(L"Additionally, you can also redirect the debug output to a file"),
     }));
 }
@@ -227,19 +227,27 @@ TEST(MarkdownParserTest, ParseParagraph) {
 
 TEST(MarkdownParserTest, ParseCodeBlock) {
 
-    auto test = [](std::wstring_view input, std::wstring_view expected) {
-        return TestParser(input, { MakeCodeBlock(std::wstring(expected)) });
+    auto test = [](
+        std::wstring_view input, 
+        std::wstring_view language, 
+        std::wstring_view code) {
+        return TestParser(input, { MakeCodeBlock(std::wstring(language), std::wstring(code)) });
     };
 
-    ASSERT_TRUE(test(L"```\n```", L""));
-    ASSERT_TRUE(test(L"```\n\n```", L""));
-    ASSERT_TRUE(test(L"```\n\n\n```", L"\n"));
-    ASSERT_TRUE(test(L"```\nabc\n```", L"abc"));
-    ASSERT_TRUE(test(L"```\nabc \n    define\n```", L"abc \n    define"));
-    ASSERT_TRUE(test(L"````\nabcd\n````", L"abcd"));
-    ASSERT_TRUE(test(L"````\nabcd\n```````", L"abcd"));
-    ASSERT_TRUE(test(L"```\nline1\nline2\nline3", L"line1\nline2\nline3"));
-    ASSERT_TRUE(test(L"```\n``\n```", L"``"));
+    ASSERT_TRUE(test(L"```\n```", L"", L""));
+    ASSERT_TRUE(test(L"```\n\n```", L"", L""));
+    ASSERT_TRUE(test(L"```\n\n\n```", L"", L"\n"));
+    ASSERT_TRUE(test(L"```\nabc\n```", L"", L"abc"));
+    ASSERT_TRUE(test(L"```\nabc \n    define\n```", L"", L"abc \n    define"));
+    ASSERT_TRUE(test(L"````\nabcd\n````", L"", L"abcd"));
+    ASSERT_TRUE(test(L"````\nabcd\n```````", L"", L"abcd"));
+    ASSERT_TRUE(test(L"```\nline1\nline2\nline3", L"", L"line1\nline2\nline3"));
+    ASSERT_TRUE(test(L"```\n``\n```", L"", L"``"));
+
+    ASSERT_TRUE(test(L"```c\n```", L"c", L""));
+    ASSERT_TRUE(test(L"```cpp\n#include\n```", L"cpp", L"#include"));
+    ASSERT_TRUE(test(L"``` cpp  \n#include\n```", L"cpp", L"#include"));
+    ASSERT_TRUE(test(L"``` c cpp d \n#include\n```", L"c", L"#include"));
 }
 
 
@@ -403,7 +411,7 @@ LR"(1. code
         {
             MakeListItem({
                 MakeParagraph(L"code"),
-                MakeCodeBlock(L"void Function() {\n    int x = 0;\n}"),
+                MakeCodeBlock({}, L"void Function() {\n    int x = 0;\n}"),
             }),
             MakeListItem({ MakeParagraph(L"line")}),
         }));
@@ -422,6 +430,6 @@ function
         MakeOrderedList(ListItemStyle::Lines, 1, { 
             MakeListItem({ MakeParagraph(L"code") })
         }),
-        MakeCodeBlock(L"function"),
+        MakeCodeBlock({}, L"function"),
     }));
 }

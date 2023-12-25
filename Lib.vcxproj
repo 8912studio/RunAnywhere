@@ -301,6 +301,7 @@
     <ClInclude Include="src\utility\data_directory.h" />
     <ClInclude Include="src\utility\general_number_interpreter.h" />
     <ClInclude Include="src\utility\link_button.h" />
+    <ClInclude Include="src\utility\markdown\element\code_block_element.h" />
     <ClInclude Include="src\utility\markdown\element\element.h" />
     <ClInclude Include="src\utility\markdown\element\element_type.h" />
     <ClInclude Include="src\utility\markdown\element\factory.h" />
@@ -524,6 +525,7 @@
     <ClCompile Include="src\utility\data_directory.cpp" />
     <ClCompile Include="src\utility\general_number_interpreter.cpp" />
     <ClCompile Include="src\utility\link_button.cpp" />
+    <ClCompile Include="src\utility\markdown\element\code_block_element.cpp" />
     <ClCompile Include="src\utility\markdown\element\element.cpp" />
     <ClCompile Include="src\utility\markdown\element\header_element.cpp" />
     <ClCompile Include="src\utility\markdown\element\list_element.cpp" />

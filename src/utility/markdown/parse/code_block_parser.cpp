@@ -9,12 +9,14 @@ CodeBlockParser::Status CodeBlockParser::ParseOneLine(ParseContext& context) {
     if (!state_) {
 
         std::size_t backquote_count{};
-        if (!ParseHeadingLine(context, backquote_count)) {
+        std::wstring language;
+        if (!ParseHeadingLine(context, backquote_count, language)) {
             return Status::Failed;
         }
 
         state_.emplace();
         state_->backquote_count = backquote_count;
+        state_->language = std::move(language);
         return Status::Continue;
     }
     else {
@@ -38,13 +40,16 @@ CodeBlockParser::Result CodeBlockParser::FinishCurrentElement() {
         state_->content.pop_back();
     }
 
-    auto result = element::MakeCodeBlock(std::move(state_->content));
+    auto result = element::MakeCodeBlock(state_->language, std::move(state_->content));
     state_.reset();
     return result;
 }
 
 
-bool CodeBlockParser::ParseHeadingLine(ParseContext& context, std::size_t& backquote_count) {
+bool CodeBlockParser::ParseHeadingLine(
+    ParseContext& context,
+    std::size_t& backquote_count,
+    std::wstring& language) {
 
     auto transaction = context.BeginTransaction();
     context.SkipSpaces();
@@ -60,11 +65,23 @@ bool CodeBlockParser::ParseHeadingLine(ParseContext& context, std::size_t& backq
     }
 
     while (context.CurrentChar() != L'`' && !context.IsAtLineEnd()) {
+        language.push_back(context.CurrentChar());
         context.Forward();
     }
 
     if (context.CurrentChar() == L'`') {
         return false;
+    }
+
+    //Use the first part as the language.
+    auto space_index = language.find_first_not_of(L' ');
+    if (space_index != std::wstring::npos) {
+        language.erase(0, space_index);
+    }
+
+    space_index = language.find_first_of(L' ');
+    if (space_index != std::wstring::npos) {
+        language.erase(space_index);
     }
 
     context.Forward();

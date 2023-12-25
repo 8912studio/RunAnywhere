@@ -14,11 +14,15 @@ private:
     class State {
     public:
         std::size_t backquote_count{};
+        std::wstring language;
         std::wstring content;
     };
 
 private:
-    static bool ParseHeadingLine(ParseContext& context, std::size_t& backquote_count);
+    static bool ParseHeadingLine(
+        ParseContext& context,
+        std::size_t& backquote_count,
+        std::wstring& language);
 
 private:
     void ParseContentLine(ParseContext& context);
