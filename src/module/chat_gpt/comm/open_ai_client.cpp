@@ -170,7 +170,7 @@ qDebug() << "Debug information Debug information Debug information Debug informa
 ```
 
 3. You can also include variables or values in the debug output:
-```cpp
+```
 int value = 42;
 qDebug() << "The value is:" << value;
 ```

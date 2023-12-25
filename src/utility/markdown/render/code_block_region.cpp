@@ -53,6 +53,8 @@ zaf::Size CodeBlockRegion::CalculatePreferredContentSize(const zaf::Size& bound_
         result.height += scrollControl->HorizontalScrollBar()->Height();
     }
 
+    result.height += scrollControl->Margin().Height();
+
     if (header->IsVisible()) {
         result.height += header->Height() + header->Margin().Height();
     }
@@ -97,7 +99,13 @@ void CodeBlockRegion::SetShowHeader(bool show) {
 
 
 void CodeBlockRegion::SetLanguage(const std::wstring& language) {
-    languageLabel->SetText(language);
+
+    if (!language.empty()) {
+        languageLabel->SetText(language);
+    }
+    else {
+        languageLabel->SetText(L"text");
+    }
 }
 
 

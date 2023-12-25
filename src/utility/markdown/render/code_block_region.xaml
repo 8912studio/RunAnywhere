@@ -1,5 +1,5 @@
-<CodeBlockRegion Layouter="VerticalLayouter" Padding="10,10,10,2">
-    <HorizontalBox Name="header" FixedHeight="20" Margin="0,0,0,10" CrossAxisAlignment="Center">
+<CodeBlockRegion Layouter="VerticalLayouter" Padding="10,4,10,2">
+    <HorizontalBox Name="header" FixedHeight="20" CrossAxisAlignment="Center">
         <Label 
             Name="languageLabel" 
             AutoWidth="true"
@@ -17,6 +17,7 @@
     
     <ThinScrollControl 
         Name="scrollControl" 
+		Margin="0,6,0,0"
         AllowVerticalScroll="false"
         AutoHideScrollBars="true">
         
