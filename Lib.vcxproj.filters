@@ -1678,6 +1678,9 @@
     <Page Include="src\module\tool\json\json_command_preview_control.xaml">
       <Filter>src\module\tool\json</Filter>
     </Page>
+    <Page Include="src\utility\markdown\render\code_block_region.xaml">
+      <Filter>src\utility\markdown\render</Filter>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

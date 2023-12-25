@@ -166,7 +166,7 @@ LR"(In Qt, you can print debug information to the console using the qDebug() fun
 
 2. Use the qDebug() function to print the debug information. For example:
 ```cpp
-qDebug() << "Debug information";
+qDebug() << "Debug information Debug information Debug information Debug information Debug information";
 ```
 
 3. You can also include variables or values in the debug output:

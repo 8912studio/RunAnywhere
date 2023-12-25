@@ -1,0 +1,29 @@
+<CodeBlockRegion Layouter="VerticalLayouter" Padding="10,10,10,2">
+    <HorizontalBox Name="header" FixedHeight="14" Margin="0,0,0,4" CrossAxisAlignment="Center">
+        <Label 
+            Name="languageLabel" 
+            AutoWidth="true"
+            ParagraphAlignment="Center"
+            FontSize="14" />
+        <Control />
+        <ToolbarButton 
+			Name="copyButton"
+			ImageName="copy" 
+	        Tooltip="Copy code to clipboard" 
+			IsVisible="false" />
+    </HorizontalBox>
+    
+    <ThinScrollControl 
+        Name="scrollControl" 
+        AllowVerticalScroll="false"
+        AutoHideScrollBars="true">
+        
+        <ThinScrollControl.ScrollContent>
+            <StyledTextBox 
+                Name="textBox"
+                Padding="0,0,0,8" 
+                WordWrapping="NoWrap"
+                IsEnabled="false" />
+        </ThinScrollControl.ScrollContent>
+    </ThinScrollControl>
+</CodeBlockRegion>

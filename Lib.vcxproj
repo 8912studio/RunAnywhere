@@ -603,6 +603,7 @@
     <Page Include="src\module\user_defined\preview\user_defined_command_preview_control.xaml" />
     <Page Include="src\option\option_window.xaml" />
     <Page Include="src\preview_view.xaml" />
+    <Page Include="src\utility\markdown\render\code_block_region.xaml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

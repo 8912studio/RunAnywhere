@@ -4,8 +4,14 @@
 #include <zaf/control/layout/linear_layouter.h>
 #include <zaf/control/scroll_bar.h>
 #include <zaf/creation.h>
+#include <zaf/object/type_definition.h>
+#include "utility/clipboard.h"
 
 namespace ra::utility::markdown::render {
+
+ZAF_DEFINE_TYPE(CodeBlockRegion)
+ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///utility/markdown/render/code_block_region.xaml")
+ZAF_DEFINE_TYPE_END;
 
 std::shared_ptr<CodeBlockRegion> CodeBlockRegion::Create(
     const element::Element& element, 
@@ -28,56 +34,72 @@ std::shared_ptr<CodeBlockRegion> CodeBlockRegion::Create(
 }
 
 
-void CodeBlockRegion::Initialize() {
+void CodeBlockRegion::AfterParse() {
 
-    __super::Initialize();
+    __super::AfterParse();
 
-    SetPadding(zaf::Frame{ 10, 10, 10, 2 });
-    SetLayouter(zaf::Create<zaf::VerticalLayouter>());
-
-    scroll_control_ = zaf::Create<utility::ThinScrollControl>();
-    scroll_control_->SetAllowVerticalScroll(false);
-    scroll_control_->SetAutoHideScrollBars(true);
-    AddChild(scroll_control_);
-
-    text_box_ = zaf::Create<StyledTextBox>();
-    text_box_->SetIsEnabled(false);
-    text_box_->SetPadding(zaf::Frame{ 0, 0, 0, 8 });
-    text_box_->SetWordWrapping(zaf::WordWrapping::NoWrap);
-    scroll_control_->SetScrollContent(text_box_);
+    Subscriptions() += copyButton->ClickEvent().Subscribe(std::bind([this]() {
+         utility::SetStringToClipboard(textBox->Text());
+    }));
 }
 
 
 zaf::Size CodeBlockRegion::CalculatePreferredContentSize(const zaf::Size& bound_size) const {
 
-    auto result = text_box_->CalculatePreferredSize(bound_size);
+    auto result = textBox->CalculatePreferredSize(bound_size);
     if (result.width > bound_size.width) {
-        result.height += scroll_control_->HorizontalScrollBar()->Height();
+        result.height += scrollControl->HorizontalScrollBar()->Height();
     }
+
+    result.height += header->Height() + header->Margin().Height();
     return result;
 }
 
 
+void CodeBlockRegion::OnMouseEnter(const zaf::MouseEnterInfo& event_info) {
+
+    __super::OnMouseEnter(event_info);
+    if (event_info.IsHandled()) {
+        return;
+    }
+
+    copyButton->SetIsVisible(true);
+}
+
+
+void CodeBlockRegion::OnMouseLeave(const zaf::MouseLeaveInfo& event_info) {
+
+    __super::OnMouseLeave(event_info);
+    if (event_info.IsHandled()) {
+        return;
+    }
+
+    if (!this->ContainMouse()) {
+        copyButton->SetIsVisible(false);
+    }
+}
+
+
 void CodeBlockRegion::SetStyledText(const std::wstring& text, const TextStyle& text_style) {
-    text_box_->SetText(text);
-    text_box_->SetFont(text_style.font);
-    text_box_->SetTextColor(text_style.text_color);
+    textBox->SetText(text);
+    textBox->SetFont(text_style.font);
+    textBox->SetTextColor(text_style.text_color);
 }
 
 
 void CodeBlockRegion::SetTextBackgroundColor(const zaf::Color& color) {
 
     this->SetBackgroundColor(color);
-    text_box_->SetBackgroundColor(color);
+    textBox->SetBackgroundColor(color);
 }
 
 
 bool CodeBlockRegion::ChangeMouseCursor(const zaf::Point& mouse_position) {
 
-    auto position_in_text_box = this->TranslatePositionToChild(mouse_position, *scroll_control_);
+    auto position_in_text_box = this->TranslatePositionToChild(mouse_position, *scrollControl);
 
-    if (text_box_->RectInSelf().Contain(position_in_text_box)) {
-        return text_box_->TryToChangeMouseCursor(position_in_text_box);
+    if (textBox->RectInSelf().Contain(position_in_text_box)) {
+        return textBox->TryToChangeMouseCursor(position_in_text_box);
     }
 
     return false;
@@ -90,7 +112,7 @@ void CodeBlockRegion::BeginSelection(const zaf::Point& position) {
         return;
     }
 
-    auto horizontal_scroll_bar = scroll_control_->HorizontalScrollBar();
+    auto horizontal_scroll_bar = scrollControl->HorizontalScrollBar();
     begin_selection_x_offset_ = static_cast<float>(horizontal_scroll_bar->Value());
 }
 
@@ -98,12 +120,12 @@ void CodeBlockRegion::BeginSelection(const zaf::Point& position) {
 void CodeBlockRegion::ChangeSelection(const PositionRange& position_range) {
 
     auto begin_position_in_text_box =
-        this->TranslatePositionToChild(position_range.Begin(), *scroll_control_);
+        this->TranslatePositionToChild(position_range.Begin(), *scrollControl);
 
     bool scroll_to_selection{ false };
     if (begin_selection_x_offset_) {
 
-        auto horizontal_scroll_bar = scroll_control_->HorizontalScrollBar();
+        auto horizontal_scroll_bar = scrollControl->HorizontalScrollBar();
         auto current_x_offset = static_cast<float>(horizontal_scroll_bar->Value());
 
         begin_position_in_text_box.x -= current_x_offset - *begin_selection_x_offset_ ;
@@ -117,18 +139,18 @@ void CodeBlockRegion::ChangeSelection(const PositionRange& position_range) {
 
     PositionRange position_range_in_text_box{ 
         begin_position_in_text_box,
-        this->TranslatePositionToChild(position_range.End(), *scroll_control_) 
+        this->TranslatePositionToChild(position_range.End(), *scrollControl) 
     };
-    text_box_->SetSelectionByPositionRange(position_range_in_text_box, scroll_to_selection);
+    textBox->SetSelectionByPositionRange(position_range_in_text_box, scroll_to_selection);
 }
 
 
 bool CodeBlockRegion::IsPositionInTextBox(const zaf::Point& position) const {
 
-    auto position_in_text_box = this->TranslatePositionToChild(position, *scroll_control_);
+    auto position_in_text_box = this->TranslatePositionToChild(position, *scrollControl);
     return 
         (position_in_text_box.y >= 0) && 
-        (position_in_text_box.y < text_box_->Height());
+        (position_in_text_box.y < textBox->Height());
 }
 
 
@@ -143,15 +165,15 @@ void CodeBlockRegion::SelectWord(const zaf::Point& position) {
         return;
     }
 
-    auto position_in_text_box = this->TranslatePositionToChild(position, *scroll_control_);
-    auto index = text_box_->FindIndexAtPosition(position_in_text_box);
-    text_box_->SelectWordAtIndex(index);
+    auto position_in_text_box = this->TranslatePositionToChild(position, *scrollControl);
+    auto index = textBox->FindIndexAtPosition(position_in_text_box);
+    textBox->SelectWordAtIndex(index);
 }
 
 
 void CodeBlockRegion::BuildSelectedText(SelectedTextBuilder& builder) {
 
-    auto selected_text = text_box_->SelectedText();
+    auto selected_text = textBox->SelectedText();
     if (!selected_text.empty()) {
         builder.Append(selected_text);
     }
@@ -159,7 +181,7 @@ void CodeBlockRegion::BuildSelectedText(SelectedTextBuilder& builder) {
 
 
 void CodeBlockRegion::ChangeFocus(bool is_focused) {
-    text_box_->SetIsInFocusContext(is_focused);
+    textBox->SetIsInFocusContext(is_focused);
 }
 
 }
