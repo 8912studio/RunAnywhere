@@ -1,10 +1,12 @@
 <CodeBlockRegion Layouter="VerticalLayouter" Padding="10,10,10,2">
-    <HorizontalBox Name="header" FixedHeight="14" Margin="0,0,0,4" CrossAxisAlignment="Center">
+    <HorizontalBox Name="header" FixedHeight="20" Margin="0,0,0,10" CrossAxisAlignment="Center">
         <Label 
             Name="languageLabel" 
             AutoWidth="true"
             ParagraphAlignment="Center"
-            FontSize="14" />
+			FontFamily="Consolas"
+            FontSize="14"
+			TextColor="#999999"/>
         <Control />
         <ToolbarButton 
 			Name="copyButton"

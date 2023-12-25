@@ -6,6 +6,7 @@
 #include <zaf/creation.h>
 #include <zaf/object/type_definition.h>
 #include "utility/clipboard.h"
+#include "utility/markdown/element/code_block_element.h"
 
 namespace ra::utility::markdown::render {
 
@@ -18,18 +19,19 @@ std::shared_ptr<CodeBlockRegion> CodeBlockRegion::Create(
     const StyleConfig& style_config) {
 
     ZAF_EXPECT(element.Type() == element::ElementType::CodeBlock);
+    const auto& code_block_element = dynamic_cast<const element::CodeBlockElement&>(element);
 
     auto result = zaf::Init(new CodeBlockRegion());
-
-    if (!element.Children().empty()) {
+    if (!code_block_element.Children().empty()) {
         TextStyle text_style;
         text_style.font = style_config.basic_config.font;
-        text_style.font.family_name = style_config.code_block_config.font_family_name;
-        text_style.text_color = style_config.code_block_config.text_color;
-        result->SetStyledText(element.Children().front()->Text(), text_style);
+        text_style.font.family_name = style_config.code_block_config.code_config.font_family_name;
+        text_style.text_color = style_config.code_block_config.code_config.text_color;
+        result->SetStyledText(code_block_element.Children().front()->Text(), text_style);
     }
-
-    result->SetTextBackgroundColor(style_config.code_block_config.background_color);
+    result->SetShowHeader(style_config.code_block_config.show_header);
+    result->SetLanguage(code_block_element.Language());
+    result->SetTextBackgroundColor(style_config.code_block_config.code_config.background_color);
     return result;
 }
 
@@ -51,7 +53,9 @@ zaf::Size CodeBlockRegion::CalculatePreferredContentSize(const zaf::Size& bound_
         result.height += scrollControl->HorizontalScrollBar()->Height();
     }
 
-    result.height += header->Height() + header->Margin().Height();
+    if (header->IsVisible()) {
+        result.height += header->Height() + header->Margin().Height();
+    }
     return result;
 }
 
@@ -84,6 +88,16 @@ void CodeBlockRegion::SetStyledText(const std::wstring& text, const TextStyle& t
     textBox->SetText(text);
     textBox->SetFont(text_style.font);
     textBox->SetTextColor(text_style.text_color);
+}
+
+
+void CodeBlockRegion::SetShowHeader(bool show) {
+    header->SetIsVisible(show);
+}
+
+
+void CodeBlockRegion::SetLanguage(const std::wstring& language) {
+    languageLabel->SetText(language);
 }
 
 

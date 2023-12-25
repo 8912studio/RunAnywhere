@@ -44,6 +44,8 @@ private:
     CodeBlockRegion() = default;
 
     void SetStyledText(const std::wstring& text, const TextStyle& text_style);
+    void SetShowHeader(bool show);
+    void SetLanguage(const std::wstring& language);
     void SetTextBackgroundColor(const zaf::Color& color);
     
     bool IsPositionInTextBox(const zaf::Point& position) const;

@@ -30,6 +30,11 @@ public:
         zaf::Color background_color;
     };
 
+    struct CodeBlockConfig {
+        CodeConfig code_config;
+        bool show_header{};
+    };
+
     struct ListConfig {
         float indent{};
         float item_marker_gap{};
@@ -46,7 +51,7 @@ public:
     ParagraphConfig paragraph_config;
     std::array<HeaderConfig, 6> header_config;
     CodeConfig inline_code_config;
-    CodeConfig code_block_config;
+    CodeBlockConfig code_block_config;
     ListConfig list_config;
     zaf::FontWeight bold_font_weight{};
     float block_gap{};

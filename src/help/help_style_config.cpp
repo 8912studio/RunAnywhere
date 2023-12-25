@@ -32,7 +32,7 @@ StyleConfig CreateStyleConfig() {
     style_config.inline_code_config.text_color = zaf::Color::FromRGB(0xCC4136);
     style_config.inline_code_config.background_color = zaf::Color::FromRGB(0xF5F5F5);
 
-    style_config.code_block_config = style_config.inline_code_config;
+    style_config.code_block_config.code_config = style_config.inline_code_config;
 
     style_config.list_config.indent = 8;
     style_config.list_config.item_marker_gap = 8;
