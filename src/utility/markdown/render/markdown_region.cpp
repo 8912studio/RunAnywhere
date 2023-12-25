@@ -67,7 +67,8 @@ void MarkdownRegion::OnMouseCursorChanging(const zaf::MouseCursorChangingInfo& e
         return;
     }
 
-    if (body_region_->ChangeMouseCursor(body_region_->GetMousePosition())) {
+    if (body_region_->IsPositionInsideText(body_region_->GetMousePosition())) {
+        SetCursor(LoadCursor(nullptr, IDC_IBEAM));
         event_info.MarkAsHandled();
     }
 }
@@ -118,6 +119,15 @@ void MarkdownRegion::HandleLeftButtonDown(const zaf::MouseDownInfo& event_info) 
 
 
 void MarkdownRegion::HandleRightButtonDown(const zaf::MouseDownInfo& event_info) {
+
+    //Pop up the menu only when the clicked position is inside text.
+    auto position_in_body = this->TranslatePositionToChild(
+        event_info.PositionAtSender(),
+        *body_region_);
+
+    if (!body_region_->IsPositionInsideText(position_in_body)) {
+        return;
+    }
 
     auto copy_menu_item = zaf::Create<zaf::MenuItem>();
     copy_menu_item->SetText(L"Copy");

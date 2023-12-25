@@ -20,7 +20,6 @@ public:
         const PositionRange& position_range, 
         bool scroll_to_selection = false);
 
-    bool TryToChangeMouseCursor(const zaf::Point& position);
     void SetIsInFocusContext(bool is_focused);
 
 protected:

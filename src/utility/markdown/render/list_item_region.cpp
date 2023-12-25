@@ -83,14 +83,14 @@ zaf::Size ListItemRegion::CalculatePreferredContentSize(const zaf::Size& bound_s
 }
 
 
-bool ListItemRegion::ChangeMouseCursor(const zaf::Point& mouse_position) {
+bool ListItemRegion::IsPositionInsideText(const zaf::Point& mouse_position) {
     
     auto position_in_marker = this->TranslatePositionToChild(mouse_position, *marker_text_box_);
     if (marker_text_box_->RectInSelf().Contain(position_in_marker)) {
-        return marker_text_box_->TryToChangeMouseCursor(position_in_marker);
+        return marker_text_box_->IsPositionInsideText(position_in_marker);
     }
 
-    return body_region_->ChangeMouseCursor(
+    return body_region_->IsPositionInsideText(
         this->TranslatePositionToChild(mouse_position, *body_region_));
 }
 

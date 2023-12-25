@@ -40,8 +40,8 @@ void SimpleBlockRegion::InitializeContent(
 }
 
 
-bool SimpleBlockRegion::ChangeMouseCursor(const zaf::Point& mouse_position) {
-    return text_box_->TryToChangeMouseCursor(
+bool SimpleBlockRegion::IsPositionInsideText(const zaf::Point& mouse_position) {
+    return text_box_->IsPositionInsideText(
         this->TranslatePositionToChild(mouse_position, *text_box_));
 }
 

@@ -18,7 +18,7 @@ public:
         std::size_t depth);
 
 public:
-    bool ChangeMouseCursor(const zaf::Point& mouse_position) override;
+    bool IsPositionInsideText(const zaf::Point& mouse_position) override;
 
     void BeginSelection(const zaf::Point& position) override;
     void ChangeSelection(const PositionRange& position_range) override;

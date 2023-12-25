@@ -64,13 +64,13 @@ zaf::Size CompoundRegion::CalculatePreferredContentSize(const zaf::Size& bound_s
 }
 
 
-bool CompoundRegion::ChangeMouseCursor(const zaf::Point& mouse_position) {
+bool CompoundRegion::IsPositionInsideText(const zaf::Point& mouse_position) {
 
     for (const auto& each_child : child_regions_) {
 
         auto position_in_child = this->TranslatePositionToChild(mouse_position, *each_child);
         if (each_child->RectInSelf().Contain(position_in_child)) {
-            return each_child->ChangeMouseCursor(position_in_child);
+            return each_child->IsPositionInsideText(position_in_child);
         }
     }
     return false;

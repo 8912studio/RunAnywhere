@@ -116,12 +116,12 @@ void CodeBlockRegion::SetTextBackgroundColor(const zaf::Color& color) {
 }
 
 
-bool CodeBlockRegion::ChangeMouseCursor(const zaf::Point& mouse_position) {
+bool CodeBlockRegion::IsPositionInsideText(const zaf::Point& mouse_position) {
 
     auto position_in_text_box = this->TranslatePositionToChild(mouse_position, *scrollControl);
 
     if (textBox->RectInSelf().Contain(position_in_text_box)) {
-        return textBox->TryToChangeMouseCursor(position_in_text_box);
+        return textBox->IsPositionInsideText(position_in_text_box);
     }
 
     return false;
