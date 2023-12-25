@@ -1,5 +1,5 @@
 <CodeBlockRegion Layouter="VerticalLayouter" Padding="10,4,10,2">
-    <HorizontalBox Name="header" FixedHeight="20" CrossAxisAlignment="Center">
+    <HorizontalBox Name="header" FixedHeight="20" Marging="0,0,0,4" CrossAxisAlignment="Center">
         <Label 
             Name="languageLabel" 
             AutoWidth="true"
