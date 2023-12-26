@@ -3,29 +3,34 @@
 		<VerticalBox BackgroundColor="White" />	
 	</DialogWindow.RootControl>
 
-	<ThinScrollControl UseOverlayScrollBars="true" AutoHideScrollBars="true">
+	<ThinScrollControl 
+		Name="roundScrollControl"
+		UseOverlayScrollBars="true" 
+		AutoHideScrollBars="true">
+		
 		<ThinScrollControl.ScrollContent>
 			<VerticalBox 
-				Name="messageListView"
+				Name="roundListView"
 				AutoHeight="true"
 				Margin="15,0,15,0"/>
 		</ThinScrollControl.ScrollContent>
 	</ThinScrollControl>
 
-	<VerticalBox Border="1" BorderColor="#999999" AutoHeight="true">
-		<ThinScrollControl
-			Name="inputContainer"
-			AllowHorizontalScroll="false"
-			UseOverlayScrollBars="true">
-			<ThinScrollControl.ScrollContent>
-				<RichEdit
-					Name="inputEdit"
-					Border="0" 
-					Padding="15,15,15,15"
-					IsMultiline="true"
-					WordWrapping="Wrap"
-					FontSize="16" />
-			</ThinScrollControl.ScrollContent>
-		</ThinScrollControl>
-	</VerticalBox>
+	<Control FixedHeight="1" Margin="15,0,15,5" BackgroundColor="#CCCCCC" />
+	
+	<ThinScrollControl
+		Name="inputContainer"
+		AllowHorizontalScroll="false"
+		UseOverlayScrollBars="true">
+		<ThinScrollControl.ScrollContent>
+			<RichEdit
+				Name="inputEdit"
+				Border="0" 
+				Padding="15,15,15,15"
+				IsMultiline="true"
+				WordWrapping="Wrap"
+				FontSize="14" />
+		</ThinScrollControl.ScrollContent>
+	</ThinScrollControl>
+
 </DialogWindow>

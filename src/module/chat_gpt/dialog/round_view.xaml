@@ -1,10 +1,20 @@
-<RoundView AutoHeight="true">
+<RoundView AutoHeight="true" Margin="0,10,0,20">
 	<VerticalBox Name="questionView" AutoHeight="true">
+		<HorizontalBox FixedHeight="30" CrossAxisAlignment="Center">
+			<Label
+				FixedSize="26,18"
+				TextAlignment="Center"
+				ParagraphAlignment="Center"
+				TextColor="White"
+				BackgroundColor="#512DA8"
+				FontSize="10"
+				Text="You" />
+		</HorizontalBox>
 		<TextBox 
 			Name="questionContent"
 			AutoHeight="true"
 			WordWrapping="Wrap"
-			FontSize="16" />
+			FontSize="14" />
 	</VerticalBox>
-	<AnswerView Name="answerView" />
+	<AnswerView Name="answerView" Margin="0,20,0,0" />
 </RoundView>

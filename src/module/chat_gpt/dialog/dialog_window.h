@@ -2,6 +2,7 @@
 
 #include <zaf/control/control_binder.h>
 #include <zaf/control/rich_edit.h>
+#include <zaf/control/scrollable_control.h>
 #include <zaf/window/message/keyboard_message.h>
 #include <zaf/window/window.h>
 #include "module/chat_gpt/dialog.h"
@@ -23,7 +24,8 @@ private:
     void RequestAnswer();
 
 private:
-    ZAF_BIND_CONTROL(zaf::Control, messageListView);
+    ZAF_BIND_CONTROL(zaf::ScrollableControl, roundScrollControl);
+    ZAF_BIND_CONTROL(zaf::Control, roundListView);
     ZAF_BIND_CONTROL(zaf::Control, inputContainer);
     ZAF_BIND_CONTROL(zaf::RichEdit, inputEdit);
 

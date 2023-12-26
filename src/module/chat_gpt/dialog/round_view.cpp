@@ -1,5 +1,6 @@
 #include "module/chat_gpt/dialog/round_view.h"
 #include <zaf/object/type_definition.h>
+#include <zaf/rx/subject.h>
 
 namespace ra::mod::chat_gpt {
 
@@ -18,16 +19,22 @@ void RoundView::AfterParse() {
 }
 
 
-void RoundView::Start(std::wstring question) {
+zaf::Observable<zaf::None> RoundView::Start(std::wstring question) {
+
+    zaf::Subject<zaf::None> finish_subject;
 
     questionContent->SetText(question);
 
     auto observable = dialog_->Chat(std::move(question)).Map<std::wstring>(
         [](const comm::ChatCompletion& chat_completion) {
         return chat_completion.Message().Content();
+    })
+    .DoOnTerminated([finish_observer = finish_subject.AsObserver()]() {
+        finish_observer.OnNext({});
     });
 
     answerView->SetAnswer(observable);
+    return finish_subject.AsObservable();
 }
 
 }

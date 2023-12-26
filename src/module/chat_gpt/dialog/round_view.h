@@ -1,5 +1,6 @@
 #pragma once
 
+#include <zaf/base/none.h>
 #include <zaf/control/control_binder.h>
 #include <zaf/control/linear_box.h>
 #include <zaf/control/text_box.h>
@@ -14,7 +15,11 @@ public:
 
     explicit RoundView(std::shared_ptr<Dialog> dialog);
 
-    void Start(std::wstring question);
+    zaf::Observable<zaf::None> Start(std::wstring question);
+
+    std::shared_ptr<chat_gpt::AnswerView> AnswerView() const {
+        return answerView;
+    }
 
 protected:
     void AfterParse() override;
@@ -22,7 +27,7 @@ protected:
 private:
     ZAF_BIND_CONTROL(zaf::Control, questionView);
     ZAF_BIND_CONTROL(zaf::TextBox, questionContent);
-    ZAF_BIND_CONTROL(AnswerView, answerView);
+    ZAF_BIND_CONTROL(chat_gpt::AnswerView, answerView);
 
     std::shared_ptr<Dialog> dialog_;
 };

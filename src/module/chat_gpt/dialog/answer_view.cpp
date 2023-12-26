@@ -57,7 +57,7 @@ void AnswerView::ShowAnswer(const std::wstring& answer) {
     auto root_element = MarkdownParser::Instance()->Parse(answer);
 
     auto style_config = help::GetHelpStyleConfig();
-    style_config.basic_config.font.size = StyleConstants::NormalBodyMinFontSize;
+    style_config.basic_config.font.size = StyleConstants::PreservedBodyFontSize;
     style_config.code_block_config.show_header = true;
 
     markdown_region_ = MarkdownRegion::Create(*root_element, style_config);

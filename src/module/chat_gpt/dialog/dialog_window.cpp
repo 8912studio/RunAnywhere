@@ -1,5 +1,6 @@
 #include "module/chat_gpt/dialog/dialog_window.h"
 #include <zaf/base/error/check.h>
+#include <zaf/control/scroll_bar.h>
 #include <zaf/creation.h>
 #include <zaf/object/type_definition.h>
 #include "module/chat_gpt/dialog/round_view.h"
@@ -66,9 +67,18 @@ void DialogWindow::RequestAnswer() {
     inputEdit->SetText({});
 
     auto round_view = zaf::Create<RoundView>(dialog_);
-    round_view->Start(std::move(question));
+    auto finish_observable = round_view->Start(std::move(question));
     
-    messageListView->AddChild(round_view);
+    roundListView->AddChild(round_view);
+    roundScrollControl->ScrollDownToEnd();
+
+    Subscriptions() += finish_observable.Subscribe(std::bind([this, round_view]() {
+    
+        auto answer_view_position = round_view->AnswerView()->TranslatePositionToParent({});
+        float scroll_to_position = round_view->Y() + answer_view_position.y;
+
+        roundScrollControl->VerticalScrollBar()->SetValue(static_cast<int>(scroll_to_position));
+    }));
 }
 
 }
