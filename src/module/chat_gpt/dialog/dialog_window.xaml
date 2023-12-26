@@ -1,0 +1,31 @@
+<DialogWindow>
+	<DialogWindow.RootControl>
+		<VerticalBox BackgroundColor="White" />	
+	</DialogWindow.RootControl>
+
+	<ThinScrollControl UseOverlayScrollBars="true" AutoHideScrollBars="true">
+		<ThinScrollControl.ScrollContent>
+			<VerticalBox 
+				Name="messageListView"
+				AutoHeight="true"
+				Margin="15,0,15,0"/>
+		</ThinScrollControl.ScrollContent>
+	</ThinScrollControl>
+
+	<VerticalBox Border="1" BorderColor="#999999" AutoHeight="true">
+		<ThinScrollControl
+			Name="inputContainer"
+			AllowHorizontalScroll="false"
+			UseOverlayScrollBars="true">
+			<ThinScrollControl.ScrollContent>
+				<RichEdit
+					Name="inputEdit"
+					Border="0" 
+					Padding="15,15,15,15"
+					IsMultiline="true"
+					WordWrapping="Wrap"
+					FontSize="16" />
+			</ThinScrollControl.ScrollContent>
+		</ThinScrollControl>
+	</VerticalBox>
+</DialogWindow>

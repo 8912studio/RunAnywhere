@@ -194,6 +194,9 @@
     <ClInclude Include="src\module\chat_gpt\comm\socket_timer.h" />
     <ClInclude Include="src\module\chat_gpt\conversation.h" />
     <ClInclude Include="src\module\chat_gpt\dialog.h" />
+    <ClInclude Include="src\module\chat_gpt\dialog\answer_view.h" />
+    <ClInclude Include="src\module\chat_gpt\dialog\dialog_window.h" />
+    <ClInclude Include="src\module\chat_gpt\dialog\round_view.h" />
     <ClInclude Include="src\module\chat_gpt\local_error.h" />
     <ClInclude Include="src\module\chat_gpt\message.h" />
     <ClInclude Include="src\module\chat_gpt\progress_indicator.h" />
@@ -447,6 +450,9 @@
     <ClCompile Include="src\module\chat_gpt\comm\socket_timer.cpp" />
     <ClCompile Include="src\module\chat_gpt\conversation.cpp" />
     <ClCompile Include="src\module\chat_gpt\dialog.cpp" />
+    <ClCompile Include="src\module\chat_gpt\dialog\answer_view.cpp" />
+    <ClCompile Include="src\module\chat_gpt\dialog\dialog_window.cpp" />
+    <ClCompile Include="src\module\chat_gpt\dialog\round_view.cpp" />
     <ClCompile Include="src\module\chat_gpt\local_error.cpp" />
     <ClCompile Include="src\module\chat_gpt\progress_indicator.cpp" />
     <ClCompile Include="src\module\command_brief.cpp" />
@@ -588,6 +594,9 @@
     <Page Include="src\module\chat_gpt\chat_gpt_answer_view.xaml" />
     <Page Include="src\module\chat_gpt\chat_gpt_preview_control.xaml" />
     <Page Include="src\module\chat_gpt\chat_gpt_question_view.xaml" />
+    <Page Include="src\module\chat_gpt\dialog\answer_view.xaml" />
+    <Page Include="src\module\chat_gpt\dialog\dialog_window.xaml" />
+    <Page Include="src\module\chat_gpt\dialog\round_view.xaml" />
     <Page Include="src\module\common\binary_content\binary_content_control.xaml" />
     <Page Include="src\module\common\content_status_bar.xaml" />
     <Page Include="src\module\common\error_view.xaml" />

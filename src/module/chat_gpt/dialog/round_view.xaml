@@ -1,0 +1,10 @@
+<RoundView AutoHeight="true">
+	<VerticalBox Name="questionView" AutoHeight="true">
+		<TextBox 
+			Name="questionContent"
+			AutoHeight="true"
+			WordWrapping="Wrap"
+			FontSize="16" />
+	</VerticalBox>
+	<AnswerView Name="answerView" />
+</RoundView>

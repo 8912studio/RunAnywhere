@@ -1,5 +1,7 @@
 #include "module/chat_gpt/chat_gpt_executor.h"
 #include <zaf/base/error/check.h>
+#include <zaf/creation.h>
+#include "module/chat_gpt/dialog/dialog_window.h"
 #include "module/chat_gpt/local_error.h"
 #include "option/option_storage.h"
 
@@ -16,6 +18,10 @@ void ChatGPTExecutor::SetQuestion(std::wstring question) {
 
 
 ExecuteResult ChatGPTExecutor::Execute() {
+
+    auto window = zaf::Create<DialogWindow>(dialog_);
+    window->Show();
+    return PostExecuteAction::Dispose;
 
     //One exectuor can only execute once.
     ZAF_EXPECT(!has_executed_);
