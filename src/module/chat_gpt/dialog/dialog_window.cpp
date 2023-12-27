@@ -3,6 +3,8 @@
 #include <zaf/control/scroll_bar.h>
 #include <zaf/creation.h>
 #include <zaf/object/type_definition.h>
+#include <zaf/rx/creation.h>
+#include <zaf/rx/scheduler.h>
 #include "module/chat_gpt/dialog/round_view.h"
 
 namespace ra::mod::chat_gpt {
@@ -39,7 +41,7 @@ void DialogWindow::AfterParse() {
         const zaf::KeyDownInfo& event_info) {
 
         if (event_info.Message().VirtualKey() == VK_RETURN && (GetKeyState(VK_SHIFT) >> 15) == 0) {
-            RequestAnswer();
+            StartNewRoundOnPressReturn();
             event_info.MarkAsHandled();
         }
     });
@@ -61,19 +63,45 @@ void DialogWindow::ResetInputHeight() {
 }
 
 
-void DialogWindow::RequestAnswer() {
+void DialogWindow::OnShow(const zaf::ShowInfo& event_info) {
+
+    __super::OnShow(event_info);
+
+    //When the window is shown for the first time, there is no window focus by the time OnShow() is
+    //called. Therefore, we set focus to the inputEdit in the next message loop, after the window 
+    //gets focus.
+    Subscriptions() += zaf::rx::Empty<zaf::None>().ObserveOn(zaf::Scheduler::Main())
+        .DoOnTerminated([this]() {
+            inputEdit->SetIsFocused(true);
+        })
+        .Subscribe();
+}
+
+
+void DialogWindow::Chat(std::wstring question) {
+    StartNewRound(question);
+}
+
+
+void DialogWindow::StartNewRoundOnPressReturn() {
 
     auto question = inputEdit->Text();
     inputEdit->SetText({});
 
+    StartNewRound(std::move(question));
+}
+
+
+void DialogWindow::StartNewRound(std::wstring question) {
+
     auto round_view = zaf::Create<RoundView>(dialog_);
     auto finish_observable = round_view->Start(std::move(question));
-    
+
     roundListView->AddChild(round_view);
     roundScrollControl->ScrollDownToEnd();
 
     Subscriptions() += finish_observable.Subscribe(std::bind([this, round_view]() {
-    
+
         auto answer_view_position = round_view->AnswerView()->TranslatePositionToParent({});
         float scroll_to_position = round_view->Y() + answer_view_position.y;
 

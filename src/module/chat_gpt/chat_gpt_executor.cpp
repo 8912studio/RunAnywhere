@@ -21,6 +21,7 @@ ExecuteResult ChatGPTExecutor::Execute() {
 
     auto window = zaf::Create<DialogWindow>(dialog_);
     window->Show();
+    window->Chat(std::move(question_));
     return PostExecuteAction::Dispose;
 
     //One exectuor can only execute once.

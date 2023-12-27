@@ -16,12 +16,16 @@ public:
 public:
     explicit DialogWindow(std::shared_ptr<Dialog> dialog);
 
+    void Chat(std::wstring question);
+
 protected:
     void AfterParse() override;
+    void OnShow(const zaf::ShowInfo&) override;
 
 private:
     void ResetInputHeight();
-    void RequestAnswer();
+    void StartNewRoundOnPressReturn();
+    void StartNewRound(std::wstring question);
 
 private:
     ZAF_BIND_CONTROL(zaf::ScrollableControl, roundScrollControl);

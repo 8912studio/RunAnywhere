@@ -16,7 +16,7 @@
 		</ThinScrollControl.ScrollContent>
 	</ThinScrollControl>
 
-	<Control FixedHeight="1" Margin="15,0,15,5" BackgroundColor="#CCCCCC" />
+	<Control FixedHeight="1" Margin="15,0,15,0" BackgroundColor="#CCCCCC" />
 	
 	<ThinScrollControl
 		Name="inputContainer"
