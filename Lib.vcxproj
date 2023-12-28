@@ -192,7 +192,6 @@
     <ClInclude Include="src\module\chat_gpt\comm\open_ai_client.h" />
     <ClInclude Include="src\module\chat_gpt\comm\socket_manager.h" />
     <ClInclude Include="src\module\chat_gpt\comm\socket_timer.h" />
-    <ClInclude Include="src\module\chat_gpt\conversation.h" />
     <ClInclude Include="src\module\chat_gpt\dialog.h" />
     <ClInclude Include="src\module\chat_gpt\dialog\answer_view.h" />
     <ClInclude Include="src\module\chat_gpt\dialog\dialog_manager.h" />
@@ -449,7 +448,6 @@
     <ClCompile Include="src\module\chat_gpt\comm\open_ai_client.cpp" />
     <ClCompile Include="src\module\chat_gpt\comm\socket_manager.cpp" />
     <ClCompile Include="src\module\chat_gpt\comm\socket_timer.cpp" />
-    <ClCompile Include="src\module\chat_gpt\conversation.cpp" />
     <ClCompile Include="src\module\chat_gpt\dialog.cpp" />
     <ClCompile Include="src\module\chat_gpt\dialog\answer_view.cpp" />
     <ClCompile Include="src\module\chat_gpt\dialog\dialog_manager.cpp" />

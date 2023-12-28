@@ -8,7 +8,6 @@
 #include <zaf/base/non_copyable.h>
 #include <zaf/rx/observable.h>
 #include "module/chat_gpt/comm/chat_completion.h"
-#include "module/chat_gpt/conversation.h"
 
 namespace ra::mod::chat_gpt::comm {
 
