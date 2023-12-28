@@ -1,4 +1,4 @@
-<DialogWindow>
+<DialogWindow ContentSize="600,600">
 	<DialogWindow.RootControl>
 		<VerticalBox BackgroundColor="White" />	
 	</DialogWindow.RootControl>
@@ -8,12 +8,11 @@
 		UseOverlayScrollBars="true" 
 		AutoHideScrollBars="true">
 		
-		<ThinScrollControl.ScrollContent>
-			<VerticalBox 
-				Name="roundListView"
-				AutoHeight="true"
-				Margin="15,0,15,0"/>
-		</ThinScrollControl.ScrollContent>
+		<VerticalBox 
+			Name="roundListView"
+			AutoHeight="true"
+			Margin="15,0,15,0"/>
+		
 	</ThinScrollControl>
 
 	<Control FixedHeight="1" Margin="15,0,15,0" BackgroundColor="#CCCCCC" />
@@ -22,15 +21,15 @@
 		Name="inputContainer"
 		AllowHorizontalScroll="false"
 		UseOverlayScrollBars="true">
-		<ThinScrollControl.ScrollContent>
-			<RichEdit
-				Name="inputEdit"
-				Border="0" 
-				Padding="15,15,15,15"
-				IsMultiline="true"
-				WordWrapping="Wrap"
-				FontSize="14" />
-		</ThinScrollControl.ScrollContent>
+		
+		<RichEdit
+			Name="inputEdit"
+			Border="0" 
+			Padding="15,15,15,15"
+			IsMultiline="true"
+			WordWrapping="Wrap"
+			FontSize="14" />
+		
 	</ThinScrollControl>
 
 </DialogWindow>

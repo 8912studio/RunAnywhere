@@ -16,6 +16,8 @@ public:
 public:
     explicit DialogWindow(std::shared_ptr<Dialog> dialog);
 
+    void Open();
+
     void Chat(std::wstring question);
 
 protected:

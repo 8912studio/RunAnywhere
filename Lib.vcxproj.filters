@@ -987,6 +987,9 @@
     <ClInclude Include="src\module\chat_gpt\dialog\round_view.h">
       <Filter>src\module\chat_gpt\dialog</Filter>
     </ClInclude>
+    <ClInclude Include="src\module\chat_gpt\dialog\dialog_manager.h">
+      <Filter>src\module\chat_gpt\dialog</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -1611,6 +1614,9 @@
       <Filter>src\module\chat_gpt\dialog</Filter>
     </ClCompile>
     <ClCompile Include="src\module\chat_gpt\dialog\round_view.cpp">
+      <Filter>src\module\chat_gpt\dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\chat_gpt\dialog\dialog_manager.cpp">
       <Filter>src\module\chat_gpt\dialog</Filter>
     </ClCompile>
   </ItemGroup>

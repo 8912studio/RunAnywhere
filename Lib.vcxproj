@@ -195,6 +195,7 @@
     <ClInclude Include="src\module\chat_gpt\conversation.h" />
     <ClInclude Include="src\module\chat_gpt\dialog.h" />
     <ClInclude Include="src\module\chat_gpt\dialog\answer_view.h" />
+    <ClInclude Include="src\module\chat_gpt\dialog\dialog_manager.h" />
     <ClInclude Include="src\module\chat_gpt\dialog\dialog_window.h" />
     <ClInclude Include="src\module\chat_gpt\dialog\round_view.h" />
     <ClInclude Include="src\module\chat_gpt\local_error.h" />
@@ -451,6 +452,7 @@
     <ClCompile Include="src\module\chat_gpt\conversation.cpp" />
     <ClCompile Include="src\module\chat_gpt\dialog.cpp" />
     <ClCompile Include="src\module\chat_gpt\dialog\answer_view.cpp" />
+    <ClCompile Include="src\module\chat_gpt\dialog\dialog_manager.cpp" />
     <ClCompile Include="src\module\chat_gpt\dialog\dialog_window.cpp" />
     <ClCompile Include="src\module\chat_gpt\dialog\round_view.cpp" />
     <ClCompile Include="src\module\chat_gpt\local_error.cpp" />

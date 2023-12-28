@@ -17,7 +17,7 @@ std::unique_ptr<Command> ChatGPTModule::CreateCommand(const utility::CommandLine
 
     Initialize();
 
-    return std::make_unique<ChatGPTCommand>(dialog_);
+    return std::make_unique<ChatGPTCommand>(dialog_manager_);
 }
 
 
@@ -25,7 +25,7 @@ void ChatGPTModule::Initialize() {
 
     std::call_once(init_once_flag_, [this]() {
         client_ = std::make_shared<comm::OpenAIClient>();
-        dialog_ = std::make_shared<Dialog>(client_);
+        dialog_manager_ = std::make_shared<DialogManager>(client_);
     });
 }
 

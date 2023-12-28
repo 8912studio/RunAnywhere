@@ -2,36 +2,22 @@
 
 #include <zaf/base/none.h>
 #include <zaf/rx/subscription_host.h>
-#include "module/chat_gpt/dialog.h"
+#include "module/chat_gpt/dialog/dialog_manager.h"
 #include "module/command_executor.h"
 
 namespace ra::mod::chat_gpt {
 
 class ChatGPTExecutor : public CommandExecutor, zaf::SubscriptionHost {
 public:
-    explicit ChatGPTExecutor(std::shared_ptr<Dialog>);
-
-    zaf::Observable<zaf::None> BeginEvent() const {
-        return begin_event_.AsObservable();
-    }
-
-    zaf::Observable<comm::ChatCompletion> FinishEvent() const {
-        return finish_event_.AsObservable();
-    }
+    explicit ChatGPTExecutor(std::shared_ptr<DialogManager>);
 
     void SetQuestion(std::wstring question);
 
     ExecuteResult Execute() override;
 
 private:
-    void InnerExecute();
-
-private:
-    std::shared_ptr<Dialog> dialog_;
-    bool has_executed_{};
+    std::shared_ptr<DialogManager> dialog_manager_;
     std::wstring question_;
-    zaf::Subject<zaf::None> begin_event_;
-    zaf::Subject<comm::ChatCompletion> finish_event_;
 };
 
 }

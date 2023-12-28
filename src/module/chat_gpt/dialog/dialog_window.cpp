@@ -63,6 +63,23 @@ void DialogWindow::ResetInputHeight() {
 }
 
 
+void DialogWindow::Open() {
+
+    if (!Handle()) {
+        Show();
+        return;
+    }
+
+    if (IsIconic(Handle())) {
+        Restore();
+        return;
+    }
+
+    SetForegroundWindow(Handle());
+    BringWindowToTop(Handle());
+}
+
+
 void DialogWindow::OnShow(const zaf::ShowInfo& event_info) {
 
     __super::OnShow(event_info);
@@ -79,6 +96,11 @@ void DialogWindow::OnShow(const zaf::ShowInfo& event_info) {
 
 
 void DialogWindow::Chat(std::wstring question) {
+
+    if (question.empty()) {
+        return;
+    }
+
     StartNewRound(question);
 }
 

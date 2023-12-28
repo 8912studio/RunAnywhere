@@ -3,14 +3,14 @@
 #include <zaf/rx/subscription_host.h>
 #include "module/chat_gpt/chat_gpt_executor.h"
 #include "module/chat_gpt/chat_gpt_preview_control.h"
-#include "module/chat_gpt/dialog.h"
+#include "module/chat_gpt/dialog/dialog_manager.h"
 #include "module/command.h"
 
 namespace ra::mod::chat_gpt {
 
 class ChatGPTCommand : public Command, zaf::SubscriptionHost {
 public:
-    explicit ChatGPTCommand(std::shared_ptr<Dialog> dialog);
+    explicit ChatGPTCommand(std::shared_ptr<DialogManager> dialog_manager);
     
     std::wstring GetKeyword() override;
 
@@ -26,30 +26,7 @@ public:
     std::shared_ptr<CommandExecutor> GetExecutor() override;
 
 private:
-    enum class CommandState {
-        //The command is waiting for executing.
-        Waiting,
-        //The command is executing.
-        Executing,
-        //The command has failed.
-        Failed,
-        //The command has completed.
-        Completed,
-    };
-
-private:
-    void CreateExecutor();
-    void OnBeginExecute();
-
-private:
-    std::shared_ptr<Dialog> dialog_;
-    
     std::shared_ptr<ChatGPTPreviewControl> preview_control_;
-
-    CommandState command_state_{ CommandState::Waiting };
-    std::wstring question_;
-    std::wstring answer_;
-    
     std::shared_ptr<ChatGPTExecutor> chat_gpt_executor_;
 };
 
