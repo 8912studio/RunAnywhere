@@ -22,8 +22,11 @@ public:
 
 protected:
     void AfterParse() override;
+    void OnMessageReceived(const zaf::MessageReceivedInfo& event_info) override;
 
 private:
+    bool HandleKeyDownMessage(const zaf::KeyMessage& message);
+
     void ResetInputHeight();
     void OpenWindow();
 

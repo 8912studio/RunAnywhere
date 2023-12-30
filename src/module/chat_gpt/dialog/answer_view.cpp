@@ -1,11 +1,11 @@
 #include "module/chat_gpt/dialog/answer_view.h"
+#include <zaf/control/text_box.h>
 #include <zaf/object/type_definition.h>
 #include <curlion.h>
 #include "help/help_style_config.h"
 #include "module/chat_gpt/comm/error.h"
 #include "module/chat_gpt/local_error.h"
 #include "module/chat_gpt/progress_indicator.h"
-#include "module/common/error_view.h"
 #include "module/common/style_constants.h"
 #include "utility/markdown/parse/markdown_parser.h"
 
@@ -82,10 +82,13 @@ void AnswerView::ShowError(const zaf::Error& error) {
         return L"Unknown error";
     }();
 
-    auto error_view = zaf::Create<ErrorView>();
-    error_view->ShowErrorText(error_text);
-    error_view->ChangeStyle(CommandDisplayStyle::Preserved);
-    contentView->SetChildren({ error_view });
+    auto error_text_box = zaf::Create<zaf::TextBox>();
+    error_text_box->SetAutoHeight(true);
+    error_text_box->SetWordWrapping(zaf::WordWrapping::Wrap);
+    error_text_box->SetFontSize(StyleConstants::PreservedBodyFontSize);
+    error_text_box->SetTextColor(zaf::Color::FromRGB(0xEE4444));
+    error_text_box->SetText(error_text);
+    contentView->SetChildren({ error_text_box });
 }
 
 

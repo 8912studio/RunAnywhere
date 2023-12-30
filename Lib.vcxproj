@@ -194,9 +194,9 @@
     <ClInclude Include="src\module\chat_gpt\dialog\dialog.h" />
     <ClInclude Include="src\module\chat_gpt\dialog\dialog_manager.h" />
     <ClInclude Include="src\module\chat_gpt\dialog\dialog_window.h" />
+    <ClInclude Include="src\module\chat_gpt\dialog\message.h" />
     <ClInclude Include="src\module\chat_gpt\dialog\round_view.h" />
     <ClInclude Include="src\module\chat_gpt\local_error.h" />
-    <ClInclude Include="src\module\chat_gpt\message.h" />
     <ClInclude Include="src\module\chat_gpt\progress_indicator.h" />
     <ClInclude Include="src\module\command.h" />
     <ClInclude Include="src\module\command_brief.h" />

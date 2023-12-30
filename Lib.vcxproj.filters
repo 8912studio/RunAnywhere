@@ -783,9 +783,6 @@
     <ClInclude Include="src\module\chat_gpt\comm\error.h">
       <Filter>src\module\chat_gpt\comm</Filter>
     </ClInclude>
-    <ClInclude Include="src\module\chat_gpt\message.h">
-      <Filter>src\module\chat_gpt</Filter>
-    </ClInclude>
     <ClInclude Include="src\module\chat_gpt\chat_gpt_preview_control.h">
       <Filter>src\module\chat_gpt</Filter>
     </ClInclude>
@@ -979,6 +976,9 @@
       <Filter>src\module\chat_gpt\dialog</Filter>
     </ClInclude>
     <ClInclude Include="src\module\chat_gpt\dialog\dialog.h">
+      <Filter>src\module\chat_gpt\dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\chat_gpt\dialog\message.h">
       <Filter>src\module\chat_gpt\dialog</Filter>
     </ClInclude>
   </ItemGroup>

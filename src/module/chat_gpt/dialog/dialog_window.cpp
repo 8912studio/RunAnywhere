@@ -63,6 +63,29 @@ void DialogWindow::ResetInputHeight() {
 }
 
 
+void DialogWindow::OnMessageReceived(const zaf::MessageReceivedInfo& event_info) {
+
+    if (event_info.Message().ID() == WM_KEYDOWN) {
+        if (HandleKeyDownMessage(zaf::KeyMessage{ event_info.Message() })) {
+            event_info.MarkAsHandled(0);
+        }
+    }
+
+    __super::OnMessageReceived(event_info);
+}
+
+
+bool DialogWindow::HandleKeyDownMessage(const zaf::KeyMessage& message) {
+
+    if (message.VirtualKey() == VK_ESCAPE) {
+        this->Close();
+        return true;
+    }
+
+    return false;
+}
+
+
 void DialogWindow::Open() {
 
     OpenWindow();

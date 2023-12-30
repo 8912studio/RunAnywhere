@@ -1,7 +1,7 @@
 #pragma once
 
 #include <zaf/rx/subject.h>
-#include "module/chat_gpt/message.h"
+#include "module/chat_gpt/dialog/message.h"
 
 namespace ra::mod::chat_gpt::comm {
 

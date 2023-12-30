@@ -1,13 +1,13 @@
 #pragma once
 
 #include <deque>
+#include <zaf/base/non_copyable.h>
 #include <zaf/rx/observable.h>
 #include "module/chat_gpt/comm/open_ai_client.h"
-#include "module/chat_gpt/message.h"
 
 namespace ra::mod::chat_gpt {
 
-class Dialog {
+class Dialog : zaf::NonCopyableNonMovable {
 public:
     explicit Dialog(std::shared_ptr<comm::OpenAIClient> client);
 
