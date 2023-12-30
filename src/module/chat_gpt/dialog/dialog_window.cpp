@@ -65,6 +65,20 @@ void DialogWindow::ResetInputHeight() {
 
 void DialogWindow::Open() {
 
+    OpenWindow();
+
+    //When the window is shown for the first time, there is no window focus by the time this method
+    //is called. Therefore, we set focus to the inputEdit in the next message loop, after the 
+    //window gets focus.
+    Subscriptions() += zaf::rx::Empty().ObserveOn(zaf::Scheduler::Main()).DoOnTerminated([this]() {
+        inputEdit->SetIsFocused(true);
+    })
+    .Subscribe();
+}
+
+
+void DialogWindow::OpenWindow() {
+
     if (!Handle()) {
         Show();
         return;
@@ -77,21 +91,6 @@ void DialogWindow::Open() {
 
     SetForegroundWindow(Handle());
     BringWindowToTop(Handle());
-}
-
-
-void DialogWindow::OnShow(const zaf::ShowInfo& event_info) {
-
-    __super::OnShow(event_info);
-
-    //When the window is shown for the first time, there is no window focus by the time OnShow() is
-    //called. Therefore, we set focus to the inputEdit in the next message loop, after the window 
-    //gets focus.
-    Subscriptions() += zaf::rx::Empty<zaf::None>().ObserveOn(zaf::Scheduler::Main())
-        .DoOnTerminated([this]() {
-            inputEdit->SetIsFocused(true);
-        })
-        .Subscribe();
 }
 
 
@@ -108,6 +107,10 @@ void DialogWindow::Chat(std::wstring question) {
 void DialogWindow::StartNewRoundOnPressReturn() {
 
     auto question = inputEdit->Text();
+    if (question.empty()) {
+        return;
+    }
+
     inputEdit->SetText({});
 
     StartNewRound(std::move(question));

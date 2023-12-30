@@ -1,4 +1,4 @@
-#include "module/chat_gpt/dialog.h"
+#include "module/chat_gpt/dialog/dialog.h"
 #include <zaf/base/error/check.h>
 #include <zaf/rx/creation.h>
 #include "module/chat_gpt/local_error.h"

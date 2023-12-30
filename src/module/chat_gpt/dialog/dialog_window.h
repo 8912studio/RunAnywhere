@@ -5,7 +5,7 @@
 #include <zaf/control/scrollable_control.h>
 #include <zaf/window/message/keyboard_message.h>
 #include <zaf/window/window.h>
-#include "module/chat_gpt/dialog.h"
+#include "module/chat_gpt/dialog/dialog.h"
 
 namespace ra::mod::chat_gpt {
 
@@ -22,10 +22,11 @@ public:
 
 protected:
     void AfterParse() override;
-    void OnShow(const zaf::ShowInfo&) override;
 
 private:
     void ResetInputHeight();
+    void OpenWindow();
+
     void StartNewRoundOnPressReturn();
     void StartNewRound(std::wstring question);
 

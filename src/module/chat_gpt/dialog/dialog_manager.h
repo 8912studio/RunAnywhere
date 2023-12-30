@@ -1,7 +1,7 @@
 #pragma once
 
 #include "module/chat_gpt/comm/open_ai_client.h"
-#include "module/chat_gpt/dialog.h"
+#include "module/chat_gpt/dialog/dialog.h"
 #include "module/chat_gpt/dialog/dialog_window.h"
 
 namespace ra::mod::chat_gpt {

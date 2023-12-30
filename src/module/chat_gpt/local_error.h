@@ -5,7 +5,6 @@
 namespace ra::mod::chat_gpt {
 
 enum class LocalErrc {
-    EmptyQuestion,
     NoAPIKey,
     ChatOngoing,
 };

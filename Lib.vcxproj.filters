@@ -927,9 +927,6 @@
     <ClInclude Include="src\module\chat_gpt\chat_gpt_question_view.h">
       <Filter>src\module\chat_gpt</Filter>
     </ClInclude>
-    <ClInclude Include="src\module\chat_gpt\chat_gpt_answer_view.h">
-      <Filter>src\module\chat_gpt</Filter>
-    </ClInclude>
     <ClInclude Include="src\module\chat_gpt\chat_gpt_command_parsing.h">
       <Filter>src\module\chat_gpt</Filter>
     </ClInclude>
@@ -947,9 +944,6 @@
     </ClInclude>
     <ClInclude Include="src\utility\markdown\render\selected_text_builder.h">
       <Filter>src\utility\markdown\render</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\chat_gpt\answer_result.h">
-      <Filter>src\module\chat_gpt</Filter>
     </ClInclude>
     <ClInclude Include="src\module\common\style_constants.h">
       <Filter>src\module\common</Filter>
@@ -969,9 +963,6 @@
     <ClInclude Include="src\module\tool\json\json_command_preview_control.h">
       <Filter>src\module\tool\json</Filter>
     </ClInclude>
-    <ClInclude Include="src\module\chat_gpt\dialog.h">
-      <Filter>src\module\chat_gpt</Filter>
-    </ClInclude>
     <ClInclude Include="src\utility\markdown\element\code_block_element.h">
       <Filter>src\utility\markdown\element</Filter>
     </ClInclude>
@@ -985,6 +976,9 @@
       <Filter>src\module\chat_gpt\dialog</Filter>
     </ClInclude>
     <ClInclude Include="src\module\chat_gpt\dialog\dialog_manager.h">
+      <Filter>src\module\chat_gpt\dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\chat_gpt\dialog\dialog.h">
       <Filter>src\module\chat_gpt\dialog</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1568,9 +1562,6 @@
     <ClCompile Include="src\module\chat_gpt\chat_gpt_question_view.cpp">
       <Filter>src\module\chat_gpt</Filter>
     </ClCompile>
-    <ClCompile Include="src\module\chat_gpt\chat_gpt_answer_view.cpp">
-      <Filter>src\module\chat_gpt</Filter>
-    </ClCompile>
     <ClCompile Include="src\module\chat_gpt\chat_gpt_command_parsing.cpp">
       <Filter>src\module\chat_gpt</Filter>
     </ClCompile>
@@ -1595,9 +1586,6 @@
     <ClCompile Include="src\module\tool\json\json_command_preview_control.cpp">
       <Filter>src\module\tool\json</Filter>
     </ClCompile>
-    <ClCompile Include="src\module\chat_gpt\dialog.cpp">
-      <Filter>src\module\chat_gpt</Filter>
-    </ClCompile>
     <ClCompile Include="src\utility\markdown\element\code_block_element.cpp">
       <Filter>src\utility\markdown\element</Filter>
     </ClCompile>
@@ -1611,6 +1599,9 @@
       <Filter>src\module\chat_gpt\dialog</Filter>
     </ClCompile>
     <ClCompile Include="src\module\chat_gpt\dialog\dialog_manager.cpp">
+      <Filter>src\module\chat_gpt\dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\chat_gpt\dialog\dialog.cpp">
       <Filter>src\module\chat_gpt\dialog</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1697,9 +1688,6 @@
       <Filter>src\main\preserve</Filter>
     </Page>
     <Page Include="src\module\chat_gpt\chat_gpt_question_view.xaml">
-      <Filter>src\module\chat_gpt</Filter>
-    </Page>
-    <Page Include="src\module\chat_gpt\chat_gpt_answer_view.xaml">
       <Filter>src\module\chat_gpt</Filter>
     </Page>
     <Page Include="src\module\tool\json\json_command_preview_control.xaml">

@@ -1,7 +1,6 @@
 #include "module/chat_gpt/chat_gpt_preview_control.h"
 #include <zaf/graphic/alignment.h>
 #include <zaf/object/type_definition.h>
-#include "module/chat_gpt/chat_gpt_answer_view.h"
 #include "module/chat_gpt/chat_gpt_question_view.h"
 
 namespace ra::mod::chat_gpt {
@@ -15,14 +14,6 @@ void ChatGPTPreviewControl::ShowQuestion(const std::wstring& question) {
     auto question_view = zaf::Create<ChatGPTQuestionView>();
     question_view->SetQuestion(question);
     ShowContentView(question_view);
-}
-
-
-void ChatGPTPreviewControl::ShowAnswer(zaf::Observable<AnswerResult> observable_answer) {
-
-    auto answer_view = zaf::Create<ChatGPTAnswerView>();
-    answer_view->SetAnswer(observable_answer);
-    ShowContentView(answer_view);
 }
 
 
@@ -44,9 +35,6 @@ void ChatGPTPreviewControl::OnStyleChanged() {
     const auto& child = contentView->Children().front();
     if (auto question_view = zaf::As<ChatGPTQuestionView>(child)) {
         question_view->ChangeStyle(this->Style());
-    }
-    else if (auto answer_view = zaf::As<ChatGPTAnswerView>(child)) {
-        answer_view->ChangeStyle(this->Style());
     }
 }
 

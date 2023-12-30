@@ -177,8 +177,6 @@
     <ClInclude Include="src\module\calculator\parse\terminal_parser.h" />
     <ClInclude Include="src\module\calculator\parse\unary_expression_parser.h" />
     <ClInclude Include="src\module\calculator\preview\calculator_preview_control.h" />
-    <ClInclude Include="src\module\chat_gpt\answer_result.h" />
-    <ClInclude Include="src\module\chat_gpt\chat_gpt_answer_view.h" />
     <ClInclude Include="src\module\chat_gpt\chat_gpt_command.h" />
     <ClInclude Include="src\module\chat_gpt\chat_gpt_command_parse_result.h" />
     <ClInclude Include="src\module\chat_gpt\chat_gpt_command_parsing.h" />
@@ -192,8 +190,8 @@
     <ClInclude Include="src\module\chat_gpt\comm\open_ai_client.h" />
     <ClInclude Include="src\module\chat_gpt\comm\socket_manager.h" />
     <ClInclude Include="src\module\chat_gpt\comm\socket_timer.h" />
-    <ClInclude Include="src\module\chat_gpt\dialog.h" />
     <ClInclude Include="src\module\chat_gpt\dialog\answer_view.h" />
+    <ClInclude Include="src\module\chat_gpt\dialog\dialog.h" />
     <ClInclude Include="src\module\chat_gpt\dialog\dialog_manager.h" />
     <ClInclude Include="src\module\chat_gpt\dialog\dialog_window.h" />
     <ClInclude Include="src\module\chat_gpt\dialog\round_view.h" />
@@ -437,7 +435,6 @@
     <ClCompile Include="src\module\calculator\parse\parse_result.cpp" />
     <ClCompile Include="src\module\calculator\parse\unary_expression_parser.cpp" />
     <ClCompile Include="src\module\calculator\preview\calculator_preview_control.cpp" />
-    <ClCompile Include="src\module\chat_gpt\chat_gpt_answer_view.cpp" />
     <ClCompile Include="src\module\chat_gpt\chat_gpt_command.cpp" />
     <ClCompile Include="src\module\chat_gpt\chat_gpt_command_parsing.cpp" />
     <ClCompile Include="src\module\chat_gpt\chat_gpt_executor.cpp" />
@@ -448,8 +445,8 @@
     <ClCompile Include="src\module\chat_gpt\comm\open_ai_client.cpp" />
     <ClCompile Include="src\module\chat_gpt\comm\socket_manager.cpp" />
     <ClCompile Include="src\module\chat_gpt\comm\socket_timer.cpp" />
-    <ClCompile Include="src\module\chat_gpt\dialog.cpp" />
     <ClCompile Include="src\module\chat_gpt\dialog\answer_view.cpp" />
+    <ClCompile Include="src\module\chat_gpt\dialog\dialog.cpp" />
     <ClCompile Include="src\module\chat_gpt\dialog\dialog_manager.cpp" />
     <ClCompile Include="src\module\chat_gpt\dialog\dialog_window.cpp" />
     <ClCompile Include="src\module\chat_gpt\dialog\round_view.cpp" />
@@ -591,7 +588,6 @@
     <Page Include="src\main\preserve\preserved_command_view.xaml" />
     <Page Include="src\main\toolbar\command_toolbar.xaml" />
     <Page Include="src\module\calculator\preview\calculator_preview_control.xaml" />
-    <Page Include="src\module\chat_gpt\chat_gpt_answer_view.xaml" />
     <Page Include="src\module\chat_gpt\chat_gpt_preview_control.xaml" />
     <Page Include="src\module\chat_gpt\chat_gpt_question_view.xaml" />
     <Page Include="src\module\chat_gpt\dialog\answer_view.xaml" />

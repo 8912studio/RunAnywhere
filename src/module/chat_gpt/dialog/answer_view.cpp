@@ -4,6 +4,8 @@
 #include "help/help_style_config.h"
 #include "module/chat_gpt/comm/error.h"
 #include "module/chat_gpt/local_error.h"
+#include "module/chat_gpt/progress_indicator.h"
+#include "module/common/error_view.h"
 #include "module/common/style_constants.h"
 #include "utility/markdown/parse/markdown_parser.h"
 
@@ -15,12 +17,6 @@ namespace ra::mod::chat_gpt {
 ZAF_DEFINE_TYPE(AnswerView)
 ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/chat_gpt/dialog/answer_view.xaml")
 ZAF_DEFINE_TYPE_END;
-
-void AnswerView::AfterParse() {
-
-    __super::AfterParse();
-
-}
 
 void AnswerView::OnRectChanged(const zaf::RectChangedInfo& event_info) {
 
@@ -35,20 +31,16 @@ void AnswerView::OnRectChanged(const zaf::RectChangedInfo& event_info) {
 void AnswerView::SetAnswer(zaf::Observable<std::wstring> observable_answer) {
 
     //Display progress indicator when waiting for the answer.
-    progressIndicator->StartAnimation();
-    progressIndicator->SetIsVisible(true);
+    auto progress_indicator = zaf::Create<ProgressIndicator>();
+    progress_indicator->StartAnimation();
+    ShowContent(progress_indicator);
 
-    Subscriptions() += observable_answer.Do([this](const std::wstring& answer) {
+    Subscriptions() += observable_answer.Subscribe([this](const std::wstring& answer) {
         ShowAnswer(answer);
     },
     [this](const zaf::Error& error) {
         ShowError(error);
-    })
-    .DoOnTerminated([this]() {
-        progressIndicator->StopAnimation();
-        progressIndicator->SetIsVisible(false);
-    })
-    .Subscribe();
+    });
 }
 
 
@@ -62,16 +54,8 @@ void AnswerView::ShowAnswer(const std::wstring& answer) {
 
     markdown_region_ = MarkdownRegion::Create(*root_element, style_config);
     markdown_region_->SetCanSelect(true);
+
     ShowContent(markdown_region_);
-}
-
-
-void AnswerView::ShowContent(const std::shared_ptr<zaf::Control>& content) {
-
-    contentView->RemoveAllChildren();
-    contentView->AddChild(content);
-    contentView->SetIsVisible(true);
-    errorView->SetIsVisible(false);
     ResetContentHeight();
 }
 
@@ -80,9 +64,6 @@ void AnswerView::ShowError(const zaf::Error& error) {
 
     auto error_text = [&error]() -> std::wstring {
 
-        if (error.Code() == LocalErrc::EmptyQuestion) {
-            return L"No response for empty message";
-        }
         if (error.Code() == LocalErrc::NoAPIKey) {
             return L"No API key";
         }
@@ -101,9 +82,18 @@ void AnswerView::ShowError(const zaf::Error& error) {
         return L"Unknown error";
     }();
 
-    errorView->ShowErrorText(error_text);
-    errorView->SetIsVisible(true);
-    contentView->SetIsVisible(false);
+    auto error_view = zaf::Create<ErrorView>();
+    error_view->ShowErrorText(error_text);
+    error_view->ChangeStyle(CommandDisplayStyle::Preserved);
+    ShowContent(error_view);
+}
+
+
+void AnswerView::ShowContent(const std::shared_ptr<zaf::Control>& content) {
+
+    auto update_guard = contentView->BeginUpdate();
+    contentView->RemoveAllChildren();
+    contentView->AddChild(content);
 }
 
 
