@@ -33,7 +33,7 @@ void AnswerView::SetAnswer(zaf::Observable<std::wstring> observable_answer) {
     //Display progress indicator when waiting for the answer.
     auto progress_indicator = zaf::Create<ProgressIndicator>();
     progress_indicator->StartAnimation();
-    ShowContent(progress_indicator);
+    contentView->SetChildren({ progress_indicator });
 
     Subscriptions() += observable_answer.Subscribe([this](const std::wstring& answer) {
         ShowAnswer(answer);
@@ -55,7 +55,7 @@ void AnswerView::ShowAnswer(const std::wstring& answer) {
     markdown_region_ = MarkdownRegion::Create(*root_element, style_config);
     markdown_region_->SetCanSelect(true);
 
-    ShowContent(markdown_region_);
+    contentView->SetChildren({ markdown_region_ });
     ResetContentHeight();
 }
 
@@ -85,15 +85,7 @@ void AnswerView::ShowError(const zaf::Error& error) {
     auto error_view = zaf::Create<ErrorView>();
     error_view->ShowErrorText(error_text);
     error_view->ChangeStyle(CommandDisplayStyle::Preserved);
-    ShowContent(error_view);
-}
-
-
-void AnswerView::ShowContent(const std::shared_ptr<zaf::Control>& content) {
-
-    auto update_guard = contentView->BeginUpdate();
-    contentView->RemoveAllChildren();
-    contentView->AddChild(content);
+    contentView->SetChildren({ error_view });
 }
 
 
