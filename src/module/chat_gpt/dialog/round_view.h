@@ -1,6 +1,7 @@
 #pragma once
 
 #include <zaf/base/none.h>
+#include <zaf/control/button.h>
 #include <zaf/control/control_binder.h>
 #include <zaf/control/linear_box.h>
 #include <zaf/control/text_box.h>
@@ -23,13 +24,32 @@ public:
 
 protected:
     void AfterParse() override;
+    void OnMouseEnter(const zaf::MouseEnterInfo& event_info) override;
+    void OnMouseLeave(const zaf::MouseLeaveInfo& event_info) override;
+
+private:
+    enum class RoundState {
+        Requesting,
+        Error,
+        Finished,
+    };
+
+private:
+    void ChangeState(RoundState state);
+    void UpdateToolbarState();
 
 private:
     ZAF_BIND_CONTROL(zaf::Control, questionView);
     ZAF_BIND_CONTROL(zaf::TextBox, questionContent);
     ZAF_BIND_CONTROL(chat_gpt::AnswerView, answerView);
+    ZAF_BIND_CONTROL(zaf::Control, toolbar);
+    ZAF_BIND_CONTROL(zaf::Button, copyButton);
+    ZAF_BIND_CONTROL(zaf::Button, removeButton);
 
     std::shared_ptr<Dialog> dialog_;
+    RoundState state_{ RoundState::Requesting };
+
+    std::wstring answer_;
 };
 
 }

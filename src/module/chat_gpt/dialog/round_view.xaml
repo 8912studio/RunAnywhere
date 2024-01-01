@@ -1,4 +1,4 @@
-<RoundView AutoHeight="true" Margin="0,10,0,20">
+<RoundView AutoHeight="true" Margin="0,10,0,10">
 	<VerticalBox Name="questionView" AutoHeight="true">
 		<HorizontalBox FixedHeight="30" CrossAxisAlignment="Center">
 			<Label
@@ -17,4 +17,17 @@
 			FontSize="14" />
 	</VerticalBox>
 	<AnswerView Name="answerView" Margin="0,20,0,0" />
+	<HorizontalBox FixedHeight="14" Margin="0,10,0,0">
+		<HorizontalBox Name="toolbar" IsVisible="false">
+			<ToolbarButton 
+				Name="copyButton" 
+				ImageName="copy" 
+				Tooltip="Copy result to clipboard" />
+			<ToolbarButton 
+				Name="removeButton"
+				Margin="10,0,0,0"
+				ImageName="close"
+				Tooltip="Remove this round" />
+		</HorizontalBox>
+	</HorizontalBox>
 </RoundView>
