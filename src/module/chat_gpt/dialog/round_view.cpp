@@ -10,8 +10,9 @@ ZAF_DEFINE_TYPE(RoundView);
 ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/chat_gpt/dialog/round_view.xaml")
 ZAF_DEFINE_TYPE_END;
 
-RoundView::RoundView(std::shared_ptr<Dialog> dialog) : dialog_(std::move(dialog)) {
+RoundView::RoundView(std::shared_ptr<chat_gpt::Round> round) : round_(std::move(round)) {
 
+    ZAF_EXPECT(round_);
 }
 
 
@@ -19,13 +20,33 @@ void RoundView::AfterParse() {
 
     __super::AfterParse();
 
+    questionContent->SetText(round_->Question());
+    answerView->SetAnswer(ObserveAnswer());
+
     Subscriptions() += copyButton->ClickEvent().Subscribe(std::bind([this]() {
-        utility::SetStringToClipboard(answer_);
+        Subscriptions() += round_->Answer().Subscribe([](const std::wstring& content) {
+            utility::SetStringToClipboard(content);
+        });
     }));
 
     Subscriptions() += removeButton->ClickEvent().Subscribe(std::bind([this]() {
-
+        round_->Remove();
     }));
+}
+
+
+zaf::Observable<std::wstring> RoundView::ObserveAnswer() {
+
+    ChangeState(RoundState::Requesting);
+    return round_->Answer().Do([](const std::wstring&) {
+        //Nothing to do.
+    },
+    [this](const zaf::Error&) {
+        ChangeState(RoundState::Error);
+    },
+    [this]() {
+        ChangeState(RoundState::Finished);
+    });
 }
 
 
@@ -55,36 +76,6 @@ void RoundView::OnMouseLeave(const zaf::MouseLeaveInfo& event_info) {
 }
 
 
-zaf::Observable<zaf::None> RoundView::Start(std::wstring question) {
-
-    ChangeState(RoundState::Requesting);
-
-    zaf::Subject<zaf::None> finish_subject;
-
-    questionContent->SetText(question);
-
-    auto observable = dialog_->Chat(std::move(question)).Map<std::wstring>(
-        [](const comm::ChatCompletion& chat_completion) {
-        return chat_completion.Message().Content();
-    })
-    .Do([this](const std::wstring& answer) {
-        answer_ = answer;
-    },
-    [this](const zaf::Error&) {
-        ChangeState(RoundState::Error);
-    },
-    [this]() {
-        ChangeState(RoundState::Finished);
-    })
-    .DoOnTerminated([finish_observer = finish_subject.AsObserver()]() {
-        finish_observer.OnNext({});
-    });
-
-    answerView->SetAnswer(observable);
-    return finish_subject.AsObservable();
-}
-
-
 void RoundView::ChangeState(RoundState state) {
 
     state_ = state;
@@ -99,7 +90,7 @@ void RoundView::UpdateToolbarState() {
         std::vector<RoundState> visible_states;
     };
 
-    static const ButtonItem button_items[] = {
+    const ButtonItem button_items[] = {
         { *copyButton, { RoundState::Finished } },
         { *removeButton, { RoundState::Finished, RoundState::Error } },
     };

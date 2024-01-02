@@ -21,11 +21,11 @@
 		<HorizontalBox Name="toolbar" IsVisible="false">
 			<ToolbarButton 
 				Name="copyButton" 
+				Margin="0,0,10,0"
 				ImageName="copy" 
 				Tooltip="Copy result to clipboard" />
 			<ToolbarButton 
 				Name="removeButton"
-				Margin="10,0,0,0"
 				ImageName="close"
 				Tooltip="Remove this round" />
 		</HorizontalBox>

@@ -142,19 +142,30 @@ void DialogWindow::StartNewRoundOnPressReturn() {
 
 void DialogWindow::StartNewRound(std::wstring question) {
 
-    auto round_view = zaf::Create<RoundView>(dialog_);
-    auto finish_observable = round_view->Start(std::move(question));
-
+    auto round = dialog_->CreateRound(std::move(question));
+    auto round_view = zaf::Create<RoundView>(round);
     roundListView->AddChild(round_view);
     roundScrollControl->ScrollDownToEnd();
 
-    Subscriptions() += finish_observable.Subscribe(std::bind([this, round_view]() {
+    Subscriptions() += round->Answer().Subscribe(std::bind([this, round_view]() {
 
         auto answer_view_position = round_view->AnswerView()->TranslatePositionToParent({});
         float scroll_to_position = round_view->Y() + answer_view_position.y;
 
         roundScrollControl->VerticalScrollBar()->SetValue(static_cast<int>(scroll_to_position));
     }));
+
+    Subscriptions() += round->RemoveEvent().Subscribe([this](std::uint64_t round_id) {
+    
+        const auto& children = roundListView->Children();
+        for (auto index : zaf::Range(0, children.size())) {
+
+            if (zaf::As<RoundView>(children[index])->Round()->ID() == round_id) {
+                roundListView->RemoveChildAtIndex(index);
+                break;
+            }
+        }
+    });
 }
 
 }

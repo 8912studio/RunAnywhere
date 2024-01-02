@@ -5,8 +5,8 @@
 #include <zaf/control/control_binder.h>
 #include <zaf/control/linear_box.h>
 #include <zaf/control/text_box.h>
-#include "module/chat_gpt/dialog/dialog.h"
 #include "module/chat_gpt/dialog/answer_view.h"
+#include "module/chat_gpt/dialog/round.h"
 
 namespace ra::mod::chat_gpt {
 
@@ -14,12 +14,14 @@ class RoundView : public zaf::VerticalBox {
 public:
     ZAF_DECLARE_TYPE;
 
-    explicit RoundView(std::shared_ptr<Dialog> dialog);
-
-    zaf::Observable<zaf::None> Start(std::wstring question);
+    explicit RoundView(std::shared_ptr<Round> round);
 
     std::shared_ptr<chat_gpt::AnswerView> AnswerView() const {
         return answerView;
+    }
+
+    const std::shared_ptr<Round>& Round() const {
+        return round_;
     }
 
 protected:
@@ -35,6 +37,7 @@ private:
     };
 
 private:
+    zaf::Observable<std::wstring> ObserveAnswer();
     void ChangeState(RoundState state);
     void UpdateToolbarState();
 
@@ -46,10 +49,8 @@ private:
     ZAF_BIND_CONTROL(zaf::Button, copyButton);
     ZAF_BIND_CONTROL(zaf::Button, removeButton);
 
-    std::shared_ptr<Dialog> dialog_;
+    std::shared_ptr<chat_gpt::Round> round_;
     RoundState state_{ RoundState::Requesting };
-
-    std::wstring answer_;
 };
 
 }
