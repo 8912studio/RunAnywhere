@@ -1,4 +1,5 @@
 #include "module/chat_gpt/dialog/answer_view.h"
+#include <zaf/base/string/encoding_conversion.h>
 #include <zaf/control/text_box.h>
 #include <zaf/object/type_definition.h>
 #include <curlion.h>
@@ -8,6 +9,7 @@
 #include "module/chat_gpt/progress_indicator.h"
 #include "module/common/style_constants.h"
 #include "utility/markdown/parse/markdown_parser.h"
+#include "utility/markdown/render/styled_text_box.h"
 
 using namespace ra::utility::markdown::parse;
 using namespace ra::utility::markdown::render;
@@ -62,7 +64,20 @@ void AnswerView::ShowAnswer(const std::wstring& answer) {
 
 void AnswerView::ShowError(const zaf::Error& error) {
 
-    auto error_text = [&error]() -> std::wstring {
+    auto container = zaf::Create<zaf::VerticalBox>();
+    container->SetAutoHeight(true);
+    container->AddChildren({
+        CreateMajorErrorControl(error),
+        CreateDetailErrorControl(error),
+    });
+    contentView->SetChildren({ container });
+}
+
+
+std::shared_ptr<zaf::Control> AnswerView::CreateMajorErrorControl(const zaf::Error& error) {
+
+    StyledText styled_text;
+    styled_text.Append([&error]() -> std::wstring {
 
         if (error.Code() == LocalErrc::NoAPIKey) {
             return L"No API key";
@@ -80,15 +95,47 @@ void AnswerView::ShowError(const zaf::Error& error) {
         }
 
         return L"Unknown error";
-    }();
+    }());
 
-    auto error_text_box = zaf::Create<zaf::TextBox>();
-    error_text_box->SetAutoHeight(true);
-    error_text_box->SetWordWrapping(zaf::WordWrapping::Wrap);
-    error_text_box->SetFontSize(StyleConstants::PreservedBodyFontSize);
-    error_text_box->SetTextColor(zaf::Color::FromRGB(0xEE4444));
-    error_text_box->SetText(error_text);
-    contentView->SetChildren({ error_text_box });
+    TextStyle text_style;
+    text_style.font.size = StyleConstants::PreservedBodyFontSize;
+    text_style.text_color = zaf::Color::FromRGB(0xEE4444);
+    styled_text.AddStyleToPendingText(text_style);
+
+    auto result = zaf::Create<StyledTextBox>();
+    result->SetAutoHeight(true);
+    result->SetWordWrapping(zaf::WordWrapping::Wrap);
+    result->SetStyledText(styled_text);
+    return result;
+}
+
+
+std::shared_ptr<zaf::Control> AnswerView::CreateDetailErrorControl(const zaf::Error& error) {
+
+    StyledText styled_text;
+    styled_text.Append([&error]() -> std::wstring {
+
+        auto result = std::format(
+            "{}:{} {}",
+            error.Code().category().name(),
+            error.Code().value(),
+            error.Message());
+
+        return zaf::FromUTF8String(result);
+    }());
+
+    TextStyle detail_text_style;
+    detail_text_style.font.size = StyleConstants::PreservedBodyFontSize;
+    detail_text_style.text_color = zaf::Color::Gray();
+    styled_text.AddStyleToPendingText(detail_text_style);
+
+    auto result = zaf::Create<StyledTextBox>();
+    result->SetMargin(zaf::Frame{ 0, 4, 0, 0 });
+    result->SetWordWrapping(zaf::WordWrapping::Wrap);
+    result->SetAutoHeight(true);
+    result->SetIsEnabled(true);
+    result->SetStyledText(styled_text);
+    return result;
 }
 
 

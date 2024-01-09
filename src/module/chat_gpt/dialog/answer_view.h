@@ -19,6 +19,8 @@ protected:
 private:
     void ShowAnswer(const std::wstring& answer);
     void ShowError(const zaf::Error& error);
+    static std::shared_ptr<zaf::Control> CreateMajorErrorControl(const zaf::Error& error);
+    static std::shared_ptr<zaf::Control> CreateDetailErrorControl(const zaf::Error& error);
     void ResetContentHeight();
 
 private:
