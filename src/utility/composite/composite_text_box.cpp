@@ -184,9 +184,9 @@ void CompositeTextBox::OnFocusLost(const zaf::FocusLostInfo& event_info) {
 
     __super::OnFocusLost(event_info);
 
-    //if (!popup_menu_.expired()) {
-        //return;
-    //}
+    if (!popup_menu_.expired()) {
+        return;
+    }
 
     this->ChangeFocus(false);
     event_info.MarkAsHandled();

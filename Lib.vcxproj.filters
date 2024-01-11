@@ -939,12 +939,6 @@
     <ClInclude Include="src\module\chat_gpt\local_error.h">
       <Filter>src\module\chat_gpt</Filter>
     </ClInclude>
-    <ClInclude Include="src\utility\markdown\render\position_range.h">
-      <Filter>src\utility\markdown\render</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\markdown\render\selected_text_builder.h">
-      <Filter>src\utility\markdown\render</Filter>
-    </ClInclude>
     <ClInclude Include="src\module\common\style_constants.h">
       <Filter>src\module\common</Filter>
     </ClInclude>

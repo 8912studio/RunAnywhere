@@ -4,6 +4,8 @@
 #include <zaf/rx/subject.h>
 #include "utility/clipboard.h"
 
+using namespace ra::utility::markdown::render;
+
 namespace ra::mod::chat_gpt {
 
 ZAF_DEFINE_TYPE(RoundView);
@@ -20,7 +22,16 @@ void RoundView::AfterParse() {
 
     __super::AfterParse();
 
-    questionContent->SetText(round_->Question());
+    TextStyle text_style;
+    text_style.font = questionContent->Font();
+    text_style.text_color = zaf::Color::Black();
+
+    StyledText styled_text;
+    styled_text.Append(round_->Question());
+    styled_text.AddStyleToPendingText(std::move(text_style));
+
+    questionContent->SetStyledText(styled_text);
+
     answerView->SetAnswer(ObserveAnswer());
 
     Subscriptions() += copyButton->ClickEvent().Subscribe(std::bind([this]() {

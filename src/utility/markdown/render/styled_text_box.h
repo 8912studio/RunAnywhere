@@ -2,7 +2,7 @@
 
 #include <zaf/control/text_box.h>
 #include "utility/composite/composable_control.h"
-#include "utility/markdown/render/position_range.h"
+#include "utility/composite/position_range.h"
 #include "utility/markdown/render/style_config.h"
 #include "utility/markdown/render/styled_text.h"
 
@@ -18,7 +18,7 @@ public:
     void SetLineSpacingByParagraphStyle(const StyleConfig& style_config);
 
     void SetSelectionByPositionRange(
-        const PositionRange& position_range, 
+        const composite::PositionRange& position_range, 
         bool scroll_to_selection = false);
 
     bool IsPositionInsideTextBoundary(const zaf::Point& mouse_position) override;

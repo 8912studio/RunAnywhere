@@ -110,7 +110,7 @@ void StyledTextBox::SetLineSpacingByParagraphStyle(const StyleConfig& style_conf
 
 
 void StyledTextBox::SetSelectionByPositionRange(
-    const PositionRange& position_range,
+    const composite::PositionRange& position_range,
     bool scroll_to_selection) {
 
     auto sorted = position_range.Sort();
@@ -166,9 +166,7 @@ void StyledTextBox::BeginSelection(const zaf::Point& position) {
 
 
 void StyledTextBox::ChangeSelection(const composite::PositionRange& position_range) {
-    SetSelectionByPositionRange(
-        PositionRange{ position_range.Begin(), position_range.End() },
-        true);
+    SetSelectionByPositionRange(position_range, true);
 }
 
 

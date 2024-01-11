@@ -159,7 +159,7 @@ void CodeBlockRegion::ChangeSelection(const composite::PositionRange& position_r
         }
     }
 
-    PositionRange position_range_in_text_box{ 
+    composite::PositionRange position_range_in_text_box{ 
         begin_position_in_text_box,
         this->TranslatePositionToChild(position_range.End(), *scrollControl) 
     };
