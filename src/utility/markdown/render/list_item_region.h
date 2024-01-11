@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include "utility/composite/composable_control.h"
 #include "utility/markdown/element/element.h"
 #include "utility/markdown/render/body_region.h"
 #include "utility/markdown/render/render_region.h"
@@ -9,7 +10,7 @@
 
 namespace ra::utility::markdown::render {
 
-class ListItemRegion : public RenderRegion {
+class ListItemRegion : public RenderRegion, public composite::ComposableControl {
 public:
     static std::shared_ptr<ListItemRegion> Create(
         const std::wstring& item_marker,
@@ -18,15 +19,15 @@ public:
         std::size_t depth);
 
 public:
-    bool IsPositionInsideText(const zaf::Point& mouse_position) override;
+    bool IsPositionInsideTextBoundary(const zaf::Point& mouse_position) override;
 
     void BeginSelection(const zaf::Point& position) override;
-    void ChangeSelection(const PositionRange& position_range) override;
+    void ChangeSelection(const composite::PositionRange& position_range) override;
     void EndSelection() override;
 
     void SelectWord(const zaf::Point& position) override;
 
-    void BuildSelectedText(SelectedTextBuilder& builder) override;
+    void BuildSelectedText(composite::SelectedTextBuilder& builder) override;
 
     void ChangeFocus(bool is_focused) override;
 
@@ -40,7 +41,7 @@ private:
 
     void InitializeStyle(const std::wstring& marker, const StyleConfig& style_config);
 
-    void ChangeSelectionOfMarker(const PositionRange& position_range);
+    void ChangeSelectionOfMarker(const composite::PositionRange& position_range);
 
 private:
     std::shared_ptr<StyledTextBox> marker_text_box_;

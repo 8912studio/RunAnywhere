@@ -39,41 +39,4 @@ void SimpleBlockRegion::InitializeContent(
     text_box_->SetStyledText(styled_text);
 }
 
-
-bool SimpleBlockRegion::IsPositionInsideText(const zaf::Point& mouse_position) {
-    return text_box_->IsPositionInsideText(
-        this->TranslatePositionToChild(mouse_position, *text_box_));
-}
-
-
-void SimpleBlockRegion::ChangeSelection(const PositionRange& position_range) {
-
-    text_box_->SetSelectionByPositionRange(PositionRange{
-        this->TranslatePositionToChild(position_range.Begin(), *text_box_),
-        this->TranslatePositionToChild(position_range.End(), *text_box_)
-    });
-}
-
-
-void SimpleBlockRegion::SelectWord(const zaf::Point& position) {
-
-    auto position_in_text_box = this->TranslatePositionToChild(position, *text_box_);
-    auto index = text_box_->FindIndexAtPosition(position_in_text_box);
-    text_box_->SelectWordAtIndex(index);
-}
-
-
-void SimpleBlockRegion::BuildSelectedText(SelectedTextBuilder& builder) {
-
-    auto selected_text = text_box_->SelectedText();
-    if (!selected_text.empty()) {
-        builder.Append(selected_text);
-    }
-}
-
-
-void SimpleBlockRegion::ChangeFocus(bool is_focused) {
-    text_box_->SetIsInFocusContext(is_focused);
-}
-
 }

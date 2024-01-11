@@ -155,4 +155,44 @@ void StyledTextBox::SetIsInFocusContext(bool is_focused) {
     NeedRepaint();
 }
 
+
+bool StyledTextBox::IsPositionInsideTextBoundary(const zaf::Point& mouse_position) {
+    return this->IsPositionInsideText(mouse_position);
+}
+
+void StyledTextBox::BeginSelection(const zaf::Point& position) {
+
+}
+
+
+void StyledTextBox::ChangeSelection(const composite::PositionRange& position_range) {
+    SetSelectionByPositionRange(
+        PositionRange{ position_range.Begin(), position_range.End() },
+        true);
+}
+
+
+void StyledTextBox::EndSelection(){
+
+}
+
+
+void StyledTextBox::SelectWord(const zaf::Point& position) {
+    auto index = this->FindIndexAtPosition(position);
+    this->SelectWordAtIndex(index);
+}
+
+
+void StyledTextBox::BuildSelectedText(composite::SelectedTextBuilder& builder) {
+    auto selected_text = this->SelectedText();
+    if (!selected_text.empty()) {
+        builder.Append(selected_text);
+    }
+}
+
+
+void StyledTextBox::ChangeFocus(bool is_focused) {
+    this->SetIsInFocusContext(is_focused);
+}
+
 }

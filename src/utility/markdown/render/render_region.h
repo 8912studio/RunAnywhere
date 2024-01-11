@@ -7,18 +7,7 @@
 namespace ra::utility::markdown::render {
 
 class RenderRegion : public zaf::Control {
-public:
-    virtual bool IsPositionInsideText(const zaf::Point& mouse_position) = 0;
 
-    virtual void BeginSelection(const zaf::Point& position) { }
-    virtual void ChangeSelection(const PositionRange& position_range) = 0;
-    virtual void EndSelection() { }
-
-    virtual void SelectWord(const zaf::Point& position) = 0;
-
-    virtual void BuildSelectedText(SelectedTextBuilder& builder) = 0;
-
-    virtual void ChangeFocus(bool is_focused) = 0;
 };
 
 }

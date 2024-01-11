@@ -116,7 +116,7 @@ void CodeBlockRegion::SetTextBackgroundColor(const zaf::Color& color) {
 }
 
 
-bool CodeBlockRegion::IsPositionInsideText(const zaf::Point& mouse_position) {
+bool CodeBlockRegion::IsPositionInsideTextBoundary(const zaf::Point& mouse_position) {
 
     auto position_in_text_box = this->TranslatePositionToChild(mouse_position, *scrollControl);
 
@@ -139,7 +139,7 @@ void CodeBlockRegion::BeginSelection(const zaf::Point& position) {
 }
 
 
-void CodeBlockRegion::ChangeSelection(const PositionRange& position_range) {
+void CodeBlockRegion::ChangeSelection(const composite::PositionRange& position_range) {
 
     auto begin_position_in_text_box =
         this->TranslatePositionToChild(position_range.Begin(), *scrollControl);
@@ -188,22 +188,17 @@ void CodeBlockRegion::SelectWord(const zaf::Point& position) {
     }
 
     auto position_in_text_box = this->TranslatePositionToChild(position, *scrollControl);
-    auto index = textBox->FindIndexAtPosition(position_in_text_box);
-    textBox->SelectWordAtIndex(index);
+    textBox->SelectWord(position_in_text_box);
 }
 
 
-void CodeBlockRegion::BuildSelectedText(SelectedTextBuilder& builder) {
-
-    auto selected_text = textBox->SelectedText();
-    if (!selected_text.empty()) {
-        builder.Append(selected_text);
-    }
+void CodeBlockRegion::BuildSelectedText(composite::SelectedTextBuilder& builder) {
+    textBox->BuildSelectedText(builder);
 }
 
 
 void CodeBlockRegion::ChangeFocus(bool is_focused) {
-    textBox->SetIsInFocusContext(is_focused);
+    textBox->ChangeFocus(is_focused);
 }
 
 }

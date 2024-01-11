@@ -7,11 +7,12 @@
 		Name="roundScrollControl"
 		UseOverlayScrollBars="true" 
 		AutoHideScrollBars="true">
-		
-		<VerticalBox 
+
+		<CompositeTextBox 
 			Name="roundListView"
 			AutoHeight="true"
-			Margin="15,0,15,10"/>
+			Margin="15,0,15,10"
+			Layouter="VerticalLayouter" />
 		
 	</ThinScrollControl>
 

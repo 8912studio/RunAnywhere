@@ -300,6 +300,11 @@
     <ClInclude Include="src\tray_icon.h" />
     <ClInclude Include="src\utility\clipboard.h" />
     <ClInclude Include="src\utility\command_line.h" />
+    <ClInclude Include="src\utility\composite\composite_control.h" />
+    <ClInclude Include="src\utility\composite\composable_control.h" />
+    <ClInclude Include="src\utility\composite\composite_text_box.h" />
+    <ClInclude Include="src\utility\composite\position_range.h" />
+    <ClInclude Include="src\utility\composite\selected_text_builder.h" />
     <ClInclude Include="src\utility\data_directory.h" />
     <ClInclude Include="src\utility\general_number_interpreter.h" />
     <ClInclude Include="src\utility\link_button.h" />
@@ -527,6 +532,8 @@
     <ClCompile Include="src\tray_icon.cpp" />
     <ClCompile Include="src\utility\clipboard.cpp" />
     <ClCompile Include="src\utility\command_line.cpp" />
+    <ClCompile Include="src\utility\composite\composite_control.cpp" />
+    <ClCompile Include="src\utility\composite\composite_text_box.cpp" />
     <ClCompile Include="src\utility\data_directory.cpp" />
     <ClCompile Include="src\utility\general_number_interpreter.cpp" />
     <ClCompile Include="src\utility\link_button.cpp" />

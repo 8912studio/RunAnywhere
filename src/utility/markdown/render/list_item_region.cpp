@@ -83,14 +83,14 @@ zaf::Size ListItemRegion::CalculatePreferredContentSize(const zaf::Size& bound_s
 }
 
 
-bool ListItemRegion::IsPositionInsideText(const zaf::Point& mouse_position) {
+bool ListItemRegion::IsPositionInsideTextBoundary(const zaf::Point& mouse_position) {
     
     auto position_in_marker = this->TranslatePositionToChild(mouse_position, *marker_text_box_);
     if (marker_text_box_->RectInSelf().Contain(position_in_marker)) {
         return marker_text_box_->IsPositionInsideText(position_in_marker);
     }
 
-    return body_region_->IsPositionInsideText(
+    return body_region_->IsPositionInsideTextBoundary(
         this->TranslatePositionToChild(mouse_position, *body_region_));
 }
 
@@ -100,14 +100,14 @@ void ListItemRegion::BeginSelection(const zaf::Point& position) {
 }
 
 
-void ListItemRegion::ChangeSelection(const PositionRange& position_range) {
+void ListItemRegion::ChangeSelection(const composite::PositionRange& position_range) {
 
-    ChangeSelectionOfMarker(PositionRange{
+    ChangeSelectionOfMarker(composite::PositionRange{
         this->TranslatePositionToChild(position_range.Begin(), *marker_text_box_),
         this->TranslatePositionToChild(position_range.End(), *marker_text_box_)
     });
 
-    body_region_->ChangeSelection(PositionRange{
+    body_region_->ChangeSelection(composite::PositionRange{
         this->TranslatePositionToChild(position_range.Begin(), *body_region_),
         this->TranslatePositionToChild(position_range.End(), *body_region_)
     });
@@ -124,7 +124,7 @@ void ListItemRegion::SelectWord(const zaf::Point& position) {
 }
 
 
-void ListItemRegion::ChangeSelectionOfMarker(const PositionRange& position_range) {
+void ListItemRegion::ChangeSelectionOfMarker(const composite::PositionRange& position_range) {
 
     auto has_selection = [this, &position_range]() {
 
@@ -168,7 +168,7 @@ void ListItemRegion::ChangeSelectionOfMarker(const PositionRange& position_range
 }
 
 
-void ListItemRegion::BuildSelectedText(SelectedTextBuilder& builder) {
+void ListItemRegion::BuildSelectedText(composite::SelectedTextBuilder& builder) {
 
     auto marker_text = marker_text_box_->SelectedText();
     if (!marker_text.empty()) {
@@ -181,7 +181,7 @@ void ListItemRegion::BuildSelectedText(SelectedTextBuilder& builder) {
 
 void ListItemRegion::ChangeFocus(bool is_focused) {
 
-    marker_text_box_->SetIsInFocusContext(is_focused);
+    marker_text_box_->ChangeFocus(is_focused);
     body_region_->ChangeFocus(is_focused);
 }
 

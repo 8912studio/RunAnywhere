@@ -64,7 +64,7 @@ zaf::Observable<ChatCompletion> OpenAIClient::CreateChatCompletion(
     const std::vector<const Message*>& messages) {
 
 #ifndef NDEBUG
-//    return CreateMockChatCompletion();
+    return CreateMockChatCompletion();
 #endif
 
     zaf::ReplaySubject<ChatCompletion> subject;

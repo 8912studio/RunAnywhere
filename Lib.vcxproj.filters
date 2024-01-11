@@ -145,6 +145,9 @@
     <Filter Include="src\module\chat_gpt\dialog">
       <UniqueIdentifier>{8aec9595-86e0-447d-b5eb-f12b1ce0c8a4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\utility\composite">
+      <UniqueIdentifier>{a26cabe2-d0b4-446c-b151-a5c4faf60427}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\module\calculator\parse\binary_expression_parser.h">
@@ -984,6 +987,21 @@
     <ClInclude Include="src\module\chat_gpt\dialog\round.h">
       <Filter>src\module\chat_gpt\dialog</Filter>
     </ClInclude>
+    <ClInclude Include="src\utility\composite\composite_text_box.h">
+      <Filter>src\utility\composite</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\composite\composable_control.h">
+      <Filter>src\utility\composite</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\composite\composite_control.h">
+      <Filter>src\utility\composite</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\composite\position_range.h">
+      <Filter>src\utility\composite</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\composite\selected_text_builder.h">
+      <Filter>src\utility\composite</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -1609,6 +1627,12 @@
     </ClCompile>
     <ClCompile Include="src\module\chat_gpt\dialog\round.cpp">
       <Filter>src\module\chat_gpt\dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\composite\composite_text_box.cpp">
+      <Filter>src\utility\composite</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\composite\composite_control.cpp">
+      <Filter>src\utility\composite</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

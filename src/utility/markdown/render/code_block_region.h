@@ -4,6 +4,7 @@
 #include <zaf/control/control_binder.h>
 #include <zaf/control/label.h>
 #include <zaf/control/linear_box.h>
+#include "utility/composite/composable_control.h"
 #include "utility/markdown/element/element.h"
 #include "utility/markdown/render/render_region.h"
 #include "utility/markdown/render/style_config.h"
@@ -13,7 +14,7 @@
 
 namespace ra::utility::markdown::render {
 
-class CodeBlockRegion : public RenderRegion {
+class CodeBlockRegion : public RenderRegion, public composite::ComposableControl {
 public:
     ZAF_DECLARE_TYPE;
 
@@ -22,14 +23,14 @@ public:
         const StyleConfig& style_config);
 
 public:
-    bool IsPositionInsideText(const zaf::Point& mouse_position) override;
+    bool IsPositionInsideTextBoundary(const zaf::Point& mouse_position) override;
     void BeginSelection(const zaf::Point& position) override;
-    void ChangeSelection(const PositionRange& position_range) override;
+    void ChangeSelection(const composite::PositionRange& position_range) override;
     void EndSelection() override;
 
     void SelectWord(const zaf::Point& position) override;
 
-    void BuildSelectedText(SelectedTextBuilder& builder) override;
+    void BuildSelectedText(composite::SelectedTextBuilder& builder) override;
 
     void ChangeFocus(bool is_focused) override;
 

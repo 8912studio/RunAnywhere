@@ -1,25 +1,13 @@
 #pragma once
 
+#include "utility/composite/composite_control.h"
 #include "utility/markdown/element/element.h"
 #include "utility/markdown/render/render_region.h"
 #include "utility/markdown/render/style_config.h"
 
 namespace ra::utility::markdown::render {
 
-class CompoundRegion : public RenderRegion {
-public:
-    bool IsPositionInsideText(const zaf::Point& mouse_position) override;
-
-    void BeginSelection(const zaf::Point& position) override;
-    void ChangeSelection(const PositionRange& position_range) override;
-    void EndSelection() override;
-
-    void SelectWord(const zaf::Point& position) override;
-
-    void BuildSelectedText(SelectedTextBuilder& builder) override;
-
-    void ChangeFocus(bool is_focused) override;
-
+class CompoundRegion : public RenderRegion, public composite::CompositeControl {
 protected:
     explicit CompoundRegion(std::vector<std::shared_ptr<RenderRegion>> child_regions);
 

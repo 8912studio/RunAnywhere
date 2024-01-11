@@ -1,6 +1,7 @@
 #pragma once
 
 #include <zaf/control/text_box.h>
+#include "utility/composite/composable_control.h"
 #include "utility/markdown/element/element.h"
 #include "utility/markdown/render/render_region.h"
 #include "utility/markdown/render/style_config.h"
@@ -14,13 +15,6 @@ public:
     SimpleBlockRegion() = default;
 
     void InitializeContent(const element::Element& element, const StyleConfig& style_config);
-
-    bool IsPositionInsideText(const zaf::Point& mouse_position) override;
-    void ChangeSelection(const PositionRange& position_range) override;
-    void SelectWord(const zaf::Point& position) override;
-    void BuildSelectedText(SelectedTextBuilder& builder) override;
-
-    void ChangeFocus(bool is_focused) override;
 
 protected:
     void Initialize() override;

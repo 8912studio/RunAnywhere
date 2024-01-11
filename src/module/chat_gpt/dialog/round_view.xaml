@@ -10,7 +10,7 @@
 				FontSize="10"
 				Text="You" />
 		</HorizontalBox>
-		<TextBox 
+		<StyledTextBox 
 			Name="questionContent"
 			AutoHeight="true"
 			WordWrapping="Wrap"

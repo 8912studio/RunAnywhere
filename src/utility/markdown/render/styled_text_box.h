@@ -1,13 +1,14 @@
 #pragma once
 
 #include <zaf/control/text_box.h>
+#include "utility/composite/composable_control.h"
 #include "utility/markdown/render/position_range.h"
 #include "utility/markdown/render/style_config.h"
 #include "utility/markdown/render/styled_text.h"
 
 namespace ra::utility::markdown::render {
 
-class StyledTextBox : public zaf::TextBox {
+class StyledTextBox : public zaf::TextBox, public composite::ComposableControl {
 public:
     ZAF_DECLARE_TYPE;
 
@@ -20,7 +21,13 @@ public:
         const PositionRange& position_range, 
         bool scroll_to_selection = false);
 
-    void SetIsInFocusContext(bool is_focused);
+    bool IsPositionInsideTextBoundary(const zaf::Point& mouse_position) override;
+    void BeginSelection(const zaf::Point& position) override;
+    void ChangeSelection(const composite::PositionRange& position_range) override;
+    void EndSelection() override;
+    void SelectWord(const zaf::Point& position) override;
+    void BuildSelectedText(composite::SelectedTextBuilder& builder) override;
+    void ChangeFocus(bool is_focused) override;
 
 protected:
     void Initialize() override;
@@ -36,6 +43,8 @@ private:
         const zaf::TextLayout& text_layout,
         const zaf::Range& range,
         const zaf::Color& color) const;
+
+    void SetIsInFocusContext(bool is_focused);
 
 private:
     std::vector<std::pair<zaf::Range, zaf::Color>> background_colors_;
