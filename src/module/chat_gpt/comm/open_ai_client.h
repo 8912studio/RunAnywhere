@@ -29,6 +29,7 @@ private:
 
     static std::string CreateRequestBody(const std::vector<const Message*>& messages);
     static std::optional<ChatCompletion> ParseChatCompletion(const std::string& response);
+    static std::string ParseErrorMessage(const std::string& response);
 
 private:
     std::wstring api_key_;

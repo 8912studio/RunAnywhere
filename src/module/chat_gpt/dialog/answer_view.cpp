@@ -88,9 +88,12 @@ std::shared_ptr<zaf::Control> AnswerView::CreateMajorErrorControl(const zaf::Err
         const auto& error_category = error.Code().category();
 
         if (error_category == comm::CURLErrorCategory() ||
-            error_category == comm::HTTPErrorCategory() ||
             error_category == curlion::CurlMultiErrorCategory()) {
             return L"Network error";
+        }
+
+        if (error_category == comm::HTTPErrorCategory()) {
+            return L"Server error";
         }
 
         return L"Unknown error";

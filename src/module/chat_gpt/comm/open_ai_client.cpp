@@ -64,7 +64,7 @@ zaf::Observable<ChatCompletion> OpenAIClient::CreateChatCompletion(
     const std::vector<const Message*>& messages) {
 
 #ifndef NDEBUG
-    return CreateMockChatCompletion();
+    //return CreateMockChatCompletion();
 #endif
 
     zaf::ReplaySubject<ChatCompletion> subject;
@@ -122,7 +122,10 @@ zaf::Observable<ChatCompletion> OpenAIClient::CreateChatCompletion(
 
         auto http_code = connection->GetResponseCode();
         if (http_code != 200) {
-            observer.OnError(zaf::Error(std::error_code(http_code, HTTPErrorCategory())));
+            observer.OnError(zaf::Error{ 
+                std::error_code{ http_code, HTTPErrorCategory() },
+                ParseErrorMessage(connection->GetResponseBody()),
+            });
             return;
         }
 
@@ -237,6 +240,20 @@ std::optional<ChatCompletion> OpenAIClient::ParseChatCompletion(const std::strin
     }
     catch (const std::exception&) {
         return std::nullopt;
+    }
+}
+
+
+std::string OpenAIClient::ParseErrorMessage(const std::string& response) {
+
+    try {
+        auto json_root = boost::json::parse(response);
+        const auto& error = json_root.at("error").as_object();
+        const auto& message = error.at("message");
+        return boost::json::value_to<std::string>(message);
+    }
+    catch (const std::exception&) {
+        return {};
     }
 }
 
