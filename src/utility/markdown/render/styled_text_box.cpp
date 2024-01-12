@@ -3,6 +3,8 @@
 #include <zaf/graphic/canvas.h>
 #include <zaf/object/type_definition.h>
 
+using namespace zaf::text_box;
+
 namespace ra::utility::markdown::render {
 
 ZAF_DEFINE_TYPE(StyledTextBox)
@@ -119,7 +121,9 @@ void StyledTextBox::SetSelectionByPositionRange(
 
     //There is no intersection between the range and the text box, clear the selection.
     if (end.y < 0 || begin.y >= this->Height()) {
-        this->SetSelectionRange({}, scroll_to_selection);
+        this->SetSelectionRange(
+            {},
+            scroll_to_selection ? SelectionOption::ScrollToCaret : SelectionOption::NoScroll);
         return;
     }
 
@@ -141,7 +145,18 @@ void StyledTextBox::SetSelectionByPositionRange(
 
     auto min = std::min(begin_index, end_index);
     auto max = std::max(begin_index, end_index);
-    this->SetSelectionRange(zaf::Range{ min, max - min }, scroll_to_selection);
+    zaf::Range selection_range{ min, max - min };
+
+    auto selection_option =
+        position_range.Begin() == begin ? 
+        SelectionOption::SetCaretToEnd : 
+        SelectionOption::SetCaretToBeign;
+
+    if (scroll_to_selection) {
+        selection_option |= SelectionOption::ScrollToCaret;
+    }
+
+    this->SetSelectionRange(selection_range, selection_option);
 }
 
 
