@@ -105,6 +105,7 @@ std::shared_ptr<zaf::Control> AnswerView::CreateMajorErrorControl(const zaf::Err
     styled_text.AddStyleToPendingText(text_style);
 
     auto result = zaf::Create<StyledTextBox>();
+    result->SetIsEnabled(false);
     result->SetAutoHeight(true);
     result->SetWordWrapping(zaf::WordWrapping::Wrap);
     result->SetStyledText(styled_text);
@@ -135,7 +136,7 @@ std::shared_ptr<zaf::Control> AnswerView::CreateDetailErrorControl(const zaf::Er
     result->SetMargin(zaf::Frame{ 0, 4, 0, 0 });
     result->SetWordWrapping(zaf::WordWrapping::Wrap);
     result->SetAutoHeight(true);
-    result->SetIsEnabled(true);
+    result->SetIsEnabled(false);
     result->SetStyledText(styled_text);
     return result;
 }
