@@ -18,22 +18,22 @@
             <Label.Font FamilyName="Microsoft YaHei UI" Size="20" Weight="Bold" />
         </Label>
 
-        <ScrollableControl 
+		<ScrollBox
             Name="scrollContainer" 
             Border="0" 
             Margin="2,12,0,0"
             AllowVerticalScroll="false"
             ScrollBarThickness="10">
 
-            <ScrollableControl.VerticalScrollBar>
+			<ScrollBox.VerticalScrollBar>
                 <ThinScrollBar />
-            </ScrollableControl.VerticalScrollBar>
+            </ScrollBox.VerticalScrollBar>
 
-            <ScrollableControl.HorizontalScrollBar>
+			<ScrollBox.HorizontalScrollBar>
                 <ThinScrollBar />
-            </ScrollableControl.HorizontalScrollBar>
+            </ScrollBox.HorizontalScrollBar>
 
-            <ScrollableControl.ScrollContent>
+			<ScrollBox.ScrollContent>
                 <RichEdit 
                     Name="edit" 
                     Border="0"
@@ -41,8 +41,8 @@
                     ParagraphAlignment="Center"
                     FontSize="14"
                     BackgroundColor="Transparent" />
-            </ScrollableControl.ScrollContent>
-        </ScrollableControl>
+            </ScrollBox.ScrollContent>
+        </ScrollBox>
 
     </HorizontalBox>
 

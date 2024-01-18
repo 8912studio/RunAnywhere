@@ -16,12 +16,12 @@
 				ParagraphAlignment="Center" />
 		</HorizontalBox>
 		<ThinScrollControl Name="scrollControl" AllowHorizontalScroll="false">
-			<ScrollableControl.ScrollContent>
+			<ScrollBox.ScrollContent>
 				<StyledTextBox 
 					Name="textBox" 
 					ParagraphAlignment="Center"
 					IsEnabled="true" />
-			</ScrollableControl.ScrollContent>
+			</ScrollBox.ScrollContent>
 		</ThinScrollControl>
 	</VerticalBox>
 	<ErrorView Name="genericErrorView" Margin="0,0,15,0" IsVisible="false" />

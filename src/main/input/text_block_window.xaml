@@ -25,21 +25,21 @@
             Tooltip="Use \n as line breaks"/>
     </HorizontalBox>
 
-    <ScrollableControl 
+	<ScrollBox
         Name="scrollableControl" 
         Border="0" 
         Padding="8,8,8,8"
         ScrollBarThickness="10">
 
-        <ScrollableControl.VerticalScrollBar>
+		<ScrollBox.VerticalScrollBar>
             <ThinScrollBar />
-        </ScrollableControl.VerticalScrollBar>
+        </ScrollBox.VerticalScrollBar>
 
-        <ScrollableControl.HorizontalScrollBar>
+		<ScrollBox.HorizontalScrollBar>
             <ThinScrollBar />
-        </ScrollableControl.HorizontalScrollBar>
+        </ScrollBox.HorizontalScrollBar>
 
-        <ScrollableControl.ScrollContent>
+		<ScrollBox.ScrollContent>
             <RichEdit
                 Name="textEdit"
                 Border="0"
@@ -49,7 +49,7 @@
                 ParagraphAlignment="Center"
 				BackgroundColor="Transparent"
             />
-        </ScrollableControl.ScrollContent>
-    </ScrollableControl>
+        </ScrollBox.ScrollContent>
+    </ScrollBox>
     
 </TextBlockWindow>

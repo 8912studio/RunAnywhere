@@ -2,7 +2,6 @@
 #include <zaf/base/string/encoding_conversion.h>
 #include <zaf/control/layout/linear_layouter.h>
 #include <zaf/control/scroll_bar.h>
-#include <zaf/control/scrollable_control.h>
 #include <zaf/creation.h>
 #include <zaf/object/type_definition.h>
 #include <zaf/resource/resource_factory.h>

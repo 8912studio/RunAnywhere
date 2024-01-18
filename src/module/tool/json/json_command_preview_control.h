@@ -2,7 +2,7 @@
 
 #include <zaf/control/control_binder.h>
 #include <zaf/control/label.h>
-#include <zaf/control/scrollable_control.h>
+#include <zaf/control/scroll_box.h>
 #include "module/command_preview_control.h"
 #include "module/common/error_view.h"
 #include "module/tool/json/json_command_parse_result.h"
@@ -56,7 +56,7 @@ private:
     ZAF_BIND_CONTROL(zaf::Control, contentView);
     ZAF_BIND_CONTROL(zaf::Control, parseErrorView);
     ZAF_BIND_CONTROL(zaf::Label, parseErrorLabel);
-    ZAF_BIND_CONTROL(zaf::ScrollableControl, scrollControl);
+    ZAF_BIND_CONTROL(zaf::ScrollBox, scrollControl);
     ZAF_BIND_CONTROL(utility::markdown::render::StyledTextBox, textBox);
     ZAF_BIND_CONTROL(ErrorView, genericErrorView);
 

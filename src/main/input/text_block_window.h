@@ -4,7 +4,7 @@
 #include <zaf/control/control_binder.h>
 #include <zaf/control/label.h>
 #include <zaf/control/rich_edit.h>
-#include <zaf/control/scrollable_control.h>
+#include <zaf/control/scroll_box.h>
 #include "main/input/argument_object_window.h"
 #include "main/input/line_break_option.h"
 #include "utility/text_utility.h"
@@ -39,7 +39,7 @@ private:
     ZAF_BIND_CONTROL(LineBreakOption, useCRLF);
     ZAF_BIND_CONTROL(LineBreakOption, useCR);
     ZAF_BIND_CONTROL(LineBreakOption, useLF);
-    ZAF_BIND_CONTROL(zaf::ScrollableControl, scrollableControl);
+    ZAF_BIND_CONTROL(zaf::ScrollBox, scrollableControl);
     ZAF_BIND_CONTROL(zaf::RichEdit, textEdit);
 
     utility::LineBreakInfo line_break_info_;

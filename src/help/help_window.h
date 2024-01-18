@@ -1,7 +1,7 @@
 #pragma once
 
 #include <zaf/control/control_binder.h>
-#include <zaf/control/scrollable_control.h>
+#include <zaf/control/scroll_box.h>
 #include <zaf/window/window.h>
 #include "help/help_content.h"
 #include "utility/markdown/element/element.h"
@@ -40,7 +40,7 @@ private:
     ZAF_BIND_CONTROL(zaf::Control, pageDownButton);
     ZAF_BIND_CONTROL(zaf::Control, pageUpButton);
 
-    std::shared_ptr<zaf::ScrollableControl> scroll_control_;
+    std::shared_ptr<zaf::ScrollBox> scroll_control_;
     std::shared_ptr<utility::markdown::render::MarkdownRegion> markdown_region_;
     std::wstring content_id_;
     bool is_setting_content_{};

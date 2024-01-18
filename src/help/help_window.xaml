@@ -4,16 +4,16 @@
     ActivateOption="NoActivate">
 
     <HelpWindow.RootControl>
-        <ScrollableControl 
+        <ScrollBox 
             Name="scrollControl"
             BackgroundColor="White" 
             Border="0,0,0,0"
             AllowHorizontalScroll="false"
         >
-            <ScrollableControl.VerticalScrollBar>
+			<ScrollBox.VerticalScrollBar>
                 <ThinScrollBar />
-            </ScrollableControl.VerticalScrollBar>
-        </ScrollableControl>
+            </ScrollBox.VerticalScrollBar>
+        </ScrollBox>
     </HelpWindow.RootControl>
     
     <Control 

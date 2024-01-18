@@ -3,7 +3,6 @@
 #include <filesystem>
 #include <zaf/control/control_binder.h>
 #include <zaf/control/label.h>
-#include <zaf/control/scrollable_control.h>
 #include "module/command_preview_control.h"
 #include "module/common/binary_content/binary_content_control.h"
 #include "module/common/content_status_bar.h"

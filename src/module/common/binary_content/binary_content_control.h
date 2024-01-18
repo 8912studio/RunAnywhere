@@ -4,7 +4,7 @@
 #include <vector>
 #include <zaf/control/control_binder.h>
 #include <zaf/control/linear_box.h>
-#include <zaf/control/scrollable_control.h>
+#include <zaf/control/scroll_box.h>
 #include "module/command_preview_control.h"
 #include "module/common/binary_content/binary_column_body.h"
 
@@ -27,7 +27,7 @@ private:
     void AdjustBodyHeight();
 
 private:
-    ZAF_BIND_CONTROL(zaf::ScrollableControl, scrollControl);
+    ZAF_BIND_CONTROL(zaf::ScrollBox, scrollControl);
     ZAF_BIND_CONTROL(BinaryColumnBody, body);
 
     CommandDisplayStyle style_{ CommandDisplayStyle::Normal };

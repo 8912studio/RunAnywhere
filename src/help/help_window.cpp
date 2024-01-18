@@ -21,7 +21,7 @@ void HelpWindow::AfterParse() {
 
     __super::AfterParse();
 
-    scroll_control_ = zaf::As<zaf::ScrollableControl>(RootControl());
+    scroll_control_ = zaf::As<zaf::ScrollBox>(RootControl());
     scroll_control_->SetScrollBarThickness(10);
 
     auto scroll_bar = scroll_control_->VerticalScrollBar();
@@ -84,7 +84,7 @@ void HelpWindow::InitializeScrollButtons() {
 
 void HelpWindow::LayoutScrollButtonContainer() {
 
-    auto scrollable_control = zaf::As<zaf::ScrollableControl>(RootControl());
+    auto scrollable_control = zaf::As<zaf::ScrollBox>(RootControl());
     auto content_rect = scrollable_control->ContentRect();
 
     constexpr float margin = 4;
@@ -182,7 +182,7 @@ void HelpWindow::OnScroll() {
 
 void HelpWindow::ScrollLine(bool scroll_up) {
 
-    auto& scrollable_control = zaf::As<zaf::ScrollableControl>(*RootControl());
+    auto& scrollable_control = zaf::As<zaf::ScrollBox>(*RootControl());
     auto scroll_bar = scrollable_control.VerticalScrollBar();
 
     int small_change = scroll_bar->SmallChange();
@@ -193,7 +193,7 @@ void HelpWindow::ScrollLine(bool scroll_up) {
 
 void HelpWindow::ScrollPage(bool scroll_up) {
 
-    auto& scrollable_control = zaf::As<zaf::ScrollableControl>(*RootControl());
+    auto& scrollable_control = zaf::As<zaf::ScrollBox>(*RootControl());
     auto scroll_bar = scrollable_control.VerticalScrollBar();
 
     int page_size = scroll_bar->PageSize();

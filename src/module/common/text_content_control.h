@@ -2,7 +2,7 @@
 
 #include <zaf/control/control.h>
 #include <zaf/control/control_binder.h>
-#include <zaf/control/scrollable_control.h>
+#include <zaf/control/scroll_box.h>
 #include <zaf/control/text_box.h>
 #include "module/command_preview_control.h"
 
@@ -54,7 +54,7 @@ private:
         std::size_t max_show_line_count);
 
 private:
-    ZAF_BIND_CONTROL(zaf::ScrollableControl, scrollControl);
+    ZAF_BIND_CONTROL(zaf::ScrollBox, scrollControl);
     ZAF_BIND_CONTROL(zaf::TextBox, textBox);
 
     CommandDisplayStyle style_{ CommandDisplayStyle::Normal };
