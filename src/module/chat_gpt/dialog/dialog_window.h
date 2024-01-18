@@ -6,6 +6,7 @@
 #include <zaf/window/message/keyboard_message.h>
 #include <zaf/window/window.h>
 #include "module/chat_gpt/dialog/dialog.h"
+#include "utility/composite/composite_text_box.h"
 
 namespace ra::mod::chat_gpt {
 
@@ -25,6 +26,9 @@ protected:
     void OnMessageReceived(const zaf::MessageReceivedInfo& event_info) override;
 
 private:
+    void InitializeInputEdit();
+    void InitializeRoundListView();
+
     bool HandleKeyDownMessage(const zaf::KeyMessage& message);
 
     void ResetInputHeight();
@@ -34,8 +38,8 @@ private:
     void StartNewRound(std::wstring question);
 
 private:
-    ZAF_BIND_CONTROL(zaf::ScrollBox, roundScrollControl);
-    ZAF_BIND_CONTROL(zaf::Control, roundListView);
+    ZAF_BIND_CONTROL(zaf::ScrollBox, roundScrollBox);
+    ZAF_BIND_CONTROL(utility::composite::CompositeTextBox, roundListView);
     ZAF_BIND_CONTROL(zaf::Control, inputContainer);
     ZAF_BIND_CONTROL(zaf::RichEdit, inputEdit);
 

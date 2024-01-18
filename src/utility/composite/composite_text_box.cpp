@@ -62,7 +62,8 @@ void CompositeTextBox::HandleLeftButtonDown(const zaf::MouseDownInfo& event_info
     begin_selection_position_ = event_info.PositionAtSender();
 
     this->BeginSelection(*begin_selection_position_);
-    this->ChangeSelection(PositionRange{
+
+    InnerChangeSelection(PositionRange{
         *begin_selection_position_,
         *begin_selection_position_
     });
@@ -96,6 +97,13 @@ void CompositeTextBox::HandleRightButtonDown(const zaf::MouseDownInfo& event_inf
 
     popup_menu_ = menu;
     menu->PopupOnControl(shared_from_this(), event_info.PositionAtSender());
+}
+
+
+void CompositeTextBox::InnerChangeSelection(const PositionRange& position_range) {
+
+    this->ChangeSelection(position_range);
+    selection_changed_event_.Raise(CompositeTextBoxSelectionChangedInfo{ position_range });
 }
 
 
@@ -140,7 +148,7 @@ void CompositeTextBox::OnPreMouseMove(const zaf::PreMouseMoveInfo& event_info) {
 
     auto current_position = event_info.PositionAtSender();
 
-    this->ChangeSelection(PositionRange{
+    InnerChangeSelection(PositionRange{
         *begin_selection_position_,
         current_position
     });

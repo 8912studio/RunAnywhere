@@ -24,7 +24,13 @@ void DialogWindow::AfterParse() {
 
     __super::AfterParse();
 
+    InitializeInputEdit();
+    InitializeRoundListView();
     ResetInputHeight();
+}
+
+
+void DialogWindow::InitializeInputEdit() {
 
     Subscriptions() += inputEdit->TextChangedEvent().Subscribe(
         std::bind(&DialogWindow::ResetInputHeight, this));
@@ -43,6 +49,30 @@ void DialogWindow::AfterParse() {
         if (event_info.Message().VirtualKey() == VK_RETURN && (GetKeyState(VK_SHIFT) >> 15) == 0) {
             StartNewRoundOnPressReturn();
             event_info.MarkAsHandled();
+        }
+    });
+}
+
+
+void DialogWindow::InitializeRoundListView() {
+
+    Subscriptions() += roundListView->SelectionChangedEvent().Subscribe([this](
+        const utility::composite::CompositeTextBoxSelectionChangedInfo& event_info) {
+    
+        const auto& selection_y = event_info.PositionRange().End().y;
+
+        const auto& vertical_scroll_bar = roundScrollBox->VerticalScrollBar();
+        float visible_y_begin = static_cast<float>(vertical_scroll_bar->Value());
+        if (selection_y < visible_y_begin) {
+            vertical_scroll_bar->SetValue(static_cast<int>(selection_y));
+            return;
+        }
+
+        float visible_height = roundScrollBox->GetVisibleScrollContentRect().size.height;;
+        float visible_y_end = visible_y_begin + visible_height;
+        if (selection_y >= visible_y_end) {
+            vertical_scroll_bar->SetValue(static_cast<int>(selection_y - visible_height));
+            return;
         }
     });
 }
@@ -145,14 +175,14 @@ void DialogWindow::StartNewRound(std::wstring question) {
     auto round = dialog_->CreateRound(std::move(question));
     auto round_view = zaf::Create<RoundView>(round);
     roundListView->AddChild(round_view);
-    roundScrollControl->ScrollDownToEnd();
+    roundScrollBox->ScrollDownToEnd();
 
     Subscriptions() += round->Answer().Subscribe(std::bind([this, round_view]() {
 
         auto answer_view_position = round_view->AnswerView()->TranslatePositionToParent({});
         float scroll_to_position = round_view->Y() + answer_view_position.y;
 
-        roundScrollControl->VerticalScrollBar()->SetValue(static_cast<int>(scroll_to_position));
+        roundScrollBox->VerticalScrollBar()->SetValue(static_cast<int>(scroll_to_position));
     }));
 
     Subscriptions() += round->RemoveEvent().Subscribe([this](std::uint64_t round_id) {

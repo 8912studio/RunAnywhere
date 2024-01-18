@@ -4,7 +4,7 @@
 	</DialogWindow.RootControl>
 
 	<ThinScrollControl 
-		Name="roundScrollControl"
+		Name="roundScrollBox"
 		UseOverlayScrollBars="true" 
 		AutoHideScrollBars="true">
 
