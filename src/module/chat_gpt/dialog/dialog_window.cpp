@@ -175,7 +175,7 @@ void DialogWindow::StartNewRound(std::wstring question) {
     auto round = dialog_->CreateRound(std::move(question));
     auto round_view = zaf::Create<RoundView>(round);
     roundListView->AddChild(round_view);
-    roundScrollBox->ScrollDownToEnd();
+    roundScrollBox->ScrollToBottom();
 
     Subscriptions() += round->Answer().Subscribe(std::bind([this, round_view]() {
 
