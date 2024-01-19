@@ -15,6 +15,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTest", "unittest\UnitTe
 		{490377DC-D9DF-48B9-8197-A702C1E9B17A} = {490377DC-D9DF-48B9-8197-A702C1E9B17A}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ExtensionDemo", "tool\extension_demo\ExtensionDemo.vcxproj", "{28E81B73-65BC-4460-8A1F-4405298AD811}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -33,6 +35,10 @@ Global
 		{2780731B-471A-4EEB-86A0-A0483BB20548}.Debug|x64.Build.0 = Debug|x64
 		{2780731B-471A-4EEB-86A0-A0483BB20548}.Release|x64.ActiveCfg = Release|x64
 		{2780731B-471A-4EEB-86A0-A0483BB20548}.Release|x64.Build.0 = Release|x64
+		{28E81B73-65BC-4460-8A1F-4405298AD811}.Debug|x64.ActiveCfg = Debug|x64
+		{28E81B73-65BC-4460-8A1F-4405298AD811}.Debug|x64.Build.0 = Debug|x64
+		{28E81B73-65BC-4460-8A1F-4405298AD811}.Release|x64.ActiveCfg = Release|x64
+		{28E81B73-65BC-4460-8A1F-4405298AD811}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

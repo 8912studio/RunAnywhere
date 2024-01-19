@@ -3,23 +3,23 @@
 
 namespace ra::mod::extension {
 
-ExtensionModuleManager::ExtensionModuleManager(
-    const std::filesystem::path& extension_directory_path)
-    :
-    extension_directory_path_(extension_directory_path) {
-
-}
-
-
-void ExtensionModuleManager::Load() {
+void ExtensionModuleManager::Load(const std::vector<std::filesystem::path>& directory_paths) {
 
     modules_.clear();
 
+    for (const auto& each_path : directory_paths) {
+        LoadModulesInDirectory(each_path);
+    }
+}
+
+
+void ExtensionModuleManager::LoadModulesInDirectory(const std::filesystem::path& directory_path) {
+
     try {
 
-        for (std::filesystem::directory_iterator iterator{ extension_directory_path_ };
-             iterator != std::filesystem::directory_iterator(); 
-             ++iterator) {
+        for (std::filesystem::directory_iterator iterator{ directory_path };
+            iterator != std::filesystem::directory_iterator();
+            ++iterator) {
 
             if (!iterator->is_regular_file()) {
                 continue;
@@ -31,7 +31,7 @@ void ExtensionModuleManager::Load() {
             }
 
             auto extension_module = std::make_shared<ExtensionModule>(iterator->path());
-            modules_.push_back(extension_module);
+            modules_.push_back(std::move(extension_module));
         }
     }
     catch (const std::filesystem::filesystem_error&) {

@@ -1,22 +1,25 @@
 #pragma once
 
 #include <filesystem>
+#include <zaf/base/non_copyable.h>
 #include "module/extension/extension_module.h"
 
 namespace ra::mod::extension {
 
-class ExtensionModuleManager {
+class ExtensionModuleManager : zaf::NonCopyableNonMovable {
 public:
-    ExtensionModuleManager(const std::filesystem::path& extension_directory_path);
+    ExtensionModuleManager() = default;
 
-    void Load();
+    void Load(const std::vector<std::filesystem::path>& directory_paths);
 
     const std::vector<std::shared_ptr<ExtensionModule>>& GetAllModules() const {
         return modules_;
     }
 
 private:
-    std::filesystem::path extension_directory_path_;
+    void LoadModulesInDirectory(const std::filesystem::path& directory_path);
+
+private:
     std::vector<std::shared_ptr<ExtensionModule>> modules_;
 };
 

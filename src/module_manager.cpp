@@ -17,9 +17,10 @@ void ModuleManager::Initialize() {
 
     chat_gpt_module_ = std::make_shared<mod::chat_gpt::ChatGPTModule>();
 
-    extension_module_manager_ = std::make_unique<mod::extension::ExtensionModuleManager>(
-        zaf::Application::Instance().GetExeDirectoryPath() / L"Extensions");
-    extension_module_manager_->Load();
+    extension_module_manager_ = std::make_unique<mod::extension::ExtensionModuleManager>();
+    extension_module_manager_->Load({
+        zaf::Application::Instance().GetExeDirectoryPath() / L"Extensions"
+    });
 
     modules_.push_back(std::make_shared<mod::meta::MetaModule>());
     modules_.push_back(std::make_shared<mod::active_path::ActivePathModule>());

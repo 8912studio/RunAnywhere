@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="dll_main.cpp" />
+    <ClCompile Include="extension.c" />
+    <ClCompile Include="extension_command.cpp" />
+    <ClCompile Include="bridge.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="extension_command.h" />
+    <ClInclude Include="bridge.h" />
+  </ItemGroup>
+</Project>

@@ -387,9 +387,6 @@
     <ClInclude Include="src\module\extension\extension_module_manager.h">
       <Filter>src\module\extension</Filter>
     </ClInclude>
-    <ClInclude Include="src\module\extension\extension_command_preview_control.h">
-      <Filter>src\module\extension</Filter>
-    </ClInclude>
     <ClInclude Include="src\environment_variable_manager.h">
       <Filter>src</Filter>
     </ClInclude>
@@ -1166,9 +1163,6 @@
     <ClCompile Include="src\module\extension\extension_module_manager.cpp">
       <Filter>src\module\extension</Filter>
     </ClCompile>
-    <ClCompile Include="src\module\extension\extension_command_preview_control.cpp">
-      <Filter>src\module\extension</Filter>
-    </ClCompile>
     <ClCompile Include="src\environment_variable_manager.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -1650,9 +1644,6 @@
     </Page>
     <Page Include="src\help\help_window.xaml">
       <Filter>src\help</Filter>
-    </Page>
-    <Page Include="src\module\extension\extension_command_preview_control.xaml">
-      <Filter>src\module\extension</Filter>
     </Page>
     <Page Include="src\module\user_defined\import\import_bundle_window.xaml">
       <Filter>src\module\user_defined\import</Filter>

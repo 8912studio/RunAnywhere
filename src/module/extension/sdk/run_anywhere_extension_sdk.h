@@ -9,12 +9,14 @@
 #define RUN_ANYWHERE_EXPORT __declspec(dllexport)
 #endif
 
+#ifdef __cplusplus
 extern "C" {
+#endif
 
 struct RA_CommandType {
-    int dumb{};
+    int dumb;
 };
-typedef RA_CommandType* RA_Command;
+typedef struct RA_CommandType* RA_Command;
 
 enum RA_CommandLinePieceType {
     RA_NormalText,
@@ -23,24 +25,26 @@ enum RA_CommandLinePieceType {
 };
 
 struct RA_CommandLinePiece {
-    RA_CommandLinePieceType type;
+    enum RA_CommandLinePieceType type;
     const wchar_t* content;
 };
 
 struct RA_CommandLine {
     const wchar_t* command;
-    const RA_CommandLinePiece* arguments;
+    const struct RA_CommandLinePiece* arguments;
     int32_t argument_count;
 };
 
-RUN_ANYWHERE_EXPORT RA_Command __stdcall RA_Create(const RA_CommandLine* command_line);
+RUN_ANYWHERE_EXPORT RA_Command __stdcall RA_Create(const struct RA_CommandLine* command_line);
 
 RUN_ANYWHERE_EXPORT bool __stdcall RA_Interpret(
     RA_Command command, 
-    const RA_CommandLine* command_line);
+    const struct RA_CommandLine* command_line);
 
 RUN_ANYWHERE_EXPORT const wchar_t* __stdcall RA_GetPreviewText(RA_Command command);
 
 RUN_ANYWHERE_EXPORT void __stdcall RA_Destroy(RA_Command command);
 
+#ifdef __cplusplus
 }
+#endif

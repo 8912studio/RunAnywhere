@@ -2,8 +2,8 @@
 #include <zaf/creation.h>
 #include "utility/markdown/element/factory.h"
 #include "module/common/copy_executor.h"
+#include "module/common/text_preview_control.h"
 #include "module/extension/command_line_bridge.h"
-#include "module/extension/extension_command_preview_control.h"
 
 namespace ra::mod::extension {
 
@@ -55,7 +55,7 @@ std::wstring ExtensionCommand::GetPreviewText() {
 
 std::shared_ptr<CommandPreviewControl> ExtensionCommand::GetPreviewControl() {
 
-    auto control = zaf::Create<ExtensionCommandPreviewControl>();
+    auto control = zaf::Create<TextPreviewControl>();
     control->SetText(GetPreviewText());
     return control;
 }
