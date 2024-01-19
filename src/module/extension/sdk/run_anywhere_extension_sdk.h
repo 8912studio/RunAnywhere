@@ -1,5 +1,8 @@
 #pragma once
 
+#include <stdbool.h>
+#include <stdint.h>
+
 #ifdef RUN_ANYWHERE_EXTENSION_HOST
 #define RUN_ANYWHERE_EXPORT
 #else 
@@ -8,15 +11,36 @@
 
 extern "C" {
 
-struct RunAnywhere_CommandType {
+struct RA_CommandType {
     int dumb{};
 };
-typedef RunAnywhere_CommandType* RunAnywhere_Command;
+typedef RA_CommandType* RA_Command;
 
-RUN_ANYWHERE_EXPORT RunAnywhere_Command __stdcall RunAnywhere_Interpret(const wchar_t* text);
+enum RA_CommandLinePieceType {
+    RA_NormalText,
+    RA_TextBlock,
+    RA_ActivePath,
+};
 
-RUN_ANYWHERE_EXPORT const wchar_t* __stdcall RunAnywhere_GetText(RunAnywhere_Command command);
+struct RA_CommandLinePiece {
+    RA_CommandLinePieceType type;
+    const wchar_t* content;
+};
 
-RUN_ANYWHERE_EXPORT void __stdcall RunAnywhere_Destroy(RunAnywhere_Command command);
+struct RA_CommandLine {
+    const wchar_t* command;
+    const RA_CommandLinePiece* arguments;
+    int32_t argument_count;
+};
+
+RUN_ANYWHERE_EXPORT RA_Command __stdcall RA_Create(const RA_CommandLine* command_line);
+
+RUN_ANYWHERE_EXPORT bool __stdcall RA_Interpret(
+    RA_Command command, 
+    const RA_CommandLine* command_line);
+
+RUN_ANYWHERE_EXPORT const wchar_t* __stdcall RA_GetPreviewText(RA_Command command);
+
+RUN_ANYWHERE_EXPORT void __stdcall RA_Destroy(RA_Command command);
 
 }

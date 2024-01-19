@@ -220,6 +220,7 @@
     <ClInclude Include="src\module\common\text_content_control.h" />
     <ClInclude Include="src\module\common\text_encoding.h" />
     <ClInclude Include="src\module\common\text_preview_control.h" />
+    <ClInclude Include="src\module\extension\command_line_bridge.h" />
     <ClInclude Include="src\module\extension\extension_command.h" />
     <ClInclude Include="src\module\extension\extension_command_preview_control.h" />
     <ClInclude Include="src\module\extension\extension_interface.h" />
@@ -471,6 +472,7 @@
     <ClCompile Include="src\module\common\general_option.cpp" />
     <ClCompile Include="src\module\common\text_content_control.cpp" />
     <ClCompile Include="src\module\common\text_preview_control.cpp" />
+    <ClCompile Include="src\module\extension\command_line_bridge.cpp" />
     <ClCompile Include="src\module\extension\extension_command.cpp" />
     <ClCompile Include="src\module\extension\extension_command_preview_control.cpp" />
     <ClCompile Include="src\module\extension\extension_module.cpp" />

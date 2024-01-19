@@ -8,9 +8,10 @@ namespace ra::mod::extension {
 class ExtensionInterface {
 public:
     HMODULE module_handle{};
-    decltype(&RunAnywhere_Interpret) interpret_function{};
-    decltype(&RunAnywhere_GetText) get_text_function{};
-    decltype(&RunAnywhere_Destroy) destroy_function{};
+    decltype(&RA_Create) create_function{};
+    decltype(&RA_Interpret) interpret_function{};
+    decltype(&RA_GetPreviewText) get_preview_text_function{};
+    decltype(&RA_Destroy) destroy_function{};
 };
 
 }

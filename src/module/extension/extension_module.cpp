@@ -1,4 +1,5 @@
 #include "module/extension/extension_module.h"
+#include "module/extension/command_line_bridge.h"
 #include "module/extension/extension_command.h"
 
 namespace ra::mod::extension {
@@ -10,16 +11,21 @@ ExtensionModule::ExtensionModule(const std::filesystem::path& path) : extension_
         return;
     }
 
+    interface_.create_function = 
+        reinterpret_cast<decltype(interface_.create_function)>(
+            GetProcAddress(interface_.module_handle, "RA_Create"));
+
     interface_.interpret_function = 
         reinterpret_cast<decltype(interface_.interpret_function)>(
-            GetProcAddress(interface_.module_handle, "RunAnywhere_Interpret"));
+            GetProcAddress(interface_.module_handle, "RA_Interpret"));
 
-    interface_.get_text_function = 
-        reinterpret_cast<decltype(interface_.get_text_function)>(
-            GetProcAddress(interface_.module_handle, "RunAnywhere_GetText"));
+    interface_.get_preview_text_function = 
+        reinterpret_cast<decltype(interface_.get_preview_text_function)>(
+            GetProcAddress(interface_.module_handle, "RA_GetPreviewText"));
 
-    interface_.destroy_function = reinterpret_cast<decltype(interface_.destroy_function)>(
-        GetProcAddress(interface_.module_handle, "RunAnywhere_Destroy"));
+    interface_.destroy_function = 
+        reinterpret_cast<decltype(interface_.destroy_function)>(
+            GetProcAddress(interface_.module_handle, "RA_Destroy"));
 }
 
 
@@ -33,13 +39,15 @@ ExtensionModule::~ExtensionModule() {
 
 std::unique_ptr<Command> ExtensionModule::CreateCommand(const utility::CommandLine& command_line) {
 
-    if (!interface_.interpret_function ||
-        !interface_.get_text_function ||
+    if (!interface_.create_function ||
+        !interface_.interpret_function ||
+        !interface_.get_preview_text_function ||
         !interface_.destroy_function) {
         return nullptr;
     }
 
-    auto command_handle = interface_.interpret_function(command_line.RawText().c_str());
+    CommandLineBridge command_line_bridge{ command_line };
+    auto command_handle = interface_.create_function(command_line_bridge.PlainStruct());
     if (!command_handle) {
         return nullptr;
     }

@@ -8,7 +8,7 @@ namespace ra::mod::extension {
 
 class ExtensionCommand : public Command {
 public:
-    ExtensionCommand(RunAnywhere_Command command, const ExtensionInterface& extension_interface);
+    ExtensionCommand(RA_Command command, const ExtensionInterface& extension_interface);
     ~ExtensionCommand();
 
     std::wstring GetKeyword() override;
@@ -17,11 +17,12 @@ public:
         const utility::CommandLine& command_line,
         const context::DesktopContext& desktop_context,
         bool is_reusing) override;
+    std::wstring GetPreviewText() override;
     std::shared_ptr<CommandPreviewControl> GetPreviewControl() override;
     std::shared_ptr<CommandExecutor> GetExecutor() override;
 
 private:
-    RunAnywhere_Command command_{};
+    RA_Command command_{};
     ExtensionInterface interface_;
 };
 
