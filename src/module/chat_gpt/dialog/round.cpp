@@ -19,4 +19,9 @@ void Round::Remove() {
     remove_event_.AsObserver().OnNext(id_);
 }
 
+
+void Round::Retry() {
+    retry_event_.AsObserver().OnNext(shared_from_this());
+}
+
 }

@@ -43,6 +43,10 @@ void RoundView::AfterParse() {
     Subscriptions() += removeButton->ClickEvent().Subscribe(std::bind([this]() {
         round_->Remove();
     }));
+
+    Subscriptions() += retryButton->ClickEvent().Subscribe(std::bind([this]() {
+        round_->Retry();
+    }));
 }
 
 
@@ -104,6 +108,7 @@ void RoundView::UpdateToolbarState() {
     const ButtonItem button_items[] = {
         { *copyButton, { RoundState::Finished } },
         { *removeButton, { RoundState::Finished, RoundState::Error } },
+        { *retryButton, {RoundState::Error } },
     };
 
     for (const auto& each_item : button_items) {

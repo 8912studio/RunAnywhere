@@ -173,29 +173,80 @@ void DialogWindow::StartNewRoundOnPressReturn() {
 void DialogWindow::StartNewRound(std::wstring question) {
 
     auto round = dialog_->CreateRound(std::move(question));
+
+    //We have to subscribe to the answer event before creating the round view, as we need to record
+    //the scroll bar state before updateing the answer content when the answer event is raised.
+    SubscribeToAnswerEvent(*round);
+    SubscribeToRoundEvents(*round);
+
     auto round_view = zaf::Create<RoundView>(round);
     roundListView->AddChild(round_view);
     roundScrollBox->ScrollToBottom();
+}
 
-    Subscriptions() += round->Answer().Subscribe(std::bind([this, round_view]() {
 
-        auto answer_view_position = round_view->AnswerView()->TranslatePositionToParent({});
-        float scroll_to_position = round_view->Y() + answer_view_position.y;
+void DialogWindow::SubscribeToAnswerEvent(const Round& round) {
 
-        roundScrollBox->VerticalScrollBar()->SetValue(static_cast<int>(scroll_to_position));
-    }));
+    auto is_list_in_bottom = std::make_shared<bool>();
 
-    Subscriptions() += round->RemoveEvent().Subscribe([this](std::uint64_t round_id) {
-    
-        const auto& children = roundListView->Children();
-        for (auto index : zaf::Range(0, children.size())) {
+    Subscriptions() += round.Answer().Catch([](const zaf::Error&) {
+        return zaf::rx::Just(std::wstring{});
+    })
+    .Do(std::bind([this, is_list_in_bottom]() {
+        auto scroll_bar = roundScrollBox->VerticalScrollBar();
+        *is_list_in_bottom = scroll_bar->Value() == scroll_bar->MaxValue();
+    }))
+    .DoOnTerminated([this, is_list_in_bottom, round_id = round.ID()]() {
 
-            if (zaf::As<RoundView>(children[index])->Round()->ID() == round_id) {
-                roundListView->RemoveChildAtIndex(index);
-                break;
-            }
+        //Don't scroll the list if it isn't in bottom.
+        if (!*is_list_in_bottom) {
+            return;
         }
+
+        const auto& children = roundListView->Children();
+        if (children.empty()) {
+            return;
+        }
+
+        //Scroll to the position of answer only if the last round view matches the round id.
+        auto last_round_view = zaf::As<RoundView>(children.back());
+        if (last_round_view->Round()->ID() == round_id) {
+
+            auto answer_view_position = last_round_view->AnswerView()->TranslatePositionToParent({});
+            float scroll_to_position = last_round_view->Y() + answer_view_position.y;
+            roundScrollBox->VerticalScrollBar()->SetValue(static_cast<int>(scroll_to_position));
+        }
+        //Otherwise, always scroll to the bottom of the list if the list content is changed.
+        else {
+            roundScrollBox->ScrollToBottom();
+        }
+    })
+    .Subscribe();
+}
+
+
+void DialogWindow::SubscribeToRoundEvents(const Round& round) {
+
+    Subscriptions() += round.RemoveEvent().Subscribe(
+        std::bind(&DialogWindow::RemoveRound, this, std::placeholders::_1));
+
+    Subscriptions() += round.RetryEvent().Subscribe([this](const std::shared_ptr<Round>& round) {
+        RemoveRound(round->ID());
+        StartNewRound(round->Question());
     });
+}
+
+
+void DialogWindow::RemoveRound(std::uint64_t round_id) {
+
+    const auto& children = roundListView->Children();
+    for (auto index : zaf::Range(0, children.size())) {
+
+        if (zaf::As<RoundView>(children[index])->Round()->ID() == round_id) {
+            roundListView->RemoveChildAtIndex(index);
+            break;
+        }
+    }
 }
 
 }

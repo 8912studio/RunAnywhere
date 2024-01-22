@@ -49,6 +49,7 @@ private:
     ZAF_BIND_CONTROL(zaf::Control, toolbar);
     ZAF_BIND_CONTROL(zaf::Button, copyButton);
     ZAF_BIND_CONTROL(zaf::Button, removeButton);
+    ZAF_BIND_CONTROL(zaf::Button, retryButton);
 
     std::shared_ptr<chat_gpt::Round> round_;
     RoundState state_{ RoundState::Requesting };

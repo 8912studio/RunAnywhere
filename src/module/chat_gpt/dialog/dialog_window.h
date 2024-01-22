@@ -36,6 +36,9 @@ private:
 
     void StartNewRoundOnPressReturn();
     void StartNewRound(std::wstring question);
+    void SubscribeToAnswerEvent(const Round& round);
+    void SubscribeToRoundEvents(const Round& round);
+    void RemoveRound(std::uint64_t round_id);
 
 private:
     ZAF_BIND_CONTROL(zaf::ScrollBox, roundScrollBox);

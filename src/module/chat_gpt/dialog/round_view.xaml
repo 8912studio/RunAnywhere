@@ -24,7 +24,12 @@
 				Margin="0,0,10,0"
 				ImageName="copy" 
 				Tooltip="Copy result to clipboard" />
-			<ToolbarButton 
+			<ToolbarButton
+				Name="retryButton"
+				Margin="0,0,10,0" 
+				BackgroundColor="Gray"
+				Tooltip="Retry"/>
+			<ToolbarButton
 				Name="removeButton"
 				ImageName="close"
 				Tooltip="Remove this round" />
