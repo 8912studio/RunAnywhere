@@ -85,31 +85,31 @@ zaf::Size ListItemRegion::CalculatePreferredContentSize(const zaf::Size& bound_s
 
 bool ListItemRegion::IsPositionInsideTextBoundary(const zaf::Point& mouse_position) {
     
-    auto position_in_marker = this->TranslateToChild(mouse_position, *marker_text_box_);
+    auto position_in_marker = marker_text_box_->TranslateFromParent(mouse_position);
     if (marker_text_box_->RectInSelf().Contain(position_in_marker)) {
         return marker_text_box_->IsPositionInsideText(position_in_marker);
     }
 
     return body_region_->IsPositionInsideTextBoundary(
-        this->TranslateToChild(mouse_position, *body_region_));
+        body_region_->TranslateFromParent(mouse_position));
 }
 
 
 void ListItemRegion::BeginSelection(const zaf::Point& position) {
-    body_region_->BeginSelection(this->TranslateToChild(position, *body_region_));
+    body_region_->BeginSelection(body_region_->TranslateFromParent(position));
 }
 
 
 void ListItemRegion::ChangeSelection(const composite::PositionRange& position_range) {
 
     ChangeSelectionOfMarker(composite::PositionRange{
-        this->TranslateToChild(position_range.Begin(), *marker_text_box_),
-        this->TranslateToChild(position_range.End(), *marker_text_box_)
+        marker_text_box_->TranslateFromParent(position_range.Begin()),
+        marker_text_box_->TranslateFromParent(position_range.End())
     });
 
     body_region_->ChangeSelection(composite::PositionRange{
-        this->TranslateToChild(position_range.Begin(), *body_region_),
-        this->TranslateToChild(position_range.End(), *body_region_)
+        body_region_->TranslateFromParent(position_range.Begin()),
+        body_region_->TranslateFromParent(position_range.End())
     });
 }
 
@@ -120,7 +120,7 @@ void ListItemRegion::EndSelection() {
 
 
 void ListItemRegion::SelectWord(const zaf::Point& position) {
-    body_region_->SelectWord(this->TranslateToChild(position, *body_region_));
+    body_region_->SelectWord(body_region_->TranslateFromParent(position));
 }
 
 

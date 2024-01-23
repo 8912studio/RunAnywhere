@@ -118,7 +118,7 @@ void CodeBlockRegion::SetTextBackgroundColor(const zaf::Color& color) {
 
 bool CodeBlockRegion::IsPositionInsideTextBoundary(const zaf::Point& mouse_position) {
 
-    auto position_in_scroll = this->TranslateToChild(mouse_position, *scrollControl);
+    auto position_in_scroll = scrollControl->TranslateFromParent(mouse_position);
     auto position_in_text_box = scrollControl->TranslateToScrollContent(position_in_scroll);
 
     if (textBox->RectInSelf().Contain(position_in_text_box)) {
@@ -142,11 +142,11 @@ void CodeBlockRegion::BeginSelection(const zaf::Point& position) {
 
 void CodeBlockRegion::ChangeSelection(const composite::PositionRange& position_range) {
 
-    auto begin_position_in_scroll = this->TranslateToChild(position_range.Begin(), *scrollControl);
+    auto begin_position_in_scroll = scrollControl->TranslateFromParent(position_range.Begin());
     auto begin_position_in_text_box = 
         scrollControl->TranslateToScrollContent(begin_position_in_scroll);
 
-    auto end_position_in_scroll = this->TranslateToChild(position_range.End(), *scrollControl);
+    auto end_position_in_scroll = scrollControl->TranslateFromParent(position_range.End());
     auto end_position_in_text_box = 
         scrollControl->TranslateToScrollContent(end_position_in_scroll);
 
@@ -175,7 +175,7 @@ void CodeBlockRegion::ChangeSelection(const composite::PositionRange& position_r
 
 bool CodeBlockRegion::IsPositionInTextBox(const zaf::Point& position) const {
 
-    auto position_in_scroll = this->TranslateToChild(position, *scrollControl);
+    auto position_in_scroll = scrollControl->TranslateFromParent(position);
     auto position_in_text_box = scrollControl->TranslateToScrollContent(position_in_scroll);
 
     return 
@@ -195,7 +195,7 @@ void CodeBlockRegion::SelectWord(const zaf::Point& position) {
         return;
     }
 
-    auto position_in_scroll = this->TranslateToChild(position, *scrollControl);
+    auto position_in_scroll = scrollControl->TranslateFromParent(position);
     auto position_in_text_box = scrollControl->TranslateToScrollContent(position_in_scroll);
     textBox->SelectWord(position_in_text_box);
 }
