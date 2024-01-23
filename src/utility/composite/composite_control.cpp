@@ -115,13 +115,13 @@ CompositeControl::VisitContext CompositeControl::VisitContext::ToChild(zaf::Cont
         using DataType = std::decay_t<decltype(value)>;
 
         if constexpr (std::is_same_v<DataType, zaf::Point>) {
-            return TranslatedData{ control_->TranslatePositionToChild(value, child) };
+            return TranslatedData{ control_->TranslateToChild(value, child) };
         }
         else if constexpr (std::is_same_v<DataType, PositionRange>) {
             return TranslatedData{
                 PositionRange{
-                    control_->TranslatePositionToChild(value.Begin(), child),
-                    control_->TranslatePositionToChild(value.End(), child)
+                    control_->TranslateToChild(value.Begin(), child),
+                    control_->TranslateToChild(value.End(), child)
                 }
             };
         }

@@ -212,7 +212,7 @@ void DialogWindow::SubscribeToAnswerEvent(const Round& round) {
         auto last_round_view = zaf::As<RoundView>(children.back());
         if (last_round_view->Round()->ID() == round_id) {
 
-            auto answer_view_position = last_round_view->AnswerView()->TranslatePositionToParent({});
+            auto answer_view_position = last_round_view->AnswerView()->TranslateToParent({});
             float scroll_to_position = last_round_view->Y() + answer_view_position.y;
             roundScrollBox->VerticalScrollBar()->SetValue(static_cast<int>(scroll_to_position));
         }

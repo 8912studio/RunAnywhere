@@ -118,7 +118,8 @@ void CodeBlockRegion::SetTextBackgroundColor(const zaf::Color& color) {
 
 bool CodeBlockRegion::IsPositionInsideTextBoundary(const zaf::Point& mouse_position) {
 
-    auto position_in_text_box = this->TranslatePositionToChild(mouse_position, *scrollControl);
+    auto position_in_scroll = this->TranslateToChild(mouse_position, *scrollControl);
+    auto position_in_text_box = scrollControl->TranslateToScrollContent(position_in_scroll);
 
     if (textBox->RectInSelf().Contain(position_in_text_box)) {
         return textBox->IsPositionInsideText(position_in_text_box);
@@ -141,8 +142,13 @@ void CodeBlockRegion::BeginSelection(const zaf::Point& position) {
 
 void CodeBlockRegion::ChangeSelection(const composite::PositionRange& position_range) {
 
-    auto begin_position_in_text_box =
-        this->TranslatePositionToChild(position_range.Begin(), *scrollControl);
+    auto begin_position_in_scroll = this->TranslateToChild(position_range.Begin(), *scrollControl);
+    auto begin_position_in_text_box = 
+        scrollControl->TranslateToScrollContent(begin_position_in_scroll);
+
+    auto end_position_in_scroll = this->TranslateToChild(position_range.End(), *scrollControl);
+    auto end_position_in_text_box = 
+        scrollControl->TranslateToScrollContent(end_position_in_scroll);
 
     bool scroll_to_selection{ false };
     if (begin_selection_x_offset_) {
@@ -161,7 +167,7 @@ void CodeBlockRegion::ChangeSelection(const composite::PositionRange& position_r
 
     composite::PositionRange position_range_in_text_box{ 
         begin_position_in_text_box,
-        this->TranslatePositionToChild(position_range.End(), *scrollControl) 
+        end_position_in_text_box,
     };
     textBox->SetSelectionByPositionRange(position_range_in_text_box, scroll_to_selection);
 }
@@ -169,7 +175,9 @@ void CodeBlockRegion::ChangeSelection(const composite::PositionRange& position_r
 
 bool CodeBlockRegion::IsPositionInTextBox(const zaf::Point& position) const {
 
-    auto position_in_text_box = this->TranslatePositionToChild(position, *scrollControl);
+    auto position_in_scroll = this->TranslateToChild(position, *scrollControl);
+    auto position_in_text_box = scrollControl->TranslateToScrollContent(position_in_scroll);
+
     return 
         (position_in_text_box.y >= 0) && 
         (position_in_text_box.y < textBox->Height());
@@ -187,7 +195,8 @@ void CodeBlockRegion::SelectWord(const zaf::Point& position) {
         return;
     }
 
-    auto position_in_text_box = this->TranslatePositionToChild(position, *scrollControl);
+    auto position_in_scroll = this->TranslateToChild(position, *scrollControl);
+    auto position_in_text_box = scrollControl->TranslateToScrollContent(position_in_scroll);
     textBox->SelectWord(position_in_text_box);
 }
 

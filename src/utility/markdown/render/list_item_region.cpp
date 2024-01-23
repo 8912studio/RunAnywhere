@@ -85,31 +85,31 @@ zaf::Size ListItemRegion::CalculatePreferredContentSize(const zaf::Size& bound_s
 
 bool ListItemRegion::IsPositionInsideTextBoundary(const zaf::Point& mouse_position) {
     
-    auto position_in_marker = this->TranslatePositionToChild(mouse_position, *marker_text_box_);
+    auto position_in_marker = this->TranslateToChild(mouse_position, *marker_text_box_);
     if (marker_text_box_->RectInSelf().Contain(position_in_marker)) {
         return marker_text_box_->IsPositionInsideText(position_in_marker);
     }
 
     return body_region_->IsPositionInsideTextBoundary(
-        this->TranslatePositionToChild(mouse_position, *body_region_));
+        this->TranslateToChild(mouse_position, *body_region_));
 }
 
 
 void ListItemRegion::BeginSelection(const zaf::Point& position) {
-    body_region_->BeginSelection(this->TranslatePositionToChild(position, *body_region_));
+    body_region_->BeginSelection(this->TranslateToChild(position, *body_region_));
 }
 
 
 void ListItemRegion::ChangeSelection(const composite::PositionRange& position_range) {
 
     ChangeSelectionOfMarker(composite::PositionRange{
-        this->TranslatePositionToChild(position_range.Begin(), *marker_text_box_),
-        this->TranslatePositionToChild(position_range.End(), *marker_text_box_)
+        this->TranslateToChild(position_range.Begin(), *marker_text_box_),
+        this->TranslateToChild(position_range.End(), *marker_text_box_)
     });
 
     body_region_->ChangeSelection(composite::PositionRange{
-        this->TranslatePositionToChild(position_range.Begin(), *body_region_),
-        this->TranslatePositionToChild(position_range.End(), *body_region_)
+        this->TranslateToChild(position_range.Begin(), *body_region_),
+        this->TranslateToChild(position_range.End(), *body_region_)
     });
 }
 
@@ -120,7 +120,7 @@ void ListItemRegion::EndSelection() {
 
 
 void ListItemRegion::SelectWord(const zaf::Point& position) {
-    body_region_->SelectWord(this->TranslatePositionToChild(position, *body_region_));
+    body_region_->SelectWord(this->TranslateToChild(position, *body_region_));
 }
 
 
