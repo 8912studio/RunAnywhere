@@ -451,7 +451,7 @@ std::optional<LRESULT> MainWindow::HandleMessage(const zaf::Message& message) {
 
 bool MainWindow::HandleKeyDownMessage(const zaf::KeyMessage& message) {
 
-    if (message.VirtualKey() == VK_ESCAPE) {
+    if (message.Key() == zaf::Key::Escape) {
 
         if (inputEdit->Text().empty()) {
             this->Hide();
@@ -462,7 +462,7 @@ bool MainWindow::HandleKeyDownMessage(const zaf::KeyMessage& message) {
         return true;
     }
 
-    if (message.VirtualKey() == VK_RETURN) {
+    if (message.Key() == zaf::Key::Enter) {
         if (GetKeyState(VK_SHIFT) >> 15) {
             PreserveCurrentCommand();
         }
@@ -472,14 +472,14 @@ bool MainWindow::HandleKeyDownMessage(const zaf::KeyMessage& message) {
         return true;
     }
 
-    if (message.VirtualKey() == VK_BACK) {
+    if (message.Key() == zaf::Key::Backspace) {
         if (GetKeyState(VK_SHIFT) >> 15) {
             RemoveTheFirstPreservedCommand();
             return true;
         }
     }
 
-    if (message.VirtualKey() == VK_OEM_2) {
+    if (message.Key() == static_cast<zaf::Key>(VK_OEM_2)) {
         if ((GetKeyState(VK_CONTROL) >> 15) != 0) {
             OnHelpButtonClick();
             return true;
@@ -500,17 +500,17 @@ bool MainWindow::HandleHelpWindowScrollMessage(const zaf::KeyMessage& message) {
         return false;
     }
 
-    switch (message.VirtualKey()) {
-    case L'J':
+    switch (message.Key()) {
+    case zaf::Key::J:
         help_window_->ScrollLine(false);
         return true;
-    case L'K':
+    case zaf::Key::K:
         help_window_->ScrollLine(true);
         return true;
-    case L'N':
+    case zaf::Key::N:
         help_window_->ScrollPage(false);
         return true;
-    case L'U':
+    case zaf::Key::U:
         help_window_->ScrollPage(true);
         return true;
     default:

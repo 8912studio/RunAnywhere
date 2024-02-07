@@ -1,4 +1,5 @@
 #include "utility/composite/composite_text_box.h"
+#include <zaf/input/keyboard.h>
 #include <zaf/object/type_definition.h>
 #include "utility/clipboard.h"
 
@@ -172,7 +173,7 @@ void CompositeTextBox::OnKeyDown(const zaf::KeyDownInfo& event_info) {
         return;
     }
 
-    if ((GetKeyState(VK_CONTROL) >> 15) && event_info.Message().VirtualKey() == L'C') {
+    if (zaf::Keyboard::IsCtrlDown() && event_info.Message().Key() == zaf::Key::C) {
         CopySelectionToClipboard();
         event_info.MarkAsHandled();
     }

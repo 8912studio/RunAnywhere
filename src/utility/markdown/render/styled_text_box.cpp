@@ -150,7 +150,7 @@ void StyledTextBox::SetSelectionByPositionRange(
     auto selection_option =
         position_range.Begin() == begin ? 
         SelectionOption::SetCaretToEnd : 
-        SelectionOption::SetCaretToBeign;
+        SelectionOption::SetCaretToBegin;
 
     if (scroll_to_selection) {
         selection_option |= SelectionOption::ScrollToCaret;

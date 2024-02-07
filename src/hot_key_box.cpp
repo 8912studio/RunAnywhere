@@ -37,7 +37,7 @@ HotKeyModifier GetModifier() {
 
 std::optional<HotKey> GenerateHotKeyFromKeyMessage(const zaf::KeyMessage& message) {
 
-    auto key = message.VirtualKey();
+    auto key = static_cast<UINT>(message.Key());
     if (key == VK_BACK) {
         return HotKey{};
     }
@@ -106,7 +106,7 @@ void HotKeyBox::SetHotKey(const HotKey& hot_key) {
 
 bool HotKeyBox::AcceptKeyMessage(const zaf::KeyMessage& message) {
 
-    if (message.ID() == WM_KEYDOWN && message.VirtualKey() == VK_ESCAPE) {
+    if (message.ID() == WM_KEYDOWN && message.Key() == zaf::Key::Escape) {
 
         if (is_waiting_input_) {
             return true;
@@ -124,7 +124,7 @@ void HotKeyBox::OnKeyDown(const zaf::KeyDownInfo& event_info) {
     }
 
     //ESC to cancel setting hot key.
-    if (event_info.Message().VirtualKey() == VK_ESCAPE) {
+    if (event_info.Message().Key() == zaf::Key::Escape) {
         SetIsWaitingInput(false);
         event_info.MarkAsHandled();
         return;

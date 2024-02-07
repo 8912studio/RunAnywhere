@@ -2,6 +2,7 @@
 #include <zaf/base/error/check.h>
 #include <zaf/control/scroll_bar.h>
 #include <zaf/creation.h>
+#include <zaf/input/keyboard.h>
 #include <zaf/object/type_definition.h>
 #include <zaf/rx/creation.h>
 #include <zaf/rx/scheduler.h>
@@ -46,7 +47,7 @@ void DialogWindow::InitializeInputEdit() {
     Subscriptions() += inputEdit->KeyDownEvent().Subscribe([this](
         const zaf::KeyDownInfo& event_info) {
 
-        if (event_info.Message().VirtualKey() == VK_RETURN && (GetKeyState(VK_SHIFT) >> 15) == 0) {
+        if (event_info.Message().Key() == zaf::Key::Enter && !zaf::Keyboard::IsShiftDown()) {
             StartNewRoundOnPressReturn();
             event_info.MarkAsHandled();
         }
@@ -107,7 +108,7 @@ void DialogWindow::OnMessageReceived(const zaf::MessageReceivedInfo& event_info)
 
 bool DialogWindow::HandleKeyDownMessage(const zaf::KeyMessage& message) {
 
-    if (message.VirtualKey() == VK_ESCAPE) {
+    if (message.Key() == zaf::Key::Escape) {
         this->Close();
         return true;
     }

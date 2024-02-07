@@ -69,7 +69,7 @@ void ArgumentObjectWindow::OnMessageReceived(const zaf::MessageReceivedInfo& eve
 
     switch (event_info.Message().ID()) {
     case WM_KEYDOWN: {
-        if (zaf::KeyMessage(event_info.Message()).VirtualKey() == VK_ESCAPE) {
+        if (zaf::KeyMessage(event_info.Message()).Key() == zaf::Key::Escape) {
             this->Close();
             event_info.MarkAsHandled(0);
         }

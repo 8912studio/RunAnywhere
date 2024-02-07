@@ -110,13 +110,13 @@ void CommandInputEdit::RaiseCommandChangedEvent() {
 
 void CommandInputEdit::OnKeyDown(const zaf::KeyDownInfo& event_info) {
 
-    if (event_info.Message().VirtualKey() == L'V') {
+    if (event_info.Message().Key() == zaf::Key::V) {
         if (GetKeyState(VK_CONTROL) >> 15) {
             HandlePaste(event_info);
             event_info.MarkAsHandled();
         }
     }
-    else if (event_info.Message().VirtualKey() == L'2') {
+    else if (event_info.Message().Key() == static_cast<zaf::Key>(L'2')) {
         if (GetKeyState(VK_CONTROL) >> 15) {
             InsertActivePathFromClipboard();
             event_info.MarkAsHandled();
@@ -141,7 +141,7 @@ void CommandInputEdit::HandlePaste(const zaf::KeyDownInfo& event_info) {
 
 void CommandInputEdit::OnSysKeyDown(const zaf::SysKeyDownInfo& event_info) {
 
-    if (event_info.Message().VirtualKey() == L'T') {
+    if (event_info.Message().Key() == zaf::Key::T) {
         InsertTextBlockObjectByKey();
         event_info.MarkAsHandled();
     }
