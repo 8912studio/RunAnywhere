@@ -29,7 +29,7 @@ void TextBlockWindow::AfterParse() {
     }
 
     Subscriptions() += textEdit->TextChangedEvent().Subscribe(
-        [this](const zaf::TextChangedInfo& event_info) {
+        [this](const zaf::rich_edit::TextChangedInfo& event_info) {
     
         //Change all line breaks to the same as the first line once text is changed.
         line_break_info_.all_the_same = true;

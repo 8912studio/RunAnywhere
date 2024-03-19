@@ -98,7 +98,10 @@ zaf::Observable<zaf::None> CommandInputEdit::CommandChangedEvent() {
 }
 
 
-void CommandInputEdit::OnTextChanged(const zaf::TextChangedInfo& event_info) {
+void CommandInputEdit::OnTextChanged(const zaf::rich_edit::TextChangedInfo& event_info) {
+
+    __super::OnTextChanged(event_info);
+
     RaiseCommandChangedEvent();
 }
 

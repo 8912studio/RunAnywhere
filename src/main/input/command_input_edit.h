@@ -28,7 +28,7 @@ public:
 
 protected:
     void Initialize() override;
-    void OnTextChanged(const zaf::TextChangedInfo& event_info) override;
+    void OnTextChanged(const zaf::rich_edit::TextChangedInfo& event_info) override;
     void OnKeyDown(const zaf::KeyDownInfo& event_info) override;
     void OnSysKeyDown(const zaf::SysKeyDownInfo& event_info) override;
 

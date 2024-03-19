@@ -31,24 +31,11 @@ public:
 
 protected:
     void Initialize() override;
-    void PaintTextBackground(
-        zaf::Canvas& canvas,
-        const zaf::Rect& dirty_rect, 
-        const zaf::TextLayout& text_layout, 
-        const zaf::Rect& layout_rect) override;
 
 private:
-    void PaintBackgroundColorAtRange(
-        zaf::Canvas& canvas, 
-        const zaf::TextLayout& text_layout,
-        const zaf::Range& range,
-        const zaf::Color& color) const;
-
     void SetIsInFocusContext(bool is_focused);
 
 private:
-    std::vector<std::pair<zaf::Range, zaf::Color>> background_colors_;
-    float line_gap_{};
     bool is_in_focus_context_{};
 };
 

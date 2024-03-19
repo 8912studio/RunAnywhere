@@ -3,7 +3,7 @@
 #include <zaf/graphic/canvas.h>
 #include <zaf/object/type_definition.h>
 
-using namespace zaf::text_box;
+using namespace zaf::textual;
 
 namespace ra::utility::markdown::render {
 
@@ -27,42 +27,6 @@ void StyledTextBox::Initialize() {
 }
 
 
-void StyledTextBox::PaintTextBackground(
-    zaf::Canvas& canvas, 
-    const zaf::Rect& dirty_rect, 
-    const zaf::TextLayout& text_layout, 
-    const zaf::Rect& layout_rect) {
-
-    {
-        auto region_guard = canvas.PushRegion(layout_rect, layout_rect);
-
-        for (const auto& each_pair : background_colors_) {
-            PaintBackgroundColorAtRange(canvas, text_layout, each_pair.first, each_pair.second);
-        }
-    }
-
-    __super::PaintTextBackground(canvas, dirty_rect, text_layout, layout_rect);
-}
-
-
-void StyledTextBox::PaintBackgroundColorAtRange(
-    zaf::Canvas& canvas, 
-    const zaf::TextLayout& text_layout, 
-    const zaf::Range& range,
-    const zaf::Color& color) const {
-
-    auto range_metrics = text_layout.HitTestRange(range);
-    for (const auto& metrics : range_metrics) {
-
-        auto rect = metrics.Rect();
-        rect.position.y += line_gap_;
-        rect.size.height -= line_gap_;
-
-        canvas.DrawRectangle(rect, color);
-    }
-}
-
-
 void StyledTextBox::SetStyledText(const StyledText& styled_text) {
 
     this->SetText(styled_text.Text());
@@ -73,10 +37,7 @@ void StyledTextBox::SetStyledText(const StyledText& styled_text) {
         this->SetTextColorInRange(each_style.style.text_color, each_style.range);
 
         if (each_style.style.background_color) {
-
-            background_colors_.push_back(std::make_pair(
-                each_style.range, 
-                *each_style.style.background_color));
+            this->SetTextBackColorInRange(*each_style.style.background_color, each_style.range);
         }
     }
 }
@@ -87,8 +48,6 @@ void StyledTextBox::SetLineSpacingByParagraphStyle(const StyleConfig& style_conf
     if (style_config.paragraph_config.line_gap == 0) {
         return;
     }
-
-    line_gap_ = style_config.paragraph_config.line_gap;
 
     //We fail to find a proper way to calculate the default line height,
     //so we have to do it by creating a mock text box.
@@ -104,10 +63,11 @@ void StyledTextBox::SetLineSpacingByParagraphStyle(const StyleConfig& style_conf
     auto new_line_height = default_line_height + style_config.paragraph_config.line_gap;
 
     this->SetLineSpacing(zaf::LineSpacing{
-        zaf::LineSpacingMethod::Uniform,
         new_line_height,
         new_line_height * 0.8f,
     });
+
+    this->SetTextBackPadding(zaf::Frame{ 0, style_config.paragraph_config.line_gap, 0, 0 });
 }
 
 

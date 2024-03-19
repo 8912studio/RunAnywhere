@@ -127,7 +127,7 @@ void DatePreviewControl::OnStyleChanged() {
 void DatePreviewControl::InitializeTextBox() {
 
 	Subscriptions() += textBox->SelectionChangedEvent().Subscribe(
-		[this](const zaf::RichEditSelectionChangedInfo&) {
+		[this](const zaf::rich_edit::SelectionChangedInfo&) {
 	
 		auto selection_range = textBox->GetSelectionRange();
 		if (selection_range.length <= 0) {
