@@ -1,6 +1,7 @@
 #include "module/chat_gpt/dialog/answer_view.h"
 #include <zaf/base/string/encoding_conversion.h>
 #include <zaf/control/text_box.h>
+#include <zaf/control/textual/styled_text.h>
 #include <zaf/object/type_definition.h>
 #include <curlion.h>
 #include "help/help_style_config.h"
@@ -75,8 +76,13 @@ void AnswerView::ShowError(const zaf::Error& error) {
 
 std::shared_ptr<zaf::Control> AnswerView::CreateMajorErrorControl(const zaf::Error& error) {
 
-    StyledText styled_text;
-    styled_text.Append([&error]() -> std::wstring {
+    zaf::textual::StyledText styled_text;
+    zaf::Font font;
+    font.size = StyleConstants::PreservedBodyFontSize;
+    styled_text.SetDefaultFont(font);
+    styled_text.SetDefaultTextColor(zaf::Color::FromRGB(0xEE4444));
+
+    styled_text.SetText([&error]() -> std::wstring {
 
         if (error.Code() == LocalErrc::NoAPIKey) {
             return L"No API key";
@@ -99,24 +105,24 @@ std::shared_ptr<zaf::Control> AnswerView::CreateMajorErrorControl(const zaf::Err
         return L"Unknown error";
     }());
 
-    TextStyle text_style;
-    text_style.font.size = StyleConstants::PreservedBodyFontSize;
-    text_style.text_color = zaf::Color::FromRGB(0xEE4444);
-    styled_text.AddStyleToPendingText(text_style);
-
-    auto result = zaf::Create<StyledTextBox>();
+    auto result = zaf::Create<zaf::TextBox>();
     result->SetIsEnabled(false);
     result->SetAutoHeight(true);
     result->SetWordWrapping(zaf::WordWrapping::Wrap);
-    result->SetStyledText(styled_text);
+    result->SetStyledText(std::move(styled_text));
     return result;
 }
 
 
 std::shared_ptr<zaf::Control> AnswerView::CreateDetailErrorControl(const zaf::Error& error) {
 
-    StyledText styled_text;
-    styled_text.Append([&error]() -> std::wstring {
+    zaf::textual::StyledText styled_text;
+    zaf::Font font;
+    font.size = StyleConstants::PreservedBodyFontSize;
+    styled_text.SetDefaultFont(font);
+    styled_text.SetDefaultTextColor(zaf::Color::Gray());
+
+    styled_text.SetText([&error]() -> std::wstring {
 
         auto result = std::format(
             "{}:{} {}",
@@ -127,17 +133,12 @@ std::shared_ptr<zaf::Control> AnswerView::CreateDetailErrorControl(const zaf::Er
         return zaf::FromUTF8String(result);
     }());
 
-    TextStyle detail_text_style;
-    detail_text_style.font.size = StyleConstants::PreservedBodyFontSize;
-    detail_text_style.text_color = zaf::Color::Gray();
-    styled_text.AddStyleToPendingText(detail_text_style);
-
-    auto result = zaf::Create<StyledTextBox>();
+    auto result = zaf::Create<zaf::TextBox>();
     result->SetMargin(zaf::Frame{ 0, 4, 0, 0 });
     result->SetWordWrapping(zaf::WordWrapping::Wrap);
     result->SetAutoHeight(true);
     result->SetIsEnabled(false);
-    result->SetStyledText(styled_text);
+    result->SetStyledText(std::move(styled_text));
     return result;
 }
 

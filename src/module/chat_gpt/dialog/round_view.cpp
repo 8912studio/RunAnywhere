@@ -22,15 +22,7 @@ void RoundView::AfterParse() {
 
     __super::AfterParse();
 
-    TextStyle text_style;
-    text_style.font = questionContent->Font();
-    text_style.text_color = zaf::Color::Black();
-
-    StyledText styled_text;
-    styled_text.Append(round_->Question());
-    styled_text.AddStyleToPendingText(std::move(text_style));
-
-    questionContent->SetStyledText(styled_text);
+    questionContent->SetText(round_->Question());
 
     answerView->SetAnswer(ObserveAnswer());
 

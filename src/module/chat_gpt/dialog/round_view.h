@@ -44,7 +44,7 @@ private:
 
 private:
     ZAF_BIND_CONTROL(zaf::Control, questionView);
-    ZAF_BIND_CONTROL(utility::markdown::render::StyledTextBox, questionContent);
+    ZAF_BIND_CONTROL(zaf::TextBox, questionContent);
     ZAF_BIND_CONTROL(chat_gpt::AnswerView, answerView);
     ZAF_BIND_CONTROL(zaf::Control, toolbar);
     ZAF_BIND_CONTROL(zaf::Button, copyButton);
