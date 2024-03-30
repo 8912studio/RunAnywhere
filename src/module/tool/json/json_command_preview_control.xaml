@@ -17,10 +17,9 @@
 		</HorizontalBox>
 		<ThinScrollControl Name="scrollControl" AllowHorizontalScroll="false">
 			<ScrollBox.ScrollContent>
-				<StyledTextBox 
+				<TextBox 
 					Name="textBox" 
-					ParagraphAlignment="Center"
-					IsEnabled="true" />
+					ParagraphAlignment="Center" />
 			</ScrollBox.ScrollContent>
 		</ThinScrollControl>
 	</VerticalBox>

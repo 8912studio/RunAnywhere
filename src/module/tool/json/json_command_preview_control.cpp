@@ -9,8 +9,6 @@
 #include "module/common/error_messages.h"
 #include "module/common/style_constants.h"
 
-using namespace ra::utility::markdown::render;
-
 namespace ra::mod::tool::json {
 
 ZAF_DEFINE_TYPE(JSONCommandPreviewControl)
@@ -34,7 +32,7 @@ void JSONCommandPreviewControl::ShowResult(const JSONCommandParseResult& result)
 
         contentView->SetIsVisible(true);
 
-        parsed_json_ = *styled_text;
+        parsed_json_ = styled_text->Clone();
         ResetParsedJSON();
     }
     else if (auto error = result.Error()) {
@@ -97,11 +95,11 @@ void JSONCommandPreviewControl::ResetParsedJSON() {
 
     float font_size = BodyFontSize();
 
-    parsed_json_.VisitStyles([font_size](RangedTextStyle& style) {
-        style.style.font.size = font_size;
-    });
+    for (auto& each_font : parsed_json_.RangedFonts()) {
+        each_font.Font().size = font_size;
+    }
 
-    textBox->SetStyledText(parsed_json_);
+    textBox->SetStyledText(parsed_json_.Clone());
 }
 
 
@@ -118,7 +116,7 @@ void JSONCommandPreviewControl::ResetParseError() {
 
     auto error_content = GetShownErrorContent(*error_line_info_, max_length);
     auto error_text = GenerateParseErrorText(error_content, font);
-    textBox->SetStyledText(error_text);
+    textBox->SetStyledText(std::move(error_text));
 
     if (Style() != CommandDisplayStyle::Preserved) {
         textBox->SetPadding(zaf::Frame{ 0, 10, 0, 0 });
@@ -333,25 +331,26 @@ JSONCommandPreviewControl::ErrorContent JSONCommandPreviewControl::GetShownError
 }
 
 
-StyledText JSONCommandPreviewControl::GenerateParseErrorText(
+zaf::textual::StyledText JSONCommandPreviewControl::GenerateParseErrorText(
     const ErrorContent& error_info,
     const zaf::Font& font) {
 
-    StyledText result;
-    result.Append(error_info.shown_text);
+    zaf::textual::StyledText result;
+    result.SetDefaultFont(font);
 
-    TextStyle style;
-    style.font = font;
-    style.text_color = zaf::Color::FromRGB(0xAA3322);
-    result.AddStyleToPendingText(style);
+    zaf::textual::TextStyle text_style;
+    text_style.SetTextColor(zaf::Color::FromRGB(0xAA3322));
+    result.AppendText(error_info.shown_text, text_style);
 
-    result.Append(L"\n");
-    result.Append(std::wstring(error_info.error_index, L' '));
-    result.Append(L"^");
+    zaf::textual::TextStyle mark_style;
+    auto mark_font = font;
+    mark_font.weight = zaf::FontWeight::Bold;
+    mark_style.SetFont(mark_font);
+    mark_style.SetTextColor(zaf::Color::Black());
 
-    style.text_color = zaf::Color::Black();
-    style.font.weight = zaf::FontWeight::Bold;
-    result.AddStyleToPendingText(style);
+    result.AppendText(
+        std::format(L"\n{}^", std::wstring(error_info.error_index, L' ')),
+        mark_style);
 
     return result;
 }

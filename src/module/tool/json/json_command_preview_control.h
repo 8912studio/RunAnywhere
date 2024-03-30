@@ -3,10 +3,10 @@
 #include <zaf/control/control_binder.h>
 #include <zaf/control/label.h>
 #include <zaf/control/scroll_box.h>
+#include <zaf/control/text_box.h>
 #include "module/command_preview_control.h"
 #include "module/common/error_view.h"
 #include "module/tool/json/json_command_parse_result.h"
-#include "utility/markdown/render/styled_text_box.h"
 
 namespace ra::mod::tool::json {
 
@@ -32,7 +32,7 @@ public:
         const ErrorLineInfo& error_info, 
         std::size_t max_char_count);
 
-    static utility::markdown::render::StyledText GenerateParseErrorText(
+    static zaf::textual::StyledText GenerateParseErrorText(
         const ErrorContent& error_info,
         const zaf::Font& font);
 
@@ -57,10 +57,10 @@ private:
     ZAF_BIND_CONTROL(zaf::Control, parseErrorView);
     ZAF_BIND_CONTROL(zaf::Label, parseErrorLabel);
     ZAF_BIND_CONTROL(zaf::ScrollBox, scrollControl);
-    ZAF_BIND_CONTROL(utility::markdown::render::StyledTextBox, textBox);
+    ZAF_BIND_CONTROL(zaf::TextBox, textBox);
     ZAF_BIND_CONTROL(ErrorView, genericErrorView);
 
-    utility::markdown::render::StyledText parsed_json_;
+    zaf::textual::StyledText parsed_json_;
     std::optional<ErrorLineInfo> error_line_info_;
 };
 

@@ -2,7 +2,7 @@
 
 #include <string>
 #include <variant>
-#include "utility/markdown/render/styled_text.h"
+#include <zaf/control/textual/styled_text.h>
 
 namespace ra::mod::tool::json {
 
@@ -16,7 +16,7 @@ public:
     };
 
 public:
-    explicit JSONCommandParseResult(utility::markdown::render::StyledText styled_text) :
+    explicit JSONCommandParseResult(zaf::textual::StyledText styled_text) :
         data_(std::move(styled_text)) {
 
     }
@@ -34,12 +34,12 @@ public:
         return std::get_if<ErrorInfo>(&data_);
     }
 
-    const utility::markdown::render::StyledText* StyledText() const {
-        return std::get_if<utility::markdown::render::StyledText>(&data_);
+    const zaf::textual::StyledText* StyledText() const {
+        return std::get_if<zaf::textual::StyledText>(&data_);
     }
 
 private:
-    std::variant<utility::markdown::render::StyledText, ErrorInfo> data_;
+    std::variant<zaf::textual::StyledText, ErrorInfo> data_;
 };
 
 }
