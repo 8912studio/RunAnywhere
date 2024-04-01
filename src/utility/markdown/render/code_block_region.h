@@ -4,12 +4,12 @@
 #include <zaf/control/control_binder.h>
 #include <zaf/control/label.h>
 #include <zaf/control/linear_box.h>
+#include <zaf/control/textual/text_style.h>
 #include "utility/composite/composable_control.h"
 #include "utility/markdown/element/element.h"
 #include "utility/markdown/render/render_region.h"
 #include "utility/markdown/render/style_config.h"
 #include "utility/markdown/render/styled_text_box.h"
-#include "utility/markdown/render/text_style.h"
 #include "utility/thin_scroll_control.h"
 
 namespace ra::utility::markdown::render {
@@ -44,7 +44,7 @@ protected:
 private:
     CodeBlockRegion() = default;
 
-    void SetStyledText(const std::wstring& text, const TextStyle& text_style);
+    void SetStyledText(const std::wstring& text, const zaf::textual::TextStyle& text_style);
     void SetShowHeader(bool show);
     void SetLanguage(const std::wstring& language);
     void SetTextBackgroundColor(const zaf::Color& color);

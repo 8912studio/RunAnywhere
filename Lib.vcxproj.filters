@@ -906,16 +906,10 @@
     <ClInclude Include="src\utility\markdown\render\style_config.h">
       <Filter>src\utility\markdown\render</Filter>
     </ClInclude>
-    <ClInclude Include="src\utility\markdown\render\styled_text.h">
-      <Filter>src\utility\markdown\render</Filter>
-    </ClInclude>
     <ClInclude Include="src\utility\markdown\render\styled_text_box.h">
       <Filter>src\utility\markdown\render</Filter>
     </ClInclude>
     <ClInclude Include="src\utility\markdown\render\styled_text_builder.h">
-      <Filter>src\utility\markdown\render</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\markdown\render\text_style.h">
       <Filter>src\utility\markdown\render</Filter>
     </ClInclude>
     <ClInclude Include="src\utility\markdown\render\list_region.h">

@@ -5,7 +5,6 @@
 #include "utility/markdown/element/element.h"
 #include "utility/markdown/render/render_region.h"
 #include "utility/markdown/render/style_config.h"
-#include "utility/markdown/render/styled_text.h"
 #include "utility/markdown/render/styled_text_box.h"
 
 namespace ra::utility::markdown::render {

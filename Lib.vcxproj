@@ -343,11 +343,9 @@
     <ClInclude Include="src\utility\markdown\render\paragraph_region.h" />
     <ClInclude Include="src\utility\markdown\render\render_region.h" />
     <ClInclude Include="src\utility\markdown\render\simple_block_region.h" />
-    <ClInclude Include="src\utility\markdown\render\styled_text.h" />
     <ClInclude Include="src\utility\markdown\render\styled_text_box.h" />
     <ClInclude Include="src\utility\markdown\render\styled_text_builder.h" />
     <ClInclude Include="src\utility\markdown\render\style_config.h" />
-    <ClInclude Include="src\utility\markdown\render\text_style.h" />
     <ClInclude Include="src\utility\markdown\render\list_region.h" />
     <ClInclude Include="src\utility\numeric_text_formatting.h" />
     <ClInclude Include="src\utility\path_trimming.h" />

@@ -4,7 +4,6 @@
 #include "utility/markdown/element/element.h"
 #include "utility/markdown/render/simple_block_region.h"
 #include "utility/markdown/render/style_config.h"
-#include "utility/markdown/render/text_style.h"
 
 namespace ra::utility::markdown::render {
 

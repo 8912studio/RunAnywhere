@@ -27,22 +27,6 @@ void StyledTextBox::Initialize() {
 }
 
 
-void StyledTextBox::SetStyledText(const StyledText& styled_text) {
-
-    this->SetText(styled_text.Text());
-
-    for (const auto& each_style : styled_text.Styles()) {
-
-        this->SetFontInRange(each_style.style.font, each_style.range);
-        this->SetTextColorInRange(each_style.style.text_color, each_style.range);
-
-        if (each_style.style.background_color) {
-            this->SetTextBackColorInRange(*each_style.style.background_color, each_style.range);
-        }
-    }
-}
-
-
 void StyledTextBox::SetLineSpacingByParagraphStyle(const StyleConfig& style_config) {
 
     if (style_config.paragraph_config.line_gap == 0) {

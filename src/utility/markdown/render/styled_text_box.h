@@ -4,7 +4,6 @@
 #include "utility/composite/composable_control.h"
 #include "utility/composite/position_range.h"
 #include "utility/markdown/render/style_config.h"
-#include "utility/markdown/render/styled_text.h"
 
 namespace ra::utility::markdown::render {
 
@@ -13,8 +12,6 @@ public:
     ZAF_DECLARE_TYPE;
 
 public:
-    void SetStyledText(const StyledText& styled_text);
-
     void SetLineSpacingByParagraphStyle(const StyleConfig& style_config);
 
     void SetSelectionByPositionRange(

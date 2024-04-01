@@ -14,8 +14,7 @@ TEST(StyledTextBuilderTest, Build) {
         StyledTextBuilder builder;
         auto styled_text = builder.Build(*MakeParagraph(L"Paragraph"), style_config);
         ASSERT_EQ(styled_text.Text(), L"Paragraph");
-        ASSERT_EQ(styled_text.Styles().size(), 1);
-        ASSERT_EQ(styled_text.Styles().front().range, zaf::Range(0, 9));
+        ASSERT_EQ(styled_text.RangedFonts().begin()->Range(), zaf::Range(0, 9));
     }
 
     {
@@ -27,9 +26,12 @@ TEST(StyledTextBuilderTest, Build) {
         StyledTextBuilder builder;
         auto styled_text = builder.Build(*element, style_config);
         ASSERT_EQ(styled_text.Text(), L"text1 bold text2");
-        ASSERT_EQ(styled_text.Styles().size(), 3);
-        ASSERT_EQ(styled_text.Styles()[0].range, zaf::Range(0, 6));
-        ASSERT_EQ(styled_text.Styles()[1].range, zaf::Range(6, 4));
-        ASSERT_EQ(styled_text.Styles()[2].range, zaf::Range(10, 6));
+
+        auto iterator = styled_text.RangedFonts().begin();
+        ASSERT_EQ(iterator->Range(), zaf::Range(0, 6));
+        ++iterator;
+        ASSERT_EQ(iterator->Range(), zaf::Range(6, 4));
+        ++iterator;
+        ASSERT_EQ(iterator->Range(), zaf::Range(10, 6));
     }
 }

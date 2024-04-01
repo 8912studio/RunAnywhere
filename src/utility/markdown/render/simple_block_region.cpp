@@ -36,7 +36,7 @@ void SimpleBlockRegion::InitializeContent(
     StyledTextBuilder styled_text_builder;
     auto styled_text = styled_text_builder.Build(element, style_config);
 
-    text_box_->SetStyledText(styled_text);
+    text_box_->SetStyledText(std::move(styled_text));
 }
 
 }

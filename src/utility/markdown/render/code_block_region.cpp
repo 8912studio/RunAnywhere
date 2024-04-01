@@ -23,10 +23,13 @@ std::shared_ptr<CodeBlockRegion> CodeBlockRegion::Create(
 
     auto result = zaf::Init(new CodeBlockRegion());
     if (!code_block_element.Children().empty()) {
-        TextStyle text_style;
-        text_style.font = style_config.basic_config.font;
-        text_style.font.family_name = style_config.code_block_config.code_config.font_family_name;
-        text_style.text_color = style_config.code_block_config.code_config.text_color;
+
+        zaf::textual::TextStyle text_style;
+        text_style.SetFont(style_config.basic_config.font);
+        text_style.Font()->family_name = 
+            style_config.code_block_config.code_config.font_family_name;
+        text_style.SetTextColor(style_config.code_block_config.code_config.text_color);
+
         result->SetStyledText(code_block_element.Children().front()->Text(), text_style);
     }
     result->SetShowHeader(style_config.code_block_config.show_header);
@@ -86,10 +89,19 @@ void CodeBlockRegion::OnMouseLeave(const zaf::MouseLeaveInfo& event_info) {
 }
 
 
-void CodeBlockRegion::SetStyledText(const std::wstring& text, const TextStyle& text_style) {
+void CodeBlockRegion::SetStyledText(
+    const std::wstring& text, 
+    const zaf::textual::TextStyle& text_style) {
+
     textBox->SetText(text);
-    textBox->SetFont(text_style.font);
-    textBox->SetTextColor(text_style.text_color);
+
+    if (auto font = text_style.Font()) {
+        textBox->SetFont(*font);
+    }
+
+    if (auto text_color_picker = text_style.TextColorPicker()) {
+        textBox->SetTextColorPicker(text_color_picker);
+    }
 }
 
 
