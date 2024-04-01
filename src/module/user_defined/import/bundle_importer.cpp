@@ -1,6 +1,6 @@
 #include "module/user_defined/import/bundle_importer.h"
 #include <set>
-#include <zaf/base/error/check.h>
+#include <zaf/base/error/contract.h>
 #include "module/user_defined/bundle_definition.h"
 #include "module/user_defined/bundle_parser.h"
 

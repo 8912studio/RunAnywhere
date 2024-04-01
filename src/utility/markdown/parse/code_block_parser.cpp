@@ -1,5 +1,5 @@
 #include "utility/markdown/parse/code_block_parser.h"
-#include <zaf/base/error/check.h>
+#include <zaf/base/error/contract.h>
 #include "utility/markdown/element/factory.h"
 
 namespace ra::utility::markdown::parse {

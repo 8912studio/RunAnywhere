@@ -1,5 +1,5 @@
 #include "module/chat_gpt/dialog/dialog_window.h"
-#include <zaf/base/error/check.h>
+#include <zaf/base/error/contract.h>
 #include <zaf/control/scroll_bar.h>
 #include <zaf/creation.h>
 #include <zaf/input/keyboard.h>

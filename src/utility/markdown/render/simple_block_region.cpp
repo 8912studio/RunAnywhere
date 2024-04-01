@@ -1,5 +1,4 @@
 #include "utility/markdown/render/simple_block_region.h"
-#include <zaf/base/error/check.h>
 #include <zaf/control/layout/linear_layouter.h>
 #include <zaf/creation.h>
 #include <zaf/graphic/canvas.h>

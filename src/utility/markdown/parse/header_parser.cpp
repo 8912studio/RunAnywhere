@@ -1,5 +1,5 @@
 #include "utility/markdown/parse/header_parser.h"
-#include <zaf/base/error/check.h>
+#include <zaf/base/error/contract.h>
 #include <zaf/base/string/trim.h>
 #include "utility/markdown/element/factory.h"
 #include "utility/markdown/parse/span_element_parser.h"

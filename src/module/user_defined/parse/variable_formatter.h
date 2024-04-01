@@ -1,7 +1,6 @@
 #pragma once
 
 #include <optional>
-#include <zaf/base/error/check.h>
 #include <zaf/base/non_copyable.h>
 #include <zaf/base/registry/registry_key.h>
 #include "context/active_path.h"

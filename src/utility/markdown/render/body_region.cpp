@@ -1,5 +1,6 @@
 #include "utility/markdown/render/body_region.h"
 #include <zaf/base/as.h>
+#include <zaf/base/error/check.h>
 #include <zaf/creation.h>
 #include "utility/markdown/element/header_element.h"
 #include "utility/markdown/render/code_block_region.h"

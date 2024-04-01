@@ -1,4 +1,5 @@
 #include "module/tool/hash/sha_command.h"
+#include <zaf/base/error/check.h>
 #include <zaf/crypto/sha.h>
 #include "help/built_in_help_content_manager.h"
 #include "module/tool/hash/sha_algorithm_type_parsing.h"

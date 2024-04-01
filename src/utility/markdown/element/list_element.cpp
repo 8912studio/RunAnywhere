@@ -1,5 +1,4 @@
 #include "utility/markdown/element/list_element.h"
-#include <zaf/base/error/check.h>
 
 namespace ra::utility::markdown::element {
 

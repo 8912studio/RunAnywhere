@@ -1,5 +1,5 @@
 #include "utility/markdown/render/list_item_region.h"
-#include <zaf/base/error/check.h>
+#include <zaf/base/error/contract.h>
 #include <zaf/creation.h>
 
 namespace ra::utility::markdown::render {

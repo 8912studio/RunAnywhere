@@ -1,5 +1,5 @@
 #include "utility/markdown/parse/ordered_list_parser.h"
-#include <zaf/base/error/check.h>
+#include <zaf/base/error/contract.h>
 #include "utility/markdown/element/factory.h"
 #include "utility/markdown/parse/ordered_list_item_parser.h"
 
