@@ -12,6 +12,8 @@ public:
     static constexpr std::size_t MinMaxPreservedCommandCount = 1;
     static constexpr std::size_t MaxMaxPreservedCommandCount = 10;
 
+    static constexpr const wchar_t* DefaultOpenAIAPIServer = L"https://api.openai.com";
+
 public:
     OptionStorage(const OptionStorage&) = delete;
     OptionStorage& operator=(const OptionStorage&) = delete;
@@ -24,6 +26,9 @@ public:
 
     std::size_t MaxPreservedCommandCount();
     void SetMaxPreservedCommandCount(std::size_t count);
+
+    std::wstring OpenAIAPIServer();
+    void SetOpenAIAPIServer(const std::wstring& value);
 
     std::wstring OpenAIAPIKey();
     void SetOpenAIAPIKey(const std::wstring& key);
@@ -49,6 +54,7 @@ private:
     std::optional<bool> auto_hide_;
     std::optional<bool> remember_last_command_;
     std::optional<std::size_t> max_preserved_command_count_;
+    std::optional<std::wstring> open_ai_api_server_;
     std::optional<std::wstring> open_ai_api_key_;
     std::optional<std::wstring> proxy_;
 };

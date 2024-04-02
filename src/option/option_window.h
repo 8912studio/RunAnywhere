@@ -26,6 +26,7 @@ private:
     void CheckIfHotKeyValid();
 
     void InitializeMaxPreservedCount();
+    void InitializeOpenAIAPIServer();
     void InitializeOpenAIAPIKey();
     void InitializeProxy();
 
@@ -49,6 +50,7 @@ private:
     ZAF_BIND_CONTROL(zaf::CheckBox, autoRunCheckBox);
     ZAF_BIND_CONTROL(zaf::CheckBox, autoHideCheckBox);
     ZAF_BIND_CONTROL(zaf::CheckBox, rememberLastCommandCheckBox);
+    ZAF_BIND_CONTROL(option::OptionTextBox, apiServerEdit);
     ZAF_BIND_CONTROL(option::OptionTextBox, apiKeyEdit);
     ZAF_BIND_CONTROL(option::OptionTextBox, proxyEdit);
     ZAF_BIND_CONTROL(zaf::Button, registerFileAssociationButton);

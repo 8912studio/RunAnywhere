@@ -67,14 +67,20 @@ zaf::Observable<ChatCompletion> OpenAIClient::CreateChatCompletion(
     return CreateMockChatCompletion();
 #endif
 
-    zaf::ReplaySubject<ChatCompletion> subject;
+    auto url = zaf::ToUTF8String(option::OptionStorage::Instance().OpenAIAPIServer());
+    if (!url.empty()) {
+        if (url.back() != '/') {
+            url.append(1, '/');
+        }
+        url.append("v1/chat/completions");
+    }
 
     auto api_key = zaf::ToUTF8String(option::OptionStorage::Instance().OpenAIAPIKey());
 
     auto connection = std::make_shared<curlion::HttpConnection>();
     connection->SetConnectTimeoutInMilliseconds(5000);
     connection->SetIdleTimeoutInSeconds(60);
-    connection->SetUrl("https://api.openai.com/v1/chat/completions");
+    connection->SetUrl(url);
     connection->SetRequestHeaders({
         { "Content-Type", "application/json" },
         { "Authorization", "Bearer " + api_key },
@@ -108,6 +114,7 @@ zaf::Observable<ChatCompletion> OpenAIClient::CreateChatCompletion(
         }
     });
 
+    zaf::ReplaySubject<ChatCompletion> subject;
     connection->SetFinishedCallback([observer = subject.AsObserver()](
         const std::shared_ptr<curlion::Connection>& connection) {
     

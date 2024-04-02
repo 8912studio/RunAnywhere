@@ -9,6 +9,7 @@ namespace {
 constexpr const wchar_t* AutoHideValueName = L"AutoHideOnLostFocus";
 constexpr const wchar_t* RememberLastCommandValueName = L"RememberLastCommand";
 constexpr const wchar_t* MaxPreservedCommandCountValueName = L"MaxPreservedCommandCount";
+constexpr const wchar_t* OpenAIAPIServerValueName = L"OpenAIAPIServer";
 constexpr const wchar_t* OpenAIAPIKeyValueName = L"OpenAIAPIKey";
 constexpr const wchar_t* ProxyValueName = L"Proxy";
 
@@ -154,6 +155,27 @@ void OptionStorage::SetMaxPreservedCommandCount(std::size_t count) {
 
     *max_preserved_command_count_ = new_count;
     SetUIntValue(MaxPreservedCommandCountValueName, new_count);
+}
+
+
+std::wstring OptionStorage::OpenAIAPIServer() {
+
+    if (!open_ai_api_server_) {
+        open_ai_api_server_ = GetStringValue(OpenAIAPIServerValueName);
+    }
+
+    return open_ai_api_server_.value_or(DefaultOpenAIAPIServer);
+}
+
+
+void OptionStorage::SetOpenAIAPIServer(const std::wstring& value) {
+
+    if (open_ai_api_server_ == value) {
+        return;
+    }
+
+    SetStringValue(OpenAIAPIServerValueName, value);
+    open_ai_api_server_ = value;
 }
 
 
