@@ -5,7 +5,7 @@
     </OptionWindow.RootControl>
 
 	<Label FixedHeight="20" ParagraphAlignment="Center" Text="Basic Settings">
-		<Label.Font FamilyName="Microsoft YaHei UI" Size="14" Weight="Bold" />
+		<Label.Font Size="14" Weight="Bold" />
 	</Label>
 	
     <HorizontalBox FixedHeight="30">
@@ -66,7 +66,7 @@
 		ParagraphAlignment="Center"
 		Text="OpenAI Settings (Experimental)">
 
-		<Label.Font FamilyName="Microsoft YaHei UI" Size="14" Weight="Bold" />
+		<Label.Font Size="14" Weight="Bold" />
 	</Label>
 
 	<VerticalBox AutoHeight="true" Margin="0,0,0,0">

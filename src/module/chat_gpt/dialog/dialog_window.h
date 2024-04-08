@@ -1,8 +1,8 @@
 #pragma once
 
 #include <zaf/control/control_binder.h>
-#include <zaf/control/rich_edit.h>
 #include <zaf/control/scroll_box.h>
+#include <zaf/control/text_box.h>
 #include <zaf/window/message/keyboard_message.h>
 #include <zaf/window/window.h>
 #include "module/chat_gpt/dialog/dialog.h"
@@ -44,7 +44,7 @@ private:
     ZAF_BIND_CONTROL(zaf::ScrollBox, roundScrollBox);
     ZAF_BIND_CONTROL(utility::composite::CompositeTextBox, roundListView);
     ZAF_BIND_CONTROL(zaf::Control, inputContainer);
-    ZAF_BIND_CONTROL(zaf::RichEdit, inputEdit);
+    ZAF_BIND_CONTROL(zaf::TextBox, inputEdit);
 
     std::shared_ptr<Dialog> dialog_;
 };

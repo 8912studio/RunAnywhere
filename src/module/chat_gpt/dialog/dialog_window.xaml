@@ -1,4 +1,4 @@
-<DialogWindow ContentSize="600,600">
+<DialogWindow Title="Chat with GPT" ContentSize="600,600">
 	<DialogWindow.RootControl>
 		<VerticalBox BackgroundColor="White" />	
 	</DialogWindow.RootControl>
@@ -23,11 +23,10 @@
 		AllowHorizontalScroll="false"
 		UseOverlayScrollBars="true">
 		
-		<RichEdit
+		<TextBox
 			Name="inputEdit"
-			Border="0" 
+			IsEditable="true"
 			Padding="15,15,15,15"
-			IsMultiline="true"
 			WordWrapping="Wrap"
 			FontSize="14" />
 		
