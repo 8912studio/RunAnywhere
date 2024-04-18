@@ -1,4 +1,4 @@
-<DialogWindow Title="Chat with GPT" ContentSize="600,600">
+<DialogWindow Title="Chat with GPT" ContentSize="600,600" MinSize="300,300">
 	<DialogWindow.RootControl>
 		<VerticalBox BackgroundColor="White" />	
 	</DialogWindow.RootControl>
