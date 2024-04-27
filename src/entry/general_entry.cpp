@@ -54,14 +54,14 @@ EntryResult RunGeneralEntry(const ApplicationSwithes& switches) {
         return EntryResult::AlreadyRunning;
     }
 
-    zaf::InitializeParameters initialize_parameters;
-    initialize_parameters.delegate = std::make_shared<ra::ApplicationDelegate>(switches);
-    initialize_parameters.window_icon = LoadIcon(
+    zaf::InitializationOptions init_options;
+    init_options.delegate = std::make_shared<ra::ApplicationDelegate>(switches);
+    init_options.window_icon = LoadIcon(
         GetModuleHandle(nullptr),
         MAKEINTRESOURCE(IDI_APPICON));
 
     auto& application = zaf::Application::Instance();
-    application.Initialize(initialize_parameters);
+    application.Initialize(init_options);
     application.Run();
 
     return EntryResult::OK;

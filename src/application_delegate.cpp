@@ -76,7 +76,7 @@ void ShowWelcomeNotification() {
 std::shared_ptr<ApplicationDelegate> ApplicationDelegate::GetFromApplication() {
 
     return std::dynamic_pointer_cast<ApplicationDelegate>(
-        zaf::Application::Instance().GetDelegate());
+        zaf::Application::Instance().Delegate());
 }
 
 
@@ -97,7 +97,7 @@ void ApplicationDelegate::ReloadModules() {
 }
 
 
-void ApplicationDelegate::ApplicationBeginRun(const zaf::ApplicationBeginRunInfo&) {
+void ApplicationDelegate::OnBeginRun(const zaf::BeginRunInfo&) {
 
     EnvironmentVariableManager::Instance().Initialize();
     main::input::ClipboardData::RegisterToClipboard();
@@ -268,7 +268,7 @@ void ApplicationDelegate::InitializeHotKey() {
 }
 
 
-void ApplicationDelegate::ApplicationEndRun(const zaf::ApplicationEndRunInfo&) {
+void ApplicationDelegate::OnEndRun(const zaf::EndRunInfo&) {
 
     main_window_->Close();
     main_window_.reset();
@@ -281,7 +281,7 @@ void ApplicationDelegate::ApplicationEndRun(const zaf::ApplicationEndRunInfo&) {
 }
 
 
-void ApplicationDelegate::SessionEnded(const zaf::SessionEndedInfo&) {
+void ApplicationDelegate::OnSessionEnd(const zaf::SessionEndInfo&) {
 
 	zaf::Application::Instance().Terminate();
 }

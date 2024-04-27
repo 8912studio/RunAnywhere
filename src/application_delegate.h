@@ -8,7 +8,7 @@
 
 namespace ra {
 
-class ApplicationDelegate : public zaf::ApplicationDelegate {
+class ApplicationDelegate : public zaf::ApplicationDelegate, zaf::SubscriptionHost {
 public:
 	static std::shared_ptr<ApplicationDelegate> GetFromApplication();
 
@@ -18,9 +18,9 @@ public:
 	void HideMainWindow();
 	void ReloadModules();
 
-	void ApplicationBeginRun(const zaf::ApplicationBeginRunInfo&) override;
-	void ApplicationEndRun(const zaf::ApplicationEndRunInfo&) override;
-	void SessionEnded(const zaf::SessionEndedInfo&) override;
+	void OnBeginRun(const zaf::BeginRunInfo&) override;
+	void OnEndRun(const zaf::EndRunInfo&) override;
+	void OnSessionEnd(const zaf::SessionEndInfo&) override;
 
 private:
 	void InitializeTrayIconWindow();
