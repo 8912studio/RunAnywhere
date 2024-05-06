@@ -1,7 +1,7 @@
 #pragma once
 
 #include <memory>
-#include <zaf/base/error/contract.h>
+#include <zaf/base/error/contract_error.h>
 #include "utility/markdown/element/element.h"
 
 namespace ra::help {

@@ -1,7 +1,7 @@
 #include "help/built_in_help_content_manager.h"
 #include <format>
 #include <zaf/base/as.h>
-#include <zaf/base/error/contract.h>
+#include <zaf/base/error/contract_error.h>
 #include <zaf/base/string/encoding_conversion.h>
 #include <zaf/resource/resource_factory.h>
 #include "help/help_content_building.h"

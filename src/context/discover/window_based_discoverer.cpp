@@ -1,5 +1,5 @@
 #include "context/discover/window_based_discoverer.h"
-#include <zaf/base/error/system_error.h>
+#include <zaf/base/error/win32_error.h>
 #include <zaf/base/string/split.h>
 #include "common/window_based_discover.h"
 
@@ -61,7 +61,7 @@ void WindowBasedDiscoverer::TryToRegisterClientWindowClass() {
     client_window_class_atom_ = RegisterClassEx(&window_class);
 
     if (!client_window_class_atom_) {
-        ZAF_THROW_SYSTEM_ERROR(GetLastError());
+        ZAF_THROW_WIN32_ERROR(GetLastError());
     }
 }
 
@@ -86,12 +86,12 @@ void WindowBasedDiscoverer::TryToCreateClientWindow() {
         nullptr);
 
     if (!client_window_handle_) {
-        ZAF_THROW_SYSTEM_ERROR(GetLastError());
+        ZAF_THROW_WIN32_ERROR(GetLastError());
     }
 
     SetLastError(0);
     SetWindowLongPtr(client_window_handle_, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
-    ZAF_THROW_IF_SYSTEM_ERROR(GetLastError());
+    ZAF_THROW_IF_WIN32_ERROR(GetLastError());
 }
 
 

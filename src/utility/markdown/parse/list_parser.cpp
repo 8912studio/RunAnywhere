@@ -1,5 +1,5 @@
 #include "utility/markdown/parse/list_parser.h" 
-#include <zaf/base/error/contract.h>
+#include <zaf/base/error/contract_error.h>
 
 namespace ra::utility::markdown::parse {
 

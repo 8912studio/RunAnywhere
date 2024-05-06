@@ -1,7 +1,7 @@
 #pragma once
 
 #include <cstddef>
-#include <zaf/base/error/contract.h>
+#include <zaf/base/error/contract_error.h>
 #include <zaf/base/relation_operator.h>
 #include "module/common/binary_content/binary_content_common.h"
 

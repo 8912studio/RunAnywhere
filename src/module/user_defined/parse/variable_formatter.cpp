@@ -1,6 +1,6 @@
 #include "module/user_defined/parse/variable_formatter.h"
 #include <zaf/base/container/utility/contain.h>
-#include <zaf/base/error/contract.h>
+#include <zaf/base/error/contract_error.h>
 #include <zaf/base/error/error.h>
 #include <zaf/base/registry/registry.h>
 #include <zaf/base/string/case_conversion.h>

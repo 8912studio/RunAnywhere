@@ -1,6 +1,7 @@
 #include "entry/register_entry.h"
 #include <Shlobj.h>
 #include <zaf/application.h>
+#include <zaf/base/error/error.h>
 #include <zaf/base/registry/registry.h>
 
 namespace ra::entry {

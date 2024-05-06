@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include <zaf/base/error/system_error.h>
 #include "module/user_defined/bundle_parser.h"
 
 using namespace ra::mod::user_defined;
@@ -51,7 +52,7 @@ TEST(BundleParseTest, Case2) {
         parser.Parse();
         GTEST_FAIL();
     }
-    catch (const zaf::Error& error) {
+    catch (const zaf::SystemError& error) {
         ASSERT_EQ(error.Code(), std::io_errc::stream);
     }
 }
@@ -67,7 +68,6 @@ TEST(BundleParseTest, Case3) {
         GTEST_FAIL();
     }
     catch (const BundleParser::ParseError& error) {
-        ASSERT_EQ(error.Code(), zaf::BasicErrc::InvalidValue);
         ASSERT_EQ(error.ErrorLineNumber(), 5);
         ASSERT_EQ(error.ErrorLine(), "error line");
     }
@@ -103,7 +103,6 @@ TEST(BundleParseTest, BadShowWindowOption) {
         GTEST_FAIL();
     }
     catch (const BundleParser::ParseError& error) {
-        ASSERT_EQ(error.Code(), zaf::BasicErrc::InvalidValue);
         ASSERT_EQ(error.ErrorLineNumber(), 2);
         ASSERT_EQ(error.ErrorLine(), "ShowWindow=Bad");
     }

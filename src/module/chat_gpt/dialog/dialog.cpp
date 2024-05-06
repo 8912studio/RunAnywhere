@@ -31,8 +31,9 @@ std::shared_ptr<Round> Dialog::CreateRound(std::wstring question) {
 zaf::Observable<comm::ChatCompletion> Dialog::Chat(std::uint64_t round_id, std::wstring question) {
 
     if (ongoing_question_.has_value()) {
-        return zaf::rx::Throw<comm::ChatCompletion>(zaf::Error{ 
-            make_error_code(LocalErrc::ChatOngoing) 
+        return zaf::rx::Throw<comm::ChatCompletion>(LocalError{ 
+            LocalErrorCode::ChatOngoing,
+            ZAF_SOURCE_SITE(),
         });
     }
 

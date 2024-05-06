@@ -1,26 +1,28 @@
 #pragma once
 
-#include <system_error>
+#include <zaf/base/error/runtime_error.h>
 
 namespace ra::mod::chat_gpt {
 
-enum class LocalErrc {
+enum class LocalErrorCode {
     NoAPIKey,
     ChatOngoing,
 };
 
-const std::error_category& LocalErrorCategory();
+class LocalError : public zaf::GeneralRuntimeError {
+public:
+    LocalError(LocalErrorCode code, const zaf::SourceSite& site) : 
+        GeneralRuntimeError(site),
+        code_(code) {
 
-inline std::error_code make_error_code(LocalErrc errc) noexcept {
-    return std::error_code{ static_cast<int>(errc), LocalErrorCategory() };
-}
+    }
 
-}
+    LocalErrorCode Code() const {
+        return code_;
+    }
 
-
-namespace std {
-
-template<>
-struct is_error_code_enum<ra::mod::chat_gpt::LocalErrc> : public true_type { };
+private:
+    LocalErrorCode code_{};
+};
 
 }

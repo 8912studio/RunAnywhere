@@ -1574,9 +1574,6 @@
     <ClCompile Include="src\module\chat_gpt\progress_indicator.cpp">
       <Filter>src\module\chat_gpt</Filter>
     </ClCompile>
-    <ClCompile Include="src\module\chat_gpt\local_error.cpp">
-      <Filter>src\module\chat_gpt</Filter>
-    </ClCompile>
     <ClCompile Include="third_party\curlion\src\log.cpp">
       <Filter>third_party\curlion</Filter>
     </ClCompile>

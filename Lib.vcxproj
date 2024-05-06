@@ -453,7 +453,6 @@
     <ClCompile Include="src\module\chat_gpt\dialog\dialog_window.cpp" />
     <ClCompile Include="src\module\chat_gpt\dialog\round.cpp" />
     <ClCompile Include="src\module\chat_gpt\dialog\round_view.cpp" />
-    <ClCompile Include="src\module\chat_gpt\local_error.cpp" />
     <ClCompile Include="src\module\chat_gpt\progress_indicator.cpp" />
     <ClCompile Include="src\module\command_brief.cpp" />
     <ClCompile Include="src\module\command_preview_control.cpp" />

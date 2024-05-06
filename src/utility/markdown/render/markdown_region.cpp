@@ -1,5 +1,5 @@
 #include "utility/markdown/render/markdown_region.h"
-#include <zaf/base/error/contract.h>
+#include <zaf/base/error/contract_error.h>
 #include <zaf/control/layout/linear_layouter.h>
 #include <zaf/creation.h>
 

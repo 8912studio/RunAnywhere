@@ -1,7 +1,7 @@
 #include "module/chat_gpt/comm/open_ai_client.h"
 #include <boost/json.hpp>
 #include <zaf/application.h>
-#include <zaf/base/error/basic_error.h>
+#include <zaf/base/error/invalid_data_error.h>
 #include <zaf/base/string/encoding_conversion.h>
 #include <zaf/rx/creation.h>
 #include <zaf/rx/scheduler.h>
@@ -120,18 +120,20 @@ zaf::Observable<ChatCompletion> OpenAIClient::CreateChatCompletion(
     
         auto curl_code = connection->GetResult();
         if (curl_code != CURLE_OK) {
-            observer.OnError(zaf::Error{ 
-                std::error_code(curl_code, CURLErrorCategory()),
-                connection->GetError()
-            });
+            observer.OnError(CURLError{ 
+                curl_code,
+                connection->GetError(), 
+                ZAF_SOURCE_SITE() 
+            }); 
             return;
         }
 
         auto http_code = connection->GetResponseCode();
         if (http_code != 200) {
-            observer.OnError(zaf::Error{ 
-                std::error_code{ http_code, HTTPErrorCategory() },
+            observer.OnError(HTTPError{
+                static_cast<int>(http_code),
                 ParseErrorMessage(connection->GetResponseBody()),
+                ZAF_SOURCE_SITE()
             });
             return;
         }
@@ -144,14 +146,18 @@ zaf::Observable<ChatCompletion> OpenAIClient::CreateChatCompletion(
             observer.OnCompleted();
         }
         else {
-            observer.OnError(zaf::Error(zaf::make_error_code(zaf::BasicErrc::InvalidValue)));
+            observer.OnError(zaf::InvalidDataError{ ZAF_SOURCE_SITE() });
         }
     });
 
     auto error_condition = impl_->GetConnectionManager().StartConnection(connection);
     if (error_condition) {
+
         std::error_code error_code(error_condition.value(), error_condition.category());
-        subject.AsObserver().OnError(zaf::Error(error_code));
+        subject.AsObserver().OnError(CURLMultiSocketError{
+            static_cast<CURLMcode>(error_condition.value()), 
+            ZAF_SOURCE_SITE(),
+        });
     }
 
     return subject.AsObservable().ObserveOn(zaf::Scheduler::Main());

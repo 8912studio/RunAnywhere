@@ -153,7 +153,7 @@ void HashPreviewControl::ShowFileHash(const std::filesystem::path& file_path) {
 			ChangeLayout(LayoutType::Result);
 		}
 	}, 
-	[this](const zaf::Error&) {
+	[this](const std::exception_ptr&) {
 		ChangeLayout(LayoutType::Error);
 	}, 
 	[this]() {

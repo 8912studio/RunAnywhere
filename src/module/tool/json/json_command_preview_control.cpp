@@ -1,7 +1,6 @@
 #include "module/tool/json/json_command_preview_control.h"
 #include <format>
 #include <boost/json.hpp>
-#include <zaf/base/error/basic_error.h>
 #include <zaf/base/range.h>
 #include <zaf/base/string/join.h>
 #include <zaf/control/scroll_bar.h>

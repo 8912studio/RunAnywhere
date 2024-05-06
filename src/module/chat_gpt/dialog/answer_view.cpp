@@ -41,7 +41,7 @@ void AnswerView::SetAnswer(zaf::Observable<std::wstring> observable_answer) {
     Subscriptions() += observable_answer.Subscribe([this](const std::wstring& answer) {
         ShowAnswer(answer);
     },
-    [this](const zaf::Error& error) {
+    [this](const std::exception_ptr& error) {
         ShowError(error);
     });
 }
@@ -62,7 +62,7 @@ void AnswerView::ShowAnswer(const std::wstring& answer) {
 }
 
 
-void AnswerView::ShowError(const zaf::Error& error) {
+void AnswerView::ShowError(const std::exception_ptr& error) {
 
     auto container = zaf::Create<zaf::VerticalBox>();
     container->SetAutoHeight(true);
@@ -74,7 +74,8 @@ void AnswerView::ShowError(const zaf::Error& error) {
 }
 
 
-std::shared_ptr<zaf::Control> AnswerView::CreateMajorErrorControl(const zaf::Error& error) {
+std::shared_ptr<zaf::Control> AnswerView::CreateMajorErrorControl(
+    const std::exception_ptr& error) {
 
     zaf::textual::StyledText styled_text;
     zaf::Font font;
@@ -83,25 +84,29 @@ std::shared_ptr<zaf::Control> AnswerView::CreateMajorErrorControl(const zaf::Err
     styled_text.SetDefaultTextColor(zaf::Color::FromRGB(0xEE4444));
 
     styled_text.SetText([&error]() -> std::wstring {
-
-        if (error.Code() == LocalErrc::NoAPIKey) {
-            return L"No API key";
+        try {
+            std::rethrow_exception(error);
         }
-        if (error.Code() == LocalErrc::ChatOngoing) {
-            return L"A chat is in progress, try again later";
+        catch (const LocalError& local_error) {
+            if (local_error.Code() == LocalErrorCode::NoAPIKey) {
+                return L"No API key";
+            }
+            else if (local_error.Code() == LocalErrorCode::ChatOngoing) {
+                return L"A chat is in progress, try again later";
+            }
         }
-
-        const auto& error_category = error.Code().category();
-
-        if (error_category == comm::CURLErrorCategory() ||
-            error_category == curlion::CurlMultiErrorCategory()) {
+        catch (const comm::CURLError&) {
             return L"Network error";
         }
-
-        if (error_category == comm::HTTPErrorCategory()) {
+        catch (const comm::CURLMultiSocketError&) {
+            return L"Network error";
+        }
+        catch (const comm::HTTPError&) {
             return L"Server error";
         }
+        catch (...) {
 
+        }
         return L"Unknown error";
     }());
 
@@ -114,7 +119,8 @@ std::shared_ptr<zaf::Control> AnswerView::CreateMajorErrorControl(const zaf::Err
 }
 
 
-std::shared_ptr<zaf::Control> AnswerView::CreateDetailErrorControl(const zaf::Error& error) {
+std::shared_ptr<zaf::Control> AnswerView::CreateDetailErrorControl(
+    const std::exception_ptr& error) {
 
     zaf::textual::StyledText styled_text;
     zaf::Font font;
@@ -123,14 +129,12 @@ std::shared_ptr<zaf::Control> AnswerView::CreateDetailErrorControl(const zaf::Er
     styled_text.SetDefaultTextColor(zaf::Color::Gray());
 
     styled_text.SetText([&error]() -> std::wstring {
-
-        auto result = std::format(
-            "{}:{} {}",
-            error.Code().category().name(),
-            error.Code().value(),
-            error.Message());
-
-        return zaf::FromUTF8String(result);
+        try {
+            std::rethrow_exception(error);
+        }
+        catch (const std::exception& error) {
+            return zaf::FromUTF8String(error.what());
+        }
     }());
 
     auto result = zaf::Create<zaf::TextBox>();

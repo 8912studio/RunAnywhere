@@ -1,6 +1,6 @@
 #include "utility/markdown/render/code_block_region.h"
 #include <zaf/base/log.h>
-#include <zaf/base/error/contract.h>
+#include <zaf/base/error/contract_error.h>
 #include <zaf/control/layout/linear_layouter.h>
 #include <zaf/control/scroll_bar.h>
 #include <zaf/creation.h>

@@ -1,5 +1,5 @@
 #include "preview_view.h"
-#include <zaf/base/error/contract.h>
+#include <zaf/base/error/contract_error.h>
 #include <zaf/object/type_definition.h>
 
 namespace ra {

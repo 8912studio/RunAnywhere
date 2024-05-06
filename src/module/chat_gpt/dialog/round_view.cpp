@@ -48,7 +48,7 @@ zaf::Observable<std::wstring> RoundView::ObserveAnswer() {
     return round_->Answer().Do([](const std::wstring&) {
         //Nothing to do.
     },
-    [this](const zaf::Error&) {
+    [this](const std::exception_ptr&) {
         ChangeState(RoundState::Error);
     },
     [this]() {

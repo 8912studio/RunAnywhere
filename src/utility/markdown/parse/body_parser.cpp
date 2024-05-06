@@ -1,5 +1,5 @@
 #include "utility/markdown/parse/body_parser.h"
-#include <zaf/base/error/contract.h>
+#include <zaf/base/error/contract_error.h>
 #include "utility/markdown/element/factory.h"
 #include "utility/markdown/parse/code_block_parser.h"
 #include "utility/markdown/parse/header_parser.h"

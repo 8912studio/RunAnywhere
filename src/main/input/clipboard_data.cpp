@@ -2,7 +2,7 @@
 #include <boost/json.hpp>
 #include <zaf/base/as.h>
 #include <zaf/base/base64.h>
-#include <zaf/base/error/basic_error.h>
+#include <zaf/base/error/invalid_operation_error.h>
 #include <zaf/base/string/encoding_conversion.h>
 #include <zaf/base/string/join.h>
 #include <zaf/clipboard/clipboard.h>
@@ -89,7 +89,7 @@ zaf::clipboard::Medium ClipboardData::SaveToMedium(const zaf::clipboard::Format&
         }
     }
 
-    ZAF_THROW_ERRC(zaf::BasicErrc::Unsupported);
+    throw zaf::InvalidOperationError{ ZAF_SOURCE_SITE() };
 }
 
 
@@ -159,7 +159,7 @@ void ClipboardData::LoadFromMedium(
         }
     }
 
-    ZAF_THROW_ERRC(zaf::BasicErrc::Unsupported);
+    throw zaf::InvalidOperationError{ ZAF_SOURCE_SITE() };
 }
 
 

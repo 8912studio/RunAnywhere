@@ -1,7 +1,6 @@
 #include "module/tool/json/json_command_parsing.h"
 #include <sstream>
 #include <boost/json.hpp>
-#include <zaf/base/error/basic_error.h>
 #include <zaf/base/string/encoding_conversion.h>
 #include "module/tool/json/json_formatter.h"
 
@@ -12,7 +11,7 @@ JSONCommandParseResult ParseJSONCommand(const utility::CommandLine& command_line
     const auto& arguments = command_line.Arguments();
     if (arguments.empty()) {
         return JSONCommandParseResult{
-            zaf::make_error_code(zaf::BasicErrc::InvalidValue),
+            std::make_error_code(std::errc::invalid_argument),
             0,
             {}
         };

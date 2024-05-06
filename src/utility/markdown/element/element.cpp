@@ -1,5 +1,5 @@
 #include "utility/markdown/element/element.h"
-#include <zaf/base/error/contract.h>
+#include <zaf/base/error/contract_error.h>
 #include <zaf/base/range.h>
 #include "utility/markdown/element/header_element.h"
 
