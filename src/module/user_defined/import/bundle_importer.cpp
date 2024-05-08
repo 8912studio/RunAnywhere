@@ -52,7 +52,7 @@ bool BundleImporter::ParseBundle() {
         parser_error_ = error;
         return false;
     }
-    catch (const zaf::Error&) {
+    catch (const std::system_error&) {
 
         ChangeToFailState(FailReason::CannotOpenFile);
         return false;

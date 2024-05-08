@@ -1,5 +1,4 @@
 #include <gtest/gtest.h>
-#include <zaf/base/error/system_error.h>
 #include "module/user_defined/bundle_parser.h"
 
 using namespace ra::mod::user_defined;
@@ -52,8 +51,8 @@ TEST(BundleParseTest, Case2) {
         parser.Parse();
         GTEST_FAIL();
     }
-    catch (const zaf::SystemError& error) {
-        ASSERT_EQ(error.Code(), std::io_errc::stream);
+    catch (const std::system_error& error) {
+        ASSERT_EQ(error.code(), std::io_errc::stream);
     }
 }
 

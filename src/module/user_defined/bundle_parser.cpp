@@ -1,7 +1,6 @@
 #include "module/user_defined/bundle_parser.h"
 #include <fstream>
 #include <string>
-#include <zaf/base/error/system_error.h>
 #include <zaf/base/string/encoding_conversion.h>
 #include <zaf/base/string/trim.h>
 #include <zaf/object/boxing/boxing.h>
@@ -84,10 +83,7 @@ std::shared_ptr<Bundle> BundleParser::Parse() {
 
     std::ifstream file_stream(bundle_path_, std::ios::in);
     if (!file_stream) {
-        throw zaf::GeneralSystemError{
-            std::make_error_code(std::io_errc::stream),
-            ZAF_SOURCE_SITE()
-        };
+        throw std::system_error{ std::make_error_code(std::io_errc::stream) };
     }
 
     Bundle::Builder bundle_builder;
@@ -154,14 +150,14 @@ std::shared_ptr<Bundle> BundleParser::Parse() {
                 bool is_valid_property = SetPropertyToEntry(*current_entry_builder, key, value);
                 if (!is_valid_property) {
                     //Bad property.
-                    throw ParseError(line_number, line, ZAF_SOURCE_SITE());
+                    throw ParseError(line_number, line, ZAF_SOURCE_LOCATION());
                 }
             }
             continue;
         }
 
         //Bad line.
-        throw ParseError(line_number, line, ZAF_SOURCE_SITE());
+        throw ParseError(line_number, line, ZAF_SOURCE_LOCATION());
     }
 
     if (!meta) {

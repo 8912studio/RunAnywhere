@@ -1,6 +1,6 @@
 #pragma once
 
-#include <zaf/base/error/runtime_error.h>
+#include <zaf/base/error/base_runtime_error.h>
 
 namespace ra::mod::chat_gpt {
 
@@ -9,10 +9,10 @@ enum class LocalErrorCode {
     ChatOngoing,
 };
 
-class LocalError : public zaf::GeneralRuntimeError {
+class LocalError : public zaf::BaseRuntimeError {
 public:
-    LocalError(LocalErrorCode code, const zaf::SourceSite& site) : 
-        GeneralRuntimeError(site),
+    LocalError(LocalErrorCode code, const zaf::SourceLocation& location) : 
+        BaseRuntimeError(location),
         code_(code) {
 
     }

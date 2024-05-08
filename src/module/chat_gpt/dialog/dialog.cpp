@@ -33,7 +33,7 @@ zaf::Observable<comm::ChatCompletion> Dialog::Chat(std::uint64_t round_id, std::
     if (ongoing_question_.has_value()) {
         return zaf::rx::Throw<comm::ChatCompletion>(LocalError{ 
             LocalErrorCode::ChatOngoing,
-            ZAF_SOURCE_SITE(),
+            ZAF_SOURCE_LOCATION(),
         });
     }
 

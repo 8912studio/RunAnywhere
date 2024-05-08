@@ -123,7 +123,7 @@ zaf::Observable<ChatCompletion> OpenAIClient::CreateChatCompletion(
             observer.OnError(CURLError{ 
                 curl_code,
                 connection->GetError(), 
-                ZAF_SOURCE_SITE() 
+                ZAF_SOURCE_LOCATION() 
             }); 
             return;
         }
@@ -133,7 +133,7 @@ zaf::Observable<ChatCompletion> OpenAIClient::CreateChatCompletion(
             observer.OnError(HTTPError{
                 static_cast<int>(http_code),
                 ParseErrorMessage(connection->GetResponseBody()),
-                ZAF_SOURCE_SITE()
+                ZAF_SOURCE_LOCATION()
             });
             return;
         }
@@ -146,7 +146,7 @@ zaf::Observable<ChatCompletion> OpenAIClient::CreateChatCompletion(
             observer.OnCompleted();
         }
         else {
-            observer.OnError(zaf::InvalidDataError{ ZAF_SOURCE_SITE() });
+            observer.OnError(zaf::InvalidDataError{ ZAF_SOURCE_LOCATION() });
         }
     });
 
@@ -156,7 +156,7 @@ zaf::Observable<ChatCompletion> OpenAIClient::CreateChatCompletion(
         std::error_code error_code(error_condition.value(), error_condition.category());
         subject.AsObserver().OnError(CURLMultiSocketError{
             static_cast<CURLMcode>(error_condition.value()), 
-            ZAF_SOURCE_SITE(),
+            ZAF_SOURCE_LOCATION(),
         });
     }
 

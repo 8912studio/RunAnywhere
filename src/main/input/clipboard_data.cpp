@@ -89,7 +89,7 @@ zaf::clipboard::Medium ClipboardData::SaveToMedium(const zaf::clipboard::Format&
         }
     }
 
-    throw zaf::InvalidOperationError{ ZAF_SOURCE_SITE() };
+    throw zaf::InvalidOperationError{ ZAF_SOURCE_LOCATION() };
 }
 
 
@@ -159,7 +159,7 @@ void ClipboardData::LoadFromMedium(
         }
     }
 
-    throw zaf::InvalidOperationError{ ZAF_SOURCE_SITE() };
+    throw zaf::InvalidOperationError{ ZAF_SOURCE_LOCATION() };
 }
 
 

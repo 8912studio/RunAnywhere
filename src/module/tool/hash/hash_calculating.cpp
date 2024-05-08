@@ -3,7 +3,6 @@
 #include <zaf/rx/creation.h>
 #include <zaf/rx/scheduler.h>
 #include <zaf/base/error/check.h>
-#include <zaf/base/error/system_error.h>
 #include <zaf/base/string/case_conversion.h>
 #include <zaf/base/string/encoding_conversion.h>
 
@@ -31,10 +30,7 @@ zaf::Observable<HashResult> CalculateFileHash(
 
         std::ifstream file_stream{ file_path, std::ios::in | std::ios::binary };
         if (!file_stream) {
-            observer.OnError(zaf::GeneralSystemError{ 
-                std::make_error_code(std::errc::io_error),
-                ZAF_SOURCE_SITE(),
-            });
+            observer.OnError(std::system_error{ std::make_error_code(std::errc::io_error) });
             return;
         }
 
@@ -63,10 +59,7 @@ zaf::Observable<HashResult> CalculateFileHash(
 
             auto read_size = file_stream.gcount();
             if (read_size <= 0) {
-                observer.OnError(zaf::GeneralSystemError{ 
-                    std::make_error_code(std::errc::io_error),
-                    ZAF_SOURCE_SITE(),
-                });
+                observer.OnError(std::system_error{ std::make_error_code(std::errc::io_error) });
                 return;
             }
 
