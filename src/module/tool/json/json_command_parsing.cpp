@@ -36,7 +36,7 @@ JSONCommandParseResult ParseJSONCommand(const utility::CommandLine& command_line
         };
     }
 
-    return JSONCommandParseResult{ JSONFormatter{}.Format(parser.release()) };
+    return JSONCommandParseResult{ JSONBeautifiedFormatter{}.Format(parser.release()) };
 }
 
 }

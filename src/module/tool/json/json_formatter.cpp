@@ -7,15 +7,83 @@ using namespace zaf;
 using namespace zaf::textual;
 
 namespace ra::mod::tool::json {
-namespace {
 
-std::wstring GetIdent(std::size_t deep) {
-    return std::wstring(4 * deep, L' ');
+void JSONFormatter::StartFormatting(const boost::json::value& value) {
+    FormatValue(value);
 }
 
+
+void JSONFormatter::FormatValue(const boost::json::value& value) {
+
+    switch (value.kind()) {
+    case boost::json::kind::null: 
+        OutputNull("null");
+        break;
+    case boost::json::kind::bool_: 
+        OutputBool(value.get_bool() ? "true" : "false");
+        break;
+    case boost::json::kind::int64: 
+        OutputInteger(std::to_string(value.get_int64()));
+        break;
+    case boost::json::kind::uint64: 
+        OutputInteger(std::to_string(value.get_uint64()));
+        break;
+    case boost::json::kind::double_: 
+        OutputDouble(std::to_string(value.get_double()));
+        break;
+    case boost::json::kind::string: 
+        OutputString(std::format("\"{}\"", std::string_view{ value.get_string() }));
+        break;
+    case boost::json::kind::array:
+        FormatArray(value.get_array());
+        break;
+    case boost::json::kind::object:
+        FormatObject(value.get_object());
+        break;
+    default:
+        ZAF_NOT_REACHED();
+    }
 }
 
-JSONFormatter::JSONFormatter() {
+
+void JSONFormatter::FormatArray(const boost::json::array& array_value) {
+
+    OutputArrayBegin("[");
+
+    for (auto iterator = array_value.begin(); iterator != array_value.end(); ++iterator) {
+
+        if (iterator != array_value.begin()) {
+            OutputComma(",");
+        }
+
+        FormatValue(*iterator);
+    }
+
+    OutputArrayEnd("]");
+}
+
+
+void JSONFormatter::FormatObject(const boost::json::object& object) {
+
+    OutputObjectBegin("{");
+
+    for (auto iterator = object.begin(); iterator != object.end(); ++iterator) {
+
+        if (iterator != object.begin()) {
+            OutputComma(",");
+        }
+
+        OutputKey(std::format("\"{}\"", std::string_view{ iterator->key() }));
+        OutputColon(":");
+
+        FormatValue(iterator->value());
+    }
+
+    OutputObjectEnd("}");
+}
+
+
+JSONBeautifiedFormatter::JSONBeautifiedFormatter() {
 
     key_style_.SetTextColor(Color::Black());
     string_style_.SetTextColor(Color::FromRGB(0xAA3322));
@@ -24,106 +92,105 @@ JSONFormatter::JSONFormatter() {
 }
 
 
-StyledText JSONFormatter::Format(const boost::json::value& value) const {
+zaf::textual::StyledText JSONBeautifiedFormatter::Format(const boost::json::value& value) {
 
-    StyledText result;
-    result.SetDefaultFont(Font{ L"Consolas", 16 });
-    result.SetDefaultTextColor(Color::Gray());
+    result_ = {};
+    result_.SetDefaultFont(Font{ L"Consolas", 16 });
+    result_.SetDefaultTextColor(Color::Gray());
 
-    FormatValue(value, 0, result);
-    return result;
+    deep_ = 0;
+
+    StartFormatting(value);
+    return std::move(result_);
 }
 
 
-void JSONFormatter::FormatValue(
-    const boost::json::value& value,
-    std::size_t deep, 
-    StyledText& styled_text) const {
-
-    switch (value.kind()) {
-    case boost::json::kind::null: 
-        styled_text.AppendText(L"null", keyword_style_);
-        break;
-    case boost::json::kind::bool_: 
-        styled_text.AppendText(value.get_bool() ? L"true" : L"false", keyword_style_);
-        break;
-    case boost::json::kind::int64: 
-        styled_text.AppendText(std::to_wstring(value.get_int64()), number_style_);
-        break;
-    case boost::json::kind::uint64: 
-        styled_text.AppendText(std::to_wstring(value.get_uint64()), number_style_);
-        break;
-    case boost::json::kind::double_: 
-        styled_text.AppendText(std::to_wstring(value.get_double()), number_style_);
-        break;
-    case boost::json::kind::string: 
-        styled_text.AppendText(
-            std::format(L"\"{}\"", FromUTF8String(value.get_string())), 
-            string_style_);
-        break;
-    case boost::json::kind::array:
-        FormatArray(value.get_array(), deep, styled_text);
-        break;
-    case boost::json::kind::object:
-        FormatObject(value.get_object(), deep, styled_text);
-        break;
-    default:
-        ZAF_NOT_REACHED();
-    }
+void JSONBeautifiedFormatter::OutputNull(std::string_view text) {
+    result_.AppendText(zaf::FromUTF8String(text), keyword_style_);
 }
 
 
-void JSONFormatter::FormatArray(
-    const boost::json::array& array_value,
-    std::size_t deep,
-    StyledText& styled_text) const {
-
-    styled_text.AppendText(L"[\n");
-
-    auto new_deep = deep + 1;
-    auto ident = GetIdent(new_deep);
-
-    for (auto iterator = array_value.begin(); iterator != array_value.end(); ++iterator) {
-
-        if (iterator != array_value.begin()) {
-            styled_text.AppendText(L",\n");
-        }
-
-        styled_text.AppendText(ident);
-        FormatValue(*iterator, new_deep, styled_text);
-    }
-
-    styled_text.AppendText(std::format(L"\n{}]", GetIdent(deep)));
+void JSONBeautifiedFormatter::OutputBool(std::string_view text) {
+    result_.AppendText(zaf::FromUTF8String(text), keyword_style_);
 }
 
 
-void JSONFormatter::FormatObject(
-    const boost::json::object& object,
-    std::size_t deep, 
-    StyledText& styled_text) const {
+void JSONBeautifiedFormatter::OutputInteger(std::string_view text) {
+    result_.AppendText(zaf::FromUTF8String(text), number_style_);
+}
 
-    styled_text.AppendText(L"{\n");
 
-    auto new_deep = deep + 1;
-    auto ident = GetIdent(new_deep);
+void JSONBeautifiedFormatter::OutputDouble(std::string_view text) {
+    result_.AppendText(zaf::FromUTF8String(text), number_style_);
+}
 
-    for (auto iterator = object.begin(); iterator != object.end(); ++iterator) {
 
-        if (iterator != object.begin()) {
-            styled_text.AppendText(L",\n");
-        }
+void JSONBeautifiedFormatter::OutputString(std::string_view text) {
+    result_.AppendText(zaf::FromUTF8String(text), string_style_);
+}
 
-        styled_text.AppendText(ident);
 
-        styled_text.AppendText(
-            std::format(L"\"{}\"", FromUTF8String(iterator->key())),
-            key_style_);
+void JSONBeautifiedFormatter::OutputArrayBegin(std::string_view text) {
+    EnterLevel(text);
+}
 
-        styled_text.AppendText(L": ");
-        FormatValue(iterator->value(), new_deep, styled_text);
-    }
 
-    styled_text.AppendText(std::format(L"\n{}}}", GetIdent(deep)));
+void JSONBeautifiedFormatter::OutputArrayEnd(std::string_view text) {
+    ExitLevel(text);
+}
+
+
+void JSONBeautifiedFormatter::OutputObjectBegin(std::string_view text) {
+    EnterLevel(text);
+}
+
+
+void JSONBeautifiedFormatter::OutputObjectEnd(std::string_view text) {
+    ExitLevel(text);
+}
+
+
+void JSONBeautifiedFormatter::OutputKey(std::string_view text) {
+    result_.AppendText(zaf::FromUTF8String(text), key_style_);
+}
+
+
+void JSONBeautifiedFormatter::OutputColon(std::string_view text) {
+    result_.AppendText(zaf::FromUTF8String(text));
+    result_.AppendText(L" ");
+}
+
+
+void JSONBeautifiedFormatter::OutputComma(std::string_view text) {
+    result_.AppendText(zaf::FromUTF8String(text));
+    result_.AppendText(L"\n");
+    OutputIdent();
+}
+
+
+void JSONBeautifiedFormatter::EnterLevel(std::string_view text) {
+
+    result_.AppendText(zaf::FromUTF8String(text));
+    result_.AppendText(L"\n");
+
+    ++deep_;
+    OutputIdent();
+}
+
+
+void JSONBeautifiedFormatter::ExitLevel(std::string_view text) {
+
+    result_.AppendText(L"\n");
+
+    --deep_;
+    OutputIdent();
+    
+    result_.AppendText(zaf::FromUTF8String(text));
+}
+
+
+void JSONBeautifiedFormatter::OutputIdent() {
+    result_.AppendText(std::wstring(4 * deep_, L' '));
 }
 
 }
