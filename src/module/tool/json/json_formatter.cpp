@@ -193,4 +193,72 @@ void JSONBeautifiedFormatter::OutputIdent() {
     result_.AppendText(std::wstring(4 * deep_, L' '));
 }
 
+
+std::string JSONPrimitiveFormatter::Format(const boost::json::value& value) {
+
+    result_ = {};
+    StartFormatting(value);
+    return std::move(result_);
+}
+
+
+void JSONPrimitiveFormatter::OutputNull(std::string_view text) {
+    result_.append(text);
+}
+
+
+void JSONPrimitiveFormatter::OutputBool(std::string_view text) {
+    result_.append(text);
+}
+
+
+void JSONPrimitiveFormatter::OutputInteger(std::string_view text) {
+    result_.append(text);
+}
+
+
+void JSONPrimitiveFormatter::OutputDouble(std::string_view text) {
+    result_.append(text);
+}
+
+
+void JSONPrimitiveFormatter::OutputString(std::string_view text) {
+    result_.append(text);
+}
+
+
+void JSONPrimitiveFormatter::OutputArrayBegin(std::string_view text) {
+    result_.append(text);
+}
+
+
+void JSONPrimitiveFormatter::OutputArrayEnd(std::string_view text) {
+    result_.append(text);
+}
+
+
+void JSONPrimitiveFormatter::OutputObjectBegin(std::string_view text) {
+    result_.append(text);
+}
+
+
+void JSONPrimitiveFormatter::OutputObjectEnd(std::string_view text) {
+    result_.append(text);
+}
+
+
+void JSONPrimitiveFormatter::OutputKey(std::string_view text) {
+    result_.append(text);
+}
+
+
+void JSONPrimitiveFormatter::OutputColon(std::string_view text) {
+    result_.append(text);
+}
+
+
+void JSONPrimitiveFormatter::OutputComma(std::string_view text) {
+    result_.append(text);
+}
+
 }

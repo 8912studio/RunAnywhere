@@ -64,4 +64,27 @@ private:
     std::size_t deep_{};
 };
 
+
+class JSONPrimitiveFormatter : public JSONFormatter {
+public:
+    std::string Format(const boost::json::value& value);
+
+protected:
+    void OutputNull(std::string_view text) override;
+    void OutputBool(std::string_view text) override;
+    void OutputInteger(std::string_view text) override;
+    void OutputDouble(std::string_view text) override;
+    void OutputString(std::string_view text) override;
+    void OutputArrayBegin(std::string_view text) override;
+    void OutputArrayEnd(std::string_view text) override;
+    void OutputObjectBegin(std::string_view text) override;
+    void OutputObjectEnd(std::string_view text) override;
+    void OutputKey(std::string_view text) override;
+    void OutputColon(std::string_view text) override;
+    void OutputComma(std::string_view text) override;
+
+private:
+    std::string result_;
+};
+
 }
