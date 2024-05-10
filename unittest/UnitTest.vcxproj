@@ -89,6 +89,7 @@
     <ClCompile Include="case\module\tool\hex\hex_command_test.cpp" />
     <ClCompile Include="case\module\tool\hex\hex_preview_control_test.cpp" />
     <ClCompile Include="case\module\tool\json\json_command_preview_control_test.cpp" />
+    <ClCompile Include="case\module\tool\json\json_formatter_test.cpp" />
     <ClCompile Include="case\module\tool\rgb\rgb_command_test.cpp" />
     <ClCompile Include="case\module\tool\tool_module_test.cpp" />
     <ClCompile Include="case\module\user_defined\bundle_importer_test.cpp" />

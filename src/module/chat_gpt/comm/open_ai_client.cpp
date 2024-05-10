@@ -11,6 +11,7 @@
 #include "module/chat_gpt/comm/error.h"
 #include "module/chat_gpt/comm/socket_manager.h"
 #include "module/chat_gpt/comm/socket_timer.h"
+#include "module/tool/json/json_formatter.h"
 #include "option/option_storage.h"
 
 namespace ra::mod::chat_gpt::comm {
@@ -228,7 +229,8 @@ std::string OpenAIClient::CreateRequestBody(const std::vector<const Message*>& m
     }
     root["messages"] = std::move(message_array);
 
-    return boost::json::serialize(root);
+    tool::json::JSONPrimitiveFormatter json_formatter;
+    return json_formatter.Format(root);
 }
 
 

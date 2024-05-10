@@ -262,6 +262,9 @@
     <ClCompile Include="case\module\tool\json\json_command_parsing_test.cpp">
       <Filter>case\module\tool\json</Filter>
     </ClCompile>
+    <ClCompile Include="case\module\tool\json\json_formatter_test.cpp">
+      <Filter>case\module\tool\json</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="case\module\calculator\number_parser_test_utility.h">

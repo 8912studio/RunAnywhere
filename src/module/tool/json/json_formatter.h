@@ -24,6 +24,7 @@ protected:
 
 private:
     void FormatValue(const boost::json::value& value);
+    void FormatDouble(double value);
     void FormatArray(const boost::json::array& array_value);
     void FormatObject(const boost::json::object& object);
 };

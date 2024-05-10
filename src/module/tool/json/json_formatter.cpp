@@ -29,7 +29,7 @@ void JSONFormatter::FormatValue(const boost::json::value& value) {
         OutputInteger(std::to_string(value.get_uint64()));
         break;
     case boost::json::kind::double_: 
-        OutputDouble(std::to_string(value.get_double()));
+        FormatDouble(value.get_double());
         break;
     case boost::json::kind::string: 
         OutputString(std::format("\"{}\"", std::string_view{ value.get_string() }));
@@ -43,6 +43,23 @@ void JSONFormatter::FormatValue(const boost::json::value& value) {
     default:
         ZAF_NOT_REACHED();
     }
+}
+
+
+void JSONFormatter::FormatDouble(double value) {
+
+    auto string = std::to_string(value);
+    auto not_zero_index = string.find_last_not_of('0');
+    if (not_zero_index != std::string::npos) {
+        if (string[not_zero_index] == '.') {
+            string.erase(std::min(not_zero_index + 2, string.size()));
+        }
+        else {
+            string.erase(not_zero_index + 1);
+        }
+    }
+
+    OutputDouble(string);
 }
 
 
