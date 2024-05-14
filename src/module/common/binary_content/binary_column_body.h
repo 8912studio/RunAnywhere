@@ -1,5 +1,6 @@
 #pragma once
 
+#include <zaf/base/byte_array.h>
 #include <zaf/control/control.h>
 #include <zaf/graphic/text/text_format.h>
 #include "module/common/binary_content/byte_index.h"
@@ -11,11 +12,11 @@ public:
     ZAF_DECLARE_TYPE;
 
 public:
-    const std::vector<std::byte>& GetBinary() const {
+    const zaf::ByteArray& GetBinary() const {
         return content_;
     }
 
-    void SetBinary(std::vector<std::byte> binary);
+    void SetBinary(zaf::ByteArray binary);
 
 protected:
     void Paint(zaf::Canvas& canvas, const zaf::Rect& dirty_rect) override;
@@ -81,7 +82,7 @@ private:
     void RepaintLines(const std::vector<std::size_t>& lines);
 
 private:
-    std::vector<std::byte> content_;
+    zaf::ByteArray content_;
 
     std::map<std::byte, zaf::TextLayout> byte_hex_text_layouts_;
     std::map<wchar_t, zaf::TextLayout> byte_character_text_layouts_;

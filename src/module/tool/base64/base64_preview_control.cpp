@@ -14,7 +14,7 @@ ZAF_DEFINE_TYPE_END;
 void Base64PreviewControl::ShowParseResult(const Base64CommandParseResult& parse_result) {
 
     //Try to decode data first.
-    std::optional<std::vector<std::byte>> decoded_data;
+    std::optional<zaf::ByteArray> decoded_data;
     bool can_decode{};
     if ((!parse_result.operation && !parse_result.input_text.empty()) || 
         (parse_result.operation && *parse_result.operation == Base64Operation::Decode)) {
@@ -77,7 +77,7 @@ void Base64PreviewControl::ShowEncodeResult(const Base64CommandParseResult& pars
 
 
 void Base64PreviewControl::ShowDecodeResult(
-    std::vector<std::byte> decoded_data,
+    zaf::ByteArray decoded_data,
     const Base64CommandParseResult& parse_result) {
 
     TextEncoding encoding{};
@@ -98,7 +98,7 @@ void Base64PreviewControl::ShowDecodeResult(
 
 
 std::optional<std::wstring> Base64PreviewControl::ConvertDecodedDataToText(
-    const std::vector<std::byte>& decoded_data,
+    const zaf::ByteArray& decoded_data,
     const Base64CommandParseResult& parse_result,
     TextEncoding& encoding) {
 
@@ -158,12 +158,12 @@ void Base64PreviewControl::ShowTextContent(
 
 void Base64PreviewControl::ShowBinaryContent(
     const std::wstring& input_text,
-    std::vector<std::byte> binary_content) {
+    zaf::ByteArray binary_content) {
 
     contentStatusBar->ShowBinary(input_text);
     contentStatusBar->SetIconTooltip(L"Display decoded result as bytes");
 
-    if (!binary_content.empty()) {
+    if (!binary_content.IsEmpty()) {
         binaryContent->SetBinary(std::move(binary_content));
         binaryContent->SetIsVisible(true);
     }

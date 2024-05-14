@@ -20,22 +20,15 @@ std::wstring GetTestFilePath() {
     return std::filesystem::path(__FILEW__).parent_path() / "hex_test_file4.txt";
 }
 
-std::vector<std::byte> ToBinary(std::string_view string) {
-    std::vector<std::byte> result;
-    result.resize(string.size());
-    std::memcpy(&result[0], string.data(), string.size());
-    return result;
+zaf::ByteArray ToBinary(std::string_view string) {
+    return zaf::ByteArray::FromString(string);
 }
 
-std::vector<std::byte> ToBinary(std::wstring_view string) {
-    std::vector<std::byte> result;
-    auto copied_size = string.size() * sizeof(wchar_t);
-    result.resize(copied_size);
-    std::memcpy(&result[0], string.data(), copied_size);
-    return result;
+zaf::ByteArray ToBinary(std::wstring_view string) {
+    return zaf::ByteArray::FromString(string);
 }
 
-std::vector<std::byte> GetTestFileBinary() {
+zaf::ByteArray GetTestFileBinary() {
     return ToBinary("abcd");
 }
 
@@ -45,7 +38,7 @@ TEST(HexCommandTest, ShowContent) {
 
     auto text = [](
         const CommandLine& command_line,
-        const std::vector<std::byte>& expected_binary) {
+        const zaf::ByteArray& expected_binary) {
 
         DesktopContext context;
         context.active_path = ActivePath(GetDefaultActivePath());
@@ -65,7 +58,7 @@ TEST(HexCommandTest, ShowContent) {
 
     //Show active path content.
     {
-        std::vector<std::byte> expected{
+        zaf::ByteArray expected{
             std::byte('1'),
             std::byte('2'),
             std::byte('3'),

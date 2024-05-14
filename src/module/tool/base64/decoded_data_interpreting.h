@@ -3,17 +3,17 @@
 #include <cstddef>
 #include <optional>
 #include <string>
-#include <vector>
+#include <zaf/base/byte_array.h>
 #include "module/common/text_encoding.h"
 
 namespace ra::mod::tool::base64 {
 
 std::optional<std::wstring> TryToInterpretDecodedDataAsText(
-    const std::vector<std::byte>& decoded_data,
+    const zaf::ByteArray& decoded_data,
     TextEncoding& encoding);
 
 std::wstring InterpretDecodedDataAsText(
-    const std::vector<std::byte>& decoded_data, 
+    const zaf::ByteArray& decoded_data,
     TextEncoding encoding);
 
 }

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <zaf/base/byte_array.h>
 #include <zaf/control/control_binder.h>
 #include <zaf/control/label.h>
 #include "module/command_preview_control.h"
@@ -27,10 +28,10 @@ protected:
 private:
     void ShowEncodeResult(const Base64CommandParseResult& parse_result);
     void ShowDecodeResult(
-        std::vector<std::byte> decoded_data, 
+        zaf::ByteArray decoded_data, 
         const Base64CommandParseResult& parse_result);
     static std::optional<std::wstring> ConvertDecodedDataToText(
-        const std::vector<std::byte>& decoded_data, 
+        const zaf::ByteArray& decoded_data, 
         const Base64CommandParseResult& parse_result,
         TextEncoding& encoding);
 
@@ -44,7 +45,7 @@ private:
         const std::wstring& icon_tooltip,
         const std::wstring& encoding_tooltip);
 
-    void ShowBinaryContent(const std::wstring& input_text, std::vector<std::byte> binary_content);
+    void ShowBinaryContent(const std::wstring& input_text, zaf::ByteArray binary_content);
 
 private:
     ZAF_BIND_CONTROL(zaf::Label, operationLabel);

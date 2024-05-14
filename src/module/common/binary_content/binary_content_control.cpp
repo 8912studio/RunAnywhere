@@ -32,12 +32,12 @@ void BinaryContentControl::Paint(zaf::Canvas& canvas, const zaf::Rect& dirty_rec
 }
 
 
-const std::vector<std::byte>& BinaryContentControl::GetBinary() const {
+const zaf::ByteArray& BinaryContentControl::GetBinary() const {
     return body->GetBinary();
 }
 
 
-void BinaryContentControl::SetBinary(std::vector<std::byte> binary) {
+void BinaryContentControl::SetBinary(zaf::ByteArray binary) {
 
     body->SetBinary(std::move(binary));
     AdjustBodyHeight();

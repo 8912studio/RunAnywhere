@@ -63,22 +63,17 @@ void HexPreviewControl::ShowTextContent(const std::wstring& text, TextEncoding e
 }
 
 
-std::vector<std::byte> HexPreviewControl::CreateTextBinary(
+zaf::ByteArray HexPreviewControl::CreateTextBinary(
     const std::wstring& text, 
     TextEncoding encoding) {
 
-    std::vector<std::byte> result;
+    zaf::ByteArray result;
     if (encoding == TextEncoding::UTF8) {
-
         auto utf8_string = zaf::ToUTF8String(text);
-        result.resize(utf8_string.size());
-        std::memcpy(&result[0], utf8_string.data(), utf8_string.size());
+        result = zaf::ByteArray::FromString(utf8_string);
     }
     else if (encoding == TextEncoding::UTF16) {
-
-        auto size = text.size() * sizeof(wchar_t);
-        result.resize(size);
-        std::memcpy(&result[0], text.data(), size);
+        result = zaf::ByteArray::FromString(text);
     }
     return result;
 }
@@ -86,14 +81,14 @@ std::vector<std::byte> HexPreviewControl::CreateTextBinary(
 
 void HexPreviewControl::ShowTextInfo(
     const std::wstring& text, 
-    const std::vector<std::byte>& binary) {
+    const zaf::ByteArray& binary) {
 
     std::wstring info_string;
     info_string += L"Text length: ";
     info_string += FormatInteger(text.length());
 
     info_string += L"    Byte count: ";
-    info_string += FormatInteger(binary.size());
+    info_string += FormatInteger(binary.Size());
 
     infoLabel->SetText(info_string);
     infoLabel->SetIsVisible(true);
@@ -134,8 +129,8 @@ void HexPreviewControl::ShowFileInfo(
     if (status == ReadFileStatus::OK) {
 
         auto range_end = range.index;
-        if (!content_info.data.empty()) {
-            range_end += content_info.data.size() - 1;
+        if (!content_info.data.IsEmpty()) {
+            range_end += content_info.data.Size() - 1;
         }
 
         text += L"    Range: ";
@@ -144,16 +139,16 @@ void HexPreviewControl::ShowFileInfo(
         text += FormatInteger(range_end);
 
         text += L"    Length: ";
-        text += FormatInteger(content_info.data.size());
+        text += FormatInteger(content_info.data.Size());
     }
 
     infoLabel->SetText(text);
 }
 
 
-void HexPreviewControl::ShowBinary(const std::vector<std::byte>& binary) {
+void HexPreviewControl::ShowBinary(const zaf::ByteArray& binary) {
 
-    if (!binary.empty()) {
+    if (!binary.IsEmpty()) {
         binaryContent->SetBinary(binary);
         binaryContent->SetIsVisible(true);
     }
@@ -163,7 +158,7 @@ void HexPreviewControl::ShowBinary(const std::vector<std::byte>& binary) {
 }
 
 
-const std::vector<std::byte>& HexPreviewControl::GetBinary() const {
+const zaf::ByteArray& HexPreviewControl::GetBinary() const {
     return binaryContent->GetBinary();
 }
 
@@ -181,7 +176,7 @@ void HexPreviewControl::ShowMessage(
         message = ErrorMessages::UnableToReadFile;
         break;
     default:
-        if (content_info.data.empty()) {
+        if (content_info.data.IsEmpty()) {
             message = ErrorMessages::NoContentToDisplay;
         }
         break;
@@ -246,7 +241,7 @@ HexPreviewControl::ReadFileStatus HexPreviewControl::ReadFileContent(
             return ReadFileStatus::OK;
         }
 
-        content_info.data.resize(buffer_length);
+        content_info.data.Resize(buffer_length);
 
         file_stream.seekg(range.index, std::ifstream::beg);
         file_stream.read(reinterpret_cast<char*>(&content_info.data[0]), buffer_length);

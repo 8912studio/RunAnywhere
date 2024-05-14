@@ -1,6 +1,7 @@
 #pragma once
 
 #include <filesystem>
+#include <zaf/base/byte_array.h>
 #include <zaf/control/control_binder.h>
 #include <zaf/control/label.h>
 #include "module/command_preview_control.h"
@@ -26,7 +27,7 @@ public:
 
     class FileContentInfo {
     public:
-        std::vector<std::byte> data;
+        zaf::ByteArray data;
         std::uint64_t file_size{};
     };
 
@@ -41,7 +42,7 @@ public:
     void ShowContent(const GeneralInput& input, const zaf::Range& file_range);
 
     //For unit test.
-    const std::vector<std::byte>& GetBinary() const;
+    const zaf::ByteArray& GetBinary() const;
 
     zaf::Frame GetExpectedMargin() override;
 
@@ -50,8 +51,8 @@ protected:
 
 private:
     void ShowTextContent(const std::wstring& text, TextEncoding encoding);
-    std::vector<std::byte> CreateTextBinary(const std::wstring& text, TextEncoding encoding);
-    void ShowTextInfo(const std::wstring& text, const std::vector<std::byte>& binary);
+    zaf::ByteArray CreateTextBinary(const std::wstring& text, TextEncoding encoding);
+    void ShowTextInfo(const std::wstring& text, const zaf::ByteArray& binary);
 
     void ShowFileContent(
         const std::filesystem::path& file_path,
@@ -60,7 +61,7 @@ private:
         ReadFileStatus status, 
         const FileContentInfo& content_info,
         const zaf::Range& range);
-    void ShowBinary(const std::vector<std::byte>& binary);
+    void ShowBinary(const zaf::ByteArray& binary);
     void ShowMessage(
         ReadFileStatus status,
         const FileContentInfo& content_info);

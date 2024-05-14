@@ -21,11 +21,11 @@ TEST(HexPreviewControlTest, ReadFileContent) {
             zaf::Range{ 0, HexCommandParseResult::DefaultLength },
             content_info);
         ASSERT_EQ(status, HexPreviewControl::ReadFileStatus::OK);
-        ASSERT_EQ(content_info.data.size(), 128);
+        ASSERT_EQ(content_info.data.Size(), 128);
         ASSERT_EQ(content_info.file_size, 149);
         ASSERT_EQ(
             std::string(reinterpret_cast<const char*>(
-                content_info.data.data()), content_info.data.size()),
+                content_info.data.Data()), content_info.data.Size()),
             "~!@#$%^&*()_+abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXY"
             "Z01234567899876543210ZYWVUTSRQPONMLKJIHGFEDCBAzyxwvutsrqponmlkji"
         );
@@ -38,11 +38,11 @@ TEST(HexPreviewControlTest, ReadFileContent) {
             zaf::Range{ 100, 20 },
             content_info);
         ASSERT_EQ(status, HexPreviewControl::ReadFileStatus::OK);
-        ASSERT_EQ(content_info.data.size(), 20);
+        ASSERT_EQ(content_info.data.Size(), 20);
         ASSERT_EQ(content_info.file_size, 149);
         ASSERT_EQ(
             std::string(reinterpret_cast<const char*>(
-                content_info.data.data()), content_info.data.size()),
+                content_info.data.Data()), content_info.data.Size()),
             "JIHGFEDCBAzyxwvutsrq"
         );
     }
@@ -58,10 +58,11 @@ TEST(HexPreviewControlTest, ReadFileContent_ExceedsFileLength) {
             zaf::Range{ 0, 300 },
             content_info);
         ASSERT_EQ(status, HexPreviewControl::ReadFileStatus::OK);
-        ASSERT_EQ(content_info.data.size(), 149);
+        ASSERT_EQ(content_info.data.Size(), 149);
         ASSERT_EQ(content_info.file_size, 149);
         ASSERT_EQ(
-            std::string(reinterpret_cast<const char*>(content_info.data.data()), content_info.data.size()),
+            std::string(reinterpret_cast<const char*>(
+                content_info.data.Data()), content_info.data.Size()),
             "~!@#$%^&*()_+abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
             "9876543210ZYWVUTSRQPONMLKJIHGFEDCBAzyxwvutsrqponmlkjihgfedcba+_)(*&^%$#@!~"
         );
@@ -77,10 +78,11 @@ TEST(HexPreviewControlTest, ReadFileContent_ExceedsFileLength) {
             zaf::Range{ 100, 128 },
             content_info);
         ASSERT_EQ(status, HexPreviewControl::ReadFileStatus::OK);
-        ASSERT_EQ(content_info.data.size(), 49);
+        ASSERT_EQ(content_info.data.Size(), 49);
         ASSERT_EQ(content_info.file_size, 149);
         ASSERT_EQ(
-            std::string(reinterpret_cast<const char*>(content_info.data.data()), content_info.data.size()),
+            std::string(reinterpret_cast<const char*>(
+                content_info.data.Data()), content_info.data.Size()),
             "JIHGFEDCBAzyxwvutsrqponmlkjihgfedcba+_)(*&^%$#@!~"
         );
     }
@@ -96,7 +98,7 @@ TEST(HexPreviewControlTest, ReadFileContent_EmptyFile) {
             zaf::Range{ 0, 1 },
             content_info);
         ASSERT_EQ(status, HexPreviewControl::ReadFileStatus::EmptyFile);
-        ASSERT_EQ(content_info.data.size(), 0);
+        ASSERT_EQ(content_info.data.Size(), 0);
         ASSERT_EQ(content_info.file_size, 0);
     }
 
@@ -107,7 +109,7 @@ TEST(HexPreviewControlTest, ReadFileContent_EmptyFile) {
             zaf::Range{ 10, 1 },
             content_info);
         ASSERT_EQ(status, HexPreviewControl::ReadFileStatus::EmptyFile);
-        ASSERT_EQ(content_info.data.size(), 0);
+        ASSERT_EQ(content_info.data.Size(), 0);
         ASSERT_EQ(content_info.file_size, 0);
     }
 }
@@ -121,7 +123,7 @@ TEST(HexPreviewControlTest, ReadFileContent_NotFile) {
         zaf::Range{ 0, HexCommandParseResult::DefaultLength },
         content_info);
     ASSERT_EQ(status, HexPreviewControl::ReadFileStatus::ReadFileFailed);
-    ASSERT_EQ(content_info.data.size(), 0);
+    ASSERT_EQ(content_info.data.Size(), 0);
     ASSERT_EQ(content_info.file_size, 0);
 }
 
@@ -147,7 +149,7 @@ TEST(HexPreviewControlTest, ReadFileContent_CannotOpenFile) {
         zaf::Range{ 0, HexCommandParseResult::DefaultLength },
         content_info);
     ASSERT_EQ(status, HexPreviewControl::ReadFileStatus::ReadFileFailed);
-    ASSERT_EQ(content_info.data.size(), 0);
+    ASSERT_EQ(content_info.data.Size(), 0);
     ASSERT_EQ(content_info.file_size, 0);
 }
 
@@ -161,7 +163,7 @@ TEST(HexPreviewControlTest, ReadFileContent_InvalidPosition) {
             zaf::Range{ 149, 100 },
             content_info);
         ASSERT_EQ(status, HexPreviewControl::ReadFileStatus::InvalidPosition);
-        ASSERT_EQ(content_info.data.size(), 0);
+        ASSERT_EQ(content_info.data.Size(), 0);
         ASSERT_EQ(content_info.file_size, 149);
     }
 
@@ -172,7 +174,7 @@ TEST(HexPreviewControlTest, ReadFileContent_InvalidPosition) {
             zaf::Range{ 200, 100 },
             content_info);
         ASSERT_EQ(status, HexPreviewControl::ReadFileStatus::InvalidPosition);
-        ASSERT_EQ(content_info.data.size(), 0);
+        ASSERT_EQ(content_info.data.Size(), 0);
         ASSERT_EQ(content_info.file_size, 149);
     }
 }
@@ -186,6 +188,6 @@ TEST(HexPreviewControlTest, ReadFileContent_ZeroLength) {
         zaf::Range{},
         content_info);
     ASSERT_EQ(status, HexPreviewControl::ReadFileStatus::OK);
-    ASSERT_EQ(content_info.data.size(), 128);
+    ASSERT_EQ(content_info.data.Size(), 128);
     ASSERT_EQ(content_info.file_size, 149);
 }

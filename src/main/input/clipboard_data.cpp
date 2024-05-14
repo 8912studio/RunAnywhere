@@ -37,8 +37,8 @@ std::wstring FromJSONValue(std::string_view string) {
     auto decoded = zaf::Base64Decode(wide);
 
     return zaf::FromUTF8String(std::string_view{
-        reinterpret_cast<const char*>(decoded.data()), 
-        decoded.size() 
+        reinterpret_cast<const char*>(decoded.Data()), 
+        decoded.Size() 
     });
 }
 

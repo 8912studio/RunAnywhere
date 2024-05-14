@@ -39,7 +39,7 @@ ZAF_DEFINE_TYPE(BinaryColumnBody)
 ZAF_DEFINE_TYPE_END;
 
 
-void BinaryColumnBody::SetBinary(std::vector<std::byte> binary) {
+void BinaryColumnBody::SetBinary(zaf::ByteArray binary) {
 
     content_ = std::move(binary);
     NeedRepaint();
@@ -51,7 +51,7 @@ void BinaryColumnBody::Paint(zaf::Canvas& canvas, const zaf::Rect& dirty_rect) {
 
     __super::Paint(canvas, dirty_rect);
 
-    if (content_.empty()) {
+    if (content_.IsEmpty()) {
         return;
     }
 
@@ -65,7 +65,7 @@ void BinaryColumnBody::Paint(zaf::Canvas& canvas, const zaf::Rect& dirty_rect) {
         for (auto byte_index_in_line : zaf::Range(0, BytesPerLine)) {
 
             ByteIndex byte_index{ line_index, byte_index_in_line };
-            if (byte_index.IndexInContent() >= content_.size()) {
+            if (byte_index.IndexInContent() >= content_.Size()) {
                 break;
             }
 
@@ -242,8 +242,8 @@ bool BinaryColumnBody::IsByteSelected(const ByteIndex& byte_index) const {
 
 zaf::Size BinaryColumnBody::CalculatePreferredContentSize(const zaf::Size& bound_size) const {
 
-    std::size_t line_count = content_.size() / BytesPerLine;
-    if (content_.size() % BytesPerLine > 0) {
+    std::size_t line_count = content_.Size() / BytesPerLine;
+    if (content_.Size() % BytesPerLine > 0) {
         line_count++;
     }
 

@@ -2,6 +2,7 @@
 
 #include <cstddef>
 #include <vector>
+#include <zaf/base/byte_array.h>
 #include <zaf/control/control_binder.h>
 #include <zaf/control/linear_box.h>
 #include <zaf/control/scroll_box.h>
@@ -15,8 +16,8 @@ public:
     ZAF_DECLARE_TYPE;
 
 public:
-    const std::vector<std::byte>& GetBinary() const;
-    void SetBinary(std::vector<std::byte> binary);
+    const zaf::ByteArray& GetBinary() const;
+    void SetBinary(zaf::ByteArray binary);
     void ChangeStyle(CommandDisplayStyle style);
 
 protected:
