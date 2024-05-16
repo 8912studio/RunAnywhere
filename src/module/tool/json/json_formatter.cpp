@@ -32,7 +32,7 @@ void JSONFormatter::FormatValue(const boost::json::value& value) {
         FormatDouble(value.get_double());
         break;
     case boost::json::kind::string: 
-        OutputString(std::format("\"{}\"", std::string_view{ value.get_string() }));
+        FormatString(value.get_string());
         break;
     case boost::json::kind::array:
         FormatArray(value.get_array());
@@ -60,6 +60,15 @@ void JSONFormatter::FormatDouble(double value) {
     }
 
     OutputDouble(string);
+}
+
+
+void JSONFormatter::FormatString(const boost::json::string& value) {
+
+    //Use boost.json functionality to escape chars in the string.
+    //The string returned is already quoted.
+    auto json_string = boost::json::serialize(value);
+    OutputString(json_string);
 }
 
 
