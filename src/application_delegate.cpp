@@ -8,7 +8,6 @@
 #include "hot_key_manager.h"
 #include "hot_key_utility.h"
 #include "ipc.h"
-#include "main/input/clipboard_data.h"
 #include "main/main_window.h"
 #include "module/user_defined/bundle_definition.h"
 #include "module/user_defined/import/import_bundle_window.h"
@@ -100,7 +99,6 @@ void ApplicationDelegate::ReloadModules() {
 void ApplicationDelegate::OnBeginRun(const zaf::BeginRunInfo&) {
 
     EnvironmentVariableManager::Instance().Initialize();
-    main::input::ClipboardData::RegisterToClipboard();
 
     task_bar_create_message_id_ = RegisterWindowMessage(L"TaskbarCreated");
 

@@ -28,6 +28,7 @@ public:
 
 protected:
     void Initialize() override;
+    void UpdateVisualState() override;
 
 private:
     void SetIsInFocusContext(bool is_focused);

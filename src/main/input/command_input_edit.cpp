@@ -238,12 +238,12 @@ zaf::rich_edit::OperationResult CommandInputEdit::InsertClipboardData(
         bool has_private_format{};
         bool has_text_format{};
 
-        auto format_enumerator = data_object.EnumerateFormats();
-        while (auto format = format_enumerator.Next()) {
-            if (format->Type() == ClipboardData::PrivateFormatType) {
+        auto descriptor_enumerator = data_object.EnumerateDataDescriptors();
+        while (auto descriptor = descriptor_enumerator.Next()) {
+            if (descriptor->FormatType() == ClipboardData::PrivateFormatType) {
                 has_private_format = true;
             }
-            else if (format->Type() == zaf::clipboard::FormatType::Text) {
+            else if (descriptor->FormatType() == zaf::clipboard::FormatType::Text) {
                 has_text_format = true;
             }
         }
@@ -266,14 +266,13 @@ zaf::rich_edit::OperationResult CommandInputEdit::InsertClipboardData(
 
 void CommandInputEdit::InsertPrivateClipboardData(const zaf::clipboard::DataObject& data_object) {
 
-    zaf::clipboard::Format format{ ClipboardData::PrivateFormatType };
+    auto descriptor = 
+        zaf::clipboard::DataDescriptor::FromFormatType(ClipboardData::PrivateFormatType);
 
-    auto clipboard_data = zaf::As<ClipboardData>(data_object.GetData(format.Type()));
-    if (!clipboard_data) {
-        return;
-    }
+    ClipboardData clipboard_data;
+    data_object.GetData(descriptor, clipboard_data);
 
-    for (const auto& each_object : clipboard_data->Objects()) {
+    for (const auto& each_object : clipboard_data.Objects()) {
 
         if (auto string_data = zaf::As<zaf::WideString>(each_object)) {
             this->InsertText(string_data->Value());
@@ -341,7 +340,7 @@ zaf::rich_edit::OperationResult CommandInputEdit::GetClipboardData(
         return zaf::rich_edit::OperationResult::Pending;
     }
 
-    auto clipboard_data = std::make_shared<ClipboardData>();
+    ClipboardData clipboard_data;
 
     std::size_t string_begin_index{};
     for (auto each_object_index : object_indexes) {
@@ -351,14 +350,14 @@ zaf::rich_edit::OperationResult CommandInputEdit::GetClipboardData(
             each_object_index - string_begin_index);
 
         if (!string.empty()) {
-            clipboard_data->AddObject(zaf::Box(string));
+            clipboard_data.AddObject(zaf::Box(string));
         }
 
         string_begin_index = each_object_index + 1;
 
         auto argument_data = GetArgumentDataAtIndex(each_object_index + text_range.index);
         if (argument_data) {
-            clipboard_data->AddObject(argument_data);
+            clipboard_data.AddObject(argument_data);
         }
     }
 
@@ -366,19 +365,25 @@ zaf::rich_edit::OperationResult CommandInputEdit::GetClipboardData(
 
         auto string = text_in_range.substr(string_begin_index);
         if (!string.empty()) {
-            clipboard_data->AddObject(zaf::Box(string));
+            clipboard_data.AddObject(zaf::Box(string));
         }
     }
 
-    data_object.SetData(zaf::clipboard::FormatType::Text, clipboard_data);
-    data_object.SetData(ClipboardData::PrivateFormatType, clipboard_data);
+    data_object.SetData(
+        zaf::clipboard::DataDescriptor::FromFormatType(zaf::clipboard::FormatType::Text), 
+        clipboard_data);
+
+    data_object.SetData(
+        zaf::clipboard::DataDescriptor::FromFormatType(ClipboardData::PrivateFormatType),
+        clipboard_data);
+
     return zaf::rich_edit::OperationResult::OK;
 }
 
 
 std::shared_ptr<zaf::Object> CommandInputEdit::GetArgumentDataAtIndex(std::size_t index) {
 
-    auto text_document = this->GetOLEInterface().Inner().Query<ITextDocument>();
+    auto text_document = this->GetOLEInterface().Ptr().Query<ITextDocument>();
     if (!text_document) {
         return nullptr;
     }

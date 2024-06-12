@@ -80,18 +80,24 @@ void HotKeyBox::Initialize() {
 
     SetPadding(zaf::Frame{ 8, 0, 8, 0 });
     SetBorder(zaf::Frame{ 1 });
-    SetBorderColorPicker([this](const zaf::Control&) {
+    SetBackgroundColor(zaf::Color::White());
+
+    UpdateText();
+}
+
+
+void HotKeyBox::UpdateVisualState() {
+
+    __super::UpdateVisualState();
+
+    SetBorderColor([this]() {
 
         if (is_waiting_input_) {
             return zaf::Color::FromRGB(0x0587FF);
         }
 
         return zaf::Color::Black();
-    });
-
-    SetBackgroundColor(zaf::Color::White());
-
-    UpdateText();
+    }());
 }
 
 
@@ -158,6 +164,7 @@ void HotKeyBox::OnClick(const zaf::ClickInfo&) {
 void HotKeyBox::SetIsWaitingInput(bool value) {
 
     is_waiting_input_ = value;
+    NeedUpdateVisualState();
     UpdateText();
 }
 

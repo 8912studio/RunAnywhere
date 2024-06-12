@@ -23,16 +23,22 @@ void LinkButton::Initialize() {
     font.size = 12;
     font.has_underline = true;
     this->SetFont(font);
+}
 
-    this->SetTextColorPicker([](const zaf::Control& control) {
 
-        if (control.IsMouseOver()) {
+void LinkButton::UpdateVisualState() {
+
+    __super::UpdateVisualState();
+
+    this->SetTextColor([this]() {
+
+        if (this->IsMouseOver()) {
             return zaf::Color::FromRGB(0x2080ff);
         }
         else {
             return zaf::Color::FromRGB(0x2020ff);
         }
-    });
+    }());
 }
 
 }

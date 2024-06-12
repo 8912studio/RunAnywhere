@@ -18,8 +18,8 @@ std::wstring GetLicenseContent() {
         auto license_stream = zaf::ResourceFactory::Instance().LoadURI(L"res:///LICENSE");
 
         return zaf::FromUTF8String(std::string_view{
-            reinterpret_cast<const char*>(license_stream.GetUnderlyingBuffer()),
-            license_stream.GetSize(),
+            reinterpret_cast<const char*>(license_stream.UnderlyingBuffer()),
+            license_stream.Size(),
         });
     }
     catch (const zaf::Error&) {

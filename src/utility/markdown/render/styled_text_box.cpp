@@ -18,12 +18,19 @@ void StyledTextBox::Initialize() {
     this->SetIsEnabled(false);
     this->SetWordWrapping(zaf::WordWrapping::Wrap);
     this->SetIgnoreTailingWhiteSpaces(true);
-    this->SetSelectionBackgroundColorPicker([this](const zaf::Control& control) {
-        return 
+}
+
+
+void StyledTextBox::UpdateVisualState() {
+
+    __super::UpdateVisualState();
+
+    this->SetSelectionBackgroundColor([this]() {
+        return
             is_in_focus_context_ || this->IsFocused() ?
             zaf::Color::FromARGB(0x300078d7) :
             zaf::Color::FromARGB(0x30848484);
-    });
+    }());
 }
 
 
@@ -111,6 +118,7 @@ void StyledTextBox::SetIsInFocusContext(bool is_focused) {
     }
 
     is_in_focus_context_ = is_focused;
+    NeedUpdateVisualState();
     NeedRepaint();
 }
 

@@ -99,8 +99,8 @@ void CodeBlockRegion::SetStyledText(
         textBox->SetFont(*font);
     }
 
-    if (auto text_color_picker = text_style.TextColorPicker()) {
-        textBox->SetTextColorPicker(text_color_picker);
+    if (auto text_color = text_style.TextColor()) {
+        textBox->SetTextColor(*text_color);
     }
 }
 

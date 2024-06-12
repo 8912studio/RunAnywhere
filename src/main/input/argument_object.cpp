@@ -165,7 +165,7 @@ void ArgumentObject::OnWindowDestroyed() {
             return;
         }
 
-        auto text_document = host->GetOLEInterface().Inner().Query<ITextDocument>();
+        auto text_document = host->GetOLEInterface().Ptr().Query<ITextDocument>();
         if (!text_document) {
             return;
         }

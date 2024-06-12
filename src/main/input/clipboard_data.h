@@ -7,10 +7,6 @@ namespace ra::main::input {
 
 class ClipboardData : public zaf::clipboard::ClipboardData {
 public:
-    ZAF_DECLARE_TYPE;
-
-    static void RegisterToClipboard();
-
     static constexpr zaf::clipboard::FormatType PrivateFormatType = 
         zaf::clipboard::MakePrivateFormatType(1);
 
@@ -21,14 +17,16 @@ public:
         return objects_;
     }
 
-    zaf::clipboard::Medium SaveToMedium(const zaf::clipboard::Format& format) override;
-    void LoadFromMedium(
-        const zaf::clipboard::Format& format, 
-        const zaf::clipboard::Medium& medium) override;
+    zaf::clipboard::Medium WriteToMedium(
+        const zaf::clipboard::DataDescriptor& data_descriptor) const override;
+
+    void ReadFromMedium(
+        const zaf::clipboard::Medium& medium,
+        const zaf::clipboard::DataDescriptor& data_descriptor) override;
 
 private:
-    zaf::clipboard::Medium SaveToMediumAsText();
-    zaf::clipboard::Medium SaveToMediumAsPrivateFormat();
+    zaf::clipboard::Medium WriteToMediumAsText() const;
+    zaf::clipboard::Medium WriteToMediumAsPrivateFormat() const;
 
     void LoadFromMediumAsText(const zaf::clipboard::Medium& medium);
     void LoadFromMediumAsPrivateFormat(const zaf::clipboard::Medium& medium);

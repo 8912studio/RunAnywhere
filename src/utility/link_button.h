@@ -10,6 +10,7 @@ public:
 
 protected:
     void Initialize() override;
+    void UpdateVisualState() override;
 };
 
 }

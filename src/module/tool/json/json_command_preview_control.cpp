@@ -95,7 +95,7 @@ void JSONCommandPreviewControl::ResetParsedJSON() {
     float font_size = BodyFontSize();
 
     for (auto& each_font : parsed_json_.RangedFonts()) {
-        each_font.Font().size = font_size;
+        each_font.Value().size = font_size;
     }
 
     textBox->SetStyledText(parsed_json_.Clone());

@@ -63,29 +63,22 @@ std::optional<boost::json::object> ToJSONObject(const ArgumentData& data) {
 
 }
 
-ZAF_DEFINE_TYPE(ClipboardData)
-ZAF_DEFINE_TYPE_END;
-
-void ClipboardData::RegisterToClipboard() {
-    zaf::clipboard::Clipboard::RegisterClipboardData(PrivateFormatType, ClipboardData::Type);
-}
-
-
 void ClipboardData::AddObject(std::shared_ptr<zaf::Object> object) {
     objects_.push_back(std::move(object));
 }
 
 
-zaf::clipboard::Medium ClipboardData::SaveToMedium(const zaf::clipboard::Format& format) {
+zaf::clipboard::Medium ClipboardData::WriteToMedium(
+    const zaf::clipboard::DataDescriptor& data_descriptor) const {
 
-    if (format.MediumType() == zaf::clipboard::MediumType::GlobalMem) {
+    if (zaf::HasFlag(data_descriptor.MediumTypes(), zaf::clipboard::MediumType::GlobalMem)) {
 
-        if (format.Type() == zaf::clipboard::FormatType::Text) {
-            return SaveToMediumAsText();
+        if (data_descriptor.FormatType() == zaf::clipboard::FormatType::Text) {
+            return WriteToMediumAsText();
         }
 
-        if (format.Type() == PrivateFormatType) {
-            return SaveToMediumAsPrivateFormat();
+        if (data_descriptor.FormatType() == PrivateFormatType) {
+            return WriteToMediumAsPrivateFormat();
         }
     }
 
@@ -93,7 +86,7 @@ zaf::clipboard::Medium ClipboardData::SaveToMedium(const zaf::clipboard::Format&
 }
 
 
-zaf::clipboard::Medium ClipboardData::SaveToMediumAsText() {
+zaf::clipboard::Medium ClipboardData::WriteToMediumAsText() const {
 
     auto all_text = zaf::JoinAsWideString(objects_, L" ", [](const auto& object) {
         
@@ -112,7 +105,7 @@ zaf::clipboard::Medium ClipboardData::SaveToMediumAsText() {
 }
 
 
-zaf::clipboard::Medium ClipboardData::SaveToMediumAsPrivateFormat() {
+zaf::clipboard::Medium ClipboardData::WriteToMediumAsPrivateFormat() const {
 
     boost::json::array items;
 
@@ -143,17 +136,17 @@ zaf::clipboard::Medium ClipboardData::SaveToMediumAsPrivateFormat() {
 }
 
 
-void ClipboardData::LoadFromMedium(
-    const zaf::clipboard::Format& format,
-    const zaf::clipboard::Medium& medium) {
+void ClipboardData::ReadFromMedium(
+    const zaf::clipboard::Medium& medium,
+    const zaf::clipboard::DataDescriptor& data_descriptor) {
 
     if (medium.Type() == zaf::clipboard::MediumType::GlobalMem) {
     
-        if (format.Type() == zaf::clipboard::FormatType::Text) {
+        if (data_descriptor.FormatType() == zaf::clipboard::FormatType::Text) {
             LoadFromMediumAsText(medium);
             return;
         }
-        else if (format.Type() == PrivateFormatType) {
+        else if (data_descriptor.FormatType() == PrivateFormatType) {
             LoadFromMediumAsPrivateFormat(medium);
             return;
         }

@@ -20,14 +20,15 @@ std::wstring GetTextFromMedium(const zaf::clipboard::Medium& medium) {
 
 }
 
-TEST(ClipboardDataTest, SaveToMediumAsText) {
+TEST(ClipboardDataTest, WriteToMediumAsText) {
 
-    zaf::clipboard::Format format{ zaf::clipboard::FormatType::Text };
+    auto descriptor = 
+        zaf::clipboard::DataDescriptor::FromFormatType(zaf::clipboard::FormatType::Text);
 
     //Empty data.
     {
         ClipboardData data;
-        auto medium = data.SaveToMedium(format);
+        auto medium = data.WriteToMedium(descriptor);
         auto text = GetTextFromMedium(medium);
         ASSERT_EQ(text, L"");
     }
@@ -36,7 +37,7 @@ TEST(ClipboardDataTest, SaveToMediumAsText) {
     {
         ClipboardData data;
         data.AddObject(zaf::Box(L"StringData"));
-        auto medium = data.SaveToMedium(format);
+        auto medium = data.WriteToMedium(descriptor);
         auto text = GetTextFromMedium(medium);
         ASSERT_EQ(text, L"StringData");
     }
@@ -45,7 +46,7 @@ TEST(ClipboardDataTest, SaveToMediumAsText) {
     {
         ClipboardData data;
         data.AddObject(std::make_shared<TextBlockData>(L"TextBlockData"));
-        auto medium = data.SaveToMedium(format);
+        auto medium = data.WriteToMedium(descriptor);
         auto text = GetTextFromMedium(medium);
         ASSERT_EQ(text, L"TextBlockData");
     }
@@ -54,12 +55,12 @@ TEST(ClipboardDataTest, SaveToMediumAsText) {
     {
         ClipboardData data;
         data.AddObject(std::make_shared<ActivePathData>(L"ActivePathData"));
-        auto medium = data.SaveToMedium(format);
+        auto medium = data.WriteToMedium(descriptor);
         auto text = GetTextFromMedium(medium);
         ASSERT_EQ(text, L"@=ActivePathData");
     }
 
-    //String data and argument data combinnation.
+    //String data and argument data combination.
     {
         ClipboardData data;
         data.AddObject(zaf::Box(L"String1"));
@@ -69,21 +70,22 @@ TEST(ClipboardDataTest, SaveToMediumAsText) {
         data.AddObject(zaf::Box(L"String3"));
         data.AddObject(std::make_shared<ActivePathData>(L"ActivePath"));
         data.AddObject(std::make_shared<TextBlockData>(L"Block3"));
-        auto medium = data.SaveToMedium(format);
+        auto medium = data.WriteToMedium(descriptor);
         auto text = GetTextFromMedium(medium);
         ASSERT_EQ(text, L"String1 Block1 Block2 String2 String3 @=ActivePath Block3");
     }
 }
 
 
-TEST(ClipboardDataTest, SaveToMediumAsPrivateFormat) {
+TEST(ClipboardDataTest, WriteToMediumAsPrivateFormat) {
 
-    zaf::clipboard::Format format{ ClipboardData::PrivateFormatType };
+    auto descriptor =
+        zaf::clipboard::DataDescriptor::FromFormatType(ClipboardData::PrivateFormatType);
 
     //Empty data.
     {
         ClipboardData data;
-        auto medium = data.SaveToMedium(format);
+        auto medium = data.WriteToMedium(descriptor);
         auto text = GetTextFromMedium(medium);
         ASSERT_EQ(text, LR"({"items":[]})");
     }
@@ -92,7 +94,7 @@ TEST(ClipboardDataTest, SaveToMediumAsPrivateFormat) {
     {
         ClipboardData data;
         data.AddObject(zaf::Box(L"StringData"));
-        auto medium = data.SaveToMedium(format);
+        auto medium = data.WriteToMedium(descriptor);
         auto text = GetTextFromMedium(medium);
         ASSERT_EQ(text, LR"({"items":[{"type":0,"value":"U3RyaW5nRGF0YQ=="}]})");
     }
@@ -101,7 +103,7 @@ TEST(ClipboardDataTest, SaveToMediumAsPrivateFormat) {
     {
         ClipboardData data;
         data.AddObject(std::make_shared<TextBlockData>(L"TextBlockData"));
-        auto medium = data.SaveToMedium(format);
+        auto medium = data.WriteToMedium(descriptor);
         auto text = GetTextFromMedium(medium);
         ASSERT_EQ(text, LR"({"items":[{"type":1,"value":"VGV4dEJsb2NrRGF0YQ=="}]})");
     }
@@ -110,12 +112,12 @@ TEST(ClipboardDataTest, SaveToMediumAsPrivateFormat) {
     {
         ClipboardData data;
         data.AddObject(std::make_shared<ActivePathData>(L"ActivePathData"));
-        auto medium = data.SaveToMedium(format);
+        auto medium = data.WriteToMedium(descriptor);
         auto text = GetTextFromMedium(medium);
         ASSERT_EQ(text, LR"({"items":[{"type":2,"value":"QWN0aXZlUGF0aERhdGE="}]})");
     }
 
-    //String data and argument data combinnation.
+    //String data and argument data combination.
     {
         ClipboardData data;
         data.AddObject(zaf::Box(L"String1"));
@@ -125,7 +127,7 @@ TEST(ClipboardDataTest, SaveToMediumAsPrivateFormat) {
         data.AddObject(zaf::Box(L"String3"));
         data.AddObject(std::make_shared<ActivePathData>(L"ActivePath"));
         data.AddObject(std::make_shared<TextBlockData>(L"Block3"));
-        auto medium = data.SaveToMedium(format);
+        auto medium = data.WriteToMedium(descriptor);
         auto text = GetTextFromMedium(medium);
         ASSERT_EQ(text, 
             LR"({"items":[)"

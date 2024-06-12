@@ -23,6 +23,7 @@ public:
 
 protected:
     void Initialize() override;
+    void UpdateVisualState() override;
     bool AcceptKeyMessage(const zaf::KeyMessage& message) override;
     void OnKeyDown(const zaf::KeyDownInfo& event_info) override;
     void OnFocusLost(const zaf::FocusLostInfo& event_info) override;

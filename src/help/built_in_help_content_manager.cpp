@@ -79,8 +79,8 @@ std::shared_ptr<Element> BuiltInHelpContentManager::LoadMarkdownFromResource(
         auto stream = zaf::ResourceFactory::Instance().LoadURI(uri);
 
         std::string_view file_content{
-            reinterpret_cast<const char*>(stream.GetUnderlyingBuffer()), 
-            stream.GetSize() 
+            reinterpret_cast<const char*>(stream.UnderlyingBuffer()), 
+            stream.Size() 
         };
 
         auto input = zaf::FromUTF8String(file_content);
