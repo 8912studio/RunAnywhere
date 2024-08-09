@@ -9,7 +9,6 @@ void LinkButton::Initialize() {
 
     __super::Initialize();
 
-    this->SetBackgroundColor(zaf::Color::Transparent());
     this->SetBorder(zaf::Frame{});
     this->SetCanFocused(false);
     this->SetTextAlignment(zaf::TextAlignment::Center);
@@ -26,6 +25,8 @@ void LinkButton::Initialize() {
 void LinkButton::UpdateStyle() {
 
     __super::UpdateStyle();
+
+    this->SetBackgroundColor(zaf::Color::Transparent());
 
     this->SetTextColor([this]() {
 

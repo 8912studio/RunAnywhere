@@ -13,8 +13,14 @@ void ToolbarButton::Initialize() {
     SetCanFocused(false);
 
     SetBorder({});
-    SetBackgroundColor(zaf::Color::Transparent());
     SetBackgroundImageLayout(zaf::ImageLayout::Stretch);
+}
+
+
+void ToolbarButton::UpdateStyle() {
+
+    __super::UpdateStyle();
+    SetBackgroundColor(zaf::Color::Transparent());
 }
 
 

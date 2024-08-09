@@ -5,22 +5,27 @@
         FixedHeight="30" 
         CrossAxisAlignment="Center">
 
-        <Label 
+		<Label
             FixedSize="26,18"
             TextAlignment="Center"
             ParagraphAlignment="Center"
-            TextColor="White"
-            BackgroundColor="#10A37F"
             FontSize="10"
-            Text="GPT" />
+            Text="GPT">
+			<Label.Styles>
+				<Set TextColor="White" BackgroundColor="#10A37F" />
+			</Label.Styles>
+		</Label>
 
-        <Label 
+		<Label
             Name="messageLabel"
             Margin="6,0,0,0"
             ParagraphAlignment="Center"
-            FontSize="14" 
-            TextColor="#808080" 
-            Text="Message to send:" />
+            FontSize="14"
+            Text="Message to send:">
+			<Label.Styles>
+				<Set TextColor="#808080" />
+			</Label.Styles>
+		</Label>
         
     </HorizontalBox>
     
