@@ -1,13 +1,10 @@
 #include "module/common/content_status_bar.h"
-#include <zaf/object/type_definition.h>
 #include "utility/path_trimming.h"
 #include "utility/text_utility.h"
 
 namespace ra::mod {
 
-ZAF_DEFINE_TYPE(ContentStatusBar)
-ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/common/content_status_bar.xaml")
-ZAF_DEFINE_TYPE_END;
+ZAF_OBJECT_IMPL(ContentStatusBar);
 
 void ContentStatusBar::ShowFile(const std::filesystem::path& file_path) {
 

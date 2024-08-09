@@ -10,7 +10,7 @@ namespace ra::mod::tool::date {
 
 class DatePreviewControl : public CommandPreviewControl {
 public:
-	ZAF_DECLARE_TYPE;
+	ZAF_OBJECT;
 
 	explicit DatePreviewControl(const DateCommandParseResult& result);
 
@@ -33,5 +33,9 @@ private:
 	std::optional<zaf::Subscription> timer_subscription_;
 	std::time_t base_time_value_{};
 };
+
+ZAF_OBJECT_BEGIN(DatePreviewControl)
+ZAF_OBJECT_RESOURCE_URI(L"res:///module/tool/date/date_preview_control.xaml")
+ZAF_OBJECT_END
 
 }

@@ -1,6 +1,5 @@
 #include "module/tool/hash/hash_preview_control.h"
 #include <zaf/base/string/case_conversion.h>
-#include <zaf/object/type_definition.h>
 #include <zaf/rx/scheduler.h>
 #include "module/common/error_messages.h"
 #include "module/tool/hash/hash_calculating.h"
@@ -33,9 +32,7 @@ struct StyleMetrics<true> {
 
 }
 
-ZAF_DEFINE_TYPE(HashPreviewControl)
-ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/tool/hash/hash_preview_control.xaml")
-ZAF_DEFINE_TYPE_END;
+ZAF_OBJECT_IMPL(HashPreviewControl);
 
 HashPreviewControl::HashPreviewControl(HashAlgorithmInfo algorithm_info) :
 	hash_algorithm_info_(std::move(algorithm_info)) {

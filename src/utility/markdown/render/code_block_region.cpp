@@ -4,15 +4,12 @@
 #include <zaf/control/layout/linear_layouter.h>
 #include <zaf/control/scroll_bar.h>
 #include <zaf/creation.h>
-#include <zaf/object/type_definition.h>
 #include "utility/clipboard.h"
 #include "utility/markdown/element/code_block_element.h"
 
 namespace ra::utility::markdown::render {
 
-ZAF_DEFINE_TYPE(CodeBlockRegion)
-ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///utility/markdown/render/code_block_region.xaml")
-ZAF_DEFINE_TYPE_END;
+ZAF_OBJECT_IMPL(CodeBlockRegion);
 
 std::shared_ptr<CodeBlockRegion> CodeBlockRegion::Create(
     const element::Element& element, 
@@ -83,7 +80,7 @@ void CodeBlockRegion::OnMouseLeave(const zaf::MouseLeaveInfo& event_info) {
         return;
     }
 
-    if (!this->ContainMouse()) {
+    if (!this->ContainsMouse()) {
         copyButton->SetIsVisible(false);
     }
 }

@@ -12,7 +12,7 @@ namespace ra::mod::tool::rgb {
 
 class RGBPreviewControl : public CommandPreviewControl {
 public:
-    ZAF_DECLARE_TYPE
+    ZAF_OBJECT
 
     explicit RGBPreviewControl(const RGBCommandParseResult& parse_result);
 
@@ -38,5 +38,9 @@ private:
 
     RGBCommandParseResult parse_result_;
 };
+
+ZAF_OBJECT_BEGIN(RGBPreviewControl)
+ZAF_OBJECT_RESOURCE_URI(L"res:///module/tool/rgb/rgb_preview_control.xaml")
+ZAF_OBJECT_END
 
 }

@@ -12,12 +12,15 @@ TODO: move to module directory.
 */
 class PreviewTextBox : public zaf::RichEdit {
 public:
-	ZAF_DECLARE_TYPE;
+	ZAF_OBJECT;
 
 	void Display(CommandDisplayStyle style);
 
 protected:
 	void AfterParse() override;
 };
+
+ZAF_OBJECT_BEGIN(PreviewTextBox)
+ZAF_OBJECT_END
 
 }

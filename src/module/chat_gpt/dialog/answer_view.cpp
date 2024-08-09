@@ -2,7 +2,6 @@
 #include <zaf/base/string/encoding_conversion.h>
 #include <zaf/control/text_box.h>
 #include <zaf/control/textual/styled_text.h>
-#include <zaf/object/type_definition.h>
 #include <curlion.h>
 #include "help/help_style_config.h"
 #include "module/chat_gpt/comm/error.h"
@@ -17,9 +16,7 @@ using namespace ra::utility::markdown::render;
 
 namespace ra::mod::chat_gpt {
 
-ZAF_DEFINE_TYPE(AnswerView)
-ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/chat_gpt/dialog/answer_view.xaml")
-ZAF_DEFINE_TYPE_END;
+ZAF_OBJECT_IMPL(AnswerView);
 
 void AnswerView::OnRectChanged(const zaf::RectChangedInfo& event_info) {
 

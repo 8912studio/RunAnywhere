@@ -1,15 +1,12 @@
 #include "module/tool/base64/base64_preview_control.h"
 #include <zaf/base/base64.h>
 #include <zaf/base/string/encoding_conversion.h>
-#include <zaf/object/type_definition.h>
 #include "module/common/error_messages.h"
 #include "module/tool/base64/decoded_data_interpreting.h"
 
 namespace ra::mod::tool::base64 {
 
-ZAF_DEFINE_TYPE(Base64PreviewControl)
-ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/tool/base64/base64_preview_control.xaml")
-ZAF_DEFINE_TYPE_END;
+ZAF_OBJECT_IMPL(Base64PreviewControl);
 
 void Base64PreviewControl::ShowParseResult(const Base64CommandParseResult& parse_result) {
 

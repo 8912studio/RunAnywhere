@@ -13,7 +13,7 @@ namespace ra::mod {
 
 class BinaryContentControl : public zaf::VerticalBox {
 public:
-    ZAF_DECLARE_TYPE;
+    ZAF_OBJECT;
 
 public:
     const zaf::ByteArray& GetBinary() const;
@@ -22,7 +22,7 @@ public:
 
 protected:
     void AfterParse() override;
-    void Paint(zaf::Canvas& canvas, const zaf::Rect& dirty_rect) override;
+    void Paint(zaf::Canvas& canvas, const zaf::Rect& dirty_rect) const override;
 
 private:
     void AdjustBodyHeight();
@@ -33,5 +33,9 @@ private:
 
     CommandDisplayStyle style_{ CommandDisplayStyle::Normal };
 };
+
+ZAF_OBJECT_BEGIN(BinaryContentControl)
+ZAF_OBJECT_RESOURCE_URI(L"res:///module/common/binary_content/binary_content_control.xaml")
+ZAF_OBJECT_END;
 
 }

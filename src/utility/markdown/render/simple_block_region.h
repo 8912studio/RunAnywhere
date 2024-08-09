@@ -17,7 +17,7 @@ public:
 
 protected:
     void Initialize() override;
-    void Paint(zaf::Canvas& canvas, const zaf::Rect& dirty_rect) override;
+    void Paint(zaf::Canvas& canvas, const zaf::Rect& dirty_rect) const override;
     zaf::Size CalculatePreferredContentSize(const zaf::Size& bound_size) const override;
 
     const std::shared_ptr<StyledTextBox>& TextBox() const {

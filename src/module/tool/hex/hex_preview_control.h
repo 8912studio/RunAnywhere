@@ -15,7 +15,7 @@ namespace ra::mod::tool::hex {
 
 class HexPreviewControl : public CommandPreviewControl {
 public:
-    ZAF_DECLARE_TYPE;
+    ZAF_OBJECT;
 
 public:
     enum class ReadFileStatus {
@@ -72,5 +72,9 @@ private:
     ZAF_BIND_CONTROL(BinaryContentControl, binaryContent);
     ZAF_BIND_CONTROL(ErrorView, errorView);
 };
+
+ZAF_OBJECT_BEGIN(HexPreviewControl)
+ZAF_OBJECT_RESOURCE_URI(L"res:///module/tool/hex/hex_preview_control.xaml")
+ZAF_OBJECT_END;
 
 }

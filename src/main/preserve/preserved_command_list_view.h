@@ -9,7 +9,7 @@ namespace ra {
 
 class PreservedCommandListView : public zaf::Control {
 public:
-    ZAF_DECLARE_TYPE;
+    ZAF_OBJECT;
 
     void AddView(const std::shared_ptr<PreservedCommandView>& view);
     void RemoveView(const std::shared_ptr<PreservedCommandView>& view);
@@ -40,5 +40,9 @@ private:
 
     std::vector<std::unique_ptr<ViewItem>> view_items_;
 };
+
+ZAF_OBJECT_BEGIN(PreservedCommandListView)
+ZAF_OBJECT_RESOURCE_URI(L"res:///main/preserve/preserved_command_list_view.xaml")
+ZAF_OBJECT_END;
 
 }

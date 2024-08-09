@@ -16,7 +16,7 @@ namespace ra {
 
 class PreservedCommandView : public zaf::Control {
 public:
-    ZAF_DECLARE_TYPE;
+    ZAF_OBJECT;
 
 public:
     PreservedCommandView(
@@ -49,5 +49,9 @@ private:
     zaf::Event<std::shared_ptr<PreservedCommandView>> state_updated_event_;
     zaf::Event<std::shared_ptr<PreservedCommandView>> close_event_;
 };
+
+ZAF_OBJECT_BEGIN(PreservedCommandView)
+ZAF_OBJECT_RESOURCE_URI(L"res:///main/preserve/preserved_command_view.xaml")
+ZAF_OBJECT_END;
 
 }

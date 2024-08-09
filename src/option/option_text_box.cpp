@@ -1,10 +1,8 @@
 #include "option/option_text_box.h"
-#include <zaf/object/type_definition.h>
 
 namespace ra::option {
 
-ZAF_DEFINE_TYPE(OptionTextBox)
-ZAF_DEFINE_TYPE_END;
+ZAF_OBJECT_IMPL(OptionTextBox);
 
 void OptionTextBox::AfterParse() {
 

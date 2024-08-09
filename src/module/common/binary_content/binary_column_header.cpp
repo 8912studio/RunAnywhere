@@ -1,13 +1,10 @@
 #include "module/common/binary_content/binary_column_header.h"
 #include <zaf/graphic/canvas.h>
-#include <zaf/object/type_definition.h>
 #include "module/common/binary_content/binary_content_common.h"
 
 namespace ra::mod {
 
-ZAF_DEFINE_TYPE(BinaryColumnHeader)
-ZAF_DEFINE_TYPE_END;
-
+ZAF_OBJECT_IMPL(BinaryColumnHeader);
 
 void BinaryColumnHeader::Initialize() {
 
@@ -17,7 +14,7 @@ void BinaryColumnHeader::Initialize() {
 }
 
 
-void BinaryColumnHeader::Paint(zaf::Canvas& canvas, const zaf::Rect& dirty_rect) {
+void BinaryColumnHeader::Paint(zaf::Canvas& canvas, const zaf::Rect& dirty_rect) const {
 
     __super::Paint(canvas, dirty_rect);
 

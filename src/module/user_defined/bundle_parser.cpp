@@ -59,7 +59,7 @@ bool SetPropertyToEntry(
     }
     else if (key == "ShowWindow") {
 
-        auto enum_object = ShowWindowOptionEnum::EnumType()->FindValue(value_wstring);
+        auto enum_object = ShowWindowOptionEnum::EnumType()->GetValue(value_wstring);
         if (!enum_object) {
             return false;
         }

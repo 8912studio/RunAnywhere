@@ -14,7 +14,7 @@ namespace ra::main::input {
 
 class CommandInputEdit : public zaf::RichEdit, public zaf::rich_edit::OLECallback {
 public:
-    ZAF_DECLARE_TYPE;
+    ZAF_OBJECT;
 
     void SetStyle(CommandDisplayStyle style);
 
@@ -71,5 +71,8 @@ private:
     zaf::Subject<zaf::None> command_changed_event_;
     bool suppress_text_block_{};
 };
+
+ZAF_OBJECT_BEGIN(CommandInputEdit)
+ZAF_OBJECT_END;
 
 }

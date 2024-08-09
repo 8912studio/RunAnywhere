@@ -3,17 +3,13 @@
 #include <zaf/control/scroll_bar.h>
 #include <zaf/creation.h>
 #include <zaf/input/keyboard.h>
-#include <zaf/object/type_definition.h>
 #include <zaf/rx/creation.h>
 #include <zaf/rx/scheduler.h>
 #include "module/chat_gpt/dialog/round_view.h"
 
 namespace ra::mod::chat_gpt {
 
-ZAF_DEFINE_TYPE(DialogWindow)
-ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/chat_gpt/dialog/dialog_window.xaml")
-ZAF_DEFINE_TYPE_END;
-
+ZAF_OBJECT_IMPL(DialogWindow);
 
 DialogWindow::DialogWindow(std::shared_ptr<Dialog> dialog) : dialog_(std::move(dialog)) {
 

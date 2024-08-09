@@ -8,7 +8,7 @@ namespace ra::main::input {
 
 class ActivePathWindow : public ArgumentObjectWindow {
 public:
-    ZAF_DECLARE_TYPE;
+    ZAF_OBJECT;
 
 public:
     void SetIsReadOnly(bool is_read_only) override;
@@ -26,5 +26,9 @@ private:
     ZAF_BIND_CONTROL(zaf::Control, scrollContainer);
     ZAF_BIND_CONTROL(zaf::RichEdit, edit);
 };
+
+ZAF_OBJECT_BEGIN(ActivePathWindow)
+ZAF_OBJECT_RESOURCE_URI(L"res:///main/input/active_path_window.xaml")
+ZAF_OBJECT_END;
 
 }

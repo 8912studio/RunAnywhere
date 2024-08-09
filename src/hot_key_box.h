@@ -9,7 +9,7 @@ namespace ra {
 
 class HotKeyBox : public zaf::ClickableControl {
 public:
-    ZAF_DECLARE_TYPE;
+    ZAF_OBJECT;
 
     HotKey GetHotKey() const {
         return hot_key_;
@@ -23,7 +23,7 @@ public:
 
 protected:
     void Initialize() override;
-    void UpdateVisualState() override;
+    void UpdateStyle() override;
     bool AcceptKeyMessage(const zaf::KeyMessage& message) override;
     void OnKeyDown(const zaf::KeyDownInfo& event_info) override;
     void OnFocusLost(const zaf::FocusLostInfo& event_info) override;
@@ -39,5 +39,8 @@ private:
 
     zaf::Subject<HotKey> hot_key_changed_subject_;
 };
+
+ZAF_OBJECT_BEGIN(HotKeyBox);
+ZAF_OBJECT_END;
 
 }

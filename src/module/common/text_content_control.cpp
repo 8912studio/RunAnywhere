@@ -2,7 +2,6 @@
 #include <zaf/base/container/utility/erase.h>
 #include <zaf/base/log.h>
 #include <zaf/control/scroll_bar.h>
-#include <zaf/object/type_definition.h>
 #include "module/common/style_constants.h"
 #include "utility/text_utility.h"
 
@@ -30,9 +29,7 @@ zaf::Frame PreservedStylePadding() {
 
 }
 
-ZAF_DEFINE_TYPE(TextContentControl)
-ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/common/text_content_control.xaml")
-ZAF_DEFINE_TYPE_END;
+ZAF_OBJECT_IMPL(TextContentControl);
 
 void TextContentControl::AfterParse() {
 

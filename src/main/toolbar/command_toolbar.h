@@ -12,7 +12,7 @@ namespace ra {
 
 class CommandToolbar : public zaf::HorizontalBox {
 public:
-    ZAF_DECLARE_TYPE;
+    ZAF_OBJECT;
 
     void UpdateStyle(
         CommandDisplayStyle style,
@@ -48,5 +48,9 @@ private:
     zaf::Event<zaf::None> preserve_event_;
     zaf::Event<zaf::None> close_event_;
 };
+
+ZAF_OBJECT_BEGIN(CommandToolbar)
+ZAF_OBJECT_RESOURCE_URI(L"res:///main/toolbar/command_toolbar.xaml")
+ZAF_OBJECT_END;
 
 }

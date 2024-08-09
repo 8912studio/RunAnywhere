@@ -28,7 +28,7 @@ void ArgumentObject::SetStyle(CommandDisplayStyle style) {
 void ArgumentObject::Paint(
     zaf::Canvas& canvas,
     const zaf::Rect& dirty_rect,
-    const zaf::rich_edit::PaintContext& context) {
+    const zaf::rich_edit::PaintContext& context) const {
 
     zaf::RoundedRect rounded_rect;
     rounded_rect.rect.size = this->Size();
@@ -43,7 +43,7 @@ void ArgumentObject::Paint(
 }
 
 
-void ArgumentObject::PaintText(zaf::Canvas& canvas, const zaf::Rect& text_rect) {
+void ArgumentObject::PaintText(zaf::Canvas& canvas, const zaf::Rect& text_rect) const {
 
     zaf::TextFormatProperties text_format_properties;
     text_format_properties.font_size = style_ == CommandDisplayStyle::Preserved ? 12.f : 16.f;

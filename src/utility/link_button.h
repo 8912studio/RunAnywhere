@@ -6,11 +6,14 @@ namespace ra::utility {
 
 class LinkButton : public zaf::Button {
 public:
-    ZAF_DECLARE_TYPE;
+    ZAF_OBJECT;
 
 protected:
     void Initialize() override;
-    void UpdateVisualState() override;
+    void UpdateStyle() override;
 };
+
+ZAF_OBJECT_BEGIN(LinkButton)
+ZAF_OBJECT_END
 
 }

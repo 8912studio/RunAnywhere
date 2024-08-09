@@ -1,12 +1,9 @@
 #include "module/common/text_preview_control.h"
-#include <zaf/object/type_definition.h>
 #include "module/common/error_messages.h"
 
 namespace ra::mod {
 
-ZAF_DEFINE_TYPE(TextPreviewControl)
-ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/common/text_preview_control.xaml")
-ZAF_DEFINE_TYPE_END;
+ZAF_OBJECT_IMPL(TextPreviewControl);
 
 void TextPreviewControl::SetText(std::wstring text) {
 

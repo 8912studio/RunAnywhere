@@ -3,7 +3,6 @@
 #include <zaf/base/container/utility/sort.h>
 #include <zaf/graphic/canvas.h>
 #include <zaf/window/message/mouse_message.h>
-#include <zaf/object/type_definition.h>
 #include "module/common/binary_content/binary_content_common.h"
 
 namespace ra::mod {
@@ -35,9 +34,7 @@ zaf::Rect GetByteCharacterRect(const ByteIndex& byte_index) {
 
 }
 
-ZAF_DEFINE_TYPE(BinaryColumnBody)
-ZAF_DEFINE_TYPE_END;
-
+ZAF_OBJECT_IMPL(BinaryColumnBody);
 
 void BinaryColumnBody::SetBinary(zaf::ByteArray binary) {
 
@@ -47,7 +44,7 @@ void BinaryColumnBody::SetBinary(zaf::ByteArray binary) {
 }
 
 
-void BinaryColumnBody::Paint(zaf::Canvas& canvas, const zaf::Rect& dirty_rect) {
+void BinaryColumnBody::Paint(zaf::Canvas& canvas, const zaf::Rect& dirty_rect) const {
 
     __super::Paint(canvas, dirty_rect);
 
@@ -80,7 +77,7 @@ void BinaryColumnBody::Paint(zaf::Canvas& canvas, const zaf::Rect& dirty_rect) {
 }
 
 
-void BinaryColumnBody::PrepareGraphicResources(zaf::Renderer& renderer) {
+void BinaryColumnBody::PrepareGraphicResources(zaf::Renderer& renderer) const {
 
     if (!mouse_over_background_brush_) {
         mouse_over_background_brush_ =
@@ -117,7 +114,7 @@ void BinaryColumnBody::ReleaseRendererResources() {
 
 void BinaryColumnBody::PaintLineHeader(
     zaf::Canvas& canvas,
-    std::size_t line_index) {
+    std::size_t line_index) const {
 
     zaf::Rect paint_rect;
     paint_rect.position.x = 0;
@@ -136,7 +133,7 @@ void BinaryColumnBody::PaintLineHeader(
 }
 
 
-void BinaryColumnBody::PaintByteHex(zaf::Canvas& canvas, const ByteIndex& byte_index) {
+void BinaryColumnBody::PaintByteHex(zaf::Canvas& canvas, const ByteIndex& byte_index) const {
 
     auto paint_rect = GetByteHexRect(byte_index);
 
@@ -157,7 +154,7 @@ void BinaryColumnBody::PaintByteHex(zaf::Canvas& canvas, const ByteIndex& byte_i
 }
 
 
-zaf::TextLayout BinaryColumnBody::GetByteHexTextLayout(std::byte byte) {
+zaf::TextLayout BinaryColumnBody::GetByteHexTextLayout(std::byte byte) const {
 
     auto iterator = byte_hex_text_layouts_.lower_bound(byte);
     if (iterator == byte_hex_text_layouts_.end() ||
@@ -173,7 +170,7 @@ zaf::TextLayout BinaryColumnBody::GetByteHexTextLayout(std::byte byte) {
 }
 
 
-void BinaryColumnBody::PaintByteCharacter(zaf::Canvas& canvas, const ByteIndex& byte_index) {
+void BinaryColumnBody::PaintByteCharacter(zaf::Canvas& canvas, const ByteIndex& byte_index) const {
 
     auto paint_rect = GetByteCharacterRect(byte_index);
 
@@ -211,7 +208,7 @@ void BinaryColumnBody::PaintByteCharacter(zaf::Canvas& canvas, const ByteIndex& 
 }
 
 
-zaf::TextLayout BinaryColumnBody::GetByteCharacterTextLayout(wchar_t character) {
+zaf::TextLayout BinaryColumnBody::GetByteCharacterTextLayout(wchar_t character) const {
 
     auto iterator = byte_character_text_layouts_.find(character);
     if (iterator == byte_character_text_layouts_.end() ||

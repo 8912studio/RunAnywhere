@@ -4,13 +4,11 @@
 #include <zaf/base/container/utility/contain.h>
 #include <zaf/base/com_object.h>
 #include <zaf/clipboard/clipboard.h>
-#include <zaf/object/type_definition.h>
 #include "main/input/clipboard_data.h"
 
 namespace ra::main::input {
 
-ZAF_DEFINE_TYPE(CommandInputEdit)
-ZAF_DEFINE_TYPE_END;
+ZAF_OBJECT_IMPL(CommandInputEdit);
 
 void CommandInputEdit::Initialize() {
 

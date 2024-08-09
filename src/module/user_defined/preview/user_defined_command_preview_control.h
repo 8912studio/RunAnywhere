@@ -10,7 +10,7 @@ namespace ra::mod::user_defined {
 
 class UserDefinedCommandPreviewControl : public CommandPreviewControl {
 public:
-    ZAF_DECLARE_TYPE;
+    ZAF_OBJECT;
 
     void SetCommandEntry(const std::shared_ptr<Entry>& entry);
     void SetExecutInfo(ExecuteInfo execute_info);
@@ -44,5 +44,10 @@ private:
     std::shared_ptr<Entry> entry_;
     ExecuteInfo execute_info_;
 };
+
+ZAF_OBJECT_BEGIN(UserDefinedCommandPreviewControl)
+ZAF_OBJECT_RESOURCE_URI(
+    L"res:///module/user_defined/preview/user_defined_command_preview_control.xaml")
+ZAF_OBJECT_END
 
 }

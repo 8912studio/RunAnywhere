@@ -1,6 +1,5 @@
 #include "module/tool/date/date_preview_control.h"
 #include <sstream>
-#include <zaf/object/type_definition.h>
 #include <zaf/rx/scheduler.h>
 #include <zaf/rx/timer.h>
 
@@ -82,10 +81,7 @@ std::optional<std::time_t> AdjustTime(
 
 }
 
-ZAF_DEFINE_TYPE(DatePreviewControl)
-ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/tool/date/date_preview_control.xaml")
-ZAF_DEFINE_TYPE_END
-
+ZAF_OBJECT_IMPL(DatePreviewControl);
 
 DatePreviewControl::DatePreviewControl(const DateCommandParseResult& result) : 
 	parse_result_(result) {

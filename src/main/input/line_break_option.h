@@ -7,7 +7,7 @@ namespace ra::main::input {
 
 class LineBreakOption : public zaf::TextualControl {
 public:
-    ZAF_DECLARE_TYPE;
+    ZAF_OBJECT;
 
     void SetCheckState(zaf::CheckState state);
 
@@ -20,5 +20,8 @@ private:
 private:
     zaf::CheckState check_state_{ zaf::CheckState::Unchecked };
 };
+
+ZAF_OBJECT_BEGIN(LineBreakOption)
+ZAF_OBJECT_END;
 
 }

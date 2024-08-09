@@ -1,12 +1,10 @@
 #include "utility/thin_scroll_control.h"
 #include <zaf/creation.h>
-#include <zaf/object/type_definition.h>
 #include "utility/thin_scroll_bar.h"
 
 namespace ra::utility {
 
-ZAF_DEFINE_TYPE(ThinScrollControl)
-ZAF_DEFINE_TYPE_END;
+ZAF_OBJECT_IMPL(ThinScrollControl);
 
 void ThinScrollControl::AfterParse() {
 

@@ -1,6 +1,5 @@
 #include "module/calculator/preview/calculator_preview_control.h"
 #include <zaf/graphic/font/font.h>
-#include <zaf/object/type_definition.h>
 #include "module/calculator/result_text_builder.h"
 #include "module/common/style_constants.h"
 #include "utility/numeric_text_formatting.h"
@@ -16,9 +15,7 @@ constexpr float HistoricalStyleDefaultFontSize = StyleConstants::PreservedBodyFo
 
 }
 
-ZAF_DEFINE_TYPE(CalculatorPreviewControl)
-ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/calculator/preview/calculator_preview_control.xaml");
-ZAF_DEFINE_TYPE_END
+ZAF_OBJECT_IMPL(CalculatorPreviewControl);
 
 void CalculatorPreviewControl::OnStyleChanged() {
 

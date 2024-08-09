@@ -11,7 +11,7 @@ namespace ra::mod::user_defined {
 
 class ImportBundleWindow : public zaf::Dialog {
 public:
-    ZAF_DECLARE_TYPE
+    ZAF_OBJECT
 
     ImportBundleWindow();
     explicit ImportBundleWindow(const std::shared_ptr<BundleImporter>& importer);
@@ -60,5 +60,9 @@ private:
 
     std::shared_ptr<BundleImporter> importer_;
 };
+
+ZAF_OBJECT_BEGIN(ImportBundleWindow)
+ZAF_OBJECT_RESOURCE_URI(L"res:///module/user_defined/import/import_bundle_window.xaml");
+ZAF_OBJECT_END
 
 }

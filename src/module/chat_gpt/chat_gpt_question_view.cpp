@@ -1,5 +1,4 @@
 #include "module/chat_gpt/chat_gpt_question_view.h"
-#include <zaf/object/type_definition.h>
 #include "application_delegate.h"
 #include "module/common/error_messages.h"
 #include "option/option_storage.h"
@@ -7,9 +6,7 @@
 
 namespace ra::mod::chat_gpt {
 
-ZAF_DEFINE_TYPE(ChatGPTQuestionView)
-ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/chat_gpt/chat_gpt_question_view.xaml")
-ZAF_DEFINE_TYPE_END;
+ZAF_OBJECT_IMPL(ChatGPTQuestionView);
 
 void ChatGPTQuestionView::AfterParse() {
 

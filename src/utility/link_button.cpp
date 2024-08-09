@@ -1,12 +1,9 @@
 #include "utility/link_button.h"
 #include <zaf/graphic/font/font.h>
-#include <zaf/object/type_definition.h>
 
 namespace ra::utility {
 
-ZAF_DEFINE_TYPE(LinkButton)
-ZAF_DEFINE_TYPE_END
-
+ZAF_OBJECT_IMPL(LinkButton);
 
 void LinkButton::Initialize() {
 
@@ -26,9 +23,9 @@ void LinkButton::Initialize() {
 }
 
 
-void LinkButton::UpdateVisualState() {
+void LinkButton::UpdateStyle() {
 
-    __super::UpdateVisualState();
+    __super::UpdateStyle();
 
     this->SetTextColor([this]() {
 

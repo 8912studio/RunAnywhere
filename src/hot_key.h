@@ -2,7 +2,7 @@
 
 #include <Windows.h>
 #include <cstdint>
-#include <zaf/base/flag_enum.h>
+#include <zaf/base/flags_enum.h>
 
 namespace ra {
 
@@ -14,7 +14,7 @@ enum class HotKeyModifier {
     Win = MOD_WIN,
 };
 
-ZAF_ENABLE_FLAG_ENUM(HotKeyModifier);
+ZAF_ENABLE_FLAGS_ENUM(HotKeyModifier);
 
 class HotKey {
 public:

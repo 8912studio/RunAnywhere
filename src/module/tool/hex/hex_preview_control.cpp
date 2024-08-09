@@ -1,7 +1,6 @@
 #include "module/tool/hex/hex_preview_control.h"
 #include <fstream>
 #include <zaf/base/string/encoding_conversion.h>
-#include <zaf/object/type_definition.h>
 #include "module/common/error_messages.h"
 #include "utility/numeric_text_formatting.h"
 
@@ -29,9 +28,7 @@ std::wstring FormatInteger(std::uint64_t integer) {
 
 }
 
-ZAF_DEFINE_TYPE(HexPreviewControl)
-ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/tool/hex/hex_preview_control.xaml")
-ZAF_DEFINE_TYPE_END;
+ZAF_OBJECT_IMPL(HexPreviewControl);
 
 void HexPreviewControl::OnStyleChanged() {
 

@@ -1,13 +1,10 @@
 #include "main/preserve/preserved_command_list_view.h"
 #include <zaf/control/scroll_bar.h>
-#include <zaf/object/type_definition.h>
 #include "option/option_storage.h"
 
 namespace ra {
 
-ZAF_DEFINE_TYPE(PreservedCommandListView)
-ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///main/preserve/preserved_command_list_view.xaml")
-ZAF_DEFINE_TYPE_END;
+ZAF_OBJECT_IMPL(PreservedCommandListView);
 
 void PreservedCommandListView::AfterParse() {
 

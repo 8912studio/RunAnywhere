@@ -2,15 +2,11 @@
 #include <cassert>
 #include <zaf/base/error/check.h>
 #include <zaf/base/string/encoding_conversion.h>
-#include <zaf/object/type_definition.h>
 #include "module/user_defined/bundle_definition.h"
 
 namespace ra::mod::user_defined {
 
-ZAF_DEFINE_TYPE(ImportBundleWindow)
-ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/user_defined/import/import_bundle_window.xaml");
-ZAF_DEFINE_TYPE_END
-
+ZAF_OBJECT_IMPL(ImportBundleWindow);
 
 ImportBundleWindow::ImportBundleWindow() {
     assert(false);

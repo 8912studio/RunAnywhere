@@ -1,13 +1,10 @@
 #include "main/toolbar/command_toolbar.h"
 #include <zaf/base/as.h>
-#include <zaf/object/type_definition.h>
 #include "module/common/copy_executor.h"
 
 namespace ra {
 
-ZAF_DEFINE_TYPE(CommandToolbar)
-ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///main/toolbar/command_toolbar.xaml")
-ZAF_DEFINE_TYPE_END;
+ZAF_OBJECT_IMPL(CommandToolbar);
 
 void CommandToolbar::AfterParse() {
 

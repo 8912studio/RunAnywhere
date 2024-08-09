@@ -12,7 +12,7 @@ class CompositeTextBoxSelectionChangedInfo;
 
 class CompositeTextBox : public zaf::Control, public CompositeControl {
 public:
-    ZAF_DECLARE_TYPE;
+    ZAF_OBJECT;
 
     zaf::Observable<CompositeTextBoxSelectionChangedInfo> SelectionChangedEvent() const {
         return selection_changed_event_.GetObservable();
@@ -43,6 +43,9 @@ private:
     zaf::Event<CompositeTextBoxSelectionChangedInfo> selection_changed_event_;
     std::weak_ptr<zaf::PopupMenu> popup_menu_;
 };
+
+ZAF_OBJECT_BEGIN(CompositeTextBox)
+ZAF_OBJECT_END;
 
 
 class CompositeTextBoxSelectionChangedInfo {

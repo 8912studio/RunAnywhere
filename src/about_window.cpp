@@ -1,7 +1,6 @@
 #include "about_window.h"
 #include <shellapi.h>
 #include <zaf/application.h>
-#include <zaf/object/type_definition.h>
 #include "license_window.h"
 
 namespace ra {
@@ -52,9 +51,7 @@ std::wstring GetVersionString() {
 
 }
 
-ZAF_DEFINE_TYPE(AboutWindow)
-ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///about_window.xaml")
-ZAF_DEFINE_TYPE_END
+ZAF_OBJECT_IMPL(AboutWindow);
 
 std::weak_ptr<AboutWindow> g_instance;
 

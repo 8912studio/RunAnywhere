@@ -5,7 +5,6 @@
 #include <zaf/base/string/trim.h>
 #include <zaf/creation.h>
 #include <zaf/graphic/dpi.h>
-#include <zaf/object/type_definition.h>
 #include <zaf/window/message/hit_test_message.h>
 #include <zaf/window/message/hit_test_result.h>
 #include <zaf/window/message/keyboard_message.h>
@@ -24,10 +23,7 @@
 
 namespace ra {
 
-ZAF_DEFINE_TYPE(MainWindow)
-ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///main/main_window.xaml")
-ZAF_DEFINE_TYPE_END
-
+ZAF_OBJECT_IMPL(MainWindow);
 
 MainWindow::MainWindow(const std::shared_ptr<ModuleManager>& module_manager) : 
     module_manager_(module_manager) {

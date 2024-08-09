@@ -1,11 +1,8 @@
 #include "main/input/active_path_window.h"
-#include <zaf/object/type_definition.h>
 
 namespace ra::main::input {
 
-ZAF_DEFINE_TYPE(ActivePathWindow)
-ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///main/input/active_path_window.xaml")
-ZAF_DEFINE_TYPE_END;
+ZAF_OBJECT_IMPL(ActivePathWindow);
 
 void ActivePathWindow::AfterParse() {
 

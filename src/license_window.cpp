@@ -3,7 +3,6 @@
 #include <zaf/control/layout/linear_layouter.h>
 #include <zaf/control/scroll_bar.h>
 #include <zaf/creation.h>
-#include <zaf/object/type_definition.h>
 #include <zaf/resource/resource_factory.h>
 
 namespace ra {
@@ -29,11 +28,7 @@ std::wstring GetLicenseContent() {
 
 }
 
-
-ZAF_DEFINE_TYPE(LicenseWindow)
-ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///license_window.xaml")
-ZAF_DEFINE_TYPE_END
-
+ZAF_OBJECT_IMPL(LicenseWindow);
 
 void LicenseWindow::ShowInstance() {
 

@@ -4,15 +4,12 @@
 #include <zaf/base/string/replace.h>
 #include <zaf/control/scroll_bar.h>
 #include <zaf/graphic/dpi.h>
-#include <zaf/object/type_definition.h>
 #include <zaf/rx/scheduler.h>
 #include <zaf/rx/creation.h>
 
 namespace ra::main::input {
 
-ZAF_DEFINE_TYPE(TextBlockWindow)
-ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///main/input/text_block_window.xaml")
-ZAF_DEFINE_TYPE_END;
+ZAF_OBJECT_IMPL(TextBlockWindow);
 
 TextBlockWindow::TextBlockWindow() {
 

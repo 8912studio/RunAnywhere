@@ -9,7 +9,7 @@ namespace ra::mod {
 
 class BinaryColumnBody : public zaf::Control {
 public:
-    ZAF_DECLARE_TYPE;
+    ZAF_OBJECT;
 
 public:
     const zaf::ByteArray& GetBinary() const {
@@ -19,7 +19,7 @@ public:
     void SetBinary(zaf::ByteArray binary);
 
 protected:
-    void Paint(zaf::Canvas& canvas, const zaf::Rect& dirty_rect) override;
+    void Paint(zaf::Canvas& canvas, const zaf::Rect& dirty_rect) const override;
     void ReleaseRendererResources() override;
     zaf::Size CalculatePreferredContentSize(const zaf::Size& bound_size) const override;
 
@@ -60,15 +60,15 @@ private:
     static std::optional<std::size_t> FindByteLine(float y, bool adjust_to_nearest_index);
 
 private:
-    void PrepareGraphicResources(zaf::Renderer& renderer);
+    void PrepareGraphicResources(zaf::Renderer& renderer) const;
 
-    void PaintLineHeader(zaf::Canvas& canvas, std::size_t line_index);
+    void PaintLineHeader(zaf::Canvas& canvas, std::size_t line_index) const;
 
-    void PaintByteHex(zaf::Canvas& canvas, const ByteIndex& byte_index);
-    zaf::TextLayout GetByteHexTextLayout(std::byte byte);
+    void PaintByteHex(zaf::Canvas& canvas, const ByteIndex& byte_index) const;
+    zaf::TextLayout GetByteHexTextLayout(std::byte byte) const;
 
-    void PaintByteCharacter(zaf::Canvas& canvas, const ByteIndex& byte_index);
-    zaf::TextLayout GetByteCharacterTextLayout(wchar_t character);
+    void PaintByteCharacter(zaf::Canvas& canvas, const ByteIndex& byte_index) const;
+    zaf::TextLayout GetByteCharacterTextLayout(wchar_t character) const;
 
     bool IsByteSelected(const ByteIndex& byte_index) const;
 
@@ -84,16 +84,19 @@ private:
 private:
     zaf::ByteArray content_;
 
-    std::map<std::byte, zaf::TextLayout> byte_hex_text_layouts_;
-    std::map<wchar_t, zaf::TextLayout> byte_character_text_layouts_;
-    zaf::Brush mouse_over_background_brush_;
-    zaf::Brush selected_background_brush_;
-    zaf::Brush default_text_brush_;
-    zaf::Brush blank_character_brush_;
-    zaf::Brush unknown_character_brush_;
+    mutable std::map<std::byte, zaf::TextLayout> byte_hex_text_layouts_;
+    mutable std::map<wchar_t, zaf::TextLayout> byte_character_text_layouts_;
+    mutable zaf::Brush mouse_over_background_brush_;
+    mutable zaf::Brush selected_background_brush_;
+    mutable zaf::Brush default_text_brush_;
+    mutable zaf::Brush blank_character_brush_;
+    mutable zaf::Brush unknown_character_brush_;
 
     std::optional<ByteIndex> mouse_over_byte_index_;
     std::optional<SelectionInfo> selection_info_;
 };
+
+ZAF_OBJECT_BEGIN(BinaryColumnBody)
+ZAF_OBJECT_END;
 
 }

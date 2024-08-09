@@ -1,10 +1,8 @@
 #include "main/input/line_break_option.h"
-#include <zaf/object/type_definition.h>
 
 namespace ra::main::input {
 
-ZAF_DEFINE_TYPE(LineBreakOption)
-ZAF_DEFINE_TYPE_END;
+ZAF_OBJECT_IMPL(LineBreakOption)
 
 void LineBreakOption::Initialize() {
 

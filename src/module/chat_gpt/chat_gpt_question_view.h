@@ -11,7 +11,7 @@ namespace ra::mod::chat_gpt {
 
 class ChatGPTQuestionView : public zaf::VerticalBox {
 public:
-    ZAF_DECLARE_TYPE;
+    ZAF_OBJECT;
 
     void SetQuestion(const std::wstring& question);
 
@@ -32,5 +32,9 @@ private:
     ZAF_BIND_CONTROL(ErrorView, errorView);
     ZAF_BIND_CONTROL(utility::LinkButton, openOptionButton);
 };
+
+ZAF_OBJECT_BEGIN(ChatGPTQuestionView)
+ZAF_OBJECT_RESOURCE_URI(L"res:///module/chat_gpt/chat_gpt_question_view.xaml")
+ZAF_OBJECT_END;
 
 }

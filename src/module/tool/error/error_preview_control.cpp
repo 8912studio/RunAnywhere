@@ -6,7 +6,6 @@
 #include <zaf/graphic/graphic_factory.h>
 #include <zaf/graphic/text/text_format_properties.h>
 #include <zaf/graphic/text/text_layout.h>
-#include <zaf/object/type_definition.h>
 #include "module/common/style_constants.h"
 
 namespace ra::mod::tool::error {
@@ -78,9 +77,7 @@ std::wstring GetErrorMessage(std::uint32_t error_code) {
 
 }
 
-ZAF_DEFINE_TYPE(ErrorPreviewControl)
-ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/tool/error/error_preview_control.xaml")
-ZAF_DEFINE_TYPE_END;
+ZAF_OBJECT_IMPL(ErrorPreviewControl);
 
 void ErrorPreviewControl::ShowErrorMessage(const ErrorCommandParseResult& parse_result) {
 

@@ -1,12 +1,9 @@
 #include "main/preserve/preserved_command_view.h"
-#include <zaf/object/type_definition.h>
 #include "main/preview_control_creating.h"
 
 namespace ra {
 
-ZAF_DEFINE_TYPE(PreservedCommandView)
-ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///main/preserve/preserved_command_view.xaml")
-ZAF_DEFINE_TYPE_END;
+ZAF_OBJECT_IMPL(PreservedCommandView);
 
 PreservedCommandView::PreservedCommandView(
     main::input::CommandInputContent command_input_content,
@@ -44,7 +41,7 @@ void PreservedCommandView::InitializeToolbar() {
     }));
 
     Subscriptions() += MouseLeaveEvent().Subscribe(std::bind([this]() {
-        if (!this->ContainMouse()) {
+        if (!this->ContainsMouse()) {
             toolbar->SetIsVisible(false);
         }
     }));

@@ -10,7 +10,7 @@ namespace ra::mod {
 
 class ContentStatusBar : public zaf::HorizontalBox {
 public:
-    ZAF_DECLARE_TYPE;
+    ZAF_OBJECT;
 
 public:
     void ShowFile(const std::filesystem::path& file_path);
@@ -32,5 +32,9 @@ private:
     ZAF_BIND_CONTROL(zaf::Label, encodingLabel);
     ZAF_BIND_CONTROL(zaf::Label, contentLabel);
 };
+
+ZAF_OBJECT_BEGIN(ContentStatusBar)
+ZAF_OBJECT_RESOURCE_URI(L"res:///module/common/content_status_bar.xaml")
+ZAF_OBJECT_END;
 
 }

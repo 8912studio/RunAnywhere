@@ -1,6 +1,5 @@
 #include "module/user_defined/preview/user_defined_command_preview_control.h"
 #include <zaf/base/as.h>
-#include <zaf/object/type_definition.h>
 #include "module/common/style_constants.h"
 #include "module/user_defined/bundle_definition.h"
 #include "utility/path_trimming.h"
@@ -37,11 +36,7 @@ struct StyleMetrics<true> {
 
 }
 
-ZAF_DEFINE_TYPE(UserDefinedCommandPreviewControl)
-ZAF_DEFINE_TYPE_RESOURCE_URI(
-    L"res:///module/user_defined/preview/user_defined_command_preview_control.xaml")
-ZAF_DEFINE_TYPE_END
-
+ZAF_OBJECT_IMPL(UserDefinedCommandPreviewControl);
 
 void UserDefinedCommandPreviewControl::AfterParse() {
 

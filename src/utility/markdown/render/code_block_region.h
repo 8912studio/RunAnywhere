@@ -16,7 +16,7 @@ namespace ra::utility::markdown::render {
 
 class CodeBlockRegion : public RenderRegion, public composite::ComposableControl {
 public:
-    ZAF_DECLARE_TYPE;
+    ZAF_OBJECT;
 
     static std::shared_ptr<CodeBlockRegion> Create(
         const element::Element& element, 
@@ -60,5 +60,9 @@ private:
 
     std::optional<float> begin_selection_x_offset_;
 };
+
+ZAF_OBJECT_BEGIN(CodeBlockRegion)
+ZAF_OBJECT_RESOURCE_URI(L"res:///utility/markdown/render/code_block_region.xaml")
+ZAF_OBJECT_END;
 
 }

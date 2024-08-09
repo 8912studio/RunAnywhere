@@ -1,13 +1,10 @@
 #include "utility/composite/composite_text_box.h"
 #include <zaf/input/keyboard.h>
-#include <zaf/object/type_definition.h>
 #include "utility/clipboard.h"
 
 namespace ra::utility::composite {
 
-ZAF_DEFINE_TYPE(CompositeTextBox)
-ZAF_DEFINE_TYPE_END;
-
+ZAF_OBJECT_IMPL(CompositeTextBox);
 
 void CompositeTextBox::Initialize() {
 

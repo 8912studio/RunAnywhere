@@ -7,7 +7,7 @@ namespace ra::mod::chat_gpt {
 
 class ChatGPTPreviewControl : public CommandPreviewControl {
 public:
-    ZAF_DECLARE_TYPE;
+    ZAF_OBJECT;
 
     void ShowQuestion(const std::wstring& question);
 
@@ -20,5 +20,9 @@ private:
 private:
     ZAF_BIND_CONTROL(zaf::Control, contentView);
 };
+
+ZAF_OBJECT_BEGIN(ChatGPTPreviewControl)
+ZAF_OBJECT_RESOURCE_URI(L"res:///module/chat_gpt/chat_gpt_preview_control.xaml")
+ZAF_OBJECT_END;
 
 }

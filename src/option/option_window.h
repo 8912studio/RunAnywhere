@@ -14,7 +14,7 @@ namespace ra::option {
 
 class OptionWindow : public zaf::Dialog {
 public:
-    ZAF_DECLARE_TYPE;
+    ZAF_OBJECT;
 
     static void ShowInstance();
 
@@ -55,5 +55,9 @@ private:
     ZAF_BIND_CONTROL(option::OptionTextBox, proxyEdit);
     ZAF_BIND_CONTROL(zaf::Button, registerFileAssociationButton);
 };
+
+ZAF_OBJECT_BEGIN(OptionWindow)
+ZAF_OBJECT_RESOURCE_URI(L"res:///option/option_window.xaml")
+ZAF_OBJECT_END
 
 }

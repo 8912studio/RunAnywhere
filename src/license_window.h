@@ -9,7 +9,7 @@ namespace ra {
 
 class LicenseWindow : public zaf::Window {
 public:
-    ZAF_DECLARE_TYPE;
+    ZAF_OBJECT;
 
 public:
     static void ShowInstance();
@@ -27,5 +27,9 @@ private:
     ZAF_BIND_CONTROL(zaf::ScrollBox, scrollableControl);
     ZAF_BIND_CONTROL(zaf::RichEdit, licenseContentTextBox);
 };
+
+ZAF_OBJECT_BEGIN(LicenseWindow)
+ZAF_OBJECT_RESOURCE_URI(L"res:///license_window.xaml")
+ZAF_OBJECT_END
 
 }

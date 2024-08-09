@@ -13,7 +13,7 @@ namespace ra::main::input {
 
 class TextBlockWindow : public ArgumentObjectWindow {
 public:
-    ZAF_DECLARE_TYPE;
+    ZAF_OBJECT;
 
 public:
     TextBlockWindow();
@@ -44,6 +44,10 @@ private:
 
     utility::LineBreakInfo line_break_info_;
 };
+
+ZAF_OBJECT_BEGIN(TextBlockWindow)
+ZAF_OBJECT_RESOURCE_URI(L"res:///main/input/text_block_window.xaml")
+ZAF_OBJECT_END;
 
 }
 

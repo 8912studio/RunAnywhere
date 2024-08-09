@@ -8,7 +8,7 @@ namespace ra {
 
 class PreviewView : public zaf::Control {
 public:
-    ZAF_DECLARE_TYPE;
+    ZAF_OBJECT;
 
     void SetPreviewControl(const std::shared_ptr<mod::CommandPreviewControl>& control);
     void ClearPreviewControl();
@@ -18,5 +18,9 @@ public:
 private:
     std::shared_ptr<mod::CommandPreviewControl> preview_control_;
 };
+
+ZAF_OBJECT_BEGIN(PreviewView)
+ZAF_OBJECT_RESOURCE_URI(L"res:///preview_view.xaml");
+ZAF_OBJECT_END
 
 }

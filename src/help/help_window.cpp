@@ -3,7 +3,6 @@
 #include <zaf/control/layout/linear_layouter.h>
 #include <zaf/control/scroll_bar.h>
 #include <zaf/graphic/alignment.h>
-#include <zaf/object/type_definition.h>
 #include <zaf/rx/creation.h>
 #include <zaf/rx/scheduler.h>
 #include "help/help_style_config.h"
@@ -12,9 +11,7 @@ using namespace ra::utility::markdown::render;
 
 namespace ra::help {
 
-ZAF_DEFINE_TYPE(HelpWindow)
-ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///help/help_window.xaml")
-ZAF_DEFINE_TYPE_END
+ZAF_OBJECT_IMPL(HelpWindow);
 
 
 void HelpWindow::AfterParse() {
@@ -59,7 +56,7 @@ void HelpWindow::InitializeScrollButtonContainer() {
     Subscriptions() += root_control->MouseLeaveEvent().Subscribe(std::bind([this]() {
 
         const auto& root_control = this->RootControl();
-        if (!root_control->ContainMouse()) {
+        if (!root_control->ContainsMouse()) {
             scrollButtonContainer->SetIsVisible(false);
         }
     }));

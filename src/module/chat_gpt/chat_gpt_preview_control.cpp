@@ -1,13 +1,10 @@
 #include "module/chat_gpt/chat_gpt_preview_control.h"
 #include <zaf/graphic/alignment.h>
-#include <zaf/object/type_definition.h>
 #include "module/chat_gpt/chat_gpt_question_view.h"
 
 namespace ra::mod::chat_gpt {
 
-ZAF_DEFINE_TYPE(ChatGPTPreviewControl)
-ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/chat_gpt/chat_gpt_preview_control.xaml")
-ZAF_DEFINE_TYPE_END;
+ZAF_OBJECT_IMPL(ChatGPTPreviewControl);
 
 void ChatGPTPreviewControl::ShowQuestion(const std::wstring& question) {
 

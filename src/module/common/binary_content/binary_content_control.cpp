@@ -2,13 +2,10 @@
 #include <zaf/control/scroll_bar.h>
 #include <zaf/control/scroll_bar_thumb.h>
 #include <zaf/graphic/canvas.h>
-#include <zaf/object/type_definition.h>
 
 namespace ra::mod {
 
-ZAF_DEFINE_TYPE(BinaryContentControl)
-ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/common/binary_content/binary_content_control.xaml")
-ZAF_DEFINE_TYPE_END;
+ZAF_OBJECT_IMPL(BinaryContentControl);
 
 void BinaryContentControl::AfterParse() {
 
@@ -22,7 +19,7 @@ void BinaryContentControl::AfterParse() {
 }
 
 
-void BinaryContentControl::Paint(zaf::Canvas& canvas, const zaf::Rect& dirty_rect) {
+void BinaryContentControl::Paint(zaf::Canvas& canvas, const zaf::Rect& dirty_rect) const {
 
     __super::Paint(canvas, dirty_rect);
 

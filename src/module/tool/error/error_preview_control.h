@@ -11,7 +11,7 @@ namespace ra::mod::tool::error {
 
 class ErrorPreviewControl : public CommandPreviewControl {
 public:
-    ZAF_DECLARE_TYPE;
+    ZAF_OBJECT;
 
 public:
     void ShowErrorMessage(const ErrorCommandParseResult& parse_result);
@@ -34,5 +34,9 @@ private:
     ZAF_BIND_CONTROL(zaf::Label, hexErrorCode);
     ZAF_BIND_CONTROL(utility::PreviewTextBox, errorMessage);
 };
+
+ZAF_OBJECT_BEGIN(ErrorPreviewControl)
+ZAF_OBJECT_RESOURCE_URI(L"res:///module/tool/error/error_preview_control.xaml")
+ZAF_OBJECT_END;
 
 }

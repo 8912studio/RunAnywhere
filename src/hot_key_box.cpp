@@ -1,5 +1,4 @@
 #include "hot_key_box.h"
-#include <zaf/object/type_definition.h>
 #include <zaf/window/message/keyboard_message.h>
 #include "hot_key_utility.h"
 
@@ -69,10 +68,7 @@ std::optional<HotKey> GenerateHotKeyFromKeyMessage(const zaf::KeyMessage& messag
 
 }
 
-
-ZAF_DEFINE_TYPE(HotKeyBox)
-ZAF_DEFINE_TYPE_END
-
+ZAF_OBJECT_IMPL(HotKeyBox);
 
 void HotKeyBox::Initialize() {
 
@@ -86,9 +82,9 @@ void HotKeyBox::Initialize() {
 }
 
 
-void HotKeyBox::UpdateVisualState() {
+void HotKeyBox::UpdateStyle() {
 
-    __super::UpdateVisualState();
+    __super::UpdateStyle();
 
     SetBorderColor([this]() {
 
@@ -164,7 +160,7 @@ void HotKeyBox::OnClick(const zaf::ClickInfo&) {
 void HotKeyBox::SetIsWaitingInput(bool value) {
 
     is_waiting_input_ = value;
-    NeedUpdateVisualState();
+    NeedUpdateStyle();
     UpdateText();
 }
 

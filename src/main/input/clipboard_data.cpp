@@ -8,7 +8,6 @@
 #include <zaf/clipboard/clipboard.h>
 #include <zaf/object/boxing/boxing.h>
 #include <zaf/object/boxing/string.h>
-#include <zaf/object/type_definition.h>
 #include "main/input/active_path_data.h"
 #include "main/input/text_block_data.h"
 

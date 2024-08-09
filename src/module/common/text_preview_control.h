@@ -11,7 +11,7 @@ namespace ra::mod {
 
 class TextPreviewControl : public CommandPreviewControl {
 public:
-    ZAF_DECLARE_TYPE;
+    ZAF_OBJECT;
 
 public:
     void SetText(std::wstring text);
@@ -25,5 +25,9 @@ private:
     ZAF_BIND_CONTROL(TextContentControl, textContent);
     ZAF_BIND_CONTROL(ErrorView, errorView);
 };
+
+ZAF_OBJECT_BEGIN(TextPreviewControl)
+ZAF_OBJECT_RESOURCE_URI(L"res:///module/common/text_preview_control.xaml")
+ZAF_OBJECT_END;
 
 }

@@ -9,7 +9,7 @@ namespace ra {
 
 class AboutWindow : public zaf::Dialog {
 public:
-    ZAF_DECLARE_TYPE;
+    ZAF_OBJECT;
 
     static void ShowInstance();
 
@@ -25,5 +25,9 @@ private:
     ZAF_BIND_CONTROL(zaf::Button, githubButton);
     ZAF_BIND_CONTROL(zaf::Button, licenseButton);
 };
+
+ZAF_OBJECT_BEGIN(AboutWindow)
+ZAF_OBJECT_RESOURCE_URI(L"res:///about_window.xaml")
+ZAF_OBJECT_END
 
 }

@@ -1,12 +1,9 @@
 #include "main/toolbar/toolbar_button.h"
 #include <zaf/graphic/image/image.h>
-#include <zaf/object/type_definition.h>
 
 namespace ra {
 
-ZAF_DEFINE_TYPE(ToolbarButton)
-ZAF_DEFINE_TYPE_PROPERTY(ImageName)
-ZAF_DEFINE_TYPE_END;
+ZAF_OBJECT_IMPL(ToolbarButton);
 
 void ToolbarButton::Initialize() {
 
@@ -27,7 +24,7 @@ void ToolbarButton::SetImageName(const std::wstring& name) {
     
         std::wstring uri{ L"res:///resource/" };
         uri += name;
-        if (control.ContainMouse()) {
+        if (control.ContainsMouse()) {
             uri += L"_highlight";
         }
         uri += L".png";

@@ -1,12 +1,10 @@
 #include "utility/preview_text_box.h"
 #include <zaf/graphic/color.h>
-#include <zaf/object/type_definition.h>
 #include "module/common/style_constants.h"
 
 namespace ra::utility {
 
-ZAF_DEFINE_TYPE(PreviewTextBox)
-ZAF_DEFINE_TYPE_END
+ZAF_OBJECT_IMPL(PreviewTextBox);
 
 void PreviewTextBox::AfterParse() {
 

@@ -23,7 +23,7 @@ namespace ra::mod::tool::hash {
 
 class HashPreviewControl : public CommandPreviewControl {
 public:
-	ZAF_DECLARE_TYPE;
+	ZAF_OBJECT;
 
 	explicit HashPreviewControl(HashAlgorithmInfo algorithm_info);
 
@@ -73,5 +73,9 @@ private:
 
 	zaf::Subject<zaf::None> calculate_finished_event_;
 };
+
+ZAF_OBJECT_BEGIN(HashPreviewControl)
+ZAF_OBJECT_RESOURCE_URI(L"res:///module/tool/hash/hash_preview_control.xaml")
+ZAF_OBJECT_END;
 
 }

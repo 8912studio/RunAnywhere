@@ -4,15 +4,12 @@
 #include <zaf/base/range.h>
 #include <zaf/base/string/join.h>
 #include <zaf/control/scroll_bar.h>
-#include <zaf/object/type_definition.h>
 #include "module/common/error_messages.h"
 #include "module/common/style_constants.h"
 
 namespace ra::mod::tool::json {
 
-ZAF_DEFINE_TYPE(JSONCommandPreviewControl)
-ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/tool/json/json_command_preview_control.xaml")
-ZAF_DEFINE_TYPE_END;
+ZAF_OBJECT_IMPL(JSONCommandPreviewControl);
 
 void JSONCommandPreviewControl::Layout(const zaf::Rect& previous_rect) {
 

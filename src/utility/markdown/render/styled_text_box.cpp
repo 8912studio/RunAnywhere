@@ -1,14 +1,12 @@
 #include "utility/markdown/render/styled_text_box.h"
 #include <zaf/creation.h>
 #include <zaf/graphic/canvas.h>
-#include <zaf/object/type_definition.h>
 
 using namespace zaf::textual;
 
 namespace ra::utility::markdown::render {
 
-ZAF_DEFINE_TYPE(StyledTextBox)
-ZAF_DEFINE_TYPE_END;
+ZAF_OBJECT_IMPL(StyledTextBox);
 
 void StyledTextBox::Initialize() {
 
@@ -21,9 +19,9 @@ void StyledTextBox::Initialize() {
 }
 
 
-void StyledTextBox::UpdateVisualState() {
+void StyledTextBox::UpdateStyle() {
 
-    __super::UpdateVisualState();
+    __super::UpdateStyle();
 
     this->SetSelectionBackgroundColor([this]() {
         return
@@ -118,7 +116,7 @@ void StyledTextBox::SetIsInFocusContext(bool is_focused) {
     }
 
     is_in_focus_context_ = is_focused;
-    NeedUpdateVisualState();
+    NeedUpdateStyle();
     NeedRepaint();
 }
 

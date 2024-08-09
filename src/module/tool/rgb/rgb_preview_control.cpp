@@ -1,7 +1,6 @@
 #include "module/tool/rgb/rgb_preview_control.h"
 #include <sstream>
 #include <zaf/base/string/case_conversion.h>
-#include <zaf/object/type_definition.h>
 #include <zaf/graphic/graphic_factory.h>
 #include <zaf/graphic/image/wic/imaging_factory.h>
 #include "module/common/style_constants.h"
@@ -49,11 +48,7 @@ zaf::Color GetStraightColorFromPremultipledColor(const zaf::Color& premultipled_
 
 }
 
-
-ZAF_DEFINE_TYPE(RGBPreviewControl)
-ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/tool/rgb/rgb_preview_control.xaml")
-ZAF_DEFINE_TYPE_END
-
+ZAF_OBJECT_IMPL(RGBPreviewControl);
 
 RGBPreviewControl::RGBPreviewControl(const RGBCommandParseResult& parse_result) : 
     parse_result_(parse_result) {

@@ -12,7 +12,7 @@ namespace ra::mod::chat_gpt {
 
 class DialogWindow : public zaf::Window {
 public:
-    ZAF_DECLARE_TYPE;
+    ZAF_OBJECT;
 
 public:
     explicit DialogWindow(std::shared_ptr<Dialog> dialog);
@@ -48,5 +48,9 @@ private:
 
     std::shared_ptr<Dialog> dialog_;
 };
+
+ZAF_OBJECT_BEGIN(DialogWindow)
+ZAF_OBJECT_RESOURCE_URI(L"res:///module/chat_gpt/dialog/dialog_window.xaml")
+ZAF_OBJECT_END;
 
 }

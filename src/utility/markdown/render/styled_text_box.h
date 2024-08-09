@@ -9,7 +9,7 @@ namespace ra::utility::markdown::render {
 
 class StyledTextBox : public zaf::TextBox, public composite::ComposableControl {
 public:
-    ZAF_DECLARE_TYPE;
+    ZAF_OBJECT;
 
 public:
     void SetLineSpacingByParagraphStyle(const StyleConfig& style_config);
@@ -28,7 +28,7 @@ public:
 
 protected:
     void Initialize() override;
-    void UpdateVisualState() override;
+    void UpdateStyle() override;
 
 private:
     void SetIsInFocusContext(bool is_focused);
@@ -36,5 +36,8 @@ private:
 private:
     bool is_in_focus_context_{};
 };
+
+ZAF_OBJECT_BEGIN(StyledTextBox)
+ZAF_OBJECT_END;
 
 }

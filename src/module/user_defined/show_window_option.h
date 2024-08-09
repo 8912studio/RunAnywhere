@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Windows.h>
-#include <zaf/object/enum_declaration.h>
+#include <zaf/object/enum_support.h>
 
 namespace ra::mod::user_defined {
 
@@ -10,8 +10,9 @@ enum class ShowWindowOption {
     Hide = SW_HIDE,
 };
 
-ZAF_DECLARE_ENUM(ShowWindowOption);
+ZAF_ENUM_BEGIN(ShowWindowOption);
+ZAF_ENUM_CONSTANT(Normal);
+ZAF_ENUM_CONSTANT(Hide);
+ZAF_ENUM_END;
 
 }
-
-ZAF_ENABLE_ENUM_BOXING(ra::mod::user_defined::ShowWindowOption);

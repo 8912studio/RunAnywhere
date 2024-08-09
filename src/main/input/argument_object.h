@@ -32,7 +32,7 @@ public:
     void Paint(
         zaf::Canvas& canvas,
         const zaf::Rect& dirty_rect,
-        const zaf::rich_edit::PaintContext& context) override;
+        const zaf::rich_edit::PaintContext& context) const override;
 
     void OnMouseCursorChanging(const zaf::rich_edit::MouseCursorChangingContext& context) override;
     bool OnDoubleClick(const zaf::rich_edit::DoubleClickContext& context) override;
@@ -41,11 +41,11 @@ protected:
     explicit ArgumentObject(std::shared_ptr<ArgumentData> data);
 
     virtual std::shared_ptr<ArgumentData> CreateData(std::wstring text) = 0;
-    virtual zaf::Color GetBackgroundColor(const zaf::rich_edit::PaintContext& context) = 0;
+    virtual zaf::Color GetBackgroundColor(const zaf::rich_edit::PaintContext& context) const = 0;
     virtual std::shared_ptr<ArgumentObjectWindow> CreateArgumentObjectWindow() = 0;
 
 private:
-    void PaintText(zaf::Canvas& canvas, const zaf::Rect& text_rect);
+    void PaintText(zaf::Canvas& canvas, const zaf::Rect& text_rect) const;
     bool InnerOpenWindow(const zaf::Point& object_position_in_screen);
     void OnTextChanged(const std::shared_ptr<ArgumentObjectWindow>& window);
     void OnWindowDestroyed();

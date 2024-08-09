@@ -12,7 +12,7 @@ namespace ra::mod::tool::json {
 
 class JSONCommandPreviewControl : public CommandPreviewControl {
 public:
-    ZAF_DECLARE_TYPE;
+    ZAF_OBJECT;
 
     //For unit test.
     class ErrorLineInfo {
@@ -63,5 +63,9 @@ private:
     zaf::textual::StyledText parsed_json_;
     std::optional<ErrorLineInfo> error_line_info_;
 };
+
+ZAF_OBJECT_BEGIN(JSONCommandPreviewControl)
+ZAF_OBJECT_RESOURCE_URI(L"res:///module/tool/json/json_command_preview_control.xaml")
+ZAF_OBJECT_END;
 
 }

@@ -1,6 +1,5 @@
 #include "module/chat_gpt/dialog/round_view.h"
 #include <zaf/base/container/utility/contain.h>
-#include <zaf/object/type_definition.h>
 #include <zaf/rx/subject.h>
 #include "utility/clipboard.h"
 
@@ -8,9 +7,7 @@ using namespace ra::utility::markdown::render;
 
 namespace ra::mod::chat_gpt {
 
-ZAF_DEFINE_TYPE(RoundView);
-ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/chat_gpt/dialog/round_view.xaml")
-ZAF_DEFINE_TYPE_END;
+ZAF_OBJECT_IMPL(RoundView);
 
 RoundView::RoundView(std::shared_ptr<chat_gpt::Round> round) : round_(std::move(round)) {
 
@@ -76,7 +73,7 @@ void RoundView::OnMouseLeave(const zaf::MouseLeaveInfo& event_info) {
         return;
     }
 
-    if (!this->ContainMouse()) {
+    if (!this->ContainsMouse()) {
         toolbar->SetIsVisible(false);
     }
     event_info.MarkAsHandled();

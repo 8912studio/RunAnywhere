@@ -19,7 +19,7 @@ Min height for normal style: 90. 10 for horizontal srcoll bar.
 */
 class TextContentControl : public zaf::Control {
 public:
-    ZAF_DECLARE_TYPE;
+    ZAF_OBJECT;
 
 public:
     void SetDisplayMode(const TextDisplayMode& mode);
@@ -61,5 +61,9 @@ private:
     TextDisplayMode display_mode_;
     bool has_line_break_{};
 };
+
+ZAF_OBJECT_BEGIN(TextContentControl)
+ZAF_OBJECT_RESOURCE_URI(L"res:///module/common/text_content_control.xaml")
+ZAF_OBJECT_END;
 
 }

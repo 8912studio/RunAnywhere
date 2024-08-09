@@ -12,7 +12,7 @@ namespace ra::help {
 
 class HelpWindow : public utility::ThinBorderWindow {
 public:
-    ZAF_DECLARE_TYPE;
+    ZAF_OBJECT;
 
     void SetContent(const HelpContent& content);
 
@@ -47,5 +47,9 @@ private:
     std::wstring last_scroll_content_id_;
     std::optional<int> last_scroll_value_;
 };
+
+ZAF_OBJECT_BEGIN(HelpWindow)
+ZAF_OBJECT_RESOURCE_URI(L"res:///help/help_window.xaml")
+ZAF_OBJECT_END
 
 }

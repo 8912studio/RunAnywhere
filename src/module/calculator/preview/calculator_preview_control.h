@@ -10,7 +10,7 @@ namespace ra::mod::calculator {
 
 class CalculatorPreviewControl : public CommandPreviewControl {
 public:
-	ZAF_DECLARE_TYPE;
+	ZAF_OBJECT;
 
 	void SetResult(
 		const calculator::EvaluateResult& evaluate_result,
@@ -37,5 +37,9 @@ private:
 
 	std::size_t prefix_length_;
 };
+
+ZAF_OBJECT_BEGIN(CalculatorPreviewControl)
+ZAF_OBJECT_RESOURCE_URI(L"res:///module/calculator/preview/calculator_preview_control.xaml");
+ZAF_OBJECT_END
 
 }

@@ -1,13 +1,9 @@
 #include "preview_view.h"
 #include <zaf/base/error/contract_error.h>
-#include <zaf/object/type_definition.h>
 
 namespace ra {
 
-ZAF_DEFINE_TYPE(PreviewView)
-ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///preview_view.xaml");
-ZAF_DEFINE_TYPE_END
-
+ZAF_OBJECT_IMPL(PreviewView);
 
 void PreviewView::SetPreviewControl(const std::shared_ptr<mod::CommandPreviewControl>& control) {
 

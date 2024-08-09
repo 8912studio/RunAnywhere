@@ -11,7 +11,7 @@ namespace ra::mod {
 
 class ErrorView : public zaf::HorizontalBox {
 public:
-    ZAF_DECLARE_TYPE;
+    ZAF_OBJECT;
 
     void ShowErrorText(const std::wstring& text);
     void ShowHintText(const std::wstring& text);
@@ -25,5 +25,9 @@ private:
     ZAF_BIND_CONTROL(zaf::ImageBox, errorIcon);
     ZAF_BIND_CONTROL(zaf::Label, textLabel);
 };
+
+ZAF_OBJECT_BEGIN(ErrorView)
+ZAF_OBJECT_RESOURCE_URI(L"res:///module/common/error_view.xaml")
+ZAF_OBJECT_END;
 
 }

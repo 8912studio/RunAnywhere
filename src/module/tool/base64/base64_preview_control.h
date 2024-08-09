@@ -14,7 +14,7 @@ namespace ra::mod::tool::base64 {
 
 class Base64PreviewControl : public CommandPreviewControl {
 public:
-    ZAF_DECLARE_TYPE;
+    ZAF_OBJECT;
 
 public:
     void ShowParseResult(const Base64CommandParseResult& parse_result);
@@ -54,5 +54,9 @@ private:
     ZAF_BIND_CONTROL(BinaryContentControl, binaryContent);
     ZAF_BIND_CONTROL(ErrorView, errorView);
 };
+
+ZAF_OBJECT_BEGIN(Base64PreviewControl)
+ZAF_OBJECT_RESOURCE_URI(L"res:///module/tool/base64/base64_preview_control.xaml")
+ZAF_OBJECT_END;
 
 }

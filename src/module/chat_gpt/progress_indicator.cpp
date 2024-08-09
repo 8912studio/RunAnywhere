@@ -1,6 +1,5 @@
 #include "module/chat_gpt/progress_indicator.h"
 #include <zaf/graphic/canvas.h>
-#include <zaf/object/type_definition.h>
 #include <zaf/rx/scheduler.h>
 #include <zaf/rx/timer.h>
 
@@ -11,9 +10,7 @@ constexpr int EllipseCount = 3;
 
 }
 
-ZAF_DEFINE_TYPE(ProgressIndicator)
-ZAF_DEFINE_TYPE_END;
-
+ZAF_OBJECT_IMPL(ProgressIndicator);
 
 void ProgressIndicator::AfterParse() {
 
@@ -39,7 +36,7 @@ void ProgressIndicator::StopAnimation() {
 }
 
 
-void ProgressIndicator::Paint(zaf::Canvas& canvas, const zaf::Rect& dirty_rect) {
+void ProgressIndicator::Paint(zaf::Canvas& canvas, const zaf::Rect& dirty_rect) const {
 
     __super::Paint(canvas, dirty_rect);
 

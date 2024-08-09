@@ -2,7 +2,6 @@
 #include <zaf/graphic/canvas.h>
 #include <zaf/graphic/graphic_factory.h>
 #include <zaf/graphic/matrix.h>
-#include <zaf/object/type_definition.h>
 
 #undef max
 #undef min
@@ -30,9 +29,7 @@ zaf::PathGeometry MakeExcludedPath(
 
 }
 
-ZAF_DEFINE_TYPE(ProgressCircle)
-ZAF_DEFINE_TYPE_END
-
+ZAF_OBJECT_IMPL(ProgressCircle);
 
 void ProgressCircle::AfterParse() {
 
@@ -40,7 +37,7 @@ void ProgressCircle::AfterParse() {
 }
 
 
-void ProgressCircle::Paint(zaf::Canvas& canvas, const zaf::Rect& dirty_rect) {
+void ProgressCircle::Paint(zaf::Canvas& canvas, const zaf::Rect& dirty_rect) const {
 
 	__super::Paint(canvas, dirty_rect);
 
@@ -109,7 +106,7 @@ void ProgressCircle::PaintWholeCircle(
 	zaf::Canvas& canvas,
 	const zaf::Ellipse& outer_ellipse,
 	const zaf::Geometry& inner_ellipse_path,
-	const zaf::Color& color) {
+	const zaf::Color& color) const {
 
 	auto outer_ellipse_path = canvas.CreateEllipseGeometry(outer_ellipse);
 	auto path_geometry = MakeExcludedPath(canvas, outer_ellipse_path, inner_ellipse_path);
@@ -124,7 +121,7 @@ void ProgressCircle::PaintPartialCircle(
 	const zaf::Ellipse& outer_ellipse,
 	const zaf::Geometry& inner_ellipse_path,
 	bool is_for_sink,
-	const zaf::Color& color) {
+	const zaf::Color& color) const {
 
 	auto outer_ellipse_path = CreateEllipsePath(
 		canvas,
@@ -141,7 +138,7 @@ void ProgressCircle::PaintPartialCircle(
 zaf::Geometry ProgressCircle::CreateEllipsePath(
 	zaf::Canvas& canvas,
 	const zaf::Ellipse& ellipse,
-	bool is_for_sink) {
+	bool is_for_sink) const {
 
 	auto path_geometry = canvas.CreatePathGeometry();
 	auto path_sink = path_geometry.Open();
@@ -178,7 +175,7 @@ zaf::Geometry ProgressCircle::CreateEllipsePath(
 }
 
 
-float ProgressCircle::GetProgressDegrees() {
+float ProgressCircle::GetProgressDegrees() const {
 
 	if (max_value_ <= 0) {
 		return 0;

@@ -13,7 +13,7 @@ namespace ra::mod::chat_gpt {
 
 class RoundView : public zaf::VerticalBox {
 public:
-    ZAF_DECLARE_TYPE;
+    ZAF_OBJECT;
 
     explicit RoundView(std::shared_ptr<Round> round);
 
@@ -54,5 +54,9 @@ private:
     std::shared_ptr<chat_gpt::Round> round_;
     RoundState state_{ RoundState::Requesting };
 };
+
+ZAF_OBJECT_BEGIN(RoundView);
+ZAF_OBJECT_RESOURCE_URI(L"res:///module/chat_gpt/dialog/round_view.xaml")
+ZAF_OBJECT_END;
 
 }

@@ -8,7 +8,7 @@ namespace ra::mod::chat_gpt {
 
 class AnswerView : public zaf::VerticalBox {
 public:
-    ZAF_DECLARE_TYPE;
+    ZAF_OBJECT;
 
 public:
     void SetAnswer(zaf::Observable<std::wstring> observable_answer);
@@ -28,5 +28,9 @@ private:
 
     std::shared_ptr<utility::markdown::render::MarkdownRegion> markdown_region_;
 };
+
+ZAF_OBJECT_BEGIN(AnswerView)
+ZAF_OBJECT_RESOURCE_URI(L"res:///module/chat_gpt/dialog/answer_view.xaml")
+ZAF_OBJECT_END;
 
 }

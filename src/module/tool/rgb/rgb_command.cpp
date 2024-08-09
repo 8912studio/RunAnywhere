@@ -60,7 +60,7 @@ bool ParseColorFromARGBFormat(const std::wstring& argument, zaf::Color& color) {
 
     try {
 
-        zaf::Color::Type->GetParser()->ParseFromAttribute(revised_notation, color);
+        zaf::Color::StaticType()->Parser()->ParseFromAttribute(revised_notation, color);
         return true;
     }
     catch (const zaf::Error&) {

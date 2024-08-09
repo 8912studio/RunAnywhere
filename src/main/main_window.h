@@ -21,7 +21,7 @@ namespace ra {
 
 class MainWindow : public utility::ThinBorderWindow {
 public:
-    ZAF_DECLARE_TYPE;
+    ZAF_OBJECT;
 
     explicit MainWindow(const std::shared_ptr<ModuleManager>& module_manager);
 
@@ -84,5 +84,9 @@ private:
     bool show_help_window_{};
     std::shared_ptr<help::HelpWindow> help_window_;
 };
+
+ZAF_OBJECT_BEGIN(MainWindow)
+ZAF_OBJECT_RESOURCE_URI(L"res:///main/main_window.xaml")
+ZAF_OBJECT_END
 
 }

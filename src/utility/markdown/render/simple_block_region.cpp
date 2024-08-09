@@ -17,7 +17,7 @@ void SimpleBlockRegion::Initialize() {
 }
 
 
-void SimpleBlockRegion::Paint(zaf::Canvas& canvas, const zaf::Rect& dirty_rect) {
+void SimpleBlockRegion::Paint(zaf::Canvas& canvas, const zaf::Rect& dirty_rect) const {
 
     __super::Paint(canvas, dirty_rect);
 }

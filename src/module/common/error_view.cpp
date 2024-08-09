@@ -1,7 +1,6 @@
 #include "module/common/error_view.h"
 #include <zaf/creation.h>
 #include <zaf/graphic/color.h>
-#include <zaf/object/type_definition.h>
 
 namespace ra::mod {
 namespace {
@@ -31,9 +30,7 @@ struct StyleMetrics<true> {
 
 }
 
-ZAF_DEFINE_TYPE(ErrorView)
-ZAF_DEFINE_TYPE_RESOURCE_URI(L"res:///module/common/error_view.xaml")
-ZAF_DEFINE_TYPE_END;
+ZAF_OBJECT_IMPL(ErrorView);
 
 void ErrorView::ShowErrorText(const std::wstring& text) {
     ShowText(text, true);
