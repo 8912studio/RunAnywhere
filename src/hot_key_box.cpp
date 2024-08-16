@@ -78,22 +78,14 @@ void HotKeyBox::Initialize() {
     SetBorder(zaf::Frame{ 1 });
     SetBackgroundColor(zaf::Color::White());
 
-    UpdateText();
-}
-
-
-void HotKeyBox::UpdateStyle() {
-
-    __super::UpdateStyle();
-
-    SetBorderColor([this]() {
-
+    SetBorderColorPicker(zaf::ColorPicker([this](const zaf::Control&) {
         if (is_waiting_input_) {
             return zaf::Color::FromRGB(0x0587FF);
         }
-
         return zaf::Color::Black();
-    }());
+    }));
+
+    UpdateText();
 }
 
 

@@ -16,19 +16,13 @@ void StyledTextBox::Initialize() {
     this->SetIsEnabled(false);
     this->SetWordWrapping(zaf::WordWrapping::Wrap);
     this->SetIgnoreTailingWhiteSpaces(true);
-}
 
-
-void StyledTextBox::UpdateStyle() {
-
-    __super::UpdateStyle();
-
-    this->SetSelectionBackgroundColor([this]() {
+    this->SetSelectionBackColorPicker(zaf::ColorPicker([this](const zaf::Control& control) {
         return
             is_in_focus_context_ || this->IsFocused() ?
             zaf::Color::FromARGB(0x300078d7) :
             zaf::Color::FromARGB(0x30848484);
-    }());
+    }));
 }
 
 

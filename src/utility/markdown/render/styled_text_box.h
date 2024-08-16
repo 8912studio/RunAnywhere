@@ -28,7 +28,6 @@ public:
 
 protected:
     void Initialize() override;
-    void UpdateStyle() override;
 
 private:
     void SetIsInFocusContext(bool is_focused);

@@ -13,7 +13,6 @@ public:
     
 protected:
     void Initialize() override;
-    void UpdateStyle() override;
 };
 
 ZAF_OBJECT_BEGIN(ToolbarButton)
