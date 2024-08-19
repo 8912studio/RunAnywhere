@@ -9,14 +9,12 @@
 
     <ScrollBox Name="scrollableControl" Border="0">
 		<ScrollBox.ScrollContent>
-            <RichEdit 
+            <TextBox 
                 Name="licenseContentTextBox" 
                 Padding="4,4,4,4"
                 Border="0"
                 BackgroundColor="White"
-                FontSize="12"
-                IsReadOnly="true" 
-                IsMultiline="true" />
+                FontSize="12" />
         </ScrollBox.ScrollContent>
     </ScrollBox>
 </LicenseWindow>
