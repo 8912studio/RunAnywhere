@@ -8,6 +8,9 @@ void OptionTextBox::AfterParse() {
 
     __super::AfterParse();
 
+    this->SetIsEditable(true);
+    this->SetBorder(zaf::Frame{ 1 });
+
     Subscriptions() += TextChangedEvent().Subscribe(std::bind([this]() {
         value_changed_ = true;
     }));

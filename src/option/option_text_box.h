@@ -1,11 +1,11 @@
 #pragma once
 
-#include <zaf/control/rich_edit.h>
+#include <zaf/control/text_box.h>
 #include <zaf/rx/subject.h>
 
 namespace ra::option {
 
-class OptionTextBox : public zaf::RichEdit {
+class OptionTextBox : public zaf::TextBox {
 public:
     ZAF_OBJECT;
 
