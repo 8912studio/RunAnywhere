@@ -34,7 +34,7 @@
             </ScrollBox.HorizontalScrollBar>
 
 			<ScrollBox.ScrollContent>
-                <RichEdit 
+                <TextBox 
                     Name="edit" 
                     Border="0"
                     IsMultiline="false"

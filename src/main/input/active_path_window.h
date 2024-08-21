@@ -1,7 +1,7 @@
 #pragma once
 
 #include <zaf/control/control_binder.h>
-#include <zaf/control/rich_edit.h>
+#include <zaf/control/text_box.h>
 #include "main/input/argument_object_window.h"
 
 namespace ra::main::input {
@@ -24,7 +24,7 @@ private:
     ZAF_BIND_CONTROL(zaf::Control, container);
     ZAF_BIND_CONTROL(zaf::Control, label);
     ZAF_BIND_CONTROL(zaf::Control, scrollContainer);
-    ZAF_BIND_CONTROL(zaf::RichEdit, edit);
+    ZAF_BIND_CONTROL(zaf::TextBox, edit);
 };
 
 ZAF_OBJECT_BEGIN(ActivePathWindow)

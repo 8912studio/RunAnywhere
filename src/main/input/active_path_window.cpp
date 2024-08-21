@@ -17,7 +17,7 @@ void ActivePathWindow::AfterParse() {
 
 
 void ActivePathWindow::SetIsReadOnly(bool is_read_only) {
-    edit->SetIsReadOnly(is_read_only);
+    edit->SetIsEditable(!is_read_only);
 }
 
 
