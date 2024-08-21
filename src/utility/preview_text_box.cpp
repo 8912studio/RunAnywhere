@@ -12,8 +12,7 @@ void PreviewTextBox::AfterParse() {
 	
 	this->SetBackgroundColor(zaf::Color::Transparent());
 	this->SetBorder(zaf::Frame{ 0 });
-	this->SetIsReadOnly(true);
-	this->SetAllowBeep(false);
+	this->SetIsEditable(false);
 	this->SetTextAlignment(zaf::TextAlignment::Center);
 	this->SetParagraphAlignment(zaf::ParagraphAlignment::Center);
 	

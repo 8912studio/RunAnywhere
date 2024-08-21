@@ -123,9 +123,9 @@ void DatePreviewControl::OnStyleChanged() {
 void DatePreviewControl::InitializeTextBox() {
 
 	Subscriptions() += textBox->SelectionChangedEvent().Subscribe(
-		[this](const zaf::rich_edit::SelectionChangedInfo&) {
+		[this](const zaf::textual::SelectionChangedInfo&) {
 	
-		auto selection_range = textBox->GetSelectionRange();
+		auto selection_range = textBox->SelectionRange();
 		if (selection_range.length <= 0) {
 			StartTimerIfNeeded();
 		}
@@ -156,7 +156,7 @@ void DatePreviewControl::StartTimerIfNeeded() {
 
 void DatePreviewControl::UpdateTextBox() {
 
-	auto selection_range = textBox->GetSelectionRange();
+	auto selection_range = textBox->SelectionRange();
 
 	auto time_text = GenerateTimeText();
 	textBox->SetText(time_text);

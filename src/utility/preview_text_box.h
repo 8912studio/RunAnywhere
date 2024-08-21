@@ -1,6 +1,6 @@
 #pragma once
 
-#include <zaf/control/rich_edit.h>
+#include <zaf/control/text_box.h>
 #include "main/command_display_style.h"
 
 namespace ra::utility {
@@ -10,7 +10,7 @@ Used to display simple single line text.
 
 TODO: move to module directory.
 */
-class PreviewTextBox : public zaf::RichEdit {
+class PreviewTextBox : public zaf::TextBox {
 public:
 	ZAF_OBJECT;
 
