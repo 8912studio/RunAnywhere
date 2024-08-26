@@ -3,8 +3,8 @@
 #include <zaf/base/com_object.h>
 #include <zaf/control/control_binder.h>
 #include <zaf/control/label.h>
-#include <zaf/control/rich_edit.h>
 #include <zaf/control/scroll_box.h>
+#include <zaf/control/text_box.h>
 #include "main/input/argument_object_window.h"
 #include "main/input/line_break_option.h"
 #include "utility/text_utility.h"
@@ -30,7 +30,7 @@ protected:
     zaf::Size CalculateWindowContentSize() override;
 
 private:
-    void UpdateLineBreakOptions();
+    void UpdateLineBreakOptions(const utility::LineBreakInfo& line_break_info);
     utility::LineBreak GetLineBreakByOption(const LineBreakOption& option) const;
     void OnLineBreakOptionClick(const zaf::MouseUpInfo& event_info);
 
@@ -40,9 +40,9 @@ private:
     ZAF_BIND_CONTROL(LineBreakOption, useCR);
     ZAF_BIND_CONTROL(LineBreakOption, useLF);
     ZAF_BIND_CONTROL(zaf::ScrollBox, scrollableControl);
-    ZAF_BIND_CONTROL(zaf::RichEdit, textEdit);
+    ZAF_BIND_CONTROL(zaf::TextBox, textEdit);
 
-    utility::LineBreakInfo line_break_info_;
+    bool is_setting_text_{};
 };
 
 ZAF_OBJECT_BEGIN(TextBlockWindow)

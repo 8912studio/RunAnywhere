@@ -40,7 +40,7 @@
         </ScrollBox.HorizontalScrollBar>
 
 		<ScrollBox.ScrollContent>
-            <RichEdit
+            <TextBox
                 Name="textEdit"
                 Border="0"
                 Padding="4,4,4,4"

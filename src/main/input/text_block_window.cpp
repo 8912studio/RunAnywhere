@@ -1,4 +1,5 @@
 #include "main/input/text_block_window.h"
+#include <zaf/base/auto_reset.h>
 #include <zaf/base/log.h>
 #include <zaf/base/none.h>
 #include <zaf/base/string/replace.h>
@@ -8,6 +9,22 @@
 #include <zaf/rx/creation.h>
 
 namespace ra::main::input {
+namespace {
+
+zaf::textual::LineBreak ToZafLineBreak(utility::LineBreak line_break) {
+    switch (line_break) {
+    case utility::LineBreak::CRLF:
+        return zaf::textual::LineBreak::CRLF;
+    case utility::LineBreak::CR:
+        return zaf::textual::LineBreak::CR;
+    case utility::LineBreak::LF:
+        return zaf::textual::LineBreak::LF;
+    default:
+        return zaf::textual::LineBreak::Unspecific;
+    }
+}
+
+}
 
 ZAF_OBJECT_IMPL(TextBlockWindow);
 
@@ -26,11 +43,21 @@ void TextBlockWindow::AfterParse() {
     }
 
     Subscriptions() += textEdit->TextChangedEvent().Subscribe(
-        [this](const zaf::rich_edit::TextChangedInfo& event_info) {
+        [this](const zaf::TextChangedInfo& event_info) {
     
-        //Change all line breaks to the same as the first line once text is changed.
-        line_break_info_.all_the_same = true;
-        UpdateLineBreakOptions();
+        if (!is_setting_text_) {
+
+            //Change all line breaks to the same as the first line once text is changed.
+            if (textEdit->LineBreak() == zaf::textual::LineBreak::Unspecific) {
+
+                auto line_break_info = utility::DeterminateLineBreakInfo(textEdit->Text());
+                textEdit->SetLineBreak(ToZafLineBreak(line_break_info.first_line_break));
+
+                line_break_info.all_the_same = true;
+                UpdateLineBreakOptions(line_break_info);
+                return;
+            }
+        }
 
         Relayout();
         RaiseTextChangedEvent();
@@ -40,7 +67,7 @@ void TextBlockWindow::AfterParse() {
 
 void TextBlockWindow::SetIsReadOnly(bool read_only) {
 
-    textEdit->SetIsReadOnly(read_only);
+    textEdit->SetIsEditable(!read_only);
     scrollableControl->SetBackgroundColor(
         read_only ? zaf::Color::FromRGB(0xF5F5F5) : zaf::Color::White());
 
@@ -49,25 +76,26 @@ void TextBlockWindow::SetIsReadOnly(bool read_only) {
 
 
 std::wstring TextBlockWindow::GetText() {
-
-    auto result = textEdit->GetText(
-        (line_break_info_.first_line_break == utility::LineBreak::CRLF) ?
-        zaf::rich_edit::TextFlag::UseCRLF :
-        zaf::rich_edit::TextFlag::Default);
-
-    if (line_break_info_.first_line_break == utility::LineBreak::LF) {
-        zaf::Replace(result, L"\r", L"\n");
-    }
-
-    return result;
+    return textEdit->Text();
 }
 
 
 void TextBlockWindow::SetText(const std::wstring& text) {
-    textEdit->SetText(text);
-    line_break_info_ = utility::DeterminateLineBreakInfo(text);
-    UpdateLineBreakOptions();
-    Relayout();
+
+    auto line_break_info = utility::DeterminateLineBreakInfo(text);
+    if (line_break_info.all_the_same) {
+        textEdit->SetLineBreak(ToZafLineBreak(line_break_info.first_line_break));
+    }
+    else {
+        textEdit->SetLineBreak(zaf::textual::LineBreak::Unspecific);
+    }
+
+    {
+        auto auto_reset = zaf::MakeAutoReset(is_setting_text_, true);
+        textEdit->SetText(text);
+    }
+
+    UpdateLineBreakOptions(line_break_info);
 }
 
 
@@ -117,14 +145,14 @@ zaf::Size TextBlockWindow::CalculateWindowContentSize() {
 }
 
 
-void TextBlockWindow::UpdateLineBreakOptions() {
+void TextBlockWindow::UpdateLineBreakOptions(const utility::LineBreakInfo& line_break_info) {
 
     for (auto each_option : { &useCRLF, &useCR, &useLF }) {
 
         zaf::CheckState check_state{ zaf::CheckState::Unchecked };
-        if (GetLineBreakByOption(**each_option) == line_break_info_.first_line_break) {
+        if (GetLineBreakByOption(**each_option) == line_break_info.first_line_break) {
             check_state = 
-                line_break_info_.all_the_same ? 
+                line_break_info.all_the_same ?
                 zaf::CheckState::Checked : 
                 zaf::CheckState::Indeterminate;
         }
@@ -141,10 +169,14 @@ void TextBlockWindow::OnLineBreakOptionClick(const zaf::MouseUpInfo& event_info)
         return;
     }
 
-    line_break_info_.first_line_break = GetLineBreakByOption(*option);
-    line_break_info_.all_the_same = true;
-    UpdateLineBreakOptions();
-    RaiseTextChangedEvent();
+    auto line_break = GetLineBreakByOption(*option);
+    textEdit->SetLineBreak(ToZafLineBreak(line_break));
+    textEdit->SetIsFocused(false);
+
+    utility::LineBreakInfo line_break_info;
+    line_break_info.first_line_break = line_break;
+    line_break_info.all_the_same = true;
+    UpdateLineBreakOptions(line_break_info);
 }
 
 
