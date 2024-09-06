@@ -55,7 +55,6 @@ void MainWindow::AfterParse() {
 
 void MainWindow::InitializeTextBox() {
 
-    inputEdit->SetAllowBeep(false);
     inputEdit->SetStyle(CommandDisplayStyle::Normal);
 
     Subscriptions() += inputEdit->CommandChangedEvent().Subscribe(

@@ -10,9 +10,8 @@ public:
     explicit ActivePathObject(std::shared_ptr<ActivePathData> data);
     explicit ActivePathObject(std::wstring text);
 
-    GUID ClassID() const override;
     std::shared_ptr<ArgumentData> CreateData(std::wstring text) override;
-    zaf::Color GetBackgroundColor(const zaf::rich_edit::PaintContext& context) const override;
+    zaf::Color GetBackgroundColor() const override;
     std::shared_ptr<ArgumentObjectWindow> CreateArgumentObjectWindow() override;
 };
 

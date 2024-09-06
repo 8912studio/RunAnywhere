@@ -7,13 +7,17 @@ namespace ra::main::input {
 
 class TextBlockObject : public ArgumentObject {
 public:
+    ZAF_OBJECT;
+
     explicit TextBlockObject(std::shared_ptr<TextBlockData> data);
     explicit TextBlockObject(std::wstring text);
 
-    GUID ClassID() const override;
     std::shared_ptr<ArgumentData> CreateData(std::wstring text) override;
-    zaf::Color GetBackgroundColor(const zaf::rich_edit::PaintContext& context) const override;
+    zaf::Color GetBackgroundColor() const override;
     std::shared_ptr<ArgumentObjectWindow> CreateArgumentObjectWindow() override;
 };
+
+ZAF_OBJECT_BEGIN(TextBlockObject);
+ZAF_OBJECT_END;
 
 }

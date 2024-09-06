@@ -16,17 +16,12 @@ ActivePathObject::ActivePathObject(std::wstring text) :
 }
 
 
-GUID ActivePathObject::ClassID() const {
-    return { 0xe3669708, 0xc083, 0x43c4, { 0x82, 0x6f, 0x80, 0x3f, 0x2e, 0x2, 0x41, 0xd1 } };
-}
-
-
 std::shared_ptr<ArgumentData> ActivePathObject::CreateData(std::wstring text) {
     return std::make_shared<ActivePathData>(std::move(text));
 }
 
 
-zaf::Color ActivePathObject::GetBackgroundColor(const zaf::rich_edit::PaintContext& context) const {
+zaf::Color ActivePathObject::GetBackgroundColor() const {
     return zaf::Color::FromARGB(0x7dffc25c);
 }
 

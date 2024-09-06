@@ -1,9 +1,10 @@
 #include "main/input/command_input_edit.h"
-#include <tom.h>
 #include <zaf/base/auto_reset.h>
 #include <zaf/base/container/utility/contain.h>
 #include <zaf/base/com_object.h>
 #include <zaf/clipboard/clipboard.h>
+#include <zaf/control/textual/styled_text.h>
+#include <zaf/input/keyboard.h>
 #include "main/input/clipboard_data.h"
 
 namespace ra::main::input {
@@ -14,14 +15,12 @@ void CommandInputEdit::Initialize() {
 
     __super::Initialize();
 
+    this->SetIsEditable(true);
     this->SetParagraphAlignment(zaf::ParagraphAlignment::Center);
-    this->SetAcceptReturn(false);
-    this->SetMaxLength(10000);
-    this->SetOLECallback(zaf::As<zaf::rich_edit::OLECallback>(shared_from_this()));
+    this->SetMaxLength(1000);
 
     Subscriptions() += this->FocusLostEvent().Subscribe(std::bind([this]() {
-
-        auto selection_range = this->GetSelectionRange();
+        auto selection_range = this->SelectionRange();
         this->SetSelectionRange(zaf::Range{ selection_range.EndIndex(), 0});
     }));
 }
@@ -34,25 +33,21 @@ void CommandInputEdit::SetStyle(CommandDisplayStyle style) {
 
 utility::CommandLine CommandInputEdit::GetInputCommandLine() {
 
-    auto ole_interface = this->GetOLEInterface();
-    return utility::CommandLine(this->Text(), [ole_interface](int object_index) {
+    return utility::CommandLine(this->Text(), [this](int object_index) {
 
         auto type = utility::CommandLinePieceType::TextBlock;
         std::wstring content;
 
-        try {
-            auto object = ole_interface.GetEmbeddedObjectAt(object_index);
-            if (auto text_block_object = zaf::As<TextBlockObject>(object)) {
-                type = utility::CommandLinePieceType::TextBlock;
-                content = text_block_object->Text();
-            }
-            else if (auto active_path_object = zaf::As<ActivePathObject>(object)) {
-                type = utility::CommandLinePieceType::ActivePath;
-                content = active_path_object->Text();
-            }
-        }
-        catch (const zaf::Error&) {
+        auto iterator = this->StyledText().InlineObjects().begin() + object_index;
+        auto object = iterator->Object();
 
+        if (auto text_block_object = zaf::As<TextBlockObject>(object)) {
+            type = utility::CommandLinePieceType::TextBlock;
+            content = text_block_object->Text();
+        }
+        else if (auto active_path_object = zaf::As<ActivePathObject>(object)) {
+            type = utility::CommandLinePieceType::ActivePath;
+            content = active_path_object->Text();
         }
 
         return utility::CommandLinePiece{ type, std::move(content) };
@@ -61,7 +56,7 @@ utility::CommandLine CommandInputEdit::GetInputCommandLine() {
 
 
 CommandInputContent CommandInputEdit::GetInputContent() {
-    return CommandInputContent::FromRichEdit(*this);
+    return CommandInputContent::FromTextBox(*this);
 }
 
 
@@ -70,23 +65,23 @@ void CommandInputEdit::SetInputContent(const CommandInputContent& content) {
     this->SetText({});
 
     content.Visit(
-        [this](const std::variant<std::wstring_view, zaf::rich_edit::ObjectInfo>& variant) {
+        [this](const std::variant<std::wstring_view, CommandInputContent::ObjectInfo>& variant) {
     
-        auto string = std::get_if<std::wstring_view>(&variant);
-        if (string) {
-            this->InsertText(std::wstring{ *string });
-        }
-
-        auto object_info = std::get_if<zaf::rich_edit::ObjectInfo>(&variant);
-        if (object_info) {
-
-            auto argument_object = zaf::As<ArgumentObject>(
-                zaf::rich_edit::EmbeddedObject::TryFromCOMPtr(object_info->Object()));
-
-            if (argument_object) {
-                InsertArgumentObject(argument_object);
+        std::visit([this](const auto& data) {
+        
+            using DataType = std::decay_t<decltype(data)>;
+            if constexpr (std::is_same_v<std::wstring_view, DataType>) {
+                this->Input(std::wstring{ data });
             }
-        }
+            else if constexpr (std::is_same_v<CommandInputContent::ObjectInfo, DataType>) {
+                
+                auto argument_object = zaf::As<ArgumentObject>(data.object->Clone());
+                if (argument_object) {
+                    InsertArgumentObject(argument_object);
+                }
+            }
+        },
+        variant);
     });
 }
 
@@ -96,7 +91,7 @@ zaf::Observable<zaf::None> CommandInputEdit::CommandChangedEvent() {
 }
 
 
-void CommandInputEdit::OnTextChanged(const zaf::rich_edit::TextChangedInfo& event_info) {
+void CommandInputEdit::OnTextChanged(const zaf::TextChangedInfo& event_info) {
 
     __super::OnTextChanged(event_info);
 
@@ -112,13 +107,13 @@ void CommandInputEdit::RaiseCommandChangedEvent() {
 void CommandInputEdit::OnKeyDown(const zaf::KeyDownInfo& event_info) {
 
     if (event_info.Message().Key() == zaf::Key::V) {
-        if (GetKeyState(VK_CONTROL) >> 15) {
+        if (zaf::Keyboard::IsCtrlDown()) {
             HandlePaste(event_info);
             event_info.MarkAsHandled();
         }
     }
     else if (event_info.Message().Key() == static_cast<zaf::Key>(L'2')) {
-        if (GetKeyState(VK_CONTROL) >> 15) {
+        if (zaf::Keyboard::IsCtrlDown()) {
             InsertActivePathFromClipboard();
             event_info.MarkAsHandled();
         }
@@ -132,7 +127,7 @@ void CommandInputEdit::HandlePaste(const zaf::KeyDownInfo& event_info) {
 
     auto auto_reset = zaf::MakeAutoReset(suppress_text_block_);
 
-    if (GetKeyState(VK_SHIFT) >> 15) {
+    if (zaf::Keyboard::IsShiftDown()) {
         suppress_text_block_ = true;
     }
 
@@ -151,16 +146,119 @@ void CommandInputEdit::OnSysKeyDown(const zaf::SysKeyDownInfo& event_info) {
 }
 
 
+void CommandInputEdit::OnCopying(const zaf::textual::CopyingInfo& event_info) {
 
-void CommandInputEdit::InsertArgumentObject(
-    const std::shared_ptr<ArgumentObject>& object) {
+    __super::OnCopying(event_info);
+    if (event_info.IsHandled()) {
+        return;
+    }
+
+    std::wstring_view selected_text{
+        this->Text().data() + event_info.SelectionRange().index,
+        event_info.SelectionRange().length,
+    };
+
+    std::vector<std::size_t> object_indexes;
+    for (auto index : zaf::Range(0, selected_text.length())) {
+        if (selected_text[index] == zaf::textual::ObjectReplacementChar) {
+            object_indexes.push_back(index);
+        }
+    }
+
+    if (object_indexes.empty()) {
+        return;
+    }
+
+    ClipboardData clipboard_data;
+
+    std::size_t string_begin_index{};
+    for (auto each_object_index : object_indexes) {
+
+        auto string = selected_text.substr(
+            string_begin_index,
+            each_object_index - string_begin_index);
+
+        if (!string.empty()) {
+            clipboard_data.AddObject(zaf::Box(string));
+        }
+
+        string_begin_index = each_object_index + 1;
+
+        auto argument_data = this->GetInlineObjectAtIndex(
+            each_object_index + event_info.SelectionRange().index);
+
+        if (argument_data) {
+            clipboard_data.AddObject(argument_data);
+        }
+    }
+
+    if (string_begin_index < selected_text.length()) {
+
+        auto string = selected_text.substr(string_begin_index);
+        if (!string.empty()) {
+            clipboard_data.AddObject(zaf::Box(string));
+        }
+    }
+
+    auto data_object = zaf::clipboard::DataObject::Create();
+
+    data_object.SetData(
+        zaf::clipboard::DataDescriptor::FromFormatType(zaf::clipboard::FormatType::Text),
+        clipboard_data);
+
+    data_object.SetData(
+        zaf::clipboard::DataDescriptor::FromFormatType(ClipboardData::PrivateFormatType),
+        clipboard_data);
+
+    event_info.SetDataObject(std::move(data_object));
+    event_info.MarkAsHandled();
+}
+
+
+void CommandInputEdit::OnPasting(const zaf::textual::PastingInfo& event_info) {
+
+    __super::OnPasting(event_info);
+    if (event_info.IsHandled()) {
+        return;
+    }
+
+    try {
+        bool has_private_format{};
+        bool has_text_format{};
+
+        auto descriptor_enumerator = event_info.DataObject().EnumerateDataDescriptors();
+        while (auto descriptor = descriptor_enumerator.Next()) {
+            if (descriptor->FormatType() == ClipboardData::PrivateFormatType) {
+                has_private_format = true;
+            }
+            else if (descriptor->FormatType() == zaf::clipboard::FormatType::Text) {
+                has_text_format = true;
+            }
+        }
+
+        if (has_private_format) {
+            InsertPrivateClipboardData(event_info.DataObject());
+            event_info.MarkAsHandled();
+        }
+        else if (has_text_format) {
+            InsertTextData(event_info.DataObject());
+            event_info.MarkAsHandled();
+        }
+    }
+    catch (...) {
+
+    }
+}
+
+
+void CommandInputEdit::InsertArgumentObject(const std::shared_ptr<ArgumentObject>& object) {
 
     Subscriptions() += object->TextChangedEvent().Subscribe(
         std::bind(&CommandInputEdit::RaiseCommandChangedEvent, this));
 
     object->SetStyle(style_);
 
-    this->InsertObject(object);
+    this->Input(object);
 }
 
 
@@ -173,12 +271,11 @@ std::shared_ptr<TextBlockObject> CommandInputEdit::InsertTextBlockObjectWithText
 }
 
 
-
 void CommandInputEdit::InsertTextBlockObjectByKey() {
 
     auto object = InsertTextBlockObjectWithText({});
 
-    auto selection_range = this->GetSelectionRange();
+    auto selection_range = this->SelectionRange();
     if (selection_range.index <= 0) {
         //Abnormal situation.
         return;
@@ -214,54 +311,6 @@ void CommandInputEdit::InsertActivePathFromClipboard() {
 }
 
 
-zaf::rich_edit::OperationResult CommandInputEdit::CanInsertClipboardData(
-    zaf::rich_edit::ClipboardOperation operation,
-    const zaf::clipboard::DataObject& data_object,
-    zaf::clipboard::FormatType format_type) {
-
-    if (format_type == ClipboardData::PrivateFormatType) {
-        return zaf::rich_edit::OperationResult::OK;
-    }
-
-    return zaf::rich_edit::OperationResult::Pending;
-}
-
-
-zaf::rich_edit::OperationResult CommandInputEdit::InsertClipboardData(
-    zaf::rich_edit::ClipboardOperation operation,
-    const zaf::clipboard::DataObject& data_object,
-    zaf::clipboard::FormatType& format_type) {
-
-    try {
-        bool has_private_format{};
-        bool has_text_format{};
-
-        auto descriptor_enumerator = data_object.EnumerateDataDescriptors();
-        while (auto descriptor = descriptor_enumerator.Next()) {
-            if (descriptor->FormatType() == ClipboardData::PrivateFormatType) {
-                has_private_format = true;
-            }
-            else if (descriptor->FormatType() == zaf::clipboard::FormatType::Text) {
-                has_text_format = true;
-            }
-        }
-
-        if (has_private_format) {
-            InsertPrivateClipboardData(data_object);
-            return zaf::rich_edit::OperationResult::OK;
-        }
-        else if (has_text_format) {
-            InsertTextData(data_object);
-            return zaf::rich_edit::OperationResult::OK;
-        }
-        return zaf::rich_edit::OperationResult::Cancel;
-    }
-    catch (const zaf::Error&) {
-        return zaf::rich_edit::OperationResult::Cancel;
-    }
-}
-
-
 void CommandInputEdit::InsertPrivateClipboardData(const zaf::clipboard::DataObject& data_object) {
 
     auto descriptor = 
@@ -273,7 +322,7 @@ void CommandInputEdit::InsertPrivateClipboardData(const zaf::clipboard::DataObje
     for (const auto& each_object : clipboard_data.Objects()) {
 
         if (auto string_data = zaf::As<zaf::WideString>(each_object)) {
-            this->InsertText(string_data->Value());
+            this->Input(string_data->Value());
         }
         else if (auto text_block_data = zaf::As<TextBlockData>(each_object)) {
             auto text_block_object = zaf::Create<TextBlockObject>(text_block_data);
@@ -297,7 +346,7 @@ void CommandInputEdit::InsertTextOrTextBlockObject(const std::wstring& text) {
         InsertTextBlockObjectWithText(text);
     }
     else {
-        this->InsertText(text);
+        this->Input(text);
     }
 }
 
@@ -317,102 +366,6 @@ bool CommandInputEdit::ShouldInsertTextBlockObject(const std::wstring& text) con
     }
 
     return false;
-}
-
-
-zaf::rich_edit::OperationResult CommandInputEdit::GetClipboardData(
-    zaf::rich_edit::ClipboardOperation operation,
-    const zaf::Range& text_range,
-    zaf::clipboard::DataObject& data_object) {
-
-    auto text_in_range = this->GetTextInRange(text_range);
-
-    std::vector<std::size_t> object_indexes;
-    for (auto index : zaf::Range(0, text_in_range.length())) {
-        if (text_in_range[index] == WCH_EMBEDDING) {
-            object_indexes.push_back(index);
-        }
-    }
-
-    if (object_indexes.empty()) {
-        return zaf::rich_edit::OperationResult::Pending;
-    }
-
-    ClipboardData clipboard_data;
-
-    std::size_t string_begin_index{};
-    for (auto each_object_index : object_indexes) {
-
-        auto string = text_in_range.substr(
-            string_begin_index, 
-            each_object_index - string_begin_index);
-
-        if (!string.empty()) {
-            clipboard_data.AddObject(zaf::Box(string));
-        }
-
-        string_begin_index = each_object_index + 1;
-
-        auto argument_data = GetArgumentDataAtIndex(each_object_index + text_range.index);
-        if (argument_data) {
-            clipboard_data.AddObject(argument_data);
-        }
-    }
-
-    if (string_begin_index < text_in_range.length()) {
-
-        auto string = text_in_range.substr(string_begin_index);
-        if (!string.empty()) {
-            clipboard_data.AddObject(zaf::Box(string));
-        }
-    }
-
-    data_object.SetData(
-        zaf::clipboard::DataDescriptor::FromFormatType(zaf::clipboard::FormatType::Text), 
-        clipboard_data);
-
-    data_object.SetData(
-        zaf::clipboard::DataDescriptor::FromFormatType(ClipboardData::PrivateFormatType),
-        clipboard_data);
-
-    return zaf::rich_edit::OperationResult::OK;
-}
-
-
-std::shared_ptr<zaf::Object> CommandInputEdit::GetArgumentDataAtIndex(std::size_t index) {
-
-    auto text_document = this->GetOLEInterface().Ptr().Query<ITextDocument>();
-    if (!text_document) {
-        return nullptr;
-    }
-     
-    zaf::COMPtr<ITextRange> text_range;
-    HRESULT hresult = text_document->Range(
-        static_cast<long>(index),
-        static_cast<long>(index),
-        text_range.Reset());
-
-    if (FAILED(hresult)) {
-        return nullptr;
-    }
-
-    zaf::COMPtr<IUnknown> unknown;
-    hresult = text_range->GetEmbeddedObject(unknown.Reset());
-    if (FAILED(hresult)) {
-        return nullptr;
-    }
-
-    auto embedded_object = zaf::rich_edit::EmbeddedObject::TryFromCOMPtr(unknown);
-    if (!embedded_object) {
-        return nullptr;
-    }
-
-    auto argument_object = zaf::As<ArgumentObject>(embedded_object);
-    if (!argument_object) {
-        return nullptr;
-    }
-
-    return argument_object->Data();
 }
 
 }

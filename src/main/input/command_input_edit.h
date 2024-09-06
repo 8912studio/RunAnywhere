@@ -1,8 +1,7 @@
 #pragma once
 
 #include <zaf/base/none.h>
-#include <zaf/control/rich_edit.h>
-#include <zaf/control/rich_edit/ole_callback.h>
+#include <zaf/control/text_box.h>
 #include <zaf/rx/subject.h>
 #include "main/command_display_style.h"
 #include "main/input/active_path_object.h"
@@ -12,7 +11,7 @@
 
 namespace ra::main::input {
 
-class CommandInputEdit : public zaf::RichEdit, public zaf::rich_edit::OLECallback {
+class CommandInputEdit : public zaf::TextBox {
 public:
     ZAF_OBJECT;
 
@@ -28,9 +27,11 @@ public:
 
 protected:
     void Initialize() override;
-    void OnTextChanged(const zaf::rich_edit::TextChangedInfo& event_info) override;
+    void OnTextChanged(const zaf::TextChangedInfo& event_info) override;
     void OnKeyDown(const zaf::KeyDownInfo& event_info) override;
     void OnSysKeyDown(const zaf::SysKeyDownInfo& event_info) override;
+    void OnCopying(const zaf::textual::CopyingInfo& event_info) override;
+    void OnPasting(const zaf::textual::PastingInfo& event_info) override;
 
 private:
     void HandlePaste(const zaf::KeyDownInfo& event_info);
@@ -44,27 +45,10 @@ private:
     void InsertActivePathFromClipboard();
     void InsertTextBlockObjectByKey();
 
-    zaf::rich_edit::OperationResult CanInsertClipboardData(
-        zaf::rich_edit::ClipboardOperation operation,
-        const zaf::clipboard::DataObject& data_object,
-        zaf::clipboard::FormatType format_type) override;
-
-    zaf::rich_edit::OperationResult InsertClipboardData(
-        zaf::rich_edit::ClipboardOperation operation,
-        const zaf::clipboard::DataObject& data_object,
-        zaf::clipboard::FormatType& format_type) override;
-
     void InsertPrivateClipboardData(const zaf::clipboard::DataObject& data_object);
     void InsertTextData(const zaf::clipboard::DataObject& data_object);
     void InsertTextOrTextBlockObject(const std::wstring& text);
     bool ShouldInsertTextBlockObject(const std::wstring& text) const;
-
-    zaf::rich_edit::OperationResult GetClipboardData(
-        zaf::rich_edit::ClipboardOperation operation,
-        const zaf::Range& text_range,
-        zaf::clipboard::DataObject& data_object) override;
-
-    std::shared_ptr<zaf::Object> GetArgumentDataAtIndex(std::size_t index);
 
 private:
     CommandDisplayStyle style_{ CommandDisplayStyle::Normal };

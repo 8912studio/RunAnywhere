@@ -1,8 +1,8 @@
 #include "main/input/argument_object.h"
 #include <tom.h>
 #include <zaf/base/as.h>
+#include <zaf/control/text_box.h>
 #include <zaf/creation.h>
-#include <zaf/control/rich_edit.h>
 #include <zaf/graphic/canvas.h>
 #include <zaf/graphic/graphic_factory.h>
 #include <zaf/graphic/text/text_format_properties.h>
@@ -17,18 +17,28 @@ ArgumentObject::ArgumentObject(std::shared_ptr<ArgumentData> data) : data_(std::
 
 
 void ArgumentObject::SetStyle(CommandDisplayStyle style) {
-
     style_ = style;
-
-    this->SetSize(
-        style_ == CommandDisplayStyle::Preserved ? zaf::Size{ 48, 18 } : zaf::Size{ 60, 28 });
+    this->NeedRepaint();
 }
 
 
-void ArgumentObject::Paint(
-    zaf::Canvas& canvas,
-    const zaf::Rect& dirty_rect,
-    const zaf::rich_edit::PaintContext& context) const {
+zaf::TextInlineObjectMetrics ArgumentObject::GetMetrics() const {
+
+    zaf::TextInlineObjectMetrics result;
+    if (style_ == CommandDisplayStyle::Preserved) {
+        result.SetWidth(48);
+        result.SetHeight(18);
+    }
+    else {
+        result.SetWidth(60);
+        result.SetHeight(28);
+        result.SetHeightAboveBaseline(22);
+    }
+    return result;
+}
+
+
+void ArgumentObject::Paint(zaf::Canvas& canvas) const {
 
     zaf::RoundedRect rounded_rect;
     rounded_rect.rect.size = this->Size();
@@ -36,7 +46,7 @@ void ArgumentObject::Paint(
     rounded_rect.x_radius = 4;
     rounded_rect.y_radius = 4;
 
-    auto background_color = GetBackgroundColor(context);
+    auto background_color = GetBackgroundColor();
     canvas.DrawRoundedRectangle(rounded_rect, background_color);
 
     PaintText(canvas, rounded_rect.rect);
@@ -70,61 +80,63 @@ void ArgumentObject::PaintText(zaf::Canvas& canvas, const zaf::Rect& text_rect) 
 
 
 void ArgumentObject::OnMouseCursorChanging(
-    const zaf::rich_edit::MouseCursorChangingContext& context) {
+    const zaf::textual::InlineObjectMouseCursorChangingInfo& event_info) {
 
     SetCursor(LoadCursor(nullptr, IDC_ARROW));
-    context.EventInfo().MarkAsHandled();
+    event_info.MarkAsHandled();
 }
 
 
-bool ArgumentObject::OnDoubleClick(const zaf::rich_edit::DoubleClickContext& context) {
-    return InnerOpenWindow(context.ObjectPositionInScreen());
+void ArgumentObject::OnDoubleClick(const zaf::textual::InlineObjectDoubleClickInfo& event_info) {
+    if (InnerOpenWindow()) {
+        event_info.MarkAsHandled();
+    }
 }
 
 
 void ArgumentObject::OpenWindow() {
-
-    try {
-
-        auto position = this->GetPositionInScreen();
-        if (position) {
-            InnerOpenWindow(*position);
-        }
-    }
-    catch (const zaf::Error&) {
-
-    }
+    InnerOpenWindow();
 }
 
 
-bool ArgumentObject::InnerOpenWindow(const zaf::Point& object_position_in_screen) {
+bool ArgumentObject::InnerOpenWindow() {
 
-    auto host = Host();
-    if (!host) {
+    try {
+
+        auto host = Host();
+        if (!host) {
+            return false;
+        }
+
+        auto host_window = host->Window();
+        if (!host_window) {
+            return false;
+        }
+
+        auto position_in_window = *this->PositionInHost();
+        position_in_window.AddOffset(*host->PositionInWindow());
+        auto position_in_screen = host_window->TranslateToScreen(position_in_window);
+
+        auto window = CreateArgumentObjectWindow();
+        window->SetOwner(host_window);
+        window->SetInitialRectStyle(zaf::InitialRectStyle::Custom);
+
+        window->SetObjectPositionInScreen(position_in_screen);
+        window->SetIsReadOnly(style_ != CommandDisplayStyle::Normal);
+        window->SetText(Text());
+
+        Subscriptions() += window->TextChangedEvent().Subscribe(
+            std::bind(&ArgumentObject::OnTextChanged, this, std::placeholders::_1));
+
+        Subscriptions() += window->DestroyedEvent().Subscribe(
+            std::bind(&ArgumentObject::OnWindowDestroyed, this));
+
+        window->Show();
+        return true;
+    }
+    catch (...) {
         return false;
     }
-
-    auto host_window = host->Window();
-    if (!host_window) {
-        return false;
-    }
-
-    auto window = CreateArgumentObjectWindow();
-    window->SetOwner(host_window);
-    window->SetInitialRectStyle(zaf::InitialRectStyle::Custom);
-
-    window->SetObjectPositionInScreen(object_position_in_screen);
-    window->SetIsReadOnly(style_ != CommandDisplayStyle::Normal);
-    window->SetText(Text());
-
-    Subscriptions() += window->TextChangedEvent().Subscribe(
-        std::bind(&ArgumentObject::OnTextChanged, this, std::placeholders::_1));
-
-    Subscriptions() += window->DestroyedEvent().Subscribe(
-        std::bind(&ArgumentObject::OnWindowDestroyed, this));
-
-    window->Show();
-    return true;
 }
 
 
@@ -155,8 +167,8 @@ void ArgumentObject::OnWindowDestroyed() {
 
     try {
 
-        auto char_index = this->GetCharIndex();
-        if (!char_index) {
+        auto range_in_host = this->RangeInHost();
+        if (!range_in_host) {
             return;
         }
 
@@ -165,27 +177,9 @@ void ArgumentObject::OnWindowDestroyed() {
             return;
         }
 
-        auto text_document = host->GetOLEInterface().Ptr().Query<ITextDocument>();
-        if (!text_document) {
-            return;
-        }
-
-        zaf::COMPtr<ITextRange> text_range;
-        HRESULT hresult = text_document->Range(
-            static_cast<long>(*char_index),
-            static_cast<long>(*char_index) + 1,
-            text_range.Reset());
-
-        if (FAILED(hresult)) {
-            return;
-        }
-
-        hresult = text_range->Delete(tomCharacter, 0, nullptr);
-        if (FAILED(hresult)) {
-            return;
-        }
+        host->SetTextInRange({}, *range_in_host);
     }
-    catch (const zaf::Error&) {
+    catch (...) {
 
     }
 }
