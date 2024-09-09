@@ -34,8 +34,10 @@ protected:
     explicit ArgumentObject(std::shared_ptr<ArgumentData> data);
 
     void Paint(zaf::Canvas& canvas) const override;
+
     void OnMouseCursorChanging(
         const zaf::textual::InlineObjectMouseCursorChangingInfo& event_info) override;
+    void OnMouseDown(const zaf::textual::InlineObjectMouseDownInfo& event_info) override;
     void OnDoubleClick(const zaf::textual::InlineObjectDoubleClickInfo& event_info) override;
 
     virtual std::shared_ptr<ArgumentData> CreateData(std::wstring text) = 0;

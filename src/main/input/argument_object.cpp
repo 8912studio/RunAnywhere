@@ -32,7 +32,7 @@ zaf::TextInlineObjectMetrics ArgumentObject::GetMetrics() const {
     else {
         result.SetWidth(60);
         result.SetHeight(28);
-        result.SetHeightAboveBaseline(22);
+        result.SetHeightAboveBaseline(28.f * 0.8f);
     }
     return result;
 }
@@ -83,6 +83,23 @@ void ArgumentObject::OnMouseCursorChanging(
     const zaf::textual::InlineObjectMouseCursorChangingInfo& event_info) {
 
     SetCursor(LoadCursor(nullptr, IDC_ARROW));
+    event_info.MarkAsHandled();
+}
+
+
+void ArgumentObject::OnMouseDown(const zaf::textual::InlineObjectMouseDownInfo& event_info) {
+
+    auto host = Host();
+    if (!host) {
+        return;
+    }
+
+    auto range_in_host = RangeInHost();
+    if (!range_in_host) {
+        return;
+    }
+
+    host->SetSelectionRange(*range_in_host);
     event_info.MarkAsHandled();
 }
 
