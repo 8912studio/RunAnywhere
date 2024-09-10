@@ -1,5 +1,5 @@
 #include "module/calculator/preview/calculator_preview_control.h"
-#include <zaf/graphic/font/font.h>
+#include <zaf/graphic/font.h>
 #include "module/calculator/result_text_builder.h"
 #include "module/common/style_constants.h"
 #include "utility/numeric_text_formatting.h"

@@ -3,7 +3,7 @@
 #include <cstddef>
 #include <string>
 #include <zaf/graphic/color.h>
-#include <zaf/graphic/text/text_layout.h>
+#include <zaf/graphic/dwrite/text_layout.h>
 
 namespace ra::mod {
 
@@ -51,7 +51,7 @@ inline zaf::Color HeaderTextColor() {
 }
 
 
-zaf::TextLayout CreateCommonTextLayout(const std::wstring& text, float layout_width);
+zaf::dwrite::TextLayout CreateCommonTextLayout(const std::wstring& text, float layout_width);
 
 std::wstring ToHexString(std::size_t value, std::size_t min_length);
 

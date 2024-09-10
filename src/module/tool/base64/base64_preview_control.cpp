@@ -139,7 +139,7 @@ void Base64PreviewControl::ShowTextContent(
         TextDisplayMode display_mode;
         if (is_base64) {
             display_mode.use_fixed_width_font = true;
-            display_mode.word_wrapping = zaf::WordWrapping::Character;
+            display_mode.word_wrapping = zaf::dwrite::WordWrapping::Character;
         }
 
         textContent->SetDisplayMode(display_mode);

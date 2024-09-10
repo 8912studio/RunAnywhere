@@ -12,6 +12,7 @@
 		</HorizontalBox>
 		<TextBox 
 			Name="questionContent"
+			IsEditable="false"
 			AutoHeight="true"
 			WordWrapping="Wrap"
 			FontSize="14"

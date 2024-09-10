@@ -110,7 +110,7 @@ std::shared_ptr<zaf::Control> AnswerView::CreateMajorErrorControl(
     auto result = zaf::Create<zaf::TextBox>();
     result->SetIsEnabled(false);
     result->SetAutoHeight(true);
-    result->SetWordWrapping(zaf::WordWrapping::Wrap);
+    result->SetWordWrapping(zaf::dwrite::WordWrapping::Wrap);
     result->SetStyledText(std::move(styled_text));
     return result;
 }
@@ -136,7 +136,7 @@ std::shared_ptr<zaf::Control> AnswerView::CreateDetailErrorControl(
 
     auto result = zaf::Create<zaf::TextBox>();
     result->SetMargin(zaf::Frame{ 0, 4, 0, 0 });
-    result->SetWordWrapping(zaf::WordWrapping::Wrap);
+    result->SetWordWrapping(zaf::dwrite::WordWrapping::Wrap);
     result->SetAutoHeight(true);
     result->SetIsEnabled(false);
     result->SetStyledText(std::move(styled_text));

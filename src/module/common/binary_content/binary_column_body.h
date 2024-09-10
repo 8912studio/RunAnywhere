@@ -2,7 +2,7 @@
 
 #include <zaf/base/byte_array.h>
 #include <zaf/control/control.h>
-#include <zaf/graphic/text/text_format.h>
+#include <zaf/graphic/dwrite/text_format.h>
 #include "module/common/binary_content/byte_index.h"
 
 namespace ra::mod {
@@ -60,15 +60,15 @@ private:
     static std::optional<std::size_t> FindByteLine(float y, bool adjust_to_nearest_index);
 
 private:
-    void PrepareGraphicResources(zaf::Renderer& renderer) const;
+    void PrepareGraphicResources(zaf::d2d::Renderer& renderer) const;
 
     void PaintLineHeader(zaf::Canvas& canvas, std::size_t line_index) const;
 
     void PaintByteHex(zaf::Canvas& canvas, const ByteIndex& byte_index) const;
-    zaf::TextLayout GetByteHexTextLayout(std::byte byte) const;
+    zaf::dwrite::TextLayout GetByteHexTextLayout(std::byte byte) const;
 
     void PaintByteCharacter(zaf::Canvas& canvas, const ByteIndex& byte_index) const;
-    zaf::TextLayout GetByteCharacterTextLayout(wchar_t character) const;
+    zaf::dwrite::TextLayout GetByteCharacterTextLayout(wchar_t character) const;
 
     bool IsByteSelected(const ByteIndex& byte_index) const;
 
@@ -84,13 +84,13 @@ private:
 private:
     zaf::ByteArray content_;
 
-    mutable std::map<std::byte, zaf::TextLayout> byte_hex_text_layouts_;
-    mutable std::map<wchar_t, zaf::TextLayout> byte_character_text_layouts_;
-    mutable zaf::Brush mouse_over_background_brush_;
-    mutable zaf::Brush selected_background_brush_;
-    mutable zaf::Brush default_text_brush_;
-    mutable zaf::Brush blank_character_brush_;
-    mutable zaf::Brush unknown_character_brush_;
+    mutable std::map<std::byte, zaf::dwrite::TextLayout> byte_hex_text_layouts_;
+    mutable std::map<wchar_t, zaf::dwrite::TextLayout> byte_character_text_layouts_;
+    mutable zaf::d2d::Brush mouse_over_background_brush_;
+    mutable zaf::d2d::Brush selected_background_brush_;
+    mutable zaf::d2d::Brush default_text_brush_;
+    mutable zaf::d2d::Brush blank_character_brush_;
+    mutable zaf::d2d::Brush unknown_character_brush_;
 
     std::optional<ByteIndex> mouse_over_byte_index_;
     std::optional<SelectionInfo> selection_info_;

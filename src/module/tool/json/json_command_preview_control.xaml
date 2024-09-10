@@ -19,6 +19,7 @@
 			<ScrollBox.ScrollContent>
 				<TextBox 
 					Name="textBox" 
+					IsEditable="false"
 					ParagraphAlignment="Center" />
 			</ScrollBox.ScrollContent>
 		</ThinScrollControl>

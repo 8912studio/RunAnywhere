@@ -11,6 +11,7 @@
 		<ScrollBox.ScrollContent>
             <TextBox 
                 Name="licenseContentTextBox" 
+				IsEditable="false"
                 Padding="4,4,4,4"
                 Border="0"
                 BackgroundColor="White"

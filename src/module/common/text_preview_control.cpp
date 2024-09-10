@@ -20,7 +20,7 @@ void TextPreviewControl::SetText(std::wstring text) {
 }
 
 
-void TextPreviewControl::SetWordWrapping(zaf::WordWrapping word_wrapping) {
+void TextPreviewControl::SetWordWrapping(zaf::dwrite::WordWrapping word_wrapping) {
 
     TextDisplayMode display_mode;
     display_mode.word_wrapping = word_wrapping;

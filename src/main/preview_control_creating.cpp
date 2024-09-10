@@ -12,7 +12,7 @@ std::shared_ptr<mod::CommandPreviewControl> CreateDefaultPreviewControl(
     std::wstring preview_text) {
 
     auto result = zaf::Create<mod::TextPreviewControl>();
-    result->SetWordWrapping(zaf::WordWrapping::WholeWord);
+    result->SetWordWrapping(zaf::dwrite::WordWrapping::WholeWord);
     result->SetText(std::move(preview_text));
     return result;
 }

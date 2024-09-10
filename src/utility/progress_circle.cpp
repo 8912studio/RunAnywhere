@@ -9,18 +9,18 @@
 namespace ra::utility {
 namespace {
 
-zaf::PathGeometry MakeExcludedPath(
+zaf::d2d::PathGeometry MakeExcludedPath(
 	zaf::Canvas& canvas,
-	const zaf::Geometry& path,
-	const zaf::Geometry& excluded) {
+	const zaf::d2d::Geometry& path,
+	const zaf::d2d::Geometry& excluded) {
 
 	auto path_geometry = canvas.CreatePathGeometry();
 	auto path_sink = path_geometry.Open();
 
-	zaf::Geometry::Combine(
+	zaf::d2d::Geometry::Combine(
 		path,
 		excluded,
-		zaf::Geometry::CombineMode::Exclude,
+		zaf::d2d::Geometry::CombineMode::Exclude,
 		path_sink);
 
 	path_sink.Close();
@@ -105,7 +105,7 @@ void ProgressCircle::Paint(zaf::Canvas& canvas, const zaf::Rect& dirty_rect) con
 void ProgressCircle::PaintWholeCircle(
 	zaf::Canvas& canvas,
 	const zaf::Ellipse& outer_ellipse,
-	const zaf::Geometry& inner_ellipse_path,
+	const zaf::d2d::Geometry& inner_ellipse_path,
 	const zaf::Color& color) const {
 
 	auto outer_ellipse_path = canvas.CreateEllipseGeometry(outer_ellipse);
@@ -119,7 +119,7 @@ void ProgressCircle::PaintWholeCircle(
 void ProgressCircle::PaintPartialCircle(
 	zaf::Canvas& canvas,
 	const zaf::Ellipse& outer_ellipse,
-	const zaf::Geometry& inner_ellipse_path,
+	const zaf::d2d::Geometry& inner_ellipse_path,
 	bool is_for_sink,
 	const zaf::Color& color) const {
 
@@ -135,7 +135,7 @@ void ProgressCircle::PaintPartialCircle(
 }
 
 
-zaf::Geometry ProgressCircle::CreateEllipsePath(
+zaf::d2d::Geometry ProgressCircle::CreateEllipsePath(
 	zaf::Canvas& canvas,
 	const zaf::Ellipse& ellipse,
 	bool is_for_sink) const {
@@ -143,7 +143,7 @@ zaf::Geometry ProgressCircle::CreateEllipsePath(
 	auto path_geometry = canvas.CreatePathGeometry();
 	auto path_sink = path_geometry.Open();
 
-	path_sink.BeginFigure(ellipse.position, zaf::GeometrySink::BeginFigureOption::Fill);
+	path_sink.BeginFigure(ellipse.position, zaf::d2d::GeometrySink::BeginFigureOption::Fill);
 
 	zaf::Point begin_point = ellipse.position;
 	begin_point.y -= ellipse.y_radius;
@@ -155,20 +155,22 @@ zaf::Geometry ProgressCircle::CreateEllipsePath(
 		degress,
 		ellipse.position);
 
-	zaf::ArcSegment arc_segment;
+	zaf::d2d::ArcSegment arc_segment;
 	arc_segment.SetEndPoint(transform_matrix.TransformPoint(begin_point));
 	arc_segment.SetXRadius(ellipse.x_radius);
 	arc_segment.SetYRadius(ellipse.y_radius);
 	arc_segment.SetSweepDirection( 
-		is_for_sink ? zaf::SweepDirection::CounterClockwise : zaf::SweepDirection::Clockwise);
+		is_for_sink ? 
+		zaf::d2d::SweepDirection::CounterClockwise : 
+		zaf::d2d::SweepDirection::Clockwise);
 	arc_segment.SetArcSize(
 		degress < 180 ?
-		is_for_sink ? zaf::ArcSize::Large : zaf::ArcSize::Small :
-		is_for_sink ? zaf::ArcSize::Small : zaf::ArcSize::Large);
+		is_for_sink ? zaf::d2d::ArcSize::Large : zaf::d2d::ArcSize::Small :
+		is_for_sink ? zaf::d2d::ArcSize::Small : zaf::d2d::ArcSize::Large);
 
 	path_sink.AddArc(arc_segment);
 
-	path_sink.EndFigure(zaf::GeometrySink::EndFigureOption::Close);
+	path_sink.EndFigure(zaf::d2d::GeometrySink::EndFigureOption::Close);
 	path_sink.Close();
 
 	return path_geometry;

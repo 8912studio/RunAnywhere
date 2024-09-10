@@ -116,7 +116,7 @@ void UserDefinedCommandPreviewControl::BuildArgumentLabels(
     for (const auto& each_argument : arguments) {
 
         auto label = zaf::Create<zaf::Label>();
-        label->SetParagraphAlignment(zaf::ParagraphAlignment::Center);
+        label->SetParagraphAlignment(zaf::dwrite::ParagraphAlignment::Center);
         label->SetTextTrimming(text_trimming);
         label->SetText(ident + each_argument);
         argumentContainer->AddChild(label);

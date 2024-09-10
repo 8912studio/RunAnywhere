@@ -48,7 +48,7 @@ void HashPreviewControl::AfterParse() {
 
 	TextDisplayMode display_mode;
 	display_mode.use_fixed_width_font = true;
-	display_mode.word_wrapping = zaf::WordWrapping::Character;
+	display_mode.word_wrapping = zaf::dwrite::WordWrapping::Character;
 	hashResultControl->SetDisplayMode(display_mode);
 }
 

@@ -2,10 +2,10 @@
 #include <zaf/base/string/case_conversion.h>
 #include <zaf/base/string/to_string.h>
 #include <zaf/base/string/trim.h>
-#include <zaf/graphic/font/font.h>
+#include <zaf/graphic/font.h>
 #include <zaf/graphic/graphic_factory.h>
-#include <zaf/graphic/text/text_format_properties.h>
-#include <zaf/graphic/text/text_layout.h>
+#include <zaf/graphic/dwrite/text_format_properties.h>
+#include <zaf/graphic/dwrite/text_layout.h>
 #include "module/common/style_constants.h"
 
 namespace ra::mod::tool::error {
@@ -172,7 +172,7 @@ void ErrorPreviewControl::AdjustErrorMessageInMultilines(float content_width) {
 
     errorMessage->SetFontSize(MinFontSize);
     errorMessage->SetIsMultiline(true);
-    errorMessage->SetWordWrapping(zaf::WordWrapping::Wrap);
+    errorMessage->SetWordWrapping(zaf::dwrite::WordWrapping::Wrap);
     errorMessage->SetAllowVerticalScroll(false);
 }
 

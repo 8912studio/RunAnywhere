@@ -13,7 +13,7 @@ void ChatGPTQuestionView::AfterParse() {
     __super::AfterParse();
 
     TextDisplayMode display_mode;
-    display_mode.word_wrapping = zaf::WordWrapping::Wrap;
+    display_mode.word_wrapping = zaf::dwrite::WordWrapping::Wrap;
     questionControl->SetDisplayMode(display_mode);
 
     Subscriptions() += openOptionButton->ClickEvent().Subscribe(std::bind([]() {

@@ -1,5 +1,5 @@
 #include "utility/link_button.h"
-#include <zaf/graphic/font/font.h>
+#include <zaf/graphic/font.h>
 
 namespace ra::utility {
 
@@ -11,8 +11,8 @@ void LinkButton::Initialize() {
 
     this->SetBorder(zaf::Frame{});
     this->SetCanFocused(false);
-    this->SetTextAlignment(zaf::TextAlignment::Center);
-    this->SetParagraphAlignment(zaf::ParagraphAlignment::Center);
+    this->SetTextAlignment(zaf::dwrite::TextAlignment::Center);
+    this->SetParagraphAlignment(zaf::dwrite::ParagraphAlignment::Center);
     this->SetAutoWidth(true);
     this->SetBackgroundColor(zaf::Color::Transparent());
 

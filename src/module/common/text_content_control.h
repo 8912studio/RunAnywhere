@@ -11,7 +11,7 @@ namespace ra::mod {
 class TextDisplayMode {
 public:
     bool use_fixed_width_font{};
-    zaf::WordWrapping word_wrapping{ zaf::WordWrapping::NoWrap };
+    zaf::dwrite::WordWrapping word_wrapping{ zaf::dwrite::WordWrapping::NoWrap };
 };
 
 /**

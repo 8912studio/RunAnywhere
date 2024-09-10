@@ -16,7 +16,7 @@ void CommandInputEdit::Initialize() {
     __super::Initialize();
 
     this->SetIsEditable(true);
-    this->SetParagraphAlignment(zaf::ParagraphAlignment::Center);
+    this->SetParagraphAlignment(zaf::dwrite::ParagraphAlignment::Center);
     this->SetMaxLength(1000);
 
     Subscriptions() += this->FocusLostEvent().Subscribe(std::bind([this]() {

@@ -16,6 +16,7 @@
 		<ScrollBox.ScrollContent>
             <TextBox 
                 Name="textBox" 
+				IsEditable="false"
                 Border="0"
                 BackgroundColor="#00000000"
                 FontSize="18"

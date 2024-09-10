@@ -134,7 +134,7 @@ bool TextContentControl::TryToAdjustForSingleLineText() {
         return false;
     }
 
-    textBox->SetTextAlignment(zaf::TextAlignment::Center);
+    textBox->SetTextAlignment(zaf::dwrite::TextAlignment::Center);
     return true;
 }
 
@@ -175,7 +175,7 @@ float TextContentControl::GetTextLayoutWidth() const {
 
 TextContentControl::LayoutInfo TextContentControl::AdjustForMultiLineText() {
 
-    textBox->SetTextAlignment(zaf::TextAlignment::Left);
+    textBox->SetTextAlignment(zaf::dwrite::TextAlignment::Left);
     textBox->SetFontSize(
         style_ == CommandDisplayStyle::Preserved ? 
         PreservedStyleMultiLineFontSize : 

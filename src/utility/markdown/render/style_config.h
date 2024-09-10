@@ -3,7 +3,7 @@
 #include <array>
 #include <string>
 #include <zaf/graphic/color.h>
-#include <zaf/graphic/font/font.h>
+#include <zaf/graphic/font.h>
 #include "utility/markdown/element/header_element.h"
 
 namespace ra::utility::markdown::render {

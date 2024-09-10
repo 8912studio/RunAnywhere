@@ -10,8 +10,8 @@ void LineBreakOption::Initialize() {
 
     this->SetFixedSize(zaf::Size{ 32, 18 });
     this->SetFontSize(11);
-    this->SetTextAlignment(zaf::TextAlignment::Center);
-    this->SetParagraphAlignment(zaf::ParagraphAlignment::Center);
+    this->SetTextAlignment(zaf::dwrite::TextAlignment::Center);
+    this->SetParagraphAlignment(zaf::dwrite::ParagraphAlignment::Center);
     this->SetBorder(zaf::Frame{ 1 });
     UpdateAppearance();
 }

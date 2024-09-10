@@ -2,7 +2,7 @@
 
 #include <zaf/control/control.h>
 #include <zaf/control/layout/axis_alignment.h>
-#include <zaf/graphic/geometry/path_geometry.h>
+#include <zaf/graphic/d2d/path_geometry.h>
 
 namespace ra::utility {
 
@@ -24,17 +24,17 @@ private:
 	void PaintWholeCircle(
 		zaf::Canvas& canvas,
 		const zaf::Ellipse& outer_ellipse,
-		const zaf::Geometry& inner_ellipse_path, 
+		const zaf::d2d::Geometry& inner_ellipse_path, 
 		const zaf::Color& color) const;
 
 	void PaintPartialCircle(
 		zaf::Canvas& canvas,
 		const zaf::Ellipse& outer_ellipse,
-		const zaf::Geometry& inner_ellipse_path,
+		const zaf::d2d::Geometry& inner_ellipse_path,
 		bool is_for_sink,
 		const zaf::Color& color) const;
 
-	zaf::Geometry CreateEllipsePath(
+	zaf::d2d::Geometry CreateEllipsePath(
 		zaf::Canvas& canvas, 
 		const zaf::Ellipse& ellipse,
 		bool is_for_sink) const;

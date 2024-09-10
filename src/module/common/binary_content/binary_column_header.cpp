@@ -39,7 +39,7 @@ void BinaryColumnHeader::Paint(zaf::Canvas& canvas, const zaf::Rect& dirty_rect)
     }
 
     auto ascii_text_layout = CreateCommonTextLayout(L"ASCII", std::numeric_limits<float>::max());
-    ascii_text_layout.SetTextAlignment(zaf::TextAlignment::Left);
+    ascii_text_layout.SetTextAlignment(zaf::dwrite::TextAlignment::Left);
     canvas.DrawTextLayout(ascii_text_layout, zaf::Point{ ByteCharacterAreaX(), 0 });
 }
 

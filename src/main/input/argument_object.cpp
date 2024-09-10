@@ -5,7 +5,7 @@
 #include <zaf/creation.h>
 #include <zaf/graphic/canvas.h>
 #include <zaf/graphic/graphic_factory.h>
-#include <zaf/graphic/text/text_format_properties.h>
+#include <zaf/graphic/dwrite/text_format_properties.h>
 #include "utility/text_utility.h"
 
 namespace ra::main::input {
@@ -22,9 +22,9 @@ void ArgumentObject::SetStyle(CommandDisplayStyle style) {
 }
 
 
-zaf::TextInlineObjectMetrics ArgumentObject::GetMetrics() const {
+zaf::dwrite::InlineObjectMetrics ArgumentObject::GetMetrics() const {
 
-    zaf::TextInlineObjectMetrics result;
+    zaf::dwrite::InlineObjectMetrics result;
     if (style_ == CommandDisplayStyle::Preserved) {
         result.SetWidth(48);
         result.SetHeight(18);
@@ -55,18 +55,18 @@ void ArgumentObject::Paint(zaf::Canvas& canvas) const {
 
 void ArgumentObject::PaintText(zaf::Canvas& canvas, const zaf::Rect& text_rect) const {
 
-    zaf::TextFormatProperties text_format_properties;
+    zaf::dwrite::TextFormatProperties text_format_properties;
     text_format_properties.font_size = style_ == CommandDisplayStyle::Preserved ? 12.f : 16.f;
     auto text_format = zaf::GraphicFactory::Instance().CreateTextFormat(text_format_properties);
 
-    zaf::TextTrimming text_trimming;
-    text_trimming.SetGranularity(zaf::TextTrimmingGranularity::Character);
+    zaf::dwrite::TextTrimming text_trimming;
+    text_trimming.SetGranularity(zaf::dwrite::TextTrimmingGranularity::Character);
     text_trimming.SetSign(zaf::GraphicFactory::Instance().CreateEllipsisTrimmingSign(text_format));
     text_format.SetTextTrimming(text_trimming);
 
-    text_format.SetWordWrapping(zaf::WordWrapping::NoWrap);
-    text_format.SetTextAlignment(zaf::TextAlignment::Center);
-    text_format.SetParagraphAlignment(zaf::ParagraphAlignment::Center);
+    text_format.SetWordWrapping(zaf::dwrite::WordWrapping::NoWrap);
+    text_format.SetTextAlignment(zaf::dwrite::TextAlignment::Center);
+    text_format.SetParagraphAlignment(zaf::dwrite::ParagraphAlignment::Center);
 
     zaf::Rect paint_rect = text_rect;
     paint_rect.Deflate(zaf::Frame{ 4, 0, 3, 0 });

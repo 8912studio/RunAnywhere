@@ -3,8 +3,8 @@
 #include <zaf/control/control_binder.h>
 #include <zaf/control/label.h>
 #include <zaf/control/linear_box.h>
-#include <zaf/graphic/image/wic/bitmap.h>
-#include <zaf/graphic/renderer/renderer.h>
+#include <zaf/graphic/wic/bitmap.h>
+#include <zaf/graphic/d2d/renderer.h>
 #include "module/command_preview_control.h"
 #include "module/tool/rgb/rgb_command_parse_result.h"
 

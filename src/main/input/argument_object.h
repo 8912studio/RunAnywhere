@@ -28,7 +28,7 @@ public:
         return text_changed_event_.AsObservable();
     }
 
-    zaf::TextInlineObjectMetrics GetMetrics() const override;
+    zaf::dwrite::InlineObjectMetrics GetMetrics() const override;
 
 protected:
     explicit ArgumentObject(std::shared_ptr<ArgumentData> data);

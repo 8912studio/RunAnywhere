@@ -2,14 +2,14 @@
 #include <zaf/base/string/case_conversion.h>
 #include <zaf/base/string/to_string.h>
 #include <zaf/graphic/graphic_factory.h>
-#include <zaf/graphic/text/text_format_properties.h>
+#include <zaf/graphic/dwrite/text_format_properties.h>
 
 namespace ra::mod {
 namespace {
 
-zaf::TextFormat CreateTextFormat() {
+zaf::dwrite::TextFormat CreateTextFormat() {
 
-    zaf::TextFormatProperties text_format_properties;
+    zaf::dwrite::TextFormatProperties text_format_properties;
     text_format_properties.font_family_name = L"Consolas";
     text_format_properties.font_size = 14;
     return zaf::GraphicFactory::Instance().CreateTextFormat(text_format_properties);
@@ -18,15 +18,15 @@ zaf::TextFormat CreateTextFormat() {
 }
 
 
-zaf::TextLayout CreateCommonTextLayout(const std::wstring& text, float layout_width) {
+zaf::dwrite::TextLayout CreateCommonTextLayout(const std::wstring& text, float layout_width) {
 
     auto text_layout = zaf::GraphicFactory::Instance().CreateTextLayout(
         text,
         CreateTextFormat(),
         zaf::Size{ layout_width, LineHeight });
 
-    text_layout.SetTextAlignment(zaf::TextAlignment::Center);
-    text_layout.SetParagraphAlignment(zaf::ParagraphAlignment::Center);
+    text_layout.SetTextAlignment(zaf::dwrite::TextAlignment::Center);
+    text_layout.SetParagraphAlignment(zaf::dwrite::ParagraphAlignment::Center);
     return text_layout;
 }
 

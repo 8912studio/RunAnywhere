@@ -14,7 +14,7 @@ void StyledTextBox::Initialize() {
 
     //StyledTextBox is disabled by default, users can enable it explicitly.
     this->SetIsEnabled(false);
-    this->SetWordWrapping(zaf::WordWrapping::Wrap);
+    this->SetWordWrapping(zaf::dwrite::WordWrapping::Wrap);
     this->SetIgnoreTailingWhiteSpaces(true);
 
     this->SetSelectionBackColorPicker(zaf::ColorPicker([this](const zaf::Control& control) {
@@ -45,7 +45,7 @@ void StyledTextBox::SetLineSpacingByParagraphStyle(const StyleConfig& style_conf
 
     auto new_line_height = default_line_height + style_config.paragraph_config.line_gap;
 
-    this->SetLineSpacing(zaf::LineSpacing{
+    this->SetLineSpacing(zaf::dwrite::LineSpacing{
         new_line_height,
         new_line_height * 0.8f,
     });

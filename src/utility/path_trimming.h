@@ -1,9 +1,9 @@
 #pragma once
 
-#include <zaf/graphic/text/text_trimming.h>
+#include <zaf/graphic/dwrite/text_trimming.h>
 
 namespace ra::utility {
 
-zaf::TextTrimming CreateTextTrimmingForPath();
+zaf::dwrite::TextTrimming CreateTextTrimmingForPath();
 
 }

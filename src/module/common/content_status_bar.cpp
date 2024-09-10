@@ -88,7 +88,7 @@ void ContentStatusBar::SetEncoding(std::optional<TextEncoding> encoding) {
 
 void ContentStatusBar::SetText(const std::wstring& text) {
 
-	contentLabel->SetTextTrimming(zaf::TextTrimmingGranularity::Character);
+	contentLabel->SetTextTrimming(zaf::dwrite::TextTrimmingGranularity::Character);
 	contentLabel->SetText(utility::ReplaceWhitespacesToVisibleChars(text));
 }
 

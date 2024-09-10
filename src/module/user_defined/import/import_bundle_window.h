@@ -32,7 +32,7 @@ private:
         std::wstring icon_uri;
         std::wstring title_text;
         std::wstring message_text;
-        zaf::TextTrimming message_text_trimming;
+        zaf::dwrite::TextTrimming message_text_trimming;
         ButtonsStyle buttons_style{ ButtonsStyle::OK };
     };
 

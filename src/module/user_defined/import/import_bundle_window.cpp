@@ -212,7 +212,7 @@ void ImportBundleWindow::GetConflictMessageDisplayInfo(ImportStateDisplayInfo& i
 
     info.message_text += L"Confirm to import anyway?";
 
-    info.message_text_trimming.SetGranularity(zaf::TextTrimmingGranularity::Character);
+    info.message_text_trimming.SetGranularity(zaf::dwrite::TextTrimmingGranularity::Character);
 }
 
 
@@ -274,7 +274,7 @@ void ImportBundleWindow::GetParseErrorMessageDisplayInfo(ImportStateDisplayInfo&
     info.message_text += zaf::FromUTF8String(importer_->GetParseError()->ErrorLine());
     info.message_text += L'\"';
 
-    info.message_text_trimming.SetGranularity(zaf::TextTrimmingGranularity::Character);
+    info.message_text_trimming.SetGranularity(zaf::dwrite::TextTrimmingGranularity::Character);
     info.message_text_trimming.SetDelimiter(L'\"');
     info.message_text_trimming.SetDelimiterCount(1);
 }

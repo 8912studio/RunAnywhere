@@ -1,5 +1,5 @@
 #include "main/toolbar/toolbar_button.h"
-#include <zaf/graphic/image/image.h>
+#include <zaf/graphic/image.h>
 
 namespace ra {
 

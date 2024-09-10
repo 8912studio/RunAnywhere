@@ -2,7 +2,7 @@
 #include <sstream>
 #include <zaf/base/string/case_conversion.h>
 #include <zaf/graphic/graphic_factory.h>
-#include <zaf/graphic/image/wic/imaging_factory.h>
+#include <zaf/graphic/wic/imaging_factory.h>
 #include "module/common/style_constants.h"
 
 namespace ra::mod::tool::rgb {
