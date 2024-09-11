@@ -4,7 +4,6 @@
 #include <zaf/control/button.h>
 #include <zaf/control/control_binder.h>
 #include <zaf/control/linear_box.h>
-#include <zaf/control/text_box.h>
 #include "module/chat_gpt/dialog/answer_view.h"
 #include "module/chat_gpt/dialog/round.h"
 #include "utility/markdown/render/styled_text_box.h"

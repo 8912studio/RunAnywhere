@@ -172,7 +172,7 @@ void DialogWindow::StartNewRound(std::wstring question) {
     auto round = dialog_->CreateRound(std::move(question));
 
     //We have to subscribe to the answer event before creating the round view, as we need to record
-    //the scroll bar state before updateing the answer content when the answer event is raised.
+    //the scroll bar state before updating the answer content when the answer event is raised.
     SubscribeToAnswerEvent(*round);
     SubscribeToRoundEvents(*round);
 
