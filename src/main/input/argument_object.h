@@ -1,7 +1,7 @@
 #pragma once
 
 #include <zaf/base/none.h>
-#include <zaf/control/textual/interactive_inline_object.h>
+#include <zaf/control/textual/active_inline_object.h>
 #include <zaf/rx/subject.h>
 #include <zaf/window/window.h>
 #include "main/command_display_style.h"
@@ -10,7 +10,7 @@
 
 namespace ra::main::input {
 
-class ArgumentObject : public zaf::textual::InteractiveInlineObject {
+class ArgumentObject : public zaf::textual::ActiveInlineObject {
 public:
     const std::shared_ptr<ArgumentData>& Data() const {
         return data_;

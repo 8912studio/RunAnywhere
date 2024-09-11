@@ -34,4 +34,9 @@ std::shared_ptr<ArgumentObjectWindow> TextBlockObject::CreateArgumentObjectWindo
     return zaf::Create<TextBlockWindow>();
 }
 
+
+std::shared_ptr<zaf::textual::InlineObject> TextBlockObject::Clone() const {
+    return zaf::Create<TextBlockObject>(this->Text());
+}
+
 }

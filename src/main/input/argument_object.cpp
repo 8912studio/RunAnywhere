@@ -27,12 +27,11 @@ zaf::dwrite::InlineObjectMetrics ArgumentObject::GetMetrics() const {
     zaf::dwrite::InlineObjectMetrics result;
     if (style_ == CommandDisplayStyle::Preserved) {
         result.SetWidth(48);
-        result.SetHeight(18);
+        result.SetHeightAndBaseline(18);
     }
     else {
         result.SetWidth(60);
-        result.SetHeight(28);
-        result.SetHeightAboveBaseline(28.f * 0.8f);
+        result.SetHeightAndBaseline(28);
     }
     return result;
 }

@@ -7,22 +7,6 @@ constexpr wchar_t ObjectReplacementChar = L'\ufffc';
 
 }
 
-CommandInputContent CommandInputContent::FromRichEdit(const zaf::RichEdit& rich_edit) {
-
-    auto text = rich_edit.Text();
-    std::vector<zaf::rich_edit::ObjectInfo> objects;
-
-    auto ole_interface = rich_edit.GetOLEInterface();
-    for (std::size_t index = 0; index < text.length(); ++index) {
-
-        if (text[index] == ObjectReplacementChar) {
-            objects.push_back(ole_interface.GetObjectInfoAt(objects.size()));
-        }
-    }
-
-    return CommandInputContent{ std::move(text), std::move(objects) };
-}
-
 
 CommandInputContent CommandInputContent::FromTextBox(const zaf::TextBox& text_box) {
     
@@ -44,16 +28,6 @@ CommandInputContent CommandInputContent::FromTextBox(const zaf::TextBox& text_bo
     }
 
     return CommandInputContent{ text, std::move(objects) };
-}
-
-
-CommandInputContent::CommandInputContent(
-    std::wstring text,
-    std::vector<zaf::rich_edit::ObjectInfo> objects) 
-    :
-    text_(std::move(text)),
-    objects_(std::move(objects)) {
-
 }
 
 

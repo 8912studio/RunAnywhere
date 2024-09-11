@@ -30,4 +30,9 @@ std::shared_ptr<ArgumentObjectWindow> ActivePathObject::CreateArgumentObjectWind
     return zaf::Create<ActivePathWindow>();
 }
 
+
+std::shared_ptr<zaf::textual::InlineObject> ActivePathObject::Clone() const {
+    return zaf::Create<ActivePathObject>(this->Text());
+}
+
 }

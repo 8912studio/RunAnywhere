@@ -184,11 +184,12 @@ void CommandInputEdit::OnCopying(const zaf::textual::CopyingInfo& event_info) {
 
         string_begin_index = each_object_index + 1;
 
-        auto argument_data = this->GetInlineObjectAtIndex(
+        auto inline_object = this->GetInlineObjectAtIndex(
             each_object_index + event_info.SelectionRange().index);
 
-        if (argument_data) {
-            clipboard_data.AddObject(argument_data);
+        auto argument_object = zaf::As<ArgumentObject>(inline_object);
+        if (argument_object) {
+            clipboard_data.AddObject(argument_object->Data());
         }
     }
 

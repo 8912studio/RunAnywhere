@@ -13,6 +13,8 @@ public:
     std::shared_ptr<ArgumentData> CreateData(std::wstring text) override;
     zaf::Color GetBackgroundColor() const override;
     std::shared_ptr<ArgumentObjectWindow> CreateArgumentObjectWindow() override;
+
+    std::shared_ptr<zaf::textual::InlineObject> Clone() const override;
 };
 
 }
