@@ -1,55 +1,11 @@
-#include "about_window.h"
+﻿#include "about_window.h"
 #include <shellapi.h>
+#include <format>
 #include <zaf/application.h>
 #include "license_window.h"
+#include "version.h"
 
 namespace ra {
-namespace {
-
-std::wstring GetVersionString() {
-
-    auto exe_path = zaf::Application::Instance().GetExeFilePath().wstring();
-
-    DWORD version_info_size = GetFileVersionInfoSize(exe_path.c_str(), nullptr);
-    if (version_info_size == 0) {
-        return {};
-    }
-
-    auto version_info_buffer = std::make_unique<std::byte[]>(version_info_size);
-    BOOL is_succeeded = GetFileVersionInfo(
-        exe_path.c_str(),
-        0, 
-        version_info_size, 
-        version_info_buffer.get());
-
-    if (!is_succeeded) {
-        return {};
-    }
-
-    VS_FIXEDFILEINFO* file_info;
-    is_succeeded = VerQueryValue(
-        version_info_buffer.get(),
-        L"\\", 
-        reinterpret_cast<LPVOID*>(&file_info),
-        nullptr);
-
-    if (!is_succeeded) {
-        return {};
-    }
-
-    short major = HIWORD(file_info->dwProductVersionMS);
-    short minor = LOWORD(file_info->dwProductVersionMS);
-    short revision = HIWORD(file_info->dwProductVersionLS);
-    short build = LOWORD(file_info->dwProductVersionLS);
-
-    return
-        std::to_wstring(major) + L'.' +
-        std::to_wstring(minor) + L'.' +
-        std::to_wstring(revision) + L'.' +
-        std::to_wstring(build);
-}
-
-}
 
 ZAF_OBJECT_IMPL(AboutWindow);
 
@@ -73,10 +29,15 @@ void AboutWindow::AfterParse() {
 
     __super::AfterParse();
 
+    InitializeVersionText();
     InitializeGithubButton();
     InitializeLicenseButton();
+    InitializeCopyrightText();
+}
 
-    versionLabel->SetText(GetVersionString());
+
+void AboutWindow::InitializeVersionText() {
+    versionLabel->SetText(std::format(L"{}.{}.{}.{}", MAJOR, MINOR, REVISION, BUILD));
 }
 
 
@@ -100,6 +61,13 @@ void AboutWindow::InitializeLicenseButton() {
     Subscriptions() += licenseButton->ClickEvent().Subscribe(std::bind([this]() {
         LicenseWindow::ShowInstance();
     }));
+}
+
+
+void AboutWindow::InitializeCopyrightText() {
+
+    auto text = std::format(L"Copyright © 2022-{} 8912studio. All rights reserved.", YEAR);
+    copyrightLabel->SetText(std::move(text));
 }
 
 }

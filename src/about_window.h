@@ -17,10 +17,13 @@ protected:
     void AfterParse() override;
 
 private:
+    void InitializeVersionText();
     void InitializeGithubButton();
     void InitializeLicenseButton();
+    void InitializeCopyrightText();
 
 private:
+    ZAF_BIND_CONTROL(zaf::Label, copyrightLabel);
     ZAF_BIND_CONTROL(zaf::Label, versionLabel);
     ZAF_BIND_CONTROL(zaf::Button, githubButton);
     ZAF_BIND_CONTROL(zaf::Button, licenseButton);

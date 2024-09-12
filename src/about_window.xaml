@@ -41,10 +41,10 @@
     </Control>
 
     <Label 
+		Name="copyrightLabel"
         FixedHeight="20"
         Margin="0,10,0,0"
         TextAlignment="Center" 
         ParagraphAlignment="Center" 
-        FontSize="12"
-        Text="Copyright © 2023 Zplutor. All rights reserved."/>
+        FontSize="12"/>
 </AboutWindow>

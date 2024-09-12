@@ -1,8 +1,8 @@
 #include "version"
 
 #define MyAppName "RunAnywhere"
-#define MyAppPublisher "Zplutor"
-#define MyAppURL "https://github.com/Zplutor/RunAnywhere"
+#define MyAppPublisher "8912studio"
+#define MyAppURL "https://github.com/8912studio/RunAnywhere"
 #define MyAppExeName "RunAnywhere.exe"
 
 [Setup]
@@ -16,6 +16,7 @@ AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 VersionInfoVersion={#MyAppVersion}
 VersionInfoDescription={#MyAppName} Installer
+VersionInfoCopyright=Copyright (C) 2022-{#MyAppYear} 8912studio. All rights reserved.
 SetupMutex=Zplutor.RunAnywhereInstaller.Exclusive
 DefaultDirName={autopf}\{#MyAppName}
 DefaultGroupName={#MyAppName}

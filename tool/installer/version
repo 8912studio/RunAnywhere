@@ -1,1 +1,2 @@
-#define MyAppVersion "0.11.0.34" 
+#define MyAppVersion "0.11.0.42"
+#define MyAppYear "2024"
