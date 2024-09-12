@@ -78,14 +78,13 @@ void DialogWindow::InitializeRoundListView() {
 void DialogWindow::ResetInputHeight() {
 
     auto line_count = inputEdit->LineCount();
-    auto text_height = inputEdit->CalculatePreferredSize(inputEdit->ContentSize()).height;
-    text_height -= inputEdit->Padding().Height();
+    auto text_height = inputEdit->CalculatePreferredSize(inputEdit->Size()).height;
 
     auto line_height = std::ceil(text_height / line_count);
     constexpr std::size_t max_line_count = 5;
 
     auto show_line_count = std::min(line_count, max_line_count);
-    auto expected_height = show_line_count * line_height + inputEdit->Padding().Height();
+    auto expected_height = show_line_count * line_height + inputEdit->Margin().Height();
     inputContainer->SetFixedHeight(expected_height);
 }
 
