@@ -20,7 +20,8 @@
 				<TextBox 
 					Name="textBox" 
 					IsEditable="false"
-					ParagraphAlignment="Center" />
+					ParagraphAlignment="Center"
+					WordWrapping="Wrap" />
 			</ScrollBox.ScrollContent>
 		</ThinScrollControl>
 	</VerticalBox>
