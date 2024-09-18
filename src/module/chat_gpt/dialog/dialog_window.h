@@ -1,5 +1,6 @@
 #pragma once
 
+#include <zaf/control/button.h>
 #include <zaf/control/control_binder.h>
 #include <zaf/control/scroll_box.h>
 #include <zaf/control/text_box.h>
@@ -27,11 +28,14 @@ protected:
 
 private:
     void InitializeInputEdit();
+    void InitializeSendButton();
     void InitializeRoundListView();
 
     bool HandleKeyDownMessage(const zaf::KeyMessage& message);
 
+    void ResetControlStates();
     void ResetInputHeight();
+    void ResetSendButtonState();
     void OpenWindow();
 
     void StartNewRoundOnPressReturn();
@@ -43,8 +47,9 @@ private:
 private:
     ZAF_BIND_CONTROL(zaf::ScrollBox, roundScrollBox);
     ZAF_BIND_CONTROL(utility::composite::CompositeTextBox, roundListView);
-    ZAF_BIND_CONTROL(zaf::Control, inputContainer);
+    ZAF_BIND_CONTROL(zaf::Control, bottomContainer);
     ZAF_BIND_CONTROL(zaf::TextBox, inputEdit);
+    ZAF_BIND_CONTROL(zaf::Button, sendButton);
 
     std::shared_ptr<Dialog> dialog_;
 };

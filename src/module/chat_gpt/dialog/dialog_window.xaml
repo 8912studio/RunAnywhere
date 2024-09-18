@@ -17,19 +17,26 @@
 	</ThinScrollControl>
 
 	<Control FixedHeight="1" Margin="15,0,15,0" BackgroundColor="#CCCCCC" />
-	
-	<ThinScrollControl
-		Name="inputContainer"
-		AllowHorizontalScroll="false"
-		UseOverlayScrollBars="true">
-		
-		<TextBox
-			Name="inputEdit"
-			IsEditable="true"
-			Margin="15,15,15,15"
-			WordWrapping="Wrap"
-			FontSize="14" />
-		
-	</ThinScrollControl>
 
+	<HorizontalBox 
+		Name="bottomContainer" 
+		Margin="15,5,15,5"
+		CrossAxisAlignment="Center">
+		<ThinScrollControl
+			AllowHorizontalScroll="false"
+			UseOverlayScrollBars="true">
+			<TextBox
+				Name="inputEdit"
+				Padding="0,10,0,10"
+				IsEditable="true"
+				WordWrapping="Wrap"
+				FontSize="14" />
+		</ThinScrollControl>
+		<Button 
+			Name="sendButton"
+			FixedSize="40,30"
+			Margin="15,0,0,0"
+			Text="Send"
+			IsEnabled="false" />
+	</HorizontalBox>
 </DialogWindow>

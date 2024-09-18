@@ -22,15 +22,16 @@ void DialogWindow::AfterParse() {
     __super::AfterParse();
 
     InitializeInputEdit();
+    InitializeSendButton();
     InitializeRoundListView();
-    ResetInputHeight();
+    ResetControlStates();
 }
 
 
 void DialogWindow::InitializeInputEdit() {
 
     Subscriptions() += inputEdit->TextChangedEvent().Subscribe(
-        std::bind(&DialogWindow::ResetInputHeight, this));
+        std::bind(&DialogWindow::ResetControlStates, this));
 
     Subscriptions() += inputEdit->RectChangedEvent().Subscribe(
         [this](const zaf::RectChangedInfo& event_info) {
@@ -48,6 +49,13 @@ void DialogWindow::InitializeInputEdit() {
             event_info.MarkAsHandled();
         }
     });
+}
+
+
+void DialogWindow::InitializeSendButton() {
+
+    Subscriptions() += sendButton->ClickEvent().Subscribe(
+        std::bind(&DialogWindow::StartNewRoundOnPressReturn, this));
 }
 
 
@@ -75,6 +83,12 @@ void DialogWindow::InitializeRoundListView() {
 }
 
 
+void DialogWindow::ResetControlStates() {
+    ResetInputHeight();
+    ResetSendButtonState();
+}
+
+
 void DialogWindow::ResetInputHeight() {
 
     auto line_count = inputEdit->LineCount();
@@ -85,7 +99,12 @@ void DialogWindow::ResetInputHeight() {
 
     auto show_line_count = std::min(line_count, max_line_count);
     auto expected_height = show_line_count * line_height + inputEdit->Margin().Height();
-    inputContainer->SetFixedHeight(expected_height);
+    bottomContainer->SetFixedHeight(expected_height);
+}
+
+
+void DialogWindow::ResetSendButtonState() {
+    sendButton->SetIsEnabled(inputEdit->TextLength() > 0);
 }
 
 
