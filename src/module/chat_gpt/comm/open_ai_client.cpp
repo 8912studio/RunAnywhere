@@ -64,10 +64,6 @@ OpenAIClient::~OpenAIClient() {
 zaf::Observable<ChatCompletion> OpenAIClient::CreateChatCompletion(
     const std::vector<const Message*>& messages) {
 
-#ifndef NDEBUG
-    return CreateMockChatCompletion();
-#endif
-
     auto url = zaf::ToUTF8String(option::OptionStorage::Instance().OpenAIAPIServer());
     if (!url.empty()) {
         if (url.back() != '/') {
@@ -216,7 +212,7 @@ Additionally, you can also redirect the debug output to a file or customize the 
 std::string OpenAIClient::CreateRequestBody(const std::vector<const Message*>& messages) {
 
     boost::json::object root;
-    root["model"] = "gpt-3.5-turbo";
+    root["model"] = "gpt-4o-mini";
     root["temperature"] = 0.6f;
 
     boost::json::array message_array;
