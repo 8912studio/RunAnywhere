@@ -213,4 +213,14 @@ void DialogView::SetFocusToInputEdit() {
     inputEdit->SetIsFocused(true);
 }
 
+
+std::wstring DialogView::Subject() const {
+    return dialog_->Subject();
+}
+
+
+zaf::Observable<zaf::None> DialogView::SubjectUpdatedEvent() const {
+    return dialog_->SubjectUpdatedEvent();
+}
+
 }

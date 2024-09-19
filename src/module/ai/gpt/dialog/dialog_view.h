@@ -18,6 +18,9 @@ public:
     void Chat(std::wstring question);
     void SetFocusToInputEdit();
 
+    std::wstring Subject() const;
+    zaf::Observable<zaf::None> SubjectUpdatedEvent() const;
+
 protected:
     void AfterParse() override;
 

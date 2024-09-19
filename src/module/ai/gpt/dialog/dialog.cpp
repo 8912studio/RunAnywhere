@@ -1,12 +1,42 @@
 #include "module/ai/gpt/dialog/dialog.h"
+#include <format>
 #include <zaf/base/container/utility/erase.h>
 #include <zaf/rx/creation.h>
 #include "module/ai/gpt/local_error.h"
 
 namespace ra::mod::ai::gpt {
 
-Dialog::Dialog(std::shared_ptr<OpenAIClient> client) : client_(std::move(client)) {
+Dialog::Dialog(std::size_t number, std::shared_ptr<OpenAIClient> client) : 
+    number_(number),
+    client_(std::move(client)) {
 
+}
+
+
+std::wstring Dialog::Subject() const {
+
+    if (!subject_.empty()) {
+        return subject_;
+    }
+
+    return std::format(L"New dialog #{}", number_);
+}
+
+
+zaf::Observable<zaf::None> Dialog::SubjectUpdatedEvent() const {
+    return subject_updated_event_.GetObservable();
+}
+
+
+std::wstring Dialog::GenerateSubject(const std::wstring& question) {
+
+    constexpr std::size_t max_length = 100;
+
+    if (question.length() <= max_length) {
+        return question;
+    }
+
+    return std::format(L"{}...", question.substr(0, max_length));
 }
 
 
@@ -35,6 +65,12 @@ zaf::Observable<ChatCompletion> Dialog::Chat(std::uint64_t round_id, std::wstrin
             LocalErrorCode::ChatOngoing,
             ZAF_SOURCE_LOCATION(),
         });
+    }
+
+    //Generate the subject if there is no subject yet.
+    if (subject_.empty()) {
+        subject_ = GenerateSubject(question);
+        subject_updated_event_.Raise({});
     }
 
     ongoing_question_.emplace(std::move(question));

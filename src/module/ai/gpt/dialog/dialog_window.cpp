@@ -17,10 +17,14 @@ void DialogWindow::AfterParse() {
 
     __super::AfterParse();
 
-    this->SetTitle(L"Chat with GPT");
     this->SetContentSize(zaf::Size{ 600, 600 });
     this->SetMinSize(zaf::Size{ 300, 300 });
     this->SetRootControl(view_);
+
+    this->SetTitle(view_->Subject());
+    Subscriptions() += view_->SubjectUpdatedEvent().Subscribe(std::bind([this]() {
+        this->SetTitle(view_->Subject());
+    }));
 }
 
 

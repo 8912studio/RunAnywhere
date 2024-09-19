@@ -9,7 +9,7 @@ DialogManager::DialogManager(std::shared_ptr<OpenAIClient> client) : client_(std
 
 
 std::shared_ptr<Dialog> gpt::DialogManager::CreateNewDialog() {
-    return std::make_shared<Dialog>(client_);
+    return std::make_shared<Dialog>(new_dialog_number_++, client_);
 }
 
 }

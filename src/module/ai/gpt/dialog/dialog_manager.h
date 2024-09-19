@@ -12,6 +12,7 @@ public:
     std::shared_ptr<Dialog> CreateNewDialog();
 
 private:
+    std::size_t new_dialog_number_{ 1 };
     std::shared_ptr<OpenAIClient> client_;
 };
 
