@@ -3,7 +3,7 @@
 #include <zaf/rx/scheduler.h>
 #include <zaf/rx/timer.h>
 
-namespace ra::mod::chat_gpt {
+namespace ra::mod::ai::gpt {
 namespace {
 
 constexpr int EllipseCount = 3;

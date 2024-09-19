@@ -15,7 +15,7 @@ void ModuleManager::Initialize() {
     user_defined_module_ = std::make_shared<mod::user_defined::UserDefinedModule>();
     user_defined_module_->Reload();
 
-    chat_gpt_module_ = std::make_shared<mod::chat_gpt::ChatGPTModule>();
+    chat_gpt_module_ = std::make_shared<mod::ai::gpt::ChatGPTModule>();
 
     extension_module_manager_ = std::make_unique<mod::extension::ExtensionModuleManager>();
     extension_module_manager_->Load({

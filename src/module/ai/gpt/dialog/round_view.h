@@ -8,7 +8,7 @@
 #include "module/ai/gpt/dialog/round.h"
 #include "utility/markdown/render/styled_text_box.h"
 
-namespace ra::mod::chat_gpt {
+namespace ra::mod::ai::gpt {
 
 class RoundView : public zaf::VerticalBox {
 public:
@@ -16,7 +16,7 @@ public:
 
     explicit RoundView(std::shared_ptr<Round> round);
 
-    std::shared_ptr<chat_gpt::AnswerView> AnswerView() const {
+    std::shared_ptr<gpt::AnswerView> AnswerView() const {
         return answerView;
     }
 
@@ -44,13 +44,13 @@ private:
 private:
     ZAF_BIND_CONTROL(zaf::Control, questionView);
     ZAF_BIND_CONTROL(zaf::TextBox, questionContent);
-    ZAF_BIND_CONTROL(chat_gpt::AnswerView, answerView);
+    ZAF_BIND_CONTROL(gpt::AnswerView, answerView);
     ZAF_BIND_CONTROL(zaf::Control, toolbar);
     ZAF_BIND_CONTROL(zaf::Button, copyButton);
     ZAF_BIND_CONTROL(zaf::Button, removeButton);
     ZAF_BIND_CONTROL(zaf::Button, retryButton);
 
-    std::shared_ptr<chat_gpt::Round> round_;
+    std::shared_ptr<gpt::Round> round_;
     RoundState state_{ RoundState::Requesting };
 };
 

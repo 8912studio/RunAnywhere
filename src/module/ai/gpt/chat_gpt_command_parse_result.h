@@ -2,7 +2,7 @@
 
 #include <string>
 
-namespace ra::mod::chat_gpt {
+namespace ra::mod::ai::gpt {
 
 class ChatGPTCommandParseResult {
 public:

@@ -2,7 +2,7 @@
 
 #include <zaf/base/error/base_runtime_error.h>
 
-namespace ra::mod::chat_gpt {
+namespace ra::mod::ai::gpt {
 
 enum class LocalErrorCode {
     NoAPIKey,

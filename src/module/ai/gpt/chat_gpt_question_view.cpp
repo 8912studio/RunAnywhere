@@ -4,7 +4,7 @@
 #include "option/option_storage.h"
 #include "option/option_window.h"
 
-namespace ra::mod::chat_gpt {
+namespace ra::mod::ai::gpt {
 
 ZAF_OBJECT_IMPL(ChatGPTQuestionView);
 

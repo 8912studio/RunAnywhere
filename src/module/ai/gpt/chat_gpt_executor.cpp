@@ -1,6 +1,6 @@
 #include "module/ai/gpt/chat_gpt_executor.h"
 
-namespace ra::mod::chat_gpt {
+namespace ra::mod::ai::gpt {
 
 ChatGPTExecutor::ChatGPTExecutor(std::shared_ptr<DialogManager> dialog_manager) :
     dialog_manager_(std::move(dialog_manager)) {

@@ -1,6 +1,6 @@
 #include "module/ai/gpt/network/socket_timer.h"
 
-namespace ra::mod::chat_gpt::comm {
+namespace ra::mod::ai::gpt {
 
 SocketTimer::SocketTimer(std::shared_ptr<boost::asio::io_service> io_service) : 
     io_service_(std::move(io_service)) {

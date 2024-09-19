@@ -14,7 +14,7 @@
 #include "module/tool/json/json_formatter.h"
 #include "option/option_storage.h"
 
-namespace ra::mod::chat_gpt::comm {
+namespace ra::mod::ai::gpt {
 
 class OpenAIClientImpl {
 public:

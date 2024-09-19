@@ -2,7 +2,7 @@
 #include <zaf/graphic/alignment.h>
 #include "module/ai/gpt/chat_gpt_question_view.h"
 
-namespace ra::mod::chat_gpt {
+namespace ra::mod::ai::gpt {
 
 ZAF_OBJECT_IMPL(ChatGPTPreviewControl);
 

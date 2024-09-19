@@ -3,7 +3,7 @@
 #include <curl/curl.h>
 #include <zaf/base/error/base_runtime_error.h>
 
-namespace ra::mod::chat_gpt::comm {
+namespace ra::mod::ai::gpt {
 
 class CURLError : public zaf::BaseRuntimeError {
 public:

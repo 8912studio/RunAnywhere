@@ -1,6 +1,6 @@
 #include "module/ai/gpt/dialog/round.h"
 
-namespace ra::mod::chat_gpt {
+namespace ra::mod::ai::gpt {
 
 Round::Round(std::uint64_t id, std::wstring question, zaf::Observable<std::wstring> answer) :
     id_(id),

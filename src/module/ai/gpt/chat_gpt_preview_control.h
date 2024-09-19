@@ -3,7 +3,7 @@
 #include <zaf/control/control_binder.h>
 #include "module/command_preview_control.h"
 
-namespace ra::mod::chat_gpt {
+namespace ra::mod::ai::gpt {
 
 class ChatGPTPreviewControl : public CommandPreviewControl {
 public:

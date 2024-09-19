@@ -14,7 +14,7 @@
 using namespace ra::utility::markdown::parse;
 using namespace ra::utility::markdown::render;
 
-namespace ra::mod::chat_gpt {
+namespace ra::mod::ai::gpt {
 
 ZAF_OBJECT_IMPL(AnswerView);
 
@@ -92,13 +92,13 @@ std::shared_ptr<zaf::Control> AnswerView::CreateMajorErrorControl(
                 return L"A chat is in progress, try again later";
             }
         }
-        catch (const comm::CURLError&) {
+        catch (const CURLError&) {
             return L"Network error";
         }
-        catch (const comm::CURLMultiSocketError&) {
+        catch (const CURLMultiSocketError&) {
             return L"Network error";
         }
-        catch (const comm::HTTPError&) {
+        catch (const HTTPError&) {
             return L"Server error";
         }
         catch (...) {

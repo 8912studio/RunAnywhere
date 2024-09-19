@@ -6,7 +6,7 @@
 #include "module/ai/gpt/dialog/dialog_manager.h"
 #include "module/command.h"
 
-namespace ra::mod::chat_gpt {
+namespace ra::mod::ai::gpt {
 
 class ChatGPTCommand : public Command, zaf::SubscriptionHost {
 public:

@@ -5,11 +5,11 @@
 
 using namespace ra::utility::markdown::render;
 
-namespace ra::mod::chat_gpt {
+namespace ra::mod::ai::gpt {
 
 ZAF_OBJECT_IMPL(RoundView);
 
-RoundView::RoundView(std::shared_ptr<chat_gpt::Round> round) : round_(std::move(round)) {
+RoundView::RoundView(std::shared_ptr<gpt::Round> round) : round_(std::move(round)) {
 
     ZAF_EXPECT(round_);
 }

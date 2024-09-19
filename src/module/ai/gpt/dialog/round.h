@@ -6,7 +6,7 @@
 #include <zaf/rx/observable.h>
 #include <zaf/rx/subject.h>
 
-namespace ra::mod::chat_gpt {
+namespace ra::mod::ai::gpt {
 
 class Round : public std::enable_shared_from_this<Round>, zaf::NonCopyableNonMovable {
 public:

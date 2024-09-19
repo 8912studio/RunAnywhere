@@ -4,7 +4,7 @@
 #include "module/ai/gpt/chat_gpt_command_parse_result.h"
 #include "utility/command_line.h"
 
-namespace ra::mod::chat_gpt {
+namespace ra::mod::ai::gpt {
 
 constexpr wchar_t HeadingChar = L'>';
 

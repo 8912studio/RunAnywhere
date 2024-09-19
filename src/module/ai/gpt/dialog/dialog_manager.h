@@ -4,11 +4,11 @@
 #include "module/ai/gpt/dialog/dialog.h"
 #include "module/ai/gpt/dialog/dialog_window.h"
 
-namespace ra::mod::chat_gpt {
+namespace ra::mod::ai::gpt {
 
 class DialogManager {
 public:
-    explicit DialogManager(std::shared_ptr<comm::OpenAIClient> client);
+    explicit DialogManager(std::shared_ptr<OpenAIClient> client);
 
     const std::shared_ptr<DialogWindow>& GetDialogWindow();
 

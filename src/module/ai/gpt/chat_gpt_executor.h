@@ -5,7 +5,7 @@
 #include "module/ai/gpt/dialog/dialog_manager.h"
 #include "module/command_executor.h"
 
-namespace ra::mod::chat_gpt {
+namespace ra::mod::ai::gpt {
 
 class ChatGPTExecutor : public CommandExecutor, zaf::SubscriptionHost {
 public:

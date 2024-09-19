@@ -7,7 +7,7 @@
 #include <zaf/rx/scheduler.h>
 #include "module/ai/gpt/dialog/round_view.h"
 
-namespace ra::mod::chat_gpt {
+namespace ra::mod::ai::gpt {
 
 ZAF_OBJECT_IMPL(DialogWindow);
 

@@ -7,7 +7,7 @@
 #include "module/common/text_content_control.h"
 #include "utility/link_button.h"
 
-namespace ra::mod::chat_gpt {
+namespace ra::mod::ai::gpt {
 
 class ChatGPTQuestionView : public zaf::VerticalBox {
 public:

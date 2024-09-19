@@ -2,7 +2,7 @@
 
 #include <zaf/control/control.h>
 
-namespace ra::mod::chat_gpt {
+namespace ra::mod::ai::gpt {
 
 class ProgressIndicator : public zaf::Control {
 public:

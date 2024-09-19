@@ -3,9 +3,9 @@
 #include <zaf/rx/creation.h>
 #include "module/ai/gpt/local_error.h"
 
-namespace ra::mod::chat_gpt {
+namespace ra::mod::ai::gpt {
 
-Dialog::Dialog(std::shared_ptr<comm::OpenAIClient> client) : client_(std::move(client)) {
+Dialog::Dialog(std::shared_ptr<OpenAIClient> client) : client_(std::move(client)) {
 
 }
 
@@ -15,7 +15,7 @@ std::shared_ptr<Round> Dialog::CreateRound(std::wstring question) {
     auto round_id = ++round_id_seed_;
 
     auto answer = Chat(round_id, question).Map<std::wstring>(
-        [](const comm::ChatCompletion& chat_completion) {
+        [](const ChatCompletion& chat_completion) {
     
         return chat_completion.Message().Content();
     });
@@ -28,10 +28,10 @@ std::shared_ptr<Round> Dialog::CreateRound(std::wstring question) {
 }
 
 
-zaf::Observable<comm::ChatCompletion> Dialog::Chat(std::uint64_t round_id, std::wstring question) {
+zaf::Observable<ChatCompletion> Dialog::Chat(std::uint64_t round_id, std::wstring question) {
 
     if (ongoing_question_.has_value()) {
-        return zaf::rx::Throw<comm::ChatCompletion>(LocalError{ 
+        return zaf::rx::Throw<ChatCompletion>(LocalError{ 
             LocalErrorCode::ChatOngoing,
             ZAF_SOURCE_LOCATION(),
         });
@@ -48,10 +48,10 @@ zaf::Observable<comm::ChatCompletion> Dialog::Chat(std::uint64_t round_id, std::
     }
     sent_messages.push_back(&*ongoing_question_);
 
-    zaf::ReplaySubject<comm::ChatCompletion> result;
+    zaf::ReplaySubject<ChatCompletion> result;
 
     Subscriptions() += client_->CreateChatCompletion(sent_messages)
-        .Do([this, round_id](const comm::ChatCompletion& result) {
+        .Do([this, round_id](const ChatCompletion& result) {
 
             history_rounds_.emplace_back(
                 round_id, 

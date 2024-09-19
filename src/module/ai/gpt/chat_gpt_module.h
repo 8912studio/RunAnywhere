@@ -5,7 +5,7 @@
 #include "module/ai/gpt/dialog/dialog_manager.h"
 #include "module/module.h"
 
-namespace ra::mod::chat_gpt {
+namespace ra::mod::ai::gpt {
 
 class ChatGPTModule : public Module {
 public:
@@ -18,7 +18,7 @@ private:
 
 private:
     std::once_flag init_once_flag_;
-    std::shared_ptr<comm::OpenAIClient> client_;
+    std::shared_ptr<OpenAIClient> client_;
     std::shared_ptr<DialogManager> dialog_manager_;
 };
 

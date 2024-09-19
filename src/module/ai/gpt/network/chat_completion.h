@@ -3,7 +3,7 @@
 #include <zaf/rx/subject.h>
 #include "module/ai/gpt/dialog/message.h"
 
-namespace ra::mod::chat_gpt::comm {
+namespace ra::mod::ai::gpt {
 
 class ChatCompletion {
 public:
@@ -16,7 +16,7 @@ public:
     }
 
 private:
-    chat_gpt::Message message_;
+    gpt::Message message_;
 };
 
 }

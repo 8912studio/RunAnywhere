@@ -4,7 +4,7 @@
 #include <boost/asio.hpp>
 #include <zaf/rx/scheduler.h>
 
-namespace ra::mod::chat_gpt::comm {
+namespace ra::mod::ai::gpt {
 
 class ASIOScheduler : public zaf::Scheduler {
 public:

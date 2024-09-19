@@ -4,7 +4,7 @@
 #include "module/ai/gpt/chat_gpt_command_parsing.h"
 #include "utility/markdown/element/factory.h"
 
-namespace ra::mod::chat_gpt {
+namespace ra::mod::ai::gpt {
 
 ChatGPTCommand::ChatGPTCommand(std::shared_ptr<DialogManager> dialog_manager) {
 

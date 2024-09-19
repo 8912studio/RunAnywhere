@@ -4,7 +4,7 @@
 #include <boost/asio.hpp>
 #include <curlion.h>
 
-namespace ra::mod::chat_gpt::comm {
+namespace ra::mod::ai::gpt {
 
 class SocketTimer : public curlion::Timer {
 public:

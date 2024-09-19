@@ -2,7 +2,7 @@
 
 #include <string>
 
-namespace ra::mod::chat_gpt {
+namespace ra::mod::ai::gpt {
 
 constexpr const wchar_t* RoleSystem = L"system";
 constexpr const wchar_t* RoleUser = L"user";

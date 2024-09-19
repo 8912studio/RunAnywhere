@@ -2,7 +2,7 @@
 #include "module/ai/gpt/chat_gpt_command.h"
 #include "module/ai/gpt/chat_gpt_command_parsing.h"
 
-namespace ra::mod::chat_gpt {
+namespace ra::mod::ai::gpt {
 
 std::vector<CommandBrief> ChatGPTModule::QuerySuggestedCommands(const std::wstring& command_text) {
     return std::vector<CommandBrief>();
@@ -24,7 +24,7 @@ std::unique_ptr<Command> ChatGPTModule::CreateCommand(const utility::CommandLine
 void ChatGPTModule::Initialize() {
 
     std::call_once(init_once_flag_, [this]() {
-        client_ = std::make_shared<comm::OpenAIClient>();
+        client_ = std::make_shared<OpenAIClient>();
         dialog_manager_ = std::make_shared<DialogManager>(client_);
     });
 }

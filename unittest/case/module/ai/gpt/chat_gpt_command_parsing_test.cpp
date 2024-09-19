@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include "module/ai/gpt/chat_gpt_command_parsing.h"
 
-using namespace ra::mod::chat_gpt;
+using namespace ra::mod::ai::gpt;
 using namespace ra::utility;
 
 TEST(ChatGPTCommandParsingTest, ParseSuccess) {

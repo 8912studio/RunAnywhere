@@ -4,7 +4,7 @@
 #include <zaf/control/linear_box.h>
 #include "utility/markdown/render/markdown_region.h"
 
-namespace ra::mod::chat_gpt {
+namespace ra::mod::ai::gpt {
 
 class AnswerView : public zaf::VerticalBox {
 public:

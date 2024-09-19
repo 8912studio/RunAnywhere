@@ -9,7 +9,7 @@
 #include "module/ai/gpt/dialog/dialog.h"
 #include "utility/composite/composite_text_box.h"
 
-namespace ra::mod::chat_gpt {
+namespace ra::mod::ai::gpt {
 
 class DialogWindow : public zaf::Window {
 public:

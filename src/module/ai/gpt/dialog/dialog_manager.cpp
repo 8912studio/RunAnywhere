@@ -1,9 +1,9 @@
 #include "module/ai/gpt/dialog/dialog_manager.h"
 #include <zaf/creation.h>
 
-namespace ra::mod::chat_gpt {
+namespace ra::mod::ai::gpt {
 
-DialogManager::DialogManager(std::shared_ptr<comm::OpenAIClient> client) :
+DialogManager::DialogManager(std::shared_ptr<OpenAIClient> client) :
     dialog_(std::make_shared<Dialog>(std::move(client))) {
 
 }

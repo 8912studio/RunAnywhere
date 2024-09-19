@@ -3,7 +3,7 @@
 #include <zaf/base/string/join.h>
 #include <zaf/base/string/trim.h>
 
-namespace ra::mod::chat_gpt {
+namespace ra::mod::ai::gpt {
 namespace {
 
 std::optional<std::size_t> FindHeadingCharIndex(std::wstring_view text) {

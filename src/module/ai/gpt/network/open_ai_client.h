@@ -9,7 +9,7 @@
 #include <zaf/rx/observable.h>
 #include "module/ai/gpt/network/chat_completion.h"
 
-namespace ra::mod::chat_gpt::comm {
+namespace ra::mod::ai::gpt {
 
 class OpenAIClientImpl;
 
