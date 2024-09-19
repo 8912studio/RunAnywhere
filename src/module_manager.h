@@ -2,7 +2,7 @@
 
 #include <memory>
 #include <string>
-#include "module/chat_gpt/chat_gpt_module.h"
+#include "module/ai/gpt/chat_gpt_module.h"
 #include "module/extension/extension_module_manager.h"
 #include "module/user_defined/user_defined_module.h"
 #include "utility/command_line.h"

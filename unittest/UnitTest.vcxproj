@@ -58,6 +58,7 @@
     <ClCompile Include="case\module\active_path\active_path_modifying_test.cpp" />
     <ClCompile Include="case\module\active_path\active_path_module_test.cpp" />
     <ClCompile Include="case\module\active_path\active_path_option_parsing_test.cpp" />
+    <ClCompile Include="case\module\ai\gpt\chat_gpt_command_parsing_test.cpp" />
     <ClCompile Include="case\module\calculator\binary_expression_parser_test.cpp" />
     <ClCompile Include="case\module\calculator\command_evaluating_test.cpp" />
     <ClCompile Include="case\module\calculator\command_parser_test.cpp" />
@@ -74,7 +75,6 @@
     <ClCompile Include="case\module\calculator\octal_number_parser_test.cpp" />
     <ClCompile Include="case\module\calculator\result_text_builder_test.cpp" />
     <ClCompile Include="case\module\calculator\unary_expression_parser_test.cpp" />
-    <ClCompile Include="case\module\chat_gpt\chat_gpt_command_parsing_test.cpp" />
     <ClCompile Include="case\module\meta\meta_command_info_test.cpp" />
     <ClCompile Include="case\module\meta\meta_module_test.cpp" />
     <ClCompile Include="case\module\tool\base64\base64_command_parsing_test.cpp" />

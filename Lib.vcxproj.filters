@@ -115,12 +115,6 @@
     <Filter Include="src\module\tool\hash">
       <UniqueIdentifier>{213cfd8f-62bc-4d79-8668-d15947884bcd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\module\chat_gpt">
-      <UniqueIdentifier>{5cb616c8-a017-44cc-9c6d-e1d2a54f13d6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\module\chat_gpt\comm">
-      <UniqueIdentifier>{cc57a812-887c-4228-b21c-4f5e5878d3be}</UniqueIdentifier>
-    </Filter>
     <Filter Include="third_party\curlion">
       <UniqueIdentifier>{191c8493-fac9-4521-bea7-5dc513c0dbce}</UniqueIdentifier>
     </Filter>
@@ -142,11 +136,20 @@
     <Filter Include="src\module\tool\json">
       <UniqueIdentifier>{ecb894e4-1fa3-42bc-9844-972b70fa5697}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\module\chat_gpt\dialog">
-      <UniqueIdentifier>{8aec9595-86e0-447d-b5eb-f12b1ce0c8a4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\utility\composite">
       <UniqueIdentifier>{a26cabe2-d0b4-446c-b151-a5c4faf60427}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\module\ai">
+      <UniqueIdentifier>{68421808-1c0f-4d71-a6b4-b8f0a8236f7f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\module\ai\gpt">
+      <UniqueIdentifier>{5d1056e4-c692-4b68-8b43-33ce871b6c00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\module\ai\gpt\dialog">
+      <UniqueIdentifier>{bb33ff97-d6e5-4c50-a680-acbdc3c99bed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\module\ai\gpt\network">
+      <UniqueIdentifier>{476a453a-9ea6-4035-94a1-71ca62907d05}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -726,18 +729,6 @@
     <ClInclude Include="src\help\help_content.h">
       <Filter>src\help</Filter>
     </ClInclude>
-    <ClInclude Include="src\module\chat_gpt\chat_gpt_module.h">
-      <Filter>src\module\chat_gpt</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\chat_gpt\chat_gpt_command.h">
-      <Filter>src\module\chat_gpt</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\chat_gpt\comm\chat_completion.h">
-      <Filter>src\module\chat_gpt\comm</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\chat_gpt\comm\open_ai_client.h">
-      <Filter>src\module\chat_gpt\comm</Filter>
-    </ClInclude>
     <ClInclude Include="third_party\curlion\src\connection.h">
       <Filter>third_party\curlion</Filter>
     </ClInclude>
@@ -767,24 +758,6 @@
     </ClInclude>
     <ClInclude Include="third_party\curlion\src\timer.h">
       <Filter>third_party\curlion</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\chat_gpt\comm\socket_manager.h">
-      <Filter>src\module\chat_gpt\comm</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\chat_gpt\comm\socket_timer.h">
-      <Filter>src\module\chat_gpt\comm</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\chat_gpt\comm\asio_scheduler.h">
-      <Filter>src\module\chat_gpt\comm</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\chat_gpt\chat_gpt_executor.h">
-      <Filter>src\module\chat_gpt</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\chat_gpt\comm\error.h">
-      <Filter>src\module\chat_gpt\comm</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\chat_gpt\chat_gpt_preview_control.h">
-      <Filter>src\module\chat_gpt</Filter>
     </ClInclude>
     <ClInclude Include="src\option\option_text_box.h">
       <Filter>src\option</Filter>
@@ -915,21 +888,6 @@
     <ClInclude Include="src\utility\markdown\render\list_region.h">
       <Filter>src\utility\markdown\render</Filter>
     </ClInclude>
-    <ClInclude Include="src\module\chat_gpt\chat_gpt_question_view.h">
-      <Filter>src\module\chat_gpt</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\chat_gpt\chat_gpt_command_parsing.h">
-      <Filter>src\module\chat_gpt</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\chat_gpt\chat_gpt_command_parse_result.h">
-      <Filter>src\module\chat_gpt</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\chat_gpt\progress_indicator.h">
-      <Filter>src\module\chat_gpt</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\chat_gpt\local_error.h">
-      <Filter>src\module\chat_gpt</Filter>
-    </ClInclude>
     <ClInclude Include="src\module\common\style_constants.h">
       <Filter>src\module\common</Filter>
     </ClInclude>
@@ -951,27 +909,6 @@
     <ClInclude Include="src\utility\markdown\element\code_block_element.h">
       <Filter>src\utility\markdown\element</Filter>
     </ClInclude>
-    <ClInclude Include="src\module\chat_gpt\dialog\dialog_window.h">
-      <Filter>src\module\chat_gpt\dialog</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\chat_gpt\dialog\answer_view.h">
-      <Filter>src\module\chat_gpt\dialog</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\chat_gpt\dialog\round_view.h">
-      <Filter>src\module\chat_gpt\dialog</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\chat_gpt\dialog\dialog_manager.h">
-      <Filter>src\module\chat_gpt\dialog</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\chat_gpt\dialog\dialog.h">
-      <Filter>src\module\chat_gpt\dialog</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\chat_gpt\dialog\message.h">
-      <Filter>src\module\chat_gpt\dialog</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\chat_gpt\dialog\round.h">
-      <Filter>src\module\chat_gpt\dialog</Filter>
-    </ClInclude>
     <ClInclude Include="src\utility\composite\composite_text_box.h">
       <Filter>src\utility\composite</Filter>
     </ClInclude>
@@ -989,6 +926,72 @@
     </ClInclude>
     <ClInclude Include="src\module\extension\command_line_bridge.h">
       <Filter>src\module\extension</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\ai\gpt\chat_gpt_command.h">
+      <Filter>src\module\ai\gpt</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\ai\gpt\chat_gpt_command_parse_result.h">
+      <Filter>src\module\ai\gpt</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\ai\gpt\chat_gpt_command_parsing.h">
+      <Filter>src\module\ai\gpt</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\ai\gpt\chat_gpt_executor.h">
+      <Filter>src\module\ai\gpt</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\ai\gpt\chat_gpt_module.h">
+      <Filter>src\module\ai\gpt</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\ai\gpt\chat_gpt_preview_control.h">
+      <Filter>src\module\ai\gpt</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\ai\gpt\chat_gpt_question_view.h">
+      <Filter>src\module\ai\gpt</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\ai\gpt\local_error.h">
+      <Filter>src\module\ai\gpt</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\ai\gpt\progress_indicator.h">
+      <Filter>src\module\ai\gpt</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\ai\gpt\dialog\answer_view.h">
+      <Filter>src\module\ai\gpt\dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\ai\gpt\dialog\dialog.h">
+      <Filter>src\module\ai\gpt\dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\ai\gpt\dialog\dialog_manager.h">
+      <Filter>src\module\ai\gpt\dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\ai\gpt\dialog\dialog_window.h">
+      <Filter>src\module\ai\gpt\dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\ai\gpt\dialog\message.h">
+      <Filter>src\module\ai\gpt\dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\ai\gpt\dialog\round.h">
+      <Filter>src\module\ai\gpt\dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\ai\gpt\dialog\round_view.h">
+      <Filter>src\module\ai\gpt\dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\ai\gpt\network\asio_scheduler.h">
+      <Filter>src\module\ai\gpt\network</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\ai\gpt\network\chat_completion.h">
+      <Filter>src\module\ai\gpt\network</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\ai\gpt\network\error.h">
+      <Filter>src\module\ai\gpt\network</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\ai\gpt\network\open_ai_client.h">
+      <Filter>src\module\ai\gpt\network</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\ai\gpt\network\socket_manager.h">
+      <Filter>src\module\ai\gpt\network</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\ai\gpt\network\socket_timer.h">
+      <Filter>src\module\ai\gpt\network</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1421,15 +1424,6 @@
     <ClCompile Include="src\module\command_brief.cpp">
       <Filter>src\module</Filter>
     </ClCompile>
-    <ClCompile Include="src\module\chat_gpt\chat_gpt_module.cpp">
-      <Filter>src\module\chat_gpt</Filter>
-    </ClCompile>
-    <ClCompile Include="src\module\chat_gpt\chat_gpt_command.cpp">
-      <Filter>src\module\chat_gpt</Filter>
-    </ClCompile>
-    <ClCompile Include="src\module\chat_gpt\comm\open_ai_client.cpp">
-      <Filter>src\module\chat_gpt\comm</Filter>
-    </ClCompile>
     <ClCompile Include="third_party\curlion\src\connection.cpp">
       <Filter>third_party\curlion</Filter>
     </ClCompile>
@@ -1441,21 +1435,6 @@
     </ClCompile>
     <ClCompile Include="third_party\curlion\src\http_form.cpp">
       <Filter>third_party\curlion</Filter>
-    </ClCompile>
-    <ClCompile Include="src\module\chat_gpt\comm\socket_manager.cpp">
-      <Filter>src\module\chat_gpt\comm</Filter>
-    </ClCompile>
-    <ClCompile Include="src\module\chat_gpt\comm\socket_timer.cpp">
-      <Filter>src\module\chat_gpt\comm</Filter>
-    </ClCompile>
-    <ClCompile Include="src\module\chat_gpt\comm\asio_scheduler.cpp">
-      <Filter>src\module\chat_gpt\comm</Filter>
-    </ClCompile>
-    <ClCompile Include="src\module\chat_gpt\chat_gpt_executor.cpp">
-      <Filter>src\module\chat_gpt</Filter>
-    </ClCompile>
-    <ClCompile Include="src\module\chat_gpt\chat_gpt_preview_control.cpp">
-      <Filter>src\module\chat_gpt</Filter>
     </ClCompile>
     <ClCompile Include="src\option\option_text_box.cpp">
       <Filter>src\option</Filter>
@@ -1565,15 +1544,6 @@
     <ClCompile Include="src\utility\markdown\render\list_region.cpp">
       <Filter>src\utility\markdown\render</Filter>
     </ClCompile>
-    <ClCompile Include="src\module\chat_gpt\chat_gpt_question_view.cpp">
-      <Filter>src\module\chat_gpt</Filter>
-    </ClCompile>
-    <ClCompile Include="src\module\chat_gpt\chat_gpt_command_parsing.cpp">
-      <Filter>src\module\chat_gpt</Filter>
-    </ClCompile>
-    <ClCompile Include="src\module\chat_gpt\progress_indicator.cpp">
-      <Filter>src\module\chat_gpt</Filter>
-    </ClCompile>
     <ClCompile Include="third_party\curlion\src\log.cpp">
       <Filter>third_party\curlion</Filter>
     </ClCompile>
@@ -1592,24 +1562,6 @@
     <ClCompile Include="src\utility\markdown\element\code_block_element.cpp">
       <Filter>src\utility\markdown\element</Filter>
     </ClCompile>
-    <ClCompile Include="src\module\chat_gpt\dialog\dialog_window.cpp">
-      <Filter>src\module\chat_gpt\dialog</Filter>
-    </ClCompile>
-    <ClCompile Include="src\module\chat_gpt\dialog\answer_view.cpp">
-      <Filter>src\module\chat_gpt\dialog</Filter>
-    </ClCompile>
-    <ClCompile Include="src\module\chat_gpt\dialog\round_view.cpp">
-      <Filter>src\module\chat_gpt\dialog</Filter>
-    </ClCompile>
-    <ClCompile Include="src\module\chat_gpt\dialog\dialog_manager.cpp">
-      <Filter>src\module\chat_gpt\dialog</Filter>
-    </ClCompile>
-    <ClCompile Include="src\module\chat_gpt\dialog\dialog.cpp">
-      <Filter>src\module\chat_gpt\dialog</Filter>
-    </ClCompile>
-    <ClCompile Include="src\module\chat_gpt\dialog\round.cpp">
-      <Filter>src\module\chat_gpt\dialog</Filter>
-    </ClCompile>
     <ClCompile Include="src\utility\composite\composite_text_box.cpp">
       <Filter>src\utility\composite</Filter>
     </ClCompile>
@@ -1618,6 +1570,57 @@
     </ClCompile>
     <ClCompile Include="src\module\extension\command_line_bridge.cpp">
       <Filter>src\module\extension</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\ai\gpt\chat_gpt_command.cpp">
+      <Filter>src\module\ai\gpt</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\ai\gpt\chat_gpt_command_parsing.cpp">
+      <Filter>src\module\ai\gpt</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\ai\gpt\chat_gpt_executor.cpp">
+      <Filter>src\module\ai\gpt</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\ai\gpt\chat_gpt_module.cpp">
+      <Filter>src\module\ai\gpt</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\ai\gpt\chat_gpt_preview_control.cpp">
+      <Filter>src\module\ai\gpt</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\ai\gpt\chat_gpt_question_view.cpp">
+      <Filter>src\module\ai\gpt</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\ai\gpt\progress_indicator.cpp">
+      <Filter>src\module\ai\gpt</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\ai\gpt\dialog\answer_view.cpp">
+      <Filter>src\module\ai\gpt\dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\ai\gpt\dialog\dialog.cpp">
+      <Filter>src\module\ai\gpt\dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\ai\gpt\dialog\dialog_manager.cpp">
+      <Filter>src\module\ai\gpt\dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\ai\gpt\dialog\dialog_window.cpp">
+      <Filter>src\module\ai\gpt\dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\ai\gpt\dialog\round.cpp">
+      <Filter>src\module\ai\gpt\dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\ai\gpt\dialog\round_view.cpp">
+      <Filter>src\module\ai\gpt\dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\ai\gpt\network\asio_scheduler.cpp">
+      <Filter>src\module\ai\gpt\network</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\ai\gpt\network\open_ai_client.cpp">
+      <Filter>src\module\ai\gpt\network</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\ai\gpt\network\socket_manager.cpp">
+      <Filter>src\module\ai\gpt\network</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\ai\gpt\network\socket_timer.cpp">
+      <Filter>src\module\ai\gpt\network</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1690,17 +1693,11 @@
     <Page Include="src\module\tool\hash\hash_preview_control.xaml">
       <Filter>src\module\tool\hash</Filter>
     </Page>
-    <Page Include="src\module\chat_gpt\chat_gpt_preview_control.xaml">
-      <Filter>src\module\chat_gpt</Filter>
-    </Page>
     <Page Include="src\option\option_window.xaml">
       <Filter>src\option</Filter>
     </Page>
     <Page Include="src\main\preserve\preserved_command_list_view.xaml">
       <Filter>src\main\preserve</Filter>
-    </Page>
-    <Page Include="src\module\chat_gpt\chat_gpt_question_view.xaml">
-      <Filter>src\module\chat_gpt</Filter>
     </Page>
     <Page Include="src\module\tool\json\json_command_preview_control.xaml">
       <Filter>src\module\tool\json</Filter>
@@ -1708,14 +1705,20 @@
     <Page Include="src\utility\markdown\render\code_block_region.xaml">
       <Filter>src\utility\markdown\render</Filter>
     </Page>
-    <Page Include="src\module\chat_gpt\dialog\dialog_window.xaml">
-      <Filter>src\module\chat_gpt\dialog</Filter>
+    <Page Include="src\module\ai\gpt\chat_gpt_preview_control.xaml">
+      <Filter>src\module\ai\gpt</Filter>
     </Page>
-    <Page Include="src\module\chat_gpt\dialog\answer_view.xaml">
-      <Filter>src\module\chat_gpt\dialog</Filter>
+    <Page Include="src\module\ai\gpt\chat_gpt_question_view.xaml">
+      <Filter>src\module\ai\gpt</Filter>
     </Page>
-    <Page Include="src\module\chat_gpt\dialog\round_view.xaml">
-      <Filter>src\module\chat_gpt\dialog</Filter>
+    <Page Include="src\module\ai\gpt\dialog\answer_view.xaml">
+      <Filter>src\module\ai\gpt\dialog</Filter>
+    </Page>
+    <Page Include="src\module\ai\gpt\dialog\dialog_window.xaml">
+      <Filter>src\module\ai\gpt\dialog</Filter>
+    </Page>
+    <Page Include="src\module\ai\gpt\dialog\round_view.xaml">
+      <Filter>src\module\ai\gpt\dialog</Filter>
     </Page>
   </ItemGroup>
   <ItemGroup>
