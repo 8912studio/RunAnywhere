@@ -3,19 +3,13 @@
 
 namespace ra::mod::ai::gpt {
 
-DialogManager::DialogManager(std::shared_ptr<OpenAIClient> client) :
-    dialog_(std::make_shared<Dialog>(std::move(client))) {
+DialogManager::DialogManager(std::shared_ptr<OpenAIClient> client) : client_(std::move(client)) {
 
 }
 
 
-const std::shared_ptr<DialogWindow>& DialogManager::GetDialogWindow() {
-
-    if (!dialog_window_) {
-        dialog_window_ = zaf::Create<DialogWindow>(dialog_);
-    }
-
-    return dialog_window_;
+std::shared_ptr<Dialog> gpt::DialogManager::CreateNewDialog() {
+    return std::make_shared<Dialog>(client_);
 }
 
 }

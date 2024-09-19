@@ -1,42 +1,39 @@
-<DialogWindow Title="Chat with GPT" ContentSize="600,600" MinSize="300,300">
-	<DialogWindow.RootControl>
-		<VerticalBox BackgroundColor="White" />	
-	</DialogWindow.RootControl>
+<DialogView Layouter="VerticalLayouter" BackgroundColor="White">
 
-	<ThinScrollControl 
+    <ThinScrollControl 
 		Name="roundScrollBox"
 		UseOverlayScrollBars="true" 
 		AutoHideScrollBars="true">
 
-		<CompositeTextBox 
+        <CompositeTextBox 
 			Name="roundListView"
 			AutoHeight="true"
 			Margin="15,0,15,10"
 			Layouter="VerticalLayouter" />
-		
-	</ThinScrollControl>
 
-	<Control FixedHeight="1" Margin="15,0,15,0" BackgroundColor="#CCCCCC" />
+    </ThinScrollControl>
 
-	<HorizontalBox 
+    <Control FixedHeight="1" Margin="15,0,15,0" BackgroundColor="#CCCCCC" />
+
+    <HorizontalBox 
 		Name="bottomContainer" 
 		Margin="15,5,15,5"
 		CrossAxisAlignment="Center">
-		<ThinScrollControl
+        <ThinScrollControl
 			AllowHorizontalScroll="false"
 			UseOverlayScrollBars="true">
-			<TextBox
+            <TextBox
 				Name="inputEdit"
 				Padding="0,10,0,10"
 				IsEditable="true"
 				WordWrapping="Wrap"
 				FontSize="14" />
-		</ThinScrollControl>
-		<Button 
+        </ThinScrollControl>
+        <Button 
 			Name="sendButton"
 			FixedSize="40,30"
 			Margin="15,0,0,0"
 			Text="Send"
 			IsEnabled="false" />
-	</HorizontalBox>
-</DialogWindow>
+    </HorizontalBox>
+</DialogView>

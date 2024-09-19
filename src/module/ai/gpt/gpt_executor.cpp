@@ -1,4 +1,5 @@
 #include "module/ai/gpt/gpt_executor.h"
+#include "module/ai/gpt/dialog/dialog_window.h"
 
 namespace ra::mod::ai::gpt {
 
@@ -15,8 +16,9 @@ void GPTExecutor::SetQuestion(std::wstring question) {
 
 ExecuteResult GPTExecutor::Execute() {
 
-    const auto& dialog_window = dialog_manager_->GetDialogWindow();
-    dialog_window->Chat(std::move(question_));
+    auto new_dialog = dialog_manager_->CreateNewDialog();
+    auto dialog_window = zaf::Create<DialogWindow>(new_dialog);
+    dialog_window->View()->Chat(std::move(question_));
     dialog_window->Open();
     return PostExecuteAction::Dispose;
 }

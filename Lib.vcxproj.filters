@@ -993,6 +993,9 @@
     <ClInclude Include="src\module\ai\gpt\network\socket_timer.h">
       <Filter>src\module\ai\gpt\network</Filter>
     </ClInclude>
+    <ClInclude Include="src\module\ai\gpt\dialog\dialog_view.h">
+      <Filter>src\module\ai\gpt\dialog</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -1622,6 +1625,9 @@
     <ClCompile Include="src\module\ai\gpt\network\socket_timer.cpp">
       <Filter>src\module\ai\gpt\network</Filter>
     </ClCompile>
+    <ClCompile Include="src\module\ai\gpt\dialog\dialog_view.cpp">
+      <Filter>src\module\ai\gpt\dialog</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Page Include="src\module\user_defined\preview\user_defined_command_preview_control.xaml">
@@ -1714,10 +1720,10 @@
     <Page Include="src\module\ai\gpt\dialog\answer_view.xaml">
       <Filter>src\module\ai\gpt\dialog</Filter>
     </Page>
-    <Page Include="src\module\ai\gpt\dialog\dialog_window.xaml">
+    <Page Include="src\module\ai\gpt\dialog\round_view.xaml">
       <Filter>src\module\ai\gpt\dialog</Filter>
     </Page>
-    <Page Include="src\module\ai\gpt\dialog\round_view.xaml">
+    <Page Include="src\module\ai\gpt\dialog\dialog_view.xaml">
       <Filter>src\module\ai\gpt\dialog</Filter>
     </Page>
   </ItemGroup>

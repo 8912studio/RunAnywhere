@@ -21,7 +21,7 @@
             ParagraphAlignment="Center"
 			TextColor="#808080"
             FontSize="14"
-            Text="Message to send:">
+            Text="Start a new dialog with question:">
 		</Label>
         
     </HorizontalBox>
