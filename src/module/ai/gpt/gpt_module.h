@@ -7,7 +7,7 @@
 
 namespace ra::mod::ai::gpt {
 
-class ChatGPTModule : public Module {
+class GPTModule : public Module {
 public:
     std::vector<CommandBrief> QuerySuggestedCommands(const std::wstring& command_text) override;
 

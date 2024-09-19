@@ -7,9 +7,9 @@
 
 namespace ra::mod::ai::gpt {
 
-class ChatGPTExecutor : public CommandExecutor, zaf::SubscriptionHost {
+class GPTExecutor : public CommandExecutor, zaf::SubscriptionHost {
 public:
-    explicit ChatGPTExecutor(std::shared_ptr<DialogManager>);
+    explicit GPTExecutor(std::shared_ptr<DialogManager>);
 
     void SetQuestion(std::wstring question);
 

@@ -5,7 +5,7 @@
 
 namespace ra::mod::ai::gpt {
 
-class ChatGPTPreviewControl : public CommandPreviewControl {
+class GPTPreviewControl : public CommandPreviewControl {
 public:
     ZAF_OBJECT;
 
@@ -21,8 +21,8 @@ private:
     ZAF_BIND_CONTROL(zaf::Control, contentView);
 };
 
-ZAF_OBJECT_BEGIN(ChatGPTPreviewControl)
-ZAF_OBJECT_RESOURCE_URI(L"res:///module/ai/gpt/chat_gpt_preview_control.xaml")
+ZAF_OBJECT_BEGIN(GPTPreviewControl)
+ZAF_OBJECT_RESOURCE_URI(L"res:///module/ai/gpt/gpt_preview_control.xaml")
 ZAF_OBJECT_END;
 
 }

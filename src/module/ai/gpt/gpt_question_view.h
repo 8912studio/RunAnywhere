@@ -9,7 +9,7 @@
 
 namespace ra::mod::ai::gpt {
 
-class ChatGPTQuestionView : public zaf::VerticalBox {
+class GPTQuestionView : public zaf::VerticalBox {
 public:
     ZAF_OBJECT;
 
@@ -33,8 +33,8 @@ private:
     ZAF_BIND_CONTROL(utility::LinkButton, openOptionButton);
 };
 
-ZAF_OBJECT_BEGIN(ChatGPTQuestionView)
-ZAF_OBJECT_RESOURCE_URI(L"res:///module/ai/gpt/chat_gpt_question_view.xaml")
+ZAF_OBJECT_BEGIN(GPTQuestionView)
+ZAF_OBJECT_RESOURCE_URI(L"res:///module/ai/gpt/gpt_question_view.xaml")
 ZAF_OBJECT_END;
 
 }

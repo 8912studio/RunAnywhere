@@ -58,7 +58,7 @@
     <ClCompile Include="case\module\active_path\active_path_modifying_test.cpp" />
     <ClCompile Include="case\module\active_path\active_path_module_test.cpp" />
     <ClCompile Include="case\module\active_path\active_path_option_parsing_test.cpp" />
-    <ClCompile Include="case\module\ai\gpt\chat_gpt_command_parsing_test.cpp" />
+    <ClCompile Include="case\module\ai\gpt\gpt_command_parsing_test.cpp" />
     <ClCompile Include="case\module\calculator\binary_expression_parser_test.cpp" />
     <ClCompile Include="case\module\calculator\command_evaluating_test.cpp" />
     <ClCompile Include="case\module\calculator\command_parser_test.cpp" />

@@ -1,4 +1,4 @@
-#include "module/ai/gpt/chat_gpt_question_view.h"
+#include "module/ai/gpt/gpt_question_view.h"
 #include "application_delegate.h"
 #include "module/common/error_messages.h"
 #include "option/option_storage.h"
@@ -6,9 +6,9 @@
 
 namespace ra::mod::ai::gpt {
 
-ZAF_OBJECT_IMPL(ChatGPTQuestionView);
+ZAF_OBJECT_IMPL(GPTQuestionView);
 
-void ChatGPTQuestionView::AfterParse() {
+void GPTQuestionView::AfterParse() {
 
     __super::AfterParse();
 
@@ -23,7 +23,7 @@ void ChatGPTQuestionView::AfterParse() {
 }
 
 
-void ChatGPTQuestionView::SetQuestion(const std::wstring& question) {
+void GPTQuestionView::SetQuestion(const std::wstring& question) {
 
     if (option::OptionStorage::Instance().OpenAIAPIKey().empty()) {
         ShowNoAPIKeyError();
@@ -34,7 +34,7 @@ void ChatGPTQuestionView::SetQuestion(const std::wstring& question) {
 }
 
 
-void ChatGPTQuestionView::ShowNoAPIKeyError() {
+void GPTQuestionView::ShowNoAPIKeyError() {
 
     messageLabel->SetIsVisible(false);
 
@@ -44,7 +44,7 @@ void ChatGPTQuestionView::ShowNoAPIKeyError() {
 }
 
 
-void ChatGPTQuestionView::ShowQuestion(const std::wstring& question) {
+void GPTQuestionView::ShowQuestion(const std::wstring& question) {
 
     messageLabel->SetIsVisible(true);
 
@@ -59,7 +59,7 @@ void ChatGPTQuestionView::ShowQuestion(const std::wstring& question) {
 }
 
 
-void ChatGPTQuestionView::ChangeStyle(CommandDisplayStyle style) {
+void GPTQuestionView::ChangeStyle(CommandDisplayStyle style) {
 
     questionControl->ChangeStyle(style);
     errorView->ChangeStyle(style);

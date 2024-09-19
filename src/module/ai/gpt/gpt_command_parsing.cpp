@@ -1,4 +1,4 @@
-#include "module/ai/gpt/chat_gpt_command_parsing.h"
+#include "module/ai/gpt/gpt_command_parsing.h"
 #include <zaf/base/range.h>
 #include <zaf/base/string/join.h>
 #include <zaf/base/string/trim.h>
@@ -24,14 +24,14 @@ std::optional<std::size_t> FindHeadingCharIndex(std::wstring_view text) {
 
 }
 
-bool IsChatGPTCommand(const utility::CommandLine& command_line) {
+bool IsGPTCommand(const utility::CommandLine& command_line) {
 
     auto heading_char_index = FindHeadingCharIndex(command_line.RawText());
     return heading_char_index.has_value();
 }
 
 
-std::optional<ChatGPTCommandParseResult> ParseChatGPTCommand(
+std::optional<GPTCommandParseResult> ParseGPTCommand(
     const utility::CommandLine& command_line) {
 
     const auto& raw_text = command_line.RawText();
@@ -84,7 +84,7 @@ std::optional<ChatGPTCommandParseResult> ParseChatGPTCommand(
 
     zaf::Trim(content);
 
-    ChatGPTCommandParseResult result;
+    GPTCommandParseResult result;
     result.question = std::move(content);
     return result;
 }

@@ -1,3 +1,0 @@
-<ChatGPTPreviewControl Layouter="VerticalLayouter" AutoHeight="true">
-    <VerticalBox Name="contentView" AutoHeight="true" />
-</ChatGPTPreviewControl>

@@ -4,7 +4,7 @@
 
 namespace ra::mod::ai::gpt {
 
-class ChatGPTCommandParseResult {
+class GPTCommandParseResult {
 public:
     std::wstring question;
 };

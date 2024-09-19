@@ -15,7 +15,7 @@ void ModuleManager::Initialize() {
     user_defined_module_ = std::make_shared<mod::user_defined::UserDefinedModule>();
     user_defined_module_->Reload();
 
-    chat_gpt_module_ = std::make_shared<mod::ai::gpt::ChatGPTModule>();
+    gpt_module_ = std::make_shared<mod::ai::gpt::GPTModule>();
 
     extension_module_manager_ = std::make_unique<mod::extension::ExtensionModuleManager>();
     extension_module_manager_->Load({
@@ -27,7 +27,7 @@ void ModuleManager::Initialize() {
     modules_.push_back(std::make_shared<mod::tool::ToolModule>());
     modules_.push_back(user_defined_module_);
     zaf::Append(modules_, extension_module_manager_->GetAllModules());
-    modules_.push_back(chat_gpt_module_);
+    modules_.push_back(gpt_module_);
     modules_.push_back(std::make_shared<mod::calculator::CalculatorModule>());
 }
 

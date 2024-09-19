@@ -1,19 +1,19 @@
-#include "module/ai/gpt/chat_gpt_executor.h"
+#include "module/ai/gpt/gpt_executor.h"
 
 namespace ra::mod::ai::gpt {
 
-ChatGPTExecutor::ChatGPTExecutor(std::shared_ptr<DialogManager> dialog_manager) :
+GPTExecutor::GPTExecutor(std::shared_ptr<DialogManager> dialog_manager) :
     dialog_manager_(std::move(dialog_manager)) {
 
 }
 
 
-void ChatGPTExecutor::SetQuestion(std::wstring question) {
+void GPTExecutor::SetQuestion(std::wstring question) {
     question_ = std::move(question);
 }
 
 
-ExecuteResult ChatGPTExecutor::Execute() {
+ExecuteResult GPTExecutor::Execute() {
 
     const auto& dialog_window = dialog_manager_->GetDialogWindow();
     dialog_window->Chat(std::move(question_));

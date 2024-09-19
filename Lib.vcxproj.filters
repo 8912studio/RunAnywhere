@@ -927,25 +927,25 @@
     <ClInclude Include="src\module\extension\command_line_bridge.h">
       <Filter>src\module\extension</Filter>
     </ClInclude>
-    <ClInclude Include="src\module\ai\gpt\chat_gpt_command.h">
+    <ClInclude Include="src\module\ai\gpt\gpt_command.h">
       <Filter>src\module\ai\gpt</Filter>
     </ClInclude>
-    <ClInclude Include="src\module\ai\gpt\chat_gpt_command_parse_result.h">
+    <ClInclude Include="src\module\ai\gpt\gpt_command_parse_result.h">
       <Filter>src\module\ai\gpt</Filter>
     </ClInclude>
-    <ClInclude Include="src\module\ai\gpt\chat_gpt_command_parsing.h">
+    <ClInclude Include="src\module\ai\gpt\gpt_command_parsing.h">
       <Filter>src\module\ai\gpt</Filter>
     </ClInclude>
-    <ClInclude Include="src\module\ai\gpt\chat_gpt_executor.h">
+    <ClInclude Include="src\module\ai\gpt\gpt_executor.h">
       <Filter>src\module\ai\gpt</Filter>
     </ClInclude>
-    <ClInclude Include="src\module\ai\gpt\chat_gpt_module.h">
+    <ClInclude Include="src\module\ai\gpt\gpt_module.h">
       <Filter>src\module\ai\gpt</Filter>
     </ClInclude>
-    <ClInclude Include="src\module\ai\gpt\chat_gpt_preview_control.h">
+    <ClInclude Include="src\module\ai\gpt\gpt_preview_control.h">
       <Filter>src\module\ai\gpt</Filter>
     </ClInclude>
-    <ClInclude Include="src\module\ai\gpt\chat_gpt_question_view.h">
+    <ClInclude Include="src\module\ai\gpt\gpt_question_view.h">
       <Filter>src\module\ai\gpt</Filter>
     </ClInclude>
     <ClInclude Include="src\module\ai\gpt\local_error.h">
@@ -1571,22 +1571,22 @@
     <ClCompile Include="src\module\extension\command_line_bridge.cpp">
       <Filter>src\module\extension</Filter>
     </ClCompile>
-    <ClCompile Include="src\module\ai\gpt\chat_gpt_command.cpp">
+    <ClCompile Include="src\module\ai\gpt\gpt_command.cpp">
       <Filter>src\module\ai\gpt</Filter>
     </ClCompile>
-    <ClCompile Include="src\module\ai\gpt\chat_gpt_command_parsing.cpp">
+    <ClCompile Include="src\module\ai\gpt\gpt_command_parsing.cpp">
       <Filter>src\module\ai\gpt</Filter>
     </ClCompile>
-    <ClCompile Include="src\module\ai\gpt\chat_gpt_executor.cpp">
+    <ClCompile Include="src\module\ai\gpt\gpt_executor.cpp">
       <Filter>src\module\ai\gpt</Filter>
     </ClCompile>
-    <ClCompile Include="src\module\ai\gpt\chat_gpt_module.cpp">
+    <ClCompile Include="src\module\ai\gpt\gpt_module.cpp">
       <Filter>src\module\ai\gpt</Filter>
     </ClCompile>
-    <ClCompile Include="src\module\ai\gpt\chat_gpt_preview_control.cpp">
+    <ClCompile Include="src\module\ai\gpt\gpt_preview_control.cpp">
       <Filter>src\module\ai\gpt</Filter>
     </ClCompile>
-    <ClCompile Include="src\module\ai\gpt\chat_gpt_question_view.cpp">
+    <ClCompile Include="src\module\ai\gpt\gpt_question_view.cpp">
       <Filter>src\module\ai\gpt</Filter>
     </ClCompile>
     <ClCompile Include="src\module\ai\gpt\progress_indicator.cpp">
@@ -1705,10 +1705,10 @@
     <Page Include="src\utility\markdown\render\code_block_region.xaml">
       <Filter>src\utility\markdown\render</Filter>
     </Page>
-    <Page Include="src\module\ai\gpt\chat_gpt_preview_control.xaml">
+    <Page Include="src\module\ai\gpt\gpt_preview_control.xaml">
       <Filter>src\module\ai\gpt</Filter>
     </Page>
-    <Page Include="src\module\ai\gpt\chat_gpt_question_view.xaml">
+    <Page Include="src\module\ai\gpt\gpt_question_view.xaml">
       <Filter>src\module\ai\gpt</Filter>
     </Page>
     <Page Include="src\module\ai\gpt\dialog\answer_view.xaml">

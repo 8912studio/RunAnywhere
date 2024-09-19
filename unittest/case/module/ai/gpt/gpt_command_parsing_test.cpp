@@ -1,13 +1,13 @@
 #include <gtest/gtest.h>
-#include "module/ai/gpt/chat_gpt_command_parsing.h"
+#include "module/ai/gpt/gpt_command_parsing.h"
 
 using namespace ra::mod::ai::gpt;
 using namespace ra::utility;
 
-TEST(ChatGPTCommandParsingTest, ParseSuccess) {
+TEST(GPTCommandParsingTest, ParseSuccess) {
 
     auto test = [](const CommandLine& command_line, std::wstring_view expected) {
-        auto result = ParseChatGPTCommand(command_line);
+        auto result = ParseGPTCommand(command_line);
         return result.has_value() && result->question == expected;
     };
 
@@ -54,17 +54,17 @@ TEST(ChatGPTCommandParsingTest, ParseSuccess) {
 }
 
 
-TEST(ChatGPTCommandParsingTest, ParseFail) {
+TEST(GPTCommandParsingTest, ParseFail) {
 
-    auto result = ParseChatGPTCommand(CommandLine{ L"" });
+    auto result = ParseGPTCommand(CommandLine{ L"" });
     ASSERT_FALSE(result.has_value());
 
-    result = ParseChatGPTCommand(CommandLine{ L"hi" });
+    result = ParseGPTCommand(CommandLine{ L"hi" });
     ASSERT_FALSE(result.has_value());
 
-    result = ParseChatGPTCommand(CommandLine{ L"hi>" });
+    result = ParseGPTCommand(CommandLine{ L"hi>" });
     ASSERT_FALSE(result.has_value());
 
-    result = ParseChatGPTCommand(CommandLine{ L"hi >" });
+    result = ParseGPTCommand(CommandLine{ L"hi >" });
     ASSERT_FALSE(result.has_value());
 }

@@ -1,4 +1,4 @@
-<ChatGPTQuestionView AutoHeight="true">
+<GPTQuestionView AutoHeight="true">
 
     <HorizontalBox 
         Name="hintContainer"
@@ -48,4 +48,4 @@
 
     </VerticalBox>
 
-</ChatGPTQuestionView>
+</GPTQuestionView>

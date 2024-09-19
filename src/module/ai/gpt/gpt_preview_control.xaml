@@ -1,0 +1,3 @@
+<GPTPreviewControl Layouter="VerticalLayouter" AutoHeight="true">
+    <VerticalBox Name="contentView" AutoHeight="true" />
+</GPTPreviewControl>
