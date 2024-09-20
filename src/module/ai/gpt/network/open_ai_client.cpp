@@ -170,36 +170,7 @@ zaf::Observable<ChatCompletion> OpenAIClient::CreateMockChatCompletion() {
             [observer = subject.AsObserver()](int) {
     
         std::wstring mock_response =
-LR"(In Qt, you can print debug information to the console using the qDebug() function. Here's how you can do it:
-
-1. Include the necessary header file at the top of your source file:
-```cpp
-#include <QDebug>
-```
-
-2. Use the qDebug() function to print the debug information. For example:
-```cpp
-qDebug() << "Debug information Debug information Debug information Debug information Debug information";
-```
-
-3. You can also include variables or values in the debug output:
-```
-int value = 42;
-qDebug() << "The value is:" << value;
-```
-
-4. To build and run the application with debug output, make sure you have enabled the debug mode in your build configuration. In Qt Creator, go to the "Projects" tab, select the build configuration, and ensure that "Debug" mode is selected.
-
-5. When you run the application, the debug output will be displayed in the console window.
-
-Note: qDebug() statements are only displayed in the console when the application is running in debug mode. In release mode, qDebug() statements are omitted for performance reasons. To display debug output in release mode, you can use qInfo(), qWarning(), or qCritical() functions, depending on the severity level of the message.
-
-Here's an example of using qInfo() for release mode:
-```cpp
-qInfo() << "Information message";
-```
-
-Additionally, you can also redirect the debug output to a file or customize the format of debug messages using Qt's message handler mechanism.)";
+LR"(**Asterisk (*)**: )";
 
         observer.OnNext(ChatCompletion(Message(RoleAssistant, mock_response)));
         observer.OnCompleted();

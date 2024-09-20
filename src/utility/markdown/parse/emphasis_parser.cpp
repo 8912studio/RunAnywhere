@@ -19,6 +19,7 @@ std::shared_ptr<element::Element> EmphasisParser::Parse(ParseContext& context) {
 
     element::ElementList children;
     std::wstring text;
+    bool has_parsed_tailing_identity_chars{};
 
     while (!context.IsAtLineEnd()) {
 
@@ -30,20 +31,40 @@ std::shared_ptr<element::Element> EmphasisParser::Parse(ParseContext& context) {
             }
 
             children.push_back(std::move(child_element));
-            continue;
         }
         else if (context.CurrentChar() != options_.identity_char) {
             text.append(1, context.CurrentChar());
             context.Forward();
         }
+        //Encounter an identity char.
         else {
-            break;
+
+            //If there is no content between the heading identity chars and the current identity 
+            //char, break the loop.
+            if (text.empty() && children.empty()) {
+                break;
+            }
+
+            //Try to parse the tailing identity chars.
+            {
+                auto inner_transaction = context.BeginTransaction();
+                if (ParseIdentityChars(context)) {
+                    inner_transaction.Commit();
+                    has_parsed_tailing_identity_chars = true;
+                    break;
+                }
+            }
+
+            //Parsing identity chars fails, the current identity char is a part of the text.
+            text.append(1, options_.identity_char);
+            context.Forward();
         }
     }
 
-    //Parse tailing identity chars.
-    if (!ParseIdentityChars(context)) {
-        return nullptr;
+    if (!has_parsed_tailing_identity_chars) {
+        if (!ParseIdentityChars(context)) {
+            return nullptr;
+        }
     }
 
     if (!text.empty()) {

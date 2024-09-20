@@ -206,6 +206,10 @@ TEST(MarkdownParserTest, ParseParagraph) {
         MakeInlineCode(L"code**"),
     }));
 
+    ASSERT_TRUE(test(L"**`code`**", {
+        MakeBold({ MakeInlineCode(L"code") })
+    }));
+
     ASSERT_TRUE(test(L"***abc***", {
         MakeItalic({
             MakeBold({ MakeText(L"abc") })
@@ -220,6 +224,22 @@ TEST(MarkdownParserTest, ParseParagraph) {
     ASSERT_TRUE(test(L"**abc***", {
         MakeBold({ MakeText(L"abc") }),
         MakeText(L"*"),
+    }));
+
+    ASSERT_TRUE(test(L"**abc*", {
+        MakeText(L"*"),
+        MakeItalic(L"abc"),
+    }));
+
+    ASSERT_TRUE(test(L"**ab*c**", {
+        MakeBold(L"ab*c")
+    }));
+
+    ASSERT_TRUE(test(L"**`code`*c**", {
+        MakeBold({
+            MakeInlineCode(L"code"),
+            MakeText(L"*c"),
+        })
     }));
 }
 
