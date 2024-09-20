@@ -44,13 +44,9 @@ std::shared_ptr<Round> Dialog::CreateRound(std::wstring question) {
 
     auto round_id = ++round_id_seed_;
 
-    auto answer = Chat(round_id, question).Map<std::wstring>(
-        [](const ChatCompletion& chat_completion) {
-    
-        return chat_completion.Message().Content();
-    });
-
+    auto answer = Chat(round_id, question);
     auto round = std::make_shared<Round>(round_id, std::move(question), std::move(answer));
+
     Subscriptions() += round->RemoveEvent().Subscribe(
         std::bind(&Dialog::OnRoundRemoved, this, std::placeholders::_1));
 

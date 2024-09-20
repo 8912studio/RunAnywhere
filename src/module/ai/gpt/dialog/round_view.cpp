@@ -1,4 +1,5 @@
 #include "module/ai/gpt/dialog/round_view.h"
+#include <format>
 #include <zaf/base/container/utility/contain.h>
 #include <zaf/rx/subject.h>
 #include "utility/clipboard.h"
@@ -24,8 +25,8 @@ void RoundView::AfterParse() {
     answerView->SetAnswer(ObserveAnswer());
 
     Subscriptions() += copyButton->ClickEvent().Subscribe(std::bind([this]() {
-        Subscriptions() += round_->Answer().Subscribe([](const std::wstring& content) {
-            utility::SetStringToClipboard(content);
+        Subscriptions() += round_->Answer().Subscribe([](const ChatCompletion& completion) {
+            utility::SetStringToClipboard(completion.Message().Content());
         });
     }));
 
@@ -42,14 +43,18 @@ void RoundView::AfterParse() {
 zaf::Observable<std::wstring> RoundView::ObserveAnswer() {
 
     ChangeState(RoundState::Requesting);
-    return round_->Answer().Do([](const std::wstring&) {
-        //Nothing to do.
+
+    return round_->Answer().Do([this](const ChatCompletion& completion) {
+        UpdateTokenUsage(completion.TokenUsage());
     },
     [this](const std::exception_ptr&) {
         ChangeState(RoundState::Error);
     },
     [this]() {
         ChangeState(RoundState::Finished);
+    })
+    .Map<std::wstring>([](const ChatCompletion& completion) {
+        return completion.Message().Content();
     });
 }
 
@@ -77,6 +82,25 @@ void RoundView::OnMouseLeave(const zaf::MouseLeaveInfo& event_info) {
         toolbar->SetIsVisible(false);
     }
     event_info.MarkAsHandled();
+}
+
+
+void RoundView::UpdateTokenUsage(const std::optional<TokenUsage>& usage) {
+
+    if (!usage.has_value()) {
+        tokenUsage->SetIsVisible(false);
+        return;
+    }
+
+    auto text = std::format(
+        L"¡ü {}  ¡ý {}  ¦² {}",
+        usage->prompt_tokens,
+        usage->completion_tokens,
+        usage->total_tokens);
+
+    tokenUsage->SetText(std::move(text));
+    tokenUsage->SetTooltip(L"Token usage(question/answer/total)");
+    tokenUsage->SetIsVisible(true);
 }
 
 

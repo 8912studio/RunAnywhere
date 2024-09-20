@@ -35,6 +35,13 @@
 				Name="removeButton"
 				ImageName="close"
 				Tooltip="Remove this round" />
+			<Control />
+			<Label 
+				Name="tokenUsage" 
+				AutoWidth="true"
+				ParagraphAlignment="Center"
+				TextColor="#999999"
+				IsVisible="false" />
 		</HorizontalBox>
 	</HorizontalBox>
 </RoundView>

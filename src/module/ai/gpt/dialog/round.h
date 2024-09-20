@@ -5,12 +5,13 @@
 #include <zaf/base/non_copyable.h>
 #include <zaf/rx/observable.h>
 #include <zaf/rx/subject.h>
+#include "module/ai/gpt/network/chat_completion.h"
 
 namespace ra::mod::ai::gpt {
 
 class Round : public std::enable_shared_from_this<Round>, zaf::NonCopyableNonMovable {
 public:
-    Round(std::uint64_t id, std::wstring question, zaf::Observable<std::wstring> answer);
+    Round(std::uint64_t id, std::wstring question, zaf::Observable<ChatCompletion> answer);
     ~Round();
 
     std::uint64_t ID() const {
@@ -21,7 +22,7 @@ public:
         return question_;
     }
 
-    zaf::Observable<std::wstring> Answer() const {
+    zaf::Observable<ChatCompletion> Answer() const {
         return answer_;
     }
 
@@ -39,7 +40,7 @@ public:
 private:
     std::uint64_t id_{};
     std::wstring question_;
-    zaf::Observable<std::wstring> answer_;
+    zaf::Observable<ChatCompletion> answer_;
     zaf::Subject<std::uint64_t> remove_event_;
     zaf::Subject<std::shared_ptr<Round>> retry_event_;
 };

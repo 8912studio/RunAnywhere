@@ -3,6 +3,7 @@
 #include <zaf/base/none.h>
 #include <zaf/control/button.h>
 #include <zaf/control/control_binder.h>
+#include <zaf/control/label.h>
 #include <zaf/control/linear_box.h>
 #include "module/ai/gpt/dialog/answer_view.h"
 #include "module/ai/gpt/dialog/round.h"
@@ -38,6 +39,7 @@ private:
 
 private:
     zaf::Observable<std::wstring> ObserveAnswer();
+    void UpdateTokenUsage(const std::optional<TokenUsage>& usage);
     void ChangeState(RoundState state);
     void UpdateToolbarState();
 
@@ -49,6 +51,7 @@ private:
     ZAF_BIND_CONTROL(zaf::Button, copyButton);
     ZAF_BIND_CONTROL(zaf::Button, removeButton);
     ZAF_BIND_CONTROL(zaf::Button, retryButton);
+    ZAF_BIND_CONTROL(zaf::Label, tokenUsage);
 
     std::shared_ptr<gpt::Round> round_;
     RoundState state_{ RoundState::Requesting };

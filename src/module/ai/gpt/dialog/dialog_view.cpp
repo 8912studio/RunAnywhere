@@ -139,7 +139,7 @@ void DialogView::SubscribeToAnswerEvent(const Round& round) {
     auto is_list_in_bottom = std::make_shared<bool>();
 
     Subscriptions() += round.Answer().Catch([](const std::exception_ptr&) {
-        return zaf::rx::Just(std::wstring{});
+        return zaf::rx::Just(ChatCompletion{ Message{ L"" }, {}});
     })
     .Do(std::bind([this, is_list_in_bottom]() {
         auto scroll_bar = roundScrollBox->VerticalScrollBar();

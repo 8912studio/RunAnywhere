@@ -5,6 +5,7 @@
 #include <optional>
 #include <string>
 #include <vector>
+#include <boost/json.hpp>
 #include <zaf/base/non_copyable.h>
 #include <zaf/rx/observable.h>
 #include "module/ai/gpt/network/chat_completion.h"
@@ -29,6 +30,8 @@ private:
 
     static std::string CreateRequestBody(const std::vector<const Message*>& messages);
     static std::optional<ChatCompletion> ParseChatCompletion(const std::string& response);
+    static Message ParseMessage(const boost::json::value& json_root);
+    static std::optional<TokenUsage> ParseTokenUsage(const boost::json::value& json_root);
     static std::string ParseErrorMessage(const std::string& response);
 
 private:
