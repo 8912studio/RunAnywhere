@@ -18,7 +18,7 @@
     <HorizontalBox 
 		Name="bottomContainer" 
 		Margin="15,5,15,5"
-		CrossAxisAlignment="Center">
+		CrossAxisAlignment="End">
         <ThinScrollControl
 			AllowHorizontalScroll="false"
 			UseOverlayScrollBars="true">
@@ -31,9 +31,13 @@
         </ThinScrollControl>
         <Button 
 			Name="sendButton"
-			FixedSize="40,30"
-			Margin="15,0,0,0"
-			Text="Send"
+			Border="0"
+			BackgroundColor="Transparent"
+			BackgroundImageLayout="Stretch"
+			FixedSize="30,30"
+			Margin="5,0,0,4"
+			Tooltip="Send question"
+			CanFocused="false"
 			IsEnabled="false" />
     </HorizontalBox>
 </DialogView>

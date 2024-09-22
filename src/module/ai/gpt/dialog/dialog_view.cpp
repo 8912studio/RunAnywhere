@@ -50,6 +50,22 @@ void DialogView::InitializeInputEdit() {
 
 void DialogView::InitializeSendButton() {
 
+    sendButton->SetBackgroundImagePicker([](const Control& control) {
+    
+        std::wstring uri{ L"res:///resource/send" };
+        if (!control.IsEnabled()) {
+            uri += L"_disabled";
+        }
+        else if (control.ContainsMouse()) {
+            uri += L"_highlight";
+        }
+        else {
+            uri += L"_normal";
+        }
+        uri += L".png";
+        return zaf::Image::FromURI(uri, control.GetDPI());
+    });
+
     Subscriptions() += sendButton->ClickEvent().Subscribe(
         std::bind(&DialogView::StartNewRoundOnPressReturn, this));
 }
