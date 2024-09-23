@@ -88,6 +88,9 @@
     <Filter Include="case\module\ai\gpt">
       <UniqueIdentifier>{4459005f-86ad-4aa6-bf05-a4d2b35cc2f0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="case\utility\sql">
+      <UniqueIdentifier>{974c993d-05ee-4966-8c2a-355b7536b52a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="case\module\calculator\decimal_number_parser_test.cpp">
@@ -267,6 +270,9 @@
     </ClCompile>
     <ClCompile Include="case\module\ai\gpt\gpt_command_parsing_test.cpp">
       <Filter>case\module\ai\gpt</Filter>
+    </ClCompile>
+    <ClCompile Include="case\utility\sql\sql_test.cpp">
+      <Filter>case\utility\sql</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

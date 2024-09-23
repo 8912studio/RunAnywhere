@@ -151,6 +151,12 @@
     <Filter Include="src\module\ai\gpt\network">
       <UniqueIdentifier>{476a453a-9ea6-4035-94a1-71ca62907d05}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\utility\sql">
+      <UniqueIdentifier>{573b6bec-f8fa-4fb9-9f92-77dba7f2618a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="third_party\sqlite">
+      <UniqueIdentifier>{58c07442-448c-49a3-8353-aa5124e650e5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\module\calculator\parse\binary_expression_parser.h">
@@ -996,6 +1002,24 @@
     <ClInclude Include="src\module\ai\gpt\dialog\dialog_view.h">
       <Filter>src\module\ai\gpt\dialog</Filter>
     </ClInclude>
+    <ClInclude Include="third_party\sqlite\sqlite3.h">
+      <Filter>third_party\sqlite</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\sql\database.h">
+      <Filter>src\utility\sql</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\sql\sql_error.h">
+      <Filter>src\utility\sql</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\sql\statement.h">
+      <Filter>src\utility\sql</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\sql\table_definition.h">
+      <Filter>src\utility\sql</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\sql\data_type.h">
+      <Filter>src\utility\sql</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -1627,6 +1651,18 @@
     </ClCompile>
     <ClCompile Include="src\module\ai\gpt\dialog\dialog_view.cpp">
       <Filter>src\module\ai\gpt\dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="third_party\sqlite\sqlite3.c">
+      <Filter>third_party\sqlite</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\sql\database.cpp">
+      <Filter>src\utility\sql</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\sql\statement.cpp">
+      <Filter>src\utility\sql</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\sql\sql_error.cpp">
+      <Filter>src\utility\sql</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

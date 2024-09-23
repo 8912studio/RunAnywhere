@@ -49,11 +49,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)third_party\everything\ipc;$(SolutionDir)third_party\curlion\src;$(SolutionDir)third_party\curl\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)third_party\everything\ipc;$(SolutionDir)third_party\curlion\src;$(SolutionDir)third_party\curl\include;$(SolutionDir)third_party\sqlite;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)third_party\everything\ipc;$(SolutionDir)third_party\curlion\src;$(SolutionDir)third_party\curl\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)third_party\everything\ipc;$(SolutionDir)third_party\curlion\src;$(SolutionDir)third_party\curl\include;$(SolutionDir)third_party\sqlite;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -352,6 +352,11 @@
     <ClInclude Include="src\utility\path_trimming.h" />
     <ClInclude Include="src\utility\preview_text_box.h" />
     <ClInclude Include="src\utility\progress_circle.h" />
+    <ClInclude Include="src\utility\sql\database.h" />
+    <ClInclude Include="src\utility\sql\data_type.h" />
+    <ClInclude Include="src\utility\sql\sql_error.h" />
+    <ClInclude Include="src\utility\sql\statement.h" />
+    <ClInclude Include="src\utility\sql\table_definition.h" />
     <ClInclude Include="src\utility\text_utility.h" />
     <ClInclude Include="src\utility\thin_border_window.h" />
     <ClInclude Include="src\utility\thin_scroll_bar.h" />
@@ -367,6 +372,7 @@
     <ClInclude Include="third_party\curlion\src\socket_watcher.h" />
     <ClInclude Include="third_party\curlion\src\timer.h" />
     <ClInclude Include="third_party\everything\ipc\everything_ipc.h" />
+    <ClInclude Include="third_party\sqlite\sqlite3.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\about_window.cpp" />
@@ -573,6 +579,9 @@
     <ClCompile Include="src\utility\path_trimming.cpp" />
     <ClCompile Include="src\utility\preview_text_box.cpp" />
     <ClCompile Include="src\utility\progress_circle.cpp" />
+    <ClCompile Include="src\utility\sql\database.cpp" />
+    <ClCompile Include="src\utility\sql\sql_error.cpp" />
+    <ClCompile Include="src\utility\sql\statement.cpp" />
     <ClCompile Include="src\utility\text_utility.cpp" />
     <ClCompile Include="src\utility\thin_border_window.cpp" />
     <ClCompile Include="src\utility\thin_scroll_bar.cpp" />
@@ -582,6 +591,7 @@
     <ClCompile Include="third_party\curlion\src\http_connection.cpp" />
     <ClCompile Include="third_party\curlion\src\http_form.cpp" />
     <ClCompile Include="third_party\curlion\src\log.cpp" />
+    <ClCompile Include="third_party\sqlite\sqlite3.c" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="src\about_window.xaml" />

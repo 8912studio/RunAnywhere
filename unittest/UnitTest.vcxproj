@@ -34,10 +34,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Microsoft-googletest-v140-windesktop-msvcstl-static-rt-dyn-Disable-gtest_main>true</Microsoft-googletest-v140-windesktop-msvcstl-static-rt-dyn-Disable-gtest_main>
     <LibraryPath>$(SolutionDir)\third_party\curl\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)third_party\sqlite;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Microsoft-googletest-v140-windesktop-msvcstl-static-rt-dyn-Disable-gtest_main>true</Microsoft-googletest-v140-windesktop-msvcstl-static-rt-dyn-Disable-gtest_main>
     <LibraryPath>$(SolutionDir)\third_party\curl\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)third_party\sqlite;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lib.vcxproj">
@@ -109,6 +111,7 @@
     <ClCompile Include="case\utility\markdown\parse\parse_context_test.cpp" />
     <ClCompile Include="case\utility\markdown\render\styled_text_builder_test.cpp" />
     <ClCompile Include="case\utility\numeric_text_formatting_test.cpp" />
+    <ClCompile Include="case\utility\sql\sql_test.cpp" />
     <ClCompile Include="case\utility\text_utility_test.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
