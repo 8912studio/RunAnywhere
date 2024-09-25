@@ -1,4 +1,5 @@
 #include "utility/sql/database.h"
+#include <format>
 #include <zaf/base/string/encoding_conversion.h>
 #include "utility/sql/sql_error.h"
 
@@ -56,19 +57,36 @@ void Database::Reset() noexcept {
 }
 
 
-Statement Database::PrepareStatement(const std::string& sql) {
+void Database::ExecuteSQL(std::string_view sql) {
+
+    auto statement = PrepareStatement(sql);
+    statement.Step();
+}
+
+
+Statement Database::PrepareStatement(std::string_view sql) {
 
     sqlite3_stmt* statement_handle{};
     int error_code = sqlite3_prepare_v2(
         handle_, 
-        sql.c_str(),
-        static_cast<int>(sql.length() + 1),
+        sql.data(),
+        static_cast<int>(sql.length()),
         &statement_handle, 
         nullptr);
 
     THROW_IF_SQL_ERROR(error_code, handle_);
 
     return Statement{ handle_, statement_handle };
+}
+
+
+std::int64_t Database::LastInsertRowID() const {
+    return sqlite3_last_insert_rowid(handle_);
+}
+
+
+void Database::CreateTable(const TableSchema& table_schema) {
+    ExecuteSQL(ToSQL(table_schema));
 }
 
 }

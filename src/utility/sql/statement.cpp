@@ -56,6 +56,11 @@ void Statement::BindParameter(int parameter_index, std::int64_t value) {
 }
 
 
+void Statement::BindParameter(int parameter_index, std::uint64_t value) {
+    BindParameter(parameter_index, static_cast<std::int64_t>(value));
+}
+
+
 void Statement::BindParameter(int parameter_index, std::string_view value) {
 
     int error_code = sqlite3_bind_text(
@@ -78,11 +83,11 @@ void Statement::ClearBindings() {
 bool Statement::Step() {
 
     int error_code = sqlite3_step(statement_handle_);
-    if (error_code == SQLITE_DONE) {
+    if (error_code == SQLITE_ROW) {
         return true;
     }
 
-    if (error_code == SQLITE_ROW) {
+    if (error_code == SQLITE_DONE) {
         return false;
     }
 
@@ -103,6 +108,18 @@ int Statement::GetColumnInt(int column_index) noexcept {
 
 std::int64_t Statement::GetColumnInt64(int column_index) noexcept {
     return sqlite3_column_int64(statement_handle_, column_index);
+}
+
+
+std::string_view Statement::GetColumnText(int column_index) noexcept {
+
+    int length = sqlite3_column_bytes(statement_handle_, column_index);
+    auto text = sqlite3_column_text(statement_handle_, column_index);
+
+    return std::string_view{ 
+        reinterpret_cast<const char*>(text), 
+        static_cast<std::size_t>(length) 
+    };
 }
 
 }

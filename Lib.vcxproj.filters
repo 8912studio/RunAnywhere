@@ -157,6 +157,9 @@
     <Filter Include="third_party\sqlite">
       <UniqueIdentifier>{58c07442-448c-49a3-8353-aa5124e650e5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\module\ai\gpt\storage">
+      <UniqueIdentifier>{4e4ca737-4fe1-4acb-b238-826deb230e88}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\module\calculator\parse\binary_expression_parser.h">
@@ -1014,11 +1017,23 @@
     <ClInclude Include="src\utility\sql\statement.h">
       <Filter>src\utility\sql</Filter>
     </ClInclude>
-    <ClInclude Include="src\utility\sql\table_definition.h">
+    <ClInclude Include="src\utility\sql\table_schema.h">
       <Filter>src\utility\sql</Filter>
     </ClInclude>
     <ClInclude Include="src\utility\sql\data_type.h">
       <Filter>src\utility\sql</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\ai\gpt\storage\dialog_entity.h">
+      <Filter>src\module\ai\gpt\storage</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\ai\gpt\entity\round_entity.h">
+      <Filter>src\module\ai\gpt\storage</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\ai\gpt\storage\gpt_storage.h">
+      <Filter>src\module\ai\gpt\storage</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\ai\gpt\storage\storage_context.h">
+      <Filter>src\module\ai\gpt\storage</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1662,6 +1677,15 @@
       <Filter>src\utility\sql</Filter>
     </ClCompile>
     <ClCompile Include="src\utility\sql\sql_error.cpp">
+      <Filter>src\utility\sql</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\ai\gpt\storage\gpt_storage.cpp">
+      <Filter>src\module\ai\gpt\storage</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\ai\gpt\storage\storage_context.cpp">
+      <Filter>src\module\ai\gpt\storage</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\sql\table_schema.cpp">
       <Filter>src\utility\sql</Filter>
     </ClCompile>
   </ItemGroup>

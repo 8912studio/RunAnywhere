@@ -17,6 +17,7 @@ public:
 
     void BindParameter(int parameter_index, int value);
     void BindParameter(int parameter_index, std::int64_t value);
+    void BindParameter(int parameter_index, std::uint64_t value);
     void BindParameter(int parameter_index, std::string_view value);
     void ClearBindings();
 
@@ -25,6 +26,7 @@ public:
 
     int GetColumnInt(int column_index) noexcept;
     std::int64_t GetColumnInt64(int column_index) noexcept;
+    std::string_view GetColumnText(int column_index) noexcept;
 
     sqlite3_stmt* Handle() const noexcept {
         return statement_handle_;

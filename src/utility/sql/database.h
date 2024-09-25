@@ -4,6 +4,7 @@
 #include <sqlite3.h>
 #include <zaf/base/non_copyable.h>
 #include "utility/sql/statement.h"
+#include "utility/sql/table_schema.h"
 
 namespace ra::utility::sql {
 
@@ -18,7 +19,13 @@ public:
     Database(Database&& other) noexcept;
     Database& operator=(Database&& other) noexcept;
 
-    Statement PrepareStatement(const std::string& sql);
+    void ExecuteSQL(std::string_view sql);
+
+    Statement PrepareStatement(std::string_view sql);
+
+    std::int64_t LastInsertRowID() const;
+
+    void CreateTable(const TableSchema& table_schema);
 
     sqlite3* Handle() const noexcept {
         return handle_;

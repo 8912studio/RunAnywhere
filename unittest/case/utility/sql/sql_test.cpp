@@ -4,7 +4,7 @@
 #include <zaf/object/boxing/string.h>
 #include <zaf/object/object.h>
 #include <zaf/object/property_support.h>
-#include "utility/sql/table_definition.h"
+#include "utility/sql/table_schema.h"
 
 using namespace ra::utility::sql;
 
@@ -41,9 +41,9 @@ ZAF_OBJECT_END;
 ZAF_OBJECT_IMPL(Person);
 
 
-ColumnDefinition CreateColumnDefinition(zaf::ObjectProperty* property) {
+ColumnSchema CreateColumnDefinition(zaf::ObjectProperty* property) {
 
-    ColumnDefinition result;
+    ColumnSchema result;
     result.name = zaf::ToUTF8String(property->Name());
 
     auto value_type = property->ValueType();
@@ -59,11 +59,11 @@ ColumnDefinition CreateColumnDefinition(zaf::ObjectProperty* property) {
 }
 
 
-TableDefinition CreateTableDefinition(
+TableSchema CreateTableDefinition(
     zaf::ObjectType* type,  
     const std::vector<zaf::ObjectProperty*>& properties) {
 
-    TableDefinition result;
+    TableSchema result;
     result.name = zaf::ToUTF8String(type->Name());
     for (auto each_property : properties) {
         result.columns.push_back(CreateColumnDefinition(each_property));
@@ -72,11 +72,11 @@ TableDefinition CreateTableDefinition(
 }
 
 
-TEST(SQLTest, TableDefinition) {
+TEST(SQLTest, TableSchema) {
 
     auto person_type = Person::Type::Instance();
 
-    TableDefinition table_definition{
+    TableSchema table_definition{
         .name = zaf::ToUTF8String(person_type->Name()),
         .columns = {
             {

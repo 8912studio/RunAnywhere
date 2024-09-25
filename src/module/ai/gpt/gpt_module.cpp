@@ -1,6 +1,7 @@
 #include "module/ai/gpt/gpt_module.h"
 #include "module/ai/gpt/gpt_command.h"
 #include "module/ai/gpt/gpt_command_parsing.h"
+#include "utility/data_directory.h"
 
 namespace ra::mod::ai::gpt {
 
@@ -24,8 +25,13 @@ std::unique_ptr<Command> GPTModule::CreateCommand(const utility::CommandLine& co
 void GPTModule::Initialize() {
 
     std::call_once(init_once_flag_, [this]() {
+
         client_ = std::make_shared<OpenAIClient>();
-        dialog_manager_ = std::make_shared<DialogManager>(client_);
+
+        auto storage_path = utility::GetDataDirectoryPath() / "GPT" / "GPT.db";
+        storage_ = std::make_shared<GPTStorage>(storage_path);
+
+        dialog_manager_ = std::make_shared<DialogManager>(client_, storage_);
     });
 }
 
