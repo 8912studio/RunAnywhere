@@ -169,7 +169,59 @@ zaf::Observable<ChatCompletion> OpenAIClient::CreateMockChatCompletion() {
             [observer = subject.AsObserver()](int) {
     
         std::wstring mock_response =
-LR"(**Asterisk (*)**: )";
+LR"(Yes, there are several libraries and tools available that can help you generate SQL queries programmatically. Here are some popular ones across different programming languages:
+
+### Python
+1. **SQLAlchemy**: An SQL toolkit and Object-Relational Mapping (ORM) system that allows you to construct SQL queries using Python objects.
+   - Website: [SQLAlchemy](https://www.sqlalchemy.org/)
+
+2. **Peewee**: A small, expressive ORM that provides a simple way to interact with databases and generate SQL queries.
+   - Website: [Peewee](http://docs.peewee-orm.com/)
+
+3. **Pandas**: While primarily a data manipulation library, it has built-in capabilities to generate SQL from DataFrames using the `to_sql` method.
+   - Website: [Pandas](https://pandas.pydata.org/)
+
+### JavaScript/Node.js
+1. **Knex.js**: A SQL query builder for Node.js that allows you to construct queries using a fluent API.
+   - Website: [Knex.js](http://knexjs.org/)
+
+2. **Sequelize**: A promise-based Node.js ORM that supports multiple SQL dialects and allows for easy query generation.
+   - Website: [Sequelize](https://sequelize.org/)
+
+### Ruby
+1. **Active Record**: The ORM framework that comes with Ruby on Rails, which allows you to create SQL queries using Ruby syntax.
+   - Website: [Active Record](https://guides.rubyonrails.org/active_record_basics.html)
+
+2. **Sequel**: A simple, flexible, and powerful SQL database toolkit for Ruby.
+   - Website: [Sequel](http://sequel.jeremyevans.net/)
+
+### PHP
+1. **Laravel Eloquent**: The ORM that comes with the Laravel framework, which provides a simple ActiveRecord implementation for generating SQL queries.
+   - Website: [Eloquent](https://laravel.com/docs/eloquent)
+
+2. **Doctrine DBAL**: A database abstraction layer that provides a powerful query builder for PHP.
+   - Website: [Doctrine DBAL](https://www.doctrine-project.org/projects/doctrine-dbal/en/latest/index.html)
+
+### Java
+1. **JOOQ**: A fluent API for typesafe SQL query construction and execution in Java.
+   - Website: [JOOQ](https://www.jooq.org/)
+
+2. **Hibernate**: An ORM framework for Java that allows you to generate SQL queries based on Java objects.
+   - Website: [Hibernate](https://hibernate.org/)
+
+### C#
+1. **Entity Framework**: An ORM framework for .NET that allows you to work with databases using .NET objects, generating SQL queries automatically.
+   - Website: [Entity Framework](https://docs.microsoft.com/en-us/ef/)
+
+2. **Dapper**: A simple object mapper for .NET that allows you to execute SQL queries directly and map results to C# objects.
+   - Website: [Dapper](https://github.com/DapperLib/Dapper)
+
+### General Tools
+1. **SQL Builders**: Many SQL builders are available in various languages that allow you to construct SQL queries using a programmatic interface, such as:
+   - **SQL::Abstract** (Perl)
+   - **sql-bricks** (JavaScript)
+
+These libraries can help you generate SQL queries dynamically, making it easier to work with databases in your applications. Depending on your programming language and requirements, you can choose the one that best fits your needs.)";
 
         Message message{ RoleAssistant, mock_response };
 

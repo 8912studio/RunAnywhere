@@ -80,7 +80,7 @@ element::ElementList HeaderParser::ParseChildren(ParseContext& context) {
     if (last_not_hash_index == std::wstring::npos) {
         text.clear();
     }
-    else {
+    else if (text[last_not_hash_index] == ' ') {
         text.erase(last_not_hash_index + 1);
         zaf::TrimEnd(text);
     }

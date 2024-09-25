@@ -35,6 +35,7 @@ TEST(HeaderParserTest, Success) {
         { MakeText(L"header head   er") }));
     ASSERT_TRUE(test(L"## header  #  #####", HeaderDepth::_2, { MakeText(L"header  #") }));
     ASSERT_TRUE(test(L"## header  #  #   ", HeaderDepth::_2, { MakeText(L"header  #") }));
+    ASSERT_TRUE(test(L"# header#", HeaderDepth::_1, { MakeText(L"header#")}));
     ASSERT_TRUE(test(L"# header\n", HeaderDepth::_1, { MakeText(L"header") }));
     ASSERT_TRUE(test(L"# `inlinecode` header", HeaderDepth::_1, {
         MakeInlineCode(L"inlinecode"),
