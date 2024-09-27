@@ -6,10 +6,10 @@
 
 namespace ra::mod::ai::gpt {
 
-GPTCommand::GPTCommand(std::shared_ptr<DialogManager> dialog_manager) {
+GPTCommand::GPTCommand(std::shared_ptr<GPTModuleContext> context) {
 
     preview_control_ = zaf::Create<GPTPreviewControl>();
-    gpt_executor_ = zaf::Create<GPTExecutor>(std::move(dialog_manager));
+    gpt_executor_ = zaf::Create<GPTExecutor>(std::move(context));
 }
 
 

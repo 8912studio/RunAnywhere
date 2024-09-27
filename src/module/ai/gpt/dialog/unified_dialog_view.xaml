@@ -1,0 +1,7 @@
+<UnifiedDialogView Layouter="VerticalLayouter">
+	<SplitControl Name="splitControl">
+		<SplitControl.FirstPane>
+			<DialogListView Name="listView"></DialogListView>
+		</SplitControl.FirstPane>
+	</SplitControl>
+</UnifiedDialogView>

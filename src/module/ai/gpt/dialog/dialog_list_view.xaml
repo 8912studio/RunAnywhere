@@ -1,0 +1,3 @@
+<DialogListView Layouter="VerticalLayouter">
+	<ListControl Name="listControl" />
+</DialogListView>

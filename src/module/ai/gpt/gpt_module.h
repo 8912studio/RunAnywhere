@@ -3,6 +3,7 @@
 #include <mutex>
 #include "module/ai/gpt/network/open_ai_client.h"
 #include "module/ai/gpt/dialog/dialog_manager.h"
+#include "module/ai/gpt/gpt_module_context.h"
 #include "module/ai/gpt/storage/gpt_storage.h"
 #include "module/module.h"
 
@@ -19,6 +20,7 @@ private:
 
 private:
     std::once_flag init_once_flag_;
+    std::shared_ptr<GPTModuleContext> context_;
     std::shared_ptr<OpenAIClient> client_;
     std::shared_ptr<GPTStorage> storage_;
     std::shared_ptr<DialogManager> dialog_manager_;

@@ -1,4 +1,5 @@
 #include "module/ai/gpt/gpt_module.h"
+#include "module/ai/gpt/dialog/unified_dialog_window.h"
 #include "module/ai/gpt/gpt_command.h"
 #include "module/ai/gpt/gpt_command_parsing.h"
 #include "utility/data_directory.h"
@@ -18,7 +19,7 @@ std::unique_ptr<Command> GPTModule::CreateCommand(const utility::CommandLine& co
 
     Initialize();
 
-    return std::make_unique<GPTCommand>(dialog_manager_);
+    return std::make_unique<GPTCommand>(context_);
 }
 
 
@@ -32,6 +33,10 @@ void GPTModule::Initialize() {
         storage_ = std::make_shared<GPTStorage>(storage_path);
 
         dialog_manager_ = std::make_shared<DialogManager>(client_, storage_);
+        dialog_manager_->Initialize();
+
+        auto unified_dialog_window = zaf::Create<UnifiedDialogWindow>(dialog_manager_);
+        context_ = std::make_shared<GPTModuleContext>(std::move(unified_dialog_window));
     });
 }
 

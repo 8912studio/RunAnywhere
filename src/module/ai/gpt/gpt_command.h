@@ -3,14 +3,14 @@
 #include <zaf/rx/subscription_host.h>
 #include "module/ai/gpt/gpt_executor.h"
 #include "module/ai/gpt/gpt_preview_control.h"
-#include "module/ai/gpt/dialog/dialog_manager.h"
+#include "module/ai/gpt/gpt_module_context.h"
 #include "module/command.h"
 
 namespace ra::mod::ai::gpt {
 
 class GPTCommand : public Command, zaf::SubscriptionHost {
 public:
-    explicit GPTCommand(std::shared_ptr<DialogManager> dialog_manager);
+    explicit GPTCommand(std::shared_ptr<GPTModuleContext> context);
     
     std::wstring GetKeyword() override;
 

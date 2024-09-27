@@ -1035,6 +1035,27 @@
     <ClInclude Include="src\module\ai\gpt\storage\storage_context.h">
       <Filter>src\module\ai\gpt\storage</Filter>
     </ClInclude>
+    <ClInclude Include="src\module\ai\gpt\dialog\unified_dialog_window.h">
+      <Filter>src\module\ai\gpt\dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\ai\gpt\dialog\unified_dialog_view.h">
+      <Filter>src\module\ai\gpt\dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\ai\gpt\dialog\dialog_list_view.h">
+      <Filter>src\module\ai\gpt\dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\ai\gpt\dialog\dialog_data_source.h">
+      <Filter>src\module\ai\gpt\dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\ai\gpt\storage\dialog_storage.h">
+      <Filter>src\module\ai\gpt\storage</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\ai\gpt\dialog\dialog_item_view.h">
+      <Filter>src\module\ai\gpt\dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\ai\gpt\gpt_module_context.h">
+      <Filter>src\module\ai\gpt</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -1688,6 +1709,24 @@
     <ClCompile Include="src\utility\sql\table_schema.cpp">
       <Filter>src\utility\sql</Filter>
     </ClCompile>
+    <ClCompile Include="src\module\ai\gpt\dialog\unified_dialog_window.cpp">
+      <Filter>src\module\ai\gpt\dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\ai\gpt\dialog\unified_dialog_view.cpp">
+      <Filter>src\module\ai\gpt\dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\ai\gpt\dialog\dialog_list_view.cpp">
+      <Filter>src\module\ai\gpt\dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\ai\gpt\dialog\dialog_data_source.cpp">
+      <Filter>src\module\ai\gpt\dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\ai\gpt\storage\dialog_storage.cpp">
+      <Filter>src\module\ai\gpt\storage</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\ai\gpt\dialog\dialog_item_view.cpp">
+      <Filter>src\module\ai\gpt\dialog</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Page Include="src\module\user_defined\preview\user_defined_command_preview_control.xaml">
@@ -1784,6 +1823,12 @@
       <Filter>src\module\ai\gpt\dialog</Filter>
     </Page>
     <Page Include="src\module\ai\gpt\dialog\dialog_view.xaml">
+      <Filter>src\module\ai\gpt\dialog</Filter>
+    </Page>
+    <Page Include="src\module\ai\gpt\dialog\unified_dialog_view.xaml">
+      <Filter>src\module\ai\gpt\dialog</Filter>
+    </Page>
+    <Page Include="src\module\ai\gpt\dialog\dialog_list_view.xaml">
       <Filter>src\module\ai\gpt\dialog</Filter>
     </Page>
   </ItemGroup>

@@ -1,30 +1,43 @@
 #include "module/ai/gpt/dialog/dialog.h"
 #include <format>
 #include <zaf/base/container/utility/erase.h>
+#include <zaf/base/string/encoding_conversion.h>
 #include <zaf/rx/creation.h>
 #include "module/ai/gpt/local_error.h"
 
 namespace ra::mod::ai::gpt {
 
-Dialog::Dialog(std::size_t number, std::shared_ptr<OpenAIClient> client) : 
-    number_(number),
-    client_(std::move(client)) {
+Dialog::Dialog(
+    std::size_t transient_id, 
+    DialogEntity entity, 
+    std::shared_ptr<OpenAIClient> client,
+    std::shared_ptr<GPTStorage> storage)
+    :
+    transient_id_(transient_id),
+    entity_(std::move(entity)),
+    client_(std::move(client)),
+    storage_(std::move(storage)) {
 
 }
 
 
 std::wstring Dialog::Subject() const {
 
-    if (!subject_.empty()) {
-        return subject_;
+    if (!entity_.subject.empty()) {
+        return zaf::FromUTF8String(entity_.subject);
     }
 
-    return std::format(L"New dialog #{}", number_);
+    return std::format(L"New dialog #{}", transient_id_);
 }
 
 
 zaf::Observable<zaf::None> Dialog::SubjectUpdatedEvent() const {
     return subject_updated_event_.GetObservable();
+}
+
+
+zaf::Observable<std::shared_ptr<Dialog>> gpt::Dialog::TimeUpdatedEvent() const {
+    return time_updated_event_.GetObservable();
 }
 
 
@@ -56,6 +69,8 @@ std::shared_ptr<Round> Dialog::CreateRound(std::wstring question) {
 
 zaf::Observable<ChatCompletion> Dialog::Chat(std::uint64_t round_id, std::wstring question) {
 
+    entity_.update_time = std::time(nullptr);
+
     if (ongoing_question_.has_value()) {
         return zaf::rx::Throw<ChatCompletion>(LocalError{ 
             LocalErrorCode::ChatOngoing,
@@ -64,8 +79,8 @@ zaf::Observable<ChatCompletion> Dialog::Chat(std::uint64_t round_id, std::wstrin
     }
 
     //Generate the subject if there is no subject yet.
-    if (subject_.empty()) {
-        subject_ = GenerateSubject(question);
+    if (entity_.subject.empty()) {
+        entity_.subject = zaf::ToUTF8String(GenerateSubject(question));
         subject_updated_event_.Raise({});
     }
 
@@ -93,6 +108,8 @@ zaf::Observable<ChatCompletion> Dialog::Chat(std::uint64_t round_id, std::wstrin
             if (history_rounds_.size() > max_history_rounds_count_) {
                 history_rounds_.pop_front();
             }
+
+            SaveDialogEntity();
         })
         .Finally([this]() {
             ongoing_question_.reset();
@@ -100,6 +117,20 @@ zaf::Observable<ChatCompletion> Dialog::Chat(std::uint64_t round_id, std::wstrin
         .Subscribe(result.AsObserver());
 
     return result.AsObservable();
+}
+
+
+void gpt::Dialog::SaveDialogEntity() {
+
+    if (entity_.id == 0) {
+        Subscriptions() += storage_->DialogStorage()->AddDialog(entity_).Subscribe(
+            [this](DialogID id) {
+                entity_.id = id;
+            });
+    }
+    else {
+        Subscriptions() += storage_->DialogStorage()->UpdateDialog(entity_).Subscribe();
+    }
 }
 
 
