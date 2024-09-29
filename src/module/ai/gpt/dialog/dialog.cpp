@@ -86,30 +86,31 @@ zaf::Observable<ChatCompletion> Dialog::Chat(std::uint64_t round_id, std::wstrin
 
     ongoing_question_.emplace(std::move(question));
 
-    std::vector<const Message*> sent_messages;
+    std::vector<Message> sent_messages;
     sent_messages.reserve(history_rounds_.size() + 1);
 
     for (const auto& each_round : history_rounds_) {
-        sent_messages.push_back(&each_round.question);
-        sent_messages.push_back(&each_round.answer);
+        sent_messages.push_back(each_round.question);
+        sent_messages.push_back(each_round.answer);
     }
-    sent_messages.push_back(&*ongoing_question_);
+    sent_messages.push_back(*ongoing_question_);
 
     zaf::ReplaySubject<ChatCompletion> result;
 
     Subscriptions() += client_->CreateChatCompletion(sent_messages)
-        .Do([this, round_id](const ChatCompletion& result) {
+        .Map<ChatCompletion>([this, round_id](const ChatResult& result) {
 
             history_rounds_.emplace_back(
                 round_id, 
                 std::move(*ongoing_question_), 
-                result.Message());
+                result.ChatCompletion().Message());
 
             if (history_rounds_.size() > max_history_rounds_count_) {
                 history_rounds_.pop_front();
             }
 
             SaveDialogEntity();
+            return result.ChatCompletion();
         })
         .Finally([this]() {
             ongoing_question_.reset();

@@ -8,6 +8,7 @@
 #include <zaf/rx/timer.h>
 #include "module/ai/gpt/network/asio_scheduler.h"
 #include "module/ai/gpt/network/error.h"
+#include "module/ai/gpt/network/response_parsing.h"
 #include "module/ai/gpt/network/socket_manager.h"
 #include "module/ai/gpt/network/socket_timer.h"
 #include "module/tool/json/json_formatter.h"
@@ -60,8 +61,8 @@ OpenAIClient::~OpenAIClient() {
 }
 
 
-zaf::Observable<ChatCompletion> OpenAIClient::CreateChatCompletion(
-    const std::vector<const Message*>& messages) {
+zaf::Observable<ChatResult> OpenAIClient::CreateChatCompletion(
+    const std::vector<Message>& messages) {
 
     auto url = zaf::ToUTF8String(option::OptionStorage::Instance().OpenAIAPIServer());
     if (!url.empty()) {
@@ -110,7 +111,7 @@ zaf::Observable<ChatCompletion> OpenAIClient::CreateChatCompletion(
         }
     });
 
-    zaf::ReplaySubject<ChatCompletion> subject;
+    zaf::ReplaySubject<ChatResult> subject;
     connection->SetFinishedCallback([observer = subject.AsObserver()](
         const std::shared_ptr<curlion::Connection>& connection) {
     
@@ -138,7 +139,7 @@ zaf::Observable<ChatCompletion> OpenAIClient::CreateChatCompletion(
         auto chat_completion = ParseChatCompletion(response_body);
 
         if (chat_completion) {
-            observer.OnNext(*chat_completion);
+            observer.OnNext(ChatResult{ std::move(*chat_completion), response_body });
             observer.OnCompleted();
         }
         else {
@@ -238,7 +239,7 @@ These libraries can help you generate SQL queries dynamically, making it easier 
 }
 
 
-std::string OpenAIClient::CreateRequestBody(const std::vector<const Message*>& messages) {
+std::string OpenAIClient::CreateRequestBody(const std::vector<Message>& messages) {
 
     boost::json::object root;
     root["model"] = "gpt-4o-mini";
@@ -248,80 +249,14 @@ std::string OpenAIClient::CreateRequestBody(const std::vector<const Message*>& m
     for (const auto& each_message : messages) {
         
         boost::json::object message_item;
-        message_item["role"] = zaf::ToUTF8String(each_message->Role());
-        message_item["content"] = zaf::ToUTF8String(each_message->Content());
+        message_item["role"] = zaf::ToUTF8String(each_message.Role());
+        message_item["content"] = zaf::ToUTF8String(each_message.Content());
         message_array.push_back(std::move(message_item));
     }
     root["messages"] = std::move(message_array);
 
     tool::json::JSONPrimitiveFormatter json_formatter;
     return json_formatter.Format(root);
-}
-
-
-std::optional<ChatCompletion> OpenAIClient::ParseChatCompletion(const std::string& response) {
-
-    try {
-
-        auto json_root = boost::json::parse(response);
-
-        auto message = ParseMessage(json_root);
-        auto token_usage = ParseTokenUsage(json_root);
-        
-        return ChatCompletion(std::move(message), token_usage);
-    }
-    catch (const std::exception&) {
-        return std::nullopt;
-    }
-}
-
-
-Message OpenAIClient::ParseMessage(const boost::json::value& json_root) {
-
-    const auto& json_choice_array = json_root.at("choices").as_array();
-    const auto& json_choice = json_choice_array.at(0).as_object();
-
-    const auto& json_message = json_choice.at("message").as_object();
-    const auto& json_role = json_message.at("role");
-    const auto& json_content = json_message.at("content");
-
-    auto role = boost::json::value_to<std::string>(json_role);
-    auto content = boost::json::value_to<std::string>(json_content);
-
-    return Message{ zaf::FromUTF8String(role), zaf::FromUTF8String(content) };
-}
-
-
-std::optional<TokenUsage> OpenAIClient::ParseTokenUsage(const boost::json::value& json_root) {
-
-    try {
-
-        const auto& json_usage = json_root.at("usage").as_object();
-
-        TokenUsage result;
-        result.prompt_tokens = boost::json::value_to<std::size_t>(json_usage.at("prompt_tokens"));
-        result.completion_tokens =
-            boost::json::value_to<std::size_t>(json_usage.at("completion_tokens"));
-        result.total_tokens = boost::json::value_to<std::size_t>(json_usage.at("total_tokens"));
-        return result;
-    }
-    catch (...) {
-        return std::nullopt;
-    }
-}
-
-
-std::string OpenAIClient::ParseErrorMessage(const std::string& response) {
-
-    try {
-        auto json_root = boost::json::parse(response);
-        const auto& error = json_root.at("error").as_object();
-        const auto& message = error.at("message");
-        return boost::json::value_to<std::string>(message);
-    }
-    catch (const std::exception&) {
-        return {};
-    }
 }
 
 }

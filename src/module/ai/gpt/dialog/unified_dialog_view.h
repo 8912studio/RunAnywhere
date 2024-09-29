@@ -3,7 +3,8 @@
 #include <zaf/control/control.h>
 #include <zaf/control/control_binder.h>
 #include <zaf/control/split_control.h>
-#include "module/ai/gpt/dialog/dialog_list_view.h"
+#include "module/ai/gpt/dialog/content/dialog_view.h"
+#include "module/ai/gpt/dialog/list/dialog_list_view.h"
 #include "module/ai/gpt/dialog/dialog_manager.h"
 
 namespace ra::mod::ai::gpt {
@@ -27,6 +28,7 @@ private:
     ZAF_BIND_CONTROL(zaf::SplitControl, splitControl);
     ZAF_BIND_CONTROL(DialogListView, listView);
 
+    std::shared_ptr<DialogView> current_dialog_view_;
     std::shared_ptr<DialogManager> dialog_manager_;
 };
 

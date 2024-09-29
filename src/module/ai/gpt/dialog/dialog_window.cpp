@@ -7,8 +7,7 @@ namespace ra::mod::ai::gpt {
 
 ZAF_OBJECT_IMPL(DialogWindow);
 
-DialogWindow::DialogWindow(std::shared_ptr<Dialog> dialog) : 
-    view_(zaf::Create<DialogView>(std::move(dialog))) {
+DialogWindow::DialogWindow(std::shared_ptr<Dialog> dialog) {
 
 }
 

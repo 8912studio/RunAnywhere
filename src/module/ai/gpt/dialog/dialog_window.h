@@ -1,7 +1,7 @@
 #pragma once
 
 #include <zaf/window/window.h>
-#include "module/ai/gpt/dialog/dialog_view.h"
+#include "module/ai/gpt/dialog/content/dialog_view.h"
 
 namespace ra::mod::ai::gpt {
 

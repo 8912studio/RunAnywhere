@@ -1,4 +1,4 @@
-#include "module/ai/gpt/dialog/dialog_data_source.h"
+#include "module/ai/gpt/dialog/list/dialog_data_source.h"
 #include <zaf/base/container/utility/append.h>
 #include <zaf/base/container/utility/sort.h>
 
@@ -6,8 +6,8 @@ namespace ra::mod::ai::gpt {
 namespace {
 
 bool DialogLessComparer(
-    const std::shared_ptr<Dialog>& dialog1,
-    const std::shared_ptr<Dialog>& dialog2) {
+    const std::shared_ptr<DialogItemData>& dialog1,
+    const std::shared_ptr<DialogItemData>& dialog2) {
 
     auto transient_id1 = dialog1->TransientID();
     const auto& entity1 = dialog1->Entity();
@@ -33,7 +33,7 @@ std::shared_ptr<zaf::Object> DialogDataSource::GetDataAtIndex(std::size_t index)
 }
 
 
-void DialogDataSource::AddDialog(std::shared_ptr<Dialog> dialog) {
+void DialogDataSource::AddDialog(std::shared_ptr<DialogItemData> dialog) {
 
     auto iterator = std::lower_bound(
         dialogs_.begin(),
@@ -49,7 +49,7 @@ void DialogDataSource::AddDialog(std::shared_ptr<Dialog> dialog) {
 }
 
 
-void DialogDataSource::AddDialogs(std::vector<std::shared_ptr<Dialog>> dialogs) {
+void DialogDataSource::AddDialogs(std::vector<std::shared_ptr<DialogItemData>> dialogs) {
 
     if (dialogs.empty()) {
         return;

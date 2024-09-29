@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|x64">
@@ -140,13 +140,16 @@
     <ClInclude Include="src\module\active_path\active_path_option_parsing.h" />
     <ClInclude Include="src\module\active_path\active_path_module.h" />
     <ClInclude Include="src\module\active_path\active_path_modifying.h" />
-    <ClInclude Include="src\module\ai\gpt\dialog\dialog_data_source.h" />
-    <ClInclude Include="src\module\ai\gpt\dialog\dialog_item_view.h" />
-    <ClInclude Include="src\module\ai\gpt\dialog\dialog_list_view.h" />
-    <ClInclude Include="src\module\ai\gpt\dialog\dialog_view.h" />
+    <ClInclude Include="src\module\ai\gpt\dialog\content\dialog_view.h" />
+    <ClInclude Include="src\module\ai\gpt\dialog\content\dialog_view_controller.h" />
+    <ClInclude Include="src\module\ai\gpt\dialog\content\round_model.h" />
+    <ClInclude Include="src\module\ai\gpt\dialog\content\round_view.h" />
+    <ClInclude Include="src\module\ai\gpt\dialog\list\dialog_data_source.h" />
+    <ClInclude Include="src\module\ai\gpt\dialog\list\dialog_item_data.h" />
+    <ClInclude Include="src\module\ai\gpt\dialog\list\dialog_item_view.h" />
+    <ClInclude Include="src\module\ai\gpt\dialog\list\dialog_list_view.h" />
     <ClInclude Include="src\module\ai\gpt\dialog\unified_dialog_view.h" />
     <ClInclude Include="src\module\ai\gpt\dialog\unified_dialog_window.h" />
-    <ClInclude Include="src\module\ai\gpt\entity\round_entity.h" />
     <ClInclude Include="src\module\ai\gpt\gpt_command.h" />
     <ClInclude Include="src\module\ai\gpt\gpt_command_parse_result.h" />
     <ClInclude Include="src\module\ai\gpt\gpt_command_parsing.h" />
@@ -161,18 +164,21 @@
     <ClInclude Include="src\module\ai\gpt\dialog\dialog_window.h" />
     <ClInclude Include="src\module\ai\gpt\dialog\message.h" />
     <ClInclude Include="src\module\ai\gpt\dialog\round.h" />
-    <ClInclude Include="src\module\ai\gpt\dialog\round_view.h" />
     <ClInclude Include="src\module\ai\gpt\local_error.h" />
     <ClInclude Include="src\module\ai\gpt\network\asio_scheduler.h" />
     <ClInclude Include="src\module\ai\gpt\network\chat_completion.h" />
+    <ClInclude Include="src\module\ai\gpt\network\chat_result.h" />
     <ClInclude Include="src\module\ai\gpt\network\error.h" />
     <ClInclude Include="src\module\ai\gpt\network\open_ai_client.h" />
+    <ClInclude Include="src\module\ai\gpt\network\response_parsing.h" />
     <ClInclude Include="src\module\ai\gpt\network\socket_manager.h" />
     <ClInclude Include="src\module\ai\gpt\network\socket_timer.h" />
     <ClInclude Include="src\module\ai\gpt\progress_indicator.h" />
     <ClInclude Include="src\module\ai\gpt\storage\dialog_entity.h" />
     <ClInclude Include="src\module\ai\gpt\storage\dialog_storage.h" />
     <ClInclude Include="src\module\ai\gpt\storage\gpt_storage.h" />
+    <ClInclude Include="src\module\ai\gpt\storage\round_entity.h" />
+    <ClInclude Include="src\module\ai\gpt\storage\round_storage.h" />
     <ClInclude Include="src\module\ai\gpt\storage\storage_context.h" />
     <ClInclude Include="src\module\calculator\calculator_command.h" />
     <ClInclude Include="src\module\calculator\calculator_module.h" />
@@ -428,10 +434,13 @@
     <ClCompile Include="src\module\active_path\active_path_module.cpp" />
     <ClCompile Include="src\module\active_path\active_path_option_parsing.cpp" />
     <ClCompile Include="src\module\active_path\active_path_modifying.cpp" />
-    <ClCompile Include="src\module\ai\gpt\dialog\dialog_data_source.cpp" />
-    <ClCompile Include="src\module\ai\gpt\dialog\dialog_item_view.cpp" />
-    <ClCompile Include="src\module\ai\gpt\dialog\dialog_list_view.cpp" />
-    <ClCompile Include="src\module\ai\gpt\dialog\dialog_view.cpp" />
+    <ClCompile Include="src\module\ai\gpt\dialog\content\dialog_view.cpp" />
+    <ClCompile Include="src\module\ai\gpt\dialog\content\dialog_view_controller.cpp" />
+    <ClCompile Include="src\module\ai\gpt\dialog\content\round_model.cpp" />
+    <ClCompile Include="src\module\ai\gpt\dialog\content\round_view.cpp" />
+    <ClCompile Include="src\module\ai\gpt\dialog\list\dialog_data_source.cpp" />
+    <ClCompile Include="src\module\ai\gpt\dialog\list\dialog_item_view.cpp" />
+    <ClCompile Include="src\module\ai\gpt\dialog\list\dialog_list_view.cpp" />
     <ClCompile Include="src\module\ai\gpt\dialog\unified_dialog_view.cpp" />
     <ClCompile Include="src\module\ai\gpt\dialog\unified_dialog_window.cpp" />
     <ClCompile Include="src\module\ai\gpt\gpt_command.cpp" />
@@ -445,14 +454,15 @@
     <ClCompile Include="src\module\ai\gpt\dialog\dialog_manager.cpp" />
     <ClCompile Include="src\module\ai\gpt\dialog\dialog_window.cpp" />
     <ClCompile Include="src\module\ai\gpt\dialog\round.cpp" />
-    <ClCompile Include="src\module\ai\gpt\dialog\round_view.cpp" />
     <ClCompile Include="src\module\ai\gpt\network\asio_scheduler.cpp" />
+    <ClCompile Include="src\module\ai\gpt\network\response_parsing.cpp" />
     <ClCompile Include="src\module\ai\gpt\network\open_ai_client.cpp" />
     <ClCompile Include="src\module\ai\gpt\network\socket_manager.cpp" />
     <ClCompile Include="src\module\ai\gpt\network\socket_timer.cpp" />
     <ClCompile Include="src\module\ai\gpt\progress_indicator.cpp" />
     <ClCompile Include="src\module\ai\gpt\storage\dialog_storage.cpp" />
     <ClCompile Include="src\module\ai\gpt\storage\gpt_storage.cpp" />
+    <ClCompile Include="src\module\ai\gpt\storage\round_storage.cpp" />
     <ClCompile Include="src\module\ai\gpt\storage\storage_context.cpp" />
     <ClCompile Include="src\module\calculator\calculator_command.cpp" />
     <ClCompile Include="src\module\calculator\calculator_module.cpp" />
@@ -623,8 +633,8 @@
     <Page Include="src\main\preserve\preserved_command_list_view.xaml" />
     <Page Include="src\main\preserve\preserved_command_view.xaml" />
     <Page Include="src\main\toolbar\command_toolbar.xaml" />
-    <Page Include="src\module\ai\gpt\dialog\dialog_list_view.xaml" />
-    <Page Include="src\module\ai\gpt\dialog\dialog_view.xaml" />
+    <Page Include="src\module\ai\gpt\dialog\content\dialog_view.xaml" />
+    <Page Include="src\module\ai\gpt\dialog\list\dialog_list_view.xaml" />
     <Page Include="src\module\ai\gpt\dialog\unified_dialog_view.xaml" />
     <Page Include="src\module\ai\gpt\gpt_preview_control.xaml" />
     <Page Include="src\module\ai\gpt\gpt_question_view.xaml" />

@@ -1,15 +1,16 @@
-#include "module/ai/gpt/dialog/dialog_view.h"
+#include "module/ai/gpt/dialog/content/dialog_view.h"
 #include <zaf/input/keyboard.h>
 #include <zaf/rx/creation.h>
-#include "module/ai/gpt/dialog/round_view.h"
+#include "module/ai/gpt/dialog/content/round_view.h"
 
 namespace ra::mod::ai::gpt {
 
 ZAF_OBJECT_IMPL(DialogView);
 
-DialogView::DialogView(std::shared_ptr<Dialog> dialog) : dialog_(std::move(dialog)) {
+DialogView::DialogView(std::unique_ptr<DialogViewController> controller) :
+    controller_(std::move(controller)) {
 
-    ZAF_EXPECT(dialog_);
+    ZAF_EXPECT(controller_);
 }
 
 
@@ -21,6 +22,8 @@ void DialogView::AfterParse() {
     InitializeSendButton();
     InitializeRoundListView();
     ResetControlStates();
+
+    LoadRounds();
 }
 
 
@@ -122,6 +125,18 @@ void DialogView::ResetSendButtonState() {
 }
 
 
+void DialogView::LoadRounds() {
+
+    Subscriptions() += controller_->FetchRounds().Subscribe([this](const RoundModelList& rounds) {
+    
+        for (const auto& each_round : rounds) {
+            auto round_view = zaf::Create<RoundView>(each_round);
+            roundListView->AddChild(round_view);
+        }
+    });
+}
+
+
 void DialogView::StartNewRoundOnPressReturn() {
 
     auto question = inputEdit->Text();
@@ -137,7 +152,7 @@ void DialogView::StartNewRoundOnPressReturn() {
 
 void DialogView::StartNewRound(std::wstring question) {
 
-    auto round = dialog_->CreateRound(std::move(question));
+    auto round = controller_->CreateRound(std::move(question));
 
     //We have to subscribe to the answer event before creating the round view, as we need to record
     //the scroll bar state before updating the answer content when the answer event is raised.
@@ -150,7 +165,7 @@ void DialogView::StartNewRound(std::wstring question) {
 }
 
 
-void DialogView::SubscribeToAnswerEvent(const Round& round) {
+void DialogView::SubscribeToAnswerEvent(const RoundModel& round) {
 
     auto is_list_in_bottom = std::make_shared<bool>();
 
@@ -175,7 +190,7 @@ void DialogView::SubscribeToAnswerEvent(const Round& round) {
 
         //Scroll to the position of answer only if the last round view matches the round id.
         auto last_round_view = zaf::As<RoundView>(children.back());
-        if (last_round_view->Round()->ID() == round_id) {
+        if (last_round_view->Model()->ID() == round_id) {
 
             auto answer_view_position = last_round_view->AnswerView()->TranslateToParent({});
             float scroll_to_position = last_round_view->Y() + answer_view_position.y;
@@ -190,8 +205,9 @@ void DialogView::SubscribeToAnswerEvent(const Round& round) {
 }
 
 
-void DialogView::SubscribeToRoundEvents(const Round& round) {
+void DialogView::SubscribeToRoundEvents(const RoundModel& round) {
 
+    /*
     Subscriptions() += round.RemoveEvent().Subscribe(
         std::bind(&DialogView::RemoveRound, this, std::placeholders::_1));
 
@@ -199,15 +215,16 @@ void DialogView::SubscribeToRoundEvents(const Round& round) {
         RemoveRound(round->ID());
         StartNewRound(round->Question());
     });
+    */
 }
 
 
-void DialogView::RemoveRound(std::uint64_t round_id) {
+void DialogView::RemoveRound(RoundID round_id) {
 
     const auto& children = roundListView->Children();
     for (auto index : zaf::Range(0, children.size())) {
 
-        if (zaf::As<RoundView>(children[index])->Round()->ID() == round_id) {
+        if (zaf::As<RoundView>(children[index])->Model()->ID() == round_id) {
             roundListView->RemoveChildAtIndex(index);
             break;
         }
@@ -231,12 +248,12 @@ void DialogView::SetFocusToInputEdit() {
 
 
 std::wstring DialogView::Subject() const {
-    return dialog_->Subject();
+    return {};
 }
 
 
 zaf::Observable<zaf::None> DialogView::SubjectUpdatedEvent() const {
-    return dialog_->SubjectUpdatedEvent();
+    return zaf::rx::Just<zaf::None>({});
 }
 
 }

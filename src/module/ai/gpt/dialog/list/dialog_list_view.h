@@ -4,7 +4,7 @@
 #include <zaf/control/control_binder.h>
 #include <zaf/control/list_control.h>
 #include <zaf/control/list_control_delegate.h>
-#include "module/ai/gpt/dialog/dialog_data_source.h"
+#include "module/ai/gpt/dialog/list/dialog_data_source.h"
 
 namespace ra::mod::ai::gpt {
 
@@ -34,7 +34,7 @@ private:
 };
 
 ZAF_OBJECT_BEGIN(DialogListView);
-ZAF_OBJECT_RESOURCE_URI(L"res:///module/ai/gpt/dialog/dialog_list_view.xaml");
+ZAF_OBJECT_RESOURCE_URI(L"res:///module/ai/gpt/dialog/list/dialog_list_view.xaml");
 ZAF_OBJECT_END;
 
 }

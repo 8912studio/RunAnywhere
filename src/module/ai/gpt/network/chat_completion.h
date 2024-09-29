@@ -1,7 +1,6 @@
 #pragma once
 
 #include <optional>
-#include <zaf/rx/subject.h>
 #include "module/ai/gpt/dialog/message.h"
 
 namespace ra::mod::ai::gpt {

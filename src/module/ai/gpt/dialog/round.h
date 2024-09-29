@@ -6,6 +6,9 @@
 #include <zaf/rx/observable.h>
 #include <zaf/rx/subject.h>
 #include "module/ai/gpt/network/chat_completion.h"
+#include "module/ai/gpt/network/open_ai_client.h"
+#include "module/ai/gpt/storage/gpt_storage.h"
+#include "module/ai/gpt/storage/round_entity.h"
 
 namespace ra::mod::ai::gpt {
 
@@ -14,12 +17,12 @@ public:
     Round(std::uint64_t id, std::wstring question, zaf::Observable<ChatCompletion> answer);
     ~Round();
 
-    std::uint64_t ID() const {
-        return id_;
+    const RoundEntity& Entity() const {
+        return entity_;
     }
 
-    const std::wstring& Question() const {
-        return question_;
+    std::uint64_t ID() const {
+        return id_;
     }
 
     zaf::Observable<ChatCompletion> Answer() const {
@@ -38,8 +41,11 @@ public:
     }
 
 private:
+    RoundEntity entity_;
+    std::shared_ptr<OpenAIClient> client_;
+    std::shared_ptr<GPTStorage> storage_;
+
     std::uint64_t id_{};
-    std::wstring question_;
     zaf::Observable<ChatCompletion> answer_;
     zaf::Subject<std::uint64_t> remove_event_;
     zaf::Subject<std::shared_ptr<Round>> retry_event_;

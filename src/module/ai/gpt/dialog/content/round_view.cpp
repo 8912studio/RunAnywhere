@@ -1,6 +1,7 @@
-#include "module/ai/gpt/dialog/round_view.h"
+#include "module/ai/gpt/dialog/content/round_view.h"
 #include <format>
 #include <zaf/base/container/utility/contain.h>
+#include <zaf/base/string/encoding_conversion.h>
 #include <zaf/rx/subject.h>
 #include "utility/clipboard.h"
 
@@ -10,9 +11,9 @@ namespace ra::mod::ai::gpt {
 
 ZAF_OBJECT_IMPL(RoundView);
 
-RoundView::RoundView(std::shared_ptr<gpt::Round> round) : round_(std::move(round)) {
+RoundView::RoundView(std::shared_ptr<RoundModel> model) : round_model_(std::move(model)) {
 
-    ZAF_EXPECT(round_);
+    ZAF_EXPECT(round_model_);
 }
 
 
@@ -20,22 +21,22 @@ void RoundView::AfterParse() {
 
     __super::AfterParse();
 
-    questionContent->SetText(round_->Question());
+    questionContent->SetText(round_model_->Question());
 
     answerView->SetAnswer(ObserveAnswer());
 
     Subscriptions() += copyButton->ClickEvent().Subscribe(std::bind([this]() {
-        Subscriptions() += round_->Answer().Subscribe([](const ChatCompletion& completion) {
+        Subscriptions() += round_model_->Answer().Subscribe([](const ChatCompletion& completion) {
             utility::SetStringToClipboard(completion.Message().Content());
         });
     }));
 
     Subscriptions() += removeButton->ClickEvent().Subscribe(std::bind([this]() {
-        round_->Remove();
+        //round_model_->Remove();
     }));
 
     Subscriptions() += retryButton->ClickEvent().Subscribe(std::bind([this]() {
-        round_->Retry();
+        //round_model_->Retry();
     }));
 }
 
@@ -44,7 +45,7 @@ zaf::Observable<std::wstring> RoundView::ObserveAnswer() {
 
     ChangeState(RoundState::Requesting);
 
-    return round_->Answer().Do([this](const ChatCompletion& completion) {
+    return round_model_->Answer().Do([this](const ChatCompletion& completion) {
         UpdateTokenUsage(completion.TokenUsage());
     },
     [this](const std::exception_ptr&) {

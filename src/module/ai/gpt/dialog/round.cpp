@@ -4,7 +4,6 @@ namespace ra::mod::ai::gpt {
 
 Round::Round(std::uint64_t id, std::wstring question, zaf::Observable<ChatCompletion> answer) :
     id_(id),
-    question_(std::move(question)),
     answer_(std::move(answer)) {
 
 }
