@@ -9,11 +9,11 @@ class RoundStorage {
 public:
     explicit RoundStorage(std::shared_ptr<StorageContext> context);
 
-    zaf::Observable<std::vector<RoundEntity>> FetchAllRoundsInDialog(DialogID dialog_id);
+    zaf::Observable<std::vector<RoundEntity>> FetchAllRoundsInDialog(std::uint64_t dialog_id);
 
-    zaf::Observable<RoundPermanentID> AddRound(const RoundEntity& round_entity);
-    zaf::Observable<RoundPermanentID> UpdateRound(const RoundEntity& round_entity);
-    zaf::Observable<RoundPermanentID> DeleteRound(RoundPermanentID permanent_id);
+    zaf::Observable<std::uint64_t> AddRound(const RoundEntity& round_entity);
+    zaf::Observable<std::uint64_t> UpdateRound(const RoundEntity& round_entity);
+    zaf::Observable<std::uint64_t> DeleteRound(std::uint64_t permanent_id);
 
 private:
     void InitializeRoundTable(utility::sql::Database& db);

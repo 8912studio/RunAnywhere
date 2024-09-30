@@ -10,8 +10,8 @@ public:
     explicit DialogStorage(std::shared_ptr<StorageContext> context);
 
     zaf::Observable<std::vector<DialogEntity>> FetchAllDialogs();
-    zaf::Observable<DialogID> AddDialog(const DialogEntity& dialog);
-    zaf::Observable<DialogID> UpdateDialog(const DialogEntity& dialog);
+    zaf::Observable<std::uint64_t> AddDialog(const DialogEntity& dialog);
+    zaf::Observable<std::uint64_t> UpdateDialog(const DialogEntity& dialog);
 
 private:
     void InitializeDialogTable(utility::sql::Database& db);

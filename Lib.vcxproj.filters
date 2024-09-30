@@ -1080,6 +1080,12 @@
     <ClInclude Include="src\module\ai\gpt\dialog\content\round_view.h">
       <Filter>src\module\ai\gpt\dialog\content</Filter>
     </ClInclude>
+    <ClInclude Include="src\module\ai\gpt\dialog\id.h">
+      <Filter>src\module\ai\gpt\dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\ai\gpt\dialog\create_round_task.h">
+      <Filter>src\module\ai\gpt\dialog</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -1762,6 +1768,9 @@
     </ClCompile>
     <ClCompile Include="src\module\ai\gpt\dialog\content\round_view.cpp">
       <Filter>src\module\ai\gpt\dialog\content</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\ai\gpt\dialog\create_round_task.cpp">
+      <Filter>src\module\ai\gpt\dialog</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

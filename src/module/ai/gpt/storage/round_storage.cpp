@@ -18,16 +18,12 @@ void RoundStorage::InitializeRoundTable(utility::sql::Database& db) {
             .name = "Round",
             .columns = {
                 {
-                    .name = "PermanentID",
+                    .name = "ID",
                     .data_type = DataType::Integer,
                     .constraints = ColumnConstraints::PrimaryKey,
                 },
                 {
-                    .name = "TransientID",
-                    .data_type = DataType::Integer,
-                },
-                {
-                    .name = "DialogPermanentID",
+                    .name = "DialogID",
                     .data_type = DataType::Integer,
                 },
                 {
@@ -53,14 +49,14 @@ void RoundStorage::InitializeRoundTable(utility::sql::Database& db) {
 
 
 zaf::Observable<std::vector<RoundEntity>> RoundStorage::FetchAllRoundsInDialog(
-    DialogID dialog_id) {
+    std::uint64_t dialog_id) {
 
     return context_->Execute<std::vector<RoundEntity>>([this, dialog_id](Database& db) {
 
         InitializeRoundTable(db);
 
         auto sql = 
-            "select PermanentID, TransientID, DialogPermanentID, CreateTime, UpdateTime, "
+            "select ID, DialogID, CreateTime, UpdateTime, "
             "Question, Response from Round where DialogPermanentID = ?;";
 
         auto statement = db.PrepareStatement(sql);
@@ -70,13 +66,12 @@ zaf::Observable<std::vector<RoundEntity>> RoundStorage::FetchAllRoundsInDialog(
         while (statement.Step()) {
 
             RoundEntity entity;
-            entity.permanent_id = statement.GetColumnInt64(0);
-            entity.transient_id = statement.GetColumnInt64(1);
-            entity.dialog_id = statement.GetColumnInt64(2);
-            entity.create_time = statement.GetColumnInt64(3);
-            entity.update_time = statement.GetColumnInt64(4);
-            entity.question = statement.GetColumnText(5);
-            entity.response = statement.GetColumnText(6);
+            entity.id = statement.GetColumnInt64(0);
+            entity.dialog_id = statement.GetColumnInt64(1);
+            entity.create_time = statement.GetColumnInt64(2);
+            entity.update_time = statement.GetColumnInt64(3);
+            entity.question = statement.GetColumnText(4);
+            entity.response = statement.GetColumnText(5);
 
             result.push_back(std::move(entity));
         }
@@ -86,24 +81,23 @@ zaf::Observable<std::vector<RoundEntity>> RoundStorage::FetchAllRoundsInDialog(
 }
 
 
-zaf::Observable<RoundPermanentID> RoundStorage::AddRound(const RoundEntity& round_entity) {
+zaf::Observable<std::uint64_t> RoundStorage::AddRound(const RoundEntity& round_entity) {
 
-    return context_->Execute<RoundPermanentID>([this, round_entity](Database& db) {
+    return context_->Execute<std::uint64_t>([this, round_entity](Database& db) {
 
         InitializeRoundTable(db);
 
         auto sql =
             "insert into Round"
-            "(TransientID, DialogPermanentID, CreateTime, UpdateTime, Question, Response) values"
-            "(?, ?, ?, ?, ?, ?);";
+            "(DialogID, CreateTime, UpdateTime, Question, Response) values"
+            "(?, ?, ?, ?, ?);";
 
         auto statement = db.PrepareStatement(sql);
-        statement.BindParameter(1, round_entity.transient_id);
-        statement.BindParameter(2, round_entity.dialog_id);
-        statement.BindParameter(3, round_entity.create_time);
-        statement.BindParameter(4, round_entity.update_time);
-        statement.BindParameter(5, round_entity.question);
-        statement.BindParameter(6, round_entity.response);
+        statement.BindParameter(1, round_entity.dialog_id);
+        statement.BindParameter(2, round_entity.create_time);
+        statement.BindParameter(3, round_entity.update_time);
+        statement.BindParameter(4, round_entity.question);
+        statement.BindParameter(5, round_entity.response);
 
         statement.Step();
         return db.LastInsertRowID();
@@ -111,9 +105,9 @@ zaf::Observable<RoundPermanentID> RoundStorage::AddRound(const RoundEntity& roun
 }
 
 
-zaf::Observable<RoundPermanentID> RoundStorage::UpdateRound(const RoundEntity& round_entity) {
+zaf::Observable<std::uint64_t> RoundStorage::UpdateRound(const RoundEntity& round_entity) {
 
-    return context_->Execute<RoundPermanentID>([this, round_entity](Database& db) {
+    return context_->Execute<std::uint64_t>([this, round_entity](Database& db) {
     
         InitializeRoundTable(db);
 
@@ -126,21 +120,21 @@ zaf::Observable<RoundPermanentID> RoundStorage::UpdateRound(const RoundEntity& r
         statement.BindParameter(2, round_entity.update_time);
         statement.BindParameter(3, round_entity.question);
         statement.BindParameter(4, round_entity.response);
-        statement.BindParameter(5, round_entity.permanent_id);
+        statement.BindParameter(5, round_entity.id);
 
         statement.Step();
-        return round_entity.permanent_id;
+        return round_entity.id;
     });
 }
 
 
-zaf::Observable<RoundPermanentID> RoundStorage::DeleteRound(RoundPermanentID permanent_id) {
+zaf::Observable<std::uint64_t> RoundStorage::DeleteRound(std::uint64_t permanent_id) {
 
-    return context_->Execute<RoundPermanentID>([this, permanent_id](Database& db) {
+    return context_->Execute<std::uint64_t>([this, permanent_id](Database& db) {
     
         InitializeRoundTable(db);
 
-        auto sql = "delete from Round where PermanentID = ?;";
+        auto sql = "delete from Round where ID = ?;";
 
         auto statement = db.PrepareStatement(sql);
         statement.BindParameter(1, permanent_id);

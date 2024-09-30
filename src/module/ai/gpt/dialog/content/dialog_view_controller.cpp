@@ -15,15 +15,25 @@ DialogViewController::DialogViewController(
 }
 
 
-zaf::Observable<RoundModelList> DialogViewController::FetchRounds() {
-    return dialog_manager_->FetchAllRoundsInDialog(dialog_->Entity().id);
+zaf::Observable<RoundList> DialogViewController::FetchRounds() {
+
+
 }
 
 
-std::shared_ptr<RoundModel> DialogViewController::CreateRound(std::wstring question) {
+std::shared_ptr<Round> DialogViewController::CreateRound(std::wstring question) {
     
-    Message message{ std::move(question) };
-    return dialog_manager_->CreateNewRound(dialog_, { std::move(message) });
+    Message message{ question };
+    auto task = dialog_manager_->CreateNewRound(dialog_, { std::move(message) });
+
+    Subscriptions() += task->RoundSavedEvent().Subscribe([this](const RoundSavedInfo& info) {
+        round_permanent_id_map_[info.transient_id] = info.permanent_id;
+    });
+
+    return std::make_shared<Round>(
+        task->GetRoundTransientID(), 
+        std::move(question),
+        task->AnswerEvent());
 }
 
 }

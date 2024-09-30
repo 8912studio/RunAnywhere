@@ -67,9 +67,9 @@ zaf::Observable<std::vector<DialogEntity>> DialogStorage::FetchAllDialogs() {
 }
 
 
-zaf::Observable<DialogID> DialogStorage::AddDialog(const DialogEntity& dialog) {
+zaf::Observable<std::uint64_t> DialogStorage::AddDialog(const DialogEntity& dialog) {
 
-    return context_->Execute<DialogID>([this, dialog](Database& db) {
+    return context_->Execute<std::uint64_t>([this, dialog](Database& db) {
 
         InitializeDialogTable(db);
 
@@ -86,9 +86,9 @@ zaf::Observable<DialogID> DialogStorage::AddDialog(const DialogEntity& dialog) {
 }
 
 
-zaf::Observable<DialogID> DialogStorage::UpdateDialog(const DialogEntity& dialog) {
+zaf::Observable<std::uint64_t> DialogStorage::UpdateDialog(const DialogEntity& dialog) {
 
-    return context_->Execute<DialogID>([this, dialog](Database& db) {
+    return context_->Execute<std::uint64_t>([this, dialog](Database& db) {
     
         InitializeDialogTable(db);
 

@@ -4,6 +4,7 @@
 #include <vector>
 #include <zaf/base/non_copyable.h>
 #include <zaf/rx/observable.h>
+#include "module/ai/gpt/dialog/content/round_id.h"
 #include "module/ai/gpt/network/chat_completion.h"
 #include "module/ai/gpt/storage/round_entity.h"
 

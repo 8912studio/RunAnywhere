@@ -144,6 +144,8 @@
     <ClInclude Include="src\module\ai\gpt\dialog\content\dialog_view_controller.h" />
     <ClInclude Include="src\module\ai\gpt\dialog\content\round_model.h" />
     <ClInclude Include="src\module\ai\gpt\dialog\content\round_view.h" />
+    <ClInclude Include="src\module\ai\gpt\dialog\create_round_task.h" />
+    <ClInclude Include="src\module\ai\gpt\dialog\id.h" />
     <ClInclude Include="src\module\ai\gpt\dialog\list\dialog_data_source.h" />
     <ClInclude Include="src\module\ai\gpt\dialog\list\dialog_item_data.h" />
     <ClInclude Include="src\module\ai\gpt\dialog\list\dialog_item_view.h" />
@@ -438,6 +440,7 @@
     <ClCompile Include="src\module\ai\gpt\dialog\content\dialog_view_controller.cpp" />
     <ClCompile Include="src\module\ai\gpt\dialog\content\round_model.cpp" />
     <ClCompile Include="src\module\ai\gpt\dialog\content\round_view.cpp" />
+    <ClCompile Include="src\module\ai\gpt\dialog\create_round_task.cpp" />
     <ClCompile Include="src\module\ai\gpt\dialog\list\dialog_data_source.cpp" />
     <ClCompile Include="src\module\ai\gpt\dialog\list\dialog_item_view.cpp" />
     <ClCompile Include="src\module\ai\gpt\dialog\list\dialog_list_view.cpp" />

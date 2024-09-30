@@ -35,30 +35,45 @@ void DialogManager::Initialize() {
 }
 
 
-std::shared_ptr<DialogItemData> DialogManager::CreateNewDialog() {
+std::shared_ptr<Dialog> DialogManager::CreateNewDialog() {
 
     DialogEntity entity;
     entity.create_time = std::time(nullptr);
     entity.update_time = entity.create_time;
 
-    auto transient_id = new_dialog_transient_id_++;
-    auto new_dialog = std::make_shared<DialogItemData>(std::move(entity), transient_id);
+    DialogTransientID transient_id{ new_dialog_transient_id_++ };
+    auto new_dialog = std::make_shared<Dialog>(transient_id, std::move(entity));
 
     dialog_data_source_->AddDialog(new_dialog);
     return new_dialog;
 }
 
 
-zaf::Observable<RoundModelList> DialogManager::FetchAllRoundsInDialog(DialogID dialog_id) {
+zaf::Observable<RoundList> DialogManager::FetchPermanentRoundsInDialog(DialogID dialog_id) {
 
-    auto entities = storage_->RoundStorage()->FetchAllRoundsInDialog(dialog_id);
-    return entities.Map<RoundModelList>([this](const std::vector<RoundEntity>& entities) {
+    std::uint64_t dialog_permanent_id{};
+    if (auto transient_id = dialog_id.TransientID()) {
+        auto permanent_id = zaf::Find(dialog_permanent_id_map_, *transient_id);
+        if (permanent_id) {
+            dialog_permanent_id = permanent_id->Value();
+        }
+    }
+    else if (auto permanent_id = dialog_id.PermanentID()) {
+        dialog_permanent_id = permanent_id->Value();
+    }
 
-        RoundModelList result;
+    if (dialog_permanent_id == 0) {
+        return zaf::rx::Just(RoundList{});
+    }
+
+    auto entities = storage_->RoundStorage()->FetchAllRoundsInDialog(dialog_permanent_id);
+    return entities.Map<RoundList>([this](const std::vector<RoundEntity>& entities) {
+
+        RoundList result;
         for (const auto& each_entity : entities) {
 
-            auto round_model = std::make_shared<RoundModel>(
-                each_entity.ID(),
+            auto round_model = std::make_shared<Round>(
+                RoundID{ RoundPermanentID{ each_entity.id } },
                 zaf::FromUTF8String(each_entity.question),
                 CreateRoundAnswerFromEntity(each_entity));
 
@@ -72,13 +87,6 @@ zaf::Observable<RoundModelList> DialogManager::FetchAllRoundsInDialog(DialogID d
 zaf::Observable<ChatCompletion> DialogManager::CreateRoundAnswerFromEntity(
     const RoundEntity& entity) {
 
-    auto ongoing_round_info = zaf::Find(ongoing_rounds_, entity.dialog_id);
-    if (ongoing_round_info) {
-        if (ongoing_round_info->answer) {
-            return *ongoing_round_info->answer;
-        }
-    }
-
     auto parsed = ParseChatCompletion(entity.response);
     if (parsed) {
         return zaf::rx::Just(*parsed);
@@ -87,58 +95,39 @@ zaf::Observable<ChatCompletion> DialogManager::CreateRoundAnswerFromEntity(
 }
 
 
-std::shared_ptr<RoundModel> DialogManager::CreateNewRound(
-    std::shared_ptr<DialogItemData> dialog,
+std::shared_ptr<CreateRoundTask> DialogManager::CreateNewRound(
+    std::shared_ptr<const Dialog> dialog,
     std::vector<Message> messages) {
 
-    ZAF_EXPECT(dialog);
-    ZAF_EXPECT(!messages.empty());
+    RoundTransientID round_transient_id{ new_round_transient_id_++ };
 
-    auto transient_id = new_round_transient_id_++;
-    auto question = messages.back().Content();
-    auto answer = CreateRoundAnswer(dialog, std::move(messages));
-    auto round_model = std::make_shared<RoundModel>(
-        RoundID{ 0, transient_id },
-        std::move(question), 
-        answer);
+    auto task = std::make_shared<CreateRoundTask>(client_, storage_);
+    task->SetDialog(dialog);
+    task->SetSentMessages(std::move(messages));
+    task->SetRoundTransientID(round_transient_id);
 
-    auto& ongoing_round_info = ongoing_rounds_[dialog->Entity().id];
-    ongoing_round_info.transient_id = transient_id;
-    ongoing_round_info.answer = answer;
+    create_round_tasks_[dialog->ID()] = task;
 
-    return round_model;
+    Subscriptions() += task->FinishEvent().Subscribe([this, dialog](zaf::None) {
+        create_round_tasks_.erase(dialog->ID());
+    });
+
+    Subscriptions() += task->DialogSavedEvent().Subscribe([this](const DialogSavedInfo& info) {
+        dialog_permanent_id_map_[info.transient_id] = info.permanent_id;
+    });
+    
+    task->Run();
+    return task;
 }
 
 
-zaf::Observable<ChatCompletion> DialogManager::CreateRoundAnswer(
-    std::shared_ptr<DialogItemData> dialog,
-    std::vector<Message> messages) {
+std::shared_ptr<CreateRoundTask> DialogManager::GetCreateRoundTaskInDialog(DialogID dialog_id) {
 
-    auto new_round_entity = std::make_shared<RoundEntity>();
-    new_round_entity->dialog_id = dialog->Entity().id;
-    new_round_entity->create_time = std::time(nullptr);
-    new_round_entity->update_time = new_round_entity->create_time;
-    new_round_entity->question = zaf::ToUTF8String(messages.back().Content());
-
-    return storage_->RoundStorage()->AddRound(*new_round_entity).FlatMap<ChatResult>(
-        [this, new_round_entity, messages = std::move(messages)](RoundPermanentID round_id) {
-
-        new_round_entity->permanent_id = round_id;
-        return client_->CreateChatCompletion(messages);
-    })
-    .Map<ChatCompletion>([this, new_round_entity](const ChatResult& chat_result) {
-
-        new_round_entity->update_time = std::time(nullptr);
-        new_round_entity->response = chat_result.Response();
-
-        Subscriptions() += storage_->RoundStorage()->UpdateRound(*new_round_entity).Subscribe(
-            [](RoundPermanentID) {},
-            [this, new_round_entity]() {
-                ongoing_rounds_.erase(new_round_entity->dialog_id);
-            }
-        );
-        return chat_result.ChatCompletion();
-    });
+    auto task = zaf::Find(create_round_tasks_, dialog_id);
+    if (task) {
+        return *task;
+    }
+    return nullptr;
 }
 
 }
