@@ -5,7 +5,7 @@
 #include <zaf/control/split_control.h>
 #include "module/ai/gpt/dialog/content/dialog_view.h"
 #include "module/ai/gpt/dialog/list/dialog_list_view.h"
-#include "module/ai/gpt/dialog/dialog_manager.h"
+#include "module/ai/gpt/dialog/unified_dialog_model.h"
 
 namespace ra::mod::ai::gpt {
 
@@ -14,7 +14,7 @@ public:
     ZAF_OBJECT;
 
 public:
-    explicit UnifiedDialogView(std::shared_ptr<DialogManager> dialog_manager);
+    explicit UnifiedDialogView(std::shared_ptr<UnifiedDialogModel> model);
 
     void StartNewDialog(std::wstring question);
 
@@ -28,8 +28,8 @@ private:
     ZAF_BIND_CONTROL(zaf::SplitControl, splitControl);
     ZAF_BIND_CONTROL(DialogListView, listView);
 
+    std::shared_ptr<UnifiedDialogModel> model_;
     std::shared_ptr<DialogView> current_dialog_view_;
-    std::shared_ptr<DialogManager> dialog_manager_;
 };
 
 ZAF_OBJECT_BEGIN(UnifiedDialogView)

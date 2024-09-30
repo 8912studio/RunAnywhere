@@ -20,6 +20,10 @@ public:
         return id_;
     }
 
+    const std::wstring& Question() const {
+        return question_;
+    }
+
     zaf::Observable<ChatCompletion> Answer() const {
         return answer_;
     }

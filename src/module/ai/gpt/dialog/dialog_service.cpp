@@ -1,72 +1,55 @@
-#include "module/ai/gpt/dialog/dialog_manager.h"
+#include "module/ai/gpt/dialog/dialog_service.h"
 #include <zaf/base/container/utility/find.h>
-#include <zaf/base/error/contract_error.h>
 #include <zaf/base/string/encoding_conversion.h>
 #include <zaf/rx/creation.h>
 #include "module/ai/gpt/network/response_parsing.h"
 
 namespace ra::mod::ai::gpt {
 
-DialogManager::DialogManager(
+DialogService::DialogService(
     std::shared_ptr<OpenAIClient> client,
-    std::shared_ptr<GPTStorage> storage)
+    std::shared_ptr<GPTStorage> storage) 
     :
     client_(std::move(client)),
-    storage_(std::move(storage)),
-    dialog_data_source_(std::make_shared<gpt::DialogDataSource>()) {
+    storage_(std::move(storage)) {
 
 }
 
 
-void DialogManager::Initialize() {
+zaf::Observable<DialogList> DialogService::FetchPermanentDialogs() {
 
-    Subscriptions() += storage_->DialogStorage()->FetchAllDialogs().Subscribe(
+    return storage_->DialogStorage()->FetchAllDialogs().Map<DialogList>(
         [this](const std::vector<DialogEntity>& dialog_entities) {
-    
-        std::vector<std::shared_ptr<DialogItemData>> dialogs;
+
+        DialogList dialogs;
         for (const auto& each_entity : dialog_entities) {
 
-            auto dialog = std::make_shared<DialogItemData>(each_entity, 0);
+            DialogID dialog_id{ DialogPermanentID{ each_entity.id } };
+            auto dialog = std::make_shared<Dialog>(dialog_id, each_entity);
             dialogs.push_back(dialog);
         }
 
-        dialog_data_source_->AddDialogs(std::move(dialogs));
+        return dialogs;
     });
 }
 
 
-std::shared_ptr<Dialog> DialogManager::CreateNewDialog() {
+std::shared_ptr<Dialog> DialogService::CreateNewDialog() {
 
     DialogEntity entity;
     entity.create_time = std::time(nullptr);
     entity.update_time = entity.create_time;
 
-    DialogTransientID transient_id{ new_dialog_transient_id_++ };
-    auto new_dialog = std::make_shared<Dialog>(transient_id, std::move(entity));
-
-    dialog_data_source_->AddDialog(new_dialog);
+    DialogID dialog_id{ DialogTransientID{ new_dialog_transient_id_++ } };
+    auto new_dialog = std::make_shared<Dialog>(dialog_id, std::move(entity));
     return new_dialog;
 }
 
 
-zaf::Observable<RoundList> DialogManager::FetchPermanentRoundsInDialog(DialogID dialog_id) {
+zaf::Observable<RoundList> DialogService::FetchPermanentRoundsInDialog(
+    DialogPermanentID dialog_permanent_id) {
 
-    std::uint64_t dialog_permanent_id{};
-    if (auto transient_id = dialog_id.TransientID()) {
-        auto permanent_id = zaf::Find(dialog_permanent_id_map_, *transient_id);
-        if (permanent_id) {
-            dialog_permanent_id = permanent_id->Value();
-        }
-    }
-    else if (auto permanent_id = dialog_id.PermanentID()) {
-        dialog_permanent_id = permanent_id->Value();
-    }
-
-    if (dialog_permanent_id == 0) {
-        return zaf::rx::Just(RoundList{});
-    }
-
-    auto entities = storage_->RoundStorage()->FetchAllRoundsInDialog(dialog_permanent_id);
+    auto entities = storage_->RoundStorage()->FetchAllRoundsInDialog(dialog_permanent_id.Value());
     return entities.Map<RoundList>([this](const std::vector<RoundEntity>& entities) {
 
         RoundList result;
@@ -84,7 +67,7 @@ zaf::Observable<RoundList> DialogManager::FetchPermanentRoundsInDialog(DialogID 
 }
 
 
-zaf::Observable<ChatCompletion> DialogManager::CreateRoundAnswerFromEntity(
+zaf::Observable<ChatCompletion> DialogService::CreateRoundAnswerFromEntity(
     const RoundEntity& entity) {
 
     auto parsed = ParseChatCompletion(entity.response);
@@ -95,8 +78,8 @@ zaf::Observable<ChatCompletion> DialogManager::CreateRoundAnswerFromEntity(
 }
 
 
-std::shared_ptr<CreateRoundTask> DialogManager::CreateNewRound(
-    std::shared_ptr<const Dialog> dialog,
+std::shared_ptr<CreateRoundTask> DialogService::CreateNewRound(
+    std::shared_ptr<Dialog> dialog,
     std::vector<Message> messages) {
 
     RoundTransientID round_transient_id{ new_round_transient_id_++ };
@@ -112,16 +95,12 @@ std::shared_ptr<CreateRoundTask> DialogManager::CreateNewRound(
         create_round_tasks_.erase(dialog->ID());
     });
 
-    Subscriptions() += task->DialogSavedEvent().Subscribe([this](const DialogSavedInfo& info) {
-        dialog_permanent_id_map_[info.transient_id] = info.permanent_id;
-    });
-    
     task->Run();
     return task;
 }
 
 
-std::shared_ptr<CreateRoundTask> DialogManager::GetCreateRoundTaskInDialog(DialogID dialog_id) {
+std::shared_ptr<CreateRoundTask> DialogService::GetCreateRoundTaskInDialog(DialogID dialog_id) {
 
     auto task = zaf::Find(create_round_tasks_, dialog_id);
     if (task) {

@@ -3,8 +3,8 @@
 
 namespace ra::mod::ai::gpt {
 
-UnifiedDialogWindow::UnifiedDialogWindow(std::shared_ptr<DialogManager> dialog_manager) {
-    view_ = zaf::Create<UnifiedDialogView>(dialog_manager);
+UnifiedDialogWindow::UnifiedDialogWindow(std::shared_ptr<UnifiedDialogModel> model) {
+    view_ = zaf::Create<UnifiedDialogView>(model);
 }
 
 

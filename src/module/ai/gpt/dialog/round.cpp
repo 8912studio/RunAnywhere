@@ -16,7 +16,7 @@ Round::~Round() {
 
 
 void Round::Remove() {
-    remove_event_.AsObserver().OnNext(id_);
+    //remove_event_.AsObserver().OnNext(id_);
 }
 
 

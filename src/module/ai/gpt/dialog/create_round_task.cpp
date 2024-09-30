@@ -95,7 +95,13 @@ zaf::Observable<std::shared_ptr<const DialogEntity>> CreateRoundTask::SaveDialog
     }();
 
     return storage_observable.Map<std::shared_ptr<const DialogEntity>>(
-        [dialog_entity](std::uint64_t permanent_id) {
+        [this, dialog_entity](std::uint64_t permanent_id) {
+
+            dialog_updated_event_.AsObserver().OnNext(DialogUpdatedInfo{
+                std::make_shared<Dialog>(dialog_->ID(), *dialog_entity),
+            });
+            dialog_updated_event_.AsObserver().OnCompleted();
+
             return dialog_entity;
         });
 }

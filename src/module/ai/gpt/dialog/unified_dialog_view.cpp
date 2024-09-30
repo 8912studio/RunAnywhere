@@ -5,8 +5,8 @@ namespace ra::mod::ai::gpt {
 
 ZAF_OBJECT_IMPL(UnifiedDialogView);
 
-UnifiedDialogView::UnifiedDialogView(std::shared_ptr<DialogManager> dialog_manager) :
-    dialog_manager_(std::move(dialog_manager)) {
+UnifiedDialogView::UnifiedDialogView(std::shared_ptr<UnifiedDialogModel> model) :
+    model_(std::move(model)) {
 
 }
 
@@ -15,7 +15,7 @@ void UnifiedDialogView::AfterParse() {
 
     __super::AfterParse();
 
-    listView->SetDataSource(dialog_manager_->DialogDataSource());
+    listView->SetDataSource(model_->DialogDataSource());
 
     Subscriptions() += listView->ListControl()->SelectionChangedEvent().Subscribe(
         std::bind_front(&UnifiedDialogView::OnListSelectionChanged, this));
@@ -26,14 +26,14 @@ void UnifiedDialogView::OnListSelectionChanged(
     const zaf::ListControlSelectionChangedInfo& event_info) {
 
     auto selected_data = listView->ListControl()->GetFirstSelectedItemData();
-    auto dialog = zaf::As<DialogItemData>(selected_data);
+    auto dialog = zaf::As<Dialog>(selected_data);
     if (!dialog) {
         return;
     }
 
-    auto dialog_view_controller = std::make_unique<DialogViewController>(
+    auto dialog_view_controller = std::make_unique<DialogModel>(
         dialog, 
-        dialog_manager_);
+        model_);
 
     current_dialog_view_ = zaf::Create<DialogView>(std::move(dialog_view_controller));
     splitControl->SetSecondPane(current_dialog_view_);
@@ -43,7 +43,7 @@ void UnifiedDialogView::OnListSelectionChanged(
 
 void UnifiedDialogView::StartNewDialog(std::wstring question) {
 
-    auto new_dialog = dialog_manager_->CreateNewDialog();
+    auto new_dialog = model_->CreateNewDialog();
     //new_dialog->CreateRound(std::move(question));
 }
 

@@ -10,18 +10,21 @@ namespace ra::mod::ai::gpt {
 
 class Dialog : public zaf::Object, zaf::NonCopyableNonMovable {
 public:
-    Dialog(DialogTransientID transient_id, DialogEntity entity);
-    explicit Dialog(DialogEntity entity);
+    Dialog(const DialogID& id, DialogEntity entity);
 
-    DialogID ID() const;
+    const DialogID& ID() const {
+        return id_;
+    }
 
     const DialogEntity& Entity() const {
         return entity_;
     }
 
 private:
-    DialogTransientID transient_id_;
+    DialogID id_;
     DialogEntity entity_;
 };
+
+using DialogList = std::vector<std::shared_ptr<Dialog>>;
 
 }

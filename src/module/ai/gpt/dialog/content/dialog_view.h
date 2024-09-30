@@ -4,7 +4,7 @@
 #include <zaf/control/control_binder.h>
 #include <zaf/control/scroll_box.h>
 #include <zaf/control/text_box.h>
-#include "module/ai/gpt/dialog/content/dialog_view_controller.h"
+#include "module/ai/gpt/dialog/content/dialog_model.h"
 #include "utility/composite/composite_text_box.h"
 
 namespace ra::mod::ai::gpt {
@@ -13,7 +13,7 @@ class DialogView : public zaf::Control {
 public:
     ZAF_OBJECT;
 
-    explicit DialogView(std::unique_ptr<DialogViewController> controller);
+    explicit DialogView(std::unique_ptr<DialogModel> model);
 
     void Chat(std::wstring question);
     void SetFocusToInputEdit();
@@ -37,8 +37,8 @@ private:
 
     void StartNewRoundOnPressReturn();
     void StartNewRound(std::wstring question);
-    void SubscribeToAnswerEvent(const RoundModel& round);
-    void SubscribeToRoundEvents(const RoundModel& round);
+    void SubscribeToAnswerEvent(const Round& round);
+    void SubscribeToRoundEvents(const Round& round);
     void RemoveRound(RoundID round_id);
 
 private:
@@ -48,7 +48,7 @@ private:
     ZAF_BIND_CONTROL(zaf::TextBox, inputEdit);
     ZAF_BIND_CONTROL(zaf::Button, sendButton);
 
-    std::unique_ptr<DialogViewController> controller_;
+    std::unique_ptr<DialogModel> model_;
 };
 
 ZAF_OBJECT_BEGIN(DialogView);

@@ -6,18 +6,18 @@ namespace ra::mod::ai::gpt {
 namespace {
 
 bool DialogLessComparer(
-    const std::shared_ptr<DialogItemData>& dialog1,
-    const std::shared_ptr<DialogItemData>& dialog2) {
+    const std::shared_ptr<Dialog>& dialog1,
+    const std::shared_ptr<Dialog>& dialog2) {
 
-    auto transient_id1 = dialog1->TransientID();
+    auto id1 = dialog1->ID();
     const auto& entity1 = dialog1->Entity();
 
-    auto transient_id2 = dialog2->TransientID();
+    auto id2 = dialog2->ID();
     const auto& entity2 = dialog2->Entity();
 
     return
-        std::tie(entity1.update_time, entity1.create_time, transient_id1, entity1.id) >
-        std::tie(entity2.update_time, entity2.create_time, transient_id2, entity2.id);
+        std::tie(entity1.update_time, entity1.create_time, id1) >
+        std::tie(entity2.update_time, entity2.create_time, id2);
 }
 
 }
@@ -33,7 +33,7 @@ std::shared_ptr<zaf::Object> DialogDataSource::GetDataAtIndex(std::size_t index)
 }
 
 
-void DialogDataSource::AddDialog(std::shared_ptr<DialogItemData> dialog) {
+void DialogDataSource::AddDialog(std::shared_ptr<Dialog> dialog) {
 
     auto iterator = std::lower_bound(
         dialogs_.begin(),
@@ -49,7 +49,7 @@ void DialogDataSource::AddDialog(std::shared_ptr<DialogItemData> dialog) {
 }
 
 
-void DialogDataSource::AddDialogs(std::vector<std::shared_ptr<DialogItemData>> dialogs) {
+void DialogDataSource::AddDialogs(std::vector<std::shared_ptr<Dialog>> dialogs) {
 
     if (dialogs.empty()) {
         return;

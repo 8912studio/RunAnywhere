@@ -975,7 +975,7 @@
     <ClInclude Include="src\module\ai\gpt\dialog\dialog.h">
       <Filter>src\module\ai\gpt\dialog</Filter>
     </ClInclude>
-    <ClInclude Include="src\module\ai\gpt\dialog\dialog_manager.h">
+    <ClInclude Include="src\module\ai\gpt\dialog\unified_dialog_model.h">
       <Filter>src\module\ai\gpt\dialog</Filter>
     </ClInclude>
     <ClInclude Include="src\module\ai\gpt\dialog\dialog_window.h">
@@ -1056,9 +1056,6 @@
     <ClInclude Include="src\module\ai\gpt\network\chat_result.h">
       <Filter>src\module\ai\gpt\network</Filter>
     </ClInclude>
-    <ClInclude Include="src\module\ai\gpt\dialog\list\dialog_item_data.h">
-      <Filter>src\module\ai\gpt\dialog\list</Filter>
-    </ClInclude>
     <ClInclude Include="src\module\ai\gpt\dialog\list\dialog_item_view.h">
       <Filter>src\module\ai\gpt\dialog\list</Filter>
     </ClInclude>
@@ -1071,10 +1068,7 @@
     <ClInclude Include="src\module\ai\gpt\dialog\content\dialog_view.h">
       <Filter>src\module\ai\gpt\dialog\content</Filter>
     </ClInclude>
-    <ClInclude Include="src\module\ai\gpt\dialog\content\dialog_view_controller.h">
-      <Filter>src\module\ai\gpt\dialog\content</Filter>
-    </ClInclude>
-    <ClInclude Include="src\module\ai\gpt\dialog\content\round_model.h">
+    <ClInclude Include="src\module\ai\gpt\dialog\content\dialog_model.h">
       <Filter>src\module\ai\gpt\dialog\content</Filter>
     </ClInclude>
     <ClInclude Include="src\module\ai\gpt\dialog\content\round_view.h">
@@ -1084,6 +1078,9 @@
       <Filter>src\module\ai\gpt\dialog</Filter>
     </ClInclude>
     <ClInclude Include="src\module\ai\gpt\dialog\create_round_task.h">
+      <Filter>src\module\ai\gpt\dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\ai\gpt\dialog\dialog_service.h">
       <Filter>src\module\ai\gpt\dialog</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1691,7 +1688,7 @@
     <ClCompile Include="src\module\ai\gpt\dialog\dialog.cpp">
       <Filter>src\module\ai\gpt\dialog</Filter>
     </ClCompile>
-    <ClCompile Include="src\module\ai\gpt\dialog\dialog_manager.cpp">
+    <ClCompile Include="src\module\ai\gpt\dialog\unified_dialog_model.cpp">
       <Filter>src\module\ai\gpt\dialog</Filter>
     </ClCompile>
     <ClCompile Include="src\module\ai\gpt\dialog\dialog_window.cpp">
@@ -1760,16 +1757,16 @@
     <ClCompile Include="src\module\ai\gpt\dialog\content\dialog_view.cpp">
       <Filter>src\module\ai\gpt\dialog\content</Filter>
     </ClCompile>
-    <ClCompile Include="src\module\ai\gpt\dialog\content\dialog_view_controller.cpp">
-      <Filter>src\module\ai\gpt\dialog\content</Filter>
-    </ClCompile>
-    <ClCompile Include="src\module\ai\gpt\dialog\content\round_model.cpp">
+    <ClCompile Include="src\module\ai\gpt\dialog\content\dialog_model.cpp">
       <Filter>src\module\ai\gpt\dialog\content</Filter>
     </ClCompile>
     <ClCompile Include="src\module\ai\gpt\dialog\content\round_view.cpp">
       <Filter>src\module\ai\gpt\dialog\content</Filter>
     </ClCompile>
     <ClCompile Include="src\module\ai\gpt\dialog\create_round_task.cpp">
+      <Filter>src\module\ai\gpt\dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\ai\gpt\dialog\dialog_service.cpp">
       <Filter>src\module\ai\gpt\dialog</Filter>
     </ClCompile>
   </ItemGroup>

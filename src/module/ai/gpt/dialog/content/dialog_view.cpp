@@ -7,10 +7,10 @@ namespace ra::mod::ai::gpt {
 
 ZAF_OBJECT_IMPL(DialogView);
 
-DialogView::DialogView(std::unique_ptr<DialogViewController> controller) :
-    controller_(std::move(controller)) {
+DialogView::DialogView(std::unique_ptr<DialogModel> model) :
+    model_(std::move(model)) {
 
-    ZAF_EXPECT(controller_);
+    ZAF_EXPECT(model_);
 }
 
 
@@ -127,7 +127,7 @@ void DialogView::ResetSendButtonState() {
 
 void DialogView::LoadRounds() {
 
-    Subscriptions() += controller_->FetchRounds().Subscribe([this](const RoundModelList& rounds) {
+    Subscriptions() += model_->FetchRounds().Subscribe([this](const RoundList& rounds) {
     
         for (const auto& each_round : rounds) {
             auto round_view = zaf::Create<RoundView>(each_round);
@@ -152,7 +152,7 @@ void DialogView::StartNewRoundOnPressReturn() {
 
 void DialogView::StartNewRound(std::wstring question) {
 
-    auto round = controller_->CreateRound(std::move(question));
+    auto round = model_->CreateRound(std::move(question));
 
     //We have to subscribe to the answer event before creating the round view, as we need to record
     //the scroll bar state before updating the answer content when the answer event is raised.
@@ -165,7 +165,7 @@ void DialogView::StartNewRound(std::wstring question) {
 }
 
 
-void DialogView::SubscribeToAnswerEvent(const RoundModel& round) {
+void DialogView::SubscribeToAnswerEvent(const Round& round) {
 
     auto is_list_in_bottom = std::make_shared<bool>();
 
@@ -190,7 +190,7 @@ void DialogView::SubscribeToAnswerEvent(const RoundModel& round) {
 
         //Scroll to the position of answer only if the last round view matches the round id.
         auto last_round_view = zaf::As<RoundView>(children.back());
-        if (last_round_view->Model()->ID() == round_id) {
+        if (last_round_view->Round()->ID() == round_id) {
 
             auto answer_view_position = last_round_view->AnswerView()->TranslateToParent({});
             float scroll_to_position = last_round_view->Y() + answer_view_position.y;
@@ -205,7 +205,7 @@ void DialogView::SubscribeToAnswerEvent(const RoundModel& round) {
 }
 
 
-void DialogView::SubscribeToRoundEvents(const RoundModel& round) {
+void DialogView::SubscribeToRoundEvents(const Round& round) {
 
     /*
     Subscriptions() += round.RemoveEvent().Subscribe(
@@ -224,7 +224,7 @@ void DialogView::RemoveRound(RoundID round_id) {
     const auto& children = roundListView->Children();
     for (auto index : zaf::Range(0, children.size())) {
 
-        if (zaf::As<RoundView>(children[index])->Model()->ID() == round_id) {
+        if (zaf::As<RoundView>(children[index])->Round()->ID() == round_id) {
             roundListView->RemoveChildAtIndex(index);
             break;
         }

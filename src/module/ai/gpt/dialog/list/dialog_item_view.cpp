@@ -5,8 +5,7 @@ namespace ra::mod::ai::gpt {
 
 ZAF_OBJECT_IMPL(DialogItemView);
 
-DialogItemView::DialogItemView(std::shared_ptr<DialogItemData> dialog_data) : 
-    dialog_data_(std::move(dialog_data)) {
+DialogItemView::DialogItemView(std::shared_ptr<Dialog> dialog) : dialog_(std::move(dialog)) {
 
 }
 
@@ -21,11 +20,16 @@ void DialogItemView::AfterParse() {
 
 std::wstring DialogItemView::GenerateSubject() const {
 
-    if (!dialog_data_->Entity().subject.empty()) {
-        return zaf::FromUTF8String(dialog_data_->Entity().subject);
+    if (!dialog_->Entity().subject.empty()) {
+        return zaf::FromUTF8String(dialog_->Entity().subject);
     }
 
-    return std::format(L"New dialog #{}", dialog_data_->TransientID());
+    auto transient_id = dialog_->ID().TransientID();
+    if (transient_id) {
+        return std::format(L"New dialog #{}", transient_id->Value());
+    }
+
+    return L"New dialog";
 }
 
 }

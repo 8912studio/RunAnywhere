@@ -7,7 +7,7 @@ namespace ra::mod::ai::gpt {
 
 class UnifiedDialogWindow : public zaf::Window {
 public:
-    explicit UnifiedDialogWindow(std::shared_ptr<DialogManager> dialog_manager);
+    explicit UnifiedDialogWindow(std::shared_ptr<UnifiedDialogModel> model);
 
     const std::shared_ptr<UnifiedDialogView>& View() const {
         return view_;

@@ -57,7 +57,7 @@ zaf::Observable<std::vector<RoundEntity>> RoundStorage::FetchAllRoundsInDialog(
 
         auto sql = 
             "select ID, DialogID, CreateTime, UpdateTime, "
-            "Question, Response from Round where DialogPermanentID = ?;";
+            "Question, Response from Round where DialogID = ?;";
 
         auto statement = db.PrepareStatement(sql);
         statement.BindParameter(1, dialog_id);

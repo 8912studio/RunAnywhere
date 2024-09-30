@@ -11,9 +11,9 @@ namespace ra::mod::ai::gpt {
 
 ZAF_OBJECT_IMPL(RoundView);
 
-RoundView::RoundView(std::shared_ptr<RoundModel> model) : round_model_(std::move(model)) {
+RoundView::RoundView(std::shared_ptr<gpt::Round> round) : round_(std::move(round)) {
 
-    ZAF_EXPECT(round_model_);
+    ZAF_EXPECT(round_);
 }
 
 
@@ -21,12 +21,12 @@ void RoundView::AfterParse() {
 
     __super::AfterParse();
 
-    questionContent->SetText(round_model_->Question());
+    questionContent->SetText(round_->Question());
 
     answerView->SetAnswer(ObserveAnswer());
 
     Subscriptions() += copyButton->ClickEvent().Subscribe(std::bind([this]() {
-        Subscriptions() += round_model_->Answer().Subscribe([](const ChatCompletion& completion) {
+        Subscriptions() += round_->Answer().Subscribe([](const ChatCompletion& completion) {
             utility::SetStringToClipboard(completion.Message().Content());
         });
     }));
@@ -45,7 +45,7 @@ zaf::Observable<std::wstring> RoundView::ObserveAnswer() {
 
     ChangeState(RoundState::Requesting);
 
-    return round_model_->Answer().Do([this](const ChatCompletion& completion) {
+    return round_->Answer().Do([this](const ChatCompletion& completion) {
         UpdateTokenUsage(completion.TokenUsage());
     },
     [this](const std::exception_ptr&) {

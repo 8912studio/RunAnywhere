@@ -4,16 +4,16 @@
 #include <zaf/rx/observable.h>
 #include <zaf/rx/subscription_host.h>
 #include "module/ai/gpt/dialog/dialog.h"
-#include "module/ai/gpt/dialog/dialog_manager.h"
+#include "module/ai/gpt/dialog/unified_dialog_model.h"
 #include "module/ai/gpt/dialog/round.h"
 
 namespace ra::mod::ai::gpt {
 
-class DialogViewController : zaf::SubscriptionHost, zaf::NonCopyableNonMovable {
+class DialogModel : zaf::SubscriptionHost, zaf::NonCopyableNonMovable {
 public:
-    DialogViewController(
-        std::shared_ptr<DialogItemData> dialog, 
-        std::shared_ptr<DialogManager> dialog_manager);
+    DialogModel(
+        std::shared_ptr<Dialog> dialog,
+        std::shared_ptr<UnifiedDialogModel> unified_dialog_model);
 
     zaf::Observable<RoundList> FetchRounds();
 
@@ -23,7 +23,7 @@ private:
     std::shared_ptr<Dialog> dialog_;
     std::map<RoundTransientID, RoundPermanentID> round_permanent_id_map_;
     
-    std::shared_ptr<DialogManager> dialog_manager_;
+    std::shared_ptr<UnifiedDialogModel> unified_dialog_model_;
 };
 
 }

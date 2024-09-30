@@ -37,7 +37,7 @@ std::shared_ptr<zaf::ListItem> DialogListView::CreateItem(
     std::size_t item_index, 
     const std::shared_ptr<zaf::Object>& item_data) {
 
-    return zaf::Create<DialogItemView>(zaf::As<DialogItemData>(item_data));
+    return zaf::Create<DialogItemView>(zaf::As<Dialog>(item_data));
 }
 
 

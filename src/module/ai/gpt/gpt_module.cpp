@@ -1,7 +1,10 @@
 #include "module/ai/gpt/gpt_module.h"
+#include "module/ai/gpt/dialog/dialog_service.h"
 #include "module/ai/gpt/dialog/unified_dialog_window.h"
 #include "module/ai/gpt/gpt_command.h"
 #include "module/ai/gpt/gpt_command_parsing.h"
+#include "module/ai/gpt/network/open_ai_client.h"
+#include "module/ai/gpt/storage/gpt_storage.h"
 #include "utility/data_directory.h"
 
 namespace ra::mod::ai::gpt {
@@ -27,16 +30,16 @@ void GPTModule::Initialize() {
 
     std::call_once(init_once_flag_, [this]() {
 
-        client_ = std::make_shared<OpenAIClient>();
+        auto client = std::make_shared<OpenAIClient>();
 
         auto storage_path = utility::GetDataDirectoryPath() / "GPT" / "GPT.db";
-        storage_ = std::make_shared<GPTStorage>(storage_path);
+        auto storage = std::make_shared<GPTStorage>(storage_path);
 
-        dialog_manager_ = std::make_shared<DialogManager>(client_, storage_);
-        dialog_manager_->Initialize();
+        auto dialog_service = std::make_shared<DialogService>(
+            std::move(client), 
+            std::move(storage));
 
-        auto unified_dialog_window = zaf::Create<UnifiedDialogWindow>(dialog_manager_);
-        context_ = std::make_shared<GPTModuleContext>(std::move(unified_dialog_window));
+        context_ = std::make_shared<GPTModuleContext>(std::move(dialog_service));
     });
 }
 

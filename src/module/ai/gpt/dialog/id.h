@@ -42,12 +42,14 @@ public:
     }
 
     const TID* TransientID() const {
-        return std::get<TID>(&id_);
+        return std::get_if<TID>(&id_);
     }
 
     const PID* PermanentID() const {
-        return std::get<PID>(&id_);
+        return std::get_if<PID>(&id_);
     }
+
+    friend auto operator<=>(const ComplexID& id1, const ComplexID& id2) = default;
 
 private:
     std::variant<TID, PID> id_;

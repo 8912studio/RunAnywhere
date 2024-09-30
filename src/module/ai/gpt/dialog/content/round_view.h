@@ -6,7 +6,7 @@
 #include <zaf/control/label.h>
 #include <zaf/control/linear_box.h>
 #include "module/ai/gpt/dialog/answer_view.h"
-#include "module/ai/gpt/dialog/content/round_model.h"
+#include "module/ai/gpt/dialog/round.h"
 #include "utility/markdown/render/styled_text_box.h"
 
 namespace ra::mod::ai::gpt {
@@ -15,14 +15,14 @@ class RoundView : public zaf::VerticalBox {
 public:
     ZAF_OBJECT;
 
-    explicit RoundView(std::shared_ptr<RoundModel> round);
+    explicit RoundView(std::shared_ptr<gpt::Round> round);
 
     std::shared_ptr<gpt::AnswerView> AnswerView() const {
         return answerView;
     }
 
-    const std::shared_ptr<RoundModel>& Model() const {
-        return round_model_;
+    const std::shared_ptr<gpt::Round>& Round() const {
+        return round_;
     }
 
 protected:
@@ -53,7 +53,7 @@ private:
     ZAF_BIND_CONTROL(zaf::Button, retryButton);
     ZAF_BIND_CONTROL(zaf::Label, tokenUsage);
 
-    std::shared_ptr<RoundModel> round_model_;
+    std::shared_ptr<gpt::Round> round_;
     RoundState state_{ RoundState::Requesting };
 };
 

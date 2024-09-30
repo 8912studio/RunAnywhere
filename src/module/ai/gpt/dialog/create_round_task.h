@@ -6,7 +6,6 @@
 #include <zaf/rx/subscription_host.h>
 #include "module/ai/gpt/dialog/dialog.h"
 #include "module/ai/gpt/dialog/id.h"
-#include "module/ai/gpt/dialog/list/dialog_item_data.h"
 #include "module/ai/gpt/network/open_ai_client.h"
 #include "module/ai/gpt/storage/gpt_storage.h"
 
@@ -15,6 +14,10 @@ namespace ra::mod::ai::gpt {
 struct DialogSavedInfo {
     DialogTransientID transient_id;
     DialogPermanentID permanent_id;
+};
+
+struct DialogUpdatedInfo {
+    std::shared_ptr<Dialog> dialog;
 };
 
 struct RoundSavedInfo {
@@ -32,7 +35,7 @@ public:
         round_transient_id_ = round_transient_id;
     }
 
-    void SetDialog(std::shared_ptr<const Dialog> dialog) {
+    void SetDialog(std::shared_ptr<Dialog> dialog) {
         dialog_ = std::move(dialog);
     }
 
@@ -61,6 +64,10 @@ public:
         return dialog_saved_event_.AsObservable();
     }
 
+    zaf::Observable<DialogUpdatedInfo> DialogUpdatedEvent() const {
+        return dialog_updated_event_.AsObservable();
+    }
+
     zaf::Observable<RoundSavedInfo> RoundSavedEvent() const {
         return round_saved_event_.AsObservable();
     }
@@ -85,7 +92,7 @@ private:
     std::shared_ptr<GPTStorage> storage_;
 
     RoundTransientID round_transient_id_;
-    std::shared_ptr<const Dialog> dialog_;
+    std::shared_ptr<Dialog> dialog_;
     std::vector<Message> sent_messages_;
 
     bool is_chat_finished_{};
@@ -95,6 +102,7 @@ private:
 
     zaf::ReplaySubject<ChatCompletion> answer_event_;
     zaf::ReplaySubject<DialogSavedInfo> dialog_saved_event_;
+    zaf::ReplaySubject<DialogUpdatedInfo> dialog_updated_event_;
     zaf::ReplaySubject<RoundSavedInfo> round_saved_event_;
     zaf::ReplaySubject<zaf::None> finish_event_;
 };
