@@ -16,7 +16,19 @@ UnifiedDialogModel::UnifiedDialogModel(std::shared_ptr<DialogService> service) :
 void UnifiedDialogModel::Initialize() {
 
     Subscriptions() += service_->FetchPermanentDialogs().Subscribe(
-        [this](const DialogList& dialogs) {
+        [this](const DialogList& permanent_dialogs) {
+
+            DialogList dialogs = permanent_dialogs;
+
+            auto create_round_tasks = service_->GetAllCreateRoundTasks();
+            for (const auto& each_task : create_round_tasks) {
+
+                auto dialog_permanent_id = each_task->GetDialogPermanentID();
+                if (!dialog_permanent_id) {
+                    dialogs.push_back(each_task->GetDialog());
+                }
+            }
+
             dialog_data_source_->AddDialogs(dialogs);
         });
 }

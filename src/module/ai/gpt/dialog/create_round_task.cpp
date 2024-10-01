@@ -71,7 +71,7 @@ zaf::Observable<std::shared_ptr<const DialogEntity>> CreateRoundTask::SaveDialog
     }
 
     if (dialog_entity->subject.empty()) {
-        dialog_entity->subject = zaf::ToUTF8String(sent_messages_.back().Content().substr(0, 100));
+        dialog_entity->subject = zaf::ToUTF8String(GetQuestion().substr(0, 100));
     }
 
     auto storage_observable = [this, &dialog_entity]() {
@@ -81,6 +81,7 @@ zaf::Observable<std::shared_ptr<const DialogEntity>> CreateRoundTask::SaveDialog
                 [this, dialog_entity](std::uint64_t permanent_id) {
 
                     dialog_entity->id = permanent_id;
+                    dialog_permanent_id_ = DialogPermanentID{ permanent_id };
 
                     dialog_saved_event_.AsObserver().OnNext(DialogSavedInfo{
                         *dialog_->ID().TransientID(),
@@ -115,7 +116,7 @@ zaf::Observable<std::shared_ptr<RoundEntity>> CreateRoundTask::SaveRound(
     round_entity->create_time = update_time;
     round_entity->update_time = update_time;
     round_entity->dialog_id = permanent_id.Value();
-    round_entity->question = zaf::ToUTF8String(sent_messages_.back().Content());
+    round_entity->question = zaf::ToUTF8String(GetQuestion());
 
     return storage_->RoundStorage()->AddRound(*round_entity)
         .Map<std::shared_ptr<RoundEntity>>([this, round_entity](std::uint64_t permanent_id) {
@@ -160,6 +161,16 @@ zaf::Observable<zaf::None> CreateRoundTask::UpdateRoundInPostStage() {
         [](std::uint64_t) {
             return zaf::None{};
         });
+}
+
+
+std::optional<DialogPermanentID> CreateRoundTask::GetDialogPermanentID() const {
+
+    if (auto permanent_id = dialog_->ID().PermanentID()) {
+        return *permanent_id;
+    }
+
+    return dialog_permanent_id_;
 }
 
 }

@@ -109,4 +109,14 @@ std::shared_ptr<CreateRoundTask> DialogService::GetCreateRoundTaskInDialog(Dialo
     return nullptr;
 }
 
+
+std::vector<std::shared_ptr<CreateRoundTask>> DialogService::GetAllCreateRoundTasks() {
+
+    std::vector<std::shared_ptr<CreateRoundTask>> result;
+    for (const auto& each_pair : create_round_tasks_) {
+        result.push_back(each_pair.second);
+    }
+    return result;
+}
+
 }

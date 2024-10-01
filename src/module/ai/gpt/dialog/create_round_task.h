@@ -56,6 +56,16 @@ public:
         return std::nullopt;
     }
 
+    const std::shared_ptr<Dialog>& GetDialog() const {
+        return dialog_;
+    }
+
+    std::optional<DialogPermanentID> GetDialogPermanentID() const;
+
+    const std::wstring& GetQuestion() const {
+        return sent_messages_.back().Content();
+    }
+
     zaf::Observable<ChatCompletion> AnswerEvent() const {
         return answer_event_.AsObservable();
     }
@@ -99,6 +109,7 @@ private:
     bool is_round_created_{};
     std::optional<std::string> chat_response_;
     std::shared_ptr<RoundEntity> new_round_entity_;
+    std::optional<DialogPermanentID> dialog_permanent_id_;
 
     zaf::ReplaySubject<ChatCompletion> answer_event_;
     zaf::ReplaySubject<DialogSavedInfo> dialog_saved_event_;

@@ -27,6 +27,8 @@ public:
 
     std::shared_ptr<CreateRoundTask> GetCreateRoundTaskInDialog(DialogID dialog_id);
 
+    std::vector<std::shared_ptr<CreateRoundTask>> GetAllCreateRoundTasks();
+
 private:
     zaf::Observable<ChatCompletion> CreateRoundAnswerFromEntity(const RoundEntity& entity);
 

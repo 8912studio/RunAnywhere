@@ -3,6 +3,7 @@
 #include <zaf/base/non_copyable.h>
 #include <zaf/rx/observable.h>
 #include <zaf/rx/subscription_host.h>
+#include "module/ai/gpt/dialog/create_round_task.h"
 #include "module/ai/gpt/dialog/dialog.h"
 #include "module/ai/gpt/dialog/unified_dialog_model.h"
 #include "module/ai/gpt/dialog/round.h"
@@ -18,6 +19,9 @@ public:
     zaf::Observable<RoundList> FetchRounds();
 
     std::shared_ptr<Round> CreateRound(std::wstring question);
+
+private:
+    std::shared_ptr<Round> CreateTransientRoundFromTask(const CreateRoundTask& task);
 
 private:
     std::shared_ptr<Dialog> dialog_;
