@@ -62,6 +62,9 @@
       <PreprocessorDefinitions>WIN32;NOMINMAX;RUN_ANYWHERE_EXTENSION_HOST;_DEBUG;_CONSOLE;CURLION_VERBOSE=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <ForcedIncludeFiles>precompiled.h</ForcedIncludeFiles>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>precompiled.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -77,6 +80,9 @@
       <PreprocessorDefinitions>WIN32;NOMINMAX;RUN_ANYWHERE_EXTENSION_HOST;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <ForcedIncludeFiles>precompiled.h</ForcedIncludeFiles>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>precompiled.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -314,6 +320,7 @@
     <ClInclude Include="src\option\option_storage.h" />
     <ClInclude Include="src\option\option_text_box.h" />
     <ClInclude Include="src\option\option_window.h" />
+    <ClInclude Include="src\precompiled.h" />
     <ClInclude Include="src\preview_view.h" />
     <ClInclude Include="src\registry_define.h" />
     <ClInclude Include="src\tray_icon.h" />
@@ -562,6 +569,10 @@
     <ClCompile Include="src\option\option_storage.cpp" />
     <ClCompile Include="src\option\option_text_box.cpp" />
     <ClCompile Include="src\option\option_window.cpp" />
+    <ClCompile Include="src\precompiled.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\preview_view.cpp" />
     <ClCompile Include="src\tray_icon.cpp" />
     <ClCompile Include="src\utility\clipboard.cpp" />
@@ -623,7 +634,14 @@
     <ClCompile Include="third_party\curlion\src\http_connection.cpp" />
     <ClCompile Include="third_party\curlion\src\http_form.cpp" />
     <ClCompile Include="third_party\curlion\src\log.cpp" />
-    <ClCompile Include="third_party\sqlite\sqlite3.c" />
+    <ClCompile Include="third_party\sqlite\sqlite3.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </ForcedIncludeFiles>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </ForcedIncludeFiles>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Page Include="src\about_window.xaml" />
