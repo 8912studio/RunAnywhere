@@ -20,7 +20,6 @@ ExecuteResult GPTExecutor::Execute() {
     if (!unified_dialog_window) {
 
         auto model = std::make_shared<UnifiedDialogModel>(context_->DialogService());
-        model->Initialize();
 
         unified_dialog_window = zaf::Create<UnifiedDialogWindow>(std::move(model));
         context_->SetUnifiedDialogWindow(unified_dialog_window);

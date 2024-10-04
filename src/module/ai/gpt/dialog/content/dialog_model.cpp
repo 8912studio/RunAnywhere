@@ -6,7 +6,7 @@
 namespace ra::mod::ai::gpt {
 
 DialogModel::DialogModel(
-    std::shared_ptr<Dialog> dialog,
+    std::shared_ptr<gpt::Dialog> dialog,
     std::shared_ptr<UnifiedDialogModel> unified_dialog_model)
     :
     dialog_(std::move(dialog)),

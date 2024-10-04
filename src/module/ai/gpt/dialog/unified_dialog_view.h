@@ -22,6 +22,8 @@ protected:
     void AfterParse() override;
 
 private:
+    void OpenDialogView(std::shared_ptr<Dialog> dialog);
+
     void OnListSelectionChanged(const zaf::ListControlSelectionChangedInfo& event_info);
 
 private:

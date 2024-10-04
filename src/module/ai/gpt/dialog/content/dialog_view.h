@@ -15,6 +15,10 @@ public:
 
     explicit DialogView(std::unique_ptr<DialogModel> model);
 
+    const DialogModel& Model() const {
+        return *model_;
+    }
+
     void Chat(std::wstring question);
     void SetFocusToInputEdit();
 

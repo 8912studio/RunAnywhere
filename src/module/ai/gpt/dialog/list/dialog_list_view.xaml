@@ -1,3 +1,12 @@
 <DialogListView Layouter="VerticalLayouter">
-	<ListControl Name="listControl" />
+	<ListControl 
+		Name="listControl" 
+		Border="0" 
+		AllowHorizontalScroll="false" 
+		UseOverlayScrollBars="true"
+		ScrollBarThickness="10">
+		<ListControl.VerticalScrollBar>
+			<ThinScrollBar />
+		</ListControl.VerticalScrollBar>
+	</ListControl>
 </DialogListView>

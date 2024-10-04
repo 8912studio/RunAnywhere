@@ -1,5 +1,5 @@
 <UnifiedDialogView Layouter="VerticalLayouter">
-	<SplitControl Name="splitControl">
+	<SplitControl Name="splitControl" SplitDistance="200">
 		<SplitControl.FirstPane>
 			<DialogListView Name="listView"></DialogListView>
 		</SplitControl.FirstPane>

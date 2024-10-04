@@ -1,6 +1,7 @@
 #include "module/ai/gpt/dialog/list/dialog_data_source.h"
 #include <zaf/base/container/utility/append.h>
 #include <zaf/base/container/utility/sort.h>
+#include <zaf/base/range.h>
 
 namespace ra::mod::ai::gpt {
 namespace {
@@ -34,45 +35,103 @@ std::shared_ptr<zaf::Object> DialogDataSource::GetDataAtIndex(std::size_t index)
 
 
 void DialogDataSource::AddDialog(std::shared_ptr<Dialog> dialog) {
+    AddDialogs({ std::move(dialog) });
+}
 
+
+void DialogDataSource::AddDialogs(std::vector<std::shared_ptr<Dialog>> new_dialogs) {
+
+    if (new_dialogs.empty()) {
+        return;
+    }
+
+    zaf::Sort(new_dialogs, DialogLessComparer);
+
+    if (dialogs_.empty()) {
+        dialogs_ = std::move(new_dialogs);
+        NotifyDataAdd(0, dialogs_.size());
+        return;
+    }
+
+    std::size_t old_current{};
+    auto new_range_begin = new_dialogs.begin();
+    auto new_range_end = new_dialogs.begin();
+
+    const auto commit_adding = [this, &old_current, &new_range_begin, &new_range_end]() {
+        if (new_range_begin != new_range_end) {
+
+            dialogs_.insert(
+                std::next(dialogs_.begin(), old_current),
+                new_range_begin,
+                new_range_end);
+
+            NotifyDataAdd(old_current, std::distance(new_range_begin, new_range_end));
+
+            old_current += std::distance(new_range_begin, new_range_end);
+            new_range_begin = new_range_end;
+        }
+    };
+
+    while (old_current != dialogs_.size() && new_range_end != new_dialogs.end()) {
+
+        const auto& old_dialog = dialogs_[old_current];
+        const auto& new_dialog = *new_range_end;
+
+        if (DialogLessComparer(old_dialog, new_dialog)) {
+            commit_adding();
+            ++old_current;
+        }
+        else if (old_dialog->ID() == new_dialog->ID()) {
+            commit_adding();
+
+            auto& updated_dialog = dialogs_[old_current];
+            updated_dialog = new_dialog;
+            NotifyDataUpdate(old_current, 1);
+
+            ++old_current;
+            ++new_range_end;
+            new_range_begin = new_range_end;
+        }
+        else {
+            ++new_range_end;
+        }
+    }
+
+    if (new_range_begin != new_dialogs.end()) {
+
+        dialogs_.insert(
+            std::next(dialogs_.begin(), old_current),
+            new_range_begin,
+            new_dialogs.end());
+
+        NotifyDataAdd(old_current, std::distance(new_range_begin, new_dialogs.end()));
+    }
+}
+
+
+std::optional<std::size_t> DialogDataSource::GetIndexOfDialog(
+    const std::shared_ptr<Dialog>& dialog) const {
+    
     auto iterator = std::lower_bound(
         dialogs_.begin(),
         dialogs_.end(),
         dialog,
         DialogLessComparer);
 
-    auto insert_index = std::distance(dialogs_.begin(), iterator);
+    if (iterator == dialogs_.end()) {
+        return std::nullopt;
+    }
 
-    dialogs_.insert(iterator, std::move(dialog));
+    if ((*iterator)->ID() != dialog->ID()) {
+        return std::nullopt;
+    }
 
-    NotifyDataAdd(insert_index, 1);
+    return std::distance(dialogs_.begin(), iterator);
 }
 
 
-void DialogDataSource::AddDialogs(std::vector<std::shared_ptr<Dialog>> dialogs) {
-
-    if (dialogs.empty()) {
-        return;
-    }
-
-    zaf::Sort(dialogs, DialogLessComparer);
-
-    if (dialogs_.empty()) {
-        dialogs_ = std::move(dialogs);
-        NotifyDataAdd(0, dialogs_.size());
-        return;
-    }
-
-    if (DialogLessComparer(dialogs_.back(), dialogs.front())) {
-        auto insert_index = dialogs_.size();
-        zaf::Append(dialogs_, dialogs);
-        NotifyDataAdd(insert_index, dialogs.size());
-        return;
-    }
-
-    for (auto& each_dialog : dialogs) {
-        AddDialog(std::move(each_dialog));
-    }
+std::shared_ptr<Dialog> DialogDataSource::GetDialogAtIndex(std::size_t index) const {
+    return dialogs_[index];
 }
 
 }

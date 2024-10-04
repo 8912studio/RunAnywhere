@@ -1,5 +1,6 @@
 #pragma once
 
+#include <optional>
 #include <vector>
 #include <zaf/control/list_data_source.h>
 #include "module/ai/gpt/dialog/dialog.h"
@@ -13,6 +14,9 @@ public:
 
     void AddDialog(std::shared_ptr<Dialog> dialog);
     void AddDialogs(std::vector<std::shared_ptr<Dialog>> dialogs);
+
+    std::optional<std::size_t> GetIndexOfDialog(const std::shared_ptr<Dialog>& dialog) const;
+    std::shared_ptr<Dialog> GetDialogAtIndex(std::size_t index) const;
 
 private:
     std::vector<std::shared_ptr<Dialog>> dialogs_;

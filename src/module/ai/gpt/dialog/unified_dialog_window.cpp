@@ -11,6 +11,10 @@ UnifiedDialogWindow::UnifiedDialogWindow(std::shared_ptr<UnifiedDialogModel> mod
 void UnifiedDialogWindow::AfterParse() {
 
     __super::AfterParse();
+
+    this->SetContentSize(zaf::Size{ 800, 600 });
+    this->SetMinSize(zaf::Size{ 400, 300 });
+
     this->SetRootControl(view_);
 }
 

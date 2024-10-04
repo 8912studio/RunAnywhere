@@ -91,6 +91,12 @@
     <Filter Include="case\utility\sql">
       <UniqueIdentifier>{974c993d-05ee-4966-8c2a-355b7536b52a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="case\module\ai\gpt\dialog">
+      <UniqueIdentifier>{cd0a45b3-00d4-4c77-be24-0c3f4519e12d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="case\module\ai\gpt\dialog\list">
+      <UniqueIdentifier>{4bbeded6-79ec-4a70-b688-ad49c7b68220}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="case\module\calculator\decimal_number_parser_test.cpp">
@@ -273,6 +279,9 @@
     </ClCompile>
     <ClCompile Include="case\utility\sql\sql_test.cpp">
       <Filter>case\utility\sql</Filter>
+    </ClCompile>
+    <ClCompile Include="case\module\ai\gpt\dialog\list\dialog_data_source_test.cpp">
+      <Filter>case\module\ai\gpt\dialog\list</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -16,6 +16,10 @@ public:
         std::shared_ptr<Dialog> dialog,
         std::shared_ptr<UnifiedDialogModel> unified_dialog_model);
 
+    const std::shared_ptr<gpt::Dialog>& Dialog() const {
+        return dialog_;
+    }
+
     zaf::Observable<RoundList> FetchRounds();
 
     std::shared_ptr<Round> CreateRound(std::wstring question);
@@ -24,7 +28,7 @@ private:
     std::shared_ptr<Round> CreateTransientRoundFromTask(const CreateRoundTask& task);
 
 private:
-    std::shared_ptr<Dialog> dialog_;
+    std::shared_ptr<gpt::Dialog> dialog_;
     std::map<RoundTransientID, RoundPermanentID> round_permanent_id_map_;
     
     std::shared_ptr<UnifiedDialogModel> unified_dialog_model_;
