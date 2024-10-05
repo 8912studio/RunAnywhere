@@ -22,6 +22,7 @@ private:
 };
 
 ZAF_OBJECT_BEGIN(DialogItemView);
+ZAF_OBJECT_RESOURCE_URI(L"res:///module/ai/gpt/dialog/list/dialog_item_view.xaml");
 ZAF_OBJECT_END;
 
 }

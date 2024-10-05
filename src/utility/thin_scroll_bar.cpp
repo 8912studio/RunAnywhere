@@ -15,23 +15,24 @@ protected:
         }
 
         constexpr float PaintThickness = 6;
+        constexpr float Margin = 2;
 
         auto content_rect = ContentRect();
 
         zaf::Rect paint_rect;
         if (IsHorizontal()) {
-            paint_rect.position.x = content_rect.position.x;
+            paint_rect.position.x = content_rect.position.x + Margin;
             paint_rect.position.y = 
                 content_rect.position.y + content_rect.size.height - PaintThickness;
-            paint_rect.size.width = content_rect.size.width;
+            paint_rect.size.width = content_rect.size.width - Margin * 2;
             paint_rect.size.height = PaintThickness;
         }
         else {
             paint_rect.position.x = 
                 content_rect.position.x + content_rect.size.width - PaintThickness;
-            paint_rect.position.y = content_rect.position.y;
+            paint_rect.position.y = content_rect.position.y + Margin;
             paint_rect.size.width = PaintThickness;
-            paint_rect.size.height = content_rect.size.height;
+            paint_rect.size.height = content_rect.size.height - Margin * 2;
         }
 
         canvas.DrawRoundedRectangle(

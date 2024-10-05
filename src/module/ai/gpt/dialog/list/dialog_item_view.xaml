@@ -1,0 +1,8 @@
+<DialogItemView TextColor="Black" Padding="6,0,4,0">
+    <DialogItemView.BackgroundColorPicker>
+        <If IsSelected="true">
+            <Color>#300078d7</Color>
+        </If>
+        <Color>Transparent</Color>
+    </DialogItemView.BackgroundColorPicker>
+</DialogItemView>

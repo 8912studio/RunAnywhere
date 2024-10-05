@@ -1,7 +1,10 @@
 <UnifiedDialogView Layouter="VerticalLayouter">
-	<SplitControl Name="splitControl" SplitDistance="200">
+	<SplitControl Name="splitControl" SplitBarThickness="2" SplitDistance="140">
 		<SplitControl.FirstPane>
 			<DialogListView Name="listView"></DialogListView>
 		</SplitControl.FirstPane>
+		<SplitControl.SplitBar>
+			<SplitBar BackgroundColor="#F8F8F8" SplitterColor="Transparent" />
+		</SplitControl.SplitBar>
 	</SplitControl>
 </UnifiedDialogView>

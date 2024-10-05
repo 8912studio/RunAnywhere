@@ -14,6 +14,7 @@ void DialogItemView::AfterParse() {
 
     __super::AfterParse();
 
+    this->SetTextTrimming(zaf::dwrite::TextTrimmingGranularity::Character);
     this->SetText(GenerateSubject());
 }
 

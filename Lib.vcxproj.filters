@@ -1879,6 +1879,9 @@
     <Page Include="src\module\ai\gpt\dialog\content\dialog_view.xaml">
       <Filter>src\module\ai\gpt\dialog\content</Filter>
     </Page>
+    <Page Include="src\module\ai\gpt\dialog\list\dialog_item_view.xaml">
+      <Filter>src\module\ai\gpt\dialog\list</Filter>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

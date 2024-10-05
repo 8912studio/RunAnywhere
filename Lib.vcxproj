@@ -654,6 +654,7 @@
     <Page Include="src\main\preserve\preserved_command_view.xaml" />
     <Page Include="src\main\toolbar\command_toolbar.xaml" />
     <Page Include="src\module\ai\gpt\dialog\content\dialog_view.xaml" />
+    <Page Include="src\module\ai\gpt\dialog\list\dialog_item_view.xaml" />
     <Page Include="src\module\ai\gpt\dialog\list\dialog_list_view.xaml" />
     <Page Include="src\module\ai\gpt\dialog\unified_dialog_view.xaml" />
     <Page Include="src\module\ai\gpt\gpt_preview_control.xaml" />
