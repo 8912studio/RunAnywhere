@@ -25,8 +25,17 @@ void UnifiedDialogModel::Initialize() {
 
                 auto dialog_permanent_id = each_task->GetDialogPermanentID();
                 if (!dialog_permanent_id) {
-                    dialogs.push_back(each_task->GetDialog());
+
+                    auto dialog_index = dialog_data_source_->GetIndexOfDialog(
+                        each_task->GetDialog()->ID());
+
+                    if (!dialog_index) {
+                        dialogs.push_back(each_task->GetDialog());
+                    }
+
+                    SubscribeToDialogSavedEvent(*each_task);
                 }
+                SubscribeToDialogUpdatedEvent(*each_task);
             }
 
             dialog_data_source_->AddDialogs(dialogs);
@@ -68,12 +77,25 @@ std::shared_ptr<CreateRoundTask> UnifiedDialogModel::CreateNewRound(
     std::vector<Message> messages) {
 
     auto task = service_->CreateNewRound(dialog, std::move(messages));
+    SubscribeToDialogSavedEvent(*task);
+    SubscribeToDialogUpdatedEvent(*task);
+    return task;
+}
 
-    Subscriptions() += task->DialogSavedEvent().Subscribe([this](const DialogSavedInfo& info) {
+
+void UnifiedDialogModel::SubscribeToDialogSavedEvent(const CreateRoundTask& task) {
+
+    Subscriptions() += task.DialogSavedEvent().Subscribe([this](const DialogSavedInfo& info) {
         dialog_permanent_id_map_[info.transient_id] = info.permanent_id;
     });
-    
-    return task;
+}
+
+
+void UnifiedDialogModel::SubscribeToDialogUpdatedEvent(const CreateRoundTask& task) {
+
+    Subscriptions() += task.DialogUpdatedEvent().Subscribe([this](const DialogUpdatedInfo& info) {
+        dialog_data_source_->UpdateDialog(info.dialog);
+    });
 }
 
 

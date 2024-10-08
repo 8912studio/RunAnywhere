@@ -44,9 +44,9 @@ TEST(DialogDataSourceTest, AddDialogs_AddToFront) {
 
     DialogDataSource data_source;
 
-    ListDataSourceDataAddInfo add_info;
-    auto sub = data_source.DataAddEvent().Subscribe(
-        [&add_info](const ListDataSourceDataAddInfo& event_info) {
+    std::optional<ListDataAddedInfo> add_info;
+    auto sub = data_source.DataAddedEvent().Subscribe(
+        [&add_info](const ListDataAddedInfo& event_info) {
             add_info = event_info;
         });
 
@@ -62,8 +62,8 @@ TEST(DialogDataSourceTest, AddDialogs_AddToFront) {
     ASSERT_EQ(data_source.GetDialogAtIndex(1)->ID(), DialogID(DialogTransientID(50)));
     ASSERT_EQ(data_source.GetDialogAtIndex(2)->ID(), DialogID(DialogTransientID(40)));
     ASSERT_EQ(data_source.GetDialogAtIndex(3)->ID(), DialogID(DialogTransientID(30)));
-    ASSERT_EQ(add_info.index, 0);
-    ASSERT_EQ(add_info.count, 1);
+    ASSERT_EQ(add_info->Index(), 0);
+    ASSERT_EQ(add_info->Count(), 1);
 
     data_source.AddDialogs({
         MakeDialog(61),
@@ -78,8 +78,8 @@ TEST(DialogDataSourceTest, AddDialogs_AddToFront) {
     ASSERT_EQ(data_source.GetDialogAtIndex(4)->ID(), DialogID(DialogTransientID(50)));
     ASSERT_EQ(data_source.GetDialogAtIndex(5)->ID(), DialogID(DialogTransientID(40)));
     ASSERT_EQ(data_source.GetDialogAtIndex(6)->ID(), DialogID(DialogTransientID(30)));
-    ASSERT_EQ(add_info.index, 0);
-    ASSERT_EQ(add_info.count, 3);
+    ASSERT_EQ(add_info->Index(), 0);
+    ASSERT_EQ(add_info->Count(), 3);
 }
 
 
@@ -87,9 +87,9 @@ TEST(DialogDataSourceTest, AddDialogs_AddToBack) {
 
     DialogDataSource data_source;
 
-    ListDataSourceDataAddInfo add_info;
-    auto sub = data_source.DataAddEvent().Subscribe(
-        [&add_info](const ListDataSourceDataAddInfo& event_info) {
+    std::optional<ListDataAddedInfo> add_info;
+    auto sub = data_source.DataAddedEvent().Subscribe(
+        [&add_info](const ListDataAddedInfo& event_info) {
             add_info = event_info;
         });
 
@@ -105,8 +105,8 @@ TEST(DialogDataSourceTest, AddDialogs_AddToBack) {
     ASSERT_EQ(data_source.GetDialogAtIndex(1)->ID(), DialogID(DialogTransientID(40)));
     ASSERT_EQ(data_source.GetDialogAtIndex(2)->ID(), DialogID(DialogTransientID(30)));
     ASSERT_EQ(data_source.GetDialogAtIndex(3)->ID(), DialogID(DialogTransientID(20)));
-    ASSERT_EQ(add_info.index, 3);
-    ASSERT_EQ(add_info.count, 1);
+    ASSERT_EQ(add_info->Index(), 3);
+    ASSERT_EQ(add_info->Count(), 1);
 
     data_source.AddDialogs({
         MakeDialog(14),
@@ -119,8 +119,8 @@ TEST(DialogDataSourceTest, AddDialogs_AddToBack) {
     ASSERT_EQ(data_source.GetDialogAtIndex(3)->ID(), DialogID(DialogTransientID(20)));
     ASSERT_EQ(data_source.GetDialogAtIndex(4)->ID(), DialogID(DialogTransientID(15)));
     ASSERT_EQ(data_source.GetDialogAtIndex(5)->ID(), DialogID(DialogTransientID(14)));
-    ASSERT_EQ(add_info.index, 4);
-    ASSERT_EQ(add_info.count, 2);
+    ASSERT_EQ(add_info->Index(), 4);
+    ASSERT_EQ(add_info->Count(), 2);
 }
 
 
@@ -128,9 +128,9 @@ TEST(DialogDataSourceTest, AddDialogs_AddToMiddle) {
 
     DialogDataSource data_source;
 
-    ListDataSourceDataAddInfo add_info;
-    auto sub = data_source.DataAddEvent().Subscribe(
-        [&add_info](const ListDataSourceDataAddInfo& event_info) {
+    std::optional<ListDataAddedInfo> add_info;
+    auto sub = data_source.DataAddedEvent().Subscribe(
+        [&add_info](const ListDataAddedInfo& event_info) {
             add_info = event_info;
         });
 
@@ -144,8 +144,8 @@ TEST(DialogDataSourceTest, AddDialogs_AddToMiddle) {
     ASSERT_EQ(data_source.GetDialogAtIndex(0)->ID(), DialogID(DialogTransientID(50)));
     ASSERT_EQ(data_source.GetDialogAtIndex(1)->ID(), DialogID(DialogTransientID(45)));
     ASSERT_EQ(data_source.GetDialogAtIndex(2)->ID(), DialogID(DialogTransientID(40)));
-    ASSERT_EQ(add_info.index, 1);
-    ASSERT_EQ(add_info.count, 1);
+    ASSERT_EQ(add_info->Index(), 1);
+    ASSERT_EQ(add_info->Count(), 1);
 
     data_source.AddDialogs({ 
         MakeDialog(41),
@@ -161,71 +161,19 @@ TEST(DialogDataSourceTest, AddDialogs_AddToMiddle) {
     ASSERT_EQ(data_source.GetDialogAtIndex(4)->ID(), DialogID(DialogTransientID(42)));
     ASSERT_EQ(data_source.GetDialogAtIndex(5)->ID(), DialogID(DialogTransientID(41)));
     ASSERT_EQ(data_source.GetDialogAtIndex(6)->ID(), DialogID(DialogTransientID(40)));
-    ASSERT_EQ(add_info.index, 2);
-    ASSERT_EQ(add_info.count, 4);
+    ASSERT_EQ(add_info->Index(), 2);
+    ASSERT_EQ(add_info->Count(), 4);
 }
 
 
-TEST(DialogDataSourceTest, AddDialogs_AddSingleEqualDialog) {
-
-    ListDataSourceDataUpdateInfo update_event_info;
+TEST(DialogDataSourceTest, AddDialogs_AddIdenticalDialog) {
 
     DialogDataSource data_source;
-    auto sub = data_source.DataUpdateEvent().Subscribe(
-        [&update_event_info](const ListDataSourceDataUpdateInfo& event_info) {
-            update_event_info = event_info;
-        });
-
     data_source.AddDialogs({
         MakeDialog(14),
         MakeDialog(10),
         MakeDialog(9),
     });
 
-    data_source.AddDialogs({ MakeDialog(14) });
-    ASSERT_EQ(data_source.GetDataCount(), 3);
-    ASSERT_EQ(update_event_info.index, 0);
-    ASSERT_EQ(update_event_info.count, 1);
-
-    data_source.AddDialogs({ MakeDialog(10) });
-    ASSERT_EQ(data_source.GetDataCount(), 3);
-    ASSERT_EQ(update_event_info.index, 1);
-    ASSERT_EQ(update_event_info.count, 1);
-
-    data_source.AddDialogs({ MakeDialog(9) });
-    ASSERT_EQ(data_source.GetDataCount(), 3);
-    ASSERT_EQ(update_event_info.index, 2);
-    ASSERT_EQ(update_event_info.count, 1);
-}
-
-
-TEST(DialogDataSourceTest, AddDialogs_AddContinousEqualDialog) {
-
-    std::vector<ListDataSourceDataUpdateInfo> update_event_infos;
-
-    DialogDataSource data_source;
-    auto sub = data_source.DataUpdateEvent().Subscribe(
-        [&update_event_infos](const ListDataSourceDataUpdateInfo& event_info) {
-            update_event_infos.push_back(event_info);
-        });
-
-    data_source.AddDialogs({
-        MakeDialog(14),
-        MakeDialog(10),
-        MakeDialog(9),
-    });
-
-    data_source.AddDialogs({
-        MakeDialog(14),
-        MakeDialog(10),
-        MakeDialog(9),
-    });
-    ASSERT_EQ(data_source.GetDataCount(), 3);
-    ASSERT_EQ(update_event_infos.size(), 3);
-    ASSERT_EQ(update_event_infos[0].index, 0);
-    ASSERT_EQ(update_event_infos[0].count, 1);
-    ASSERT_EQ(update_event_infos[1].index, 1);
-    ASSERT_EQ(update_event_infos[1].count, 1);
-    ASSERT_EQ(update_event_infos[2].index, 2);
-    ASSERT_EQ(update_event_infos[2].count, 1);
+    ASSERT_THROW(data_source.AddDialogs({ MakeDialog(14) }), zaf::PreconditionError);
 }

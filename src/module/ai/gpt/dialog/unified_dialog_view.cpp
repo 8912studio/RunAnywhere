@@ -27,7 +27,7 @@ void UnifiedDialogView::AfterParse() {
 void UnifiedDialogView::OnListSelectionChanged(
     const zaf::ListControlSelectionChangedInfo& event_info) {
 
-    auto selected_data = listView->ListControl()->GetFirstSelectedItemData();
+    auto selected_data = listView->ListControl()->FirstSelectedItemData();
     auto dialog = zaf::As<Dialog>(selected_data);
     if (dialog) {
         OpenDialogView(std::move(dialog));
@@ -41,7 +41,7 @@ void UnifiedDialogView::StartNewDialog(std::wstring question) {
     OpenDialogView(new_dialog);
     current_dialog_view_->Chat(std::move(question));
 
-    auto dialog_index = model_->DialogDataSource()->GetIndexOfDialog(new_dialog);
+    auto dialog_index = model_->DialogDataSource()->GetIndexOfDialog(new_dialog->ID());
     if (dialog_index) {
         listView->ListControl()->SelectItemAtIndex(*dialog_index);
     }
