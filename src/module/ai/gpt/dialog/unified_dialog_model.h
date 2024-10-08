@@ -30,10 +30,13 @@ public:
         std::shared_ptr<Dialog> dialog, 
         std::vector<Message> messages);
 
+    std::shared_ptr<CreateRoundTask> GetCreateRoundTaskInDialog(DialogID dialog_id);
+
+    void DeleteRound(RoundID round_id);
+
+private:
     void SubscribeToDialogSavedEvent(const CreateRoundTask& task);
     void SubscribeToDialogUpdatedEvent(const CreateRoundTask& task);
-
-    std::shared_ptr<CreateRoundTask> GetCreateRoundTaskInDialog(DialogID dialog_id);
 
 private:
     std::shared_ptr<DialogService> service_;

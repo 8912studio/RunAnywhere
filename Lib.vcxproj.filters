@@ -1867,9 +1867,6 @@
     <Page Include="src\module\ai\gpt\dialog\answer_view.xaml">
       <Filter>src\module\ai\gpt\dialog</Filter>
     </Page>
-    <Page Include="src\module\ai\gpt\dialog\round_view.xaml">
-      <Filter>src\module\ai\gpt\dialog</Filter>
-    </Page>
     <Page Include="src\module\ai\gpt\dialog\unified_dialog_view.xaml">
       <Filter>src\module\ai\gpt\dialog</Filter>
     </Page>
@@ -1881,6 +1878,9 @@
     </Page>
     <Page Include="src\module\ai\gpt\dialog\list\dialog_item_view.xaml">
       <Filter>src\module\ai\gpt\dialog\list</Filter>
+    </Page>
+    <Page Include="src\module\ai\gpt\dialog\content\round_view.xaml">
+      <Filter>src\module\ai\gpt\dialog\content</Filter>
     </Page>
   </ItemGroup>
   <ItemGroup>

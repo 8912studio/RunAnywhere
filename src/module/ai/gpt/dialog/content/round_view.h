@@ -5,6 +5,7 @@
 #include <zaf/control/control_binder.h>
 #include <zaf/control/label.h>
 #include <zaf/control/linear_box.h>
+#include <zaf/rx/subject.h>
 #include "module/ai/gpt/dialog/answer_view.h"
 #include "module/ai/gpt/dialog/round.h"
 #include "utility/markdown/render/styled_text_box.h"
@@ -23,6 +24,14 @@ public:
 
     const std::shared_ptr<gpt::Round>& Round() const {
         return round_;
+    }
+
+    zaf::Observable<RoundID> DeleteEvent() const {
+        return delete_event_.AsObservable();
+    }
+
+    zaf::Observable<RoundID> RetryEvent() const {
+        return retry_event_.AsObservable();
     }
 
 protected:
@@ -49,16 +58,19 @@ private:
     ZAF_BIND_CONTROL(gpt::AnswerView, answerView);
     ZAF_BIND_CONTROL(zaf::Control, toolbar);
     ZAF_BIND_CONTROL(zaf::Button, copyButton);
-    ZAF_BIND_CONTROL(zaf::Button, removeButton);
+    ZAF_BIND_CONTROL(zaf::Button, deleteButton);
     ZAF_BIND_CONTROL(zaf::Button, retryButton);
     ZAF_BIND_CONTROL(zaf::Label, tokenUsage);
 
     std::shared_ptr<gpt::Round> round_;
     RoundState state_{ RoundState::Requesting };
+
+    zaf::Subject<RoundID> delete_event_;
+    zaf::Subject<RoundID> retry_event_;
 };
 
 ZAF_OBJECT_BEGIN(RoundView);
-ZAF_OBJECT_RESOURCE_URI(L"res:///module/ai/gpt/dialog/round_view.xaml")
+ZAF_OBJECT_RESOURCE_URI(L"res:///module/ai/gpt/dialog/content/round_view.xaml")
 ZAF_OBJECT_END;
 
 }

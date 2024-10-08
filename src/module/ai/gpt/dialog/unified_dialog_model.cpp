@@ -105,4 +105,9 @@ std::shared_ptr<CreateRoundTask> UnifiedDialogModel::GetCreateRoundTaskInDialog(
     return service_->GetCreateRoundTaskInDialog(dialog_id);
 }
 
+
+void UnifiedDialogModel::DeleteRound(RoundID round_id) {
+    service_->DeleteRound(round_id);
+}
+
 }

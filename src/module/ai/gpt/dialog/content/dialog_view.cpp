@@ -1,7 +1,6 @@
 #include "module/ai/gpt/dialog/content/dialog_view.h"
 #include <zaf/input/keyboard.h>
 #include <zaf/rx/creation.h>
-#include "module/ai/gpt/dialog/content/round_view.h"
 
 namespace ra::mod::ai::gpt {
 
@@ -130,7 +129,7 @@ void DialogView::LoadRounds() {
     Subscriptions() += model_->FetchRounds().Subscribe([this](const RoundList& rounds) {
     
         for (const auto& each_round : rounds) {
-            auto round_view = zaf::Create<RoundView>(each_round);
+            auto round_view = CreateRoundView(each_round);
             roundListView->AddChild(round_view);
         }
     });
@@ -157,9 +156,8 @@ void DialogView::StartNewRound(std::wstring question) {
     //We have to subscribe to the answer event before creating the round view, as we need to record
     //the scroll bar state before updating the answer content when the answer event is raised.
     SubscribeToAnswerEvent(*round);
-    SubscribeToRoundEvents(*round);
 
-    auto round_view = zaf::Create<RoundView>(round);
+    auto round_view = CreateRoundView(round);
     roundListView->AddChild(round_view);
     roundScrollBox->ScrollToBottom();
 }
@@ -205,21 +203,24 @@ void DialogView::SubscribeToAnswerEvent(const Round& round) {
 }
 
 
-void DialogView::SubscribeToRoundEvents(const Round& round) {
+std::shared_ptr<RoundView> DialogView::CreateRoundView(std::shared_ptr<Round> round) {
+
+    auto round_view = zaf::Create<RoundView>(std::move(round));
+
+    Subscriptions() += round_view->DeleteEvent().Subscribe(
+        std::bind_front(&DialogView::DeleteRound, this));
 
     /*
-    Subscriptions() += round.RemoveEvent().Subscribe(
-        std::bind(&DialogView::RemoveRound, this, std::placeholders::_1));
-
-    Subscriptions() += round.RetryEvent().Subscribe([this](const std::shared_ptr<Round>& round) {
-        RemoveRound(round->ID());
+    Subscriptions() += round_view.RetryEvent().Subscribe([this](const std::shared_ptr<Round>& round) {
+        DeleteRound(round->ID());
         StartNewRound(round->Question());
     });
     */
+    return round_view;
 }
 
 
-void DialogView::RemoveRound(RoundID round_id) {
+void DialogView::DeleteRound(RoundID round_id) {
 
     const auto& children = roundListView->Children();
     for (auto index : zaf::Range(0, children.size())) {
@@ -229,6 +230,8 @@ void DialogView::RemoveRound(RoundID round_id) {
             break;
         }
     }
+
+    model_->DeleteRound(round_id);
 }
 
 

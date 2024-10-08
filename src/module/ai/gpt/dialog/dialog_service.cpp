@@ -119,4 +119,13 @@ std::vector<std::shared_ptr<CreateRoundTask>> DialogService::GetAllCreateRoundTa
     return result;
 }
 
+
+void DialogService::DeleteRound(RoundID round_id) {
+
+    if (auto permanent_id = round_id.PermanentID()) {
+        Subscriptions() += 
+            storage_->RoundStorage()->DeleteRound(permanent_id->Value()).Subscribe();
+    }
+}
+
 }

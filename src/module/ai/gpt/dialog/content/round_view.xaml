@@ -32,9 +32,9 @@
 				ImageName="retry"
 				Tooltip="Retry"/>
 			<ToolbarButton
-				Name="removeButton"
+				Name="deleteButton"
 				ImageName="close"
-				Tooltip="Remove this round" />
+				Tooltip="Delete this round" />
 			<Control />
 			<Label 
 				Name="tokenUsage" 

@@ -24,6 +24,8 @@ public:
 
     std::shared_ptr<Round> CreateRound(std::wstring question);
 
+    void DeleteRound(RoundID id);
+
 private:
     std::shared_ptr<Round> CreateTransientRoundFromTask(const CreateRoundTask& task);
 

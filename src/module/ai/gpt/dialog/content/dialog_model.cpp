@@ -78,6 +78,22 @@ std::shared_ptr<Round> DialogModel::CreateTransientRoundFromTask(const CreateRou
         task.AnswerEvent());
 }
 
+
+void DialogModel::DeleteRound(RoundID id) {
+
+    if (auto transient_id = id.TransientID()) {
+
+        auto iterator = round_permanent_id_map_.find(*transient_id);
+        if (iterator != round_permanent_id_map_.end()) {
+            unified_dialog_model_->DeleteRound(RoundID{ iterator->second });
+            round_permanent_id_map_.erase(iterator);
+        }
+    }
+    else {
+        unified_dialog_model_->DeleteRound(id);
+    }
+}
+
 }
 
 

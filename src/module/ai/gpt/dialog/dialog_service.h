@@ -29,6 +29,8 @@ public:
 
     std::vector<std::shared_ptr<CreateRoundTask>> GetAllCreateRoundTasks();
 
+    void DeleteRound(RoundID round_id);
+
 private:
     zaf::Observable<ChatCompletion> CreateRoundAnswerFromEntity(const RoundEntity& entity);
 

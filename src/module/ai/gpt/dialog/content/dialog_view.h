@@ -5,6 +5,7 @@
 #include <zaf/control/scroll_box.h>
 #include <zaf/control/text_box.h>
 #include "module/ai/gpt/dialog/content/dialog_model.h"
+#include "module/ai/gpt/dialog/content/round_view.h"
 #include "utility/composite/composite_text_box.h"
 
 namespace ra::mod::ai::gpt {
@@ -42,8 +43,8 @@ private:
     void StartNewRoundOnPressReturn();
     void StartNewRound(std::wstring question);
     void SubscribeToAnswerEvent(const Round& round);
-    void SubscribeToRoundEvents(const Round& round);
-    void RemoveRound(RoundID round_id);
+    std::shared_ptr<RoundView> CreateRoundView(std::shared_ptr<Round> round);
+    void DeleteRound(RoundID round_id);
 
 private:
     ZAF_BIND_CONTROL(zaf::ScrollBox, roundScrollBox);

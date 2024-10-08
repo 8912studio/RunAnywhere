@@ -654,13 +654,13 @@
     <Page Include="src\main\preserve\preserved_command_view.xaml" />
     <Page Include="src\main\toolbar\command_toolbar.xaml" />
     <Page Include="src\module\ai\gpt\dialog\content\dialog_view.xaml" />
+    <Page Include="src\module\ai\gpt\dialog\content\round_view.xaml" />
     <Page Include="src\module\ai\gpt\dialog\list\dialog_item_view.xaml" />
     <Page Include="src\module\ai\gpt\dialog\list\dialog_list_view.xaml" />
     <Page Include="src\module\ai\gpt\dialog\unified_dialog_view.xaml" />
     <Page Include="src\module\ai\gpt\gpt_preview_control.xaml" />
     <Page Include="src\module\ai\gpt\gpt_question_view.xaml" />
     <Page Include="src\module\ai\gpt\dialog\answer_view.xaml" />
-    <Page Include="src\module\ai\gpt\dialog\round_view.xaml" />
     <Page Include="src\module\calculator\preview\calculator_preview_control.xaml" />
     <Page Include="src\module\common\binary_content\binary_content_control.xaml" />
     <Page Include="src\module\common\content_status_bar.xaml" />

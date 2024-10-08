@@ -31,12 +31,12 @@ void RoundView::AfterParse() {
         });
     }));
 
-    Subscriptions() += removeButton->ClickEvent().Subscribe(std::bind([this]() {
-        //round_model_->Remove();
+    Subscriptions() += deleteButton->ClickEvent().Subscribe(std::bind([this]() {
+        delete_event_.AsObserver().OnNext(round_->ID());
     }));
 
     Subscriptions() += retryButton->ClickEvent().Subscribe(std::bind([this]() {
-        //round_model_->Retry();
+        retry_event_.AsObserver().OnNext(round_->ID());
     }));
 }
 
@@ -121,7 +121,7 @@ void RoundView::UpdateToolbarState() {
 
     const ButtonItem button_items[] = {
         { *copyButton, { RoundState::Finished } },
-        { *removeButton, { RoundState::Finished, RoundState::Error } },
+        { *deleteButton, { RoundState::Finished, RoundState::Error } },
         { *retryButton, {RoundState::Error } },
     };
 
