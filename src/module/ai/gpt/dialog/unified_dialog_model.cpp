@@ -26,11 +26,10 @@ void UnifiedDialogModel::Initialize() {
                 auto dialog_permanent_id = each_task->GetDialogPermanentID();
                 if (!dialog_permanent_id) {
 
-                    auto dialog_index = dialog_data_source_->GetIndexOfDialog(
-                        each_task->GetDialog()->ID());
-
+                    auto dialog = each_task->Parameters().dialog;
+                    auto dialog_index = dialog_data_source_->GetIndexOfDialog(dialog->ID());
                     if (!dialog_index) {
-                        dialogs.push_back(each_task->GetDialog());
+                        dialogs.push_back(dialog);
                     }
 
                     SubscribeToDialogSavedEvent(*each_task);

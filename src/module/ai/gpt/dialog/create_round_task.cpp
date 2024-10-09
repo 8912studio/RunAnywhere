@@ -15,11 +15,16 @@ CreateRoundTask::CreateRoundTask(
 }
 
 
+void CreateRoundTask::SetParameters(CreateRoundParameters parameters) {
+    parameters_ = std::move(parameters);
+}
+
+
 void CreateRoundTask::Run() {
 
-    ZAF_EXPECT(dialog_);
-    ZAF_EXPECT(round_transient_id_.Value() != 0);
-    ZAF_EXPECT(!sent_messages_.empty());
+    ZAF_EXPECT(parameters_.dialog);
+    ZAF_EXPECT(parameters_.round_transient_id.Value() != 0);
+    ZAF_EXPECT(!parameters_.sent_messages.empty());
 
     CreateChat();
     CreateRound();
@@ -28,7 +33,7 @@ void CreateRoundTask::Run() {
 
 void CreateRoundTask::CreateChat() {
 
-    Subscriptions() += client_->CreateChatCompletion(sent_messages_).Do(
+    Subscriptions() += client_->CreateChatCompletion(parameters_.sent_messages).Do(
         [this](const ChatResult& chat_result) {
             chat_response_ = chat_result.Response();
         })
@@ -63,7 +68,7 @@ void CreateRoundTask::CreateRound() {
 zaf::Observable<std::shared_ptr<const DialogEntity>> CreateRoundTask::SaveDialog(
     std::time_t update_time) {
 
-    auto dialog_entity = std::make_shared<DialogEntity>(dialog_->Entity());
+    auto dialog_entity = std::make_shared<DialogEntity>(parameters_.dialog->Entity());
     dialog_entity->update_time = update_time;
 
     if (dialog_entity->create_time == 0) {
@@ -84,7 +89,7 @@ zaf::Observable<std::shared_ptr<const DialogEntity>> CreateRoundTask::SaveDialog
                     dialog_permanent_id_ = DialogPermanentID{ permanent_id };
 
                     dialog_saved_event_.AsObserver().OnNext(DialogSavedInfo{
-                        *dialog_->ID().TransientID(),
+                        *parameters_.dialog->ID().TransientID(),
                         DialogPermanentID{ permanent_id },
                     });
                     dialog_saved_event_.AsObserver().OnCompleted();
@@ -99,7 +104,7 @@ zaf::Observable<std::shared_ptr<const DialogEntity>> CreateRoundTask::SaveDialog
         [this, dialog_entity](std::uint64_t permanent_id) {
 
             dialog_updated_event_.AsObserver().OnNext(DialogUpdatedInfo{
-                std::make_shared<Dialog>(dialog_->ID(), *dialog_entity),
+                std::make_shared<Dialog>(parameters_.dialog->ID(), *dialog_entity),
             });
             dialog_updated_event_.AsObserver().OnCompleted();
 
@@ -125,7 +130,7 @@ zaf::Observable<std::shared_ptr<RoundEntity>> CreateRoundTask::SaveRound(
             new_round_entity_ = round_entity;
 
             round_saved_event_.AsObserver().OnNext(RoundSavedInfo{
-                round_transient_id_,
+                parameters_.round_transient_id,
                 RoundPermanentID{ round_entity->id },
             });
             round_saved_event_.AsObserver().OnCompleted();
@@ -166,7 +171,7 @@ zaf::Observable<zaf::None> CreateRoundTask::UpdateRoundInPostStage() {
 
 std::optional<DialogPermanentID> CreateRoundTask::GetDialogPermanentID() const {
 
-    if (auto permanent_id = dialog_->ID().PermanentID()) {
+    if (auto permanent_id = parameters_.dialog->ID().PermanentID()) {
         return *permanent_id;
     }
 

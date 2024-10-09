@@ -73,7 +73,7 @@ std::shared_ptr<Round> DialogModel::CreateTransientRoundFromTask(const CreateRou
     });
 
     return std::make_shared<Round>(
-        RoundID{ task.GetRoundTransientID() },
+        RoundID{ task.Parameters().round_transient_id },
         task.GetQuestion(),
         task.AnswerEvent());
 }

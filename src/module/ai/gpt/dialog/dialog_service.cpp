@@ -85,9 +85,11 @@ std::shared_ptr<CreateRoundTask> DialogService::CreateNewRound(
     RoundTransientID round_transient_id{ new_round_transient_id_++ };
 
     auto task = std::make_shared<CreateRoundTask>(client_, storage_);
-    task->SetDialog(dialog);
-    task->SetSentMessages(std::move(messages));
-    task->SetRoundTransientID(round_transient_id);
+    task->SetParameters({
+        .dialog = dialog,
+        .round_transient_id = round_transient_id,
+        .sent_messages = std::move(messages) 
+    });
 
     create_round_tasks_[dialog->ID()] = task;
 
