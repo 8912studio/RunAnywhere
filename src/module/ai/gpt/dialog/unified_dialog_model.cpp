@@ -6,7 +6,7 @@
 
 namespace ra::mod::ai::gpt {
 
-UnifiedDialogModel::UnifiedDialogModel(std::shared_ptr<DialogService> service) :
+UnifiedDialogModel::UnifiedDialogModel(std::shared_ptr<gpt::DialogService> service) :
     service_(std::move(service)),
     dialog_data_source_(std::make_shared<gpt::DialogDataSource>()) {
 
@@ -15,98 +15,89 @@ UnifiedDialogModel::UnifiedDialogModel(std::shared_ptr<DialogService> service) :
 
 void UnifiedDialogModel::Initialize() {
 
-    Subscriptions() += service_->FetchPermanentDialogs().Subscribe(
-        [this](const DialogList& permanent_dialogs) {
+    SubscribeToServiceEvents();
 
-            DialogList dialogs = permanent_dialogs;
+    Subscriptions() += service_->FetchDialogs().Subscribe([this](const DialogList& dialogs) {
 
-            auto create_round_tasks = service_->GetAllCreateRoundTasks();
-            for (const auto& each_task : create_round_tasks) {
+            DialogList new_dialogs;
+            for (const auto& each_dialog : dialogs) {
 
-                auto dialog_permanent_id = each_task->GetDialogPermanentID();
-                if (!dialog_permanent_id) {
-
-                    auto dialog = each_task->Parameters().dialog;
-                    auto dialog_index = dialog_data_source_->GetIndexOfDialog(dialog->ID());
-                    if (!dialog_index) {
-                        dialogs.push_back(dialog);
+                //Do not add dialogs which are already in the data source.
+                if (each_dialog->ID().TransientID()) {
+                    auto dialog_index = dialog_data_source_->GetIndexOfDialog(each_dialog->ID());
+                    if (dialog_index) {
+                        continue;
                     }
-
-                    SubscribeToDialogSavedEvent(*each_task);
                 }
-                SubscribeToDialogUpdatedEvent(*each_task);
+
+                new_dialogs.push_back(each_dialog);
             }
 
-            dialog_data_source_->AddDialogs(dialogs);
+            dialog_data_source_->AddDialogs(std::move(new_dialogs));
         });
 }
 
 
-std::shared_ptr<Dialog> UnifiedDialogModel::CreateNewDialog() {
+void UnifiedDialogModel::SubscribeToServiceEvents() {
 
-    auto new_dialog = service_->CreateNewDialog();
-    dialog_data_source_->AddDialog(new_dialog);
-    return new_dialog;
+    Subscriptions() += service_->DialogCreatedEvent().Subscribe(
+        std::bind_front(&UnifiedDialogModel::OnDialogCreated, this));
+
+    Subscriptions() += service_->DialogPersistedEvent().Subscribe(
+        std::bind_front(&UnifiedDialogModel::OnDialogPersisted, this));
+
+    Subscriptions() += service_->DialogUpdatedEvent().Subscribe(
+        std::bind_front(&UnifiedDialogModel::OnDialogUpdated, this));
 }
 
 
-zaf::Observable<RoundList> UnifiedDialogModel::FetchPermanentRoundsInDialog(DialogID dialog_id) {
-
-    DialogPermanentID dialog_permanent_id{};
-    if (auto transient_id = dialog_id.TransientID()) {
-        auto permanent_id = zaf::Find(dialog_permanent_id_map_, *transient_id);
-        if (permanent_id) {
-            dialog_permanent_id = *permanent_id;
-        }
-    }
-    else if (auto permanent_id = dialog_id.PermanentID()) {
-        dialog_permanent_id = *permanent_id;
-    }
-
-    if (dialog_permanent_id.Value() == 0) {
-        return zaf::rx::Just(RoundList{});
-    }
-
-    return service_->FetchPermanentRoundsInDialog(dialog_permanent_id);
+void UnifiedDialogModel::OnDialogCreated(const DialogCreatedInfo& event_info) {
+    dialog_data_source_->AddDialog(event_info.dialog);
 }
 
 
-std::shared_ptr<CreateRoundTask> UnifiedDialogModel::CreateNewRound(
-    std::shared_ptr<Dialog> dialog,
+void UnifiedDialogModel::OnDialogPersisted(const DialogPersistedInfo& event_info) {
+
+    ZAF_EXPECT(!dialog_permanent_id_map_.contains(event_info.transient_id));
+    dialog_permanent_id_map_[event_info.transient_id] = event_info.permanent_id;
+}
+
+
+void UnifiedDialogModel::OnDialogUpdated(const DialogUpdatedInfo& event_info) {
+    dialog_data_source_->UpdateDialog(event_info.dialog);
+}
+
+
+zaf::Observable<RoundList> UnifiedDialogModel::FetchRoundsInDialog(DialogID dialog_id) {
+    return service_->FetchRoundsInDialog(MapToPermanentID(dialog_id));
+}
+
+
+std::shared_ptr<Round> UnifiedDialogModel::CreateNewRound(
+    const std::shared_ptr<Dialog>& dialog,
     std::vector<Message> messages) {
 
-    auto task = service_->CreateNewRound(dialog, std::move(messages));
-    SubscribeToDialogSavedEvent(*task);
-    SubscribeToDialogUpdatedEvent(*task);
-    return task;
+    return service_->CreateNewRound(
+        std::make_shared<Dialog>(MapToPermanentID(dialog->ID()), dialog->Entity()), 
+        std::move(messages));
 }
 
 
-void UnifiedDialogModel::SubscribeToDialogSavedEvent(const CreateRoundTask& task) {
-
-    Subscriptions() += task.DialogSavedEvent().Subscribe([this](const DialogSavedInfo& info) {
-        dialog_permanent_id_map_[info.transient_id] = info.permanent_id;
-    });
+void UnifiedDialogModel::DeleteRound(DialogID dialog_id, RoundID round_id) {
+    service_->DeleteRound(MapToPermanentID(dialog_id), round_id);
 }
 
 
-void UnifiedDialogModel::SubscribeToDialogUpdatedEvent(const CreateRoundTask& task) {
+DialogID UnifiedDialogModel::MapToPermanentID(DialogID dialog_id) const {
 
-    Subscriptions() += task.DialogUpdatedEvent().Subscribe([this](const DialogUpdatedInfo& info) {
-        dialog_data_source_->UpdateDialog(info.dialog);
-    });
-}
-
-
-std::shared_ptr<CreateRoundTask> UnifiedDialogModel::GetCreateRoundTaskInDialog(
-    DialogID dialog_id) {
-
-    return service_->GetCreateRoundTaskInDialog(dialog_id);
-}
-
-
-void UnifiedDialogModel::DeleteRound(RoundID round_id) {
-    service_->DeleteRound(round_id);
+    auto transient_id = dialog_id.TransientID();
+    if (transient_id) {
+        auto permanent_id = zaf::Find(dialog_permanent_id_map_, *transient_id);
+        if (permanent_id) {
+            return DialogID{ *permanent_id };
+        }
+    }
+    return dialog_id;
 }
 
 }

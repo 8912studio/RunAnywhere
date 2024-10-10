@@ -5,30 +5,16 @@
 #include <zaf/rx/subject.h>
 #include <zaf/rx/subscription_host.h>
 #include "module/ai/gpt/dialog/dialog.h"
+#include "module/ai/gpt/dialog/dialog_service_event_infos.h"
 #include "module/ai/gpt/dialog/id.h"
 #include "module/ai/gpt/network/open_ai_client.h"
 #include "module/ai/gpt/storage/gpt_storage.h"
 
 namespace ra::mod::ai::gpt {
 
-struct DialogSavedInfo {
-    DialogTransientID transient_id;
-    DialogPermanentID permanent_id;
-};
-
-struct DialogUpdatedInfo {
-    std::shared_ptr<Dialog> dialog;
-};
-
-struct RoundSavedInfo {
-    RoundTransientID transient_id;
-    RoundPermanentID permanent_id;
-};
-
-struct CreateRoundParameters {
-    std::shared_ptr<Dialog> dialog;
-    RoundTransientID round_transient_id;
-    std::vector<Message> sent_messages;
+struct CreateRoundTaskFinishInfo {
+    std::optional<DialogPersistedInfo> dialog_persisted_info;
+    std::optional<RoundPersistedInfo> round_persisted_info;
 };
 
 class CreateRoundTask : zaf::SubscriptionHost {
@@ -37,75 +23,64 @@ public:
         std::shared_ptr<OpenAIClient> client,
         std::shared_ptr<GPTStorage> storage);
 
-    void SetParameters(CreateRoundParameters parameters);
+    void Run(
+        std::shared_ptr<Dialog> dialog,
+        RoundTransientID round_transient_id,
+        std::vector<Message> sent_messages);
 
-    const CreateRoundParameters& Parameters() const {
-        return parameters_;
+    const std::shared_ptr<Dialog>& GetDialog() const {
+        return dialog_;
     }
 
-    void Run();
-
-    std::optional<RoundPermanentID> GetRoundPermanentID() const {
-        if (new_round_entity_) {
-            return RoundPermanentID{ new_round_entity_->id };
-        }
-        return std::nullopt;
+    const std::shared_ptr<Round>& GetRound() const {
+        return round_;
     }
 
     std::optional<DialogPermanentID> GetDialogPermanentID() const;
-
-    const std::wstring& GetQuestion() const {
-        return parameters_.sent_messages.back().Content();
-    }
-
-    zaf::Observable<ChatCompletion> AnswerEvent() const {
-        return answer_event_.AsObservable();
-    }
-
-    zaf::Observable<DialogSavedInfo> DialogSavedEvent() const {
-        return dialog_saved_event_.AsObservable();
-    }
+    std::optional<RoundPermanentID> GetRoundPermanentID() const;
 
     zaf::Observable<DialogUpdatedInfo> DialogUpdatedEvent() const {
         return dialog_updated_event_.AsObservable();
     }
 
-    zaf::Observable<RoundSavedInfo> RoundSavedEvent() const {
-        return round_saved_event_.AsObservable();
+    zaf::Observable<RoundCreatedInfo> RoundCreatedEvent() const {
+        return round_created_event_.AsObservable();
     }
 
-    zaf::Observable<zaf::None> FinishEvent() const {
+    zaf::Observable<CreateRoundTaskFinishInfo> FinishEvent() const {
         return finish_event_.AsObservable();
     }
 
 private:
-    void CreateChat();
-    void CreateRound();
-    zaf::Observable<std::shared_ptr<const DialogEntity>> SaveDialog(std::time_t update_time);
-    zaf::Observable<std::shared_ptr<RoundEntity>> SaveRound(
-        DialogPermanentID permanent_id, 
-        std::time_t update_time);
+    std::wstring GetQuestion() const;
 
-    void RunPostStage();
-    zaf::Observable<zaf::None> UpdateRoundInPostStage();
+    void UpdateDialog(const std::shared_ptr<Dialog>& dialog, std::time_t update_time);
+    void SaveDialog();
+    void CreateRound(RoundTransientID round_transient_id, std::time_t update_time);
+    void SaveRound(std::shared_ptr<RoundEntity> round_entity);
+    void CreateChat();
+    void SaveResponse(const std::string& response);
+    void RaiseFinishEvent();
 
 private:
     std::shared_ptr<OpenAIClient> client_;
     std::shared_ptr<GPTStorage> storage_;
 
-    CreateRoundParameters parameters_;
+    std::shared_ptr<Dialog> dialog_;
+    std::vector<Message> sent_messages_;
 
-    bool is_chat_finished_{};
-    bool is_round_created_{};
-    std::optional<std::string> chat_response_;
-    std::shared_ptr<RoundEntity> new_round_entity_;
-    std::optional<DialogPermanentID> dialog_permanent_id_;
+    std::shared_ptr<Round> round_;
+    std::optional<DialogPermanentID> persisted_dialog_id_;
+    std::optional<RoundPermanentID> persisted_round_id_;
 
-    zaf::ReplaySubject<ChatCompletion> answer_event_;
-    zaf::ReplaySubject<DialogSavedInfo> dialog_saved_event_;
+    zaf::ReplaySubject<std::uint64_t> dialog_saved_signal_;
+    zaf::ReplaySubject<std::shared_ptr<RoundEntity>> round_saved_signal_;
+    zaf::ReplaySubject<ChatCompletion> chat_completed_signal_;
+    zaf::ReplaySubject<zaf::None> response_saved_signal_;
+
     zaf::ReplaySubject<DialogUpdatedInfo> dialog_updated_event_;
-    zaf::ReplaySubject<RoundSavedInfo> round_saved_event_;
-    zaf::ReplaySubject<zaf::None> finish_event_;
+    zaf::ReplaySubject<RoundCreatedInfo> round_created_event_;
+    zaf::ReplaySubject<CreateRoundTaskFinishInfo> finish_event_;
 };
 
 }

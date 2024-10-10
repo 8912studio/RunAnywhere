@@ -15,67 +15,59 @@ DialogModel::DialogModel(
 }
 
 
-zaf::Observable<RoundList> DialogModel::FetchRounds() {
+void DialogModel::Initialize() {
 
-    auto permanent_rounds = unified_dialog_model_->FetchPermanentRoundsInDialog(dialog_->ID());
+    SubscribeToServiceEvents();
+}
 
-    auto create_round_task = unified_dialog_model_->GetCreateRoundTaskInDialog(dialog_->ID());
-    if (!create_round_task) {
-        return permanent_rounds;
+
+void DialogModel::SubscribeToServiceEvents() {
+
+    const auto& service = unified_dialog_model_->DialogService();
+
+    Subscriptions() += service->DialogUpdatedEvent().Subscribe(
+        std::bind_front(&DialogModel::OnDialogUpdated, this));
+
+    Subscriptions() += service->RoundCreatedEvent().Subscribe(
+        std::bind_front(&DialogModel::OnRoundCreated, this));
+
+    Subscriptions() += service->RoundPersistedEvent().Subscribe(
+        std::bind_front(&DialogModel::OnRoundPersisted, this));
+}
+
+
+void DialogModel::OnDialogUpdated(const DialogUpdatedInfo& event_info) {
+
+    if (dialog_->ID() == event_info.dialog->ID()) {
+        dialog_ = event_info.dialog;
+    }
+}
+
+
+void DialogModel::OnRoundCreated(const RoundCreatedInfo& event_info) {
+
+}
+
+
+void DialogModel::OnRoundPersisted(const RoundPersistedInfo& event_info) {
+
+    if (event_info.dialog_id != dialog_->ID()) {
+        return;
     }
 
-    return permanent_rounds.Map<RoundList>([this, create_round_task](const RoundList& rounds) {
-    
-        auto permanent_id = create_round_task->GetRoundPermanentID();
-        if (!permanent_id) {
+    round_permanent_id_map_[event_info.transient_id] = event_info.permanent_id;
+}
 
-            auto result = rounds;
-            auto new_round = CreateTransientRoundFromTask(*create_round_task);
-            result.push_back(new_round);
-            return result;
-        }
 
-        RoundList result;
-        for (const auto& each_round : rounds) {
-
-            if (*each_round->ID().PermanentID() == permanent_id) {
-
-                auto new_round = std::make_shared<Round>(
-                    each_round->ID(),
-                    each_round->Question(),
-                    create_round_task->AnswerEvent());
-
-                result.push_back(std::move(new_round));
-            }
-            else {
-                result.push_back(each_round);
-            }
-        }
-
-        return result;
-    });
+zaf::Observable<RoundList> DialogModel::FetchRounds() {
+    return unified_dialog_model_->FetchRoundsInDialog(dialog_->ID());
 }
 
 
 std::shared_ptr<Round> DialogModel::CreateRound(std::wstring question) {
     
     Message message{ question };
-    auto task = unified_dialog_model_->CreateNewRound(dialog_, { std::move(message) });
-
-    return CreateTransientRoundFromTask(*task);
-}
-
-
-std::shared_ptr<Round> DialogModel::CreateTransientRoundFromTask(const CreateRoundTask& task) {
-
-    Subscriptions() += task.RoundSavedEvent().Subscribe([this](const RoundSavedInfo& info) {
-        round_permanent_id_map_[info.transient_id] = info.permanent_id;
-    });
-
-    return std::make_shared<Round>(
-        RoundID{ task.Parameters().round_transient_id },
-        task.GetQuestion(),
-        task.AnswerEvent());
+    return unified_dialog_model_->CreateNewRound(dialog_, { std::move(message) });
 }
 
 
@@ -85,12 +77,12 @@ void DialogModel::DeleteRound(RoundID id) {
 
         auto iterator = round_permanent_id_map_.find(*transient_id);
         if (iterator != round_permanent_id_map_.end()) {
-            unified_dialog_model_->DeleteRound(RoundID{ iterator->second });
+            unified_dialog_model_->DeleteRound(dialog_->ID(), RoundID{ iterator->second });
             round_permanent_id_map_.erase(iterator);
         }
     }
     else {
-        unified_dialog_model_->DeleteRound(id);
+        unified_dialog_model_->DeleteRound(dialog_->ID(), id);
     }
 }
 

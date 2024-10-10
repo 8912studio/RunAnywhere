@@ -37,7 +37,7 @@ void UnifiedDialogView::OnListSelectionChanged(
 
 void UnifiedDialogView::StartNewDialog(std::wstring question) {
 
-    auto new_dialog = model_->CreateNewDialog();
+    auto new_dialog = model_->DialogService()->CreateNewDialog();
     OpenDialogView(new_dialog);
     current_dialog_view_->Chat(std::move(question));
 
@@ -59,6 +59,8 @@ void UnifiedDialogView::OpenDialogView(std::shared_ptr<Dialog> dialog) {
     auto dialog_model = std::make_unique<DialogModel>(
         std::move(dialog),
         model_);
+
+    dialog_model->Initialize();
 
     current_dialog_view_ = zaf::Create<DialogView>(std::move(dialog_model));
     splitControl->SetSecondPane(current_dialog_view_);

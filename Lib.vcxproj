@@ -150,6 +150,7 @@
     <ClInclude Include="src\module\ai\gpt\dialog\content\dialog_model.h" />
     <ClInclude Include="src\module\ai\gpt\dialog\content\round_view.h" />
     <ClInclude Include="src\module\ai\gpt\dialog\create_round_task.h" />
+    <ClInclude Include="src\module\ai\gpt\dialog\dialog_service_event_infos.h" />
     <ClInclude Include="src\module\ai\gpt\dialog\id.h" />
     <ClInclude Include="src\module\ai\gpt\dialog\list\dialog_data_source.h" />
     <ClInclude Include="src\module\ai\gpt\dialog\list\dialog_item_view.h" />

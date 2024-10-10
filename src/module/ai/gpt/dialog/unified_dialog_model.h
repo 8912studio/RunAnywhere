@@ -3,7 +3,6 @@
 #include <map>
 #include <zaf/base/non_copyable.h>
 #include <zaf/rx/subscription_host.h>
-#include "module/ai/gpt/dialog/create_round_task.h"
 #include "module/ai/gpt/dialog/dialog.h"
 #include "module/ai/gpt/dialog/dialog_service.h"
 #include "module/ai/gpt/dialog/id.h"
@@ -18,28 +17,32 @@ public:
 
     void Initialize();
 
+    const std::shared_ptr<DialogService>& DialogService() const {
+        return service_;
+    }
+
     const std::shared_ptr<DialogDataSource>& DialogDataSource() const {
         return dialog_data_source_;
     }
 
-    std::shared_ptr<Dialog> CreateNewDialog();
+    zaf::Observable<RoundList> FetchRoundsInDialog(DialogID dialog_id);
 
-    zaf::Observable<RoundList> FetchPermanentRoundsInDialog(DialogID dialog_id);
-
-    std::shared_ptr<CreateRoundTask> CreateNewRound(
-        std::shared_ptr<Dialog> dialog, 
+    std::shared_ptr<Round> CreateNewRound(
+        const std::shared_ptr<Dialog>& dialog, 
         std::vector<Message> messages);
 
-    std::shared_ptr<CreateRoundTask> GetCreateRoundTaskInDialog(DialogID dialog_id);
-
-    void DeleteRound(RoundID round_id);
+    void DeleteRound(DialogID dialog_id, RoundID round_id);
 
 private:
-    void SubscribeToDialogSavedEvent(const CreateRoundTask& task);
-    void SubscribeToDialogUpdatedEvent(const CreateRoundTask& task);
+    void SubscribeToServiceEvents();
+    void OnDialogCreated(const DialogCreatedInfo& event_info);
+    void OnDialogPersisted(const DialogPersistedInfo& event_info);
+    void OnDialogUpdated(const DialogUpdatedInfo& event_info);
+
+    DialogID MapToPermanentID(DialogID dialog_id) const;
 
 private:
-    std::shared_ptr<DialogService> service_;
+    std::shared_ptr<gpt::DialogService> service_;
 
     std::map<DialogTransientID, DialogPermanentID> dialog_permanent_id_map_;
     std::shared_ptr<gpt::DialogDataSource> dialog_data_source_;
