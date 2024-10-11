@@ -35,6 +35,7 @@ Round::Round(const RoundID& id, std::wstring question, zaf::Observable<ChatCompl
         })
         .DoOnTerminated([this]() {
             state_changed_event_.AsObserver().OnNext(state_);
+            state_changed_event_.AsObserver().OnCompleted();
         })
         .Subscribe();
 }

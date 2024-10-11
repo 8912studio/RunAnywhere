@@ -1,4 +1,5 @@
 #include "module/ai/gpt/dialog/content/dialog_model.h"
+#include <zaf/base/container/utility/erase.h>
 #include <zaf/base/container/utility/sort.h>
 #include <zaf/base/string/encoding_conversion.h>
 #include <zaf/rx/creation.h>
@@ -78,10 +79,25 @@ zaf::Observable<RoundList> DialogModel::FetchRounds() {
 
 std::shared_ptr<Round> DialogModel::CreateRound(std::wstring question) {
     
-    return unified_dialog_model_->CreateNewRound(
+    auto new_round = unified_dialog_model_->CreateNewRound(
         dialog_, 
         std::move(question),
         RoundList{ history_rounds_.begin(), history_rounds_.end() });
+
+    Subscriptions() += new_round->StateChangedEvent().Subscribe(
+        [this, weak_ptr = std::weak_ptr{ new_round }](RoundState new_state) {
+    
+        auto round = weak_ptr.lock();
+        if (!round) {
+            return;
+        }
+
+        if (round->State() == RoundState::Completed) {
+            history_rounds_.push_back(round);
+        }
+    });
+
+    return new_round;
 }
 
 
@@ -98,6 +114,10 @@ void DialogModel::DeleteRound(RoundID id) {
     else {
         unified_dialog_model_->DeleteRound(dialog_->ID(), id);
     }
+
+    zaf::EraseIf(history_rounds_, [id](const auto& round) {
+        return round->ID() == id;
+    });
 }
 
 }
