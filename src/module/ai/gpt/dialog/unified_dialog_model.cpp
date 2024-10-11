@@ -75,11 +75,13 @@ zaf::Observable<RoundList> UnifiedDialogModel::FetchRoundsInDialog(DialogID dial
 
 std::shared_ptr<Round> UnifiedDialogModel::CreateNewRound(
     const std::shared_ptr<Dialog>& dialog,
-    std::vector<Message> messages) {
+    std::wstring question,
+    RoundList history_rounds) {
 
     return service_->CreateNewRound(
         std::make_shared<Dialog>(MapToPermanentID(dialog->ID()), dialog->Entity()), 
-        std::move(messages));
+        std::move(question),
+        std::move(history_rounds));
 }
 
 

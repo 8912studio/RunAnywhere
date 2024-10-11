@@ -153,9 +153,9 @@ void DialogView::StartNewRound(std::wstring question) {
 
     auto round = model_->CreateRound(std::move(question));
 
-    //We have to subscribe to the answer event before creating the round view, as we need to record
-    //the scroll bar state before updating the answer content when the answer event is raised.
-    SubscribeToAnswerEvent(*round);
+    //We have to subscribe to the state changed event before creating the round view, as we need to
+    //record the scroll bar state before updating the answer content when the round state changed.
+    SubscribeToRoundStateChangedEvent(*round);
 
     auto round_view = CreateRoundView(round);
     roundListView->AddChild(round_view);
@@ -163,21 +163,20 @@ void DialogView::StartNewRound(std::wstring question) {
 }
 
 
-void DialogView::SubscribeToAnswerEvent(const Round& round) {
+void DialogView::SubscribeToRoundStateChangedEvent(const Round& round) {
 
-    auto is_list_in_bottom = std::make_shared<bool>();
+    Subscriptions() += round.StateChangedEvent().Subscribe(
+        [this, round_id = round.ID()](RoundState new_state) {
+    
+        if (new_state != RoundState::Completed) {
+            return;
+        }
 
-    Subscriptions() += round.Answer().Catch([](const std::exception_ptr&) {
-        return zaf::rx::Just(ChatCompletion{ Message{ L"" }, {}});
-    })
-    .Do(std::bind([this, is_list_in_bottom]() {
         auto scroll_bar = roundScrollBox->VerticalScrollBar();
-        *is_list_in_bottom = scroll_bar->Value() == scroll_bar->MaxValue();
-    }))
-    .DoOnTerminated([this, is_list_in_bottom, round_id = round.ID()]() {
+        bool is_list_in_bottom = scroll_bar->Value() == scroll_bar->MaxValue();
 
         //Don't scroll the list if it isn't in bottom.
-        if (!*is_list_in_bottom) {
+        if (!is_list_in_bottom) {
             return;
         }
 
@@ -198,8 +197,7 @@ void DialogView::SubscribeToAnswerEvent(const Round& round) {
         else {
             roundScrollBox->ScrollToBottom();
         }
-    })
-    .Subscribe();
+    });
 }
 
 

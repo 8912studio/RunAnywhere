@@ -28,19 +28,33 @@ void AnswerView::OnRectChanged(const zaf::RectChangedInfo& event_info) {
 }
 
 
-void AnswerView::SetAnswer(zaf::Observable<std::wstring> observable_answer) {
+void gpt::AnswerView::SetRound(std::shared_ptr<Round> round) {
 
-    //Display progress indicator when waiting for the answer.
-    auto progress_indicator = zaf::Create<ProgressIndicator>();
-    progress_indicator->StartAnimation();
-    contentView->SetChildren({ progress_indicator });
+    ZAF_EXPECT(round);
+    round_ = std::move(round);
 
-    Subscriptions() += observable_answer.Subscribe([this](const std::wstring& answer) {
-        ShowAnswer(answer);
-    },
-    [this](const std::exception_ptr& error) {
-        ShowError(error);
-    });
+    UpdateViewByRoundState();
+    Subscriptions() += round_->StateChangedEvent().Subscribe(std::bind([this]() {
+        UpdateViewByRoundState();
+    }));
+}
+
+
+void gpt::AnswerView::UpdateViewByRoundState() {
+
+    if (round_->State() == RoundState::Ongoing) {
+
+        //Display progress indicator when waiting for the answer.
+        auto progress_indicator = zaf::Create<ProgressIndicator>();
+        progress_indicator->StartAnimation();
+        contentView->SetChildren({ progress_indicator });
+    }
+    else if (round_->State() == RoundState::Completed) {
+        ShowAnswer(round_->Answer().Message().Content());
+    }
+    else if (round_->State() == RoundState::Error) {
+        ShowError(round_->Error());
+    }
 }
 
 

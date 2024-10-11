@@ -18,23 +18,20 @@ CreateRoundTask::CreateRoundTask(
 void CreateRoundTask::Run(
     std::shared_ptr<Dialog> dialog, 
     RoundTransientID round_transient_id,
-    std::vector<Message> sent_messages) {
+    std::wstring question,
+    RoundList history_rounds) {
 
     ZAF_EXPECT(dialog);
     ZAF_EXPECT(round_transient_id.Value() != 0);
-    ZAF_EXPECT(!sent_messages.empty());
+    ZAF_EXPECT(!question.empty());
 
-    sent_messages_ = std::move(sent_messages);
+    question_ = std::move(question);
+    history_rounds_ = std::move(history_rounds);
 
     auto current_time = std::time(nullptr);
     UpdateDialog(dialog, current_time);
     CreateRound(round_transient_id, current_time);
     CreateChat();
-}
-
-
-std::wstring CreateRoundTask::GetQuestion() const {
-    return sent_messages_.back().Content();
 }
 
 
@@ -49,15 +46,15 @@ void CreateRoundTask::UpdateDialog(
         dialog_entity.create_time = update_time;
     }
 
-if (dialog_entity.subject.empty()) {
-    dialog_entity.subject = zaf::ToUTF8String(GetQuestion().substr(0, 100));
-}
+    if (dialog_entity.subject.empty()) {
+        dialog_entity.subject = zaf::ToUTF8String(question_.substr(0, 100));
+    }
 
-dialog_ = std::make_shared<Dialog>(dialog->ID(), std::move(dialog_entity));
-dialog_updated_event_.AsObserver().OnNext(DialogUpdatedInfo{ .dialog = dialog_ });
-dialog_updated_event_.AsObserver().OnCompleted();
+    dialog_ = std::make_shared<Dialog>(dialog->ID(), std::move(dialog_entity));
+    dialog_updated_event_.AsObserver().OnNext(DialogUpdatedInfo{ .dialog = dialog_ });
+    dialog_updated_event_.AsObserver().OnCompleted();
 
-SaveDialog();
+    SaveDialog();
 }
 
 
@@ -83,11 +80,9 @@ void CreateRoundTask::SaveDialog() {
 
 void CreateRoundTask::CreateRound(RoundTransientID round_transient_id, std::time_t update_time) {
 
-    auto question = GetQuestion();
-
     round_ = std::make_shared<Round>(
         RoundID{ round_transient_id },
-        question,
+        question_,
         chat_completed_signal_.AsObservable());
 
     round_created_event_.AsObserver().OnNext(RoundCreatedInfo{ 
@@ -99,7 +94,7 @@ void CreateRoundTask::CreateRound(RoundTransientID round_transient_id, std::time
     auto entity = std::make_shared<RoundEntity>();
     entity->create_time = update_time;
     entity->update_time = update_time;
-    entity->question = zaf::ToUTF8String(question);
+    entity->question = zaf::ToUTF8String(question_);
     SaveRound(std::move(entity));
 }
 
@@ -123,15 +118,31 @@ void CreateRoundTask::SaveRound(std::shared_ptr<RoundEntity> round_entity) {
 
 void CreateRoundTask::CreateChat() {
 
-    Subscriptions() += client_->CreateChatCompletion(sent_messages_)
+    auto messages = GenerateMessages();
+
+    Subscriptions() += client_->CreateChatCompletion(messages)
         .Do([this](const ChatResult& chat_result) {
-        SaveResponse(chat_result.Response());
-    })
+            SaveResponse(chat_result.Response());
+        })
         .Map<ChatCompletion>([](const ChatResult& chat_result) {
-        return chat_result.ChatCompletion();
-    })
+            return chat_result.ChatCompletion();
+        })
         .Do(chat_completed_signal_.AsObserver())
         .Subscribe();
+}
+
+
+std::vector<Message> CreateRoundTask::GenerateMessages() const {
+
+    std::vector<Message> result;
+    for (const auto& each_round : history_rounds_) {
+        ZAF_EXPECT(each_round->State() == RoundState::Completed);
+        result.push_back(Message{ each_round->Question() });
+        result.push_back(each_round->Answer().Message());
+    }
+
+    result.push_back(Message{ question_ });
+    return result;
 }
 
 

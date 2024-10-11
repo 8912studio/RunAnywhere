@@ -25,7 +25,8 @@ public:
     
     std::shared_ptr<Round> CreateNewRound(
         std::shared_ptr<Dialog> dialog,
-        std::vector<Message> messages);
+        std::wstring question,
+        RoundList history_rounds);
 
     void DeleteRound(DialogID dialog_id, RoundID round_id);
 
@@ -50,6 +51,7 @@ public:
     }
 
 private:
+    std::shared_ptr<Round> CreateRoundFromEntity(const RoundEntity& entity);
     zaf::Observable<ChatCompletion> CreateRoundAnswerFromEntity(const RoundEntity& entity);
     bool TryToDeleteCreatingRound(DialogID dialog_id, RoundID round_id);
 

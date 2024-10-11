@@ -1,4 +1,5 @@
 #include "module/ai/gpt/dialog/content/dialog_model.h"
+#include <zaf/base/container/utility/sort.h>
 #include <zaf/base/string/encoding_conversion.h>
 #include <zaf/rx/creation.h>
 #include "module/ai/gpt/network/response_parsing.h"
@@ -60,14 +61,27 @@ void DialogModel::OnRoundPersisted(const RoundPersistedInfo& event_info) {
 
 
 zaf::Observable<RoundList> DialogModel::FetchRounds() {
-    return unified_dialog_model_->FetchRoundsInDialog(dialog_->ID());
+
+    return unified_dialog_model_->FetchRoundsInDialog(dialog_->ID())
+        .Map<RoundList>([](const RoundList& rounds) {
+    
+            auto sorted_rounds = zaf::MakeSorted(
+                rounds, 
+                [](const auto& round1, const auto& round2) {
+                    return round1->ID() < round2->ID();
+                });
+
+            return sorted_rounds;
+        });
 }
 
 
 std::shared_ptr<Round> DialogModel::CreateRound(std::wstring question) {
     
-    Message message{ question };
-    return unified_dialog_model_->CreateNewRound(dialog_, { std::move(message) });
+    return unified_dialog_model_->CreateNewRound(
+        dialog_, 
+        std::move(question),
+        RoundList{ history_rounds_.begin(), history_rounds_.end() });
 }
 
 

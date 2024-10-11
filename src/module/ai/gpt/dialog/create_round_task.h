@@ -26,7 +26,8 @@ public:
     void Run(
         std::shared_ptr<Dialog> dialog,
         RoundTransientID round_transient_id,
-        std::vector<Message> sent_messages);
+        std::wstring question,
+        RoundList history_rounds);
 
     const std::shared_ptr<Dialog>& GetDialog() const {
         return dialog_;
@@ -52,13 +53,12 @@ public:
     }
 
 private:
-    std::wstring GetQuestion() const;
-
     void UpdateDialog(const std::shared_ptr<Dialog>& dialog, std::time_t update_time);
     void SaveDialog();
     void CreateRound(RoundTransientID round_transient_id, std::time_t update_time);
     void SaveRound(std::shared_ptr<RoundEntity> round_entity);
     void CreateChat();
+    std::vector<Message> GenerateMessages() const;
     void SaveResponse(const std::string& response);
     void RaiseFinishEvent();
 
@@ -67,7 +67,8 @@ private:
     std::shared_ptr<GPTStorage> storage_;
 
     std::shared_ptr<Dialog> dialog_;
-    std::vector<Message> sent_messages_;
+    std::wstring question_;
+    RoundList history_rounds_;
 
     std::shared_ptr<Round> round_;
     std::optional<DialogPermanentID> persisted_dialog_id_;

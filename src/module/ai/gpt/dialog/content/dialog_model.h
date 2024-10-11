@@ -1,5 +1,6 @@
 #pragma once
 
+#include <deque>
 #include <zaf/base/non_copyable.h>
 #include <zaf/rx/observable.h>
 #include <zaf/rx/subscription_host.h>
@@ -34,10 +35,11 @@ private:
     void OnRoundPersisted(const RoundPersistedInfo& event_info);
 
 private:
-    std::shared_ptr<gpt::Dialog> dialog_;
-    std::map<RoundTransientID, RoundPermanentID> round_permanent_id_map_;
-    
     std::shared_ptr<UnifiedDialogModel> unified_dialog_model_;
+    std::shared_ptr<gpt::Dialog> dialog_;
+
+    std::map<RoundTransientID, RoundPermanentID> round_permanent_id_map_;
+    std::deque<std::shared_ptr<Round>> history_rounds_;
 };
 
 }

@@ -29,7 +29,8 @@ public:
 
     std::shared_ptr<Round> CreateNewRound(
         const std::shared_ptr<Dialog>& dialog, 
-        std::vector<Message> messages);
+        std::wstring question,
+        RoundList history_rounds);
 
     void DeleteRound(DialogID dialog_id, RoundID round_id);
 

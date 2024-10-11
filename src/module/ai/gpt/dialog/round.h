@@ -4,15 +4,40 @@
 #include <string>
 #include <zaf/base/non_copyable.h>
 #include <zaf/rx/observable.h>
+#include <zaf/rx/subject.h>
+#include <zaf/rx/subscription_host.h>
 #include "module/ai/gpt/dialog/id.h"
 #include "module/ai/gpt/network/chat_completion.h"
 #include "module/ai/gpt/storage/round_entity.h"
 
 namespace ra::mod::ai::gpt {
 
-class Round : public std::enable_shared_from_this<Round>, zaf::NonCopyableNonMovable {
+enum class RoundState {
+
+    //The question hasn't been sent.
+    Pending,
+
+    //The question has been sent, and the round is waiting for the answer.
+    Ongoing,
+
+    //There is an error during waiting for the answer.
+    Error,
+
+    //Answer is received, the round is completed.
+    Completed,
+};
+
+class Round : zaf::SubscriptionHost, zaf::NonCopyableNonMovable {
 public:
+    //Constructs a round in Pending state.
+    Round(const RoundID& id, std::wstring question);
+
+    //Constructs a round in Completed state.
+    Round(const RoundID& id, std::wstring question, ChatCompletion answer);
+
+    //Constructs a round in Ongoing state.
     Round(const RoundID& id, std::wstring question, zaf::Observable<ChatCompletion> answer);
+
     ~Round();
 
     const RoundID& ID() const {
@@ -23,14 +48,28 @@ public:
         return question_;
     }
 
-    zaf::Observable<ChatCompletion> Answer() const {
-        return answer_;
+    RoundState State() const {
+        return state_;
+    }
+
+    const ChatCompletion& Answer() const {
+        return std::get<ChatCompletion>(result_);
+    }
+
+    std::exception_ptr Error() const {
+        return std::get<std::exception_ptr>(result_);
+    }
+
+    zaf::Observable<RoundState> StateChangedEvent() const {
+        return state_changed_event_.AsObservable();
     }
 
 private:
     RoundID id_;
     std::wstring question_;
-    zaf::Observable<ChatCompletion> answer_;
+    RoundState state_{ RoundState::Pending };
+    zaf::Subject<RoundState> state_changed_event_;
+    std::variant<std::monostate, ChatCompletion, std::exception_ptr> result_;
 };
 
 using RoundList = std::vector<std::shared_ptr<Round>>;

@@ -98,15 +98,32 @@ zaf::Observable<RoundList> DialogService::FetchRoundsInDialog(DialogID dialog_id
                 }
             }
 
-            auto round_model = std::make_shared<Round>(
-                RoundID{ RoundPermanentID{ each_entity.id } },
-                zaf::FromUTF8String(each_entity.question),
-                CreateRoundAnswerFromEntity(each_entity));
-
-            result.push_back(std::move(round_model));
+            auto round = CreateRoundFromEntity(each_entity);
+            result.push_back(std::move(round));
         }
         return result;
     });
+}
+
+
+std::shared_ptr<Round> DialogService::CreateRoundFromEntity(const RoundEntity& entity) {
+
+    RoundID round_id{ RoundPermanentID{ entity.id } };
+    auto question = zaf::FromUTF8String(entity.question);
+
+    //No response, create a round in pending state.
+    if (entity.response.empty()) {
+        return std::make_shared<Round>(round_id, std::move(question));
+    }
+
+    //Create a round in completed state.
+    auto parsed = ParseChatCompletion(entity.response);
+    if (parsed) {
+        return std::make_shared<Round>(round_id, std::move(question), std::move(*parsed));
+    }
+
+    //Bad response, create a round in pending state.
+    return std::make_shared<Round>(round_id, std::move(question));
 }
 
 
@@ -123,7 +140,8 @@ zaf::Observable<ChatCompletion> DialogService::CreateRoundAnswerFromEntity(
 
 std::shared_ptr<Round> DialogService::CreateNewRound(
     std::shared_ptr<Dialog> dialog,
-    std::vector<Message> messages) {
+    std::wstring question,
+    RoundList history_rounds) {
 
     auto task = std::make_shared<CreateRoundTask>(client_, storage_);
     create_round_tasks_[dialog->ID()] = task;
@@ -155,7 +173,8 @@ std::shared_ptr<Round> DialogService::CreateNewRound(
     task->Run(
         std::move(dialog), 
         RoundTransientID{ new_round_transient_id_++ }, 
-        std::move(messages));
+        std::move(question),
+        std::move(history_rounds));
 
     return task->GetRound();
 }

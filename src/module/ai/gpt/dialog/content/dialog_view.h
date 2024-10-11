@@ -42,7 +42,7 @@ private:
 
     void StartNewRoundOnPressReturn();
     void StartNewRound(std::wstring question);
-    void SubscribeToAnswerEvent(const Round& round);
+    void SubscribeToRoundStateChangedEvent(const Round& round);
     std::shared_ptr<RoundView> CreateRoundView(std::shared_ptr<Round> round);
     void DeleteRound(RoundID round_id);
 

@@ -40,17 +40,12 @@ protected:
     void OnMouseLeave(const zaf::MouseLeaveInfo& event_info) override;
 
 private:
-    enum class RoundState {
-        Requesting,
-        Error,
-        Finished,
-    };
-
-private:
-    zaf::Observable<std::wstring> ObserveAnswer();
+    void InitializeRoundState();
+    void UpdateViewByRoundState();
     void UpdateTokenUsage(const std::optional<TokenUsage>& usage);
-    void ChangeState(RoundState state);
     void UpdateToolbarState();
+
+    void SubscribeButtonEvents();
 
 private:
     ZAF_BIND_CONTROL(zaf::Control, questionView);
@@ -63,7 +58,6 @@ private:
     ZAF_BIND_CONTROL(zaf::Label, tokenUsage);
 
     std::shared_ptr<gpt::Round> round_;
-    RoundState state_{ RoundState::Requesting };
 
     zaf::Subject<RoundID> delete_event_;
     zaf::Subject<RoundID> retry_event_;
