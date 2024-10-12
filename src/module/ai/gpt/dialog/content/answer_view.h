@@ -33,7 +33,7 @@ private:
 };
 
 ZAF_OBJECT_BEGIN(AnswerView)
-ZAF_OBJECT_RESOURCE_URI(L"res:///module/ai/gpt/dialog/answer_view.xaml")
+ZAF_OBJECT_RESOURCE_URI(L"res:///module/ai/gpt/dialog/content/answer_view.xaml")
 ZAF_OBJECT_END;
 
 }

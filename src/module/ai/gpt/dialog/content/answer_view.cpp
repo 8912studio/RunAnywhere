@@ -1,4 +1,4 @@
-#include "module/ai/gpt/dialog/answer_view.h"
+#include "module/ai/gpt/dialog/content/answer_view.h"
 #include <zaf/base/string/encoding_conversion.h>
 #include <zaf/control/text_box.h>
 #include <zaf/control/textual/styled_text.h>

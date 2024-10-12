@@ -146,6 +146,7 @@
     <ClInclude Include="src\module\active_path\active_path_option_parsing.h" />
     <ClInclude Include="src\module\active_path\active_path_module.h" />
     <ClInclude Include="src\module\active_path\active_path_modifying.h" />
+    <ClInclude Include="src\module\ai\gpt\dialog\content\answer_view.h" />
     <ClInclude Include="src\module\ai\gpt\dialog\content\dialog_view.h" />
     <ClInclude Include="src\module\ai\gpt\dialog\content\dialog_model.h" />
     <ClInclude Include="src\module\ai\gpt\dialog\content\round_view.h" />
@@ -166,7 +167,6 @@
     <ClInclude Include="src\module\ai\gpt\gpt_module_context.h" />
     <ClInclude Include="src\module\ai\gpt\gpt_preview_control.h" />
     <ClInclude Include="src\module\ai\gpt\gpt_question_view.h" />
-    <ClInclude Include="src\module\ai\gpt\dialog\answer_view.h" />
     <ClInclude Include="src\module\ai\gpt\dialog\dialog.h" />
     <ClInclude Include="src\module\ai\gpt\dialog\unified_dialog_model.h" />
     <ClInclude Include="src\module\ai\gpt\dialog\dialog_window.h" />
@@ -443,6 +443,7 @@
     <ClCompile Include="src\module\active_path\active_path_module.cpp" />
     <ClCompile Include="src\module\active_path\active_path_option_parsing.cpp" />
     <ClCompile Include="src\module\active_path\active_path_modifying.cpp" />
+    <ClCompile Include="src\module\ai\gpt\dialog\content\answer_view.cpp" />
     <ClCompile Include="src\module\ai\gpt\dialog\content\dialog_view.cpp" />
     <ClCompile Include="src\module\ai\gpt\dialog\content\dialog_model.cpp" />
     <ClCompile Include="src\module\ai\gpt\dialog\content\round_view.cpp" />
@@ -459,7 +460,6 @@
     <ClCompile Include="src\module\ai\gpt\gpt_module.cpp" />
     <ClCompile Include="src\module\ai\gpt\gpt_preview_control.cpp" />
     <ClCompile Include="src\module\ai\gpt\gpt_question_view.cpp" />
-    <ClCompile Include="src\module\ai\gpt\dialog\answer_view.cpp" />
     <ClCompile Include="src\module\ai\gpt\dialog\dialog.cpp" />
     <ClCompile Include="src\module\ai\gpt\dialog\unified_dialog_model.cpp" />
     <ClCompile Include="src\module\ai\gpt\dialog\dialog_window.cpp" />
@@ -654,6 +654,7 @@
     <Page Include="src\main\preserve\preserved_command_list_view.xaml" />
     <Page Include="src\main\preserve\preserved_command_view.xaml" />
     <Page Include="src\main\toolbar\command_toolbar.xaml" />
+    <Page Include="src\module\ai\gpt\dialog\content\answer_view.xaml" />
     <Page Include="src\module\ai\gpt\dialog\content\dialog_view.xaml" />
     <Page Include="src\module\ai\gpt\dialog\content\round_view.xaml" />
     <Page Include="src\module\ai\gpt\dialog\list\dialog_item_view.xaml" />
@@ -661,7 +662,6 @@
     <Page Include="src\module\ai\gpt\dialog\unified_dialog_view.xaml" />
     <Page Include="src\module\ai\gpt\gpt_preview_control.xaml" />
     <Page Include="src\module\ai\gpt\gpt_question_view.xaml" />
-    <Page Include="src\module\ai\gpt\dialog\answer_view.xaml" />
     <Page Include="src\module\calculator\preview\calculator_preview_control.xaml" />
     <Page Include="src\module\common\binary_content\binary_content_control.xaml" />
     <Page Include="src\module\common\content_status_bar.xaml" />

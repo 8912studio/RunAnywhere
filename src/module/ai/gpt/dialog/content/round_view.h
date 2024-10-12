@@ -6,7 +6,7 @@
 #include <zaf/control/label.h>
 #include <zaf/control/linear_box.h>
 #include <zaf/rx/subject.h>
-#include "module/ai/gpt/dialog/answer_view.h"
+#include "module/ai/gpt/dialog/content/answer_view.h"
 #include "module/ai/gpt/dialog/round.h"
 #include "utility/markdown/render/styled_text_box.h"
 

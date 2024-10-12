@@ -969,9 +969,6 @@
     <ClInclude Include="src\module\ai\gpt\progress_indicator.h">
       <Filter>src\module\ai\gpt</Filter>
     </ClInclude>
-    <ClInclude Include="src\module\ai\gpt\dialog\answer_view.h">
-      <Filter>src\module\ai\gpt\dialog</Filter>
-    </ClInclude>
     <ClInclude Include="src\module\ai\gpt\dialog\dialog.h">
       <Filter>src\module\ai\gpt\dialog</Filter>
     </ClInclude>
@@ -1088,6 +1085,9 @@
     </ClInclude>
     <ClInclude Include="src\module\ai\gpt\dialog\create_round_task.h">
       <Filter>src\module\ai\gpt\dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\ai\gpt\dialog\content\answer_view.h">
+      <Filter>src\module\ai\gpt\dialog\content</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1688,9 +1688,6 @@
     <ClCompile Include="src\module\ai\gpt\progress_indicator.cpp">
       <Filter>src\module\ai\gpt</Filter>
     </ClCompile>
-    <ClCompile Include="src\module\ai\gpt\dialog\answer_view.cpp">
-      <Filter>src\module\ai\gpt\dialog</Filter>
-    </ClCompile>
     <ClCompile Include="src\module\ai\gpt\dialog\dialog.cpp">
       <Filter>src\module\ai\gpt\dialog</Filter>
     </ClCompile>
@@ -1777,6 +1774,9 @@
     </ClCompile>
     <ClCompile Include="src\module\ai\gpt\dialog\create_round_task.cpp">
       <Filter>src\module\ai\gpt\dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\ai\gpt\dialog\content\answer_view.cpp">
+      <Filter>src\module\ai\gpt\dialog\content</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1867,9 +1867,6 @@
     <Page Include="src\module\ai\gpt\gpt_question_view.xaml">
       <Filter>src\module\ai\gpt</Filter>
     </Page>
-    <Page Include="src\module\ai\gpt\dialog\answer_view.xaml">
-      <Filter>src\module\ai\gpt\dialog</Filter>
-    </Page>
     <Page Include="src\module\ai\gpt\dialog\unified_dialog_view.xaml">
       <Filter>src\module\ai\gpt\dialog</Filter>
     </Page>
@@ -1883,6 +1880,9 @@
       <Filter>src\module\ai\gpt\dialog\list</Filter>
     </Page>
     <Page Include="src\module\ai\gpt\dialog\content\round_view.xaml">
+      <Filter>src\module\ai\gpt\dialog\content</Filter>
+    </Page>
+    <Page Include="src\module\ai\gpt\dialog\content\answer_view.xaml">
       <Filter>src\module\ai\gpt\dialog\content</Filter>
     </Page>
   </ItemGroup>
