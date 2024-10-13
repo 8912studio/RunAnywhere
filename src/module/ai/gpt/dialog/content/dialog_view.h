@@ -5,6 +5,7 @@
 #include <zaf/control/scroll_box.h>
 #include <zaf/control/text_box.h>
 #include "module/ai/gpt/dialog/content/dialog_model.h"
+#include "module/ai/gpt/dialog/content/round_list_view.h"
 #include "module/ai/gpt/dialog/content/round_view.h"
 #include "utility/composite/composite_text_box.h"
 
@@ -14,7 +15,7 @@ class DialogView : public zaf::Control {
 public:
     ZAF_OBJECT;
 
-    explicit DialogView(std::unique_ptr<DialogModel> model);
+    explicit DialogView(std::shared_ptr<DialogModel> model);
 
     const DialogModel& Model() const {
         return *model_;
@@ -30,30 +31,25 @@ protected:
     void AfterParse() override;
 
 private:
+    void InitializeRoundListView();
     void InitializeInputEdit();
     void InitializeSendButton();
-    void InitializeRoundListView();
 
     void ResetControlStates();
     void ResetInputHeight();
     void ResetSendButtonState();
 
-    void LoadRounds();
-
     void StartNewRoundOnPressReturn();
     void StartNewRound(std::wstring question);
-    void SubscribeToRoundStateChangedEvent(const Round& round);
-    std::shared_ptr<RoundView> CreateRoundView(std::shared_ptr<Round> round);
-    void DeleteRound(RoundID round_id);
 
 private:
-    ZAF_BIND_CONTROL(zaf::ScrollBox, roundScrollBox);
-    ZAF_BIND_CONTROL(utility::composite::CompositeTextBox, roundListView);
+    ZAF_BIND_CONTROL(zaf::Control, roundListContainer);
     ZAF_BIND_CONTROL(zaf::Control, bottomContainer);
     ZAF_BIND_CONTROL(zaf::TextBox, inputEdit);
     ZAF_BIND_CONTROL(zaf::Button, sendButton);
 
-    std::unique_ptr<DialogModel> model_;
+    std::shared_ptr<RoundListView> round_list_view_;
+    std::shared_ptr<DialogModel> model_;
 };
 
 ZAF_OBJECT_BEGIN(DialogView);

@@ -20,6 +20,7 @@ DialogModel::DialogModel(
 void DialogModel::Initialize() {
 
     SubscribeToServiceEvents();
+    FetchInitialRounds();
 }
 
 
@@ -61,43 +62,53 @@ void DialogModel::OnRoundPersisted(const RoundPersistedInfo& event_info) {
 }
 
 
-zaf::Observable<RoundList> DialogModel::FetchRounds() {
+void DialogModel::FetchInitialRounds() {
 
-    return unified_dialog_model_->FetchRoundsInDialog(dialog_->ID())
-        .Map<RoundList>([](const RoundList& rounds) {
+    Subscriptions() += unified_dialog_model_->FetchRoundsInDialog(dialog_->ID()).Subscribe(
+        [this](const RoundList& rounds) {
     
-            auto sorted_rounds = zaf::MakeSorted(
-                rounds, 
-                [](const auto& round1, const auto& round2) {
-                    return round1->ID() < round2->ID();
-                });
-
-            return sorted_rounds;
-        });
+        round_data_source_.PrependRounds(rounds);
+    });
 }
 
 
 std::shared_ptr<Round> DialogModel::CreateRound(std::wstring question) {
-    
+
     auto new_round = unified_dialog_model_->CreateNewRound(
         dialog_, 
         std::move(question),
-        RoundList{ history_rounds_.begin(), history_rounds_.end() });
+        GenerateHistoryRounds());
 
-    Subscriptions() += new_round->StateChangedEvent().Subscribe(
-        [this, weak_ptr = std::weak_ptr{ new_round }](RoundState new_state) {
-    
-        auto round = weak_ptr.lock();
-        if (!round) {
-            return;
-        }
-
-        if (round->State() == RoundState::Completed) {
-            history_rounds_.push_back(round);
-        }
-    });
-
+    round_data_source_.AppendRounds({ new_round });
     return new_round;
+}
+
+
+RoundList DialogModel::GenerateHistoryRounds() const {
+
+    auto round_count = round_data_source_.GetRoundCount();
+    if (round_count == 0) {
+        return {};
+    }
+
+    RoundList result;
+
+    std::size_t index = round_count - 1;
+    while (index >= 0) {
+
+        auto round = round_data_source_.GetRoundAtIndex(index);
+        if (round->State() == RoundState::Completed) {
+            result.push_back(round);
+        }
+
+        if (index == 0) {
+            break;
+        }
+        --index;
+    }
+
+    std::reverse(result.begin(), result.end());
+    return result;
 }
 
 
@@ -115,9 +126,7 @@ void DialogModel::DeleteRound(RoundID id) {
         unified_dialog_model_->DeleteRound(dialog_->ID(), id);
     }
 
-    zaf::EraseIf(history_rounds_, [id](const auto& round) {
-        return round->ID() == id;
-    });
+    round_data_source_.DeleteRound(id);
 }
 
 }

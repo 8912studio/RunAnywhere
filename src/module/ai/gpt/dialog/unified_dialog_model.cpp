@@ -79,7 +79,7 @@ std::shared_ptr<Round> UnifiedDialogModel::CreateNewRound(
     RoundList history_rounds) {
 
     return service_->CreateNewRound(
-        std::make_shared<Dialog>(MapToPermanentID(dialog->ID()), dialog->Entity()), 
+        MapToPermanentDialog(dialog),
         std::move(question),
         std::move(history_rounds));
 }
@@ -100,6 +100,20 @@ DialogID UnifiedDialogModel::MapToPermanentID(DialogID dialog_id) const {
         }
     }
     return dialog_id;
+}
+
+
+std::shared_ptr<Dialog> UnifiedDialogModel::MapToPermanentDialog(
+    const std::shared_ptr<Dialog>& dialog) const {
+
+    auto mapped_id = MapToPermanentID(dialog->ID());
+    if (mapped_id == dialog->ID()) {
+        return dialog;
+    }
+
+    auto entity = dialog->Entity();
+    entity.id = mapped_id.PermanentID()->Value();
+    return std::make_shared<Dialog>(mapped_id, std::move(entity));
 }
 
 }

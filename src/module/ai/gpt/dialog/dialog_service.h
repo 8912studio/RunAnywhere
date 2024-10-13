@@ -21,6 +21,10 @@ public:
     zaf::Observable<DialogList> FetchDialogs();
     std::shared_ptr<Dialog> CreateNewDialog();
 
+    /**
+    The result may emit twice: the first emission is the ongoing round; the second emission is the 
+    rounds from storage.
+    */
     zaf::Observable<RoundList> FetchRoundsInDialog(DialogID dialog_id);
     
     std::shared_ptr<Round> CreateNewRound(
@@ -51,6 +55,9 @@ public:
     }
 
 private:
+    zaf::Observable<RoundList> FetchRoundsFromStorage(
+        DialogPermanentID dialog_id,
+        std::shared_ptr<CreateRoundTask> ongoing_task);
     std::shared_ptr<Round> CreateRoundFromEntity(const RoundEntity& entity);
     zaf::Observable<ChatCompletion> CreateRoundAnswerFromEntity(const RoundEntity& entity);
     bool TryToDeleteCreatingRound(DialogID dialog_id, RoundID round_id);

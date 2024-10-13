@@ -70,30 +70,37 @@ std::shared_ptr<Dialog> DialogService::CreateNewDialog() {
 
 zaf::Observable<RoundList> DialogService::FetchRoundsInDialog(DialogID dialog_id) {
 
-    if (dialog_id.TransientID()) {
-        auto task = zaf::Find(create_round_tasks_, dialog_id);
-        if (task) {
-            return zaf::rx::Just(RoundList{ (*task)->GetRound() });
-        }
-        return zaf::rx::Just(RoundList{});
+    std::vector<zaf::Observable<RoundList>> observables;
+
+    auto task = zaf::Find(create_round_tasks_, dialog_id);
+    if (task) {
+        observables.push_back(zaf::rx::Just(RoundList{ (*task)->GetRound() }));
     }
 
-    auto entities = storage_->RoundStorage()->FetchAllRoundsInDialog(
-        dialog_id.PermanentID()->Value());
+    if (auto permanent_id = dialog_id.PermanentID()) {
+        observables.push_back(FetchRoundsFromStorage(*permanent_id, task ? *task : nullptr));
+    }
 
-    return entities.Map<RoundList>([this, dialog_id](const std::vector<RoundEntity>& entities) {
+    return zaf::rx::Concat<RoundList>(observables);
+}
 
-        auto task = zaf::Find(create_round_tasks_, dialog_id);
+
+zaf::Observable<RoundList> DialogService::FetchRoundsFromStorage(
+    DialogPermanentID dialog_id,
+    std::shared_ptr<CreateRoundTask> ongoing_task) {
+
+    auto entities = storage_->RoundStorage()->FetchAllRoundsInDialog(dialog_id.Value());
+    return entities.Map<RoundList>(
+        [this, dialog_id, ongoing_task](const std::vector<RoundEntity>& entities) {
 
         RoundList result;
         for (const auto& each_entity : entities) {
 
-            if (task) {
-                auto creating_round_permanent_id = (*task)->GetRoundPermanentID();
-                if (creating_round_permanent_id && 
+            //Ignore the round which is ongoing.
+            if (ongoing_task) {
+                auto creating_round_permanent_id = ongoing_task->GetRoundPermanentID();
+                if (creating_round_permanent_id &&
                     creating_round_permanent_id->Value() == each_entity.id) {
-
-                    result.push_back((*task)->GetRound());
                     continue;
                 }
             }

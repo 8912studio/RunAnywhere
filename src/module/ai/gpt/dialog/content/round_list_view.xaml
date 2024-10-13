@@ -1,0 +1,15 @@
+<RoundListView Layouter="VerticalLayouter">
+	
+	<ThinScrollControl
+		Name="scrollBox"
+		UseOverlayScrollBars="true"
+		AutoHideScrollBars="true">
+
+		<CompositeTextBox
+			Name="roundList"
+			AutoHeight="true"
+			Margin="15,0,15,10"
+			Layouter="VerticalLayouter" />
+
+	</ThinScrollControl>
+</RoundListView>

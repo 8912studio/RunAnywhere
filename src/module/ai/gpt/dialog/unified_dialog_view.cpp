@@ -56,7 +56,7 @@ void UnifiedDialogView::OpenDialogView(std::shared_ptr<Dialog> dialog) {
         }
     }
 
-    auto dialog_model = std::make_unique<DialogModel>(
+    auto dialog_model = std::make_shared<DialogModel>(
         std::move(dialog),
         model_);
 

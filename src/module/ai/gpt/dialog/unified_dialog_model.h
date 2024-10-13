@@ -41,6 +41,7 @@ private:
     void OnDialogUpdated(const DialogUpdatedInfo& event_info);
 
     DialogID MapToPermanentID(DialogID dialog_id) const;
+    std::shared_ptr<Dialog> MapToPermanentDialog(const std::shared_ptr<Dialog>& dialog) const;
 
 private:
     std::shared_ptr<gpt::DialogService> service_;

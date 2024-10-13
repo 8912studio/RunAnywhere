@@ -4,6 +4,7 @@
 #include <zaf/base/non_copyable.h>
 #include <zaf/rx/observable.h>
 #include <zaf/rx/subscription_host.h>
+#include "module/ai/gpt/dialog/content/round_data_source.h"
 #include "module/ai/gpt/dialog/dialog.h"
 #include "module/ai/gpt/dialog/dialog_service_event_infos.h"
 #include "module/ai/gpt/dialog/unified_dialog_model.h"
@@ -23,7 +24,10 @@ public:
         return dialog_;
     }
 
-    zaf::Observable<RoundList> FetchRounds();
+    const RoundDataSource& RoundDataSource() const {
+        return round_data_source_;
+    }
+
     std::shared_ptr<Round> CreateRound(std::wstring question);
 
     void DeleteRound(RoundID id);
@@ -34,12 +38,16 @@ private:
     void OnRoundCreated(const RoundCreatedInfo& event_info);
     void OnRoundPersisted(const RoundPersistedInfo& event_info);
 
+    void FetchInitialRounds();
+    RoundList GenerateHistoryRounds() const;
+
 private:
     std::shared_ptr<UnifiedDialogModel> unified_dialog_model_;
     std::shared_ptr<gpt::Dialog> dialog_;
 
     std::map<RoundTransientID, RoundPermanentID> round_permanent_id_map_;
-    std::deque<std::shared_ptr<Round>> history_rounds_;
+
+    gpt::RoundDataSource round_data_source_;
 };
 
 }

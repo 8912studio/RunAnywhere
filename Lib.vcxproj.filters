@@ -1089,6 +1089,12 @@
     <ClInclude Include="src\module\ai\gpt\dialog\content\answer_view.h">
       <Filter>src\module\ai\gpt\dialog\content</Filter>
     </ClInclude>
+    <ClInclude Include="src\module\ai\gpt\dialog\content\round_data_source.h">
+      <Filter>src\module\ai\gpt\dialog\content</Filter>
+    </ClInclude>
+    <ClInclude Include="src\module\ai\gpt\dialog\content\round_list_view.h">
+      <Filter>src\module\ai\gpt\dialog\content</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -1778,6 +1784,12 @@
     <ClCompile Include="src\module\ai\gpt\dialog\content\answer_view.cpp">
       <Filter>src\module\ai\gpt\dialog\content</Filter>
     </ClCompile>
+    <ClCompile Include="src\module\ai\gpt\dialog\content\round_data_source.cpp">
+      <Filter>src\module\ai\gpt\dialog\content</Filter>
+    </ClCompile>
+    <ClCompile Include="src\module\ai\gpt\dialog\content\round_list_view.cpp">
+      <Filter>src\module\ai\gpt\dialog\content</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Page Include="src\module\user_defined\preview\user_defined_command_preview_control.xaml">
@@ -1883,6 +1895,9 @@
       <Filter>src\module\ai\gpt\dialog\content</Filter>
     </Page>
     <Page Include="src\module\ai\gpt\dialog\content\answer_view.xaml">
+      <Filter>src\module\ai\gpt\dialog\content</Filter>
+    </Page>
+    <Page Include="src\module\ai\gpt\dialog\content\round_list_view.xaml">
       <Filter>src\module\ai\gpt\dialog\content</Filter>
     </Page>
   </ItemGroup>

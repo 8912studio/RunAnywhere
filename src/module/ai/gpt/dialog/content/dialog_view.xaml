@@ -1,18 +1,7 @@
 <DialogView Layouter="VerticalLayouter" BackgroundColor="White">
 
-    <ThinScrollControl 
-		Name="roundScrollBox"
-		UseOverlayScrollBars="true" 
-		AutoHideScrollBars="true">
-
-        <CompositeTextBox 
-			Name="roundListView"
-			AutoHeight="true"
-			Margin="15,0,15,10"
-			Layouter="VerticalLayouter" />
-
-    </ThinScrollControl>
-
+	<Control Name="roundListContainer" Layouter="VerticalLayouter" />
+	
     <Control FixedHeight="1" Margin="15,0,15,0" BackgroundColor="#CCCCCC" />
 
     <HorizontalBox 
