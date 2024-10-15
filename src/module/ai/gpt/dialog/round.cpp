@@ -2,16 +2,23 @@
 
 namespace ra::mod::ai::gpt {
 
-Round::Round(const RoundID& id, std::wstring question) : 
+Round::Round(const RoundID& id, std::time_t updated_time, std::wstring question) :
     id_(id), 
+    updated_time_(updated_time),
     question_(std::move(question)),
     state_(RoundState::Pending) {
 
 }
 
 
-Round::Round(const RoundID& id, std::wstring question, ChatCompletion answer) :
+Round::Round(
+    const RoundID& id,
+    std::time_t updated_time, 
+    std::wstring question,
+    ChatCompletion answer) 
+    :
     id_(id),
+    updated_time_(updated_time),
     question_(std::move(question)),
     result_(std::move(answer)),
     state_(RoundState::Completed) {
@@ -19,8 +26,14 @@ Round::Round(const RoundID& id, std::wstring question, ChatCompletion answer) :
 }
 
 
-Round::Round(const RoundID& id, std::wstring question, zaf::Observable<ChatCompletion> answer) :
+Round::Round(
+    const RoundID& id,
+    std::time_t updated_time,
+    std::wstring question,
+    zaf::Observable<ChatCompletion> answer) 
+    :
     id_(id),
+    updated_time_(updated_time),
     question_(std::move(question)),
     state_(RoundState::Ongoing) {
 

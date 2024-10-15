@@ -64,6 +64,8 @@ OpenAIClient::~OpenAIClient() {
 zaf::Observable<ChatResult> OpenAIClient::CreateChatCompletion(
     const std::vector<Message>& messages) {
 
+    return CreateMockChatCompletion();
+
     auto url = zaf::ToUTF8String(option::OptionStorage::Instance().OpenAIAPIServer());
     if (!url.empty()) {
         if (url.back() != '/') {
@@ -161,9 +163,9 @@ zaf::Observable<ChatResult> OpenAIClient::CreateChatCompletion(
 }
 
 
-zaf::Observable<ChatCompletion> OpenAIClient::CreateMockChatCompletion() {
+zaf::Observable<ChatResult> OpenAIClient::CreateMockChatCompletion() {
 
-    zaf::ReplaySubject<ChatCompletion> subject;
+    zaf::ReplaySubject<ChatResult> subject;
 
     zaf::Application::Instance().Subscriptions() +=
         zaf::rx::Timer(std::chrono::seconds(3), zaf::Scheduler::Main()).Subscribe(
@@ -231,7 +233,10 @@ These libraries can help you generate SQL queries dynamically, making it easier 
         token_usage.completion_tokens = 29;
         token_usage.total_tokens = 46;
 
-        observer.OnNext(ChatCompletion{ std::move(message), token_usage });
+        observer.OnNext(ChatResult{
+            ChatCompletion{ std::move(message), token_usage }, 
+            zaf::ToUTF8String(mock_response), 
+        });
         observer.OnCompleted();
     });
     

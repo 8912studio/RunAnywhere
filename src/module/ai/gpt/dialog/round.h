@@ -30,18 +30,30 @@ enum class RoundState {
 class Round : zaf::SubscriptionHost, zaf::NonCopyableNonMovable {
 public:
     //Constructs a round in Pending state.
-    Round(const RoundID& id, std::wstring question);
+    Round(const RoundID& id, std::time_t updated_time, std::wstring question);
 
     //Constructs a round in Completed state.
-    Round(const RoundID& id, std::wstring question, ChatCompletion answer);
+    Round(
+        const RoundID& id,
+        std::time_t updated_time, 
+        std::wstring question, 
+        ChatCompletion answer);
 
     //Constructs a round in Ongoing state.
-    Round(const RoundID& id, std::wstring question, zaf::Observable<ChatCompletion> answer);
+    Round(
+        const RoundID& id, 
+        std::time_t updated_time, 
+        std::wstring question, 
+        zaf::Observable<ChatCompletion> answer);
 
     ~Round();
 
     const RoundID& ID() const {
         return id_;
+    }
+
+    std::time_t UpdatedTime() const {
+        return updated_time_;
     }
 
     const std::wstring& Question() const {
@@ -66,6 +78,7 @@ public:
 
 private:
     RoundID id_;
+    std::time_t updated_time_{};
     std::wstring question_;
     RoundState state_{ RoundState::Pending };
     zaf::Subject<RoundState> state_changed_event_;

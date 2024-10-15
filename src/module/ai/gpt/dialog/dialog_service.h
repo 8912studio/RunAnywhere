@@ -5,8 +5,10 @@
 #include <zaf/rx/subject.h>
 #include <zaf/rx/subscription_host.h>
 #include "module/ai/gpt/network/open_ai_client.h"
-#include "module/ai/gpt/dialog/create_round_task.h"
 #include "module/ai/gpt/dialog/dialog_service_event_infos.h"
+#include "module/ai/gpt/dialog/post_create_round_task.h"
+#include "module/ai/gpt/dialog/post_create_round_task_queue.h"
+#include "module/ai/gpt/dialog/pre_create_round_task.h"
 #include "module/ai/gpt/dialog/round.h"
 #include "module/ai/gpt/storage/gpt_storage.h"
 
@@ -55,11 +57,23 @@ public:
     }
 
 private:
+    struct OngoingRoundInfo {
+        std::vector<std::shared_ptr<PreCreateRoundTask>> pre_tasks;
+        PostCreateRoundTaskQueue post_task_queue;
+    };
+
+private:
     zaf::Observable<RoundList> FetchRoundsFromStorage(
         DialogPermanentID dialog_id,
-        std::shared_ptr<CreateRoundTask> ongoing_task);
+        const std::shared_ptr<OngoingRoundInfo>& ongoing_info);
     std::shared_ptr<Round> CreateRoundFromEntity(const RoundEntity& entity);
     zaf::Observable<ChatCompletion> CreateRoundAnswerFromEntity(const RoundEntity& entity);
+
+    std::shared_ptr<PreCreateRoundTask> CreatePreCreateRoundTask(
+        const std::shared_ptr<Dialog>& dialog);
+
+    OngoingRoundInfo* GetOngoingRoundInfo(DialogID dialog_id);
+
     bool TryToDeleteCreatingRound(DialogID dialog_id, RoundID round_id);
 
 private:
@@ -69,7 +83,7 @@ private:
     std::size_t new_dialog_transient_id_{ 1 };
 
     std::size_t new_round_transient_id_{ 1 };
-    std::map<DialogID, std::shared_ptr<CreateRoundTask>> create_round_tasks_;
+    std::map<DialogID, std::shared_ptr<OngoingRoundInfo>> ongoing_round_infos_;
 
     zaf::Subject<DialogCreatedInfo> dialog_created_event_;
     zaf::Subject<DialogUpdatedInfo> dialog_updated_event_;
