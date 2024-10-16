@@ -31,6 +31,7 @@ public:
     std::shared_ptr<Round> CreateRound(std::wstring question);
 
     void DeleteRound(RoundID id);
+    void RetryRound(RoundID id);
 
 private:
     void SubscribeToServiceEvents();

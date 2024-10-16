@@ -31,6 +31,7 @@ private:
     void OnRoundStateChanged(RoundID round_id, RoundState new_state);
 
     void DeleteRound(RoundID round_id);
+    void RetryRound(RoundID round_id);
 
 private:
     ZAF_BIND_CONTROL(zaf::ScrollBox, scrollBox);

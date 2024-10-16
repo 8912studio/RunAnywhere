@@ -23,7 +23,7 @@ public:
     void PrependRounds(RoundList rounds);
     void AppendRounds(RoundList rounds);
 
-    void DeleteRound(RoundID id);
+    std::shared_ptr<Round> DeleteAndTakeRound(RoundID id);
 
     std::size_t GetRoundCount() const {
         return rounds_.size();

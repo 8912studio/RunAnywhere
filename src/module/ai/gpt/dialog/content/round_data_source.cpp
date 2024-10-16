@@ -37,7 +37,7 @@ void RoundDataSource::AppendRounds(RoundList rounds) {
 }
 
 
-void RoundDataSource::DeleteRound(RoundID id) {
+std::shared_ptr<Round> RoundDataSource::DeleteAndTakeRound(RoundID id) {
 
     auto iterator = std::lower_bound(
         rounds_.begin(), 
@@ -48,13 +48,15 @@ void RoundDataSource::DeleteRound(RoundID id) {
         });
 
     if (iterator == rounds_.end() || (*iterator)->ID() != id) {
-        return;
+        return nullptr;
     }
 
+    auto result = *iterator;
     std::size_t deleted_index = std::distance(rounds_.begin(), iterator);
     rounds_.erase(iterator);
 
     deleted_event_.AsObserver().OnNext(RoundDeletedInfo{ .index = deleted_index });
+    return result;
 }
 
 }

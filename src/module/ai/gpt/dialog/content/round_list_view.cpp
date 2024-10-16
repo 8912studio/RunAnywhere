@@ -135,12 +135,9 @@ std::shared_ptr<RoundView> RoundListView::CreateRoundView(std::shared_ptr<Round>
     Subscriptions() += round_view->DeleteEvent().Subscribe(
         std::bind_front(&RoundListView::DeleteRound, this));
 
-    /*
-    Subscriptions() += round_view.RetryEvent().Subscribe([this](const std::shared_ptr<Round>& round) {
-        DeleteRound(round->ID());
-        StartNewRound(round->Question());
-    });
-    */
+    Subscriptions() += round_view->RetryEvent().Subscribe(
+        std::bind_front(&RoundListView::RetryRound, this));
+
     return round_view;
 }
 
@@ -181,6 +178,11 @@ void RoundListView::OnRoundStateChanged(RoundID round_id, RoundState new_state) 
 
 void RoundListView::DeleteRound(RoundID round_id) {
     model_->DeleteRound(round_id);
+}
+
+
+void RoundListView::RetryRound(RoundID round_id) {
+    model_->RetryRound(round_id);
 }
 
 }

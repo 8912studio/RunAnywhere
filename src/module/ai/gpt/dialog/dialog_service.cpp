@@ -91,7 +91,9 @@ zaf::Observable<RoundList> DialogService::FetchRoundsInDialog(DialogID dialog_id
     }
 
     if (auto permanent_id = dialog_id.PermanentID()) {
-        observables.push_back(FetchRoundsFromStorage(*permanent_id, *ongoing_info));
+        observables.push_back(FetchRoundsFromStorage(
+            *permanent_id, 
+            ongoing_info ? *ongoing_info : nullptr));
     }
 
     return zaf::rx::Concat<RoundList>(observables);

@@ -64,8 +64,6 @@ OpenAIClient::~OpenAIClient() {
 zaf::Observable<ChatResult> OpenAIClient::CreateChatCompletion(
     const std::vector<Message>& messages) {
 
-    return CreateMockChatCompletion();
-
     auto url = zaf::ToUTF8String(option::OptionStorage::Instance().OpenAIAPIServer());
     if (!url.empty()) {
         if (url.back() != '/') {

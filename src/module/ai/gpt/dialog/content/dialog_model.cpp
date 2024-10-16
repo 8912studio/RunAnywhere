@@ -126,7 +126,18 @@ void DialogModel::DeleteRound(RoundID id) {
         unified_dialog_model_->DeleteRound(dialog_->ID(), id);
     }
 
-    round_data_source_.DeleteRound(id);
+    round_data_source_.DeleteAndTakeRound(id);
+}
+
+
+void DialogModel::RetryRound(RoundID id) {
+
+    auto round = round_data_source_.DeleteAndTakeRound(id);
+    if (!round) {
+        return;
+    }
+
+    CreateRound(round->Question());
 }
 
 }
