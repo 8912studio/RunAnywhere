@@ -102,8 +102,8 @@ void RoundView::UpdateToolbarState() {
 
     const ButtonItem button_items[] = {
         { *copyButton, { RoundState::Completed } },
-        { *deleteButton, { RoundState::Completed, RoundState::Error } },
-        { *retryButton, {RoundState::Error } },
+        { *deleteButton, { RoundState::Pending, RoundState::Completed, RoundState::Error } },
+        { *retryButton, { RoundState::Pending, RoundState::Error } },
     };
 
     for (const auto& each_item : button_items) {
