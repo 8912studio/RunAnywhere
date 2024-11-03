@@ -130,7 +130,7 @@ bool CodeBlockRegion::IsPositionInsideTextBoundary(const zaf::Point& mouse_posit
     auto position_in_scroll = scrollControl->TranslateFromParent(mouse_position);
     auto position_in_text_box = scrollControl->TranslateToScrollContent(position_in_scroll);
 
-    if (textBox->RectInSelf().Contain(position_in_text_box)) {
+    if (textBox->RectInSelf().Contains(position_in_text_box)) {
         return textBox->IsPositionInsideText(position_in_text_box);
     }
 

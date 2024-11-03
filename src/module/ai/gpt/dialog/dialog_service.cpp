@@ -23,8 +23,9 @@ zaf::Observable<DialogList> DialogService::FetchDialogs() {
         [this](const std::vector<DialogEntity>& dialog_entities) {
 
         DialogList all_dialogs;
+        std::set<DialogPermanentID> deleted_dialogs;
 
-        std::map<DialogPermanentID, std::shared_ptr<Dialog>> permanent_dialogs;
+        std::map<DialogPermanentID, std::shared_ptr<Dialog>> ongoing_permanent_dialogs;
         for (const auto& each_pair : ongoing_round_infos_) {
 
             auto latest_dialog = each_pair.second->post_task_queue.GetLatestDialog();
@@ -41,17 +42,28 @@ zaf::Observable<DialogList> DialogService::FetchDialogs() {
             }
 
             if (permanent_id) {
-                permanent_dialogs[*permanent_id] = latest_dialog;
+                if (each_pair.second->is_deleted) {
+                    deleted_dialogs.insert(*permanent_id);
+                }
+                else {
+                    ongoing_permanent_dialogs[*permanent_id] = latest_dialog;
+                }
             }
             else {
-                all_dialogs.push_back(latest_dialog);
+                if (!each_pair.second->is_deleted) {
+                    all_dialogs.push_back(latest_dialog);
+                }
             }
         }
 
         for (const auto& each_entity : dialog_entities) {
 
             DialogPermanentID permanent_id{ each_entity.id };
-            auto permanent_dialog = zaf::Find(permanent_dialogs, permanent_id);
+            if (deleted_dialogs.contains(permanent_id)) {
+                continue;
+            }
+
+            auto permanent_dialog = zaf::Find(ongoing_permanent_dialogs, permanent_id);
             if (permanent_dialog) {
                 all_dialogs.push_back(*permanent_dialog);
             }
@@ -80,12 +92,41 @@ std::shared_ptr<Dialog> DialogService::CreateNewDialog() {
 }
 
 
+void DialogService::DeleteDialog(DialogID dialog_id) {
+
+    auto ongoing_info = zaf::Find(ongoing_round_infos_, dialog_id);
+    if (ongoing_info) {
+       (*ongoing_info)->is_deleted = true;
+    }
+    else {
+        auto permanent_id = dialog_id.PermanentID();
+        if (permanent_id) {
+            DeleteDialogFromStorage(*permanent_id);
+        }
+    }
+}
+
+
+void DialogService::DeleteDialogFromStorage(DialogPermanentID permanent_id) {
+
+    auto delete_rounds = storage_->RoundStorage()->DeleteAllRoundsInDialog(permanent_id.Value());
+    auto delete_dialog = storage_->DialogStorage()->DeleteDialog(permanent_id.Value());
+
+    Subscriptions() += zaf::rx::Concat({ delete_rounds, delete_dialog }).Subscribe();
+}
+
+
 zaf::Observable<RoundList> DialogService::FetchRoundsInDialog(DialogID dialog_id) {
 
     std::vector<zaf::Observable<RoundList>> observables;
 
     auto ongoing_info = zaf::Find(ongoing_round_infos_, dialog_id);
     if (ongoing_info) {
+
+        if ((*ongoing_info)->is_deleted) {
+            return zaf::rx::Just(RoundList{});
+        }
+
         auto ongoing_rounds = (*ongoing_info)->post_task_queue.GetAllRounds();
         observables.push_back(zaf::rx::Just(ongoing_rounds));
     }
@@ -250,10 +291,27 @@ DialogService::OngoingRoundInfo* DialogService::GetOngoingRoundInfo(DialogID dia
         Subscriptions() += ongoing_info->post_task_queue.AllFinishedEvent().Subscribe(
             [this, dialog_id](const RoundTaskQueueFinishedInfo& event_info) {
 
-            ongoing_round_infos_.erase(dialog_id);
+            bool is_dialog_deleted{};
 
-            if (event_info.dialog_persisted_info) {
-                dialog_persisted_event_.AsObserver().OnNext(*event_info.dialog_persisted_info);
+            auto ongoing_info = ongoing_round_infos_.find(dialog_id);
+            if (ongoing_info != ongoing_round_infos_.end()) {
+
+                is_dialog_deleted = ongoing_info->second->is_deleted;
+                ongoing_round_infos_.erase(ongoing_info);
+            }
+
+            if (is_dialog_deleted) {
+                if (event_info.dialog_persisted_info) {
+                    DeleteDialogFromStorage(event_info.dialog_persisted_info->permanent_id);
+                }
+                else {
+                    DeleteDialogFromStorage(*dialog_id.PermanentID());
+                }
+            }
+            else {
+                if (event_info.dialog_persisted_info) {
+                    dialog_persisted_event_.AsObserver().OnNext(*event_info.dialog_persisted_info);
+                }
             }
         });
     }

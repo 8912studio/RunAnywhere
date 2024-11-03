@@ -27,6 +27,8 @@ public:
 
     zaf::Observable<RoundList> FetchRoundsInDialog(DialogID dialog_id);
 
+    void DeleteDialog(DialogID dialog_id);
+
     std::shared_ptr<Round> CreateNewRound(
         const std::shared_ptr<Dialog>& dialog, 
         std::wstring question,

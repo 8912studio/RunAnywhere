@@ -86,7 +86,7 @@ zaf::Size ListItemRegion::CalculatePreferredContentSize(const zaf::Size& bound_s
 bool ListItemRegion::IsPositionInsideTextBoundary(const zaf::Point& mouse_position) {
     
     auto position_in_marker = marker_text_box_->TranslateFromParent(mouse_position);
-    if (marker_text_box_->RectInSelf().Contain(position_in_marker)) {
+    if (marker_text_box_->RectInSelf().Contains(position_in_marker)) {
         return marker_text_box_->IsPositionInsideText(position_in_marker);
     }
 

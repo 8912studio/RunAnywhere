@@ -22,6 +22,7 @@ public:
 
     zaf::Observable<DialogList> FetchDialogs();
     std::shared_ptr<Dialog> CreateNewDialog();
+    void DeleteDialog(DialogID dialog_id);
 
     /**
     The result may emit twice: the first emission is the ongoing round; the second emission is the 
@@ -60,6 +61,7 @@ private:
     struct OngoingRoundInfo {
         std::vector<std::shared_ptr<PreCreateRoundTask>> pre_tasks;
         PostCreateRoundTaskQueue post_task_queue;
+        bool is_deleted{};
     };
 
 private:
@@ -75,6 +77,8 @@ private:
     OngoingRoundInfo* GetOngoingRoundInfo(DialogID dialog_id);
 
     bool TryToDeleteCreatingRound(DialogID dialog_id, RoundID round_id);
+
+    void DeleteDialogFromStorage(DialogPermanentID permanent_id);
 
 private:
     std::shared_ptr<OpenAIClient> client_;

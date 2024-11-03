@@ -144,6 +144,23 @@ zaf::Observable<std::uint64_t> RoundStorage::DeleteRound(std::uint64_t permanent
     });
 }
 
+
+zaf::Observable<zaf::None> RoundStorage::DeleteAllRoundsInDialog(std::uint64_t dialog_id) {
+
+    return context_->Execute<zaf::None>([this, dialog_id](Database& db) {
+    
+        InitializeRoundTable(db);
+
+        auto sql = "delete from Round where DialogID = ?;";
+
+        auto statement = db.PrepareStatement(sql);
+        statement.BindParameter(1, dialog_id);
+
+        statement.Step();
+        return zaf::None{};
+    });
+}
+
 }
 
 

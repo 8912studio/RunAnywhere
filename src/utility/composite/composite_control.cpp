@@ -10,7 +10,7 @@ bool CompositeControl::IsPositionInsideTextBoundary(const zaf::Point& mouse_posi
     VisitComposableControls(mouse_position, [&result](VisitContext& context) {
     
         const auto& translated_position = context.TranslatedPosition();
-        if (context.Control()->RectInSelf().Contain(translated_position)) {
+        if (context.Control()->RectInSelf().Contains(translated_position)) {
             result = context.Composable()->IsPositionInsideTextBoundary(translated_position);
             context.MarkAsAborted();
         }
@@ -48,7 +48,7 @@ void CompositeControl::SelectWord(const zaf::Point& position) {
     VisitComposableControls(position, [](VisitContext& context) {
 
         const auto& translated_position = context.TranslatedPosition();
-        if (context.Control()->RectInSelf().Contain(translated_position)) {
+        if (context.Control()->RectInSelf().Contains(translated_position)) {
             context.Composable()->SelectWord(translated_position);
             context.MarkAsAborted();
         }

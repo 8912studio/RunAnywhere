@@ -105,4 +105,21 @@ zaf::Observable<std::uint64_t> DialogStorage::UpdateDialog(const DialogEntity& d
     });
 }
 
+
+zaf::Observable<zaf::None> DialogStorage::DeleteDialog(std::uint64_t dialog_id) {
+
+    return context_->Execute<zaf::None>([this, dialog_id](Database& db) {
+
+        InitializeDialogTable(db);
+
+        auto sql = "delete from Dialog where ID = ?";
+
+        auto statement = db.PrepareStatement(sql);
+        statement.BindParameter(1, dialog_id);
+
+        statement.Step();
+        return zaf::None{};
+    });
+}
+
 }

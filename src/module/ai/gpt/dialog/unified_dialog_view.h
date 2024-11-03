@@ -23,8 +23,10 @@ protected:
 
 private:
     void OpenDialogView(std::shared_ptr<Dialog> dialog);
+    void ShowEmptyDialogView();
 
     void OnListSelectionChanged(const zaf::ListControlSelectionChangedInfo& event_info);
+    void OnListContextMenu(const zaf::ListControlContextMenuInfo& event_info);
 
 private:
     ZAF_BIND_CONTROL(zaf::SplitControl, splitControl);
@@ -32,6 +34,7 @@ private:
 
     std::shared_ptr<UnifiedDialogModel> model_;
     std::shared_ptr<DialogView> current_dialog_view_;
+    std::shared_ptr<Control> empty_dialog_view_;
 };
 
 ZAF_OBJECT_BEGIN(UnifiedDialogView)

@@ -20,6 +20,9 @@ void UnifiedDialogView::AfterParse() {
     Subscriptions() += listView->ListControl()->SelectionChangedEvent().Subscribe(
         std::bind_front(&UnifiedDialogView::OnListSelectionChanged, this));
 
+    Subscriptions() += listView->ListControl()->ContextMenuEvent().Subscribe(
+        std::bind_front(&UnifiedDialogView::OnListContextMenu, this));
+
     model_->Initialize();
 }
 
@@ -32,6 +35,32 @@ void UnifiedDialogView::OnListSelectionChanged(
     if (dialog) {
         OpenDialogView(std::move(dialog));
     }
+    else {
+        ShowEmptyDialogView();
+    }
+}
+
+
+void UnifiedDialogView::OnListContextMenu(const zaf::ListControlContextMenuInfo& event_info) {
+
+    auto dialog = zaf::As<Dialog>(event_info.ItemData());
+    if (!dialog) {
+        return;
+    }
+
+    auto menu = zaf::Create<zaf::PopupMenu>();
+    menu->AddMenuItem([this, dialog]() {
+
+        auto item = zaf::Create<zaf::MenuItem>();
+        item->SetText(L"Delete");
+
+        Subscriptions() += item->MouseUpEvent().Subscribe(std::bind([this, dialog]() {
+            model_->DeleteDialog(dialog->ID());
+        }));
+        return item;
+    }());
+
+    event_info.SetMenu(std::move(menu));
 }
 
 
@@ -65,6 +94,18 @@ void UnifiedDialogView::OpenDialogView(std::shared_ptr<Dialog> dialog) {
     current_dialog_view_ = zaf::Create<DialogView>(std::move(dialog_model));
     splitControl->SetSecondPane(current_dialog_view_);
     current_dialog_view_->SetFocusToInputEdit();
+}
+
+
+void UnifiedDialogView::ShowEmptyDialogView() {
+
+    current_dialog_view_.reset();
+
+    if (!empty_dialog_view_) {
+        empty_dialog_view_ = zaf::Create<Control>();
+    }
+
+    splitControl->SetSecondPane(empty_dialog_view_);
 }
 
 }

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <zaf/base/none.h>
 #include "module/ai/gpt/storage/dialog_entity.h"
 #include "module/ai/gpt/storage/storage_context.h"
 
@@ -12,6 +13,7 @@ public:
     zaf::Observable<std::vector<DialogEntity>> FetchAllDialogs();
     zaf::Observable<std::uint64_t> AddDialog(const DialogEntity& dialog);
     zaf::Observable<std::uint64_t> UpdateDialog(const DialogEntity& dialog);
+    zaf::Observable<zaf::None> DeleteDialog(std::uint64_t dialog_id);
 
 private:
     void InitializeDialogTable(utility::sql::Database& db);

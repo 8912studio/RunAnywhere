@@ -18,6 +18,8 @@ public:
 
     void UpdateDialog(std::shared_ptr<Dialog> dialog);
 
+    void RemoveDialog(DialogID dialog_id);
+
     std::optional<std::size_t> GetIndexOfDialog(DialogID dialog_id) const;
     std::shared_ptr<Dialog> GetDialogAtIndex(std::size_t index) const;
 

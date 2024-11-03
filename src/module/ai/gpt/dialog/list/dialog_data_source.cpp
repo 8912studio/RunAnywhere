@@ -137,6 +137,30 @@ void DialogDataSource::UpdateDialog(std::shared_ptr<Dialog> dialog) {
 }
 
 
+void DialogDataSource::RemoveDialog(DialogID dialog_id) {
+
+    auto map_iterator = dialog_map_.find(dialog_id);
+    if (map_iterator == dialog_map_.end()) {
+        return;
+    }
+
+    auto vector_iterator = std::lower_bound(
+        dialogs_.begin(),
+        dialogs_.end(),
+        map_iterator->second,
+        DialogLessComparer);
+
+    if (vector_iterator != dialogs_.end() && (*vector_iterator)->ID() == dialog_id) {
+
+        std::size_t removed_index = std::distance(dialogs_.begin(), vector_iterator);
+        dialogs_.erase(vector_iterator);
+        NotifyDataRemoved(removed_index, 1);
+    }
+
+    dialog_map_.erase(map_iterator);
+}
+
+
 std::optional<std::size_t> DialogDataSource::GetIndexOfDialog(DialogID dialog_id) const {
     
     auto dialog = zaf::Find(dialog_map_, dialog_id);

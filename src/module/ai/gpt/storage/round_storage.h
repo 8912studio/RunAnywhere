@@ -1,5 +1,6 @@
 #pragma once
 
+#include <zaf/base/none.h>
 #include "module/ai/gpt/storage/round_entity.h"
 #include "module/ai/gpt/storage/storage_context.h"
 
@@ -14,6 +15,7 @@ public:
     zaf::Observable<std::uint64_t> AddRound(const RoundEntity& round_entity);
     zaf::Observable<std::uint64_t> UpdateRound(const RoundEntity& round_entity);
     zaf::Observable<std::uint64_t> DeleteRound(std::uint64_t permanent_id);
+    zaf::Observable<zaf::None> DeleteAllRoundsInDialog(std::uint64_t dialog_id);
 
 private:
     void InitializeRoundTable(utility::sql::Database& db);

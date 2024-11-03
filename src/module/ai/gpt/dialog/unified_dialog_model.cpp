@@ -73,6 +73,18 @@ zaf::Observable<RoundList> UnifiedDialogModel::FetchRoundsInDialog(DialogID dial
 }
 
 
+void UnifiedDialogModel::DeleteDialog(DialogID dialog_id) {
+
+    service_->DeleteDialog(MapToPermanentID(dialog_id));
+    dialog_data_source_->RemoveDialog(dialog_id);
+
+    auto transient_id = dialog_id.TransientID();
+    if (transient_id) {
+        dialog_permanent_id_map_.erase(*transient_id);
+    }
+}
+
+
 std::shared_ptr<Round> UnifiedDialogModel::CreateNewRound(
     const std::shared_ptr<Dialog>& dialog,
     std::wstring question,
