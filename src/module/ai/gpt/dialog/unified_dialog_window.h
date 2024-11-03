@@ -16,6 +16,11 @@ public:
 protected:
     void AfterParse() override;
 
+    void OnMessageReceived(const zaf::MessageReceivedInfo& event_info) override;
+
+private:
+    bool HandleKeyDownMessage(const zaf::KeyMessage& message);
+
 private:
     std::shared_ptr<UnifiedDialogView> view_;
 };
