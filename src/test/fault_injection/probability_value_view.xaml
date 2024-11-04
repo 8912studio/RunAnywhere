@@ -1,0 +1,3 @@
+<ProbabilitySettingView Layouter="VerticalLayouter">
+	<SpinBox Name="spinBox" />
+</ProbabilitySettingView>

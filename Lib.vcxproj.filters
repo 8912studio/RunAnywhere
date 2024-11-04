@@ -166,6 +166,12 @@
     <Filter Include="src\module\ai\gpt\dialog\content">
       <UniqueIdentifier>{01b8d996-61f4-43aa-bd47-2be5a8a44bad}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\test">
+      <UniqueIdentifier>{7b279a2a-1236-420d-8d1f-1c4f7d0691c6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\test\fault_injection">
+      <UniqueIdentifier>{8b2b7fef-b291-4ac7-ac77-bf910df8d760}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\module\calculator\parse\binary_expression_parser.h">
@@ -1101,6 +1107,24 @@
     <ClInclude Include="src\module\ai\gpt\dialog\post_create_round_task_queue.h">
       <Filter>src\module\ai\gpt\dialog</Filter>
     </ClInclude>
+    <ClInclude Include="src\test\fault_injection\fault_injection_settings.h">
+      <Filter>src\test\fault_injection</Filter>
+    </ClInclude>
+    <ClInclude Include="src\test\fault_injection\probability.h">
+      <Filter>src\test\fault_injection</Filter>
+    </ClInclude>
+    <ClInclude Include="src\test\fault_injection\fault_injector_window.h">
+      <Filter>src\test\fault_injection</Filter>
+    </ClInclude>
+    <ClInclude Include="src\test\fault_injection\setting_item_view.h">
+      <Filter>src\test\fault_injection</Filter>
+    </ClInclude>
+    <ClInclude Include="src\test\fault_injection\probability_value_view.h">
+      <Filter>src\test\fault_injection</Filter>
+    </ClInclude>
+    <ClInclude Include="src\test\fault_injection\value_view.h">
+      <Filter>src\test\fault_injection</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -1802,6 +1826,24 @@
     <ClCompile Include="src\module\ai\gpt\dialog\post_create_round_task_queue.cpp">
       <Filter>src\module\ai\gpt\dialog</Filter>
     </ClCompile>
+    <ClCompile Include="src\test\fault_injection\fault_injection_settings.cpp">
+      <Filter>src\test\fault_injection</Filter>
+    </ClCompile>
+    <ClCompile Include="src\test\fault_injection\probability.cpp">
+      <Filter>src\test\fault_injection</Filter>
+    </ClCompile>
+    <ClCompile Include="src\test\fault_injection\fault_injector_window.cpp">
+      <Filter>src\test\fault_injection</Filter>
+    </ClCompile>
+    <ClCompile Include="src\test\fault_injection\setting_item_view.cpp">
+      <Filter>src\test\fault_injection</Filter>
+    </ClCompile>
+    <ClCompile Include="src\test\fault_injection\probability_value_view.cpp">
+      <Filter>src\test\fault_injection</Filter>
+    </ClCompile>
+    <ClCompile Include="src\test\fault_injection\value_view.cpp">
+      <Filter>src\test\fault_injection</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Page Include="src\module\user_defined\preview\user_defined_command_preview_control.xaml">
@@ -1911,6 +1953,12 @@
     </Page>
     <Page Include="src\module\ai\gpt\dialog\content\round_list_view.xaml">
       <Filter>src\module\ai\gpt\dialog\content</Filter>
+    </Page>
+    <Page Include="src\test\fault_injection\setting_item_view.xaml">
+      <Filter>src\test\fault_injection</Filter>
+    </Page>
+    <Page Include="src\test\fault_injection\probability_value_view.xaml">
+      <Filter>src\test\fault_injection</Filter>
     </Page>
   </ItemGroup>
   <ItemGroup>
