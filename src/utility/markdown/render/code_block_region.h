@@ -54,7 +54,7 @@ private:
 private:
     ZAF_BIND_CONTROL(zaf::Control, header);
     ZAF_BIND_CONTROL(zaf::Label, languageLabel);
-    ZAF_BIND_CONTROL(zaf::Button, copyButton);
+    ZAF_BIND_CONTROL(zaf::Button, copyCodeBlockButton);
     ZAF_BIND_CONTROL(utility::ThinScrollControl, scrollControl);
     ZAF_BIND_CONTROL(StyledTextBox, textBox);
 

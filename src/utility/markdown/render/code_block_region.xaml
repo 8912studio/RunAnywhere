@@ -9,7 +9,7 @@
 			TextColor="#999999"/>
         <Control />
         <ToolbarButton 
-			Name="copyButton"
+			Name="copyCodeBlockButton"
 			ImageName="copy" 
 	        Tooltip="Copy code to clipboard" 
 			IsVisible="false" />

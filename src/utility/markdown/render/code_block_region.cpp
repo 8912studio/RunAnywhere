@@ -40,7 +40,7 @@ void CodeBlockRegion::AfterParse() {
 
     __super::AfterParse();
 
-    Subscriptions() += copyButton->ClickEvent().Subscribe(std::bind([this]() {
+    Subscriptions() += copyCodeBlockButton->ClickEvent().Subscribe(std::bind([this]() {
          utility::SetStringToClipboard(textBox->Text());
     }));
 }
@@ -69,7 +69,7 @@ void CodeBlockRegion::OnMouseEnter(const zaf::MouseEnterInfo& event_info) {
         return;
     }
 
-    copyButton->SetIsVisible(true);
+    copyCodeBlockButton->SetIsVisible(true);
 }
 
 
@@ -81,7 +81,7 @@ void CodeBlockRegion::OnMouseLeave(const zaf::MouseLeaveInfo& event_info) {
     }
 
     if (!this->ContainsMouse()) {
-        copyButton->SetIsVisible(false);
+        copyCodeBlockButton->SetIsVisible(false);
     }
 }
 
