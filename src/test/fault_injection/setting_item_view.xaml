@@ -1,4 +1,0 @@
-<SettingItemView Layouter="VerticalLayouter" AutoHeight="true">
-    <Label Name="settingName" />
-    <VerticalBox Name="valueViewContainer" AutoHeight="true" />
-</SettingItemView>

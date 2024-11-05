@@ -13,6 +13,7 @@
 #include "module/ai/gpt/network/socket_timer.h"
 #include "module/tool/json/json_formatter.h"
 #include "option/option_storage.h"
+#include "test/fault_injection/fault_injection_settings.h"
 
 namespace ra::mod::ai::gpt {
 
@@ -63,6 +64,12 @@ OpenAIClient::~OpenAIClient() {
 
 zaf::Observable<ChatResult> OpenAIClient::CreateChatCompletion(
     const std::vector<Message>& messages) {
+
+    if (test::FaultInjectionSettings::Instance()->NetworkFailureProbability() > 0) {
+        return zaf::rx::Timer(std::chrono::seconds(2)).FlatMap<ChatResult>([](int) {
+            return zaf::rx::Throw<ChatResult>(zaf::InvalidOperationError{});
+        });
+    }
 
     auto url = zaf::ToUTF8String(option::OptionStorage::Instance().OpenAIAPIServer());
     if (!url.empty()) {

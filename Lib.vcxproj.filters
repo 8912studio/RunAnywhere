@@ -1116,13 +1116,10 @@
     <ClInclude Include="src\test\fault_injection\fault_injector_window.h">
       <Filter>src\test\fault_injection</Filter>
     </ClInclude>
-    <ClInclude Include="src\test\fault_injection\setting_item_view.h">
+    <ClInclude Include="src\test\fault_injection\fault_injection_type_config_factory.h">
       <Filter>src\test\fault_injection</Filter>
     </ClInclude>
-    <ClInclude Include="src\test\fault_injection\probability_value_view.h">
-      <Filter>src\test\fault_injection</Filter>
-    </ClInclude>
-    <ClInclude Include="src\test\fault_injection\value_view.h">
+    <ClInclude Include="src\test\fault_injection\probability_type_config.h">
       <Filter>src\test\fault_injection</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1835,13 +1832,10 @@
     <ClCompile Include="src\test\fault_injection\fault_injector_window.cpp">
       <Filter>src\test\fault_injection</Filter>
     </ClCompile>
-    <ClCompile Include="src\test\fault_injection\setting_item_view.cpp">
+    <ClCompile Include="src\test\fault_injection\fault_injection_type_config_factory.cpp">
       <Filter>src\test\fault_injection</Filter>
     </ClCompile>
-    <ClCompile Include="src\test\fault_injection\probability_value_view.cpp">
-      <Filter>src\test\fault_injection</Filter>
-    </ClCompile>
-    <ClCompile Include="src\test\fault_injection\value_view.cpp">
+    <ClCompile Include="src\test\fault_injection\probability_type_config.cpp">
       <Filter>src\test\fault_injection</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1953,12 +1947,6 @@
     </Page>
     <Page Include="src\module\ai\gpt\dialog\content\round_list_view.xaml">
       <Filter>src\module\ai\gpt\dialog\content</Filter>
-    </Page>
-    <Page Include="src\test\fault_injection\setting_item_view.xaml">
-      <Filter>src\test\fault_injection</Filter>
-    </Page>
-    <Page Include="src\test\fault_injection\probability_value_view.xaml">
-      <Filter>src\test\fault_injection</Filter>
     </Page>
   </ItemGroup>
   <ItemGroup>

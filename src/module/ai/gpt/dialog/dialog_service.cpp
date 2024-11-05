@@ -261,13 +261,13 @@ std::shared_ptr<PreCreateRoundTask> DialogService::CreatePreCreateRoundTask(
     Subscriptions() += pre_task->TaskFinishedEvent()
         .DoOnTerminated([this, dialog, weak_task = std::weak_ptr{ pre_task }]() {
 
-            auto ongoing_info = zaf::Find(ongoing_round_infos_, dialog->ID());
-            if (!ongoing_info) {
+            auto pre_task = weak_task.lock();
+            if (!pre_task) {
                 return;
             }
 
-            auto pre_task = weak_task.lock();
-            if (!pre_task) {
+            auto ongoing_info = zaf::Find(ongoing_round_infos_, dialog->ID());
+            if (!ongoing_info) {
                 return;
             }
 

@@ -5,6 +5,7 @@
 #include "application_delegate.h"
 #include "main/main_window.h"
 #include "option/option_window.h"
+#include "test/fault_injection/fault_injector_window.h"
 
 namespace ra::mod::meta {
 namespace {
@@ -33,6 +34,13 @@ std::vector<MetaCommandInfo> CreateMetaCommandInfos() {
                 option::OptionWindow::ShowInstance();
             }
         },
+        {
+            L"fi",
+            L"Show fault injector window",
+            []() {
+                test::FaultInjectorWindow::Instance()->Show();
+            }
+        }
         /*
         {
             L"edit",

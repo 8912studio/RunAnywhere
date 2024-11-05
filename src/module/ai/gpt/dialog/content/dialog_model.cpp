@@ -113,6 +113,11 @@ RoundList DialogModel::GenerateHistoryRounds() const {
 
 
 void DialogModel::DeleteRound(RoundID id) {
+    InnerDeleteRound(id);
+}
+
+
+std::shared_ptr<Round> DialogModel::InnerDeleteRound(RoundID id) {
 
     if (auto transient_id = id.TransientID()) {
 
@@ -126,13 +131,13 @@ void DialogModel::DeleteRound(RoundID id) {
         unified_dialog_model_->DeleteRound(dialog_->ID(), id);
     }
 
-    round_data_source_.DeleteAndTakeRound(id);
+    return round_data_source_.DeleteAndTakeRound(id);
 }
 
 
 void DialogModel::RetryRound(RoundID id) {
 
-    auto round = round_data_source_.DeleteAndTakeRound(id);
+    auto round = InnerDeleteRound(id);
     if (!round) {
         return;
     }

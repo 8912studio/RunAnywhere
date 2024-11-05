@@ -86,13 +86,19 @@ void PreCreateRoundTask::CreateChat(
 
     messages.push_back(Message{ question });
 
-    Subscriptions() += client_->CreateChatCompletion(messages)
-        .Do(task_finished_event_.AsObserver())
-        .Map<ChatCompletion>([](const ChatResult& chat_result) {
-            return chat_result.ChatCompletion();
-        })
-        .Do(round_finished_event_.AsObserver())
-        .Subscribe();
+    Subscriptions() += client_->CreateChatCompletion(messages).Subscribe(
+        [this](const ChatResult& chat_result) {
+            round_finished_event_.AsObserver().OnNext(chat_result.ChatCompletion());
+            task_finished_event_.AsObserver().OnNext(chat_result);
+        },
+        [this](std::exception_ptr error) {
+            round_finished_event_.AsObserver().OnError(error);
+            task_finished_event_.AsObserver().OnError(error);
+        },
+        [this]() {
+            round_finished_event_.AsObserver().OnCompleted();
+            task_finished_event_.AsObserver().OnCompleted();
+        });
 }
 
 }

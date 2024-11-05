@@ -42,6 +42,8 @@ private:
     void FetchInitialRounds();
     RoundList GenerateHistoryRounds() const;
 
+    std::shared_ptr<Round> InnerDeleteRound(RoundID id);
+
 private:
     std::shared_ptr<UnifiedDialogModel> unified_dialog_model_;
     std::shared_ptr<gpt::Dialog> dialog_;
