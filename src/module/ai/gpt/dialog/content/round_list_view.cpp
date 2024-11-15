@@ -123,14 +123,14 @@ void RoundListView::LoadInitialRounds() {
 
 std::shared_ptr<RoundView> RoundListView::CreateRoundView(std::shared_ptr<Round> round) {
 
-    //Subscribing to the state changed event should be placed before creating the round view, 
-    //as we need to handle the event before any other subscribers.
+    //We have to subscribe to the state changed event before creating the round view, as we need to
+    //record the scroll bar state before updating the answer content when the state changed event 
+    //is raised.
     if (round->State() == RoundState::Ongoing) {
-        Subscriptions() += round->StateChangedEvent().Subscribe(
-            std::bind_front(&RoundListView::OnRoundStateChanged, this, round->ID()));
+        SubscribeToRoundStateChangedEvent(*round);
     }
 
-    auto round_view = zaf::Create<RoundView>(std::move(round));
+    auto round_view = zaf::Create<RoundView>(round);
 
     Subscriptions() += round_view->DeleteEvent().Subscribe(
         std::bind_front(&RoundListView::DeleteRound, this));
@@ -142,37 +142,46 @@ std::shared_ptr<RoundView> RoundListView::CreateRoundView(std::shared_ptr<Round>
 }
 
 
-void RoundListView::OnRoundStateChanged(RoundID round_id, RoundState new_state) {
+void RoundListView::SubscribeToRoundStateChangedEvent(const Round& round) {
 
-    if (new_state != RoundState::Completed) {
-        return;
-    }
+    auto is_list_in_bottom = std::make_shared<bool>();
 
-    auto scroll_bar = scrollBox->VerticalScrollBar();
-    bool is_list_in_bottom = scroll_bar->Value() == scroll_bar->MaxValue();
+    Subscriptions() += round.StateChangedEvent().Do(std::bind([this, is_list_in_bottom]() {
 
-    //Don't scroll the list if it isn't in bottom.
-    if (!is_list_in_bottom) {
-        return;
-    }
+        //Record whether the scroll bar is at the bottom, this should be done before updating the 
+        //answer view.
+        auto scroll_bar = scrollBox->VerticalScrollBar();
+        *is_list_in_bottom = scroll_bar->Value() == scroll_bar->MaxValue();
+    }))
+    .DoOnTerminated([this, is_list_in_bottom, round_id = round.ID()]() {
+        
+        //Scroll to the answer content, this should be done after updating the answer view. 
+        //That is why we do it in DoOnTerminated.
 
-    const auto& children = roundList->Children();
-    if (children.empty()) {
-        return;
-    }
+        //Don't scroll the list if it isn't in bottom.
+        if (!*is_list_in_bottom) {
+            return;
+        }
 
-    //Scroll to the position of answer only if the last round view matches the round id.
-    auto last_round_view = zaf::As<RoundView>(children.back());
-    if (last_round_view->Round()->ID() == round_id) {
+        const auto& children = roundList->Children();
+        if (children.empty()) {
+            return;
+        }
 
-        auto answer_view_position = last_round_view->AnswerView()->TranslateToParent({});
-        float scroll_to_position = last_round_view->Y() + answer_view_position.y;
-        scrollBox->VerticalScrollBar()->SetValue(static_cast<int>(scroll_to_position));
-    }
-    //Otherwise, always scroll to the bottom of the list if the list content is changed.
-    else {
-        scrollBox->ScrollToBottom();
-    }
+        //Scroll to the position of answer only if the last round view matches the round id.
+        auto last_round_view = zaf::As<RoundView>(children.back());
+        if (last_round_view->Round()->ID() == round_id) {
+
+            auto answer_view_position = last_round_view->AnswerView()->TranslateToParent({});
+            float scroll_to_position = last_round_view->Y() + answer_view_position.y;
+            scrollBox->VerticalScrollBar()->SetValue(static_cast<int>(scroll_to_position));
+        }
+        //Otherwise, always scroll to the bottom of the list if the list content is changed.
+        else {
+            scrollBox->ScrollToBottom();
+        }
+    })
+    .Subscribe();
 }
 
 

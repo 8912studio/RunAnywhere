@@ -28,7 +28,7 @@ private:
 
     void LoadInitialRounds();
     std::shared_ptr<RoundView> CreateRoundView(std::shared_ptr<Round> round);
-    void OnRoundStateChanged(RoundID round_id, RoundState new_state);
+    void SubscribeToRoundStateChangedEvent(const Round& round);
 
     void DeleteRound(RoundID round_id);
     void RetryRound(RoundID round_id);
