@@ -65,10 +65,16 @@ OpenAIClient::~OpenAIClient() {
 zaf::Observable<ChatResult> OpenAIClient::CreateChatCompletion(
     const std::vector<Message>& messages) {
 
-    if (test::FaultInjectionSettings::Instance()->NetworkFailureProbability().Roll()) {
+    auto fault_injection_settings = test::FaultInjectionSettings::Instance();
+
+    if (fault_injection_settings->NetworkFailureProbability().Roll()) {
         return zaf::rx::Timer(std::chrono::seconds(2)).FlatMap<ChatResult>([](int) {
             return zaf::rx::Throw<ChatResult>(zaf::InvalidOperationError{});
         });
+    }
+
+    if (fault_injection_settings->UseMockResponse()) {
+        return CreateMockChatCompletion();
     }
 
     auto url = zaf::ToUTF8String(option::OptionStorage::Instance().OpenAIAPIServer());
@@ -176,8 +182,8 @@ zaf::Observable<ChatResult> OpenAIClient::CreateMockChatCompletion() {
         zaf::rx::Timer(std::chrono::seconds(3), zaf::Scheduler::Main()).Subscribe(
             [observer = subject.AsObserver()](int) {
     
-        std::wstring mock_response =
-LR"(Yes, there are several libraries and tools available that can help you generate SQL queries programmatically. Here are some popular ones across different programming languages:
+        std::string mock_content =
+R"(Yes, there are several libraries and tools available that can help you generate SQL queries programmatically. Here are some popular ones across different programming languages:
 
 ### Python
 1. **SQLAlchemy**: An SQL toolkit and Object-Relational Mapping (ORM) system that allows you to construct SQL queries using Python objects.
@@ -231,17 +237,32 @@ LR"(Yes, there are several libraries and tools available that can help you gener
 
 These libraries can help you generate SQL queries dynamically, making it easier to work with databases in your applications. Depending on your programming language and requirements, you can choose the one that best fits your needs.)";
 
-        Message message{ RoleAssistant, mock_response };
+        boost::json::object root;
+        root["choices"] = boost::json::array{
+            [&]() {
+                boost::json::object choice;
+                choice["index"] = 0;
+                choice["message"] = [&]() {
+                    boost::json::object message;
+                    message["role"] = "assistant";
+                    message["content"] = mock_content;
+                    return message;
+                }();
+                return choice;
+            }()
+        };
+        root["usage"] = []() {
+            boost::json::object usage;
+            usage["prompt_tokens"] = 17;
+            usage["completion_tokens"] = 29;
+            usage["total_tokens"] = 46;
+            return usage;
+        }();
 
-        TokenUsage token_usage;
-        token_usage.prompt_tokens = 17;
-        token_usage.completion_tokens = 29;
-        token_usage.total_tokens = 46;
+        auto mock_response = tool::json::JSONPrimitiveFormatter().Format(root);
+        auto chat_completion = ParseChatCompletion(mock_response);
 
-        observer.OnNext(ChatResult{
-            ChatCompletion{ std::move(message), token_usage }, 
-            zaf::ToUTF8String(mock_response), 
-        });
+        observer.OnNext(ChatResult{ std::move(*chat_completion), std::move(mock_response) });
         observer.OnCompleted();
     });
     

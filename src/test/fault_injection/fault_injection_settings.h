@@ -20,15 +20,25 @@ public:
         network_failure_probability_ = value;
     }
 
+    bool UseMockResponse() const noexcept {
+        return use_mock_response_;
+    }
+
+    void SetUseMockResponse(bool value) {
+        use_mock_response_ = value;
+    }
+
 private:
     FaultInjectionSettings() = default;
 
 private:
     Probability network_failure_probability_{};
+    bool use_mock_response_{};
 };
 
 ZAF_OBJECT_BEGIN(FaultInjectionSettings);
 ZAF_OBJECT_PROPERTY(NetworkFailureProbability);
+ZAF_OBJECT_PROPERTY(UseMockResponse);
 ZAF_OBJECT_END;
 
 }

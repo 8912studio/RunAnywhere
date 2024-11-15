@@ -40,6 +40,7 @@ void FaultInjectorWindow::AfterParse() {
 
     __super::AfterParse();
 
+    this->SetTitle(L"Fault Injector");
     this->RootControl()->SetLayouter(zaf::Create<zaf::VerticalLayouter>());
 
     auto property_grid = zaf::Create<zaf::PropertyGrid>();
