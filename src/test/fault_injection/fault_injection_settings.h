@@ -12,11 +12,11 @@ public:
 
     static std::shared_ptr<FaultInjectionSettings> Instance();
 
-    std::size_t NetworkFailureProbability() const noexcept {
+    Probability NetworkFailureProbability() const noexcept {
         return network_failure_probability_;
     }
 
-    void SetNetworkFailureProbability(std::size_t value) noexcept {
+    void SetNetworkFailureProbability(Probability value) noexcept {
         network_failure_probability_ = value;
     }
 
@@ -24,7 +24,7 @@ private:
     FaultInjectionSettings() = default;
 
 private:
-    std::size_t network_failure_probability_{};
+    Probability network_failure_probability_{};
 };
 
 ZAF_OBJECT_BEGIN(FaultInjectionSettings);

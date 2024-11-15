@@ -24,8 +24,6 @@ public:
         std::size_t item_index,
         const std::shared_ptr<zaf::Object>& item_data) override;
 
-    void LoadItem(const std::shared_ptr<zaf::ListItem>& item, std::size_t item_index) override;
-
 protected:
     void AfterParse() override;
 

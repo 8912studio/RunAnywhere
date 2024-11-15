@@ -26,7 +26,7 @@
 			FixedSize="30,30"
 			Margin="5,0,0,4"
 			Tooltip="Send question"
-			CanFocused="false"
+			CanFocus="false"
 			IsEnabled="false" />
     </HorizontalBox>
 </DialogView>

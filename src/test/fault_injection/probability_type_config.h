@@ -6,7 +6,7 @@ namespace ra::test {
 
 class ProbabilityTypeConfig : public zaf::property_grid::TypeConfig {
 public:
-    std::shared_ptr<zaf::property_grid::ValueView> CreateValueView() override;
+    std::shared_ptr<zaf::property_grid::ValueEditor> CreateValueEditor() override;
 };
 
 }

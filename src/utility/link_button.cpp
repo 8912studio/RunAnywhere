@@ -10,7 +10,7 @@ void LinkButton::Initialize() {
     __super::Initialize();
 
     this->SetBorder(zaf::Frame{});
-    this->SetCanFocused(false);
+    this->SetCanFocus(false);
     this->SetTextAlignment(zaf::dwrite::TextAlignment::Center);
     this->SetParagraphAlignment(zaf::dwrite::ParagraphAlignment::Center);
     this->SetAutoWidth(true);

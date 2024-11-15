@@ -10,7 +10,7 @@ void ToolbarButton::Initialize() {
     __super::Initialize();
 
     SetFixedSize(zaf::Size{ 14, 14 });
-    SetCanFocused(false);
+    SetCanFocus(false);
 
     SetBorder({});
     SetBackgroundColor(zaf::Color::Transparent());

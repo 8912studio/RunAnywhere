@@ -38,7 +38,7 @@ std::vector<MetaCommandInfo> CreateMetaCommandInfos() {
             L"fi",
             L"Show fault injector window",
             []() {
-                test::FaultInjectorWindow::Instance()->Show();
+                test::FaultInjectorWindow::Instance()->ShowWindow();
             }
         }
         /*

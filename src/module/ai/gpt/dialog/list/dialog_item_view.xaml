@@ -1,4 +1,7 @@
-<DialogItemView TextColor="Black" Padding="6,0,4,0">
+<DialogItemView Padding="6,0,4,0">
+	<DialogItemView.Label>
+		<Label TextColor="Black" ParagraphAlignment="Center" />
+	</DialogItemView.Label>
     <DialogItemView.BackgroundColorPicker>
         <If IsSelected="true">
             <Color>#300078d7</Color>

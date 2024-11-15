@@ -10,7 +10,7 @@ void CompositeTextBox::Initialize() {
 
     __super::Initialize();
 
-    this->SetCanFocused(true);
+    this->SetCanFocus(true);
     this->SetCanDoubleClick(true);
 }
 

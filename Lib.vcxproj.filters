@@ -1116,10 +1116,10 @@
     <ClInclude Include="src\test\fault_injection\fault_injector_window.h">
       <Filter>src\test\fault_injection</Filter>
     </ClInclude>
-    <ClInclude Include="src\test\fault_injection\fault_injection_type_config_factory.h">
+    <ClInclude Include="src\test\fault_injection\probability_type_config.h">
       <Filter>src\test\fault_injection</Filter>
     </ClInclude>
-    <ClInclude Include="src\test\fault_injection\probability_type_config.h">
+    <ClInclude Include="src\test\fault_injection\probability_editor.h">
       <Filter>src\test\fault_injection</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1832,10 +1832,10 @@
     <ClCompile Include="src\test\fault_injection\fault_injector_window.cpp">
       <Filter>src\test\fault_injection</Filter>
     </ClCompile>
-    <ClCompile Include="src\test\fault_injection\fault_injection_type_config_factory.cpp">
+    <ClCompile Include="src\test\fault_injection\probability_type_config.cpp">
       <Filter>src\test\fault_injection</Filter>
     </ClCompile>
-    <ClCompile Include="src\test\fault_injection\probability_type_config.cpp">
+    <ClCompile Include="src\test\fault_injection\probability_editor.cpp">
       <Filter>src\test\fault_injection</Filter>
     </ClCompile>
   </ItemGroup>

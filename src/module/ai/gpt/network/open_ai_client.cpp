@@ -65,7 +65,7 @@ OpenAIClient::~OpenAIClient() {
 zaf::Observable<ChatResult> OpenAIClient::CreateChatCompletion(
     const std::vector<Message>& messages) {
 
-    if (test::FaultInjectionSettings::Instance()->NetworkFailureProbability() > 0) {
+    if (test::FaultInjectionSettings::Instance()->NetworkFailureProbability().Roll()) {
         return zaf::rx::Timer(std::chrono::seconds(2)).FlatMap<ChatResult>([](int) {
             return zaf::rx::Throw<ChatResult>(zaf::InvalidOperationError{});
         });

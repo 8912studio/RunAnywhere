@@ -9,24 +9,33 @@ class Probability : public zaf::Object {
 public:
     ZAF_OBJECT;
 
+    static constexpr int MinValue = 0;
+    static constexpr int MaxValue = 10;
+
 public:
     Probability() = default;
 
-    Probability(std::size_t value) noexcept : value_(value) {
-
+    explicit Probability(int value) noexcept : value_(value) {
+        ReviseValue();
     }
 
-    Probability& operator=(std::size_t value) noexcept {
+    Probability& operator=(int value) noexcept {
         value_ = value;
+        ReviseValue();
         return *this;
     }
 
-    operator std::size_t() const noexcept {
+    explicit operator int() const noexcept {
         return value_;
     }
 
+    bool Roll() const;
+
 private:
-    std::size_t value_{};
+    void ReviseValue();
+
+private:
+    int value_{};
 };
 
 ZAF_OBJECT_BEGIN(Probability);
