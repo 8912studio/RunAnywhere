@@ -11,6 +11,10 @@ public:
 
 protected:
     void AfterParse() override;
+
+    void OnMouseEnter(const zaf::MouseEnterInfo& event_info) override;
+    void OnMouseLeave(const zaf::MouseLeaveInfo& event_info) override;
+
     void OnItemDataChanged() override;
 
 private:

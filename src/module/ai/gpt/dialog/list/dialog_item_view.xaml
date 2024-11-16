@@ -6,7 +6,7 @@
         <If IsSelected="true">
             <Color>#300078d7</Color>
         </If>
-		<If IsMouseOver="true">
+		<If ContainsMouse="true">
 			<Color>#100078d7</Color>
 		</If>
         <Color>Transparent</Color>

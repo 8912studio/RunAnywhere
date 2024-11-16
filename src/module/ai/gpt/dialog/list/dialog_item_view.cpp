@@ -14,6 +14,28 @@ void DialogItemView::AfterParse() {
 }
 
 
+void DialogItemView::OnMouseEnter(const zaf::MouseEnterInfo& event_info) {
+
+    __super::OnMouseEnter(event_info);
+
+    if (!event_info.LeftControl() || !this->IsSameOrAncestorOf(*event_info.LeftControl())) {
+        NeedUpdateStyle();
+        NeedRepaint();
+    }
+}
+
+
+void DialogItemView::OnMouseLeave(const zaf::MouseLeaveInfo& event_info) {
+
+    __super::OnMouseLeave(event_info);
+
+    if (!event_info.EnteredControl() || !this->IsSameOrAncestorOf(*event_info.EnteredControl())) {
+        NeedUpdateStyle();
+        NeedRepaint();
+    }
+}
+
+
 void DialogItemView::OnItemDataChanged() {
 
     Label()->SetText(GenerateSubject());
