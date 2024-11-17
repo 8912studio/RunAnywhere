@@ -1,4 +1,7 @@
 <DialogListView Layouter="VerticalLayouter" BackgroundColor="#F8F8F8">
+	<HorizontalBox FixedHeight="50" CrossAxisAlignment="Center" Margin="8,0,8,0">
+		<Button Name="newDialogButton" FixedSize="32,32" Text="+" Tooltip="Start a new dialog" />
+	</HorizontalBox>
 	<ListControl 
 		Name="listControl" 
 		Border="0" 

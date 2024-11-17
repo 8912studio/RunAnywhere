@@ -15,6 +15,9 @@ void UnifiedDialogView::AfterParse() {
 
     __super::AfterParse();
 
+    Subscriptions() += listView->NewDialogButton()->ClickEvent().Subscribe(
+        std::bind(&UnifiedDialogView::OnStartNewDialogClick, this));
+
     listView->SetDataSource(model_->DialogDataSource());
 
     Subscriptions() += listView->ListControl()->SelectionChangedEvent().Subscribe(
@@ -64,6 +67,11 @@ void UnifiedDialogView::OnListContextMenu(const zaf::ListControlContextMenuInfo&
 }
 
 
+void UnifiedDialogView::OnStartNewDialogClick() {
+    StartNewDialog({});
+}
+
+
 void UnifiedDialogView::StartNewDialog(std::wstring question) {
 
     auto new_dialog = model_->DialogService()->CreateNewDialog();
@@ -73,6 +81,7 @@ void UnifiedDialogView::StartNewDialog(std::wstring question) {
     auto dialog_index = model_->DialogDataSource()->GetIndexOfDialog(new_dialog->ID());
     if (dialog_index) {
         listView->ListControl()->SelectItemAtIndex(*dialog_index);
+        listView->ListControl()->ScrollToItemAtIndex(*dialog_index);
     }
 }
 

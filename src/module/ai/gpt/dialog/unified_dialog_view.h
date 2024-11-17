@@ -22,6 +22,7 @@ protected:
     void AfterParse() override;
 
 private:
+    void OnStartNewDialogClick();
     void OpenDialogView(std::shared_ptr<Dialog> dialog);
     void ShowEmptyDialogView();
 

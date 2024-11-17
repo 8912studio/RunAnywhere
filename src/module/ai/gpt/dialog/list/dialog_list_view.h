@@ -1,5 +1,6 @@
 #pragma once
 
+#include <zaf/control/button.h>
 #include <zaf/control/control.h>
 #include <zaf/control/control_binder.h>
 #include <zaf/control/list_control.h>
@@ -12,6 +13,7 @@ class DialogListView : public zaf::Control, public zaf::ListControlDelegate {
 public:
     ZAF_OBJECT;
 
+    std::shared_ptr<zaf::Button> NewDialogButton() const;
     std::shared_ptr<zaf::ListControl> ListControl() const;
 
     void SetDataSource(std::shared_ptr<DialogDataSource> data_source);
@@ -28,6 +30,7 @@ protected:
     void AfterParse() override;
 
 private:
+    ZAF_BIND_CONTROL(zaf::Button, newDialogButton);
     ZAF_BIND_CONTROL(zaf::ListControl, listControl);
 };
 

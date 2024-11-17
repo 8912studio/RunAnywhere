@@ -15,6 +15,11 @@ void DialogListView::AfterParse() {
 }
 
 
+std::shared_ptr<zaf::Button> DialogListView::NewDialogButton() const {
+    return newDialogButton;
+}
+
+
 std::shared_ptr<zaf::ListControl> DialogListView::ListControl() const {
     return listControl;
 }
