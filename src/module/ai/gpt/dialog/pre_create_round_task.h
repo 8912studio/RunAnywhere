@@ -48,6 +48,8 @@ private:
         std::time_t update_time,
         const std::wstring& question);
 
+    static std::wstring GenerateDialogSubject(const std::wstring& question);
+
     void CreateRound(
         RoundTransientID round_transient_id, 
         std::time_t update_time, 

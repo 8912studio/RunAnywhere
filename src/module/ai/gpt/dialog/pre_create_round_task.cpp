@@ -1,7 +1,9 @@
 #include "module/ai/gpt/dialog/pre_create_round_task.h"
 #include <zaf/base/error/contract_error.h>
 #include <zaf/base/string/encoding_conversion.h>
+#include <zaf/base/string/trim.h>
 #include "module/ai/gpt/local_error.h"
+#include "utility/text_utility.h"
 
 namespace ra::mod::ai::gpt {
 
@@ -37,12 +39,17 @@ void PreCreateRoundTask::UpdateDialog(
     }
 
     if (dialog_entity.subject.empty()) {
-        dialog_entity.subject = zaf::ToUTF8String(question.substr(0, 100));
+        dialog_entity.subject = zaf::ToUTF8String(GenerateDialogSubject(question));
     }
 
     dialog_ = std::make_shared<Dialog>(dialog->ID(), std::move(dialog_entity));
     dialog_updated_event_.AsObserver().OnNext(DialogUpdatedInfo{ .dialog = dialog_ });
     dialog_updated_event_.AsObserver().OnCompleted();
+}
+
+
+std::wstring PreCreateRoundTask::GenerateDialogSubject(const std::wstring& question) {
+    return utility::ReplaceWhitespaces(question.substr(0, 1000), L' ', L' ', L' ');
 }
 
 

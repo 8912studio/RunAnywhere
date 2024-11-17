@@ -82,6 +82,15 @@ std::wstring ReplaceWhitespacesToVisibleChars(std::wstring_view text) {
 	constexpr wchar_t LineBreakSymbol = L'\u23CE';
 	constexpr wchar_t SpaceSymbol = L'\u2423';
 	constexpr wchar_t TabSymbol = L'\u21E5';
+	return ReplaceWhitespaces(text, LineBreakSymbol, SpaceSymbol, TabSymbol);
+}
+
+
+std::wstring ReplaceWhitespaces(
+	std::wstring_view text, 
+	wchar_t line_break, 
+	wchar_t space, 
+	wchar_t tab) {
 
 	std::wstring result;
 
@@ -90,7 +99,7 @@ std::wstring ReplaceWhitespacesToVisibleChars(std::wstring_view text) {
 
 		if (*current == L'\r') {
 
-			result += LineBreakSymbol;
+			result += line_break;
 			++current;
 
 			if ((current < text.end()) && (*current == L'\n')) {
@@ -98,15 +107,15 @@ std::wstring ReplaceWhitespacesToVisibleChars(std::wstring_view text) {
 			}
 		}
 		else if (*current == L'\n') {
-			result += LineBreakSymbol;
+			result += line_break;
 			++current;
 		}
 		else if (*current == L' ') {
-			result += SpaceSymbol;
+			result += space;
 			++current;
 		}
 		else if (*current == L'\t') {
-			result += TabSymbol;
+			result += tab;
 			++current;
 		}
 		else {

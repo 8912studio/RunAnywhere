@@ -24,4 +24,10 @@ void RemoveMultipleLines(std::wstring& text);
 
 std::wstring ReplaceWhitespacesToVisibleChars(std::wstring_view text);
 
+std::wstring ReplaceWhitespaces(
+    std::wstring_view text,
+    wchar_t line_break,
+    wchar_t space,
+    wchar_t tab);
+
 }
