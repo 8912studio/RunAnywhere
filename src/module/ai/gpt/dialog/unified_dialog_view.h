@@ -18,6 +18,8 @@ public:
 
     void StartNewDialog(std::wstring question);
 
+    void HandleWindowMessage(const zaf::MessageReceivedInfo& event_info);
+
 protected:
     void AfterParse() override;
 
@@ -28,6 +30,8 @@ private:
 
     void OnListSelectionChanged(const zaf::ListControlSelectionChangedInfo& event_info);
     void OnListContextMenu(const zaf::ListControlContextMenuInfo& event_info);
+
+    bool HandleKeyDownMessage(const zaf::KeyMessage& message);
 
 private:
     ZAF_BIND_CONTROL(zaf::SplitControl, splitControl);

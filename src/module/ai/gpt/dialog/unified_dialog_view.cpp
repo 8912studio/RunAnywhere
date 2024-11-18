@@ -1,5 +1,6 @@
 #include "module/ai/gpt/dialog/unified_dialog_view.h"
 #include <zaf/base/as.h>
+#include <zaf/input/keyboard.h>
 
 namespace ra::mod::ai::gpt {
 
@@ -115,6 +116,27 @@ void UnifiedDialogView::ShowEmptyDialogView() {
     }
 
     splitControl->SetSecondPane(empty_dialog_view_);
+}
+
+
+void UnifiedDialogView::HandleWindowMessage(const zaf::MessageReceivedInfo& event_info) {
+
+    if (event_info.Message().ID() == WM_KEYDOWN) {
+        if (HandleKeyDownMessage(zaf::KeyMessage{ event_info.Message() })) {
+            event_info.MarkAsHandled(0);
+        }
+    }
+}
+
+
+bool UnifiedDialogView::HandleKeyDownMessage(const zaf::KeyMessage& message) {
+
+    if (message.Key() == zaf::Key::N && zaf::Keyboard::IsCtrlDown()) {
+        StartNewDialog({});
+        return true;
+    }
+
+    return false;
 }
 
 }

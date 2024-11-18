@@ -23,9 +23,14 @@ void UnifiedDialogWindow::AfterParse() {
 
 void UnifiedDialogWindow::OnMessageReceived(const zaf::MessageReceivedInfo& event_info) {
 
-    if (event_info.Message().ID() == WM_KEYDOWN) {
-        if (HandleKeyDownMessage(zaf::KeyMessage{ event_info.Message() })) {
-            event_info.MarkAsHandled(0);
+    view_->HandleWindowMessage(event_info);
+
+    if (!event_info.IsHandled()) {
+
+        if (event_info.Message().ID() == WM_KEYDOWN) {
+            if (HandleKeyDownMessage(zaf::KeyMessage{ event_info.Message() })) {
+                event_info.MarkAsHandled(0);
+            }
         }
     }
 
