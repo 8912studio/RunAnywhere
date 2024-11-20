@@ -4,89 +4,135 @@
 #include <zaf/object/boxing/string.h>
 #include <zaf/object/object.h>
 #include <zaf/object/property_support.h>
+#include "utility/sql/composite_key.h"
 #include "utility/sql/table_schema.h"
+#include "utility/sql/table.h"
+#include "utility/sql/orm/orm_support.h"
 
 using namespace ra::utility::sql;
 
-class Person : public zaf::Object {
+class Person {
 public:
-    ZAF_OBJECT;
+    int id{};
+    std::string name{};
+    int age{};
+};
 
-    int Age() const {
-        return age_;
+SQL_ENTITY_BEGIN(Person);
+SQL_ENTITY_FIELD(ID, id);
+SQL_ENTITY_FIELD(Name, name);
+SQL_ENTITY_PRIMARY_KEY(ID);
+SQL_ENTITY_END;
+
+template<>
+class Entity<Person> : zaf::NonCopyableNonMovable {
+public:
+    static Entity& Instance() {
+        static Entity instance;
+        return instance;
     }
 
-    void SetAge(int age) {
-        age_ = age;
+public:
+    virtual std::string EntityName() const {
+        return "Person";
     }
 
-    const std::string& Name() const {
-        return name_;
-    }
-
-    void SetName(std::string name) {
-        name_ = std::move(name);
+    const std::vector<Property<Person>*>& Properties() const noexcept {
+        return properties_;
     }
 
 private:
-    int age_{};
-    std::string name_;
+    Entity() = default;
+
+private:
+    std::vector<Property<Person>*> properties_;
+
+public:
+    class IDProperty : public Property<Person> {
+    public:
+        using ValueType = decltype(((Person*)nullptr)->id);
+        using Property::Property;
+        std::string Name() const override {
+            return "ID";
+        }
+        void BindValueToStatement(Statement& statement, int column_index, const Person& object) override {
+            statement.BindParameter(column_index, object.id);
+        }
+        void GetValueFromStatement(const Statement& statement, int index, Person& object) override {
+            object.id = statement.GetColumnInt(index);
+        }
+    };
+    IDProperty ID{ properties_ };
+
+    class AgeProperty : public Property<Person> {
+    public:
+        using ValueType = int;
+        using Property::Property;
+        std::string Name() const override {
+            return "Age";
+        }
+        void BindValueToStatement(Statement& statement, int column_index, const Person& object) override {
+            statement.BindParameter(column_index, object.age);
+        }
+        void GetValueFromStatement(const Statement& statement, int index, Person& object) override {
+            object.age = statement.GetColumnInt(index);
+        }
+    };
+    AgeProperty Age{ properties_ };
+
+    class NameProperty : public Property<Person> {
+    public:
+        using ValueType = std::string;
+        using Property::Property;
+        std::string Name() const override {
+            return "Name";
+        }
+        void BindValueToStatement(Statement& statement, int column_index, const Person& object) override {
+            statement.BindParameter(column_index, object.name);
+        }
+        void GetValueFromStatement(const Statement& statement, int index, Person& object) override {
+            object.name = statement.GetColumnText(index);
+        }
+    };
+    NameProperty Name{ properties_ };
+
+public:
+    using PrimaryKeyType = CompositeKey<Person, Entity<Person>::IDProperty>;
+    PrimaryKeyType PrimaryKey{
+        ID,
+    };
 };
 
-ZAF_OBJECT_BEGIN(Person);
-ZAF_OBJECT_PROPERTY(Age);
-ZAF_OBJECT_PROPERTY(Name);
-ZAF_OBJECT_END;
 
-ZAF_OBJECT_IMPL(Person);
+TEST(SQLTest, Table) {
 
+    auto database = Database::Open("test.db");
 
-ColumnSchema CreateColumnDefinition(zaf::ObjectProperty* property) {
-
-    ColumnSchema result;
-    result.name = zaf::ToUTF8String(property->Name());
-
-    auto value_type = property->ValueType();
-    if (value_type == zaf::Int32::StaticType() ||
-        value_type == zaf::Int64::StaticType()) {
-        result.data_type = DataType::Integer;
-    }
-    else if (value_type == zaf::String::StaticType()) {
-        result.data_type = DataType::Text;
-    }
-
-    return result;
-}
-
-
-TableSchema CreateTableDefinition(
-    zaf::ObjectType* type,  
-    const std::vector<zaf::ObjectProperty*>& properties) {
-
-    TableSchema result;
-    result.name = zaf::ToUTF8String(type->Name());
-    for (auto each_property : properties) {
-        result.columns.push_back(CreateColumnDefinition(each_property));
-    }
-    return result;
-}
-
-
-TEST(SQLTest, TableSchema) {
-
-    auto person_type = Person::Type::Instance();
-
-    TableSchema table_definition{
-        .name = zaf::ToUTF8String(person_type->Name()),
-        .columns = {
-            {
-                .name = zaf::ToUTF8String(person_type->AgeProperty->Name()),
-                .data_type = DataType::Integer,
-            },
-            {
-                .name = zaf::ToUTF8String(person_type->NameProperty->Name()),
-                .data_type = DataType::Text,
-            },
+    TableSchema table_schema;
+    table_schema.name = "Person";
+    table_schema.columns = {
+        ColumnSchema{ 
+            .name = "ID",
+            .data_type = DataType::Integer
         },
+        ColumnSchema{
+            .name = "Age",
+            .data_type = DataType::Integer
+        },
+        ColumnSchema{
+            .name = "Name",
+            .data_type = DataType::Text
+        }
     };
+    database.CreateTable(table_schema);
+
+    Table<Person> table{ database };
+
+    Person person;
+    person.id = 2;
+    person.age = 20;
+    person.name = "zplutor";
+    table.Insert(person);
+
+    table.Select(1);
 }

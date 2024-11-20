@@ -172,6 +172,9 @@
     <Filter Include="src\test\fault_injection">
       <UniqueIdentifier>{8b2b7fef-b291-4ac7-ac77-bf910df8d760}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\utility\sql\orm">
+      <UniqueIdentifier>{5c08a0df-0305-49e1-b296-7406a08840d8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\module\calculator\parse\binary_expression_parser.h">
@@ -1121,6 +1124,30 @@
     </ClInclude>
     <ClInclude Include="src\test\fault_injection\probability_editor.h">
       <Filter>src\test\fault_injection</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\sql\property.h">
+      <Filter>src\utility\sql</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\sql\entity.h">
+      <Filter>src\utility\sql</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\sql\table.h">
+      <Filter>src\utility\sql</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\sql\composite_key.h">
+      <Filter>src\utility\sql</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\sql\orm\orm_support.h">
+      <Filter>src\utility\sql\orm</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\sql\orm\field_traits.h">
+      <Filter>src\utility\sql\orm</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\sql\orm\entity_field.h">
+      <Filter>src\utility\sql\orm</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\sql\orm\entity_key.h">
+      <Filter>src\utility\sql\orm</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

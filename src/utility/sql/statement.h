@@ -24,9 +24,9 @@ public:
     bool Step();
     void Reset();
 
-    int GetColumnInt(int column_index) noexcept;
-    std::int64_t GetColumnInt64(int column_index) noexcept;
-    std::string_view GetColumnText(int column_index) noexcept;
+    int GetColumnInt(int column_index) const noexcept;
+    std::int64_t GetColumnInt64(int column_index) const noexcept;
+    std::string_view GetColumnText(int column_index) const noexcept;
 
     sqlite3_stmt* Handle() const noexcept {
         return statement_handle_;

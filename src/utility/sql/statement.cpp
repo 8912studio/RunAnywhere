@@ -101,17 +101,17 @@ void Statement::Reset() {
 }
 
 
-int Statement::GetColumnInt(int column_index) noexcept {
+int Statement::GetColumnInt(int column_index) const noexcept {
     return sqlite3_column_int(statement_handle_, column_index);
 }
 
 
-std::int64_t Statement::GetColumnInt64(int column_index) noexcept {
+std::int64_t Statement::GetColumnInt64(int column_index) const noexcept {
     return sqlite3_column_int64(statement_handle_, column_index);
 }
 
 
-std::string_view Statement::GetColumnText(int column_index) noexcept {
+std::string_view Statement::GetColumnText(int column_index) const noexcept {
 
     int length = sqlite3_column_bytes(statement_handle_, column_index);
     auto text = sqlite3_column_text(statement_handle_, column_index);
