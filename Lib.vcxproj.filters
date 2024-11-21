@@ -1125,18 +1125,6 @@
     <ClInclude Include="src\test\fault_injection\probability_editor.h">
       <Filter>src\test\fault_injection</Filter>
     </ClInclude>
-    <ClInclude Include="src\utility\sql\property.h">
-      <Filter>src\utility\sql</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\sql\entity.h">
-      <Filter>src\utility\sql</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\sql\table.h">
-      <Filter>src\utility\sql</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\sql\composite_key.h">
-      <Filter>src\utility\sql</Filter>
-    </ClInclude>
     <ClInclude Include="src\utility\sql\orm\orm_support.h">
       <Filter>src\utility\sql\orm</Filter>
     </ClInclude>
@@ -1147,6 +1135,12 @@
       <Filter>src\utility\sql\orm</Filter>
     </ClInclude>
     <ClInclude Include="src\utility\sql\orm\entity_key.h">
+      <Filter>src\utility\sql\orm</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\sql\orm\data_set.h">
+      <Filter>src\utility\sql\orm</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\sql\orm\entity_meta.h">
       <Filter>src\utility\sql\orm</Filter>
     </ClInclude>
   </ItemGroup>

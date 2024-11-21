@@ -1,13 +1,10 @@
 #pragma once
 
 #include <zaf/base/non_copyable.h>
+#include "utility/sql/orm/entity_meta.h"
 #include "utility/sql/orm/entity_field.h"
 #include "utility/sql/orm/entity_key.h"
 #include "utility/sql/orm/field_traits.h"
-
-template<typename T>
-class sql__EntityMeta;
-
 
 #define SQL_ENTITY_BEGIN(Class) \
 template<> \
@@ -61,11 +58,3 @@ public:\
 
 
 #define SQL_ENTITY_END };
-
-
-namespace ra::utility::sql {
-
-template<typename T>
-using EntityMeta = sql__EntityMeta<T>;
-   
-}

@@ -5,10 +5,10 @@
 
 namespace ra::utility::sql {
 
-template<typename T>
+template<typename E>
 class EntityField : zaf::NonCopyableNonMovable {
 public:
-    explicit EntityField(std::vector<EntityField<T>*>& registered_fields) {
+    explicit EntityField(std::vector<EntityField<E>*>& registered_fields) {
         registered_fields.push_back(this);
     }
 
@@ -17,11 +17,12 @@ public:
     virtual void BindValueToStatement(
         Statement& statement, 
         int parameter_index, 
-        const T& object) const = 0;
+        const E& entity) const = 0;
 
     virtual void GetValueFromStatement(
         const Statement& statement, 
-        int index, T& object) const = 0;
+        int index,
+        E& entity) const = 0;
 };
 
 }
