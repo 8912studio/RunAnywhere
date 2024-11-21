@@ -390,6 +390,7 @@
     <ClInclude Include="src\utility\sql\database.h" />
     <ClInclude Include="src\utility\sql\data_type.h" />
     <ClInclude Include="src\utility\sql\orm\data_set.h" />
+    <ClInclude Include="src\utility\sql\orm\data_set_helpers.h" />
     <ClInclude Include="src\utility\sql\orm\entity_field.h" />
     <ClInclude Include="src\utility\sql\orm\entity_key.h" />
     <ClInclude Include="src\utility\sql\orm\entity_meta.h" />
@@ -647,6 +648,7 @@
     <ClCompile Include="src\utility\preview_text_box.cpp" />
     <ClCompile Include="src\utility\progress_circle.cpp" />
     <ClCompile Include="src\utility\sql\database.cpp" />
+    <ClCompile Include="src\utility\sql\orm\data_set_helpers.cpp" />
     <ClCompile Include="src\utility\sql\sql_error.cpp" />
     <ClCompile Include="src\utility\sql\statement.cpp" />
     <ClCompile Include="src\utility\sql\table_schema.cpp" />

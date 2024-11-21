@@ -8,6 +8,7 @@
 #include <zaf/base/range.h>
 #include <zaf/base/string/join.h>
 #include "utility/sql/database.h"
+#include "utility/sql/orm/data_set_helpers.h"
 #include "utility/sql/orm/entity_meta.h"
 
 namespace ra::utility::sql {
@@ -53,11 +54,10 @@ public:
 
         const auto& primary_key_fields = Meta().PrimaryKey.Fields();
 
-        static auto sql = std::format("select {} from {} where ({}) = ({})",
+        static auto sql = std::format("select {} from {} where {}",
             JoinFieldNames(Meta().Fields()), 
             Meta().EntityName(),
-            JoinFieldNames(primary_key_fields),
-            JoinPlaceholders(primary_key_fields.size()));
+            MakeKeyEquation(Meta().PrimaryKey));
 
         auto statement = database_.PrepareStatement(sql);
         MetaType::PrimaryKeyType::BindValue(statement, 1, primary_key);
@@ -90,15 +90,14 @@ public:
             return !zaf::Contain(primary_key_fields, field);
         });
 
-        static auto sql = [&non_primary_key_fields, &primary_key_fields]() {
+        static auto sql = [&non_primary_key_fields]() {
         
-            auto sql = std::format("update {} set {} where ({}) = ({})",
+            auto sql = std::format("update {} set {} where {}",
                 Meta().EntityName(),
                 zaf::JoinAsString(non_primary_key_fields, ",", [](auto field) {
                     return std::format("{}=?", field->Name());
                 }),
-                JoinFieldNames(primary_key_fields),
-                JoinPlaceholders(primary_key_fields.size()));
+                MakeKeyEquation(Meta().PrimaryKey));
 
             return sql;
         }();
@@ -118,12 +117,9 @@ public:
     
     void Delete(const MetaType::PrimaryKeyType::ValueType& primary_key) {
 
-        const auto& primary_key_fields = Meta().PrimaryKey.Fields();
-
-        static auto sql = std::format("delete from {} where ({}) = ({})",
+        static auto sql = std::format("delete from {} where {}",
             Meta().EntityName(),
-            JoinFieldNames(primary_key_fields),
-            JoinPlaceholders(primary_key_fields.size()));
+            MakeKeyEquation(Meta().PrimaryKey));
 
         auto statement = database_.PrepareStatement(sql);
         MetaType::PrimaryKeyType::BindValue(statement, 1, primary_key);
@@ -187,23 +183,6 @@ private:
         for (auto index : zaf::Range{ 0, fields.size() }) {
             fields[index]->GetValueFromStatement(statement, static_cast<int>(index), entity);
         }
-    }
-
-    static std::string JoinFieldNames(const std::vector<EntityField<E>*>& fields) {
-        return zaf::JoinAsString(fields, ",", [](auto field) {
-            return field->Name();
-        });
-    }
-
-    static std::string JoinPlaceholders(std::size_t count) {
-        std::string result;
-        for (auto index : zaf::Range{ 0, count }) {
-            if (index != 0) {
-                result += ',';
-            }
-            result += '?';
-        }
-        return result;
     }
 
 private:
