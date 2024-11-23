@@ -391,13 +391,16 @@
     <ClInclude Include="src\utility\sql\data_type.h" />
     <ClInclude Include="src\utility\sql\orm\data_set.h" />
     <ClInclude Include="src\utility\sql\orm\data_set_helpers.h" />
-    <ClInclude Include="src\utility\sql\orm\entity_field.h" />
-    <ClInclude Include="src\utility\sql\orm\entity_key.h" />
+    <ClInclude Include="src\utility\sql\orm\data_set_table.h" />
+    <ClInclude Include="src\utility\sql\orm\field.h" />
+    <ClInclude Include="src\utility\sql\orm\primary_key.h" />
     <ClInclude Include="src\utility\sql\orm\entity_meta.h" />
     <ClInclude Include="src\utility\sql\orm\field_traits.h" />
+    <ClInclude Include="src\utility\sql\orm\field_value_traits.h" />
     <ClInclude Include="src\utility\sql\orm\orm_support.h" />
     <ClInclude Include="src\utility\sql\sql_error.h" />
     <ClInclude Include="src\utility\sql\statement.h" />
+    <ClInclude Include="src\utility\sql\table_info.h" />
     <ClInclude Include="src\utility\sql\table_schema.h" />
     <ClInclude Include="src\utility\text_utility.h" />
     <ClInclude Include="src\utility\thin_border_window.h" />
@@ -649,6 +652,7 @@
     <ClCompile Include="src\utility\progress_circle.cpp" />
     <ClCompile Include="src\utility\sql\database.cpp" />
     <ClCompile Include="src\utility\sql\orm\data_set_helpers.cpp" />
+    <ClCompile Include="src\utility\sql\orm\data_set_table.cpp" />
     <ClCompile Include="src\utility\sql\sql_error.cpp" />
     <ClCompile Include="src\utility\sql\statement.cpp" />
     <ClCompile Include="src\utility\sql\table_schema.cpp" />

@@ -89,4 +89,36 @@ void Database::CreateTable(const TableSchema& table_schema) {
     ExecuteSQL(ToSQL(table_schema));
 }
 
+
+std::optional<TableInfo> Database::GetTableInfo(std::string_view table_name) {
+
+    auto sql = std::format("pragma table_info({})", table_name);
+    auto statement = PrepareStatement(sql);
+
+    TableInfo table_info;
+    while (statement.Step()) {
+
+        ColumnInfo column_info;
+        column_info.name = statement.GetColumnText(1);
+        column_info.data_type = [&]() {
+            auto type_name = statement.GetColumnText(2);
+            if (type_name == "INTEGER") {
+                return DataType::Integer;
+            }
+            else if (type_name == "TEXT") {
+                return DataType::Text;
+            }
+            return DataType::Unspecified;
+        }();
+
+        table_info.columns.push_back(std::move(column_info));
+    }
+
+    if (table_info.columns.empty()) {
+        return std::nullopt;
+    }
+
+    return table_info;
+}
+
 }

@@ -28,6 +28,7 @@ struct ColumnSchema {
 struct TableSchema {
     std::string name;
     std::vector<ColumnSchema> columns;
+    std::vector<std::string> primary_key;
 };
 
 

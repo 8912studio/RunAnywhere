@@ -1,6 +1,7 @@
 #include "utility/sql/table_schema.h"
 #include <format>
 #include <zaf/base/range.h>
+#include <zaf/base/string/join.h>
 
 namespace ra::utility::sql {
 namespace {
@@ -60,14 +61,20 @@ std::string GenerateColumnDefinitionSQL(const std::vector<ColumnSchema>& columns
     return result;
 }
 
+
+std::string GeneratePrimaryKeyConstraint(const std::vector<std::string>& columns) {
+    return std::format("primary key ({})", zaf::JoinAsString(columns, ","));
+}
+
 }
 
 std::string ToSQL(const TableSchema& table_schema) {
 
     return std::format(
-        "create table if not exists {} ({});",
+        "create table if not exists {} ({}) {}",
         table_schema.name,
-        GenerateColumnDefinitionSQL(table_schema.columns));
+        GenerateColumnDefinitionSQL(table_schema.columns),
+        GeneratePrimaryKeyConstraint(table_schema.primary_key));
 }
 
 }

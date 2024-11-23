@@ -8,8 +8,6 @@
 #include "utility/sql/orm/orm_support.h"
 #include "utility/sql/orm/data_set.h"
 
-using namespace ra::utility::sql;
-
 class Person {
 public:
     int id{};
@@ -26,27 +24,9 @@ SQL_ENTITY_END;
 
 TEST(SQLTest, Table) {
 
-    auto database = Database::Open("test.db");
+    auto database = ra::utility::sql::Database::Open("test.db");
 
-    TableSchema table_schema;
-    table_schema.name = "Person";
-    table_schema.columns = {
-        ColumnSchema{ 
-            .name = "ID",
-            .data_type = DataType::Integer
-        },
-        ColumnSchema{
-            .name = "Age",
-            .data_type = DataType::Integer
-        },
-        ColumnSchema{
-            .name = "Name",
-            .data_type = DataType::Text
-        }
-    };
-    database.CreateTable(table_schema);
-
-    DataSet<Person> data_set{ database };
+    ra::utility::sql::DataSet<Person> data_set{ database };
 
     auto persons = data_set.SelectAll();
 

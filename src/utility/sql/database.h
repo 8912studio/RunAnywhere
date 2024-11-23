@@ -4,6 +4,7 @@
 #include <sqlite3.h>
 #include <zaf/base/non_copyable.h>
 #include "utility/sql/statement.h"
+#include "utility/sql/table_info.h"
 #include "utility/sql/table_schema.h"
 
 namespace ra::utility::sql {
@@ -26,6 +27,8 @@ public:
     std::int64_t LastInsertRowID() const;
 
     void CreateTable(const TableSchema& table_schema);
+
+    std::optional<TableInfo> GetTableInfo(std::string_view table_name);
 
     sqlite3* Handle() const noexcept {
         return handle_;

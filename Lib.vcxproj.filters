@@ -1131,10 +1131,10 @@
     <ClInclude Include="src\utility\sql\orm\field_traits.h">
       <Filter>src\utility\sql\orm</Filter>
     </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\entity_field.h">
+    <ClInclude Include="src\utility\sql\orm\field.h">
       <Filter>src\utility\sql\orm</Filter>
     </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\entity_key.h">
+    <ClInclude Include="src\utility\sql\orm\primary_key.h">
       <Filter>src\utility\sql\orm</Filter>
     </ClInclude>
     <ClInclude Include="src\utility\sql\orm\data_set.h">
@@ -1144,6 +1144,15 @@
       <Filter>src\utility\sql\orm</Filter>
     </ClInclude>
     <ClInclude Include="src\utility\sql\orm\data_set_helpers.h">
+      <Filter>src\utility\sql\orm</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\sql\table_info.h">
+      <Filter>src\utility\sql</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\sql\orm\field_value_traits.h">
+      <Filter>src\utility\sql\orm</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\sql\orm\data_set_table.h">
       <Filter>src\utility\sql\orm</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1863,6 +1872,9 @@
       <Filter>src\test\fault_injection</Filter>
     </ClCompile>
     <ClCompile Include="src\utility\sql\orm\data_set_helpers.cpp">
+      <Filter>src\utility\sql\orm</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\sql\orm\data_set_table.cpp">
       <Filter>src\utility\sql\orm</Filter>
     </ClCompile>
   </ItemGroup>
