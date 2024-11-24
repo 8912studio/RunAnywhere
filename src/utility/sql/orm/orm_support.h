@@ -12,18 +12,18 @@ template<> \
 class sql__Table<ENTITY_CLASS> : public ra::utility::sql::AbstractTable { \
 public: \
     using EntityType = ENTITY_CLASS; \
-    static const sql__Table& Instance() { \
+    static const sql__Table& GetInstance() { \
         static sql__Table instance; \
         return instance; \
     } \
     std::string_view GetName() const noexcept override { return #TABLE_NAME; } \
-    ra::utility::sql::AbstractColumnsView GetAllAbstractColumns() const noexcept override { \
+    ra::utility::sql::AbstractColumnsView GetAbstractColumns() const noexcept override { \
         return { \
             reinterpret_cast<const ra::utility::sql::AbstractColumn* const*>(fields_.data()), \
             fields_.size() \
         };\
     } \
-    ra::utility::sql::ColumnsView<EntityType> GetAllFields() const noexcept { \
+    ra::utility::sql::ColumnsView<EntityType> GetColumns() const noexcept { \
         return fields_; \
     } \
 private: \
@@ -31,14 +31,14 @@ private: \
     std::vector<const ra::utility::sql::Column<EntityType>*> fields_;
 
 
-#define SQL_COLUMN(NAME, FIELD) \
+#define SQL_COLUMN(COLUMN_NAME, CLASS_FIELD) \
 public: \
-    class NAME##Type : public ra::utility::sql::Column<EntityType> { \
+    class COLUMN_NAME##Type : public ra::utility::sql::Column<EntityType> { \
     public: \
-        using ValueType = decltype(((EntityType*)nullptr)->FIELD); \
+        using ValueType = decltype(((EntityType*)nullptr)->CLASS_FIELD); \
         using Column::Column; \
         std::string_view GetName() const noexcept override { \
-            return #NAME; \
+            return #COLUMN_NAME; \
         } \
         ra::utility::sql::DataType GetDataType() const noexcept override { \
             return ra::utility::sql::ColumnValueTraits<ValueType>::DataType; \
@@ -47,18 +47,18 @@ public: \
             ra::utility::sql::Statement& statement, \
             int parameter_index, \
             const EntityType& entity) const override { \
-            statement.BindParameter(parameter_index, entity.FIELD); \
+            statement.BindParameter(parameter_index, entity.CLASS_FIELD); \
         } \
         void GetValueFromStatement( \
             const ra::utility::sql::Statement& statement, \
             int column_index, \
             EntityType& entity) const override { \
-            entity.FIELD = ra::utility::sql::GetValueFromStatement<ValueType>( \
+            entity.CLASS_FIELD = ra::utility::sql::GetValueFromStatement<ValueType>( \
                 statement, \
                 column_index); \
         } \
     }; \
-    NAME##Type NAME{ fields_ };
+    COLUMN_NAME##Type COLUMN_NAME{ fields_ };
 
 
 #define SQL_PRIMARY_KEY(...) \

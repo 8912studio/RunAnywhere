@@ -21,7 +21,7 @@ private:
     using MetaType = Table<E>;
 
     static const MetaType& Meta() {
-        return MetaType::Instance();
+        return MetaType::GetInstance();
     }
 
 public:
@@ -34,7 +34,7 @@ public:
 
         static auto sql = std::format(
             "select {} from {}", 
-            JoinFieldNames(Meta().GetAllAbstractColumns()), 
+            JoinFieldNames(Meta().GetAbstractColumns()), 
             Meta().GetName());
 
         std::vector<E> result;
@@ -43,7 +43,7 @@ public:
         while (statement.Step()) {
 
             E entity{};
-            GetEntityValuesFromStatement(statement, Meta().GetAllFields(), entity);
+            GetEntityValuesFromStatement(statement, Meta().GetColumns(), entity);
 
             result.push_back(std::move(entity));
         }
@@ -55,7 +55,7 @@ public:
     std::optional<E> Select(const MetaType::PrimaryKeyType::ValueType& primary_key) {
 
         static auto sql = std::format("select {} from {} where {}",
-            JoinFieldNames(Meta().GetAllAbstractColumns()),
+            JoinFieldNames(Meta().GetAbstractColumns()),
             Meta().GetName(),
             MakeKeyEquation(Meta().PrimaryKey));
 
@@ -65,7 +65,7 @@ public:
         if (statement.Step()) {
 
             E entity{};
-            GetEntityValuesFromStatement(statement, Meta().GetAllFields(), entity);
+            GetEntityValuesFromStatement(statement, Meta().GetColumns(), entity);
             return std::move(entity);
         }
 
@@ -86,7 +86,7 @@ public:
     void Update(const E& entity) {
 
         const auto& primary_key_fields = Meta().PrimaryKey.Fields();
-        auto non_primary_key_fields = zaf::CopyIf(Meta().GetAllFields(), [&](auto field) {
+        auto non_primary_key_fields = zaf::CopyIf(Meta().GetColumns(), [&](auto field) {
             return !zaf::Contain(primary_key_fields, field);
         });
 
@@ -133,7 +133,7 @@ private:
         auto sql = GetInsertOrReplaceSQL(insert);
 
         auto statement = db_.Get().PrepareStatement(sql);
-        BindEntityValuesToStatement(statement, 1, Meta().GetAllFields(), entity);
+        BindEntityValuesToStatement(statement, 1, Meta().GetColumns(), entity);
 
         statement.Step();
     }
@@ -156,8 +156,8 @@ private:
         return std::format("{} into {} ({}) values ({})",
             verb,
             Meta().GetName(),
-            JoinFieldNames(Meta().GetAllAbstractColumns()),
-            JoinPlaceholders(Meta().GetAllFields().size()));
+            JoinFieldNames(Meta().GetAbstractColumns()),
+            JoinPlaceholders(Meta().GetColumns().size()));
     }
 
 

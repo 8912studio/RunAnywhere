@@ -19,12 +19,12 @@ public:
 };
 
 
-template<typename T, typename... Columns>
+template<typename E, typename... Columns>
 class PrimaryKey;
 
 
-template<typename T, typename First, typename... Rest>
-class PrimaryKey<T, First, Rest...> : public AbstractPrimaryKey {
+template<typename E, typename First, typename... Rest>
+class PrimaryKey<E, First, Rest...> : public AbstractPrimaryKey {
 public:
     using ValueType = std::tuple<typename First::ValueType, typename Rest::ValueType...>;
 
@@ -49,17 +49,17 @@ public:
         }; 
     }
 
-    ColumnsView<T> GetColumns() const noexcept {
+    ColumnsView<E> GetColumns() const noexcept {
         return columns_;
     }
 
 private:
-    std::vector<const Column<T>*> columns_;
+    std::vector<const Column<E>*> columns_;
 };
 
 
-template<typename T, typename Single>
-class PrimaryKey<T, Single> : public AbstractPrimaryKey {
+template<typename E, typename Single>
+class PrimaryKey<E, Single> : public AbstractPrimaryKey {
 public:
     using ValueType = typename Single::ValueType;
 
@@ -81,8 +81,8 @@ public:
         return { reinterpret_cast<const AbstractColumn* const*>(&column_), 1 };
     }
 
-    ColumnsView<T> GetColumns() const noexcept {
-        return { &column_, 1 };
+    ColumnsView<E> GetColumns() const noexcept {
+        return { reinterpret_cast<const Column<E>* const*>(&column_), 1 };
     }
 
     bool IsAutoincrement() const noexcept override {
@@ -95,9 +95,9 @@ private:
 };
 
 
-template<typename T, typename... Columns>
+template<typename E, typename... Columns>
 auto MakePrimaryKey(Columns&... columns) {
-    return PrimaryKey<T, Columns...>(columns...);
+    return PrimaryKey<E, Columns...>(columns...);
 }
 
 }

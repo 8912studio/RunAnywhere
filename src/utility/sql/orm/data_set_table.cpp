@@ -19,7 +19,7 @@ TableSchema DataSetTable::ToTableSchema(const AbstractTable& meta) {
     TableSchema table_schema;
     table_schema.name = meta.GetName();
 
-    for (auto each_field : meta.GetAllAbstractColumns()) {
+    for (auto each_field : meta.GetAbstractColumns()) {
 
         ColumnSchema column_schema;
         column_schema.name = each_field->GetName();

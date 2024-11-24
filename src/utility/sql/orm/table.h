@@ -17,7 +17,7 @@ public:
     virtual ~AbstractTable() = default;
 
     virtual std::string_view GetName() const noexcept = 0;
-    virtual AbstractColumnsView GetAllAbstractColumns() const noexcept = 0;
+    virtual AbstractColumnsView GetAbstractColumns() const noexcept = 0;
 
     virtual const AbstractPrimaryKey* GetAbstractPrimaryKey() const noexcept {
         return nullptr;
