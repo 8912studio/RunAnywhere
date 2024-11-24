@@ -17,7 +17,7 @@ public: \
         return instance; \
     } \
     std::string_view GetName() const noexcept override { return #TABLE_NAME; } \
-    ra::utility::sql::AbstractColumnsView GetAllAbstractFields() const noexcept override { \
+    ra::utility::sql::AbstractColumnsView GetAllAbstractColumns() const noexcept override { \
         return { \
             reinterpret_cast<const ra::utility::sql::AbstractColumn* const*>(fields_.data()), \
             fields_.size() \
@@ -37,10 +37,10 @@ public: \
     public: \
         using ValueType = decltype(((EntityType*)nullptr)->FIELD); \
         using Column::Column; \
-        std::string_view Name() const override { \
+        std::string_view GetName() const noexcept override { \
             return #NAME; \
         } \
-        ra::utility::sql::DataType DataType() const override { \
+        ra::utility::sql::DataType GetDataType() const noexcept override { \
             return ra::utility::sql::ColumnValueTraits<ValueType>::DataType; \
         } \
         void BindValueToStatement( \

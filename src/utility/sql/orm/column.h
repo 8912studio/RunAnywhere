@@ -12,8 +12,8 @@ public:
     AbstractColumn() = default;
     virtual ~AbstractColumn() = default;
 
-    virtual std::string_view Name() const = 0;
-    virtual sql::DataType DataType() const = 0;
+    virtual std::string_view GetName() const noexcept = 0;
+    virtual DataType GetDataType() const noexcept = 0;
 };
 
 using AbstractColumnsView = std::span<const AbstractColumn* const>;
@@ -22,8 +22,8 @@ using AbstractColumnsView = std::span<const AbstractColumn* const>;
 template<typename E>
 class Column : public AbstractColumn {
 public:
-    explicit Column(std::vector<const Column<E>*>& registered_fields) {
-        registered_fields.push_back(this);
+    explicit Column(std::vector<const Column<E>*>& registered_columns) {
+        registered_columns.push_back(this);
     }
 
     virtual void BindValueToStatement(

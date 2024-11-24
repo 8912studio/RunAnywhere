@@ -34,7 +34,7 @@ public:
 
         static auto sql = std::format(
             "select {} from {}", 
-            JoinFieldNames(Meta().GetAllAbstractFields()), 
+            JoinFieldNames(Meta().GetAllAbstractColumns()), 
             Meta().GetName());
 
         std::vector<E> result;
@@ -57,7 +57,7 @@ public:
         const auto& primary_key_fields = Meta().PrimaryKey.Fields();
 
         static auto sql = std::format("select {} from {} where {}",
-            JoinFieldNames(Meta().GetAllAbstractFields()),
+            JoinFieldNames(Meta().GetAllAbstractColumns()),
             Meta().GetName(),
             MakeKeyEquation(Meta().PrimaryKey));
 
@@ -97,7 +97,7 @@ public:
             auto sql = std::format("update {} set {} where {}",
                 Meta().GetName(),
                 zaf::JoinAsString(non_primary_key_fields, ",", [](auto field) {
-                    return std::format("{}=?", field->Name());
+                    return std::format("{}=?", field->GetName());
                 }),
                 MakeKeyEquation(Meta().PrimaryKey));
 
@@ -158,7 +158,7 @@ private:
         return std::format("{} into {} ({}) values ({})",
             verb,
             Meta().GetName(),
-            JoinFieldNames(Meta().GetAllAbstractFields()),
+            JoinFieldNames(Meta().GetAllAbstractColumns()),
             JoinPlaceholders(Meta().GetAllFields().size()));
     }
 

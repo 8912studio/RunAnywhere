@@ -11,11 +11,11 @@ public:
     AbstractPrimaryKey() = default;
     virtual ~AbstractPrimaryKey() = default;
 
-    virtual AbstractColumnsView GetAbstractFields() const noexcept = 0;
+    virtual AbstractColumnsView GetAbstractColumns() const noexcept = 0;
 };
 
 
-template<typename T, typename... Fields>
+template<typename T, typename... Columns>
 class PrimaryKey;
 
 
@@ -34,23 +34,23 @@ public:
     }
 
     PrimaryKey(First& first, Rest&... rest) {
-        fields_.push_back(&first);
-        fields_.push_back(&rest...);
+        columns_.push_back(&first);
+        columns_.push_back(&rest...);
     }
 
-    AbstractColumnsView GetAbstractFields() const noexcept override {
+    AbstractColumnsView GetAbstractColumns() const noexcept override {
         return { 
-            reinterpret_cast<const AbstractColumn* const*>(fields_.data()),
-            fields_.size()
+            reinterpret_cast<const AbstractColumn* const*>(columns_.data()),
+            columns_.size()
         }; 
     }
 
     ColumnsView<T> Fields() const {
-        return fields_;
+        return columns_;
     }
 
 private:
-    std::vector<const Column<T>*> fields_;
+    std::vector<const Column<T>*> columns_;
 };
 
 
@@ -67,7 +67,7 @@ public:
         fields_.push_back(&single);
     }
 
-    AbstractColumnsView GetAbstractFields() const noexcept override {
+    AbstractColumnsView GetAbstractColumns() const noexcept override {
         return {
             reinterpret_cast<const AbstractColumn* const*>(fields_.data()),
             fields_.size()
@@ -83,9 +83,9 @@ private:
 };
 
 
-template<typename T, typename... Fields>
-auto MakePrimaryKey(Fields&... fields) {
-    return PrimaryKey<T, Fields...>(fields...);
+template<typename T, typename... Columns>
+auto MakePrimaryKey(Columns&... columns) {
+    return PrimaryKey<T, Columns...>(columns...);
 }
 
 }
