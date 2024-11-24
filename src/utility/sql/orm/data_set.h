@@ -11,14 +11,14 @@
 #include "utility/sql/database.h"
 #include "utility/sql/orm/data_set_helpers.h"
 #include "utility/sql/orm/data_set_table.h"
-#include "utility/sql/orm/entity_meta.h"
+#include "utility/sql/orm/table.h"
 
 namespace ra::utility::sql {
 
 template<typename E>
 class DataSet : zaf::NonCopyableNonMovable {
 private:
-    using MetaType = EntityMeta<E>;
+    using MetaType = Table<E>;
 
     static const MetaType& Meta() {
         return MetaType::Instance();
@@ -166,7 +166,7 @@ private:
     static void BindEntityValuesToStatement(
         Statement& statement,
         int begin_index,
-        std::span<const Field<E>* const> fields,
+        std::span<const Column<E>* const> fields,
         const E& entity) {
 
         for (auto index : zaf::Range{ 0, fields.size() }) {
@@ -179,7 +179,7 @@ private:
 
     static void GetEntityValuesFromStatement(
         const Statement& statement, 
-        std::span<const Field<E>* const> fields,
+        std::span<const Column<E>* const> fields,
         E& entity) {
 
         for (auto index : zaf::Range{ 0, fields.size() }) {

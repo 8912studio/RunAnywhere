@@ -15,12 +15,12 @@ public:
     int age{};
 };
 
-SQL_ENTITY_BEGIN(Person);
-SQL_ENTITY_FIELD(ID, id);
-SQL_ENTITY_FIELD(Name, name);
-SQL_ENTITY_FIELD(Age, age);
-SQL_ENTITY_PRIMARY_KEY(ID);
-SQL_ENTITY_END;
+SQL_TABLE_BEGIN(Person, Person);
+SQL_COLUMN(ID, id);
+SQL_COLUMN(Name, name);
+SQL_COLUMN(Age, age);
+SQL_PRIMARY_KEY(ID);
+SQL_TABLE_END;
 
 TEST(SQLTest, Table) {
 

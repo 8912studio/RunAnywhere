@@ -2,7 +2,7 @@
 
 namespace ra::utility::sql {
 
-void DataSetTable::InitializeTable(const AbstractEntityMeta& meta, Database& db) {
+void DataSetTable::InitializeTable(const AbstractTable& meta, Database& db) {
 
     auto table_info = db.GetTableInfo(meta.GetName());
     if (!table_info) {
@@ -14,7 +14,7 @@ void DataSetTable::InitializeTable(const AbstractEntityMeta& meta, Database& db)
 }
 
 
-TableSchema DataSetTable::ToTableSchema(const AbstractEntityMeta& meta) {
+TableSchema DataSetTable::ToTableSchema(const AbstractTable& meta) {
 
     TableSchema table_schema;
     table_schema.name = meta.GetName();

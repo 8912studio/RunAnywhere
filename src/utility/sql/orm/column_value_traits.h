@@ -6,15 +6,15 @@
 namespace ra::utility::sql {
 
 template<typename T, typename = void>
-struct FieldValueTraits { };
+struct ColumnValueTraits { };
 
 template<typename T>
-struct FieldValueTraits<T, std::enable_if_t<std::is_integral_v<T>>> {
+struct ColumnValueTraits<T, std::enable_if_t<std::is_integral_v<T>>> {
     static constexpr sql::DataType DataType = sql::DataType::Integer;
 };
 
 template<>
-struct FieldValueTraits<std::string> {
+struct ColumnValueTraits<std::string> {
     static constexpr sql::DataType DataType = sql::DataType::Text;
 };
 

@@ -2,7 +2,7 @@
 
 #include <tuple>
 #include <zaf/base/non_copyable.h>
-#include "utility/sql/orm/field.h"
+#include "utility/sql/orm/column.h"
 
 namespace ra::utility::sql {
 
@@ -11,7 +11,7 @@ public:
     AbstractPrimaryKey() = default;
     virtual ~AbstractPrimaryKey() = default;
 
-    virtual AbstractFieldsView GetAbstractFields() const noexcept = 0;
+    virtual AbstractColumnsView GetAbstractFields() const noexcept = 0;
 };
 
 
@@ -38,19 +38,19 @@ public:
         fields_.push_back(&rest...);
     }
 
-    AbstractFieldsView GetAbstractFields() const noexcept override {
+    AbstractColumnsView GetAbstractFields() const noexcept override {
         return { 
-            reinterpret_cast<const AbstractField* const*>(fields_.data()),
+            reinterpret_cast<const AbstractColumn* const*>(fields_.data()),
             fields_.size()
         }; 
     }
 
-    FieldsView<T> Fields() const {
+    ColumnsView<T> Fields() const {
         return fields_;
     }
 
 private:
-    std::vector<const Field<T>*> fields_;
+    std::vector<const Column<T>*> fields_;
 };
 
 
@@ -67,19 +67,19 @@ public:
         fields_.push_back(&single);
     }
 
-    AbstractFieldsView GetAbstractFields() const noexcept override {
+    AbstractColumnsView GetAbstractFields() const noexcept override {
         return {
-            reinterpret_cast<const AbstractField* const*>(fields_.data()),
+            reinterpret_cast<const AbstractColumn* const*>(fields_.data()),
             fields_.size()
         };
     }
 
-    FieldsView<T> Fields() const {
+    ColumnsView<T> Fields() const {
         return fields_;
     }
 
 private:
-    std::vector<const Field<T>*> fields_;
+    std::vector<const Column<T>*> fields_;
 };
 
 

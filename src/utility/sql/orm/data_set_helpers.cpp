@@ -17,7 +17,7 @@ std::string JoinPlaceholders(std::size_t count) {
 }
 
 
-std::string JoinFieldNames(AbstractFieldsView fields) {
+std::string JoinFieldNames(AbstractColumnsView fields) {
 
     return zaf::JoinAsString(fields, ",", [](auto field) {
         return field->Name();

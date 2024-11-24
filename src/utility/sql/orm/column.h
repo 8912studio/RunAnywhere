@@ -7,22 +7,22 @@
 
 namespace ra::utility::sql {
 
-class AbstractField : zaf::NonCopyableNonMovable {
+class AbstractColumn : zaf::NonCopyableNonMovable {
 public:
-    AbstractField() = default;
-    virtual ~AbstractField() = default;
+    AbstractColumn() = default;
+    virtual ~AbstractColumn() = default;
 
     virtual std::string_view Name() const = 0;
     virtual sql::DataType DataType() const = 0;
 };
 
-using AbstractFieldsView = std::span<const AbstractField* const>;
+using AbstractColumnsView = std::span<const AbstractColumn* const>;
 
 
 template<typename E>
-class Field : public AbstractField {
+class Column : public AbstractColumn {
 public:
-    explicit Field(std::vector<const Field<E>*>& registered_fields) {
+    explicit Column(std::vector<const Column<E>*>& registered_fields) {
         registered_fields.push_back(this);
     }
 
@@ -38,6 +38,6 @@ public:
 };
 
 template<typename E>
-using FieldsView = std::span<const Field<E>* const>;
+using ColumnsView = std::span<const Column<E>* const>;
 
 }

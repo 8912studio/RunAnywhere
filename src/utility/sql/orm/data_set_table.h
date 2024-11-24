@@ -1,16 +1,16 @@
 #pragma once
 
 #include "utility/sql/database.h"
-#include "utility/sql/orm/entity_meta.h"
+#include "utility/sql/orm/table.h"
 
 namespace ra::utility::sql {
 
 class DataSetTable {
 public:
-    static void InitializeTable(const AbstractEntityMeta& meta, Database& db);
+    static void InitializeTable(const AbstractTable& meta, Database& db);
 
 private:
-    static TableSchema ToTableSchema(const AbstractEntityMeta& meta);
+    static TableSchema ToTableSchema(const AbstractTable& meta);
 };
 
 }

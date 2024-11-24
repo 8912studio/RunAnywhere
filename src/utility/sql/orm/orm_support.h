@@ -1,47 +1,47 @@
 #pragma once
 
 #include <zaf/base/non_copyable.h>
-#include "utility/sql/orm/entity_meta.h"
-#include "utility/sql/orm/field.h"
+#include "utility/sql/orm/table.h"
+#include "utility/sql/orm/column.h"
 #include "utility/sql/orm/primary_key.h"
 #include "utility/sql/orm/field_traits.h"
-#include "utility/sql/orm/field_value_traits.h"
+#include "utility/sql/orm/column_value_traits.h"
 
-#define SQL_ENTITY_BEGIN(CLASS) \
+#define SQL_TABLE_BEGIN(TABLE_NAME, ENTITY_CLASS) \
 template<> \
-class sql__EntityMeta<CLASS> : public ra::utility::sql::AbstractEntityMeta { \
+class sql__Table<ENTITY_CLASS> : public ra::utility::sql::AbstractTable { \
 public: \
-    using EntityType = CLASS; \
-    static const sql__EntityMeta& Instance() { \
-        static sql__EntityMeta instance; \
+    using EntityType = ENTITY_CLASS; \
+    static const sql__Table& Instance() { \
+        static sql__Table instance; \
         return instance; \
     } \
-    std::string_view GetName() const noexcept override { return #CLASS; } \
-    ra::utility::sql::AbstractFieldsView GetAllAbstractFields() const noexcept override { \
+    std::string_view GetName() const noexcept override { return #TABLE_NAME; } \
+    ra::utility::sql::AbstractColumnsView GetAllAbstractFields() const noexcept override { \
         return { \
-            reinterpret_cast<const ra::utility::sql::AbstractField* const*>(fields_.data()), \
+            reinterpret_cast<const ra::utility::sql::AbstractColumn* const*>(fields_.data()), \
             fields_.size() \
         };\
     } \
-    ra::utility::sql::FieldsView<EntityType> GetAllFields() const noexcept { \
+    ra::utility::sql::ColumnsView<EntityType> GetAllFields() const noexcept { \
         return fields_; \
     } \
 private: \
-    sql__EntityMeta() = default; \
-    std::vector<const ra::utility::sql::Field<EntityType>*> fields_;
+    sql__Table() = default; \
+    std::vector<const ra::utility::sql::Column<EntityType>*> fields_;
 
 
-#define SQL_ENTITY_FIELD(NAME, FIELD) \
+#define SQL_COLUMN(NAME, FIELD) \
 public: \
-    class NAME##Type : public ra::utility::sql::Field<EntityType> { \
+    class NAME##Type : public ra::utility::sql::Column<EntityType> { \
     public: \
         using ValueType = decltype(((EntityType*)nullptr)->FIELD); \
-        using Field::Field; \
+        using Column::Column; \
         std::string_view Name() const override { \
             return #NAME; \
         } \
         ra::utility::sql::DataType DataType() const override { \
-            return ra::utility::sql::FieldValueTraits<ValueType>::DataType; \
+            return ra::utility::sql::ColumnValueTraits<ValueType>::DataType; \
         } \
         void BindValueToStatement( \
             ra::utility::sql::Statement& statement, \
@@ -61,7 +61,7 @@ public: \
     NAME##Type NAME{ fields_ };
 
 
-#define SQL_ENTITY_PRIMARY_KEY(...) \
+#define SQL_PRIMARY_KEY(...) \
 public:\
     using PrimaryKeyType = decltype(ra::utility::sql::MakePrimaryKey<EntityType>(__VA_ARGS__)); \
     PrimaryKeyType PrimaryKey = ra::utility::sql::MakePrimaryKey<EntityType>(__VA_ARGS__); \
@@ -71,4 +71,4 @@ public:\
     }
 
 
-#define SQL_ENTITY_END };
+#define SQL_TABLE_END };

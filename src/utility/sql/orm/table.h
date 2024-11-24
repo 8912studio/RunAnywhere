@@ -3,21 +3,21 @@
 #include <span>
 #include <string_view>
 #include <zaf/base/non_copyable.h>
-#include "utility/sql/orm/field.h"
+#include "utility/sql/orm/column.h"
 #include "utility/sql/orm/primary_key.h"
 
 template<typename T>
-class sql__EntityMeta;
+class sql__Table;
 
 namespace ra::utility::sql {
 
-class AbstractEntityMeta : zaf::NonCopyableNonMovable {
+class AbstractTable : zaf::NonCopyableNonMovable {
 public:
-    AbstractEntityMeta() = default;
-    virtual ~AbstractEntityMeta() = default;
+    AbstractTable() = default;
+    virtual ~AbstractTable() = default;
 
     virtual std::string_view GetName() const noexcept = 0;
-    virtual AbstractFieldsView GetAllAbstractFields() const noexcept = 0;
+    virtual AbstractColumnsView GetAllAbstractFields() const noexcept = 0;
 
     virtual const AbstractPrimaryKey* GetAbstractPrimaryKey() const noexcept {
         return nullptr;
@@ -25,6 +25,6 @@ public:
 };
 
 template<typename T>
-using EntityMeta = sql__EntityMeta<T>;
+using Table = sql__Table<T>;
 
 }
