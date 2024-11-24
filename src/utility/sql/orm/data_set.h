@@ -54,8 +54,6 @@ public:
 
     std::optional<E> Select(const MetaType::PrimaryKeyType::ValueType& primary_key) {
 
-        const auto& primary_key_fields = Meta().PrimaryKey.Fields();
-
         static auto sql = std::format("select {} from {} where {}",
             JoinFieldNames(Meta().GetAllAbstractColumns()),
             Meta().GetName(),

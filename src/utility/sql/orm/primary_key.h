@@ -12,6 +12,10 @@ public:
     virtual ~AbstractPrimaryKey() = default;
 
     virtual AbstractColumnsView GetAbstractColumns() const noexcept = 0;
+
+    virtual bool IsAutoincrement() const noexcept {
+        return false;
+    }
 };
 
 
@@ -45,7 +49,7 @@ public:
         }; 
     }
 
-    ColumnsView<T> Fields() const {
+    ColumnsView<T> GetColumns() const noexcept {
         return columns_;
     }
 
@@ -63,23 +67,31 @@ public:
         statement.BindParameter(parameter_index, value);
     }
 
-    explicit PrimaryKey(Single& single) {
-        fields_.push_back(&single);
+    explicit PrimaryKey(const Single& single) : column_(&single) {
+
+    }
+
+    PrimaryKey(const Single& single, bool is_autoincrement) : 
+        column_(&single), 
+        is_autoincrement_(is_autoincrement) {
+
     }
 
     AbstractColumnsView GetAbstractColumns() const noexcept override {
-        return {
-            reinterpret_cast<const AbstractColumn* const*>(fields_.data()),
-            fields_.size()
-        };
+        return { reinterpret_cast<const AbstractColumn* const*>(&column_), 1 };
     }
 
-    ColumnsView<T> Fields() const {
-        return fields_;
+    ColumnsView<T> GetColumns() const noexcept {
+        return { &column_, 1 };
+    }
+
+    bool IsAutoincrement() const noexcept override {
+        return is_autoincrement_;
     }
 
 private:
-    std::vector<const Column<T>*> fields_;
+    const Single* column_{};
+    bool is_autoincrement_{};
 };
 
 

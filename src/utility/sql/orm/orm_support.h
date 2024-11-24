@@ -65,10 +65,17 @@ public: \
 public:\
     using PrimaryKeyType = decltype(ra::utility::sql::MakePrimaryKey<EntityType>(__VA_ARGS__)); \
     PrimaryKeyType PrimaryKey = ra::utility::sql::MakePrimaryKey<EntityType>(__VA_ARGS__); \
-    const ra::utility::sql::AbstractPrimaryKey* \
-        GetAbstractPrimaryKey() const noexcept override { \
+    const ra::utility::sql::AbstractPrimaryKey* GetAbstractPrimaryKey() const noexcept override { \
         return &PrimaryKey; \
     }
 
+
+#define SQL_PRIMARY_KEY_AUTOINCREMENT(COLUMN_NAME) \
+public: \
+    using PrimaryKeyType = ra::utility::sql::PrimaryKey<EntityType, COLUMN_NAME##Type>; \
+    PrimaryKeyType PrimaryKey{ COLUMN_NAME, true }; \
+    const ra::utility::sql::AbstractPrimaryKey* GetAbstractPrimaryKey() const noexcept override { \
+        return &PrimaryKey; \
+    }
 
 #define SQL_TABLE_END };

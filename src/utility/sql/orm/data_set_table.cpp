@@ -31,20 +31,24 @@ TableSchema DataSetTable::ToTableSchema(const AbstractTable& meta) {
     auto primary_key = meta.GetAbstractPrimaryKey();
     if (primary_key) {
 
-        auto primary_key_fields = primary_key->GetAbstractColumns();
-        if (primary_key_fields.size() == 1) {
+        auto primary_key_columns = primary_key->GetAbstractColumns();
+        if (primary_key_columns.size() == 1) {
 
-            auto primary_field = primary_key_fields.front();
+            auto primary_column = primary_key_columns.front();
             for (auto& each_column : table_schema.columns) {
-                if (each_column.name == primary_field->GetName()) {
+
+                if (each_column.name == primary_column->GetName()) {
                     each_column.constraints |= ColumnConstraints::PrimaryKey;
+                    if (primary_key->IsAutoincrement()) {
+                        each_column.constraints |= ColumnConstraints::AutoIncrement;
+                    }
                     break;
                 }
             }
         }
-        else if (primary_key_fields.size() > 1) {
+        else if (primary_key_columns.size() > 1) {
 
-            for (auto each_field : primary_key_fields) {
+            for (auto each_field : primary_key_columns) {
                 table_schema.primary_key.push_back(std::string{ each_field->GetName() });
             }
         }
