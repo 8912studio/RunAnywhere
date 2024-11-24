@@ -6,26 +6,12 @@
 namespace ra::utility::sql {
 namespace {
 
-std::string_view DataTypeToString(DataType data_type) {
-    switch (data_type) {
-    case DataType::Integer:
-        return "integer";
-    case DataType::Float:
-        return "float";
-    case DataType::Text:
-        return "text";
-    case DataType::BLOB:
-        return "blob";
-    case DataType::Unspecified:
-    default:
-        return "";
-    }
-}
-
-
 std::string GenerateColumnDefinitionSQL(const ColumnSchema& column) {
 
-    std::string result = std::format("{} {}", column.name, DataTypeToString(column.data_type));
+    std::string result = std::format(
+        "{} {}",
+        column.name, 
+        DataTypeTraits::ToString(column.data_type));
 
     if (zaf::HasFlag(column.constraints, ColumnConstraints::PrimaryKey)) {
         result += " primary key";
@@ -35,7 +21,7 @@ std::string GenerateColumnDefinitionSQL(const ColumnSchema& column) {
         result += " autoincrement";
     }
 
-    if (zaf::HasFlag(column.constraints, ColumnConstraints::None)) {
+    if (zaf::HasFlag(column.constraints, ColumnConstraints::NotNull)) {
         result += " not null";
     }
 
@@ -63,7 +49,12 @@ std::string GenerateColumnDefinitionSQL(const std::vector<ColumnSchema>& columns
 
 
 std::string GeneratePrimaryKeyConstraint(const std::vector<std::string>& columns) {
-    return std::format("primary key ({})", zaf::JoinAsString(columns, ","));
+
+    if (columns.empty()) {
+        return {};
+    }
+
+    return std::format(", primary key ({})", zaf::JoinAsString(columns, ","));
 }
 
 }
@@ -71,7 +62,7 @@ std::string GeneratePrimaryKeyConstraint(const std::vector<std::string>& columns
 std::string ToSQL(const TableSchema& table_schema) {
 
     return std::format(
-        "create table if not exists {} ({}) {}",
+        "create table if not exists {} ({} {})",
         table_schema.name,
         GenerateColumnDefinitionSQL(table_schema.columns),
         GeneratePrimaryKeyConstraint(table_schema.primary_key));

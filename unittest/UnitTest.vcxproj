@@ -113,6 +113,7 @@
     <ClCompile Include="case\utility\markdown\render\styled_text_builder_test.cpp" />
     <ClCompile Include="case\utility\numeric_text_formatting_test.cpp" />
     <ClCompile Include="case\utility\sql\orm\orm_support_test.cpp" />
+    <ClCompile Include="case\utility\sql\orm\table_initializer_test.cpp" />
     <ClCompile Include="case\utility\sql\sql_test.cpp" />
     <ClCompile Include="case\utility\text_utility_test.cpp" />
     <ClCompile Include="main.cpp" />

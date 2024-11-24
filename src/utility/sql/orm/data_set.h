@@ -10,7 +10,7 @@
 #include <zaf/base/string/join.h>
 #include "utility/sql/database.h"
 #include "utility/sql/orm/data_set_helpers.h"
-#include "utility/sql/orm/data_set_table.h"
+#include "utility/sql/orm/table_initializer.h"
 #include "utility/sql/orm/table.h"
 
 namespace ra::utility::sql {
@@ -18,10 +18,10 @@ namespace ra::utility::sql {
 template<typename E>
 class DataSet : zaf::NonCopyableNonMovable {
 private:
-    using MetaType = Table<E>;
+    using TableType = Table<E>;
 
-    static const MetaType& Meta() {
-        return MetaType::GetInstance();
+    static const TableType& Table() {
+        return TableType::GetInstance();
     }
 
 public:
@@ -34,8 +34,8 @@ public:
 
         static auto sql = std::format(
             "select {} from {}", 
-            JoinFieldNames(Meta().GetAbstractColumns()), 
-            Meta().GetName());
+            JoinFieldNames(Table().GetAbstractColumns()), 
+            Table().GetName());
 
         std::vector<E> result;
 
@@ -43,7 +43,7 @@ public:
         while (statement.Step()) {
 
             E entity{};
-            GetEntityValuesFromStatement(statement, Meta().GetColumns(), entity);
+            GetEntityValuesFromStatement(statement, Table().GetColumns(), entity);
 
             result.push_back(std::move(entity));
         }
@@ -52,20 +52,20 @@ public:
     }
 
 
-    std::optional<E> Select(const MetaType::PrimaryKeyType::ValueType& primary_key) {
+    std::optional<E> Select(const TableType::PrimaryKeyType::ValueType& primary_key) {
 
         static auto sql = std::format("select {} from {} where {}",
-            JoinFieldNames(Meta().GetAbstractColumns()),
-            Meta().GetName(),
-            MakeKeyEquation(Meta().PrimaryKey));
+            JoinFieldNames(Table().GetAbstractColumns()),
+            Table().GetName(),
+            MakeKeyEquation(Table().PrimaryKey));
 
         auto statement = db_.Get().PrepareStatement(sql);
-        MetaType::PrimaryKeyType::BindValue(statement, 1, primary_key);
+        TableType::PrimaryKeyType::BindValue(statement, 1, primary_key);
 
         if (statement.Step()) {
 
             E entity{};
-            GetEntityValuesFromStatement(statement, Meta().GetColumns(), entity);
+            GetEntityValuesFromStatement(statement, Table().GetColumns(), entity);
             return std::move(entity);
         }
 
@@ -85,19 +85,19 @@ public:
 
     void Update(const E& entity) {
 
-        const auto& primary_key_fields = Meta().PrimaryKey.Fields();
-        auto non_primary_key_fields = zaf::CopyIf(Meta().GetColumns(), [&](auto field) {
+        const auto& primary_key_fields = Table().PrimaryKey.Fields();
+        auto non_primary_key_fields = zaf::CopyIf(Table().GetColumns(), [&](auto field) {
             return !zaf::Contain(primary_key_fields, field);
         });
 
         static auto sql = [&non_primary_key_fields]() {
         
             auto sql = std::format("update {} set {} where {}",
-                Meta().GetName(),
+                Table().GetName(),
                 zaf::JoinAsString(non_primary_key_fields, ",", [](auto field) {
                     return std::format("{}=?", field->GetName());
                 }),
-                MakeKeyEquation(Meta().PrimaryKey));
+                MakeKeyEquation(Table().PrimaryKey));
 
             return sql;
         }();
@@ -115,14 +115,14 @@ public:
     }
 
     
-    void Delete(const MetaType::PrimaryKeyType::ValueType& primary_key) {
+    void Delete(const TableType::PrimaryKeyType::ValueType& primary_key) {
 
         static auto sql = std::format("delete from {} where {}",
-            Meta().GetName(),
-            MakeKeyEquation(Meta().PrimaryKey));
+            Table().GetName(),
+            MakeKeyEquation(Table().PrimaryKey));
 
         auto statement = db_.Get().PrepareStatement(sql);
-        MetaType::PrimaryKeyType::BindValue(statement, 1, primary_key);
+        TableType::PrimaryKeyType::BindValue(statement, 1, primary_key);
 
         statement.Step();
     }
@@ -133,7 +133,7 @@ private:
         auto sql = GetInsertOrReplaceSQL(insert);
 
         auto statement = db_.Get().PrepareStatement(sql);
-        BindEntityValuesToStatement(statement, 1, Meta().GetColumns(), entity);
+        BindEntityValuesToStatement(statement, 1, Table().GetColumns(), entity);
 
         statement.Step();
     }
@@ -155,9 +155,9 @@ private:
         std::string_view verb = insert ? "insert" : "replace";
         return std::format("{} into {} ({}) values ({})",
             verb,
-            Meta().GetName(),
-            JoinFieldNames(Meta().GetAbstractColumns()),
-            JoinPlaceholders(Meta().GetColumns().size()));
+            Table().GetName(),
+            JoinFieldNames(Table().GetAbstractColumns()),
+            JoinPlaceholders(Table().GetColumns().size()));
     }
 
 
@@ -194,7 +194,7 @@ private:
 
         Database& Get() {
             std::call_once(init_once_flag_, [this]() {
-                DataSetTable::InitializeTable(Meta(), db_);
+                TableInitializer::Initialize(Table(), db_);
             });
             return db_;
         }

@@ -391,7 +391,7 @@
     <ClInclude Include="src\utility\sql\data_type.h" />
     <ClInclude Include="src\utility\sql\orm\data_set.h" />
     <ClInclude Include="src\utility\sql\orm\data_set_helpers.h" />
-    <ClInclude Include="src\utility\sql\orm\data_set_table.h" />
+    <ClInclude Include="src\utility\sql\orm\table_initializer.h" />
     <ClInclude Include="src\utility\sql\orm\column.h" />
     <ClInclude Include="src\utility\sql\orm\primary_key.h" />
     <ClInclude Include="src\utility\sql\orm\table.h" />
@@ -402,6 +402,7 @@
     <ClInclude Include="src\utility\sql\statement.h" />
     <ClInclude Include="src\utility\sql\table_info.h" />
     <ClInclude Include="src\utility\sql\table_schema.h" />
+    <ClInclude Include="src\utility\sql\transaction.h" />
     <ClInclude Include="src\utility\text_utility.h" />
     <ClInclude Include="src\utility\thin_border_window.h" />
     <ClInclude Include="src\utility\thin_scroll_bar.h" />
@@ -651,11 +652,13 @@
     <ClCompile Include="src\utility\preview_text_box.cpp" />
     <ClCompile Include="src\utility\progress_circle.cpp" />
     <ClCompile Include="src\utility\sql\database.cpp" />
+    <ClCompile Include="src\utility\sql\data_type.cpp" />
     <ClCompile Include="src\utility\sql\orm\data_set_helpers.cpp" />
-    <ClCompile Include="src\utility\sql\orm\data_set_table.cpp" />
+    <ClCompile Include="src\utility\sql\orm\table_initializer.cpp" />
     <ClCompile Include="src\utility\sql\sql_error.cpp" />
     <ClCompile Include="src\utility\sql\statement.cpp" />
     <ClCompile Include="src\utility\sql\table_schema.cpp" />
+    <ClCompile Include="src\utility\sql\transaction.cpp" />
     <ClCompile Include="src\utility\text_utility.cpp" />
     <ClCompile Include="src\utility\thin_border_window.cpp" />
     <ClCompile Include="src\utility\thin_scroll_bar.cpp" />

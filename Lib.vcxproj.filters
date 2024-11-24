@@ -1152,8 +1152,11 @@
     <ClInclude Include="src\utility\sql\orm\column_value_traits.h">
       <Filter>src\utility\sql\orm</Filter>
     </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\data_set_table.h">
+    <ClInclude Include="src\utility\sql\orm\table_initializer.h">
       <Filter>src\utility\sql\orm</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\sql\transaction.h">
+      <Filter>src\utility\sql</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1874,8 +1877,14 @@
     <ClCompile Include="src\utility\sql\orm\data_set_helpers.cpp">
       <Filter>src\utility\sql\orm</Filter>
     </ClCompile>
-    <ClCompile Include="src\utility\sql\orm\data_set_table.cpp">
+    <ClCompile Include="src\utility\sql\orm\table_initializer.cpp">
       <Filter>src\utility\sql\orm</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\sql\transaction.cpp">
+      <Filter>src\utility\sql</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\sql\data_type.cpp">
+      <Filter>src\utility\sql</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
