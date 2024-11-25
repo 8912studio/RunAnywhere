@@ -353,3 +353,4 @@ MigrationBackup/
 /src/res.rc
 /build/out
 /src/wiki.rc
+/unittest/test_data
