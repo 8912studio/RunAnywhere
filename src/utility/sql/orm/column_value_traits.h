@@ -44,7 +44,7 @@ struct ColumnValueTraits<T,
     std::enable_if_t<zaf::IsOptionalV<T> && HasDataTypeMappingV<zaf::GetOptionalValueTypeT<T>>>> {
 
     static constexpr sql::DataType DataType = MapToDataTypeV<zaf::GetOptionalValueTypeT<T>>;
-    static constexpr bool IsNotNull = false;
+    static constexpr bool IsNullable = true;
 
     static void BindValueToStatement(Statement& statement, int parameter_index, const T& value) {
         if (value.has_value()) {
@@ -57,7 +57,7 @@ template<typename T>
 struct ColumnValueTraits<T, std::enable_if_t<HasDataTypeMappingV<T>>> {
 
     static constexpr sql::DataType DataType = MapToDataTypeV<T>;
-    static constexpr bool IsNotNull = true;
+    static constexpr bool IsNullable = false;
 
     static void BindValueToStatement(Statement& statement, int parameter_index, const T& value) {
         statement.BindParameter(parameter_index, value);

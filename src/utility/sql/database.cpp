@@ -101,7 +101,8 @@ std::optional<TableInfo> Database::GetTableInfo(std::string_view table_name) {
         ColumnInfo column_info;
         column_info.name = statement.GetColumnText(1);
         column_info.data_type = DataTypeTraits::FromString(statement.GetColumnText(2));
-        column_info.is_not_null = statement.GetColumnInt(3) != 0;
+        bool is_not_null = statement.GetColumnInt(3) != 0;
+        column_info.is_nullable = !is_not_null;
         column_info.is_primary_key = statement.GetColumnInt(5) != 0;
 
         table_info.columns.push_back(std::move(column_info));

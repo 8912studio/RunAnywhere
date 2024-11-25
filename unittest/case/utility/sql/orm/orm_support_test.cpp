@@ -67,19 +67,19 @@ TEST(ORMSupportTest, BasicMetaInfo) {
     {
         ASSERT_EQ(table.id.GetName(), "id");
         ASSERT_EQ(table.id.GetDataType(), ra::utility::sql::DataType::Integer);
-        ASSERT_EQ(table.id.IsNotNull(), true);
+        ASSERT_EQ(table.id.IsNullable(), false);
 
         ASSERT_EQ(table.name.GetName(), "name");
         ASSERT_EQ(table.name.GetDataType(), ra::utility::sql::DataType::Text);
-        ASSERT_EQ(table.name.IsNotNull(), true);
+        ASSERT_EQ(table.name.IsNullable(), false);
 
         ASSERT_EQ(table.nullable_id.GetName(), "nullable_id");
         ASSERT_EQ(table.nullable_id.GetDataType(), ra::utility::sql::DataType::Integer);
-        ASSERT_EQ(table.nullable_id.IsNotNull(), false);
+        ASSERT_EQ(table.nullable_id.IsNullable(), true);
 
         ASSERT_EQ(table.nullable_name.GetName(), "nullable_name");
         ASSERT_EQ(table.nullable_name.GetDataType(), ra::utility::sql::DataType::Text);
-        ASSERT_EQ(table.nullable_name.IsNotNull(), false);
+        ASSERT_EQ(table.nullable_name.IsNullable(), true);
     }
 }
 

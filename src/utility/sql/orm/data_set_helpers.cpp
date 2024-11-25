@@ -17,7 +17,7 @@ std::string JoinPlaceholders(std::size_t count) {
 }
 
 
-std::string JoinFieldNames(AbstractColumnsView fields) {
+std::string JoinColumnNames(AbstractColumnsView fields) {
 
     return zaf::JoinAsString(fields, ",", [](auto field) {
         return field->GetName();
@@ -28,7 +28,7 @@ std::string JoinFieldNames(AbstractColumnsView fields) {
 std::string MakeKeyEquation(const AbstractPrimaryKey& key) {
 
     auto fields = key.GetAbstractColumns();
-    return std::format("({})=({})", JoinFieldNames(fields), JoinPlaceholders(fields.size()));
+    return std::format("({})=({})", JoinColumnNames(fields), JoinPlaceholders(fields.size()));
 }
 
 }

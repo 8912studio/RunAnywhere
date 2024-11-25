@@ -9,7 +9,7 @@ namespace ra::utility::sql {
 
 std::string JoinPlaceholders(std::size_t count);
 
-std::string JoinFieldNames(AbstractColumnsView fields);
+std::string JoinColumnNames(AbstractColumnsView fields);
 
 std::string MakeKeyEquation(const AbstractPrimaryKey& key);
 

@@ -44,8 +44,8 @@ public: \
         ra::utility::sql::DataType GetDataType() const noexcept override { \
             return ValueTraits::DataType; \
         } \
-        bool IsNotNull() const noexcept override { \
-            return ValueTraits::IsNotNull; \
+        bool IsNullable() const noexcept override { \
+            return ValueTraits::IsNullable; \
         } \
         void BindValueToStatement( \
             ra::utility::sql::Statement& statement, \

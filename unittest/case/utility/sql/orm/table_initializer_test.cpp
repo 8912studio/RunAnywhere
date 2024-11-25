@@ -34,14 +34,16 @@ private:
 
 struct TableNoPK {
     int integer_field{};
-    float float_field{};
+    std::optional<int> nullable_integer_field;
     std::string string_field;
+    std::optional<std::string> nullable_string_field;
 };
 
 SQL_TABLE_BEGIN(TableNoPK, TableNoPK);
 SQL_COLUMN(IntegerField, integer_field);
-//SQL_COLUMN(FloatField, float_field);
 SQL_COLUMN(StringField, string_field);
+SQL_COLUMN(NullableIntegerField, nullable_integer_field);
+SQL_COLUMN(NullableStringField, nullable_string_field);
 SQL_TABLE_END;
 
 TEST(TableInitializerTest, NewTableNoPK) {
@@ -52,13 +54,13 @@ TEST(TableInitializerTest, NewTableNoPK) {
 
     auto table_info = fixture.DB().GetTableInfo("TableNoPK");
     ASSERT_TRUE(table_info.has_value());
-    ASSERT_EQ(table_info->columns.size(), 2);
+    ASSERT_EQ(table_info->columns.size(), 4);
 
     {
         const auto& column0 = table_info->columns[0];
         ASSERT_EQ(column0.name, "IntegerField");
         ASSERT_EQ(column0.data_type, DataType::Integer);
-        ASSERT_EQ(column0.is_not_null, false);
+        ASSERT_EQ(column0.is_nullable, false);
         ASSERT_EQ(column0.is_primary_key, false);
     }
 
@@ -66,8 +68,24 @@ TEST(TableInitializerTest, NewTableNoPK) {
         const auto& column1 = table_info->columns[1];
         ASSERT_EQ(column1.name, "StringField");
         ASSERT_EQ(column1.data_type, DataType::Text);
-        ASSERT_EQ(column1.is_not_null, false);
+        ASSERT_EQ(column1.is_nullable, false);
         ASSERT_EQ(column1.is_primary_key, false);
+    }
+
+    {
+        const auto& column2 = table_info->columns[2];
+        ASSERT_EQ(column2.name, "NullableIntegerField");
+        ASSERT_EQ(column2.data_type, DataType::Integer);
+        ASSERT_EQ(column2.is_nullable, true);
+        ASSERT_EQ(column2.is_primary_key, false);
+    }
+
+    {
+        const auto& column3 = table_info->columns[3];
+        ASSERT_EQ(column3.name, "NullableStringField");
+        ASSERT_EQ(column3.data_type, DataType::Text);
+        ASSERT_EQ(column3.is_nullable, true);
+        ASSERT_EQ(column3.is_primary_key, false);
     }
 }
 
@@ -97,7 +115,7 @@ TEST(TableInitializerTest, NewTablePK1) {
         const auto& column0 = table_info->columns[0];
         ASSERT_EQ(column0.name, "IntegerField");
         ASSERT_EQ(column0.data_type, DataType::Integer);
-        ASSERT_EQ(column0.is_not_null, false);
+        ASSERT_EQ(column0.is_nullable, false);
         ASSERT_EQ(column0.is_primary_key, true);
     }
 }
@@ -128,7 +146,7 @@ TEST(TableInitializerTest, NewTablePK1AutoInc) {
         const auto& column0 = table_info->columns[0];
         ASSERT_EQ(column0.name, "IntegerField");
         ASSERT_EQ(column0.data_type, DataType::Integer);
-        ASSERT_EQ(column0.is_not_null, false);
+        ASSERT_EQ(column0.is_nullable, false);
         ASSERT_EQ(column0.is_primary_key, true);
     }
 
@@ -164,7 +182,7 @@ TEST(TableInitializerTest, NewTablePK2) {
         const auto& column0 = table_info->columns[0];
         ASSERT_EQ(column0.name, "IntegerField");
         ASSERT_EQ(column0.data_type, DataType::Integer);
-        ASSERT_EQ(column0.is_not_null, false);
+        ASSERT_EQ(column0.is_nullable, false);
         ASSERT_EQ(column0.is_primary_key, true);
     }
 
@@ -172,7 +190,7 @@ TEST(TableInitializerTest, NewTablePK2) {
         const auto& column1 = table_info->columns[1];
         ASSERT_EQ(column1.name, "StringField");
         ASSERT_EQ(column1.data_type, DataType::Text);
-        ASSERT_EQ(column1.is_not_null, false);
+        ASSERT_EQ(column1.is_nullable, false);
         ASSERT_EQ(column1.is_primary_key, true);
     }
 }
@@ -214,7 +232,7 @@ TEST(TableInitializerTest, AlterTable) {
         const auto& column0 = new_table_info->columns[0];
         ASSERT_EQ(column0.name, "IntField");
         ASSERT_EQ(column0.data_type, DataType::Integer);
-        ASSERT_EQ(column0.is_not_null, false);
+        ASSERT_EQ(column0.is_nullable, false);
         ASSERT_EQ(column0.is_primary_key, false);
     }
 
@@ -222,7 +240,7 @@ TEST(TableInitializerTest, AlterTable) {
         const auto& column1 = new_table_info->columns[1];
         ASSERT_EQ(column1.name, "StringField");
         ASSERT_EQ(column1.data_type, DataType::Text);
-        ASSERT_EQ(column1.is_not_null, false);
+        ASSERT_EQ(column1.is_nullable, false);
         ASSERT_EQ(column1.is_primary_key, false);
     }
 }

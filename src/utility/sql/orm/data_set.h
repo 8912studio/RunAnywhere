@@ -34,7 +34,7 @@ public:
 
         static auto sql = std::format(
             "select {} from {}", 
-            JoinFieldNames(Table().GetAbstractColumns()), 
+            JoinColumnNames(Table().GetAbstractColumns()), 
             Table().GetName());
 
         std::vector<E> result;
@@ -55,7 +55,7 @@ public:
     std::optional<E> Select(const TableType::PrimaryKeyType::ValueType& primary_key) {
 
         static auto sql = std::format("select {} from {} where {}",
-            JoinFieldNames(Table().GetAbstractColumns()),
+            JoinColumnNames(Table().GetAbstractColumns()),
             Table().GetName(),
             MakeKeyEquation(Table().PrimaryKey));
 
@@ -156,7 +156,7 @@ private:
         return std::format("{} into {} ({}) values ({})",
             verb,
             Table().GetName(),
-            JoinFieldNames(Table().GetAbstractColumns()),
+            JoinColumnNames(Table().GetAbstractColumns()),
             JoinPlaceholders(Table().GetColumns().size()));
     }
 

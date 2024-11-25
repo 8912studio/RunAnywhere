@@ -10,7 +10,7 @@ struct ColumnInfo {
     std::string name;
     DataType data_type{ DataType::Unspecified };
     bool is_primary_key{};
-    bool is_not_null{};
+    bool is_nullable{};
 };
 
 struct TableInfo {

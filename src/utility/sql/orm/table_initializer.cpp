@@ -1,5 +1,8 @@
 #include "utility/sql/orm/table_initializer.h"
+#include <format>
 #include <zaf/base/container/utility/sort.h>
+#include <zaf/base/string/join.h>
+#include "utility/sql/orm/data_set_helpers.h"
 #include "utility/sql/transaction.h"
 
 namespace ra::utility::sql {
@@ -8,7 +11,7 @@ void TableInitializer::Initialize(const AbstractTable& table, Database& db) {
 
     auto table_info = db.GetTableInfo(table.GetName());
     if (!table_info) {
-        db.CreateTable(ToTableSchema(table));
+        CreateTable(table, db);
     }
     else {
         AlterTable(table, std::move(*table_info), db);
@@ -16,47 +19,44 @@ void TableInitializer::Initialize(const AbstractTable& table, Database& db) {
 }
 
 
-TableSchema TableInitializer::ToTableSchema(const AbstractTable& table) {
+void TableInitializer::CreateTable(const AbstractTable& table, Database& db) {
 
-    TableSchema table_schema;
-    table_schema.name = table.GetName();
-
-    for (auto each_field : table.GetAbstractColumns()) {
-
-        ColumnSchema column_schema;
-        column_schema.name = each_field->GetName();
-        column_schema.data_type = each_field->GetDataType();
-
-        table_schema.columns.push_back(std::move(column_schema));
+    const AbstractColumn* inline_pk_column{};
+    auto pk = table.GetAbstractPrimaryKey();
+    if (pk && pk->IsAutoincrement()) {
+        inline_pk_column = pk->GetAbstractColumns().front();
     }
 
-    auto primary_key = table.GetAbstractPrimaryKey();
-    if (primary_key) {
+    auto sql = std::format(
+        "create table if not exists {} ({} {})",
+        table.GetName(),
+        GenerateColumnDefinitionsSQL(table.GetAbstractColumns(), inline_pk_column),
+        inline_pk_column ? 
+            std::string{} : 
+            GeneratePrimaryKeyConstraintSQL(table.GetAbstractPrimaryKey()));
 
-        auto primary_key_columns = primary_key->GetAbstractColumns();
-        if (primary_key_columns.size() == 1) {
+    db.ExecuteSQL(sql);
+}
 
-            auto primary_column = primary_key_columns.front();
-            for (auto& each_column : table_schema.columns) {
 
-                if (each_column.name == primary_column->GetName()) {
-                    each_column.constraints |= ColumnConstraints::PrimaryKey;
-                    if (primary_key->IsAutoincrement()) {
-                        each_column.constraints |= ColumnConstraints::AutoIncrement;
-                    }
-                    break;
-                }
-            }
-        }
-        else if (primary_key_columns.size() > 1) {
+std::string TableInitializer::GenerateColumnDefinitionsSQL(
+    std::span<const AbstractColumn* const> columns, 
+    const AbstractColumn* inline_pk_column) {
 
-            for (auto each_field : primary_key_columns) {
-                table_schema.primary_key.push_back(std::string{ each_field->GetName() });
-            }
-        }
+    return zaf::JoinAsString(columns, ",", [inline_pk_column](auto column) {
+        return ToSQL(*column, column == inline_pk_column);
+    });
+}
+
+
+std::string TableInitializer::GeneratePrimaryKeyConstraintSQL(
+    const AbstractPrimaryKey* primary_key) {
+
+    if (!primary_key) {
+        return {};
     }
 
-    return table_schema;
+    return std::format(", primary key ({})", JoinColumnNames(primary_key->GetAbstractColumns()));
 }
 
 
@@ -102,15 +102,33 @@ void TableInitializer::AddNewColumns(
     for (auto each_column : columns) {
 
         std::string sql = std::format(
-            "alter table {} add column {} {}",
+            "alter table {} add column {}",
             table.GetName(),
-            each_column->GetName(),
-            DataTypeTraits::ToString(each_column->GetDataType()));
+            ToSQL(*each_column, false));
 
         db.ExecuteSQL(sql);
     }
 
     transaction.Commit();
+}
+
+
+std::string TableInitializer::ToSQL(const AbstractColumn& column, bool is_autoincrement) {
+
+    std::string result = std::format(
+        "{} {}",
+        column.GetName(),
+        DataTypeTraits::ToString(column.GetDataType()));
+
+    if (!column.IsNullable()) {
+        result += " not null";
+    }
+
+    if (is_autoincrement) {
+        result += " primary key autoincrement";
+    }
+
+    return result;
 }
 
 }
