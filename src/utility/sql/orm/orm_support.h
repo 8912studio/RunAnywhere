@@ -36,18 +36,22 @@ public: \
     class COLUMN_NAME##Type : public ra::utility::sql::Column<EntityType> { \
     public: \
         using ValueType = decltype(((EntityType*)nullptr)->CLASS_FIELD); \
+        using ValueTraits = ra::utility::sql::ColumnValueTraits<ValueType>; \
         using Column::Column; \
         std::string_view GetName() const noexcept override { \
             return #COLUMN_NAME; \
         } \
         ra::utility::sql::DataType GetDataType() const noexcept override { \
-            return ra::utility::sql::ColumnValueTraits<ValueType>::DataType; \
+            return ValueTraits::DataType; \
+        } \
+        bool IsNotNull() const noexcept override { \
+            return ValueTraits::IsNotNull; \
         } \
         void BindValueToStatement( \
             ra::utility::sql::Statement& statement, \
             int parameter_index, \
             const EntityType& entity) const override { \
-            statement.BindParameter(parameter_index, entity.CLASS_FIELD); \
+            ValueTraits::BindValueToStatement(statement, parameter_index, entity.CLASS_FIELD); \
         } \
         void GetValueFromStatement( \
             const ra::utility::sql::Statement& statement, \

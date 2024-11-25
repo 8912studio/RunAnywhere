@@ -14,10 +14,12 @@ T GetValueFromStatement(const Statement& statement, int column_index) {
         }
         return static_cast<T>(statement.GetColumnInt(column_index));
     }
-    
+
     if constexpr (std::is_same_v<std::string, T>) {
         return std::string{ statement.GetColumnText(column_index) };
     }
+
+    return {};
 }
 
 }

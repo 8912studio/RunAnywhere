@@ -14,6 +14,7 @@ public:
 
     virtual std::string_view GetName() const noexcept = 0;
     virtual DataType GetDataType() const noexcept = 0;
+    virtual bool IsNotNull() const noexcept = 0;
 };
 
 using AbstractColumnsView = std::span<const AbstractColumn* const>;

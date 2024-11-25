@@ -280,9 +280,6 @@
     <ClCompile Include="case\module\ai\gpt\gpt_command_parsing_test.cpp">
       <Filter>case\module\ai\gpt</Filter>
     </ClCompile>
-    <ClCompile Include="case\utility\sql\sql_test.cpp">
-      <Filter>case\utility\sql</Filter>
-    </ClCompile>
     <ClCompile Include="case\module\ai\gpt\dialog\list\dialog_data_source_test.cpp">
       <Filter>case\module\ai\gpt\dialog\list</Filter>
     </ClCompile>

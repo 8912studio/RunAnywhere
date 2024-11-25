@@ -4,13 +4,16 @@
 
 struct Person {
     int ID;
-    int Age;
     std::string Name;
+    std::optional<int> NullableID;
+    std::optional<std::string> NullableName;
 };
 
 SQL_TABLE_BEGIN(person, Person);
 SQL_COLUMN(id, ID);
 SQL_COLUMN(name, Name);
+SQL_COLUMN(nullable_id, NullableID);
+SQL_COLUMN(nullable_name, NullableName);
 SQL_TABLE_END;
 
 TEST(ORMSupportTest, BasicMetaInfo) {
@@ -43,26 +46,40 @@ TEST(ORMSupportTest, BasicMetaInfo) {
         ASSERT_EQ(table.GetAbstractPrimaryKey(), nullptr);
 
         auto columns = table.GetAbstractColumns();
-        ASSERT_EQ(columns.size(), 2);
+        ASSERT_EQ(columns.size(), 4);
         ASSERT_EQ(columns[0], &table.id);
         ASSERT_EQ(columns[1], &table.name);
+        ASSERT_EQ(columns[2], &table.nullable_id);
+        ASSERT_EQ(columns[3], &table.nullable_name);
     }
 
     //Check self interface.
     {
         auto columns = table.GetColumns();
-        ASSERT_EQ(columns.size(), 2);
+        ASSERT_EQ(columns.size(), 4);
         ASSERT_EQ(columns[0], &table.id);
         ASSERT_EQ(columns[1], &table.name);
+        ASSERT_EQ(columns[2], &table.nullable_id);
+        ASSERT_EQ(columns[3], &table.nullable_name);
     }
 
     //Check columns.
     {
         ASSERT_EQ(table.id.GetName(), "id");
         ASSERT_EQ(table.id.GetDataType(), ra::utility::sql::DataType::Integer);
+        ASSERT_EQ(table.id.IsNotNull(), true);
 
         ASSERT_EQ(table.name.GetName(), "name");
         ASSERT_EQ(table.name.GetDataType(), ra::utility::sql::DataType::Text);
+        ASSERT_EQ(table.name.IsNotNull(), true);
+
+        ASSERT_EQ(table.nullable_id.GetName(), "nullable_id");
+        ASSERT_EQ(table.nullable_id.GetDataType(), ra::utility::sql::DataType::Integer);
+        ASSERT_EQ(table.nullable_id.IsNotNull(), false);
+
+        ASSERT_EQ(table.nullable_name.GetName(), "nullable_name");
+        ASSERT_EQ(table.nullable_name.GetDataType(), ra::utility::sql::DataType::Text);
+        ASSERT_EQ(table.nullable_name.IsNotNull(), false);
     }
 }
 

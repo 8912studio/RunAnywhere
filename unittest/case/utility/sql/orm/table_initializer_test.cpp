@@ -58,7 +58,7 @@ TEST(TableInitializerTest, NewTableNoPK) {
         const auto& column0 = table_info->columns[0];
         ASSERT_EQ(column0.name, "IntegerField");
         ASSERT_EQ(column0.data_type, DataType::Integer);
-        ASSERT_EQ(column0.is_nullable, false);
+        ASSERT_EQ(column0.is_not_null, false);
         ASSERT_EQ(column0.is_primary_key, false);
     }
 
@@ -66,7 +66,7 @@ TEST(TableInitializerTest, NewTableNoPK) {
         const auto& column1 = table_info->columns[1];
         ASSERT_EQ(column1.name, "StringField");
         ASSERT_EQ(column1.data_type, DataType::Text);
-        ASSERT_EQ(column1.is_nullable, false);
+        ASSERT_EQ(column1.is_not_null, false);
         ASSERT_EQ(column1.is_primary_key, false);
     }
 }
@@ -97,7 +97,7 @@ TEST(TableInitializerTest, NewTablePK1) {
         const auto& column0 = table_info->columns[0];
         ASSERT_EQ(column0.name, "IntegerField");
         ASSERT_EQ(column0.data_type, DataType::Integer);
-        ASSERT_EQ(column0.is_nullable, false);
+        ASSERT_EQ(column0.is_not_null, false);
         ASSERT_EQ(column0.is_primary_key, true);
     }
 }
@@ -128,7 +128,7 @@ TEST(TableInitializerTest, NewTablePK1AutoInc) {
         const auto& column0 = table_info->columns[0];
         ASSERT_EQ(column0.name, "IntegerField");
         ASSERT_EQ(column0.data_type, DataType::Integer);
-        ASSERT_EQ(column0.is_nullable, false);
+        ASSERT_EQ(column0.is_not_null, false);
         ASSERT_EQ(column0.is_primary_key, true);
     }
 
@@ -164,7 +164,7 @@ TEST(TableInitializerTest, NewTablePK2) {
         const auto& column0 = table_info->columns[0];
         ASSERT_EQ(column0.name, "IntegerField");
         ASSERT_EQ(column0.data_type, DataType::Integer);
-        ASSERT_EQ(column0.is_nullable, false);
+        ASSERT_EQ(column0.is_not_null, false);
         ASSERT_EQ(column0.is_primary_key, true);
     }
 
@@ -172,7 +172,7 @@ TEST(TableInitializerTest, NewTablePK2) {
         const auto& column1 = table_info->columns[1];
         ASSERT_EQ(column1.name, "StringField");
         ASSERT_EQ(column1.data_type, DataType::Text);
-        ASSERT_EQ(column1.is_nullable, false);
+        ASSERT_EQ(column1.is_not_null, false);
         ASSERT_EQ(column1.is_primary_key, true);
     }
 }
@@ -214,7 +214,7 @@ TEST(TableInitializerTest, AlterTable) {
         const auto& column0 = new_table_info->columns[0];
         ASSERT_EQ(column0.name, "IntField");
         ASSERT_EQ(column0.data_type, DataType::Integer);
-        ASSERT_EQ(column0.is_nullable, false);
+        ASSERT_EQ(column0.is_not_null, false);
         ASSERT_EQ(column0.is_primary_key, false);
     }
 
@@ -222,7 +222,7 @@ TEST(TableInitializerTest, AlterTable) {
         const auto& column1 = new_table_info->columns[1];
         ASSERT_EQ(column1.name, "StringField");
         ASSERT_EQ(column1.data_type, DataType::Text);
-        ASSERT_EQ(column1.is_nullable, false);
+        ASSERT_EQ(column1.is_not_null, false);
         ASSERT_EQ(column1.is_primary_key, false);
     }
 }
