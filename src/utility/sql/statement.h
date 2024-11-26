@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+#include <optional>
 #include <string_view>
 #include <sqlite3.h>
 #include <zaf/base/non_copyable.h>
@@ -19,6 +20,7 @@ public:
     void BindParameter(int parameter_index, std::int64_t value);
     void BindParameter(int parameter_index, std::uint64_t value);
     void BindParameter(int parameter_index, std::string_view value);
+    void BindParameter(int parameter_index, std::nullopt_t);
     void ClearBindings();
 
     bool Step();

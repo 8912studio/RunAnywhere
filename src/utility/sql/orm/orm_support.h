@@ -76,8 +76,15 @@ public:\
 
 #define SQL_PRIMARY_KEY_AUTOINCREMENT(COLUMN_NAME) \
 public: \
-    using PrimaryKeyType = ra::utility::sql::PrimaryKey<EntityType, COLUMN_NAME##Type>; \
-    PrimaryKeyType PrimaryKey{ COLUMN_NAME, true }; \
+    class PrimaryKeyType : public ra::utility::sql::PrimaryKey<EntityType, COLUMN_NAME##Type> { \
+    public: \
+        struct AutoincrementTag {}; \
+        using PrimaryKey::PrimaryKey; \
+        bool IsAutoincrement() const noexcept override { \
+            return true; \
+        } \
+    }; \
+    PrimaryKeyType PrimaryKey{ COLUMN_NAME }; \
     const ra::utility::sql::AbstractPrimaryKey* GetAbstractPrimaryKey() const noexcept override { \
         return &PrimaryKey; \
     }

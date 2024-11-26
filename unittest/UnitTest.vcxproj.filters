@@ -289,6 +289,9 @@
     <ClCompile Include="case\utility\sql\orm\table_initializer_test.cpp">
       <Filter>case\utility\sql\orm</Filter>
     </ClCompile>
+    <ClCompile Include="case\utility\sql\orm\data_inserter_test.cpp">
+      <Filter>case\utility\sql\orm</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="case\module\calculator\number_parser_test_utility.h">

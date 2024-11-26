@@ -77,12 +77,6 @@ public:
 
     }
 
-    PrimaryKey(const Single& single, bool is_autoincrement) : 
-        column_(&single), 
-        is_autoincrement_(is_autoincrement) {
-
-    }
-
     AbstractColumnsView GetAbstractColumns() const noexcept override {
         return { reinterpret_cast<const AbstractColumn* const*>(&column_), 1 };
     }
@@ -91,13 +85,8 @@ public:
         return { reinterpret_cast<const Column<E>* const*>(&column_), 1 };
     }
 
-    bool IsAutoincrement() const noexcept override {
-        return is_autoincrement_;
-    }
-
 private:
     const Single* column_{};
-    bool is_autoincrement_{};
 };
 
 

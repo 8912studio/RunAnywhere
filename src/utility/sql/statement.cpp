@@ -74,6 +74,12 @@ void Statement::BindParameter(int parameter_index, std::string_view value) {
 }
 
 
+void Statement::BindParameter(int parameter_index, std::nullopt_t) {
+    int error_code = sqlite3_bind_null(statement_handle_, parameter_index);
+    THROW_IF_SQL_ERROR(error_code, database_handle_);
+}
+
+
 void Statement::ClearBindings() {
     int error_code = sqlite3_clear_bindings(statement_handle_);
     THROW_IF_SQL_ERROR(error_code, database_handle_);

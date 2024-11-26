@@ -9,6 +9,7 @@
 #include <zaf/base/range.h>
 #include <zaf/base/string/join.h>
 #include "utility/sql/database.h"
+#include "utility/sql/orm/data_inserter.h"
 #include "utility/sql/orm/data_set_helpers.h"
 #include "utility/sql/orm/table_initializer.h"
 #include "utility/sql/orm/table.h"
@@ -51,7 +52,7 @@ public:
         return result;
     }
 
-
+    /*
     std::optional<E> Select(const TableType::PrimaryKeyType::ValueType& primary_key) {
 
         static auto sql = std::format("select {} from {} where {}",
@@ -71,15 +72,16 @@ public:
 
         return std::nullopt;
     }
+    */
 
 
     void Insert(const E& entity) {
-        InsertOrReplace(entity, true);
+        DataInserter<E>::Insert(entity, db_.Get());
     }
 
 
     void Replace(const E& entity) {
-        InsertOrReplace(entity, false);
+        DataInserter<E>::Replace(entity, db_.Get());
     }
 
 
@@ -103,9 +105,9 @@ public:
         }();
 
         auto statement = db_.Get().PrepareStatement(sql);
-        BindEntityValuesToStatement(statement, 1, non_primary_key_fields, entity);
+        BindEntityValuesToStatement<E>(statement, 1, non_primary_key_fields, entity);
 
-        BindEntityValuesToStatement(
+        BindEntityValuesToStatement<E>(
             statement, 
             static_cast<int>(1 + non_primary_key_fields.size()), 
             primary_key_fields, 
@@ -114,7 +116,7 @@ public:
         statement.Step();
     }
 
-    
+    /*
     void Delete(const TableType::PrimaryKeyType::ValueType& primary_key) {
 
         static auto sql = std::format("delete from {} where {}",
@@ -126,55 +128,9 @@ public:
 
         statement.Step();
     }
+    */
 
 private:
-    void InsertOrReplace(const E& entity, bool insert) {
-
-        auto sql = GetInsertOrReplaceSQL(insert);
-
-        auto statement = db_.Get().PrepareStatement(sql);
-        BindEntityValuesToStatement(statement, 1, Table().GetColumns(), entity);
-
-        statement.Step();
-    }
-
-
-    static std::string_view GetInsertOrReplaceSQL(bool insert) {
-        if (insert) {
-            static auto sql = GenerateInsertOrReplaceSQL(true);
-            return sql;
-        }
-        else {
-            static auto sql = GenerateInsertOrReplaceSQL(false);
-            return sql;
-        }
-    }
-
-
-    static std::string GenerateInsertOrReplaceSQL(bool insert) {
-        std::string_view verb = insert ? "insert" : "replace";
-        return std::format("{} into {} ({}) values ({})",
-            verb,
-            Table().GetName(),
-            JoinColumnNames(Table().GetAbstractColumns()),
-            JoinPlaceholders(Table().GetColumns().size()));
-    }
-
-
-    static void BindEntityValuesToStatement(
-        Statement& statement,
-        int begin_index,
-        std::span<const Column<E>* const> fields,
-        const E& entity) {
-
-        for (auto index : zaf::Range{ 0, fields.size() }) {
-            fields[index]->BindValueToStatement(
-                statement, 
-                static_cast<int>(index) + begin_index,
-                entity);
-        }
-    }
-
     static void GetEntityValuesFromStatement(
         const Statement& statement, 
         std::span<const Column<E>* const> fields,
