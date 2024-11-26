@@ -26,6 +26,10 @@ class PrimaryKey;
 template<typename E, typename First, typename... Rest>
 class PrimaryKey<E, First, Rest...> : public AbstractPrimaryKey {
 public:
+    static_assert(
+        !First::ValueTraits::IsNullable && !(Rest::ValueTraits::IsNullable && ...), 
+        "Primary key cannot be nullable.");
+
     using ValueType = std::tuple<typename First::ValueType, typename Rest::ValueType...>;
 
     static void BindValue(Statement& statement, int parameter_index, const ValueType& value) {
@@ -61,6 +65,8 @@ private:
 template<typename E, typename Single>
 class PrimaryKey<E, Single> : public AbstractPrimaryKey {
 public:
+    static_assert(!Single::ValueTraits::IsNullable, "Primary key cannot be nullable.");
+
     using ValueType = typename Single::ValueType;
 
     static void BindValue(Statement& statement, int parameter_index, const ValueType& value) {
