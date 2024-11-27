@@ -4,6 +4,7 @@
 #include <zaf/base/range.h>
 #include "utility/sql/database.h"
 #include "utility/sql/orm/data_set_helpers.h"
+#include "utility/sql/orm/primary_key_traits.h"
 #include "utility/sql/orm/table.h"
 
 namespace ra::utility::sql {
@@ -18,29 +19,20 @@ private:
     }
 
 public:
-    static void Insert(const E& entity, Database& db) {
-        InsertOrReplace(entity, true, db);
+    static void Insert(Database& db, const E& entity) {
+        InsertOrReplace(db, entity, true);
     }
 
-    static void Replace(const E& entity, Database& db) {
-        InsertOrReplace(entity, false, db);
+    static void Replace(Database& db, const E& entity) {
+        InsertOrReplace(db, entity, false);
     }
 
-private:
-    template<bool HasAutoincrementColumn>
-    struct ValueBinder;
+    template<typename T = TableType>
+    static std::enable_if_t<HasAutoincrementPrimaryKeyV<T>, typename T::PrimaryKeyType::ValueType> 
+        InsertWithAutoincrement(Database& db, const E& entity) {
 
-    template<>
-    struct ValueBinder<false> {
-        static void BindValues(Statement& statement, const E& entity) {
-            BindEntityValuesToStatement(statement, 1, Table().GetColumns(), entity);
-        }
-    };
-
-    template<>
-    struct ValueBinder<true> {
-        static void BindValues(Statement& statement, const E& entity) {
-
+        InnerExecute(db, true, [&entity](Statement& statement) {
+        
             const auto& table = Table();
             auto columns = table.GetColumns();
             auto autoincrement_column = table.PrimaryKey.GetColumns().front();
@@ -51,40 +43,34 @@ private:
 
                 auto each_column = columns[index];
                 if (each_column == autoincrement_column) {
+                    //Bind null value to the primary key to make it auto increase.
                     statement.BindParameter(parameter_index, std::nullopt);
                 }
                 else {
                     each_column->BindValueToStatement(statement, parameter_index, entity);
                 }
             }
-        }
-    };
+        });
 
-    template<typename T>
-    struct ValueBinderSelector {
-    private:
-        template<typename K>
-        static constexpr bool Test(typename K::PrimaryKeyType::AutoincrementTag*) {
-            return true;
-        }
-
-        template<typename K>
-        static constexpr bool Test(...) {
-            return false;
-        }
-
-        static constexpr bool HasAutoincrement = Test<T>(nullptr);
-
-    public:
-        using type = ValueBinder<HasAutoincrement>;
-    };
+        return static_cast<typename TableType::PrimaryKeyType::ValueType>(db.LastInsertRowID());
+    }
 
 private:
-    static void InsertOrReplace(const E& entity, bool insert, Database& db) {
+    static void InsertOrReplace(Database& db, const E& entity, bool insert) {
+        InnerExecute(db, insert, [&entity](Statement& statement) {
+            BindEntityValuesToStatement(statement, 1, Table().GetColumns(), entity);
+        });
+    }
+
+
+    static void InnerExecute(
+        Database& db,
+        bool insert,
+        const std::function<void(Statement&)>& value_binder) {
 
         auto sql = GetSQL(insert);
         auto statement = db.PrepareStatement(sql);
-        ValueBinderSelector<TableType>::type::BindValues(statement, entity);
+        value_binder(statement);
         statement.Step();
     }
 

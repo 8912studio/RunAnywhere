@@ -5,6 +5,7 @@
 #include <string_view>
 #include <sqlite3.h>
 #include <zaf/base/non_copyable.h>
+#include "utility/sql/data_type.h"
 
 namespace ra::utility::sql {
 
@@ -26,6 +27,7 @@ public:
     bool Step();
     void Reset();
 
+    DataType GetColumnType(int column_index) const noexcept;
     int GetColumnInt(int column_index) const noexcept;
     std::int64_t GetColumnInt64(int column_index) const noexcept;
     std::string_view GetColumnText(int column_index) const noexcept;

@@ -26,7 +26,7 @@ std::string_view DataTypeTraits::ToString(DataType data_type) {
         return "text";
     case DataType::BLOB:
         return "blob";
-    case DataType::Unspecified:
+    case DataType::Null:
     default:
         return "";
     }
@@ -51,7 +51,7 @@ DataType DataTypeTraits::FromString(std::string_view string) {
         return DataType::BLOB;
     }
 
-    return DataType::Unspecified;
+    return DataType::Null;
 }
 
 }

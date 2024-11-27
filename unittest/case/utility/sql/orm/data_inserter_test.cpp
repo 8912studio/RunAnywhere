@@ -63,8 +63,12 @@ TEST(DataInserterTest, NoPrimaryKey) {
 
     auto statement = fixture.DB().PrepareStatement(std::format("select * from Entity;"));
     ASSERT_TRUE(statement.Step());
-    ASSERT_EQ(statement.GetColumnInt(0), 100);
-    ASSERT_EQ(statement.GetColumnText(1), "aaa");
+    ASSERT_EQ(statement.GetColumnInt(0), 100);             //IntValue
+    ASSERT_EQ(statement.GetColumnText(1), "aaa");          //StrValue
+    ASSERT_EQ(statement.GetColumnInt(2), 101);             //NullInt1
+    ASSERT_EQ(statement.GetColumnType(3), DataType::Null); //NullInt2
+    ASSERT_EQ(statement.GetColumnText(4), "adc");          //NullStr1
+    ASSERT_EQ(statement.GetColumnType(5), DataType::Null); //NullStr2
 }
 
 
@@ -125,4 +129,39 @@ TEST(DataInserterTest, PrimaryKeyMultipleColumn) {
     ASSERT_EQ(statement.GetColumnInt(0), 202);
     ASSERT_EQ(statement.GetColumnText(1), "232");
     ASSERT_EQ(statement.GetColumnInt(2), 404);
+}
+
+
+struct EntityAutoInc {
+    int id{};
+    std::string name;
+};
+
+SQL_TABLE_BEGIN(EntityAutoInc, EntityAutoInc);
+SQL_COLUMN(ID, id);
+SQL_COLUMN(Name, name);
+SQL_PRIMARY_KEY_AUTOINCREMENT(ID);
+SQL_TABLE_END;
+
+TEST(DataInserterTest, Autoincrement) {
+
+    DataInserterTestFixture fixture;
+    DataSet<EntityAutoInc> data_set{ fixture.DB() };
+
+    EntityAutoInc entity;
+    entity.name = "first";
+    int id1 = data_set.InsertWithAutoincrement(entity);
+    ASSERT_EQ(id1, 1);
+
+    entity.name = "second";
+    int id2 = data_set.InsertWithAutoincrement(entity);
+    ASSERT_EQ(id2, 2);
+
+    auto statement = fixture.DB().PrepareStatement(std::format("select * from EntityAutoInc;"));
+    ASSERT_TRUE(statement.Step());
+    ASSERT_EQ(statement.GetColumnInt(0), 1);
+    ASSERT_EQ(statement.GetColumnText(1), "first");
+    ASSERT_TRUE(statement.Step());
+    ASSERT_EQ(statement.GetColumnInt(0), 2);
+    ASSERT_EQ(statement.GetColumnText(1), "second");
 }

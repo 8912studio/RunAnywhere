@@ -1,6 +1,7 @@
 #include <type_traits>
 #include <gtest/gtest.h>
 #include "utility/sql/orm/orm_support.h"
+#include "utility/sql/orm/primary_key_traits.h"
 
 struct Person {
     int ID;

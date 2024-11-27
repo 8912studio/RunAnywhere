@@ -20,7 +20,7 @@ ZAF_ENABLE_FLAGS_ENUM(ColumnConstraints);
 
 struct ColumnSchema {
     std::string name;
-    DataType data_type{ DataType::Unspecified };
+    DataType data_type{ DataType::Null };
     ColumnConstraints constraints{};
 };
 

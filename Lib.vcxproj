@@ -392,6 +392,7 @@
     <ClInclude Include="src\utility\sql\orm\data_inserter.h" />
     <ClInclude Include="src\utility\sql\orm\data_set.h" />
     <ClInclude Include="src\utility\sql\orm\data_set_helpers.h" />
+    <ClInclude Include="src\utility\sql\orm\primary_key_traits.h" />
     <ClInclude Include="src\utility\sql\orm\table_initializer.h" />
     <ClInclude Include="src\utility\sql\orm\column.h" />
     <ClInclude Include="src\utility\sql\orm\primary_key.h" />

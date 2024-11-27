@@ -8,7 +8,7 @@ namespace ra::utility::sql {
 
 struct ColumnInfo {
     std::string name;
-    DataType data_type{ DataType::Unspecified };
+    DataType data_type{ DataType::Null };
     bool is_primary_key{};
     bool is_nullable{};
 };

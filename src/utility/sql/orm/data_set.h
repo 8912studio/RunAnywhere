@@ -76,7 +76,14 @@ public:
 
 
     void Insert(const E& entity) {
-        DataInserter<E>::Insert(entity, db_.Get());
+        DataInserter<E>::Insert(db_.Get(), entity);
+    }
+
+
+    template<typename T = TableType>
+    std::enable_if_t<HasAutoincrementPrimaryKeyV<T>, typename T::PrimaryKeyType::ValueType> 
+        InsertWithAutoincrement(const E& entity) {
+        return DataInserter<E>::InsertWithAutoincrement(db_.Get(), entity);
     }
 
 

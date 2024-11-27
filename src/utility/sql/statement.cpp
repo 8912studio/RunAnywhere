@@ -107,6 +107,11 @@ void Statement::Reset() {
 }
 
 
+DataType Statement::GetColumnType(int column_index) const noexcept {
+    return static_cast<DataType>(sqlite3_column_type(statement_handle_, column_index));
+}
+
+
 int Statement::GetColumnInt(int column_index) const noexcept {
     return sqlite3_column_int(statement_handle_, column_index);
 }
