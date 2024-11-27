@@ -12,6 +12,7 @@
 #include "utility/sql/orm/data_deleter.h"
 #include "utility/sql/orm/data_inserter.h"
 #include "utility/sql/orm/data_set_helpers.h"
+#include "utility/sql/orm/data_updater.h"
 #include "utility/sql/orm/table_initializer.h"
 #include "utility/sql/orm/table.h"
 
@@ -93,36 +94,11 @@ public:
     }
 
 
+    template<typename T = TableType, typename K = std::enable_if_t<HasPrimaryKeyV<T>>>
     void Update(const E& entity) {
-
-        const auto& primary_key_fields = Table().PrimaryKey.Fields();
-        auto non_primary_key_fields = zaf::CopyIf(Table().GetColumns(), [&](auto field) {
-            return !zaf::Contain(primary_key_fields, field);
-        });
-
-        static auto sql = [&non_primary_key_fields]() {
-        
-            auto sql = std::format("update {} set {} where {}",
-                Table().GetName(),
-                zaf::JoinAsString(non_primary_key_fields, ",", [](auto field) {
-                    return std::format("{}=?", field->GetName());
-                }),
-                MakeKeyEquation(Table().PrimaryKey));
-
-            return sql;
-        }();
-
-        auto statement = db_.Get().PrepareStatement(sql);
-        BindEntityValuesToStatement<E>(statement, 1, non_primary_key_fields, entity);
-
-        BindEntityValuesToStatement<E>(
-            statement, 
-            static_cast<int>(1 + non_primary_key_fields.size()), 
-            primary_key_fields, 
-            entity);
-
-        statement.Step();
+        DataUpdater<E>::Update(db_.Get(), entity);
     }
+
 
     template<typename T = TableType>
     void Delete(
