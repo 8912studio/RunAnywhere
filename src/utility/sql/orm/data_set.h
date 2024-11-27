@@ -9,6 +9,7 @@
 #include <zaf/base/range.h>
 #include <zaf/base/string/join.h>
 #include "utility/sql/database.h"
+#include "utility/sql/orm/data_deleter.h"
 #include "utility/sql/orm/data_inserter.h"
 #include "utility/sql/orm/data_set_helpers.h"
 #include "utility/sql/orm/table_initializer.h"
@@ -123,19 +124,15 @@ public:
         statement.Step();
     }
 
-    /*
-    void Delete(const TableType::PrimaryKeyType::ValueType& primary_key) {
+    template<typename T = TableType>
+    void Delete(
+        const std::enable_if_t<
+            HasPrimaryKeyV<T>, 
+            typename T::PrimaryKeyType::ValueType
+        >& primary_key) {
 
-        static auto sql = std::format("delete from {} where {}",
-            Table().GetName(),
-            MakeKeyEquation(Table().PrimaryKey));
-
-        auto statement = db_.Get().PrepareStatement(sql);
-        TableType::PrimaryKeyType::BindValue(statement, 1, primary_key);
-
-        statement.Step();
+        DataDeleter<E>::Delete(db_.Get(), primary_key);
     }
-    */
 
 private:
     static void GetEntityValuesFromStatement(

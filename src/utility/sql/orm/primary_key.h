@@ -32,11 +32,19 @@ public:
 
     using ValueType = std::tuple<typename First::ValueType, typename Rest::ValueType...>;
 
-    static void BindValue(Statement& statement, int parameter_index, const ValueType& value) {
+    static void BindValueToStatement(
+        Statement& statement, 
+        int parameter_index, 
+        const ValueType& value) {
+
         int index = parameter_index;
-        std::apply([&statement, &index](const auto& each_value) {
-            statement.BindParameter(index, each_value);
+        auto binder = [&statement, &index](const auto& value) {
+            statement.BindParameter(index, value);
             ++index;
+        };
+
+        std::apply([&binder](const auto&... values) {
+            (binder(values), ...);
         },
         value);
     }
@@ -69,7 +77,11 @@ public:
 
     using ValueType = typename Single::ValueType;
 
-    static void BindValue(Statement& statement, int parameter_index, const ValueType& value) {
+    static void BindValueToStatement(
+        Statement& statement, 
+        int parameter_index, 
+        const ValueType& value) {
+
         statement.BindParameter(parameter_index, value);
     }
 
