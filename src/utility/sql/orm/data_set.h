@@ -11,6 +11,7 @@
 #include "utility/sql/database.h"
 #include "utility/sql/orm/data_deleter.h"
 #include "utility/sql/orm/data_inserter.h"
+#include "utility/sql/orm/data_selector.h"
 #include "utility/sql/orm/data_set_helpers.h"
 #include "utility/sql/orm/data_updater.h"
 #include "utility/sql/orm/table_initializer.h"
@@ -34,24 +35,7 @@ public:
 
 
     std::vector<E> SelectAll() {
-
-        static auto sql = std::format(
-            "select {} from {}", 
-            JoinColumnNames(Table().GetAbstractColumns()), 
-            Table().GetName());
-
-        std::vector<E> result;
-
-        auto statement = db_.Get().PrepareStatement(sql);
-        while (statement.Step()) {
-
-            E entity{};
-            GetEntityValuesFromStatement(statement, Table().GetColumns(), entity);
-
-            result.push_back(std::move(entity));
-        }
-
-        return result;
+        return DataSelector<E>::SelectAll(db_.Get());
     }
 
     /*
@@ -94,7 +78,7 @@ public:
     }
 
 
-    template<typename T = TableType, typename K = std::enable_if_t<HasPrimaryKeyV<T>>>
+    template<typename T = TableType, typename = std::enable_if_t<HasPrimaryKeyV<T>>>
     void Update(const E& entity) {
         DataUpdater<E>::Update(db_.Get(), entity);
     }
