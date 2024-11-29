@@ -186,6 +186,7 @@
     <ClInclude Include="src\module\ai\gpt\network\socket_manager.h" />
     <ClInclude Include="src\module\ai\gpt\network\socket_timer.h" />
     <ClInclude Include="src\module\ai\gpt\progress_indicator.h" />
+    <ClInclude Include="src\module\ai\gpt\storage\data_set_context.h" />
     <ClInclude Include="src\module\ai\gpt\storage\dialog_entity.h" />
     <ClInclude Include="src\module\ai\gpt\storage\dialog_storage.h" />
     <ClInclude Include="src\module\ai\gpt\storage\gpt_storage.h" />
@@ -403,6 +404,7 @@
     <ClInclude Include="src\utility\sql\orm\field_traits.h" />
     <ClInclude Include="src\utility\sql\orm\column_value_traits.h" />
     <ClInclude Include="src\utility\sql\orm\orm_support.h" />
+    <ClInclude Include="src\utility\sql\orm\table_traits.h" />
     <ClInclude Include="src\utility\sql\sql_error.h" />
     <ClInclude Include="src\utility\sql\statement.h" />
     <ClInclude Include="src\utility\sql\table_info.h" />

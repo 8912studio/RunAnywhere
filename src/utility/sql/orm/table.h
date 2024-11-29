@@ -6,9 +6,6 @@
 #include "utility/sql/orm/column.h"
 #include "utility/sql/orm/primary_key.h"
 
-template<typename T>
-class sql__Table;
-
 namespace ra::utility::sql {
 
 class AbstractTable : zaf::NonCopyableNonMovable {
@@ -23,8 +20,5 @@ public:
         return nullptr;
     }
 };
-
-template<typename T>
-using Table = sql__Table<T>;
 
 }

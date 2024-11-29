@@ -29,8 +29,6 @@ private:
     std::optional<Database> database_;
 };
 
-}
-
 
 struct TableNoPK {
     int integer_field{};
@@ -195,7 +193,7 @@ TEST(TableInitializerTest, NewTablePK2) {
     }
 }
 
-
+namespace old_table {
 struct OldTable {
     int integer_field{};
 };
@@ -203,7 +201,9 @@ struct OldTable {
 SQL_TABLE_BEGIN(AlterTable, OldTable);
 SQL_COLUMN(IntField, integer_field);
 SQL_TABLE_END;
+}
 
+namespace new_table {
 struct NewTable {
     int integer_field{};
     std::string string_field;
@@ -213,17 +213,18 @@ SQL_TABLE_BEGIN(AlterTable, NewTable);
 SQL_COLUMN(IntField, integer_field);
 SQL_COLUMN(StringField, string_field);
 SQL_TABLE_END;
+}
 
 TEST(TableInitializerTest, AlterTable) {
 
     TableInitializerTestFixture fixture;
 
-    TableInitializer::Initialize(Table<OldTable>::GetInstance(), fixture.DB());
+    TableInitializer::Initialize(Table<old_table::OldTable>::GetInstance(), fixture.DB());
     auto old_table_info = fixture.DB().GetTableInfo("AlterTable");
     ASSERT_TRUE(old_table_info.has_value());
     ASSERT_EQ(old_table_info->columns.size(), 1);
 
-    TableInitializer::Initialize(Table<NewTable>::GetInstance(), fixture.DB());
+    TableInitializer::Initialize(Table<new_table::NewTable>::GetInstance(), fixture.DB());
     auto new_table_info = fixture.DB().GetTableInfo("AlterTable");
     ASSERT_TRUE(new_table_info.has_value());
     ASSERT_EQ(new_table_info->columns.size(), 2);
@@ -243,4 +244,6 @@ TEST(TableInitializerTest, AlterTable) {
         ASSERT_EQ(column1.is_nullable, false);
         ASSERT_EQ(column1.is_primary_key, false);
     }
+}
+
 }

@@ -28,8 +28,6 @@ private:
     std::optional<Database> database_;
 };
 
-}
-
 
 struct EntityPK1 {
     int id{};
@@ -107,4 +105,6 @@ TEST(DataDeleterTest, MultiColumnPrimaryKey) {
     data_set.Delete(std::tuple<int, std::string>{ 2, "second" });
     statement = fixture.DB().PrepareStatement("select * from EntityPK2");
     ASSERT_FALSE(statement.Step());
+}
+
 }

@@ -28,8 +28,6 @@ private:
     std::optional<Database> database_;
 };
 
-}
-
 
 struct EntityNoPK {
     int integer{};
@@ -164,4 +162,6 @@ TEST(DataInserterTest, Autoincrement) {
     ASSERT_TRUE(statement.Step());
     ASSERT_EQ(statement.GetColumnInt(0), 2);
     ASSERT_EQ(statement.GetColumnText(1), "second");
+}
+
 }

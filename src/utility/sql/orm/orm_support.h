@@ -3,17 +3,22 @@
 #include <zaf/base/non_copyable.h>
 #include "utility/sql/orm/table.h"
 #include "utility/sql/orm/column.h"
+#include "utility/sql/orm/column_value_traits.h"
 #include "utility/sql/orm/primary_key.h"
 #include "utility/sql/orm/field_traits.h"
-#include "utility/sql/orm/column_value_traits.h"
+#include "utility/sql/orm/table_traits.h"
 
 #define SQL_TABLE_BEGIN(TABLE_NAME, ENTITY_CLASS) \
+class __sql_meta_definition_##TABLE_NAME##TableType; \
 template<> \
-class sql__Table<ENTITY_CLASS> : public ra::utility::sql::AbstractTable { \
+struct sql__TableType<ENTITY_CLASS> { \
+    using type = __sql_meta_definition_##TABLE_NAME##TableType; \
+}; \
+class __sql_meta_definition_##TABLE_NAME##TableType : public ra::utility::sql::AbstractTable { \
 public: \
     using EntityType = ENTITY_CLASS; \
-    static const sql__Table& GetInstance() { \
-        static sql__Table instance; \
+    static const __sql_meta_definition_##TABLE_NAME##TableType& GetInstance() { \
+        static __sql_meta_definition_##TABLE_NAME##TableType instance; \
         return instance; \
     } \
     std::string_view GetName() const noexcept override { return #TABLE_NAME; } \
@@ -27,7 +32,7 @@ public: \
         return fields_; \
     } \
 private: \
-    sql__Table() = default; \
+    __sql_meta_definition_##TABLE_NAME##TableType() = default; \
     std::vector<const ra::utility::sql::Column<EntityType>*> fields_;
 
 

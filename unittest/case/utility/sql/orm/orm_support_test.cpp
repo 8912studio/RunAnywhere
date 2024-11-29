@@ -3,6 +3,8 @@
 #include "utility/sql/orm/orm_support.h"
 #include "utility/sql/orm/primary_key_traits.h"
 
+namespace {
+
 struct Person {
     int ID;
     std::string Name;
@@ -10,11 +12,11 @@ struct Person {
     std::optional<std::string> NullableName;
 };
 
-SQL_TABLE_BEGIN(person, Person);
-SQL_COLUMN(id, ID);
-SQL_COLUMN(name, Name);
-SQL_COLUMN(nullable_id, NullableID);
-SQL_COLUMN(nullable_name, NullableName);
+SQL_TABLE_BEGIN(person, Person)
+SQL_COLUMN(id, ID)
+SQL_COLUMN(name, Name)
+SQL_COLUMN(nullable_id, NullableID)
+SQL_COLUMN(nullable_name, NullableName)
 SQL_TABLE_END;
 
 TEST(ORMSupportTest, BasicMetaInfo) {
@@ -85,15 +87,15 @@ TEST(ORMSupportTest, BasicMetaInfo) {
 }
 
 
-struct PersonPK1{
+struct PersonPK1 {
     int ID;
     std::string Name;
 };
 
-SQL_TABLE_BEGIN(person, PersonPK1);
-SQL_COLUMN(id, ID);
-SQL_COLUMN(name, Name);
-SQL_PRIMARY_KEY(id);
+SQL_TABLE_BEGIN(person_pk1, PersonPK1)
+SQL_COLUMN(id, ID)
+SQL_COLUMN(name, Name)
+SQL_PRIMARY_KEY(id)
 SQL_TABLE_END;
 
 TEST(ORMSupportTest, SingleColumnPrimaryKey) {
@@ -127,11 +129,11 @@ struct PersonPK2 {
     int Age;
 };
 
-SQL_TABLE_BEGIN(person, PersonPK2);
-SQL_COLUMN(id, ID);
-SQL_COLUMN(name, Name);
-SQL_COLUMN(age, Age);
-SQL_PRIMARY_KEY(id, name);
+SQL_TABLE_BEGIN(person_pk2, PersonPK2)
+SQL_COLUMN(id, ID)
+SQL_COLUMN(name, Name)
+SQL_COLUMN(age, Age)
+SQL_PRIMARY_KEY(id, name)
 SQL_TABLE_END;
 
 TEST(ORMSupportTest, MultipleColumnPrimaryKey) {
@@ -166,7 +168,7 @@ struct PersonPK3 {
     std::string Name;
 };
 
-SQL_TABLE_BEGIN(person, PersonPK3);
+SQL_TABLE_BEGIN(person_pk3, PersonPK3);
 SQL_COLUMN(id, ID);
 SQL_COLUMN(name, Name);
 SQL_PRIMARY_KEY_AUTOINCREMENT(id);
@@ -178,4 +180,6 @@ TEST(ORMSupportTest, AutoincrementPrimaryKey) {
 
     const auto& table = PersonTable::GetInstance();
     ASSERT_TRUE(table.PrimaryKey.IsAutoincrement());
+}
+
 }

@@ -28,8 +28,6 @@ private:
     std::optional<Database> database_;
 };
 
-}
-
 
 struct Entity {
     int id{};
@@ -61,4 +59,6 @@ TEST(DataSelectorTest, SelectAll) {
     ASSERT_EQ(all[0].name, "abc");
     ASSERT_EQ(all[1].id, 22);
     ASSERT_EQ(all[1].name, "k32");
+}
+
 }

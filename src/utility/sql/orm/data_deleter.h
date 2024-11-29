@@ -2,6 +2,7 @@
 
 #include "utility/sql/orm/primary_key_traits.h"
 #include "utility/sql/orm/table.h"
+#include "utility/sql/orm/table_traits.h"
 
 namespace ra::utility::sql {
 

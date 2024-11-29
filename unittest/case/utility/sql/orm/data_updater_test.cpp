@@ -28,8 +28,6 @@ private:
     std::optional<Database> database_;
 };
 
-}
-
 
 struct EntityPK1 {
     int id{};
@@ -113,4 +111,6 @@ TEST(DataUpdaterTest, MultipleColumnPrimaryKey) {
     ASSERT_TRUE(statement.Step());
     ASSERT_EQ(statement.GetColumnInt(0), 2);
     ASSERT_EQ(statement.GetColumnText(1), "200");
+}
+
 }
