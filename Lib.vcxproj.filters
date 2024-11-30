@@ -1176,9 +1176,6 @@
     <ClInclude Include="src\module\ai\gpt\storage\data_set_context.h">
       <Filter>src\module\ai\gpt\storage</Filter>
     </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\table_traits.h">
-      <Filter>src\utility\sql\orm</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">

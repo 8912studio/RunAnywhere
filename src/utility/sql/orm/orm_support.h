@@ -6,19 +6,15 @@
 #include "utility/sql/orm/column_value_traits.h"
 #include "utility/sql/orm/primary_key.h"
 #include "utility/sql/orm/field_traits.h"
-#include "utility/sql/orm/table_traits.h"
+
+#define SQL_ENTITY class TableType;
 
 #define SQL_TABLE_BEGIN(TABLE_NAME, ENTITY_CLASS) \
-class __sql_meta_definition_##TABLE_NAME##TableType; \
-template<> \
-struct sql__TableType<ENTITY_CLASS> { \
-    using type = __sql_meta_definition_##TABLE_NAME##TableType; \
-}; \
-class __sql_meta_definition_##TABLE_NAME##TableType : public ra::utility::sql::AbstractTable { \
+class ENTITY_CLASS::TableType : public ra::utility::sql::AbstractTable { \
 public: \
     using EntityType = ENTITY_CLASS; \
-    static const __sql_meta_definition_##TABLE_NAME##TableType& GetInstance() { \
-        static __sql_meta_definition_##TABLE_NAME##TableType instance; \
+    static const TableType& GetInstance() { \
+        static TableType instance; \
         return instance; \
     } \
     std::string_view GetName() const noexcept override { return #TABLE_NAME; } \
@@ -32,7 +28,7 @@ public: \
         return fields_; \
     } \
 private: \
-    __sql_meta_definition_##TABLE_NAME##TableType() = default; \
+    TableType() = default; \
     std::vector<const ra::utility::sql::Column<EntityType>*> fields_;
 
 

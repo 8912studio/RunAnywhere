@@ -31,24 +31,25 @@ private:
 
 
 struct TableNoPK {
+    SQL_ENTITY;
     int integer_field{};
     std::optional<int> nullable_integer_field;
     std::string string_field;
     std::optional<std::string> nullable_string_field;
 };
 
-SQL_TABLE_BEGIN(TableNoPK, TableNoPK);
-SQL_COLUMN(IntegerField, integer_field);
-SQL_COLUMN(StringField, string_field);
-SQL_COLUMN(NullableIntegerField, nullable_integer_field);
-SQL_COLUMN(NullableStringField, nullable_string_field);
-SQL_TABLE_END;
+SQL_TABLE_BEGIN(TableNoPK, TableNoPK)
+SQL_COLUMN(IntegerField, integer_field)
+SQL_COLUMN(StringField, string_field)
+SQL_COLUMN(NullableIntegerField, nullable_integer_field)
+SQL_COLUMN(NullableStringField, nullable_string_field)
+SQL_TABLE_END
 
 TEST(TableInitializerTest, NewTableNoPK) {
 
     TableInitializerTestFixture fixture;
 
-    TableInitializer::Initialize(Table<TableNoPK>::GetInstance(), fixture.DB());
+    TableInitializer::Initialize(TableNoPK::TableType::GetInstance(), fixture.DB());
 
     auto table_info = fixture.DB().GetTableInfo("TableNoPK");
     ASSERT_TRUE(table_info.has_value());
@@ -89,21 +90,22 @@ TEST(TableInitializerTest, NewTableNoPK) {
 
 
 struct TablePK1 {
+    SQL_ENTITY;
     int integer_field{};
     std::string string_field;
 };
 
-SQL_TABLE_BEGIN(TablePK1, TablePK1);
-SQL_COLUMN(IntegerField, integer_field);
-SQL_COLUMN(StringField, string_field);
-SQL_PRIMARY_KEY(IntegerField);
-SQL_TABLE_END;
+SQL_TABLE_BEGIN(TablePK1, TablePK1)
+SQL_COLUMN(IntegerField, integer_field)
+SQL_COLUMN(StringField, string_field)
+SQL_PRIMARY_KEY(IntegerField)
+SQL_TABLE_END
 
 TEST(TableInitializerTest, NewTablePK1) {
 
     TableInitializerTestFixture fixture;
 
-    TableInitializer::Initialize(Table<TablePK1>::GetInstance(), fixture.DB());
+    TableInitializer::Initialize(TablePK1::TableType::GetInstance(), fixture.DB());
 
     auto table_info = fixture.DB().GetTableInfo("TablePK1");
     ASSERT_TRUE(table_info.has_value());
@@ -120,21 +122,22 @@ TEST(TableInitializerTest, NewTablePK1) {
 
 
 struct TablePK1AutoInc {
+    SQL_ENTITY;
     int integer_field{};
     std::string string_field;
 };
 
-SQL_TABLE_BEGIN(TablePK1AutoInc, TablePK1AutoInc);
-SQL_COLUMN(IntegerField, integer_field);
-SQL_COLUMN(StringField, string_field);
-SQL_PRIMARY_KEY_AUTOINCREMENT(IntegerField);
+SQL_TABLE_BEGIN(TablePK1AutoInc, TablePK1AutoInc)
+SQL_COLUMN(IntegerField, integer_field)
+SQL_COLUMN(StringField, string_field)
+SQL_PRIMARY_KEY_AUTOINCREMENT(IntegerField)
 SQL_TABLE_END;
 
 TEST(TableInitializerTest, NewTablePK1AutoInc) {
 
     TableInitializerTestFixture fixture;
 
-    TableInitializer::Initialize(Table<TablePK1AutoInc>::GetInstance(), fixture.DB());
+    TableInitializer::Initialize(TablePK1AutoInc::TableType::GetInstance(), fixture.DB());
 
     auto table_info = fixture.DB().GetTableInfo("TablePK1AutoInc");
     ASSERT_TRUE(table_info.has_value());
@@ -156,21 +159,22 @@ TEST(TableInitializerTest, NewTablePK1AutoInc) {
 
 
 struct TablePK2 {
+    SQL_ENTITY;
     int integer_field{};
     std::string string_field;
 };
 
-SQL_TABLE_BEGIN(TablePK2, TablePK2);
-SQL_COLUMN(IntegerField, integer_field);
-SQL_COLUMN(StringField, string_field);
-SQL_PRIMARY_KEY(IntegerField, StringField);
-SQL_TABLE_END;
+SQL_TABLE_BEGIN(TablePK2, TablePK2)
+SQL_COLUMN(IntegerField, integer_field)
+SQL_COLUMN(StringField, string_field)
+SQL_PRIMARY_KEY(IntegerField, StringField)
+SQL_TABLE_END
 
 TEST(TableInitializerTest, NewTablePK2) {
 
     TableInitializerTestFixture fixture;
 
-    TableInitializer::Initialize(Table<TablePK2>::GetInstance(), fixture.DB());
+    TableInitializer::Initialize(TablePK2::TableType::GetInstance(), fixture.DB());
 
     auto table_info = fixture.DB().GetTableInfo("TablePK2");
     ASSERT_TRUE(table_info.has_value());
@@ -195,36 +199,38 @@ TEST(TableInitializerTest, NewTablePK2) {
 
 namespace old_table {
 struct OldTable {
+    SQL_ENTITY;
     int integer_field{};
 };
 
-SQL_TABLE_BEGIN(AlterTable, OldTable);
-SQL_COLUMN(IntField, integer_field);
-SQL_TABLE_END;
+SQL_TABLE_BEGIN(AlterTable, OldTable)
+SQL_COLUMN(IntField, integer_field)
+SQL_TABLE_END
 }
 
 namespace new_table {
 struct NewTable {
+    SQL_ENTITY;
     int integer_field{};
     std::string string_field;
 };
 
-SQL_TABLE_BEGIN(AlterTable, NewTable);
-SQL_COLUMN(IntField, integer_field);
-SQL_COLUMN(StringField, string_field);
-SQL_TABLE_END;
+SQL_TABLE_BEGIN(AlterTable, NewTable)
+SQL_COLUMN(IntField, integer_field)
+SQL_COLUMN(StringField, string_field)
+SQL_TABLE_END
 }
 
 TEST(TableInitializerTest, AlterTable) {
 
     TableInitializerTestFixture fixture;
 
-    TableInitializer::Initialize(Table<old_table::OldTable>::GetInstance(), fixture.DB());
+    TableInitializer::Initialize(old_table::OldTable::TableType::GetInstance(), fixture.DB());
     auto old_table_info = fixture.DB().GetTableInfo("AlterTable");
     ASSERT_TRUE(old_table_info.has_value());
     ASSERT_EQ(old_table_info->columns.size(), 1);
 
-    TableInitializer::Initialize(Table<new_table::NewTable>::GetInstance(), fixture.DB());
+    TableInitializer::Initialize(new_table::NewTable::TableType::GetInstance(), fixture.DB());
     auto new_table_info = fixture.DB().GetTableInfo("AlterTable");
     ASSERT_TRUE(new_table_info.has_value());
     ASSERT_EQ(new_table_info->columns.size(), 2);

@@ -30,14 +30,15 @@ private:
 
 
 struct Entity {
+    SQL_ENTITY;
     int id{};
     std::string name;
 };
 
-SQL_TABLE_BEGIN(Entity, Entity);
-SQL_COLUMN(id, id);
-SQL_COLUMN(name, name);
-SQL_TABLE_END;
+SQL_TABLE_BEGIN(Entity, Entity)
+SQL_COLUMN(id, id)
+SQL_COLUMN(name, name)
+SQL_TABLE_END
 
 TEST(DataSelectorTest, SelectAll) {
 

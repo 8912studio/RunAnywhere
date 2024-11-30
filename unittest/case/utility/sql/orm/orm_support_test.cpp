@@ -6,6 +6,7 @@
 namespace {
 
 struct Person {
+    SQL_ENTITY;
     int ID;
     std::string Name;
     std::optional<int> NullableID;
@@ -21,7 +22,7 @@ SQL_TABLE_END;
 
 TEST(ORMSupportTest, BasicMetaInfo) {
 
-    using PersonTable = ra::utility::sql::Table<Person>;
+    using PersonTable = Person::TableType;
 
     //Check types.
     {
@@ -88,6 +89,7 @@ TEST(ORMSupportTest, BasicMetaInfo) {
 
 
 struct PersonPK1 {
+    SQL_ENTITY;
     int ID;
     std::string Name;
 };
@@ -100,7 +102,7 @@ SQL_TABLE_END;
 
 TEST(ORMSupportTest, SingleColumnPrimaryKey) {
 
-    using PersonTable = ra::utility::sql::Table<PersonPK1>;
+    using PersonTable = PersonPK1::TableType;
 
     static_assert(!std::is_copy_constructible_v<PersonTable::PrimaryKeyType>);
     static_assert(!std::is_copy_assignable_v<PersonTable::PrimaryKeyType>);
@@ -124,6 +126,7 @@ TEST(ORMSupportTest, SingleColumnPrimaryKey) {
 
 
 struct PersonPK2 {
+    SQL_ENTITY;
     int ID;
     std::string Name;
     int Age;
@@ -138,7 +141,7 @@ SQL_TABLE_END;
 
 TEST(ORMSupportTest, MultipleColumnPrimaryKey) {
 
-    using PersonTable = ra::utility::sql::Table<PersonPK2>;
+    using PersonTable = PersonPK2::TableType;
 
     static_assert(!std::is_copy_constructible_v<PersonTable::PrimaryKeyType>);
     static_assert(!std::is_copy_assignable_v<PersonTable::PrimaryKeyType>);
@@ -164,6 +167,7 @@ TEST(ORMSupportTest, MultipleColumnPrimaryKey) {
 
 
 struct PersonPK3 {
+    SQL_ENTITY;
     int ID;
     std::string Name;
 };
@@ -176,7 +180,7 @@ SQL_TABLE_END;
 
 TEST(ORMSupportTest, AutoincrementPrimaryKey) {
 
-    using PersonTable = ra::utility::sql::Table<PersonPK3>;
+    using PersonTable = PersonPK3::TableType;
 
     const auto& table = PersonTable::GetInstance();
     ASSERT_TRUE(table.PrimaryKey.IsAutoincrement());

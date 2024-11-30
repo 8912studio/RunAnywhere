@@ -10,7 +10,7 @@ namespace ra::utility::sql {
 template<typename E>
 class DataSelector {
 private:
-    using TableType = Table<E>;
+    using TableType = typename E::TableType;
 
     static const TableType& Table() {
         return TableType::GetInstance();

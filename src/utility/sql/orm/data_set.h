@@ -22,7 +22,7 @@ namespace ra::utility::sql {
 template<typename E>
 class DataSet : zaf::NonCopyableNonMovable {
 private:
-    using TableType = Table<E>;
+    using TableType = typename E::TableType;
 
     static const TableType& Table() {
         return TableType::GetInstance();

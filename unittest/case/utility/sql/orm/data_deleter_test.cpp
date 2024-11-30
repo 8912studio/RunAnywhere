@@ -30,15 +30,16 @@ private:
 
 
 struct EntityPK1 {
+    SQL_ENTITY;
     int id{};
     std::string name;
 };
 
-SQL_TABLE_BEGIN(EntityPK1, EntityPK1);
-SQL_COLUMN(id, id);
-SQL_COLUMN(name, name);
-SQL_PRIMARY_KEY(id);
-SQL_TABLE_END;
+SQL_TABLE_BEGIN(EntityPK1, EntityPK1)
+SQL_COLUMN(id, id)
+SQL_COLUMN(name, name)
+SQL_PRIMARY_KEY(id)
+SQL_TABLE_END
 
 TEST(DataDeleterTest, SingleColumnPrimaryKey) {
 
@@ -67,17 +68,18 @@ TEST(DataDeleterTest, SingleColumnPrimaryKey) {
 
 
 struct EntityPK2 {
+    SQL_ENTITY;
     int id{};
     std::string name;
     int age{};
 };
 
-SQL_TABLE_BEGIN(EntityPK2, EntityPK2);
-SQL_COLUMN(id, id);
-SQL_COLUMN(name, name);
-SQL_COLUMN(age, age);
-SQL_PRIMARY_KEY(id, name);
-SQL_TABLE_END;
+SQL_TABLE_BEGIN(EntityPK2, EntityPK2)
+SQL_COLUMN(id, id)
+SQL_COLUMN(name, name)
+SQL_COLUMN(age, age)
+SQL_PRIMARY_KEY(id, name)
+SQL_TABLE_END
 
 TEST(DataDeleterTest, MultiColumnPrimaryKey) {
 

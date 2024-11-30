@@ -30,6 +30,7 @@ private:
 
 
 struct EntityNoPK {
+    SQL_ENTITY;
     int integer{};
     std::string string;
     std::optional<int> null_integer1;
@@ -38,14 +39,14 @@ struct EntityNoPK {
     std::optional<std::string> null_string2;
 };
 
-SQL_TABLE_BEGIN(Entity, EntityNoPK);
-SQL_COLUMN(IntValue, integer);
-SQL_COLUMN(StrValue, string);
-SQL_COLUMN(NullInt1, null_integer1);
-SQL_COLUMN(NullInt2, null_integer2);
-SQL_COLUMN(NullStr1, null_string1);
-SQL_COLUMN(NullStr2, null_string2);
-SQL_TABLE_END;
+SQL_TABLE_BEGIN(Entity, EntityNoPK)
+SQL_COLUMN(IntValue, integer)
+SQL_COLUMN(StrValue, string)
+SQL_COLUMN(NullInt1, null_integer1)
+SQL_COLUMN(NullInt2, null_integer2)
+SQL_COLUMN(NullStr1, null_string1)
+SQL_COLUMN(NullStr2, null_string2)
+SQL_TABLE_END
 
 TEST(DataInserterTest, NoPrimaryKey) {
 
@@ -71,15 +72,16 @@ TEST(DataInserterTest, NoPrimaryKey) {
 
 
 struct EntityPK1 {
+    SQL_ENTITY;
     int integer{};
     std::string string;
 };
 
-SQL_TABLE_BEGIN(EntityPK1, EntityPK1);
-SQL_COLUMN(IntValue, integer);
-SQL_COLUMN(StrValue, string);
-SQL_PRIMARY_KEY(IntValue);
-SQL_TABLE_END;
+SQL_TABLE_BEGIN(EntityPK1, EntityPK1)
+SQL_COLUMN(IntValue, integer)
+SQL_COLUMN(StrValue, string)
+SQL_PRIMARY_KEY(IntValue)
+SQL_TABLE_END
 
 TEST(DataInserterTest, PrimaryKeySingleColumn) {
 
@@ -99,17 +101,18 @@ TEST(DataInserterTest, PrimaryKeySingleColumn) {
 
 
 struct EntityPK2 {
+    SQL_ENTITY;
     int integer{};
     std::string string;
     int integer2{};
 };
 
-SQL_TABLE_BEGIN(EntityPK2, EntityPK2);
-SQL_COLUMN(IntValue, integer);
-SQL_COLUMN(StrValue, string);
-SQL_COLUMN(IntValue2, integer2);
-SQL_PRIMARY_KEY(IntValue, StrValue);
-SQL_TABLE_END;
+SQL_TABLE_BEGIN(EntityPK2, EntityPK2)
+SQL_COLUMN(IntValue, integer)
+SQL_COLUMN(StrValue, string)
+SQL_COLUMN(IntValue2, integer2)
+SQL_PRIMARY_KEY(IntValue, StrValue)
+SQL_TABLE_END
 
 TEST(DataInserterTest, PrimaryKeyMultipleColumn) {
 
@@ -131,15 +134,16 @@ TEST(DataInserterTest, PrimaryKeyMultipleColumn) {
 
 
 struct EntityAutoInc {
+    SQL_ENTITY;
     int id{};
     std::string name;
 };
 
-SQL_TABLE_BEGIN(EntityAutoInc, EntityAutoInc);
-SQL_COLUMN(ID, id);
-SQL_COLUMN(Name, name);
-SQL_PRIMARY_KEY_AUTOINCREMENT(ID);
-SQL_TABLE_END;
+SQL_TABLE_BEGIN(EntityAutoInc, EntityAutoInc)
+SQL_COLUMN(ID, id)
+SQL_COLUMN(Name, name)
+SQL_PRIMARY_KEY_AUTOINCREMENT(ID)
+SQL_TABLE_END
 
 TEST(DataInserterTest, Autoincrement) {
 

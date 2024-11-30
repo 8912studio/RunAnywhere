@@ -7,14 +7,6 @@ using namespace ra::utility::sql;
 
 namespace ra::mod::ai::gpt {
 
-SQL_TABLE_BEGIN(Dialog, DialogEntity)
-SQL_COLUMN(ID, id)
-SQL_COLUMN(CreateTime, create_time)
-SQL_COLUMN(UpdateTime, update_time)
-SQL_COLUMN(Subject, subject)
-SQL_TABLE_END
-
-
 DialogStorage::DialogStorage(std::shared_ptr<StorageContext> context) : 
     context_(std::move(context)) {
 

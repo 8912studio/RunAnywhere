@@ -2,14 +2,13 @@
 
 #include "utility/sql/orm/primary_key_traits.h"
 #include "utility/sql/orm/table.h"
-#include "utility/sql/orm/table_traits.h"
 
 namespace ra::utility::sql {
 
 template<typename E>
 class DataDeleter {
 private:
-    using TableType = Table<E>;
+    using TableType = typename E::TableType;
 
     static const TableType& Table() {
         return TableType::GetInstance();
