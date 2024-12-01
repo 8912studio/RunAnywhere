@@ -4,7 +4,7 @@ using namespace ra::utility::sql;
 
 namespace ra::mod::ai::gpt {
 
-RoundStorage::RoundStorage(std::shared_ptr<StorageContext> context) : 
+RoundStorage::RoundStorage(std::shared_ptr<ScheduledStorageContext> context) :
     context_(std::move(context)) {
 
 }
@@ -51,8 +51,9 @@ void RoundStorage::InitializeRoundTable(utility::sql::Database& db) {
 zaf::Observable<std::vector<RoundEntity>> RoundStorage::FetchAllRoundsInDialog(
     std::uint64_t dialog_id) {
 
-    return context_->Execute<std::vector<RoundEntity>>([this, dialog_id](Database& db) {
+    return context_->Execute<std::vector<RoundEntity>>([this, dialog_id](StorageContext& context) {
 
+        auto& db = context.DB();
         InitializeRoundTable(db);
 
         auto sql = 
@@ -83,8 +84,9 @@ zaf::Observable<std::vector<RoundEntity>> RoundStorage::FetchAllRoundsInDialog(
 
 zaf::Observable<std::uint64_t> RoundStorage::AddRound(const RoundEntity& round_entity) {
 
-    return context_->Execute<std::uint64_t>([this, round_entity](Database& db) {
+    return context_->Execute<std::uint64_t>([this, round_entity](StorageContext& context) {
 
+        auto& db = context.DB();
         InitializeRoundTable(db);
 
         auto sql =
@@ -107,8 +109,9 @@ zaf::Observable<std::uint64_t> RoundStorage::AddRound(const RoundEntity& round_e
 
 zaf::Observable<std::uint64_t> RoundStorage::UpdateRound(const RoundEntity& round_entity) {
 
-    return context_->Execute<std::uint64_t>([this, round_entity](Database& db) {
+    return context_->Execute<std::uint64_t>([this, round_entity](StorageContext& context) {
     
+        auto& db = context.DB();
         InitializeRoundTable(db);
 
         auto sql =
@@ -130,8 +133,9 @@ zaf::Observable<std::uint64_t> RoundStorage::UpdateRound(const RoundEntity& roun
 
 zaf::Observable<std::uint64_t> RoundStorage::DeleteRound(std::uint64_t permanent_id) {
 
-    return context_->Execute<std::uint64_t>([this, permanent_id](Database& db) {
+    return context_->Execute<std::uint64_t>([this, permanent_id](StorageContext& context) {
     
+        auto& db = context.DB();
         InitializeRoundTable(db);
 
         auto sql = "delete from Round where ID = ?;";
@@ -147,8 +151,9 @@ zaf::Observable<std::uint64_t> RoundStorage::DeleteRound(std::uint64_t permanent
 
 zaf::Observable<zaf::None> RoundStorage::DeleteAllRoundsInDialog(std::uint64_t dialog_id) {
 
-    return context_->Execute<zaf::None>([this, dialog_id](Database& db) {
+    return context_->Execute<zaf::None>([this, dialog_id](StorageContext& context) {
     
+        auto& db = context.DB();
         InitializeRoundTable(db);
 
         auto sql = "delete from Round where DialogID = ?;";

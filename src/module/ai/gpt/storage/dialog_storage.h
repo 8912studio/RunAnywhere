@@ -1,26 +1,24 @@
 #pragma once
 
 #include <zaf/base/none.h>
+#include <zaf/rx/observable.h>
 #include "module/ai/gpt/storage/dialog_entity.h"
-#include "module/ai/gpt/storage/storage_context.h"
+#include "module/ai/gpt/storage/scheduled_storage_context.h"
+#include "utility/sql/orm/data_set.h"
 
 namespace ra::mod::ai::gpt {
 
 class DialogStorage {
 public:
-    explicit DialogStorage(std::shared_ptr<StorageContext> context);
+    explicit DialogStorage(std::shared_ptr<ScheduledStorageContext> context);
 
     zaf::Observable<std::vector<DialogEntity>> FetchAllDialogs();
     zaf::Observable<std::uint64_t> AddDialog(const DialogEntity& dialog);
     zaf::Observable<std::uint64_t> UpdateDialog(const DialogEntity& dialog);
     zaf::Observable<zaf::None> DeleteDialog(std::uint64_t dialog_id);
-
+    
 private:
-    void InitializeDialogTable(utility::sql::Database& db);
-
-private:
-    std::shared_ptr<StorageContext> context_;
-    std::once_flag dialog_table_once_flag_;
+    std::shared_ptr<ScheduledStorageContext> context_;
 };
 
 }

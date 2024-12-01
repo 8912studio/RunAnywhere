@@ -250,6 +250,10 @@ TEST(TableInitializerTest, AlterTable) {
         ASSERT_EQ(column1.is_nullable, false);
         ASSERT_EQ(column1.is_primary_key, false);
     }
+
+    // Initialize new table again to make sure there is no error.
+    ASSERT_NO_THROW(
+        TableInitializer::Initialize(new_table::NewTable::TableType::GetInstance(), fixture.DB()));
 }
 
 }

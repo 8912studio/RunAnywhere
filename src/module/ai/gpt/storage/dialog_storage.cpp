@@ -1,108 +1,36 @@
 #include "module/ai/gpt/storage/dialog_storage.h"
 #include "utility/sql/table_schema.h"
-#include "utility/sql/orm/data_set.h"
-#include "utility/sql/orm/orm_support.h"
 
 using namespace ra::utility::sql;
 
 namespace ra::mod::ai::gpt {
 
-DialogStorage::DialogStorage(std::shared_ptr<StorageContext> context) : 
+DialogStorage::DialogStorage(std::shared_ptr<ScheduledStorageContext> context) :
     context_(std::move(context)) {
 
 }
 
 
-void DialogStorage::InitializeDialogTable(utility::sql::Database& db) {
-
-    std::call_once(dialog_table_once_flag_, [&db]() {
-
-        db.CreateTable(TableSchema{
-            .name = "Dialog",
-            .columns = {
-                {
-                    .name = "ID",
-                    .data_type = DataType::Integer,
-                    .constraints = ColumnConstraints::PrimaryKey,
-                },
-                {
-                    .name = "CreateTime",
-                    .data_type = DataType::Integer,
-                },
-                {
-                    .name = "UpdateTime",
-                    .data_type = DataType::Integer,
-                },
-                {
-                    .name = "Subject",
-                    .data_type = DataType::Text,
-                },
-            },
-        });
-    });
-}
-
-
 zaf::Observable<std::vector<DialogEntity>> DialogStorage::FetchAllDialogs() {
 
-    return context_->Execute<std::vector<DialogEntity>>([this](Database& db) {
-
-        InitializeDialogTable(db);
-
-        std::vector<DialogEntity> result;
-
-        auto sql = "select ID, CreateTime, UpdateTime, Subject from Dialog";
-        auto statement = db.PrepareStatement(sql);
-        while (statement.Step()) {
-
-            DialogEntity dialog;
-            dialog.id = statement.GetColumnInt64(0);
-            dialog.create_time = statement.GetColumnInt64(1);
-            dialog.update_time = statement.GetColumnInt64(2);
-            dialog.subject = statement.GetColumnText(3);
-
-            result.push_back(std::move(dialog));
-        }
-
-        return result;
+    return context_->Execute<std::vector<DialogEntity>>([this](StorageContext& context) {
+        return context.DialogDataSet().SelectAll();
     });
 }
 
 
 zaf::Observable<std::uint64_t> DialogStorage::AddDialog(const DialogEntity& dialog) {
 
-    return context_->Execute<std::uint64_t>([this, dialog](Database& db) {
-
-        InitializeDialogTable(db);
-
-        auto sql = "insert into Dialog(CreateTime, UpdateTime, Subject) values(?,?,?);";
-        auto statement = db.PrepareStatement(sql);
-
-        statement.BindParameter(1, dialog.create_time);
-        statement.BindParameter(2, dialog.update_time);
-        statement.BindParameter(3, dialog.subject);
-        statement.Step();
-
-        return db.LastInsertRowID();
+    return context_->Execute<std::uint64_t>([this, dialog](StorageContext& context) {
+        return context.DialogDataSet().InsertWithAutoincrement(dialog);
     });
 }
 
 
 zaf::Observable<std::uint64_t> DialogStorage::UpdateDialog(const DialogEntity& dialog) {
 
-    return context_->Execute<std::uint64_t>([this, dialog](Database& db) {
-    
-        InitializeDialogTable(db);
-
-        auto sql = "update Dialog set CreateTime=?, UpdateTime=?, Subject=? where ID = ?;";
-        auto statement = db.PrepareStatement(sql);
-
-        statement.BindParameter(1, dialog.create_time);
-        statement.BindParameter(2, dialog.update_time);
-        statement.BindParameter(3, dialog.subject);
-        statement.BindParameter(4, dialog.id);
-        statement.Step();
-
+    return context_->Execute<std::uint64_t>([this, dialog](StorageContext& context) {
+        context.DialogDataSet().Update(dialog);
         return dialog.id;
     });
 }
@@ -110,16 +38,8 @@ zaf::Observable<std::uint64_t> DialogStorage::UpdateDialog(const DialogEntity& d
 
 zaf::Observable<zaf::None> DialogStorage::DeleteDialog(std::uint64_t dialog_id) {
 
-    return context_->Execute<zaf::None>([this, dialog_id](Database& db) {
-
-        InitializeDialogTable(db);
-
-        auto sql = "delete from Dialog where ID = ?";
-
-        auto statement = db.PrepareStatement(sql);
-        statement.BindParameter(1, dialog_id);
-
-        statement.Step();
+    return context_->Execute<zaf::None>([this, dialog_id](StorageContext& context) {
+        context.DialogDataSet().Delete(dialog_id);
         return zaf::None{};
     });
 }

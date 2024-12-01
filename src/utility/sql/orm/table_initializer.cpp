@@ -74,7 +74,7 @@ void TableInitializer::AlterTable(
 
         auto iterator = std::lower_bound(
             existent_table_info.columns.begin(),
-            existent_table_info.columns.begin(),
+            existent_table_info.columns.end(),
             each_column,
             [](const ColumnInfo& existent_column, const AbstractColumn* abstract_column) {
                 return existent_column.name < abstract_column->GetName();

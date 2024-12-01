@@ -186,12 +186,12 @@
     <ClInclude Include="src\module\ai\gpt\network\socket_manager.h" />
     <ClInclude Include="src\module\ai\gpt\network\socket_timer.h" />
     <ClInclude Include="src\module\ai\gpt\progress_indicator.h" />
-    <ClInclude Include="src\module\ai\gpt\storage\data_set_context.h" />
     <ClInclude Include="src\module\ai\gpt\storage\dialog_entity.h" />
     <ClInclude Include="src\module\ai\gpt\storage\dialog_storage.h" />
     <ClInclude Include="src\module\ai\gpt\storage\gpt_storage.h" />
     <ClInclude Include="src\module\ai\gpt\storage\round_entity.h" />
     <ClInclude Include="src\module\ai\gpt\storage\round_storage.h" />
+    <ClInclude Include="src\module\ai\gpt\storage\scheduled_storage_context.h" />
     <ClInclude Include="src\module\ai\gpt\storage\storage_context.h" />
     <ClInclude Include="src\module\calculator\calculator_command.h" />
     <ClInclude Include="src\module\calculator\calculator_module.h" />
@@ -503,6 +503,7 @@
     <ClCompile Include="src\module\ai\gpt\storage\dialog_storage.cpp" />
     <ClCompile Include="src\module\ai\gpt\storage\gpt_storage.cpp" />
     <ClCompile Include="src\module\ai\gpt\storage\round_storage.cpp" />
+    <ClCompile Include="src\module\ai\gpt\storage\scheduled_storage_context.cpp" />
     <ClCompile Include="src\module\ai\gpt\storage\storage_context.cpp" />
     <ClCompile Include="src\module\calculator\calculator_command.cpp" />
     <ClCompile Include="src\module\calculator\calculator_module.cpp" />

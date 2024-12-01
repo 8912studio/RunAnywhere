@@ -2,13 +2,13 @@
 
 #include <zaf/base/none.h>
 #include "module/ai/gpt/storage/round_entity.h"
-#include "module/ai/gpt/storage/storage_context.h"
+#include "module/ai/gpt/storage/scheduled_storage_context.h"
 
 namespace ra::mod::ai::gpt {
 
 class RoundStorage {
 public:
-    explicit RoundStorage(std::shared_ptr<StorageContext> context);
+    explicit RoundStorage(std::shared_ptr<ScheduledStorageContext> context);
 
     zaf::Observable<std::vector<RoundEntity>> FetchAllRoundsInDialog(std::uint64_t dialog_id);
 
@@ -21,7 +21,7 @@ private:
     void InitializeRoundTable(utility::sql::Database& db);
 
 private:
-    std::shared_ptr<StorageContext> context_;
+    std::shared_ptr<ScheduledStorageContext> context_;
     std::once_flag round_table_once_flag_;
 };
 

@@ -7,7 +7,7 @@
 #include "module/ai/gpt/storage/dialog_entity.h"
 #include "module/ai/gpt/storage/dialog_storage.h"
 #include "module/ai/gpt/storage/round_storage.h"
-#include "module/ai/gpt/storage/storage_context.h"
+#include "module/ai/gpt/storage/scheduled_storage_context.h"
 #include "utility/sql/database.h"
 
 namespace ra::mod::ai::gpt {
@@ -25,7 +25,7 @@ public:
     }
 
 private:
-    std::shared_ptr<StorageContext> context_;
+    std::shared_ptr<ScheduledStorageContext> context_;
     std::shared_ptr<gpt::DialogStorage> dialog_storage_;
     std::shared_ptr<gpt::RoundStorage> round_storage_;
 };
