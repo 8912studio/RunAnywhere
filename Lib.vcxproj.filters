@@ -1188,6 +1188,15 @@
     <ClInclude Include="src\utility\sql\orm\key.h">
       <Filter>src\utility\sql\orm</Filter>
     </ClInclude>
+    <ClInclude Include="src\utility\sql\orm\abstract_index.h">
+      <Filter>src\utility\sql\orm</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\sql\orm\index.h">
+      <Filter>src\utility\sql\orm</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\sql\orm\macro_utility.h">
+      <Filter>src\utility\sql\orm</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">

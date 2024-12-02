@@ -172,11 +172,11 @@ struct PersonPK3 {
     std::string Name;
 };
 
-SQL_TABLE_BEGIN(person_pk3, PersonPK3);
-SQL_COLUMN(id, ID);
-SQL_COLUMN(name, Name);
-SQL_PRIMARY_KEY_AUTOINCREMENT(id);
-SQL_TABLE_END;
+SQL_TABLE_BEGIN(person_pk3, PersonPK3)
+SQL_COLUMN(id, ID)
+SQL_COLUMN(name, Name)
+SQL_PRIMARY_KEY_AUTOINCREMENT(id)
+SQL_TABLE_END
 
 TEST(ORMSupportTest, AutoincrementPrimaryKey) {
 
@@ -184,6 +184,107 @@ TEST(ORMSupportTest, AutoincrementPrimaryKey) {
 
     const auto& table = PersonTable::GetInstance();
     ASSERT_TRUE(table.PrimaryKey.IsAutoincrement());
+}
+
+
+struct PersonIndex1 {
+    SQL_ENTITY;
+    int id1;
+    int id2;
+};
+
+SQL_TABLE_BEGIN(PersonIndex1, PersonIndex1)
+SQL_COLUMN(id1, id1)
+SQL_COLUMN(id2, id2)
+SQL_INDEX(id1)
+SQL_TABLE_END
+
+TEST(ORMSupportTest, SingleColumnIndex) {
+
+    using PersonTable = PersonIndex1::TableType;
+
+    static_assert(!std::is_copy_constructible_v<PersonTable::id1IndexType>);
+    static_assert(!std::is_copy_assignable_v<PersonTable::id1IndexType>);
+    static_assert(!std::is_move_constructible_v<PersonTable::id1IndexType>);
+    static_assert(!std::is_move_assignable_v<PersonTable::id1IndexType>);
+
+    const auto& table = PersonTable::GetInstance();
+    auto columns = table.id1Index.GetColumns();
+    ASSERT_EQ(columns.size(), 1);
+    ASSERT_EQ(columns[0], &table.id1);
+}
+
+
+struct PersonIndex2 {
+    SQL_ENTITY;
+    int id1;
+    int id2;
+    int id3;
+};
+
+SQL_TABLE_BEGIN(PersonIndex2, PersonIndex2)
+SQL_COLUMN(id1, id1)
+SQL_COLUMN(id2, id2)
+SQL_COLUMN(id3, id3)
+SQL_INDEX(id1, id2)
+SQL_TABLE_END
+
+TEST(ORMSupportTest, MultiColumnIndex) {
+
+    using PersonTable = PersonIndex2::TableType;
+
+    static_assert(!std::is_copy_constructible_v<PersonTable::id1id2IndexType>);
+    static_assert(!std::is_copy_assignable_v<PersonTable::id1id2IndexType>);
+    static_assert(!std::is_move_constructible_v<PersonTable::id1id2IndexType>);
+    static_assert(!std::is_move_assignable_v<PersonTable::id1id2IndexType>);
+
+    const auto& table = PersonTable::GetInstance();
+    auto columns = table.id1id2Index.GetColumns();
+    ASSERT_EQ(columns.size(), 2);
+    ASSERT_EQ(columns[0], &table.id1);
+    ASSERT_EQ(columns[1], &table.id2);
+}
+
+
+struct PersonIndex8 {
+    SQL_ENTITY;
+    int id1;
+    int id2;
+    int id3;
+    int id4;
+    int id5;
+    int id6;
+    int id7;
+    int id8;
+};
+
+SQL_TABLE_BEGIN(PersonIndex8, PersonIndex8)
+SQL_COLUMN(id1, id1)
+SQL_COLUMN(id2, id2)
+SQL_COLUMN(id3, id3)
+SQL_COLUMN(id4, id4)
+SQL_COLUMN(id5, id5)
+SQL_COLUMN(id6, id6)
+SQL_COLUMN(id7, id7)
+SQL_COLUMN(id8, id8)
+SQL_INDEX(id1, id2, id3, id4, id5, id6, id7, id8)
+SQL_TABLE_END
+
+TEST(ORMSupportTest, MaxCountColumnIndex) {
+
+    using PersonTable = PersonIndex8::TableType;
+
+    const auto& table = PersonTable::GetInstance();
+    auto columns = table.id1id2id3id4id5id6id7id8Index.GetColumns();
+    ASSERT_EQ(columns.size(), 8);
+    ASSERT_EQ(columns[0], &table.id1);
+    ASSERT_EQ(columns[1], &table.id2);
+    ASSERT_EQ(columns[2], &table.id3);
+    ASSERT_EQ(columns[3], &table.id4);
+    ASSERT_EQ(columns[4], &table.id5);
+    ASSERT_EQ(columns[5], &table.id6);
+    ASSERT_EQ(columns[6], &table.id7);
+    ASSERT_EQ(columns[7], &table.id8);
 }
 
 }

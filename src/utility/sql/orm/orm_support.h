@@ -4,8 +4,10 @@
 #include "utility/sql/orm/table.h"
 #include "utility/sql/orm/column.h"
 #include "utility/sql/orm/column_value_traits.h"
-#include "utility/sql/orm/primary_key.h"
 #include "utility/sql/orm/field_traits.h"
+#include "utility/sql/orm/index.h"
+#include "utility/sql/orm/macro_utility.h"
+#include "utility/sql/orm/primary_key.h"
 
 #define SQL_ENTITY class TableType;
 
@@ -89,5 +91,13 @@ public: \
     const ra::utility::sql::AbstractPrimaryKey* GetAbstractPrimaryKey() const noexcept override { \
         return &PrimaryKey; \
     }
+
+
+#define SQL_INDEX(...) \
+public: \
+    using SQL_UTILITY_JOIN(__VA_ARGS__)##IndexType = \
+        decltype(ra::utility::sql::MakeIndex<EntityType>(__VA_ARGS__)); \
+    SQL_UTILITY_JOIN(__VA_ARGS__)##IndexType SQL_UTILITY_JOIN(__VA_ARGS__)##Index = \
+        ra::utility::sql::MakeIndex<EntityType>(__VA_ARGS__);
 
 #define SQL_TABLE_END };

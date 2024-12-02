@@ -35,7 +35,7 @@ public:
 public:
     Key(First& first, Rest&... rest) {
         columns_.push_back(&first);
-        columns_.push_back(&rest...);
+        (columns_.push_back(&rest), ...);
     }
 
     AbstractColumnsView GetAbstractColumns() const noexcept {

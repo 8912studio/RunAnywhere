@@ -1,7 +1,5 @@
 #pragma once
 
-#include <tuple>
-#include <zaf/base/non_copyable.h>
 #include "utility/sql/orm/abstract_primary_key.h"
 #include "utility/sql/orm/key.h"
 
