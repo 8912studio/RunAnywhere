@@ -1176,6 +1176,18 @@
     <ClInclude Include="src\module\ai\gpt\storage\scheduled_storage_context.h">
       <Filter>src\module\ai\gpt\storage</Filter>
     </ClInclude>
+    <ClInclude Include="src\utility\sql\orm\abstract_primary_key.h">
+      <Filter>src\utility\sql\orm</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\sql\orm\abstract_column.h">
+      <Filter>src\utility\sql\orm</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\sql\orm\abstract_key.h">
+      <Filter>src\utility\sql\orm</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\sql\orm\key.h">
+      <Filter>src\utility\sql\orm</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
