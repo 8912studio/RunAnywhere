@@ -18,11 +18,7 @@ public:
     zaf::Observable<zaf::None> DeleteAllRoundsInDialog(std::uint64_t dialog_id);
 
 private:
-    void InitializeRoundTable(utility::sql::Database& db);
-
-private:
     std::shared_ptr<ScheduledStorageContext> context_;
-    std::once_flag round_table_once_flag_;
 };
 
 }

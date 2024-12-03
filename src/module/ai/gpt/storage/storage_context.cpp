@@ -14,6 +14,7 @@ void StorageContext::Initialize() {
         std::filesystem::create_directories(db_path_.parent_path());
         db_ = utility::sql::Database::Open(db_path_);
         dialog_data_set_.emplace(*db_);
+        round_data_set_.emplace(*db_);
     });
 }
 
@@ -27,6 +28,12 @@ utility::sql::Database& StorageContext::DB() {
 utility::sql::DataSet<DialogEntity>& StorageContext::DialogDataSet() {
     Initialize();
     return *dialog_data_set_;
+}
+
+
+utility::sql::DataSet<RoundEntity>& StorageContext::RoundDataSet() {
+    Initialize();
+    return *round_data_set_;
 }
 
 }

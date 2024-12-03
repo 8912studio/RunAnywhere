@@ -26,6 +26,8 @@ SQL_COLUMN(CreateTime, create_time)
 SQL_COLUMN(UpdateTime, update_time)
 SQL_COLUMN(Question, question)
 SQL_COLUMN(Response, response)
+SQL_PRIMARY_KEY_AUTOINCREMENT(ID)
+SQL_INDEX(DialogID)
 SQL_TABLE_END
 
 }
