@@ -209,6 +209,11 @@ TEST(ORMSupportTest, SingleColumnIndex) {
     static_assert(!std::is_move_assignable_v<PersonTable::id1IndexType>);
 
     const auto& table = PersonTable::GetInstance();
+
+    auto indexes = table.GetAbstractIndexes();
+    ASSERT_EQ(indexes.size(), 1);
+    ASSERT_EQ(indexes[0], &table.id1Index);
+
     auto columns = table.id1Index.GetColumns();
     ASSERT_EQ(columns.size(), 1);
     ASSERT_EQ(columns[0], &table.id1);
@@ -239,6 +244,11 @@ TEST(ORMSupportTest, MultiColumnIndex) {
     static_assert(!std::is_move_assignable_v<PersonTable::id1id2IndexType>);
 
     const auto& table = PersonTable::GetInstance();
+
+    auto indexes = table.GetAbstractIndexes();
+    ASSERT_EQ(indexes.size(), 1);
+    ASSERT_EQ(indexes[0], &table.id1id2Index);
+
     auto columns = table.id1id2Index.GetColumns();
     ASSERT_EQ(columns.size(), 2);
     ASSERT_EQ(columns[0], &table.id1);
@@ -273,8 +283,12 @@ SQL_TABLE_END
 TEST(ORMSupportTest, MaxCountColumnIndex) {
 
     using PersonTable = PersonIndex8::TableType;
-
     const auto& table = PersonTable::GetInstance();
+
+    auto indexes = table.GetAbstractIndexes();
+    ASSERT_EQ(indexes.size(), 1);
+    ASSERT_EQ(indexes[0], &table.id1id2id3id4id5id6id7id8Index);
+
     auto columns = table.id1id2id3id4id5id6id7id8Index.GetColumns();
     ASSERT_EQ(columns.size(), 8);
     ASSERT_EQ(columns[0], &table.id1);
@@ -285,6 +299,35 @@ TEST(ORMSupportTest, MaxCountColumnIndex) {
     ASSERT_EQ(columns[5], &table.id6);
     ASSERT_EQ(columns[6], &table.id7);
     ASSERT_EQ(columns[7], &table.id8);
+}
+
+
+struct PersonMultiIndexes {
+    SQL_ENTITY;
+    int id1;
+    int id2;
+    int id3;
+};
+
+SQL_TABLE_BEGIN(PersonMultiIndexes, PersonMultiIndexes)
+SQL_COLUMN(id1, id1)
+SQL_COLUMN(id2, id2)
+SQL_COLUMN(id3, id3)
+SQL_INDEX(id1, id2, id3)
+SQL_INDEX(id1, id2)
+SQL_INDEX(id2, id3)
+SQL_TABLE_END
+
+TEST(ORMSupportTest, MultiIndexes) {
+
+    using PersonTable = PersonMultiIndexes::TableType;
+    const auto& table = PersonTable::GetInstance();
+
+    auto indexes = table.GetAbstractIndexes();
+    ASSERT_EQ(indexes.size(), 3);
+    ASSERT_EQ(indexes[0], &table.id1id2id3Index);
+    ASSERT_EQ(indexes[1], &table.id1id2Index);
+    ASSERT_EQ(indexes[2], &table.id2id3Index);
 }
 
 }

@@ -1182,9 +1182,6 @@
     <ClInclude Include="src\utility\sql\orm\abstract_column.h">
       <Filter>src\utility\sql\orm</Filter>
     </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\abstract_key.h">
-      <Filter>src\utility\sql\orm</Filter>
-    </ClInclude>
     <ClInclude Include="src\utility\sql\orm\key.h">
       <Filter>src\utility\sql\orm</Filter>
     </ClInclude>

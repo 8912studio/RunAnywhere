@@ -8,7 +8,14 @@ namespace ra::utility::sql {
 template<typename E, typename... Columns>
 class Index : public Key<E, Columns...>, public AbstractIndex {
 public:
-    using Key<E, Columns...>::Key;
+    Index(
+        std::vector<const AbstractIndex*>& registered_indexes, 
+        const Columns&... columns) 
+        :
+        Key<E, Columns...>(columns...) {
+
+        registered_indexes.push_back(this);
+    }
 
     AbstractColumnsView GetAbstractColumns() const noexcept override {
         return Key<E, Columns...>::GetAbstractColumns();
@@ -16,8 +23,8 @@ public:
 };
 
 template<typename E, typename... Columns>
-auto MakeIndex(Columns&... columns) {
-    return Index<E, Columns...>(columns...);
+auto MakeIndex(std::vector<const AbstractIndex*>& registered_indexes, const Columns&... columns) {
+    return Index<E, Columns...>(registered_indexes, columns...);
 }
 
 }

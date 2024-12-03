@@ -33,7 +33,7 @@ public:
     }
 
 public:
-    Key(First& first, Rest&... rest) {
+    Key(const First& first, const Rest&... rest) {
         columns_.push_back(&first);
         (columns_.push_back(&rest), ...);
     }

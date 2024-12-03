@@ -392,7 +392,6 @@
     <ClInclude Include="src\utility\sql\data_type.h" />
     <ClInclude Include="src\utility\sql\orm\abstract_column.h" />
     <ClInclude Include="src\utility\sql\orm\abstract_index.h" />
-    <ClInclude Include="src\utility\sql\orm\abstract_key.h" />
     <ClInclude Include="src\utility\sql\orm\abstract_primary_key.h" />
     <ClInclude Include="src\utility\sql\orm\data_deleter.h" />
     <ClInclude Include="src\utility\sql\orm\data_inserter.h" />

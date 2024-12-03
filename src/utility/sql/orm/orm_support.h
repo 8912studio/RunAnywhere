@@ -29,9 +29,13 @@ public: \
     ra::utility::sql::ColumnsView<EntityType> GetColumns() const noexcept { \
         return fields_; \
     } \
+    ra::utility::sql::AbstractIndexesView GetAbstractIndexes() const noexcept override { \
+        return indexes_; \
+    } \
 private: \
     TableType() = default; \
-    std::vector<const ra::utility::sql::Column<EntityType>*> fields_;
+    std::vector<const ra::utility::sql::Column<EntityType>*> fields_; \
+    std::vector<const ra::utility::sql::AbstractIndex*> indexes_;
 
 
 #define SQL_COLUMN(COLUMN_NAME, CLASS_FIELD) \
@@ -96,8 +100,8 @@ public: \
 #define SQL_INDEX(...) \
 public: \
     using SQL_UTILITY_JOIN(__VA_ARGS__)##IndexType = \
-        decltype(ra::utility::sql::MakeIndex<EntityType>(__VA_ARGS__)); \
+        decltype(ra::utility::sql::MakeIndex<EntityType>(indexes_, __VA_ARGS__)); \
     SQL_UTILITY_JOIN(__VA_ARGS__)##IndexType SQL_UTILITY_JOIN(__VA_ARGS__)##Index = \
-        ra::utility::sql::MakeIndex<EntityType>(__VA_ARGS__);
+        ra::utility::sql::MakeIndex<EntityType>(indexes_, __VA_ARGS__);
 
 #define SQL_TABLE_END };
