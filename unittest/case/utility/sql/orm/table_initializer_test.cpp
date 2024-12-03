@@ -256,4 +256,47 @@ TEST(TableInitializerTest, AlterTable) {
         TableInitializer::Initialize(new_table::NewTable::TableType::GetInstance(), fixture.DB()));
 }
 
+
+struct EntityWithIndex {
+    SQL_ENTITY;
+    int id{};
+    std::string name;
+    int age{};
+};
+
+SQL_TABLE_BEGIN(EntityWithIndex, EntityWithIndex)
+SQL_COLUMN(id, id)
+SQL_COLUMN(name, name)
+SQL_COLUMN(age, age)
+SQL_INDEX(id)
+SQL_INDEX(id, name)
+SQL_INDEX(id, name, age)
+SQL_TABLE_END
+
+TEST(TableInitializerTest, CreateIndex) {
+
+    auto& table = EntityWithIndex::TableType::GetInstance();
+
+    TableInitializerTestFixture fixture;
+    TableInitializer::Initialize(table, fixture.DB());
+
+    auto index_info = fixture.DB().GetIndexInfo("Index_EntityWithIndex_id");
+    ASSERT_TRUE(index_info.has_value());
+    ASSERT_EQ(index_info->columns.size(), 1);
+    ASSERT_EQ(index_info->columns[0], "id");
+
+    index_info = fixture.DB().GetIndexInfo("Index_EntityWithIndex_id_name");
+    ASSERT_TRUE(index_info.has_value());
+    ASSERT_EQ(index_info->columns.size(), 2);
+    ASSERT_EQ(index_info->columns[0], "id");
+    ASSERT_EQ(index_info->columns[1], "name");
+
+    index_info = fixture.DB().GetIndexInfo("Index_EntityWithIndex_id_name_age");
+    ASSERT_TRUE(index_info.has_value());
+    ASSERT_EQ(index_info->columns.size(), 3);
+    ASSERT_EQ(index_info->columns[0], "id");
+    ASSERT_EQ(index_info->columns[1], "name");
+    ASSERT_EQ(index_info->columns[2], "age");
+}
+
 }

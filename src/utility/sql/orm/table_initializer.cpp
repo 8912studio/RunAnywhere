@@ -9,6 +9,8 @@ namespace ra::utility::sql {
 
 void TableInitializer::Initialize(const AbstractTable& table, Database& db) {
 
+    Transaction transaction{ db };
+
     auto table_info = db.GetTableInfo(table.GetName());
     if (!table_info) {
         CreateTable(table, db);
@@ -16,6 +18,10 @@ void TableInitializer::Initialize(const AbstractTable& table, Database& db) {
     else {
         AlterTable(table, std::move(*table_info), db);
     }
+
+    CreateIndexes(table, db);
+
+    transaction.Commit();
 }
 
 
@@ -44,7 +50,7 @@ std::string TableInitializer::GenerateColumnDefinitionsSQL(
     const AbstractColumn* inline_pk_column) {
 
     return zaf::JoinAsString(columns, ",", [inline_pk_column](auto column) {
-        return ToSQL(*column, column == inline_pk_column);
+        return GenerateColumnSQL(*column, column == inline_pk_column);
     });
 }
 
@@ -97,23 +103,21 @@ void TableInitializer::AddNewColumns(
     const std::vector<const AbstractColumn*>& columns,
     Database& db) {
 
-    Transaction transaction{ db };
-
     for (auto each_column : columns) {
 
         std::string sql = std::format(
             "alter table {} add column {}",
             table.GetName(),
-            ToSQL(*each_column, false));
+            GenerateColumnSQL(*each_column, false));
 
         db.ExecuteSQL(sql);
     }
-
-    transaction.Commit();
 }
 
 
-std::string TableInitializer::ToSQL(const AbstractColumn& column, bool is_autoincrement) {
+std::string TableInitializer::GenerateColumnSQL(
+    const AbstractColumn& column, 
+    bool is_autoincrement) {
 
     std::string result = std::format(
         "{} {}",
@@ -129,6 +133,36 @@ std::string TableInitializer::ToSQL(const AbstractColumn& column, bool is_autoin
     }
 
     return result;
+}
+
+
+void TableInitializer::CreateIndexes(const AbstractTable& table, Database& db) {
+
+    for (auto each_index : table.GetAbstractIndexes()) {
+        CreateIndex(table, *each_index, db);
+    }
+}
+
+
+void TableInitializer::CreateIndex(
+    const AbstractTable& table,
+    const AbstractIndex& index,
+    Database& db) {
+
+    auto index_name = std::format(
+        "Index_{}_{}",
+        table.GetName(),
+        zaf::JoinAsString(index.GetAbstractColumns(), "_", [](auto column) {
+            return column->GetName();
+        }));
+
+    auto sql = std::format(
+        "create index if not exists {} on {} ({})", 
+        index_name, 
+        table.GetName(), 
+        JoinColumnNames(index.GetAbstractColumns()));
+
+    db.ExecuteSQL(sql);
 }
 
 }

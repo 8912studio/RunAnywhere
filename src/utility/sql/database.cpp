@@ -115,4 +115,24 @@ std::optional<TableInfo> Database::GetTableInfo(std::string_view table_name) {
     return table_info;
 }
 
+
+std::optional<IndexInfo> Database::GetIndexInfo(std::string_view index_name) {
+
+    auto sql = std::format("pragma index_info({})", index_name);
+    auto statement = PrepareStatement(sql);
+
+    IndexInfo result;
+    while (statement.Step()) {
+
+        std::string column_name{ statement.GetColumnText(2) };
+        result.columns.push_back(std::move(column_name));
+    }
+
+    if (result.columns.empty()) {
+        return std::nullopt;
+    }
+
+    return result;
+}
+
 }

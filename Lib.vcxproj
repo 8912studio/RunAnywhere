@@ -390,6 +390,7 @@
     <ClInclude Include="src\utility\progress_circle.h" />
     <ClInclude Include="src\utility\sql\database.h" />
     <ClInclude Include="src\utility\sql\data_type.h" />
+    <ClInclude Include="src\utility\sql\index_info.h" />
     <ClInclude Include="src\utility\sql\orm\abstract_column.h" />
     <ClInclude Include="src\utility\sql\orm\abstract_index.h" />
     <ClInclude Include="src\utility\sql\orm\abstract_primary_key.h" />

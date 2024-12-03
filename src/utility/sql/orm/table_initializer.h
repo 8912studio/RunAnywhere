@@ -28,7 +28,10 @@ private:
         const std::vector<const AbstractColumn*>& columns,
         Database& db);
 
-    static std::string ToSQL(const AbstractColumn& column, bool is_autoincrement);
+    static std::string GenerateColumnSQL(const AbstractColumn& column, bool is_autoincrement);
+
+    static void CreateIndexes(const AbstractTable& table, Database& db);
+    static void CreateIndex(const AbstractTable& table, const AbstractIndex& index, Database& db);
 };
 
 }

@@ -3,6 +3,7 @@
 #include <filesystem>
 #include <sqlite3.h>
 #include <zaf/base/non_copyable.h>
+#include "utility/sql/index_info.h"
 #include "utility/sql/statement.h"
 #include "utility/sql/table_info.h"
 #include "utility/sql/table_schema.h"
@@ -29,6 +30,7 @@ public:
     void CreateTable(const TableSchema& table_schema);
 
     std::optional<TableInfo> GetTableInfo(std::string_view table_name);
+    std::optional<IndexInfo> GetIndexInfo(std::string_view index_name);
 
     sqlite3* Handle() const noexcept {
         return handle_;
