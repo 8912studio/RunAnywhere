@@ -1182,7 +1182,7 @@
     <ClInclude Include="src\utility\sql\orm\abstract_column.h">
       <Filter>src\utility\sql\orm</Filter>
     </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\key.h">
+    <ClInclude Include="src\utility\sql\orm\composite_column.h">
       <Filter>src\utility\sql\orm</Filter>
     </ClInclude>
     <ClInclude Include="src\utility\sql\orm\abstract_index.h">
@@ -1196,6 +1196,15 @@
     </ClInclude>
     <ClInclude Include="src\utility\sql\index_info.h">
       <Filter>src\utility\sql</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\sql\orm\select_query.h">
+      <Filter>src\utility\sql\orm</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\sql\orm\limit_query.h">
+      <Filter>src\utility\sql\orm</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\sql\orm\where_query.h">
+      <Filter>src\utility\sql\orm</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

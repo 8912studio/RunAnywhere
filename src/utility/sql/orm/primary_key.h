@@ -1,22 +1,22 @@
 #pragma once
 
 #include "utility/sql/orm/abstract_primary_key.h"
-#include "utility/sql/orm/key.h"
+#include "utility/sql/orm/composite_column.h"
 
 namespace ra::utility::sql {
 
 template<typename E, typename... Columns>
-class PrimaryKey : public Key<E, Columns...>, public AbstractPrimaryKey {
+class PrimaryKey : public CompositeColumn<E, Columns...>, public AbstractPrimaryKey {
 public:
     static_assert(
         !(Columns::ValueTraits::IsNullable && ...), 
         "Primary key columns cannot be nullable.");
 
 public:
-    using Key<E, Columns...>::Key;
+    using CompositeColumn<E, Columns...>::CompositeColumn;
 
     AbstractColumnsView GetAbstractColumns() const noexcept override {
-        return Key<E, Columns...>::GetAbstractColumns();
+        return CompositeColumn<E, Columns...>::GetAbstractColumns();
     }
 };
 

@@ -401,9 +401,11 @@
     <ClInclude Include="src\utility\sql\orm\data_set_helpers.h" />
     <ClInclude Include="src\utility\sql\orm\data_updater.h" />
     <ClInclude Include="src\utility\sql\orm\index.h" />
-    <ClInclude Include="src\utility\sql\orm\key.h" />
+    <ClInclude Include="src\utility\sql\orm\composite_column.h" />
+    <ClInclude Include="src\utility\sql\orm\limit_query.h" />
     <ClInclude Include="src\utility\sql\orm\macro_utility.h" />
     <ClInclude Include="src\utility\sql\orm\primary_key_traits.h" />
+    <ClInclude Include="src\utility\sql\orm\select_query.h" />
     <ClInclude Include="src\utility\sql\orm\table_initializer.h" />
     <ClInclude Include="src\utility\sql\orm\column.h" />
     <ClInclude Include="src\utility\sql\orm\primary_key.h" />
@@ -411,6 +413,7 @@
     <ClInclude Include="src\utility\sql\orm\field_traits.h" />
     <ClInclude Include="src\utility\sql\orm\column_value_traits.h" />
     <ClInclude Include="src\utility\sql\orm\orm_support.h" />
+    <ClInclude Include="src\utility\sql\orm\where_query.h" />
     <ClInclude Include="src\utility\sql\sql_error.h" />
     <ClInclude Include="src\utility\sql\statement.h" />
     <ClInclude Include="src\utility\sql\table_info.h" />
