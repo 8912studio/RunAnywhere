@@ -2,50 +2,67 @@
 
 #include <format>
 #include "utility/sql/database.h"
+#include "utility/sql/orm/base_query.h"
+#include "utility/sql/orm/composite_column.h"
 #include "utility/sql/orm/data_set_helpers.h"
 #include "utility/sql/orm/limit_query.h"
-#include "utility/sql/orm/key.h"
 
 namespace ra::utility::sql {
 
 template<typename E, typename... Columns>
-class SelectQuery {
+class SelectQuery : public BaseQuery<SelectQuery<E, Columns...>> {
 private:
-    using ThisQueryType = SelectQuery<E, Columns...>;
+    friend class BaseQuery<SelectQuery<E, Columns...>>;
 
-public:
-    SelectQuery(Database& db, const Columns...& columns) : db_(db), columns_(columns...) {
+    using CompositeColumnType = CompositeColumn<E, Columns...>;
 
-    }
+    class Core {
+    public:
+        using ResultElementType = typename CompositeColumnType::ValueType;
 
-    std::string BuildSQL() const {
-
-        return std::format(
-            "select {} from {}", 
-            JoinColumnNames(columns_.GetColumns()), 
-            E::TableType::GetInstance()->GetName());
-    }
-
-    std::vector<Key<E, Columns...>::ValueType> Execute() const {
-
-        std::vector<Key<E, Columns...>::ValueType> result;
-
-        auto statement = db_.PrepareStatement(BuildSQL());
-        while (statement.Step()) {
-
+    public:
+        Core(Database& db, const Columns&... columns) : db_(db), composite_column_(columns...) {
 
         }
 
-        return result;
+        std::string BuildSQL() const {
+            return std::format(
+                "select {} from {}",
+                JoinColumnNames(composite_column_.GetAbstractColumns()),
+                E::TableType::GetInstance().GetName());
+        }
+
+        Statement PrepareStatement(std::string_view sql) const {
+            return db_.PrepareStatement(sql);
+        }
+
+        int BindParameters(Statement& statement, int begin_index) const {
+            return begin_index;
+        }
+
+        ResultElementType GetElement(const Statement& statement) const {
+            return CompositeColumnType::GetValueFromStatement(statement, 0);
+        }
+
+    private:
+        Database& db_;
+        CompositeColumnType composite_column_;
+    };
+
+    const Core& GetCore() const {
+        return core_;
     }
 
-    LimitQuery<ThisQueryType> Limit(std::size_t limit) {
-        return LimitQuery<ThisQueryType>(*this, limit);
+    Core core_;
+
+public:
+    SelectQuery(Database& db, const Columns&... columns) : core_(db, columns...) {
+
     }
 
-private:
-    Database& db_;
-    Key<E, Columns...> columns_;
+    LimitQuery<Core> Limit(std::size_t limit) const {
+        return LimitQuery<Core>(core_, limit);
+    }
 };
 
 }

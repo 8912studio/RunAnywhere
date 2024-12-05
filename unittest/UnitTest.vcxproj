@@ -117,6 +117,7 @@
     <ClCompile Include="case\utility\sql\orm\data_selector_test.cpp" />
     <ClCompile Include="case\utility\sql\orm\data_updater_test.cpp" />
     <ClCompile Include="case\utility\sql\orm\orm_support_test.cpp" />
+    <ClCompile Include="case\utility\sql\orm\select_query_test.cpp" />
     <ClCompile Include="case\utility\sql\orm\table_initializer_test.cpp" />
     <ClCompile Include="case\utility\text_utility_test.cpp" />
     <ClCompile Include="main.cpp" />
