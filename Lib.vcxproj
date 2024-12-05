@@ -406,6 +406,7 @@
     <ClInclude Include="src\utility\sql\orm\composite_column.h" />
     <ClInclude Include="src\utility\sql\orm\limit_query.h" />
     <ClInclude Include="src\utility\sql\orm\macro_utility.h" />
+    <ClInclude Include="src\utility\sql\orm\order_by_query.h" />
     <ClInclude Include="src\utility\sql\orm\primary_key_traits.h" />
     <ClInclude Include="src\utility\sql\orm\select_query.h" />
     <ClInclude Include="src\utility\sql\orm\table_initializer.h" />

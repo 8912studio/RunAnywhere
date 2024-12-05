@@ -7,6 +7,7 @@ namespace ra::utility::sql {
 template<typename InnerCore>
 class DecorativeQueryCore {
 public:
+    using EntityType = typename InnerCore::EntityType;
     using ResultElementType = typename InnerCore::ResultElementType;
 
 public:

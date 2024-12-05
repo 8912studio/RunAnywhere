@@ -1212,6 +1212,9 @@
     <ClInclude Include="src\utility\sql\orm\decorative_query_core.h">
       <Filter>src\utility\sql\orm</Filter>
     </ClInclude>
+    <ClInclude Include="src\utility\sql\orm\order_by_query.h">
+      <Filter>src\utility\sql\orm</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">

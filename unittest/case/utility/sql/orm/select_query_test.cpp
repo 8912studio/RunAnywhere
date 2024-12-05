@@ -62,9 +62,11 @@ TEST(SelectQueryTest, Test) {
         table.Name
     };
 
-    auto result = query.Limit(2).Execute();
+    auto result = query.Execute();
 
-    result = query.Execute();
+    result = query.Limit(2).Execute();
+
+    result = query.OrderBy(table.Name).Execute();
 }
 
 }

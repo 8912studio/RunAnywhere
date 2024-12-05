@@ -6,6 +6,7 @@
 #include "utility/sql/orm/composite_column.h"
 #include "utility/sql/orm/data_set_helpers.h"
 #include "utility/sql/orm/limit_query.h"
+#include "utility/sql/orm/order_by_query.h"
 
 namespace ra::utility::sql {
 
@@ -18,6 +19,7 @@ private:
 
     class Core {
     public:
+        using EntityType = E;
         using ResultElementType = typename CompositeColumnType::ValueType;
 
     public:
@@ -60,7 +62,12 @@ public:
 
     }
 
-    LimitQuery<Core> Limit(std::size_t limit) const {
+    template<typename... OrderColumns>
+    auto OrderBy(const OrderColumns&... columns) const {
+        return OrderByQuery<Core, OrderColumns...>(core_, columns...);
+    }
+
+    auto Limit(std::size_t limit) const {
         return LimitQuery<Core>(core_, limit);
     }
 };
