@@ -395,6 +395,7 @@
     <ClInclude Include="src\utility\sql\orm\abstract_index.h" />
     <ClInclude Include="src\utility\sql\orm\abstract_primary_key.h" />
     <ClInclude Include="src\utility\sql\orm\base_query.h" />
+    <ClInclude Include="src\utility\sql\orm\expression_operator.h" />
     <ClInclude Include="src\utility\sql\orm\data_deleter.h" />
     <ClInclude Include="src\utility\sql\orm\data_inserter.h" />
     <ClInclude Include="src\utility\sql\orm\data_selector.h" />
@@ -402,6 +403,7 @@
     <ClInclude Include="src\utility\sql\orm\data_set_helpers.h" />
     <ClInclude Include="src\utility\sql\orm\data_updater.h" />
     <ClInclude Include="src\utility\sql\orm\decorative_query_core.h" />
+    <ClInclude Include="src\utility\sql\orm\expression.h" />
     <ClInclude Include="src\utility\sql\orm\index.h" />
     <ClInclude Include="src\utility\sql\orm\composite_column.h" />
     <ClInclude Include="src\utility\sql\orm\limit_query.h" />
@@ -674,6 +676,7 @@
     <ClCompile Include="src\utility\sql\database.cpp" />
     <ClCompile Include="src\utility\sql\data_type.cpp" />
     <ClCompile Include="src\utility\sql\orm\data_set_helpers.cpp" />
+    <ClCompile Include="src\utility\sql\orm\expression_operator.cpp" />
     <ClCompile Include="src\utility\sql\orm\table_initializer.cpp" />
     <ClCompile Include="src\utility\sql\sql_error.cpp" />
     <ClCompile Include="src\utility\sql\statement.cpp" />

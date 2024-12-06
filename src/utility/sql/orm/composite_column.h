@@ -108,4 +108,14 @@ public:
     }
 };
 
+
+template<typename T>
+struct IsCompositeColumn : std::false_type { };
+
+template<typename E, typename... Columns>
+struct IsCompositeColumn<CompositeColumn<E, Columns...>> : std::true_type { };
+
+template<typename T>
+constexpr bool IsCompositeColumnV = IsCompositeColumn<T>::value;
+
 }

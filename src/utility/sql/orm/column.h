@@ -25,7 +25,18 @@ public:
         E& entity) const = 0;
 };
 
+
 template<typename E>
 using ColumnsView = std::span<const Column<E>* const>;
+
+
+template<typename T, typename = void>
+struct IsColumn : std::false_type { };
+
+template<typename T>
+struct IsColumn<T, std::enable_if_t<std::is_base_of_v<AbstractColumn, T>>> : std::true_type { };
+
+template<typename T>
+constexpr bool IsColumnV = IsColumn<T>::value;
 
 }

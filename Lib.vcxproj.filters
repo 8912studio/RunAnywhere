@@ -1215,6 +1215,12 @@
     <ClInclude Include="src\utility\sql\orm\order_by_query.h">
       <Filter>src\utility\sql\orm</Filter>
     </ClInclude>
+    <ClInclude Include="src\utility\sql\orm\expression.h">
+      <Filter>src\utility\sql\orm</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\sql\orm\expression_operator.h">
+      <Filter>src\utility\sql\orm</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -1945,6 +1951,9 @@
     </ClCompile>
     <ClCompile Include="src\module\ai\gpt\storage\scheduled_storage_context.cpp">
       <Filter>src\module\ai\gpt\storage</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\sql\orm\expression_operator.cpp">
+      <Filter>src\utility\sql\orm</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

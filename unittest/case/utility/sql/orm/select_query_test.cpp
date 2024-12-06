@@ -2,6 +2,7 @@
 #include "utility/sql/orm/data_set.h"
 #include "utility/sql/orm/orm_support.h"
 #include "utility/sql/orm/select_query.h"
+#include "utility/sql/orm/expression.h"
 
 using namespace ra::utility::sql;
 
@@ -41,6 +42,17 @@ SQL_COLUMN(ID, id)
 SQL_COLUMN(Name, name)
 SQL_TABLE_END
 
+using TableType = Entity::TableType;
+
+auto operator==(const TableType::IDType& id, int value) {
+    return Expression<Operand<TableType::IDType>, Operand<int>>{
+        Operand<TableType::IDType>(id),
+        Operand<int>(value),
+        ExpressionOperator::Equal,
+    };
+}
+
+
 TEST(SelectQueryTest, Test) {
 
     SelectQueryTestFixture fixture;
@@ -53,8 +65,14 @@ TEST(SelectQueryTest, Test) {
         data_set.Insert(entity);
     }
     
-    using TableType = Entity::TableType;
     auto& table = TableType::GetInstance();
+
+    auto ex1 = (table.ID == 1);
+    auto ex2 = (table.ID == 4);
+
+    auto ex3 = ex1 || ex2;
+
+    auto exstr = ex3.BuildSQL();
 
     SelectQuery<Entity, TableType::IDType, TableType::NameType> query{ 
         fixture.DB(),
@@ -66,7 +84,11 @@ TEST(SelectQueryTest, Test) {
 
     result = query.Limit(2).Execute();
 
-    result = query.OrderBy(table.Name).Execute();
+    result = query.OrderBy(table.Name, table.ID).Limit(1).Execute();
+
+    result = query.Where(ex3).Execute();
+
+    bool is = result.empty();
 }
 
 }

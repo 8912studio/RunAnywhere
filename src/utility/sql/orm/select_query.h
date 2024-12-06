@@ -7,6 +7,7 @@
 #include "utility/sql/orm/data_set_helpers.h"
 #include "utility/sql/orm/limit_query.h"
 #include "utility/sql/orm/order_by_query.h"
+#include "utility/sql/orm/where_query.h"
 
 namespace ra::utility::sql {
 
@@ -60,6 +61,11 @@ private:
 public:
     SelectQuery(Database& db, const Columns&... columns) : core_(db, columns...) {
 
+    }
+
+    template<typename Expr>
+    auto Where(Expr expression) const {
+        return WhereQuery<Core, Expr>(core_, std::move(expression));
     }
 
     template<typename... OrderColumns>
