@@ -8,6 +8,19 @@ using namespace ra::utility::sql;
 
 namespace {
 
+struct Entity {
+    SQL_ENTITY;
+    int id{};
+    std::string name;
+
+    friend auto operator<=>(const Entity&, const Entity&) = default;
+};
+
+SQL_TABLE_BEGIN(Entity, Entity)
+SQL_COLUMN(ID, id)
+SQL_COLUMN(Name, name)
+SQL_TABLE_END
+
 class SelectQueryTestFixture : zaf::NonCopyableNonMovable {
 public:
     SelectQueryTestFixture() {
@@ -16,6 +29,15 @@ public:
         std::filesystem::remove(db_path);
 
         database_ = Database::Open(db_path);
+
+        data_set_.emplace(*database_);
+
+        for (auto index : zaf::Range(0, 5)) {
+            Entity entity;
+            entity.id = static_cast<int>(index);
+            entity.name = std::to_string(index);
+            data_set_->Insert(entity);
+        }
     }
 
     ~SelectQueryTestFixture() {
@@ -26,69 +48,55 @@ public:
         return *database_;
     }
 
+    DataSet<Entity>& DataSet() {
+        return *data_set_;
+    }
+
 private:
     std::optional<Database> database_;
+    std::optional<ra::utility::sql::DataSet<Entity>> data_set_;
 };
 
 
-struct Entity {
-    SQL_ENTITY;
-    int id{};
-    std::string name;
-};
+TEST(SelectQueryTest, SelectAll) {
 
-SQL_TABLE_BEGIN(Entity, Entity)
-SQL_COLUMN(ID, id)
-SQL_COLUMN(Name, name)
-SQL_TABLE_END
+    SelectQueryTestFixture fixture;
+    auto result = fixture.DataSet().BeginSelect().Execute();
 
-using TableType = Entity::TableType;
-
-auto operator==(const TableType::IDType& id, int value) {
-    return Expression<Operand<TableType::IDType>, Operand<int>>{
-        Operand<TableType::IDType>(id),
-        Operand<int>(value),
-        ExpressionOperator::Equal,
+    std::vector<Entity> expected{
+        Entity{ 0, "0" },
+        Entity{ 1, "1" },
+        Entity{ 2, "2" },
+        Entity{ 3, "3" },
+        Entity{ 4, "4" },
     };
+    ASSERT_EQ(result, expected);
 }
 
 
-TEST(SelectQueryTest, Test) {
+TEST(SelectQueryTest, SelectColumns) {
 
     SelectQueryTestFixture fixture;
-    DataSet<Entity> data_set{ fixture.DB() };
 
-    for (auto index : zaf::Range(0, 5)) {
-        Entity entity;
-        entity.id = static_cast<int>(index);
-        entity.name = std::to_string(index);
-        data_set.Insert(entity);
+    auto& table = Entity::TableType::GetInstance();
+
+    {
+        auto result = fixture.DataSet().BeginSelect(table.ID).Execute();
+        std::vector<int> expected{ 0, 1, 2, 3, 4 };
+        ASSERT_EQ(result, expected);
     }
-    
-    auto& table = TableType::GetInstance();
 
-    auto ex1 = (table.ID == 1);
-    auto ex2 = (table.ID == 4);
-
-    auto ex3 = ex1 || ex2;
-
-    auto exstr = ex3.BuildSQL();
-
-    SelectQuery<Entity, TableType::IDType, TableType::NameType> query{ 
-        fixture.DB(),
-        table.ID,
-        table.Name
-    };
-
-    auto result = query.Execute();
-
-    result = query.Limit(2).Execute();
-
-    result = query.OrderBy(table.Name, table.ID).Limit(1).Execute();
-
-    result = query.Where(ex3).Execute();
-
-    bool is = result.empty();
+    {
+        auto result = fixture.DataSet().BeginSelect(table.ID, table.Name).Execute();
+        std::vector<std::tuple<int, std::string>> expected{
+            { 0, "0" },
+            { 1, "1" },
+            { 2, "2" },
+            { 3, "3" },
+            { 4, "4" },
+        };
+        ASSERT_EQ(result, expected);
+    }
 }
 
 }

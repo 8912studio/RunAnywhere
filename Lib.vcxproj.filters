@@ -1170,9 +1170,6 @@
     <ClInclude Include="src\utility\sql\orm\data_updater.h">
       <Filter>src\utility\sql\orm</Filter>
     </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\data_selector.h">
-      <Filter>src\utility\sql\orm</Filter>
-    </ClInclude>
     <ClInclude Include="src\module\ai\gpt\storage\scheduled_storage_context.h">
       <Filter>src\module\ai\gpt\storage</Filter>
     </ClInclude>
@@ -1219,6 +1216,15 @@
       <Filter>src\utility\sql\orm</Filter>
     </ClInclude>
     <ClInclude Include="src\utility\sql\orm\expression_operator.h">
+      <Filter>src\utility\sql\orm</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\sql\orm\select_columns_query_core.h">
+      <Filter>src\utility\sql\orm</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\sql\orm\select_entity_query_core.h">
+      <Filter>src\utility\sql\orm</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\sql\orm\base_select_query_core.h">
       <Filter>src\utility\sql\orm</Filter>
     </ClInclude>
   </ItemGroup>

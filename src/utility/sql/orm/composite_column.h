@@ -98,7 +98,7 @@ public:
         statement.BindParameter(parameter_index, value);
     }
 
-    static ValueType GetValueFromStatement(Statement& statement, int column_index) {
+    static ValueType GetValueFromStatement(const Statement& statement, int column_index) {
         return sql::GetValueFromStatement<ValueType>(statement, column_index);
     }
 
