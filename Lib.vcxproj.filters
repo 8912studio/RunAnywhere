@@ -175,6 +175,9 @@
     <Filter Include="src\utility\sql\orm">
       <UniqueIdentifier>{5c08a0df-0305-49e1-b296-7406a08840d8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\utility\sql\orm\select">
+      <UniqueIdentifier>{9fd472db-c32a-426e-b6e0-4f47faf39f22}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\module\calculator\parse\binary_expression_parser.h">
@@ -1194,38 +1197,38 @@
     <ClInclude Include="src\utility\sql\index_info.h">
       <Filter>src\utility\sql</Filter>
     </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\select_query.h">
-      <Filter>src\utility\sql\orm</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\limit_query.h">
-      <Filter>src\utility\sql\orm</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\where_query.h">
-      <Filter>src\utility\sql\orm</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\base_query.h">
-      <Filter>src\utility\sql\orm</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\decorative_query_core.h">
-      <Filter>src\utility\sql\orm</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\order_by_query.h">
-      <Filter>src\utility\sql\orm</Filter>
-    </ClInclude>
     <ClInclude Include="src\utility\sql\orm\expression.h">
       <Filter>src\utility\sql\orm</Filter>
     </ClInclude>
     <ClInclude Include="src\utility\sql\orm\expression_operator.h">
       <Filter>src\utility\sql\orm</Filter>
     </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\select_columns_query_core.h">
-      <Filter>src\utility\sql\orm</Filter>
+    <ClInclude Include="src\utility\sql\orm\select\selecter.h">
+      <Filter>src\utility\sql\orm\select</Filter>
     </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\select_entity_query_core.h">
-      <Filter>src\utility\sql\orm</Filter>
+    <ClInclude Include="src\utility\sql\orm\select\primitive_selecter.h">
+      <Filter>src\utility\sql\orm\select</Filter>
     </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\base_select_query_core.h">
-      <Filter>src\utility\sql\orm</Filter>
+    <ClInclude Include="src\utility\sql\orm\select\limit_selecter.h">
+      <Filter>src\utility\sql\orm\select</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\sql\orm\select\order_by_selecter.h">
+      <Filter>src\utility\sql\orm\select</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\sql\orm\select\where_selecter.h">
+      <Filter>src\utility\sql\orm\select</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\sql\orm\select\decorative_selecter_core.h">
+      <Filter>src\utility\sql\orm\select</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\sql\orm\select\primitive_selecter_core.h">
+      <Filter>src\utility\sql\orm\select</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\sql\orm\select\entity_selecter_core.h">
+      <Filter>src\utility\sql\orm\select</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\sql\orm\select\column_selecter_core.h">
+      <Filter>src\utility\sql\orm\select</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

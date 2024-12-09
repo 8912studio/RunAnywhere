@@ -13,8 +13,8 @@
 #include "utility/sql/orm/data_inserter.h"
 #include "utility/sql/orm/data_set_helpers.h"
 #include "utility/sql/orm/data_updater.h"
-#include "utility/sql/orm/select_entity_query_core.h"
-#include "utility/sql/orm/select_query.h"
+#include "utility/sql/orm/select/entity_selecter_core.h"
+#include "utility/sql/orm/select/primitive_selecter.h"
 #include "utility/sql/orm/table_initializer.h"
 #include "utility/sql/orm/table.h"
 
@@ -37,16 +37,16 @@ public:
 
     [[nodiscard]]
     auto BeginSelect() {
-        using Core = SelectEntityQueryCore<E>;
-        return SelectQuery<Core>(Core{ db_.Get() });
+        using Core = EntitySelecterCore<E>;
+        return PrimitiveSelecter<Core>(Core{ db_.Get() });
     }
 
 
     template<typename... Columns>
     [[nodiscard]]
     auto BeginSelect(const Columns&... columns) {
-        using Core = SelectColumnsQueryCore<E, Columns...>;
-        return SelectQuery<Core>(Core{ db_.Get(), columns... });
+        using Core = ColumnSelecterCore<E, Columns...>;
+        return PrimitiveSelecter<Core>(Core{ db_.Get(), columns... });
     }
 
 

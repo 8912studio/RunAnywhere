@@ -5,13 +5,13 @@
 namespace ra::utility::sql {
 
 template<typename InnerCore>
-class DecorativeQueryCore {
+class DecorativeSelecterCore {
 public:
     using EntityType = typename InnerCore::EntityType;
     using ResultElementType = typename InnerCore::ResultElementType;
 
 public:
-    DecorativeQueryCore(InnerCore inner_core) : inner_core_(std::move(inner_core)) {
+    DecorativeSelecterCore(InnerCore inner_core) : inner_core_(std::move(inner_core)) {
 
     }
 

@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include "utility/sql/orm/data_set.h"
 #include "utility/sql/orm/orm_support.h"
-#include "utility/sql/orm/select_query.h"
+#include "utility/sql/orm/select/primitive_selecter.h"
 #include "utility/sql/orm/expression.h"
 
 using namespace ra::utility::sql;

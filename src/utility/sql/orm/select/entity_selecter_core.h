@@ -1,26 +1,18 @@
 #pragma once
 
 #include <zaf/base/range.h>
-#include "utility/sql/orm/base_select_query_core.h"
+#include "utility/sql/orm/select/primitive_selecter_core.h"
 
 namespace ra::utility::sql {
 
 template<typename E>
-class SelectEntityQueryCore : public BaseSelectQueryCore<SelectEntityQueryCore<E>> {
-private:
-    friend class BaseSelectQueryCore<SelectEntityQueryCore<E>>;
-
-    AbstractColumnsView GetAbstractColumns() const {
-        return E::TableType::GetInstance().GetAbstractColumns();
-    }
-
+class EntitySelecterCore : public PrimitiveSelecterCore<EntitySelecterCore<E>> {
 public:
     using EntityType = E;
     using ResultElementType = E;
 
 public:
-    explicit SelectEntityQueryCore(Database& db) : 
-        BaseSelectQueryCore<SelectEntityQueryCore<E>>(db) {
+    explicit EntitySelecterCore(Database& db) : PrimitiveSelecterCore<EntitySelecterCore<E>>(db) {
 
     }
 
@@ -34,6 +26,13 @@ public:
         }
 
         return entity;
+    }
+
+private:
+    friend class PrimitiveSelecterCore<EntitySelecterCore<E>>;
+
+    AbstractColumnsView GetAbstractColumns() const {
+        return E::TableType::GetInstance().GetAbstractColumns();
     }
 };
 

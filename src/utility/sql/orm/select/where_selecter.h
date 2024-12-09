@@ -1,23 +1,23 @@
 #pragma once
 
-#include "utility/sql/orm/base_query.h"
+#include "utility/sql/orm/select/selecter.h"
 #include "utility/sql/orm/data_set_helpers.h"
-#include "utility/sql/orm/decorative_query_core.h"
+#include "utility/sql/orm/select/decorative_selecter_core.h"
 #include "utility/sql/orm/expression.h"
-#include "utility/sql/orm/limit_query.h"
-#include "utility/sql/orm/order_by_query.h"
+#include "utility/sql/orm/select/limit_selecter.h"
+#include "utility/sql/orm/select/order_by_selecter.h"
 
 namespace ra::utility::sql {
 
 template<typename InnerCore, typename Expr>
-class WhereQuery : public BaseQuery<WhereQuery<InnerCore, Expr>> {
+class WhereSelecter : public Selecter<WhereSelecter<InnerCore, Expr>> {
 private:
-    friend class BaseQuery<WhereQuery<InnerCore, Expr>>;
+    friend class Selecter<WhereSelecter<InnerCore, Expr>>;
 
-    class Core : public DecorativeQueryCore<InnerCore> {
+    class Core : public DecorativeSelecterCore<InnerCore> {
     public:
         Core(InnerCore inner_core, Expr expression) : 
-            DecorativeQueryCore<InnerCore>(std::move(inner_core)),
+            DecorativeSelecterCore<InnerCore>(std::move(inner_core)),
             expression_(std::move(expression)) {
 
         }
@@ -44,9 +44,18 @@ private:
     Core core_;
 
 public:
-    WhereQuery(InnerCore inner_core, Expr expression) : 
+    WhereSelecter(InnerCore inner_core, Expr expression) : 
         core_(std::move(inner_core), std::move(expression)) {
 
+    }
+
+    template<typename... OrderColumns>
+    auto OrderBy(const OrderColumns&... columns) const {
+        return OrderBySelecter<Core, OrderColumns...>(core_, columns...);
+    }
+
+    auto Limit(std::size_t limit) const {
+        return LimitSelecter<Core>(core_, limit);
     }
 };
 

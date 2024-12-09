@@ -1,24 +1,22 @@
 #pragma once
 
-#include "utility/sql/orm/base_query.h"
+#include "utility/sql/orm/select/selecter.h"
 #include "utility/sql/orm/composite_column.h"
 #include "utility/sql/orm/data_set_helpers.h"
-#include "utility/sql/orm/decorative_query_core.h"
-#include "utility/sql/orm/limit_query.h"
+#include "utility/sql/orm/select/decorative_selecter_core.h"
+#include "utility/sql/orm/select/limit_selecter.h"
 
 namespace ra::utility::sql {
 
 template<typename InnerCore, typename... Columns>
-class OrderByQuery : public BaseQuery<OrderByQuery<InnerCore, Columns...>> {
+class OrderBySelecter : public Selecter<OrderBySelecter<InnerCore, Columns...>> {
 private:
-    friend class BaseQuery<OrderByQuery<InnerCore, Columns...>>;
+    friend class Selecter<OrderBySelecter<InnerCore, Columns...>>;
 
-    using CompositeColumnType = CompositeColumn<typename InnerCore::EntityType, Columns...>;
-
-    class Core : public DecorativeQueryCore<InnerCore> {
+    class Core : public DecorativeSelecterCore<InnerCore> {
     public:
         Core(InnerCore inner_core, const Columns&... columns) : 
-            DecorativeQueryCore<InnerCore>(std::move(inner_core)),
+            DecorativeSelecterCore<InnerCore>(std::move(inner_core)),
             composite_column_(columns...) {
 
         }
@@ -35,7 +33,7 @@ private:
         }
 
     private:
-        CompositeColumnType composite_column_;
+        CompositeColumn<typename InnerCore::EntityType, Columns...> composite_column_;
     };
 
     const Core& GetCore() const {
@@ -45,13 +43,13 @@ private:
     Core core_;
 
 public:
-    OrderByQuery(InnerCore inner_core, const Columns&... columns) : 
+    OrderBySelecter(InnerCore inner_core, const Columns&... columns) :
         core_(std::move(inner_core), columns...) {
 
     }
 
-    LimitQuery<Core> Limit(std::size_t limit) const {
-        return LimitQuery<Core>(core_, limit);
+    LimitSelecter<Core> Limit(std::size_t limit) const {
+        return LimitSelecter<Core>(core_, limit);
     }
 };
 

@@ -6,9 +6,9 @@
 namespace ra::utility::sql {
 
 template<typename Core>
-class BaseSelectQueryCore {
+class PrimitiveSelecterCore {
 public:
-    explicit BaseSelectQueryCore(Database& db) : db_(db) {
+    explicit PrimitiveSelecterCore(Database& db) : db_(db) {
 
     }
 
