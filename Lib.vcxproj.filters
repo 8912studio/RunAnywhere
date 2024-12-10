@@ -178,6 +178,9 @@
     <Filter Include="src\utility\sql\orm\select">
       <UniqueIdentifier>{9fd472db-c32a-426e-b6e0-4f47faf39f22}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\utility\sql\orm\expression">
+      <UniqueIdentifier>{e948929b-8889-480a-8628-402264e69db2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\module\calculator\parse\binary_expression_parser.h">
@@ -1197,12 +1200,6 @@
     <ClInclude Include="src\utility\sql\index_info.h">
       <Filter>src\utility\sql</Filter>
     </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\expression.h">
-      <Filter>src\utility\sql\orm</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\expression_operator.h">
-      <Filter>src\utility\sql\orm</Filter>
-    </ClInclude>
     <ClInclude Include="src\utility\sql\orm\select\selecter.h">
       <Filter>src\utility\sql\orm\select</Filter>
     </ClInclude>
@@ -1229,6 +1226,15 @@
     </ClInclude>
     <ClInclude Include="src\utility\sql\orm\select\column_selecter_core.h">
       <Filter>src\utility\sql\orm\select</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\sql\orm\expression\operator.h">
+      <Filter>src\utility\sql\orm\expression</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\sql\orm\expression\expression.h">
+      <Filter>src\utility\sql\orm\expression</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\sql\orm\expression\operand.h">
+      <Filter>src\utility\sql\orm\expression</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1961,8 +1967,8 @@
     <ClCompile Include="src\module\ai\gpt\storage\scheduled_storage_context.cpp">
       <Filter>src\module\ai\gpt\storage</Filter>
     </ClCompile>
-    <ClCompile Include="src\utility\sql\orm\expression_operator.cpp">
-      <Filter>src\utility\sql\orm</Filter>
+    <ClCompile Include="src\utility\sql\orm\expression\operator.cpp">
+      <Filter>src\utility\sql\orm\expression</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

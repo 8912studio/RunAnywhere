@@ -1,11 +1,11 @@
 #pragma once
 
-#include "utility/sql/orm/select/selecter.h"
 #include "utility/sql/orm/data_set_helpers.h"
+#include "utility/sql/orm/expression/expression.h"
 #include "utility/sql/orm/select/decorative_selecter_core.h"
-#include "utility/sql/orm/expression.h"
 #include "utility/sql/orm/select/limit_selecter.h"
 #include "utility/sql/orm/select/order_by_selecter.h"
+#include "utility/sql/orm/select/selecter.h"
 
 namespace ra::utility::sql {
 
@@ -23,8 +23,12 @@ private:
         }
 
         std::string BuildSQL() const {
-            auto sql = this->GetInnerCore().BuildSQL();
-            sql += std::format(" where {}", expression_.BuildSQL());
+
+            static const auto sql = [this]() {
+                auto result = this->GetInnerCore().BuildSQL();
+                result += std::format(" where {}", expression_.BuildSQL());
+                return result;
+            }();
             return sql;
         }
 

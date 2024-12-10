@@ -2,7 +2,6 @@
 #include "utility/sql/orm/data_set.h"
 #include "utility/sql/orm/orm_support.h"
 #include "utility/sql/orm/select/primitive_selecter.h"
-#include "utility/sql/orm/expression.h"
 
 using namespace ra::utility::sql;
 
@@ -58,23 +57,25 @@ private:
 };
 
 
-TEST(SelectQueryTest, SelectAll) {
+TEST(ORMTest, SelectEntity) {
 
     SelectQueryTestFixture fixture;
-    auto result = fixture.DataSet().BeginSelect().Execute();
 
-    std::vector<Entity> expected{
-        Entity{ 0, "0" },
-        Entity{ 1, "1" },
-        Entity{ 2, "2" },
-        Entity{ 3, "3" },
-        Entity{ 4, "4" },
-    };
-    ASSERT_EQ(result, expected);
+    {
+        auto result = fixture.DataSet().BeginSelect().Execute();
+        std::vector<Entity> expected{
+            Entity{ 0, "0" },
+            Entity{ 1, "1" },
+            Entity{ 2, "2" },
+            Entity{ 3, "3" },
+            Entity{ 4, "4" },
+        };
+        ASSERT_EQ(result, expected);
+    }
 }
 
 
-TEST(SelectQueryTest, SelectColumns) {
+TEST(ORMTest, SelectColumns) {
 
     SelectQueryTestFixture fixture;
 

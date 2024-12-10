@@ -4,7 +4,7 @@
 
 namespace ra::utility::sql {
 
-enum class ExpressionOperator {
+enum class Operator {
     Equal,
     NotEqual,
     Less,
@@ -15,6 +15,6 @@ enum class ExpressionOperator {
     Or,
 };
 
-std::string_view ConvertExpressionOperatorToString(ExpressionOperator expression_operator);
+std::string_view ConvertOperatorToString(Operator op);
 
 }
