@@ -166,6 +166,43 @@ TEST(ORMTest, SelectSingleColumn) {
         std::vector<int> expected{ 4 };
         ASSERT_EQ(result, expected);
     }
+
+    // Where + OrderBy
+    {
+        auto where_selecter = primitive_selecter.Where(table.ID == 1 || table.ID == 2);
+        auto result = where_selecter.OrderBy(table.Name).Execute();
+        std::vector<int> expected{ 2, 1 };
+        ASSERT_EQ(result, expected);
+    }
+
+    // Where + OrderBy + Limit
+    {
+        auto where_selecter = primitive_selecter.Where(table.ID == 1 || table.ID == 2);
+        auto result = where_selecter.OrderBy(table.Name).Limit(1).Execute();
+        std::vector<int> expected{ 2 };
+        ASSERT_EQ(result, expected);
+    }
+
+    // OrderBy
+    {
+        auto result = primitive_selecter.OrderBy(table.Name).Execute();
+        std::vector<int> expected{ 4, 3, 2, 1, 0 };
+        ASSERT_EQ(result, expected);
+    }
+
+    // OrderBy + Limit
+    {
+        auto result = primitive_selecter.OrderBy(table.Name).Limit(3).Execute();
+        std::vector<int> expected{ 4, 3, 2 };
+        ASSERT_EQ(result, expected);
+    }
+
+    // Limit
+    {
+        auto result = primitive_selecter.Limit(2).Execute();
+        std::vector<int> expected{ 0, 1 };
+        ASSERT_EQ(result, expected);
+    }
 }
 
 
@@ -173,15 +210,82 @@ TEST(ORMTest, SelectMultipleColumns) {
 
     SelectQueryTestFixture fixture;
     auto& table = Entity::TableType::GetInstance();
+    auto primitive_selecter = fixture.DataSet().BeginSelect(table.ID, table.Name);
 
+    // Primitive
     {
-        auto result = fixture.DataSet().BeginSelect(table.ID, table.Name).Execute();
+        auto result = primitive_selecter.Execute();
         std::vector<std::tuple<int, std::string>> expected{
             { 0, "9" },
             { 1, "8" },
             { 2, "7" },
             { 3, "6" },
             { 4, "5" },
+        };
+        ASSERT_EQ(result, expected);
+    }
+
+    // Where
+    {
+        auto result = primitive_selecter.Where(table.ID == 3).Execute();
+        std::vector<std::tuple<int, std::string>> expected{
+            { 3, "6" },
+        };
+        ASSERT_EQ(result, expected);
+    }
+
+    // Where + OrderBy
+    {
+        auto where_selecter = primitive_selecter.Where(table.ID == 3 || table.ID == 2);
+        auto result = where_selecter.OrderBy(table.Name).Execute();
+        std::vector<std::tuple<int, std::string>> expected{
+            { 3, "6" },
+            { 2, "7" },
+        };
+        ASSERT_EQ(result, expected);
+    }
+
+    // Where + OrderBy + Limit
+    {
+        auto where_selecter = primitive_selecter.Where(table.ID == 3 || table.ID == 2);
+        auto result = where_selecter.OrderBy(table.Name).Limit(1).Execute();
+        std::vector<std::tuple<int, std::string>> expected{
+            { 3, "6" },
+        };
+        ASSERT_EQ(result, expected);
+    }
+
+    // OrderBy
+    {
+        auto result = primitive_selecter.OrderBy(table.Name).Execute();
+        std::vector<std::tuple<int, std::string>> expected{
+            { 4, "5" },
+            { 3, "6" },
+            { 2, "7" },
+            { 1, "8" },
+            { 0, "9" },
+        };
+        ASSERT_EQ(result, expected);
+    }
+
+    // OrderBy + Limit
+    {
+        auto result = primitive_selecter.OrderBy(table.Name).Limit(2).Execute();
+        std::vector<std::tuple<int, std::string>> expected{
+            { 4, "5" },
+            { 3, "6" },
+        };
+        ASSERT_EQ(result, expected);
+    }
+
+    // Limit
+    {
+        auto result = primitive_selecter.Limit(4).Execute();
+        std::vector<std::tuple<int, std::string>> expected{
+            { 0, "9" },
+            { 1, "8" },
+            { 2, "7" },
+            { 3, "6" },
         };
         ASSERT_EQ(result, expected);
     }
