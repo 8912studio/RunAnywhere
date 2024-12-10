@@ -1,5 +1,6 @@
 #pragma once
 
+#include <format>
 #include "utility/sql/orm/expression/operand.h"
 #include "utility/sql/orm/expression/operator.h"
 
@@ -30,7 +31,7 @@ public:
 
     std::string BuildSQL() const {
         return std::format(
-            "({} {} {})", 
+            "({}{}{})", 
             lhs_.BuildSQL(), 
             ConvertOperatorToString(operator_),
             rhs_.BuildSQL());
@@ -46,5 +47,17 @@ private:
     RHS rhs_{};
     Operator operator_{};
 };
+
+
+template<typename OP1, typename OP2>
+auto MakeExpressionWithOperands(OP1&& op1, OP2&& op2, Operator op) {
+    using LHS = Operand<std::decay_t<OP1>>;
+    using RHS = Operand<std::decay_t<OP2>>;
+    return Expression<LHS, RHS>{
+        LHS{ std::forward<OP1>(op1) },
+        RHS{ std::forward<OP2>(op2) },
+        op,
+    };
+}
 
 }

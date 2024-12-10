@@ -43,7 +43,7 @@ private:
 
 
 template<typename T>
-class Operand<T, std::enable_if_t<HasDataTypeMappingV<T>>> {
+class Operand<T, std::enable_if_t<IsValidColumnValueTypeV<T>>> {
 public:
     explicit Operand(T value) : value_(std::move(value)) {
 

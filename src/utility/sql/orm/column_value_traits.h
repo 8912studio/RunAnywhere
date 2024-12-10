@@ -8,7 +8,7 @@
 namespace ra::utility::sql {
 
 template<typename T, typename = void>
-struct MapToDataType { };
+struct MapToDataType;
 
 template<typename T>
 struct MapToDataType<T, std::enable_if_t<std::is_integral_v<T>>> {
@@ -37,7 +37,7 @@ constexpr bool HasDataTypeMappingV = HasDataTypeMapping<T>::value;
 
 
 template<typename T, typename = void>
-struct ColumnValueTraits { };
+struct ColumnValueTraits;
 
 template<typename T>
 struct ColumnValueTraits<T, 
@@ -63,5 +63,16 @@ struct ColumnValueTraits<T, std::enable_if_t<HasDataTypeMappingV<T>>> {
         statement.BindParameter(parameter_index, value);
     }
 };
+
+
+template<typename T, typename = void>
+struct IsValidColumnValueType : std::false_type { };
+
+template<typename T>
+struct IsValidColumnValueType<T, std::void_t<decltype(ColumnValueTraits<T>::DataType)>> : 
+    std::true_type { };
+
+template<typename T>
+constexpr bool IsValidColumnValueTypeV = IsValidColumnValueType<T>::value;
 
 }

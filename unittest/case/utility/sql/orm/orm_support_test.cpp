@@ -20,7 +20,7 @@ SQL_COLUMN(nullable_id, NullableID)
 SQL_COLUMN(nullable_name, NullableName)
 SQL_TABLE_END;
 
-TEST(ORMSupportTest, BasicMetaInfo) {
+TEST(ORMTest, BasicMetaInfo) {
 
     using PersonTable = Person::TableType;
 
@@ -100,7 +100,7 @@ SQL_COLUMN(name, Name)
 SQL_PRIMARY_KEY(id)
 SQL_TABLE_END;
 
-TEST(ORMSupportTest, SingleColumnPrimaryKey) {
+TEST(ORMTest, SingleColumnPrimaryKey) {
 
     using PersonTable = PersonPK1::TableType;
 
@@ -139,7 +139,7 @@ SQL_COLUMN(age, Age)
 SQL_PRIMARY_KEY(id, name)
 SQL_TABLE_END;
 
-TEST(ORMSupportTest, MultipleColumnPrimaryKey) {
+TEST(ORMTest, MultipleColumnPrimaryKey) {
 
     using PersonTable = PersonPK2::TableType;
 
@@ -178,7 +178,7 @@ SQL_COLUMN(name, Name)
 SQL_PRIMARY_KEY_AUTOINCREMENT(id)
 SQL_TABLE_END
 
-TEST(ORMSupportTest, AutoincrementPrimaryKey) {
+TEST(ORMTest, AutoincrementPrimaryKey) {
 
     using PersonTable = PersonPK3::TableType;
 
@@ -199,7 +199,7 @@ SQL_COLUMN(id2, id2)
 SQL_INDEX(id1)
 SQL_TABLE_END
 
-TEST(ORMSupportTest, SingleColumnIndex) {
+TEST(ORMTest, SingleColumnIndex) {
 
     using PersonTable = PersonIndex1::TableType;
 
@@ -234,7 +234,7 @@ SQL_COLUMN(id3, id3)
 SQL_INDEX(id1, id2)
 SQL_TABLE_END
 
-TEST(ORMSupportTest, MultiColumnIndex) {
+TEST(ORMTest, MultiColumnIndex) {
 
     using PersonTable = PersonIndex2::TableType;
 
@@ -280,7 +280,7 @@ SQL_COLUMN(id8, id8)
 SQL_INDEX(id1, id2, id3, id4, id5, id6, id7, id8)
 SQL_TABLE_END
 
-TEST(ORMSupportTest, MaxCountColumnIndex) {
+TEST(ORMTest, MaxCountColumnIndex) {
 
     using PersonTable = PersonIndex8::TableType;
     const auto& table = PersonTable::GetInstance();
@@ -318,7 +318,7 @@ SQL_INDEX(id1, id2)
 SQL_INDEX(id2, id3)
 SQL_TABLE_END
 
-TEST(ORMSupportTest, MultiIndexes) {
+TEST(ORMTest, MultiIndexes) {
 
     using PersonTable = PersonMultiIndexes::TableType;
     const auto& table = PersonTable::GetInstance();
@@ -328,6 +328,39 @@ TEST(ORMSupportTest, MultiIndexes) {
     ASSERT_EQ(indexes[0], &table.id1id2id3Index);
     ASSERT_EQ(indexes[1], &table.id1id2Index);
     ASSERT_EQ(indexes[2], &table.id2id3Index);
+}
+
+
+struct PersonColumnOperator {
+    SQL_ENTITY;
+    int id{};
+};
+
+SQL_TABLE_BEGIN(PersonColumnOperator, PersonColumnOperator)
+SQL_COLUMN(id, id)
+SQL_TABLE_END
+
+TEST(ORMTest, ColumnOperator) {
+
+    auto& table = PersonColumnOperator::TableType::GetInstance();
+
+    ASSERT_EQ((table.id == 1).BuildSQL(), "(id=?)");
+    ASSERT_EQ((2 == table.id).BuildSQL(), "(?=id)");
+
+    ASSERT_EQ((table.id != 3).BuildSQL(), "(id<>?)");
+    ASSERT_EQ((4 != table.id).BuildSQL(), "(?<>id)");
+
+    ASSERT_EQ((table.id < 5).BuildSQL(), "(id<?)");
+    ASSERT_EQ((6 < table.id).BuildSQL(), "(?<id)");
+
+    ASSERT_EQ((table.id <= 7).BuildSQL(), "(id<=?)");
+    ASSERT_EQ((8 <= table.id).BuildSQL(), "(?<=id)");
+
+    ASSERT_EQ((table.id > 9).BuildSQL(), "(id>?)");
+    ASSERT_EQ((10 > table.id).BuildSQL(), "(?>id)");
+
+    ASSERT_EQ((table.id >= 11).BuildSQL(), "(id>=?)");
+    ASSERT_EQ((12 >= table.id).BuildSQL(), "(?>=id)");
 }
 
 }
