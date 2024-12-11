@@ -15,28 +15,9 @@ zaf::Observable<std::vector<RoundEntity>> RoundStorage::FetchAllRoundsInDialog(
 
     return context_->Execute<std::vector<RoundEntity>>([this, dialog_id](StorageContext& context) {
 
-        auto& db = context.DB();
-
-        auto sql = 
-            "select ID, DialogID, CreateTime, UpdateTime, "
-            "Question, Response from Round where DialogID = ?;";
-
-        auto statement = db.PrepareStatement(sql);
-        statement.BindParameter(1, dialog_id);
-
-        std::vector<RoundEntity> result;
-        while (statement.Step()) {
-
-            RoundEntity entity;
-            entity.id = statement.GetColumnInt64(0);
-            entity.dialog_id = statement.GetColumnInt64(1);
-            entity.create_time = statement.GetColumnInt64(2);
-            entity.update_time = statement.GetColumnInt64(3);
-            entity.question = statement.GetColumnText(4);
-            entity.response = statement.GetColumnText(5);
-
-            result.push_back(std::move(entity));
-        }
+        auto& round_table = RoundEntity::TableType::GetInstance();
+        auto result = context.RoundDataSet().BeginSelect()
+            .Where(round_table.DialogID == dialog_id).Execute();
 
         return result;
     });
