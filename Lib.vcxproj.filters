@@ -1236,6 +1236,9 @@
     <ClInclude Include="src\utility\sql\orm\expression\operand.h">
       <Filter>src\utility\sql\orm\expression</Filter>
     </ClInclude>
+    <ClInclude Include="src\utility\sql\orm\select\ordering_column.h">
+      <Filter>src\utility\sql\orm\select</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">

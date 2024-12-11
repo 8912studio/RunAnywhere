@@ -410,6 +410,7 @@
     <ClInclude Include="src\utility\sql\orm\select\decorative_selecter_core.h" />
     <ClInclude Include="src\utility\sql\orm\select\entity_selecter_core.h" />
     <ClInclude Include="src\utility\sql\orm\select\limit_selecter.h" />
+    <ClInclude Include="src\utility\sql\orm\select\ordering_column.h" />
     <ClInclude Include="src\utility\sql\orm\select\order_by_selecter.h" />
     <ClInclude Include="src\utility\sql\orm\select\primitive_selecter.h" />
     <ClInclude Include="src\utility\sql\orm\select\primitive_selecter_core.h" />

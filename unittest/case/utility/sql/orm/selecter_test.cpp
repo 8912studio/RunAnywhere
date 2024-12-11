@@ -2,6 +2,7 @@
 #include "utility/sql/orm/data_set.h"
 #include "utility/sql/orm/orm_support.h"
 #include "utility/sql/orm/select/primitive_selecter.h"
+#include "utility/sql/orm/select/ordering_column.h"
 
 using namespace ra::utility::sql;
 
@@ -286,6 +287,111 @@ TEST(ORMTest, SelectMultipleColumns) {
             { 1, "8" },
             { 2, "7" },
             { 3, "6" },
+        };
+        ASSERT_EQ(result, expected);
+    }
+}
+
+
+TEST(ORMTest, OrderBySelecter) {
+
+    SelectQueryTestFixture fixture;
+    auto& table = Entity::TableType::GetInstance();
+
+    //OrderBy using single column.
+    {
+        auto result = fixture.DataSet().BeginSelect().OrderBy(table.ID).Execute();
+        std::vector<Entity> expected{
+            Entity{ 0, "9" },
+            Entity{ 1, "8" },
+            Entity{ 2, "7" },
+            Entity{ 3, "6" },
+            Entity{ 4, "5" },
+        };
+        ASSERT_EQ(result, expected);
+    }
+
+    //OrderBy using multiple columns.
+    {
+        auto result = fixture.DataSet().BeginSelect().OrderBy(table.Name, table.ID).Execute();
+        std::vector<Entity> expected{
+            Entity{ 4, "5" },
+            Entity{ 3, "6" },
+            Entity{ 2, "7" },
+            Entity{ 1, "8" },
+            Entity{ 0, "9" },
+        };
+        ASSERT_EQ(result, expected);
+    }
+
+    //OrderBy using ascending column.
+    {
+        auto result = fixture.DataSet().BeginSelect().OrderBy(table.Name.Asc()).Execute();
+        std::vector<Entity> expected{
+            Entity{ 4, "5" },
+            Entity{ 3, "6" },
+            Entity{ 2, "7" },
+            Entity{ 1, "8" },
+            Entity{ 0, "9" },
+        };
+        ASSERT_EQ(result, expected);
+    }
+
+    //OrderBy using descending column.
+    {
+        auto result = fixture.DataSet().BeginSelect().OrderBy(table.ID.Desc()).Execute();
+        std::vector<Entity> expected{
+            Entity{ 4, "5" },
+            Entity{ 3, "6" },
+            Entity{ 2, "7" },
+            Entity{ 1, "8" },
+            Entity{ 0, "9" },
+        };
+        ASSERT_EQ(result, expected);
+    }
+
+    //OrderBy mixing ordering column and primitive column.
+    {
+        auto selecter = fixture.DataSet().BeginSelect();
+        auto result = selecter.OrderBy(table.ID.Desc(), table.Name).Execute();
+        std::vector<Entity> expected{
+            Entity{ 4, "5" },
+            Entity{ 3, "6" },
+            Entity{ 2, "7" },
+            Entity{ 1, "8" },
+            Entity{ 0, "9" },
+        };
+        ASSERT_EQ(result, expected);
+    }
+}
+
+
+TEST(ORMTest, LimitSelecter) {
+
+    SelectQueryTestFixture fixture;
+    auto& table = Entity::TableType::GetInstance();
+
+    {
+        auto result = fixture.DataSet().BeginSelect().Limit(0).Execute();
+        ASSERT_EQ(result.size(), 0);
+    }
+
+    {
+        auto result = fixture.DataSet().BeginSelect().Limit(1).Execute();
+        std::vector<Entity> expected{
+            Entity{ 0, "9" }
+        };
+        ASSERT_EQ(result, expected);
+    }
+
+    {
+        auto result = fixture.DataSet().BeginSelect().Limit(6).Execute();
+        std::vector<Entity> expected{
+            Entity{ 0, "9" },
+            Entity{ 1, "8" },
+            Entity{ 2, "7" },
+            Entity{ 3, "6" },
+            Entity{ 4, "5" },
         };
         ASSERT_EQ(result, expected);
     }

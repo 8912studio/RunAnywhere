@@ -9,6 +9,7 @@
 #include "utility/sql/orm/index.h"
 #include "utility/sql/orm/macro_utility.h"
 #include "utility/sql/orm/primary_key.h"
+#include "utility/sql/orm/select/ordering_column.h"
 
 #define SQL_ENTITY class TableType;
 
@@ -70,6 +71,16 @@ public: \
             entity.CLASS_FIELD = ra::utility::sql::GetValueFromStatement<ValueType>( \
                 statement, \
                 column_index); \
+        } \
+        auto Asc() const { \
+            return ra::utility::sql::OrderingColumn<ThisType, ra::utility::sql::AscOrder>{ \
+                *this \
+            }; \
+        } \
+        auto Desc() const { \
+            return ra::utility::sql::OrderingColumn<ThisType, ra::utility::sql::DescOrder>{ \
+                *this \
+            }; \
         } \
         friend auto operator==(const ThisType& column, const ValueType& value) { \
             return ra::utility::sql::MakeExpressionWithOperands( \
