@@ -293,6 +293,126 @@ TEST(ORMTest, SelectMultipleColumns) {
 }
 
 
+TEST(ORMTest, WhereSelecter) {
+
+    SelectQueryTestFixture fixture;
+    auto& table = Entity::TableType::GetInstance();
+    auto primitive_selecter = fixture.DataSet().BeginSelect();
+
+    //Equal
+    {
+        std::vector<Entity> expected{
+            { 2, "7" },
+        };
+        auto result = primitive_selecter.Where(table.ID == 2).Execute();
+        ASSERT_EQ(result, expected);
+        result = primitive_selecter.Where(2 == table.ID).Execute();
+        ASSERT_EQ(result, expected);
+    }
+
+    //Not equal
+    {
+        std::vector<Entity> expected{
+            { 0, "9" },
+            { 1, "8" },
+            { 3, "6" },
+            { 4, "5" },
+        };
+        auto result = primitive_selecter.Where(table.ID != 2).Execute();
+        ASSERT_EQ(result, expected);
+        result = primitive_selecter.Where(2 != table.ID).Execute();
+        ASSERT_EQ(result, expected);
+    }
+
+    //Less
+    {
+        auto result = primitive_selecter.Where(table.ID < 3).Execute();
+        std::vector<Entity> expected{
+            { 0, "9" },
+            { 1, "8" },
+            { 2, "7" },
+        };
+        ASSERT_EQ(result, expected);
+        result = primitive_selecter.Where(3 < table.ID).Execute();
+        expected = {
+            { 4, "5" },
+        };
+        ASSERT_EQ(result, expected);
+    }
+
+    //Less equal
+    {
+        auto result = primitive_selecter.Where(table.ID <= 2).Execute();
+        std::vector<Entity> expected{
+            { 0, "9" },
+            { 1, "8" },
+            { 2, "7" },
+        };
+        ASSERT_EQ(result, expected);
+        result = primitive_selecter.Where(3 <= table.ID).Execute();
+        expected = {
+            { 3, "6" },
+            { 4, "5" },
+        };
+        ASSERT_EQ(result, expected);
+    }
+
+    //Greater
+    {
+        auto result = primitive_selecter.Where(table.ID > 3).Execute();
+        std::vector<Entity> expected{
+            { 4, "5" },
+        };
+        ASSERT_EQ(result, expected);
+        result = primitive_selecter.Where(3 > table.ID).Execute();
+        expected = {
+            { 0, "9" },
+            { 1, "8" },
+            { 2, "7" },
+        };
+        ASSERT_EQ(result, expected);
+    }
+
+    //Greater equal
+    {
+        auto result = primitive_selecter.Where(table.ID >= 3).Execute();
+        std::vector<Entity> expected{
+            { 3, "6" },
+            { 4, "5" },
+        };
+        ASSERT_EQ(result, expected);
+        result = primitive_selecter.Where(3 >= table.ID).Execute();
+        expected = {
+            { 0, "9" },
+            { 1, "8" },
+            { 2, "7" },
+            { 3, "6" },
+        };
+        ASSERT_EQ(result, expected);
+    }
+
+    //And
+    {
+        auto result = primitive_selecter.Where(2 < table.ID && table.ID < 4).Execute();
+        std::vector<Entity> expected{
+            { 3, "6" },
+        };
+        ASSERT_EQ(result, expected);
+    }
+
+    //Or
+    {
+        auto result = primitive_selecter.Where(table.ID == 1 || table.ID >= 3).Execute();
+        std::vector<Entity> expected{
+            { 1, "8" },
+            { 3, "6" },
+            { 4, "5" },
+        };
+        ASSERT_EQ(result, expected);
+    }
+}
+
+
 TEST(ORMTest, OrderBySelecter) {
 
     SelectQueryTestFixture fixture;

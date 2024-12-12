@@ -15,6 +15,6 @@ enum class Operator {
     Or,
 };
 
-std::string_view ConvertOperatorToString(Operator op);
+std::string_view ConvertOperatorTagToString(Operator op);
 
 }

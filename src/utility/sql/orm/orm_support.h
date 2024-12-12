@@ -83,52 +83,52 @@ public: \
             }; \
         } \
         friend auto operator==(const ThisType& column, const ValueType& value) { \
-            return ra::utility::sql::MakeExpressionWithOperands( \
-                column, value, ra::utility::sql::Operator::Equal); \
+            return ra::utility::sql::MakeExpression<ra::utility::sql::Operator::Equal>( \
+                column, value); \
         } \
         friend auto operator==(const ValueType& value, const ThisType& column) { \
-            return ra::utility::sql::MakeExpressionWithOperands( \
-                value, column, ra::utility::sql::Operator::Equal); \
+            return ra::utility::sql::MakeExpression<ra::utility::sql::Operator::Equal>( \
+                value, column); \
         } \
         friend auto operator!=(const ThisType& column, const ValueType& value) { \
-            return ra::utility::sql::MakeExpressionWithOperands( \
-                column, value, ra::utility::sql::Operator::NotEqual); \
+            return ra::utility::sql::MakeExpression<ra::utility::sql::Operator::NotEqual>( \
+                column, value); \
         } \
         friend auto operator!=(const ValueType& value, const ThisType& column) { \
-            return ra::utility::sql::MakeExpressionWithOperands( \
-                value, column, ra::utility::sql::Operator::NotEqual); \
+            return ra::utility::sql::MakeExpression<ra::utility::sql::Operator::NotEqual>( \
+                value, column); \
         } \
         friend auto operator<(const ThisType& column, const ValueType& value) { \
-            return ra::utility::sql::MakeExpressionWithOperands( \
-                column, value, ra::utility::sql::Operator::Less); \
+            return ra::utility::sql::MakeExpression<ra::utility::sql::Operator::Less>( \
+                column, value); \
         } \
         friend auto operator<(const ValueType& value, const ThisType& column) { \
-            return ra::utility::sql::MakeExpressionWithOperands( \
-                value, column, ra::utility::sql::Operator::Less); \
+            return ra::utility::sql::MakeExpression<ra::utility::sql::Operator::Less>( \
+                value, column); \
         } \
         friend auto operator<=(const ThisType& column, const ValueType& value) { \
-            return ra::utility::sql::MakeExpressionWithOperands( \
-                column, value, ra::utility::sql::Operator::LessEqual); \
+            return ra::utility::sql::MakeExpression<ra::utility::sql::Operator::LessEqual>( \
+                column, value); \
         } \
         friend auto operator<=(const ValueType& value, const ThisType& column) { \
-            return ra::utility::sql::MakeExpressionWithOperands( \
-                value, column, ra::utility::sql::Operator::LessEqual); \
+            return ra::utility::sql::MakeExpression<ra::utility::sql::Operator::LessEqual>( \
+                value, column); \
         } \
         friend auto operator>(const ThisType& column, const ValueType& value) { \
-            return ra::utility::sql::MakeExpressionWithOperands( \
-                column, value, ra::utility::sql::Operator::Greater); \
+            return ra::utility::sql::MakeExpression<ra::utility::sql::Operator::Greater>( \
+                column, value); \
         } \
         friend auto operator>(const ValueType& value, const ThisType& column) { \
-            return ra::utility::sql::MakeExpressionWithOperands( \
-                value, column, ra::utility::sql::Operator::Greater); \
+            return ra::utility::sql::MakeExpression<ra::utility::sql::Operator::Greater>( \
+                value, column); \
         } \
         friend auto operator>=(const ThisType& column, const ValueType& value) { \
-            return ra::utility::sql::MakeExpressionWithOperands( \
-                column, value, ra::utility::sql::Operator::GreaterEqual); \
+            return ra::utility::sql::MakeExpression<ra::utility::sql::Operator::GreaterEqual>( \
+                column, value); \
         } \
         friend auto operator>=(const ValueType& value, const ThisType& column) { \
-            return ra::utility::sql::MakeExpressionWithOperands( \
-                value, column, ra::utility::sql::Operator::GreaterEqual); \
+            return ra::utility::sql::MakeExpression<ra::utility::sql::Operator::GreaterEqual>( \
+                value, column); \
         } \
     }; \
     COLUMN_NAME##Type COLUMN_NAME{ fields_ };

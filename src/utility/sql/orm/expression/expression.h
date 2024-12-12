@@ -6,34 +6,33 @@
 
 namespace ra::utility::sql {
 
-template<typename LHS, typename RHS>
+template<Operator OP, typename LHS, typename RHS>
 class Expression {
 private:
-    using ThisType = Expression<LHS, RHS>;
+    using ThisType = Expression<OP, LHS, RHS>;
 
 public:
-    Expression(LHS lhs, RHS rhs, Operator op) : 
-        lhs_(std::move(lhs)),
-        rhs_(std::move(rhs)),
-        operator_(op) {
+    Expression(LHS lhs, RHS rhs) : lhs_(std::move(lhs)), rhs_(std::move(rhs)) {
 
     }
 
     template<typename Other>
     auto operator&&(Other other) const {
-        return Expression<ThisType, Other>{ *this, std::move(other), Operator::And };
+        using ResultType = Expression<Operator::And, ThisType, Other>;
+        return ResultType{ *this, std::move(other) };
     }
 
     template<typename Other>
     auto operator||(Other other) const {
-        return Expression<ThisType, Other>{ *this, std::move(other), Operator::Or };
+        using ResultType = Expression<Operator::Or, ThisType, Other>;
+        return ResultType{ *this, std::move(other) };
     }
 
     std::string BuildSQL() const {
         return std::format(
-            "({}{}{})", 
+            "({}{}{})",
             lhs_.BuildSQL(), 
-            ConvertOperatorToString(operator_),
+            ConvertOperatorTagToString(OP),
             rhs_.BuildSQL());
     }
 
@@ -45,18 +44,16 @@ public:
 private:
     LHS lhs_{};
     RHS rhs_{};
-    Operator operator_{};
 };
 
 
-template<typename OP1, typename OP2>
-auto MakeExpressionWithOperands(OP1&& op1, OP2&& op2, Operator op) {
-    using LHS = Operand<std::decay_t<OP1>>;
-    using RHS = Operand<std::decay_t<OP2>>;
-    return Expression<LHS, RHS>{
-        LHS{ std::forward<OP1>(op1) },
-        RHS{ std::forward<OP2>(op2) },
-        op,
+template<Operator Operator, typename Operand1, typename Operand2>
+auto MakeExpression(Operand1&& op1, Operand2&& op2) {
+    using LHS = Operand<std::decay_t<Operand1>>;
+    using RHS = Operand<std::decay_t<Operand2>>;
+    return Expression<Operator, LHS, RHS>{
+        LHS{ std::forward<Operand1>(op1) },
+        RHS{ std::forward<Operand2>(op2) },
     };
 }
 

@@ -2,7 +2,7 @@
 
 namespace ra::utility::sql {
 
-std::string_view ConvertOperatorToString(Operator op) {
+std::string_view ConvertOperatorTagToString(Operator op) {
     switch (op) {
     case Operator::Equal:
         return "=";
