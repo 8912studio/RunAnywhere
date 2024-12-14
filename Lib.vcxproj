@@ -421,13 +421,11 @@
     <ClInclude Include="src\utility\sql\orm\column.h" />
     <ClInclude Include="src\utility\sql\orm\primary_key.h" />
     <ClInclude Include="src\utility\sql\orm\table.h" />
-    <ClInclude Include="src\utility\sql\orm\field_traits.h" />
     <ClInclude Include="src\utility\sql\orm\value_type\composite_value_type.h" />
     <ClInclude Include="src\utility\sql\orm\value_type\data_type_mapping.h" />
     <ClInclude Include="src\utility\sql\orm\value_type\nullable_value_type.h" />
     <ClInclude Include="src\utility\sql\orm\value_type\primitive_value_type.h" />
     <ClInclude Include="src\utility\sql\orm\value_type\value_type_traits.h" />
-    <ClInclude Include="src\utility\sql\orm\column_value_traits.h" />
     <ClInclude Include="src\utility\sql\orm\orm_support.h" />
     <ClInclude Include="src\utility\sql\sql_error.h" />
     <ClInclude Include="src\utility\sql\statement.h" />

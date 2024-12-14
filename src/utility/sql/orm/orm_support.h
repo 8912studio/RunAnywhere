@@ -4,12 +4,12 @@
 #include "utility/sql/orm/table.h"
 #include "utility/sql/orm/column.h"
 #include "utility/sql/orm/expression/expression_support.h"
-#include "utility/sql/orm/field_traits.h"
 #include "utility/sql/orm/index.h"
 #include "utility/sql/orm/macro_utility.h"
-#include "utility/sql/orm/column_value_traits.h"
 #include "utility/sql/orm/primary_key.h"
 #include "utility/sql/orm/select/ordering_column.h"
+#include "utility/sql/orm/value_type/nullable_value_type.h"
+#include "utility/sql/orm/value_type/primitive_value_type.h"
 
 #define SQL_ENTITY class TableType;
 
@@ -47,30 +47,31 @@ public: \
         using ThisType = COLUMN_NAME##Type; \
     public: \
         using ValueType = decltype(((EntityType*)nullptr)->CLASS_FIELD); \
-        using ValueTraits = ra::utility::sql::ColumnValueTraits<ValueType>; \
+        using ValueTypeTraits = ra::utility::sql::ValueTypeTraits<ValueType>; \
         using Column::Column; \
         std::string_view GetName() const noexcept override { \
             return #COLUMN_NAME; \
         } \
         ra::utility::sql::DataType GetDataType() const noexcept override { \
-            return ValueTraits::DataType; \
+            return ValueTypeTraits::DataType; \
         } \
         bool IsNullable() const noexcept override { \
-            return ValueTraits::IsNullable; \
+            return ValueTypeTraits::IsNullable; \
         } \
         void BindValueToStatement( \
             ra::utility::sql::Statement& statement, \
             int parameter_index, \
             const EntityType& entity) const override { \
-            ValueTraits::BindValueToStatement(statement, parameter_index, entity.CLASS_FIELD); \
+            ValueTypeTraits::BindValueToStatement( \
+                statement, \
+                parameter_index, \
+                entity.CLASS_FIELD); \
         } \
         void GetValueFromStatement( \
             const ra::utility::sql::Statement& statement, \
             int column_index, \
             EntityType& entity) const override { \
-            entity.CLASS_FIELD = ra::utility::sql::GetValueFromStatement<ValueType>( \
-                statement, \
-                column_index); \
+            entity.CLASS_FIELD = ValueTypeTraits::GetValueFromStatement(statement, column_index); \
         } \
         auto Asc() const { \
             return ra::utility::sql::OrderingColumn<ThisType, ra::utility::sql::AscOrder>{ \

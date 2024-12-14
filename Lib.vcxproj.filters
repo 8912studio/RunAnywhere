@@ -1137,9 +1137,6 @@
     <ClInclude Include="src\utility\sql\orm\orm_support.h">
       <Filter>src\utility\sql\orm</Filter>
     </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\field_traits.h">
-      <Filter>src\utility\sql\orm</Filter>
-    </ClInclude>
     <ClInclude Include="src\utility\sql\orm\column.h">
       <Filter>src\utility\sql\orm</Filter>
     </ClInclude>
@@ -1157,9 +1154,6 @@
     </ClInclude>
     <ClInclude Include="src\utility\sql\table_info.h">
       <Filter>src\utility\sql</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\column_value_traits.h">
-      <Filter>src\utility\sql\orm</Filter>
     </ClInclude>
     <ClInclude Include="src\utility\sql\orm\table_initializer.h">
       <Filter>src\utility\sql\orm</Filter>

@@ -19,6 +19,9 @@ constexpr bool IsPrimitiveValueTypeV = IsPrimitiveValueType<T>::value;
 template<typename T>
 struct ValueTypeTraits<T, std::enable_if_t<IsPrimitiveValueTypeV<T>>> {
 
+    static constexpr sql::DataType DataType = MapToDataTypeV<T>;
+    static constexpr bool IsNullable = false;
+
     static constexpr std::size_t PlaceholderCount = 1;
 
     static int BindValueToStatement(Statement& statement, int parameter_index, const T& value) {

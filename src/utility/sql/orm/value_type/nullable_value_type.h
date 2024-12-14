@@ -14,6 +14,9 @@ constexpr bool IsNullableValueTypeV =
 template<typename T>
 struct ValueTypeTraits<T, std::enable_if_t<IsNullableValueTypeV<T>>> {
 
+    static constexpr sql::DataType DataType = MapToDataTypeV<zaf::GetOptionalValueTypeT<T>>;
+    static constexpr bool IsNullable = true;
+
     static constexpr std::size_t PlaceholderCount = 1;
 
     static int BindValueToStatement(Statement& statement, int parameter_index, const T& value) {

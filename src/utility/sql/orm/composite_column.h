@@ -2,7 +2,6 @@
 
 #include <array>
 #include "utility/sql/orm/column.h"
-#include "utility/sql/orm/field_traits.h"
 #include "utility/sql/orm/value_type/composite_value_type.h"
 
 namespace ra::utility::sql {
@@ -71,11 +70,11 @@ public:
         int parameter_index,
         const ValueType& value) {
 
-        statement.BindParameter(parameter_index, value);
+        ValueTypeTraits<ValueType>::BindValueToStatement(statement, parameter_index, value);
     }
 
     static ValueType GetValueFromStatement(const Statement& statement, int column_index) {
-        return sql::GetValueFromStatement<ValueType>(statement, column_index);
+        return ValueTypeTraits<ValueType>::GetValueFromStatement(statement, column_index);
     }
 
 public:
