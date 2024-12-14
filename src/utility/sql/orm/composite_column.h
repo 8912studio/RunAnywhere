@@ -3,7 +3,7 @@
 #include <array>
 #include "utility/sql/orm/column.h"
 #include "utility/sql/orm/field_traits.h"
-#include "utility/sql/statement.h"
+#include "utility/sql/orm/value_type/composite_value_type.h"
 
 namespace ra::utility::sql {
 
@@ -46,35 +46,11 @@ public:
         int parameter_index,
         const ValueType& value) {
 
-        int index = parameter_index;
-        auto binder = [&statement, &index](const auto& value) {
-            statement.BindParameter(index, value);
-            ++index;
-        };
-
-        std::apply(
-            [&binder](const auto&... values) {
-                (binder(values), ...);
-            },
-            value);
+        ValueTypeTraits<ValueType>::BindValueToStatement(statement, parameter_index, value);
     }
 
     static ValueType GetValueFromStatement(const Statement& statement, int column_index) {
-        
-        int index = column_index;
-        auto getter = [&statement, &index](auto& value) {
-            value = sql::GetValueFromStatement<std::decay_t<decltype(value)>>(statement, index);
-            ++index;
-        };
-
-        ValueType result{};
-        std::apply(
-            [&getter](auto&... values) {
-                (getter(values), ...);
-            }, 
-            result);
-
-        return result;
+        return ValueTypeTraits<ValueType>::GetValueFromStatement(statement, column_index);
     }
 
 public:

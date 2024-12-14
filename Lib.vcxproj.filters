@@ -181,6 +181,9 @@
     <Filter Include="src\utility\sql\orm\expression">
       <UniqueIdentifier>{e948929b-8889-480a-8628-402264e69db2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\utility\sql\orm\value_type">
+      <UniqueIdentifier>{044494c0-6664-4693-8452-27325055f2c3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\module\calculator\parse\binary_expression_parser.h">
@@ -1238,6 +1241,24 @@
     </ClInclude>
     <ClInclude Include="src\utility\sql\orm\select\ordering_column.h">
       <Filter>src\utility\sql\orm\select</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\sql\orm\expression\expression_support.h">
+      <Filter>src\utility\sql\orm\expression</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\sql\orm\value_type\primitive_value_type.h">
+      <Filter>src\utility\sql\orm\value_type</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\sql\orm\value_type\data_type_mapping.h">
+      <Filter>src\utility\sql\orm\value_type</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\sql\orm\value_type\nullable_value_type.h">
+      <Filter>src\utility\sql\orm\value_type</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\sql\orm\value_type\composite_value_type.h">
+      <Filter>src\utility\sql\orm\value_type</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\sql\orm\value_type\value_type_traits.h">
+      <Filter>src\utility\sql\orm\value_type</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,8 +1,9 @@
 #pragma once
 
 #include "utility/sql/orm/column.h"
-#include "utility/sql/orm/column_value_traits.h"
 #include "utility/sql/orm/composite_column.h"
+#include "utility/sql/orm/data_set_helpers.h"
+#include "utility/sql/orm/value_type/composite_value_type.h"
 
 namespace ra::utility::sql {
 
@@ -37,30 +38,42 @@ public:
 
     }
 
+    std::string BuildSQL() const {
+        return std::format("({})", JoinColumnNames(composite_column_.GetAbstractColumns()));
+    }
+
+    int BindParameters(Statement& statement, int begin_index) const {
+        return begin_index;
+    }
+
 private:
     T composite_column_;
 };
 
 
 template<typename T>
-class Operand<T, std::enable_if_t<IsValidColumnValueTypeV<T>>> {
+class Operand<T, std::enable_if_t<
+    IsPrimitiveValueTypeV<T> || IsNullableValueTypeV<T> || IsCompositeValueTypeV<T>>> {
+
 public:
     explicit Operand(T value) : value_(std::move(value)) {
 
     }
 
     std::string BuildSQL() const {
-        return "?";
+        constexpr auto place_holder_count = ValueTypeTraits<T>::PlaceholderCount;
+        if constexpr (place_holder_count == 1) {
+            return "?";
+        }
+        return std::format("({})", JoinPlaceholders(place_holder_count));
     }
 
     int BindParameters(Statement& statement, int begin_index) const {
-        ColumnValueTraits<T>::BindValueToStatement(statement, begin_index, value_);
-        return begin_index + 1;
+        return ValueTypeTraits<T>::BindValueToStatement(statement, begin_index, value_);
     }
 
 private:
     T value_{};
 };
-
 
 }

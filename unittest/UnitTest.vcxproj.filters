@@ -304,6 +304,9 @@
     <ClCompile Include="case\utility\sql\orm\selecter_test.cpp">
       <Filter>case\utility\sql\orm</Filter>
     </ClCompile>
+    <ClCompile Include="case\utility\sql\orm\value_type_traits_test.cpp">
+      <Filter>case\utility\sql\orm</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="case\module\calculator\number_parser_test_utility.h">

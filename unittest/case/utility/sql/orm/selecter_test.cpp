@@ -9,7 +9,9 @@ using namespace ra::utility::sql;
 namespace {
 
 struct Entity {
+
     SQL_ENTITY;
+
     int id{};
     std::string name;
 
@@ -19,7 +21,10 @@ struct Entity {
 SQL_TABLE_BEGIN(Entity, Entity)
 SQL_COLUMN(ID, id)
 SQL_COLUMN(Name, name)
+SQL_INDEX(ID)
+SQL_INDEX(ID, Name)
 SQL_TABLE_END
+
 
 class SelectQueryTestFixture : zaf::NonCopyableNonMovable {
 public:
@@ -407,6 +412,25 @@ TEST(ORMTest, WhereSelecter) {
             { 1, "8" },
             { 3, "6" },
             { 4, "5" },
+        };
+        ASSERT_EQ(result, expected);
+    }
+
+    //Use with single column index
+    {
+        auto result = primitive_selecter.Where(table.IDIndex == 4).Execute();
+        std::vector<Entity> expected{
+            { 4, "5" },
+        };
+        ASSERT_EQ(result, expected);
+    }
+
+    //Use with multiple column index
+    {
+        auto result = primitive_selecter.Where(table.IDNameIndex == std::make_tuple(0, "9"))
+            .Execute();
+        std::vector<Entity> expected{
+            { 0, "9" },
         };
         ASSERT_EQ(result, expected);
     }
