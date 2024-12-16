@@ -54,27 +54,15 @@ public:
         return BeginSelect().Execute();
     }
 
-    /*
-    std::optional<E> Select(const TableType::PrimaryKeyType::ValueType& primary_key) {
 
-        static auto sql = std::format("select {} from {} where {}",
-            JoinColumnNames(Table().GetAbstractColumns()),
-            Table().GetName(),
-            MakeKeyEquation(Table().PrimaryKey));
-
-        auto statement = db_.Get().PrepareStatement(sql);
-        TableType::PrimaryKeyType::BindValue(statement, 1, primary_key);
-
-        if (statement.Step()) {
-
-            E entity{};
-            GetEntityValuesFromStatement(statement, Table().GetColumns(), entity);
-            return std::move(entity);
+    template<typename T = TableType, typename = std::enable_if_t<HasPrimaryKeyV<T>>>
+    std::optional<E> Select(const T::PrimaryKeyType::ValueType& primary_key) {
+        auto result = BeginSelect().Where(Table().PrimaryKey == primary_key).Execute();
+        if (!result.empty()) {
+            return result.front();
         }
-
         return std::nullopt;
     }
-    */
 
 
     void Insert(const E& entity) {

@@ -298,7 +298,7 @@
     <ClCompile Include="case\utility\sql\orm\data_updater_test.cpp">
       <Filter>case\utility\sql\orm</Filter>
     </ClCompile>
-    <ClCompile Include="case\utility\sql\orm\data_selector_test.cpp">
+    <ClCompile Include="case\utility\sql\orm\data_select_test.cpp">
       <Filter>case\utility\sql\orm</Filter>
     </ClCompile>
     <ClCompile Include="case\utility\sql\orm\selecter_test.cpp">
