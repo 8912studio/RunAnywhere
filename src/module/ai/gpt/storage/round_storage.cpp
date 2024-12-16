@@ -16,10 +16,10 @@ zaf::Observable<std::vector<RoundEntity>> RoundStorage::FetchAllRoundsInDialog(
     return context_->Execute<std::vector<RoundEntity>>([this, dialog_id](StorageContext& context) {
 
         auto& round_table = RoundEntity::TableType::GetInstance();
-        auto result = context.RoundDataSet().BeginSelect()
-            .Where(round_table.DialogID == dialog_id).Execute();
 
-        return result;
+        return context.RoundDataSet().BeginSelect()
+            .Where(round_table.DialogID == dialog_id)
+            .Execute();
     });
 }
 
