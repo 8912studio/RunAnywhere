@@ -184,6 +184,9 @@
     <Filter Include="src\utility\sql\orm\value_type">
       <UniqueIdentifier>{044494c0-6664-4693-8452-27325055f2c3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\utility\sql\orm\delete">
+      <UniqueIdentifier>{db21d373-2ca5-472f-89f9-3b7a9074ddf3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\module\calculator\parse\binary_expression_parser.h">
@@ -1253,6 +1256,15 @@
     </ClInclude>
     <ClInclude Include="src\utility\sql\orm\value_type\value_type_traits.h">
       <Filter>src\utility\sql\orm\value_type</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\sql\orm\delete\deleter.h">
+      <Filter>src\utility\sql\orm\delete</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\sql\orm\delete\primitive_deleter.h">
+      <Filter>src\utility\sql\orm\delete</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\sql\orm\delete\where_deleter.h">
+      <Filter>src\utility\sql\orm\delete</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

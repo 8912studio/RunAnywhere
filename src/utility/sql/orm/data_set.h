@@ -13,6 +13,7 @@
 #include "utility/sql/orm/data_inserter.h"
 #include "utility/sql/orm/data_set_helpers.h"
 #include "utility/sql/orm/data_updater.h"
+#include "utility/sql/orm/delete/primitive_deleter.h"
 #include "utility/sql/orm/select/entity_selecter_core.h"
 #include "utility/sql/orm/select/primitive_selecter.h"
 #include "utility/sql/orm/table_initializer.h"
@@ -85,6 +86,13 @@ public:
     template<typename T = TableType, typename = std::enable_if_t<HasPrimaryKeyV<T>>>
     void Update(const E& entity) {
         DataUpdater<E>::Update(db_.Get(), entity);
+    }
+
+
+    [[nodiscard]]
+    auto BeginDelete() {
+        using Deleter = PrimitiveDeleter<E>;
+        return Deleter{ db_.Get() };
     }
 
 
