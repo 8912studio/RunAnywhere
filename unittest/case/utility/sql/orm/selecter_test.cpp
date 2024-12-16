@@ -9,20 +9,42 @@ using namespace ra::utility::sql;
 namespace {
 
 struct Entity {
-
     SQL_ENTITY;
-
     int id{};
     std::string name;
-
     friend auto operator<=>(const Entity&, const Entity&) = default;
 };
-
 SQL_TABLE_BEGIN(Entity, Entity)
 SQL_COLUMN(ID, id)
 SQL_COLUMN(Name, name)
 SQL_INDEX(ID)
 SQL_INDEX(ID, Name)
+SQL_TABLE_END
+
+
+struct EntityPK1 {
+    SQL_ENTITY;
+    int id{};
+    std::string name;
+    friend auto operator<=>(const EntityPK1&, const EntityPK1&) = default;
+};
+SQL_TABLE_BEGIN(EntityPK1, EntityPK1)
+SQL_COLUMN(ID, id)
+SQL_COLUMN(Name, name)
+SQL_PRIMARY_KEY(ID)
+SQL_TABLE_END
+
+
+struct EntityPK2 {
+    SQL_ENTITY;
+    int id{};
+    std::string name;
+    friend auto operator<=>(const EntityPK2&, const EntityPK2&) = default;
+};
+SQL_TABLE_BEGIN(EntityPK2, EntityPK2)
+SQL_COLUMN(ID, id)
+SQL_COLUMN(Name, name)
+SQL_PRIMARY_KEY(ID, Name)
 SQL_TABLE_END
 
 
@@ -36,12 +58,25 @@ public:
         database_ = Database::Open(db_path);
 
         data_set_.emplace(*database_);
+        data_set_pk1_.emplace(*database_);
+        data_set_pk2_.emplace(*database_);
 
         for (auto index : zaf::Range(0, 5)) {
+
             Entity entity;
             entity.id = static_cast<int>(index);
             entity.name = std::to_string(9 - index);
             data_set_->Insert(entity);
+
+            EntityPK1 entity_pk1;
+            entity_pk1.id = static_cast<int>(index);
+            entity_pk1.name = std::to_string(9 - index);
+            data_set_pk1_->Insert(entity_pk1);
+
+            EntityPK2 entity_pk2;
+            entity_pk2.id = static_cast<int>(index);
+            entity_pk2.name = std::to_string(9 - index);
+            data_set_pk2_->Insert(entity_pk2);
         }
     }
 
@@ -53,13 +88,23 @@ public:
         return *database_;
     }
 
-    DataSet<Entity>& DataSet() {
+    ra::utility::sql::DataSet<Entity>& DataSet() {
         return *data_set_;
+    }
+
+    ra::utility::sql::DataSet<EntityPK1>& DataSetPK1() {
+        return *data_set_pk1_;
+    }
+
+    ra::utility::sql::DataSet<EntityPK2>& DataSetPK2() {
+        return *data_set_pk2_;
     }
 
 private:
     std::optional<Database> database_;
     std::optional<ra::utility::sql::DataSet<Entity>> data_set_;
+    std::optional<ra::utility::sql::DataSet<EntityPK1>> data_set_pk1_;
+    std::optional<ra::utility::sql::DataSet<EntityPK2>> data_set_pk2_;
 };
 
 
@@ -298,7 +343,7 @@ TEST(ORMTest, SelectMultipleColumns) {
 }
 
 
-TEST(ORMTest, WhereSelecter) {
+TEST(ORMTest, WhereSelecter_Column) {
 
     SelectQueryTestFixture fixture;
     auto& table = Entity::TableType::GetInstance();
@@ -415,6 +460,14 @@ TEST(ORMTest, WhereSelecter) {
         };
         ASSERT_EQ(result, expected);
     }
+}
+
+
+TEST(ORMTest, WhereSelecter_Index) {
+
+    SelectQueryTestFixture fixture;
+    auto& table = Entity::TableType::GetInstance();
+    auto primitive_selecter = fixture.DataSet().BeginSelect();
 
     //Use with single column index
     {
@@ -431,6 +484,33 @@ TEST(ORMTest, WhereSelecter) {
             .Execute();
         std::vector<Entity> expected{
             { 0, "9" },
+        };
+        ASSERT_EQ(result, expected);
+    }
+}
+
+
+TEST(ORMTest, WhereSelecter_PrimaryKey) {
+
+    SelectQueryTestFixture fixture;
+
+    //Use with single column primary key
+    {
+        auto& table = EntityPK1::TableType::GetInstance();
+        auto result = fixture.DataSetPK1().BeginSelect().Where(table.PrimaryKey == 1).Execute();
+        std::vector<EntityPK1> expected{
+            { 1, "8" },
+        };
+        ASSERT_EQ(result, expected);
+    }
+
+    //Use with multiple columns primary key
+    {
+        auto& table = EntityPK2::TableType::GetInstance();
+        auto result = fixture.DataSetPK2().BeginSelect()
+            .Where(table.PrimaryKey == std::make_tuple(3, "6")).Execute();
+        std::vector<EntityPK2> expected{
+            { 3, "6" },
         };
         ASSERT_EQ(result, expected);
     }
