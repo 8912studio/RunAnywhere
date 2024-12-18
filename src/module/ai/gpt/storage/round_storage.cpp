@@ -70,17 +70,10 @@ zaf::Observable<zaf::None> RoundStorage::DeleteAllRoundsInDialog(std::uint64_t d
 
     return context_->Execute<zaf::None>([this, dialog_id](StorageContext& context) {
     
-        auto sql = "delete from Round where DialogID = ?;";
-
-        auto& db = context.DB();
-        auto statement = db.PrepareStatement(sql);
-        statement.BindParameter(1, dialog_id);
-
-        statement.Step();
+        auto& round_table = RoundEntity::TableType::GetInstance();
+        context.RoundDataSet().BeginDelete().Where(round_table.DialogID == dialog_id).Execute();
         return zaf::None{};
     });
 }
 
 }
-
-
