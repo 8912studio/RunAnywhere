@@ -17,6 +17,10 @@ private:
 
         }
 
+        Database& GetDB() const {
+            return inner_core_.GetDB();
+        }
+
         std::string BuildSQL() const {
             static const auto sql = [this]() {
                 auto result = inner_core_.BuildSQL();
@@ -24,10 +28,6 @@ private:
                 return result;
             }();
             return sql;
-        }
-
-        Statement PrepareStatement(std::string_view sql) const {
-            return inner_core_.PrepareStatement(sql);
         }
 
         int BindParameters(Statement& statement, int begin_index) const {

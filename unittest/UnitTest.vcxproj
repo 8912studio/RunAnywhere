@@ -112,10 +112,11 @@
     <ClCompile Include="case\utility\markdown\parse\parse_context_test.cpp" />
     <ClCompile Include="case\utility\markdown\render\styled_text_builder_test.cpp" />
     <ClCompile Include="case\utility\numeric_text_formatting_test.cpp" />
-    <ClCompile Include="case\utility\sql\orm\data_deleter_test.cpp" />
+    <ClCompile Include="case\utility\sql\orm\data_delete_test.cpp" />
     <ClCompile Include="case\utility\sql\orm\data_inserter_test.cpp" />
     <ClCompile Include="case\utility\sql\orm\data_select_test.cpp" />
     <ClCompile Include="case\utility\sql\orm\data_updater_test.cpp" />
+    <ClCompile Include="case\utility\sql\orm\deleter_test.cpp" />
     <ClCompile Include="case\utility\sql\orm\orm_support_test.cpp" />
     <ClCompile Include="case\utility\sql\orm\orm_query_test.cpp" />
     <ClCompile Include="case\utility\sql\orm\selecter_test.cpp" />

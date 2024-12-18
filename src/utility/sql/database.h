@@ -26,6 +26,7 @@ public:
     Statement PrepareStatement(std::string_view sql);
 
     std::int64_t LastInsertRowID() const;
+    std::size_t LastChanges() const;
 
     void CreateTable(const TableSchema& table_schema);
 

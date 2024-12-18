@@ -18,6 +18,10 @@ private:
 
         }
 
+        Database& GetDB() const {
+            return db_;
+        }
+
         std::string BuildSQL() const {
 
             static const std::string sql = [this]() {
@@ -25,10 +29,6 @@ private:
             }();
 
             return sql;
-        }
-
-        Statement PrepareStatement(std::string_view sql) const {
-            return db_.PrepareStatement(sql);
         }
 
         int BindParameters(Statement& statement, int begin_index) const {

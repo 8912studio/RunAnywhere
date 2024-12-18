@@ -85,6 +85,11 @@ std::int64_t Database::LastInsertRowID() const {
 }
 
 
+std::size_t Database::LastChanges() const {
+    return sqlite3_changes(handle_);
+}
+
+
 void Database::CreateTable(const TableSchema& table_schema) {
     ExecuteSQL(ToSQL(table_schema));
 }

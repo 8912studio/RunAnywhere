@@ -1170,9 +1170,6 @@
     <ClInclude Include="src\utility\sql\orm\primary_key_traits.h">
       <Filter>src\utility\sql\orm</Filter>
     </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\data_deleter.h">
-      <Filter>src\utility\sql\orm</Filter>
-    </ClInclude>
     <ClInclude Include="src\utility\sql\orm\data_updater.h">
       <Filter>src\utility\sql\orm</Filter>
     </ClInclude>

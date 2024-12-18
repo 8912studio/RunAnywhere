@@ -292,7 +292,7 @@
     <ClCompile Include="case\utility\sql\orm\data_inserter_test.cpp">
       <Filter>case\utility\sql\orm</Filter>
     </ClCompile>
-    <ClCompile Include="case\utility\sql\orm\data_deleter_test.cpp">
+    <ClCompile Include="case\utility\sql\orm\data_delete_test.cpp">
       <Filter>case\utility\sql\orm</Filter>
     </ClCompile>
     <ClCompile Include="case\utility\sql\orm\data_updater_test.cpp">
@@ -308,6 +308,9 @@
       <Filter>case\utility\sql\orm</Filter>
     </ClCompile>
     <ClCompile Include="case\utility\sql\orm\orm_query_test.cpp">
+      <Filter>case\utility\sql\orm</Filter>
+    </ClCompile>
+    <ClCompile Include="case\utility\sql\orm\deleter_test.cpp">
       <Filter>case\utility\sql\orm</Filter>
     </ClCompile>
   </ItemGroup>
