@@ -116,11 +116,21 @@ public: \
 __SQL_DEFINE_PRIMARY_KEY(__SQL_DEFINE_AUTOINCREMENT, COLUMN_NAME)
 
 
+#define __SQL_INDEX_BASE_TYPE(...) SQL_UTILITY_JOIN(__VA_ARGS__)##IndexBaseType
+#define __SQL_INDEX_TYPE(...) SQL_UTILITY_JOIN(__VA_ARGS__)##IndexType
+
 #define SQL_INDEX(...) \
+private: \
+    using __SQL_INDEX_BASE_TYPE(__VA_ARGS__) = \
+        decltype(ra::utility::sql::DeduceIndexType<EntityType>(__VA_ARGS__)); \
 public: \
-    using SQL_UTILITY_JOIN(__VA_ARGS__)##IndexType = \
-        decltype(ra::utility::sql::MakeIndex<EntityType>(indexes_, __VA_ARGS__)); \
-    SQL_UTILITY_JOIN(__VA_ARGS__)##IndexType SQL_UTILITY_JOIN(__VA_ARGS__)##Index = \
-        ra::utility::sql::MakeIndex<EntityType>(indexes_, __VA_ARGS__);
+    class __SQL_INDEX_TYPE(__VA_ARGS__) : public __SQL_INDEX_BASE_TYPE(__VA_ARGS__) { \
+    public: \
+        using __SQL_INDEX_BASE_TYPE(__VA_ARGS__)::__SQL_INDEX_BASE_TYPE(__VA_ARGS__); \
+        SQL_EXPRESSION_OPERATORS( \
+            __SQL_INDEX_TYPE(__VA_ARGS__), \
+            __SQL_INDEX_TYPE(__VA_ARGS__)::ValueType) \
+    }; \
+    __SQL_INDEX_TYPE(__VA_ARGS__) SQL_UTILITY_JOIN(__VA_ARGS__)##Index{ indexes_, __VA_ARGS__ };
 
 #define SQL_TABLE_END };

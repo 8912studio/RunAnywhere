@@ -2,15 +2,11 @@
 
 #include "utility/sql/orm/abstract_index.h"
 #include "utility/sql/orm/composite_column.h"
-#include "utility/sql/orm/expression/expression_support.h"
 
 namespace ra::utility::sql {
 
 template<typename E, typename... Columns>
 class Index : public CompositeColumn<E, Columns...>, public AbstractIndex {
-private:
-    using CompositeColumnType = CompositeColumn<E, Columns...>;
-
 public:
     Index(
         std::vector<const AbstractIndex*>& registered_indexes, 
@@ -24,13 +20,10 @@ public:
     AbstractColumnsView GetAbstractColumns() const noexcept override {
         return CompositeColumn<E, Columns...>::GetAbstractColumns();
     }
-
-    SQL_EXPRESSION_OPERATORS(CompositeColumnType, CompositeColumnType::ValueType)
 };
 
+
 template<typename E, typename... Columns>
-auto MakeIndex(std::vector<const AbstractIndex*>& registered_indexes, const Columns&... columns) {
-    return Index<E, Columns...>(registered_indexes, columns...);
-}
+Index<E, std::decay_t<Columns>...> DeduceIndexType(const Columns&... columns) {}
 
 }
