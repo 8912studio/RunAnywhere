@@ -2,7 +2,6 @@
 
 #include "utility/sql/orm/abstract_primary_key.h"
 #include "utility/sql/orm/composite_column.h"
-#include "utility/sql/orm/expression/expression_support.h"
 
 namespace ra::utility::sql {
 
@@ -21,14 +20,10 @@ public:
     AbstractColumnsView GetAbstractColumns() const noexcept override {
         return CompositeColumn<E, Columns...>::GetAbstractColumns();
     }
-
-    SQL_EXPRESSION_OPERATORS(CompositeColumnType, CompositeColumnType::ValueType)
 };
 
 
 template<typename E, typename... Columns>
-auto MakePrimaryKey(Columns&... columns) {
-    return PrimaryKey<E, Columns...>(columns...);
-}
+PrimaryKey<E, std::decay_t<Columns>...> DeducePrimaryKeyType(const Columns&... columns) {}
 
 }

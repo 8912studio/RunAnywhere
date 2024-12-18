@@ -307,10 +307,16 @@
     <ClCompile Include="case\utility\sql\orm\value_type_traits_test.cpp">
       <Filter>case\utility\sql\orm</Filter>
     </ClCompile>
+    <ClCompile Include="case\utility\sql\orm\orm_query_test.cpp">
+      <Filter>case\utility\sql\orm</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="case\module\calculator\number_parser_test_utility.h">
       <Filter>case\module\calculator</Filter>
+    </ClInclude>
+    <ClInclude Include="case\utility\sql\orm\orm_query_test.h">
+      <Filter>case\utility\sql\orm</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

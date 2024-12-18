@@ -85,12 +85,23 @@ public:
 
 
 template<typename T>
-struct IsCompositeColumn : std::false_type { };
+struct IsCompositeColumnBased {
+private:
+    template<typename K, typename E, typename... Columns>
+    static constexpr bool Test(CompositeColumn<E, Columns...>*) {
+        return true;
+    }
 
-template<typename E, typename... Columns>
-struct IsCompositeColumn<CompositeColumn<E, Columns...>> : std::true_type { };
+    template<typename K>
+    static constexpr bool Test(...) {
+        return false;
+    }
+
+public:
+    static constexpr bool value = Test<T>((T*)nullptr);
+};
 
 template<typename T>
-constexpr bool IsCompositeColumnV = IsCompositeColumn<T>::value;
+constexpr bool IsCompositeColumnBasedV = IsCompositeColumnBased<T>::value;
 
 }

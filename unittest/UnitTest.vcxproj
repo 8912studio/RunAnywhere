@@ -117,6 +117,7 @@
     <ClCompile Include="case\utility\sql\orm\data_select_test.cpp" />
     <ClCompile Include="case\utility\sql\orm\data_updater_test.cpp" />
     <ClCompile Include="case\utility\sql\orm\orm_support_test.cpp" />
+    <ClCompile Include="case\utility\sql\orm\orm_query_test.cpp" />
     <ClCompile Include="case\utility\sql\orm\selecter_test.cpp" />
     <ClCompile Include="case\utility\sql\orm\table_initializer_test.cpp" />
     <ClCompile Include="case\utility\sql\orm\value_type_traits_test.cpp" />
@@ -126,6 +127,7 @@
   <ItemGroup>
     <ClInclude Include="case\module\calculator\number_parser_test_utility.h" />
     <ClCompile Include="case\module\tool\json\json_command_parsing_test.cpp" />
+    <ClInclude Include="case\utility\sql\orm\orm_query_test.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\src\res.rc" />

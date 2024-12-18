@@ -88,29 +88,32 @@ public: \
     COLUMN_NAME##Type COLUMN_NAME{ fields_ };
 
 
-#define SQL_PRIMARY_KEY(...) \
-public:\
-    using PrimaryKeyType = decltype(ra::utility::sql::MakePrimaryKey<EntityType>(__VA_ARGS__)); \
-    PrimaryKeyType PrimaryKey = ra::utility::sql::MakePrimaryKey<EntityType>(__VA_ARGS__); \
+#define __SQL_DEFINE_AUTOINCREMENT \
+struct AutoincrementTag {}; \
+bool IsAutoincrement() const noexcept override { \
+    return true; \
+}
+
+#define __SQL_DEFINE_PRIMARY_KEY(AUTO_INC, ...) \
+private: \
+    using BasePrimaryKeyType = \
+        decltype(ra::utility::sql::DeducePrimaryKeyType<EntityType>(__VA_ARGS__)); \
+public: \
+    class PrimaryKeyType : public BasePrimaryKeyType { \
+    public: \
+        using BasePrimaryKeyType::BasePrimaryKeyType; \
+        AUTO_INC \
+        SQL_EXPRESSION_OPERATORS(PrimaryKeyType, PrimaryKeyType::ValueType) \
+    }; \
+    PrimaryKeyType PrimaryKey{ __VA_ARGS__ }; \
     const ra::utility::sql::AbstractPrimaryKey* GetAbstractPrimaryKey() const noexcept override { \
         return &PrimaryKey; \
     }
 
+#define SQL_PRIMARY_KEY(...) __SQL_DEFINE_PRIMARY_KEY(, __VA_ARGS__)
 
 #define SQL_PRIMARY_KEY_AUTOINCREMENT(COLUMN_NAME) \
-public: \
-    class PrimaryKeyType : public ra::utility::sql::PrimaryKey<EntityType, COLUMN_NAME##Type> { \
-    public: \
-        struct AutoincrementTag {}; \
-        using PrimaryKey::PrimaryKey; \
-        bool IsAutoincrement() const noexcept override { \
-            return true; \
-        } \
-    }; \
-    PrimaryKeyType PrimaryKey{ COLUMN_NAME }; \
-    const ra::utility::sql::AbstractPrimaryKey* GetAbstractPrimaryKey() const noexcept override { \
-        return &PrimaryKey; \
-    }
+__SQL_DEFINE_PRIMARY_KEY(__SQL_DEFINE_AUTOINCREMENT, COLUMN_NAME)
 
 
 #define SQL_INDEX(...) \
