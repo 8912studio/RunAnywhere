@@ -14,11 +14,11 @@ struct Entity {
     friend auto operator<=>(const Entity&, const Entity&) = default;
 };
 SQL_TABLE_BEGIN(Entity, Entity)
-SQL_COLUMN(id, id)
-SQL_COLUMN(name, name)
-SQL_PRIMARY_KEY(id)
-SQL_INDEX(id)
-SQL_INDEX(id, name)
+SQL_COLUMN(ID, id)
+SQL_COLUMN(Name, name)
+SQL_PRIMARY_KEY(ID)
+SQL_INDEX(ID)
+SQL_INDEX(ID, Name)
 SQL_TABLE_END
 
 

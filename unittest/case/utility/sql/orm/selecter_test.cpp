@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include "orm_query_test.h"
 #include "utility/sql/orm/data_set.h"
 #include "utility/sql/orm/orm_support.h"
 #include "utility/sql/orm/select/primitive_selecter.h"
@@ -6,116 +7,15 @@
 
 using namespace ra::utility::sql;
 
-namespace {
+namespace ra::test {
 
-struct Entity {
-    SQL_ENTITY;
-    int id{};
-    std::string name;
-    friend auto operator<=>(const Entity&, const Entity&) = default;
-};
-SQL_TABLE_BEGIN(Entity, Entity)
-SQL_COLUMN(ID, id)
-SQL_COLUMN(Name, name)
-SQL_INDEX(ID)
-SQL_INDEX(ID, Name)
-SQL_TABLE_END
+TEST_F(ORMQueryTest, SelectEntity) {
 
-
-struct EntityPK1 {
-    SQL_ENTITY;
-    int id{};
-    std::string name;
-    friend auto operator<=>(const EntityPK1&, const EntityPK1&) = default;
-};
-SQL_TABLE_BEGIN(EntityPK1, EntityPK1)
-SQL_COLUMN(ID, id)
-SQL_COLUMN(Name, name)
-SQL_PRIMARY_KEY(ID)
-SQL_TABLE_END
-
-
-struct EntityPK2 {
-    SQL_ENTITY;
-    int id{};
-    std::string name;
-    friend auto operator<=>(const EntityPK2&, const EntityPK2&) = default;
-};
-SQL_TABLE_BEGIN(EntityPK2, EntityPK2)
-SQL_COLUMN(ID, id)
-SQL_COLUMN(Name, name)
-SQL_PRIMARY_KEY(ID, Name)
-SQL_TABLE_END
-
-
-class SelectQueryTestFixture : zaf::NonCopyableNonMovable {
-public:
-    SelectQueryTestFixture() {
-
-        auto db_path = "test_data\\select_query_test.db";
-        std::filesystem::remove(db_path);
-
-        database_ = Database::Open(db_path);
-
-        data_set_.emplace(*database_);
-        data_set_pk1_.emplace(*database_);
-        data_set_pk2_.emplace(*database_);
-
-        for (auto index : zaf::Range(0, 5)) {
-
-            Entity entity;
-            entity.id = static_cast<int>(index);
-            entity.name = std::to_string(9 - index);
-            data_set_->Insert(entity);
-
-            EntityPK1 entity_pk1;
-            entity_pk1.id = static_cast<int>(index);
-            entity_pk1.name = std::to_string(9 - index);
-            data_set_pk1_->Insert(entity_pk1);
-
-            EntityPK2 entity_pk2;
-            entity_pk2.id = static_cast<int>(index);
-            entity_pk2.name = std::to_string(9 - index);
-            data_set_pk2_->Insert(entity_pk2);
-        }
-    }
-
-    ~SelectQueryTestFixture() {
-        database_.reset();
-    }
-
-    Database& DB() {
-        return *database_;
-    }
-
-    ra::utility::sql::DataSet<Entity>& DataSet() {
-        return *data_set_;
-    }
-
-    ra::utility::sql::DataSet<EntityPK1>& DataSetPK1() {
-        return *data_set_pk1_;
-    }
-
-    ra::utility::sql::DataSet<EntityPK2>& DataSetPK2() {
-        return *data_set_pk2_;
-    }
-
-private:
-    std::optional<Database> database_;
-    std::optional<ra::utility::sql::DataSet<Entity>> data_set_;
-    std::optional<ra::utility::sql::DataSet<EntityPK1>> data_set_pk1_;
-    std::optional<ra::utility::sql::DataSet<EntityPK2>> data_set_pk2_;
-};
-
-
-TEST(ORMTest, SelectEntity) {
-
-    SelectQueryTestFixture fixture;
     auto& table = Entity::TableType::GetInstance();
 
     // Primitive
     {
-        auto result = fixture.DataSet().BeginSelect().Execute();
+        auto result = EntitySet().BeginSelect().Execute();
         std::vector<Entity> expected{
             Entity{ 0, "9" },
             Entity{ 1, "8" },
@@ -128,7 +28,7 @@ TEST(ORMTest, SelectEntity) {
 
     // Where
     {
-        auto selecter = fixture.DataSet().BeginSelect().Where(table.ID == 2 || table.ID == 3);
+        auto selecter = EntitySet().BeginSelect().Where(table.ID == 2 || table.ID == 3);
         auto result = selecter.Execute();
         std::vector<Entity> expected{
             Entity{ 2, "7" },
@@ -139,7 +39,7 @@ TEST(ORMTest, SelectEntity) {
 
     // Where + OrderBy
     {
-        auto where_selecter = fixture.DataSet().BeginSelect().Where(
+        auto where_selecter = EntitySet().BeginSelect().Where(
             table.ID == 1 || table.ID == 2 || table.ID == 3);
         auto order_by_selecter = where_selecter.OrderBy(table.Name);
         auto result = order_by_selecter.Execute();
@@ -153,7 +53,7 @@ TEST(ORMTest, SelectEntity) {
 
     // Where + OrderBy + Limit
     {
-        auto where_selecter = fixture.DataSet().BeginSelect().Where(
+        auto where_selecter = EntitySet().BeginSelect().Where(
             table.ID == 1 || table.ID == 3);
         auto result = where_selecter.OrderBy(table.Name).Limit(1).Execute();
         std::vector<Entity> expected{
@@ -164,7 +64,7 @@ TEST(ORMTest, SelectEntity) {
 
     // OrderBy
     {
-        auto result = fixture.DataSet().BeginSelect().OrderBy(table.Name).Execute();
+        auto result = EntitySet().BeginSelect().OrderBy(table.Name).Execute();
         std::vector<Entity> expected{
             Entity{ 4, "5" },
             Entity{ 3, "6" },
@@ -177,7 +77,7 @@ TEST(ORMTest, SelectEntity) {
 
     // OrderBy + Limit
     {
-        auto result = fixture.DataSet().BeginSelect().OrderBy(table.Name).Limit(2).Execute();
+        auto result = EntitySet().BeginSelect().OrderBy(table.Name).Limit(2).Execute();
         std::vector<Entity> expected{
             Entity{ 4, "5" },
             Entity{ 3, "6" },
@@ -187,7 +87,7 @@ TEST(ORMTest, SelectEntity) {
 
     // Limit
     {
-        auto result = fixture.DataSet().BeginSelect().Limit(3).Execute();
+        auto result = EntitySet().BeginSelect().Limit(3).Execute();
         std::vector<Entity> expected{
             Entity{ 0, "9" },
             Entity{ 1, "8" },
@@ -198,11 +98,10 @@ TEST(ORMTest, SelectEntity) {
 }
 
 
-TEST(ORMTest, SelectSingleColumn) {
+TEST_F(ORMQueryTest, SelectSingleColumn) {
 
-    SelectQueryTestFixture fixture;
     auto& table = Entity::TableType::GetInstance();
-    auto primitive_selecter = fixture.DataSet().BeginSelect(table.ID);
+    auto primitive_selecter = EntitySet().BeginSelect(table.ID);
 
     // Primitive
     {
@@ -257,11 +156,10 @@ TEST(ORMTest, SelectSingleColumn) {
 }
 
 
-TEST(ORMTest, SelectMultipleColumns) {
+TEST_F(ORMQueryTest, SelectMultipleColumns) {
 
-    SelectQueryTestFixture fixture;
     auto& table = Entity::TableType::GetInstance();
-    auto primitive_selecter = fixture.DataSet().BeginSelect(table.ID, table.Name);
+    auto primitive_selecter = EntitySet().BeginSelect(table.ID, table.Name);
 
     // Primitive
     {
@@ -343,11 +241,10 @@ TEST(ORMTest, SelectMultipleColumns) {
 }
 
 
-TEST(ORMTest, WhereSelecter_Column) {
+TEST_F(ORMQueryTest, WhereSelecter_Column) {
 
-    SelectQueryTestFixture fixture;
     auto& table = Entity::TableType::GetInstance();
-    auto primitive_selecter = fixture.DataSet().BeginSelect();
+    auto primitive_selecter = EntitySet().BeginSelect();
 
     //Equal
     {
@@ -463,11 +360,10 @@ TEST(ORMTest, WhereSelecter_Column) {
 }
 
 
-TEST(ORMTest, WhereSelecter_Index) {
+TEST_F(ORMQueryTest, WhereSelecter_Index) {
 
-    SelectQueryTestFixture fixture;
     auto& table = Entity::TableType::GetInstance();
-    auto primitive_selecter = fixture.DataSet().BeginSelect();
+    auto primitive_selecter = EntitySet().BeginSelect();
 
     //Use with single column index
     {
@@ -490,15 +386,13 @@ TEST(ORMTest, WhereSelecter_Index) {
 }
 
 
-TEST(ORMTest, WhereSelecter_PrimaryKey) {
-
-    SelectQueryTestFixture fixture;
+TEST_F(ORMQueryTest, WhereSelecter_PrimaryKey) {
 
     //Use with single column primary key
     {
-        auto& table = EntityPK1::TableType::GetInstance();
-        auto result = fixture.DataSetPK1().BeginSelect().Where(table.PrimaryKey == 1).Execute();
-        std::vector<EntityPK1> expected{
+        auto& table = Entity::TableType::GetInstance();
+        auto result = EntitySet().BeginSelect().Where(table.PrimaryKey == 1).Execute();
+        std::vector<Entity> expected{
             { 1, "8" },
         };
         ASSERT_EQ(result, expected);
@@ -507,7 +401,7 @@ TEST(ORMTest, WhereSelecter_PrimaryKey) {
     //Use with multiple columns primary key
     {
         auto& table = EntityPK2::TableType::GetInstance();
-        auto result = fixture.DataSetPK2().BeginSelect()
+        auto result = EntityPK2Set().BeginSelect()
             .Where(table.PrimaryKey == std::make_tuple(3, "6")).Execute();
         std::vector<EntityPK2> expected{
             { 3, "6" },
@@ -517,14 +411,13 @@ TEST(ORMTest, WhereSelecter_PrimaryKey) {
 }
 
 
-TEST(ORMTest, OrderBySelecter) {
+TEST_F(ORMQueryTest, OrderBySelecter) {
 
-    SelectQueryTestFixture fixture;
     auto& table = Entity::TableType::GetInstance();
 
     //OrderBy using single column.
     {
-        auto result = fixture.DataSet().BeginSelect().OrderBy(table.ID).Execute();
+        auto result = EntitySet().BeginSelect().OrderBy(table.ID).Execute();
         std::vector<Entity> expected{
             Entity{ 0, "9" },
             Entity{ 1, "8" },
@@ -537,7 +430,7 @@ TEST(ORMTest, OrderBySelecter) {
 
     //OrderBy using multiple columns.
     {
-        auto result = fixture.DataSet().BeginSelect().OrderBy(table.Name, table.ID).Execute();
+        auto result = EntitySet().BeginSelect().OrderBy(table.Name, table.ID).Execute();
         std::vector<Entity> expected{
             Entity{ 4, "5" },
             Entity{ 3, "6" },
@@ -550,7 +443,7 @@ TEST(ORMTest, OrderBySelecter) {
 
     //OrderBy using ascending column.
     {
-        auto result = fixture.DataSet().BeginSelect().OrderBy(table.Name.Asc()).Execute();
+        auto result = EntitySet().BeginSelect().OrderBy(table.Name.Asc()).Execute();
         std::vector<Entity> expected{
             Entity{ 4, "5" },
             Entity{ 3, "6" },
@@ -563,7 +456,7 @@ TEST(ORMTest, OrderBySelecter) {
 
     //OrderBy using descending column.
     {
-        auto result = fixture.DataSet().BeginSelect().OrderBy(table.ID.Desc()).Execute();
+        auto result = EntitySet().BeginSelect().OrderBy(table.ID.Desc()).Execute();
         std::vector<Entity> expected{
             Entity{ 4, "5" },
             Entity{ 3, "6" },
@@ -576,7 +469,7 @@ TEST(ORMTest, OrderBySelecter) {
 
     //OrderBy mixing ordering column and primitive column.
     {
-        auto selecter = fixture.DataSet().BeginSelect();
+        auto selecter = EntitySet().BeginSelect();
         auto result = selecter.OrderBy(table.ID.Desc(), table.Name).Execute();
         std::vector<Entity> expected{
             Entity{ 4, "5" },
@@ -590,18 +483,17 @@ TEST(ORMTest, OrderBySelecter) {
 }
 
 
-TEST(ORMTest, LimitSelecter) {
+TEST_F(ORMQueryTest, LimitSelecter) {
 
-    SelectQueryTestFixture fixture;
     auto& table = Entity::TableType::GetInstance();
 
     {
-        auto result = fixture.DataSet().BeginSelect().Limit(0).Execute();
+        auto result = EntitySet().BeginSelect().Limit(0).Execute();
         ASSERT_EQ(result.size(), 0);
     }
 
     {
-        auto result = fixture.DataSet().BeginSelect().Limit(1).Execute();
+        auto result = EntitySet().BeginSelect().Limit(1).Execute();
         std::vector<Entity> expected{
             Entity{ 0, "9" }
         };
@@ -609,7 +501,7 @@ TEST(ORMTest, LimitSelecter) {
     }
 
     {
-        auto result = fixture.DataSet().BeginSelect().Limit(6).Execute();
+        auto result = EntitySet().BeginSelect().Limit(6).Execute();
         std::vector<Entity> expected{
             Entity{ 0, "9" },
             Entity{ 1, "8" },
