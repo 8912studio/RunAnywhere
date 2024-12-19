@@ -401,6 +401,7 @@
     <ClInclude Include="src\utility\sql\orm\delete\deleter.h" />
     <ClInclude Include="src\utility\sql\orm\delete\primitive_deleter.h" />
     <ClInclude Include="src\utility\sql\orm\delete\where_deleter.h" />
+    <ClInclude Include="src\utility\sql\orm\expression\assignment.h" />
     <ClInclude Include="src\utility\sql\orm\expression\expression.h" />
     <ClInclude Include="src\utility\sql\orm\expression\expression_support.h" />
     <ClInclude Include="src\utility\sql\orm\expression\operand.h" />
@@ -423,6 +424,11 @@
     <ClInclude Include="src\utility\sql\orm\column.h" />
     <ClInclude Include="src\utility\sql\orm\primary_key.h" />
     <ClInclude Include="src\utility\sql\orm\table.h" />
+    <ClInclude Include="src\utility\sql\orm\update\column_updater_core.h" />
+    <ClInclude Include="src\utility\sql\orm\update\entity_updater_core.h" />
+    <ClInclude Include="src\utility\sql\orm\update\primitive_updater.h" />
+    <ClInclude Include="src\utility\sql\orm\update\primitive_updater_core.h" />
+    <ClInclude Include="src\utility\sql\orm\update\updater.h" />
     <ClInclude Include="src\utility\sql\orm\value_type\composite_value_type.h" />
     <ClInclude Include="src\utility\sql\orm\value_type\data_type_mapping.h" />
     <ClInclude Include="src\utility\sql\orm\value_type\nullable_value_type.h" />

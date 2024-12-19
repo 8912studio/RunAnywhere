@@ -38,18 +38,18 @@ TEST_F(ORMQueryTest, WhereDeleter_PrimaryKey) {
 
     //Single column primary key
     {
-        auto& table = Entity::TableType::GetInstance();
+        auto& table = EntityPK1::TableType::GetInstance();
 
-        auto changes = EntitySet().BeginDelete().Where(table.PrimaryKey == 4).Execute();
+        auto changes = EntityPK1Set().BeginDelete().Where(table.PrimaryKey == 4).Execute();
         ASSERT_EQ(changes, 1);
 
-        std::vector<Entity> expected{
+        std::vector<EntityPK1> expected{
             { 0, "9" },
             { 1, "8" },
             { 2, "7" },
             { 3, "6" },
         };
-        auto actual = EntitySet().SelectAll();
+        auto actual = EntityPK1Set().SelectAll();
         ASSERT_EQ(actual, expected);
     }
 

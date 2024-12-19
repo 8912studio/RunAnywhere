@@ -11,6 +11,7 @@ void ORMQueryTest::SetUp() {
 
     db_ = Database::Open(db_path);
     entity_set_.emplace(*db_);
+    entity_pk1_set_.emplace(*db_);
     entity_pk2_set_.emplace(*db_);
 
     for (auto index : zaf::Range(0, 5)) {
@@ -20,10 +21,15 @@ void ORMQueryTest::SetUp() {
         entity.name = std::to_string(9 - index);
         entity_set_->Insert(entity);
 
-        EntityPK2 entity_pk1;
+        EntityPK1 entity_pk1;
         entity_pk1.id = static_cast<int>(index);
         entity_pk1.name = std::to_string(9 - index);
-        entity_pk2_set_->Insert(entity_pk1);
+        entity_pk1_set_->Insert(entity_pk1);
+
+        EntityPK2 entity_pk2;
+        entity_pk2.id = static_cast<int>(index);
+        entity_pk2.name = std::to_string(9 - index);
+        entity_pk2_set_->Insert(entity_pk2);
     }
 }
 

@@ -22,12 +22,12 @@ TEST_F(ORMQueryTest, SelectAll) {
 
 TEST_F(ORMQueryTest, SelectByPrimaryKey) {
 
-    auto result = EntitySet().Select(1);
+    auto result = EntityPK1Set().Select(1);
     ASSERT_TRUE(result.has_value());
     ASSERT_EQ(result->id, 1);
     ASSERT_EQ(result->name, "8");
 
-    result = EntitySet().Select(5);
+    result = EntityPK1Set().Select(5);
     ASSERT_FALSE(result.has_value());
 }
 

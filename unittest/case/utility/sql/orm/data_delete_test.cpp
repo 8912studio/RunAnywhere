@@ -9,19 +9,19 @@ TEST_F(ORMQueryTest, DeleteByPrimaryKey) {
 
     //Single column primary key
     {
-        auto changes = EntitySet().Delete(5);
+        auto changes = EntityPK1Set().Delete(5);
         ASSERT_EQ(changes, 0);
 
-        changes = EntitySet().Delete(1);
+        changes = EntityPK1Set().Delete(1);
         ASSERT_EQ(changes, 1);
 
-        std::vector<Entity> expected{
+        std::vector<EntityPK1> expected{
             { 0, "9" },
             { 2, "7" },
             { 3, "6" },
             { 4, "5" },
         };
-        auto actual = EntitySet().SelectAll();
+        auto actual = EntityPK1Set().SelectAll();
         ASSERT_EQ(actual, expected);
     }
     

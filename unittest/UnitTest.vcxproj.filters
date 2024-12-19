@@ -313,6 +313,9 @@
     <ClCompile Include="case\utility\sql\orm\deleter_test.cpp">
       <Filter>case\utility\sql\orm</Filter>
     </ClCompile>
+    <ClCompile Include="case\utility\sql\orm\updater_test.cpp">
+      <Filter>case\utility\sql\orm</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="case\module\calculator\number_parser_test_utility.h">

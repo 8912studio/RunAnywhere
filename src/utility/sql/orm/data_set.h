@@ -17,6 +17,9 @@
 #include "utility/sql/orm/select/primitive_selecter.h"
 #include "utility/sql/orm/table_initializer.h"
 #include "utility/sql/orm/table.h"
+#include "utility/sql/orm/update/column_updater_core.h"
+#include "utility/sql/orm/update/entity_updater_core.h"
+#include "utility/sql/orm/update/primitive_updater.h"
 
 namespace ra::utility::sql {
 
@@ -79,6 +82,23 @@ public:
 
     void Replace(const E& entity) {
         DataInserter<E>::Replace(entity, db_.Get());
+    }
+
+
+    [[nodiscard]]
+    auto BeginUpdate(const E& entity) {
+        using Core = EntityUpdaterCore<E>;
+        return PrimitiveUpdater<Core>(Core{ db_.Get(), entity });
+    }
+
+
+    template<typename... Assign>
+    [[nodiscard]]
+    auto BeginUpdate(Assign... assignments) {
+        using Core = ColumnUpdaterCore<E, Assign...>;
+        return PrimitiveUpdater<Core>{ 
+            Core{ db_.Get(), std::make_tuple(std::move(assignments)...) } 
+        };
     }
 
 

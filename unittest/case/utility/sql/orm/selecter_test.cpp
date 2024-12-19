@@ -390,9 +390,9 @@ TEST_F(ORMQueryTest, WhereSelecter_PrimaryKey) {
 
     //Use with single column primary key
     {
-        auto& table = Entity::TableType::GetInstance();
-        auto result = EntitySet().BeginSelect().Where(table.PrimaryKey == 1).Execute();
-        std::vector<Entity> expected{
+        auto& table = EntityPK1::TableType::GetInstance();
+        auto result = EntityPK1Set().BeginSelect().Where(table.PrimaryKey == 1).Execute();
+        std::vector<EntityPK1> expected{
             { 1, "8" },
         };
         ASSERT_EQ(result, expected);

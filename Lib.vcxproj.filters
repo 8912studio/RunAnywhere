@@ -187,6 +187,9 @@
     <Filter Include="src\utility\sql\orm\delete">
       <UniqueIdentifier>{db21d373-2ca5-472f-89f9-3b7a9074ddf3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\utility\sql\orm\update">
+      <UniqueIdentifier>{4a32e6c1-83d4-4a74-b0ed-ea5960656dbb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\module\calculator\parse\binary_expression_parser.h">
@@ -1262,6 +1265,24 @@
     </ClInclude>
     <ClInclude Include="src\utility\sql\orm\delete\where_deleter.h">
       <Filter>src\utility\sql\orm\delete</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\sql\orm\update\updater.h">
+      <Filter>src\utility\sql\orm\update</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\sql\orm\update\primitive_updater.h">
+      <Filter>src\utility\sql\orm\update</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\sql\orm\update\primitive_updater_core.h">
+      <Filter>src\utility\sql\orm\update</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\sql\orm\update\entity_updater_core.h">
+      <Filter>src\utility\sql\orm\update</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\sql\orm\update\column_updater_core.h">
+      <Filter>src\utility\sql\orm\update</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\sql\orm\expression\assignment.h">
+      <Filter>src\utility\sql\orm\expression</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

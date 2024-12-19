@@ -7,6 +7,9 @@
 
 namespace ra::test {
 
+/**
+Entity without primary key.
+*/
 struct Entity {
     SQL_ENTITY;
     int id{};
@@ -16,12 +19,30 @@ struct Entity {
 SQL_TABLE_BEGIN(Entity, Entity)
 SQL_COLUMN(ID, id)
 SQL_COLUMN(Name, name)
-SQL_PRIMARY_KEY(ID)
 SQL_INDEX(ID)
 SQL_INDEX(ID, Name)
 SQL_TABLE_END
 
 
+/**
+Entity with single column primary key.
+*/
+struct EntityPK1 {
+    SQL_ENTITY;
+    int id{};
+    std::string name;
+    friend auto operator<=>(const EntityPK1&, const EntityPK1&) = default;
+};
+SQL_TABLE_BEGIN(EntityPK1, EntityPK1)
+SQL_COLUMN(ID, id)
+SQL_COLUMN(Name, name)
+SQL_PRIMARY_KEY(ID)
+SQL_TABLE_END
+
+
+/**
+Entity with multi-column primary key.
+*/
 struct EntityPK2 {
     SQL_ENTITY;
     int id{};
@@ -30,9 +51,9 @@ struct EntityPK2 {
 };
 
 SQL_TABLE_BEGIN(EntityPK2, EntityPK2)
-SQL_COLUMN(id, id)
-SQL_COLUMN(name, name)
-SQL_PRIMARY_KEY(id, name)
+SQL_COLUMN(ID, id)
+SQL_COLUMN(Name, name)
+SQL_PRIMARY_KEY(ID, Name)
 SQL_TABLE_END
 
 
@@ -44,6 +65,10 @@ protected:
         return *entity_set_;
     }
 
+    ra::utility::sql::DataSet<EntityPK1>& EntityPK1Set() {
+        return *entity_pk1_set_;
+    }
+
     ra::utility::sql::DataSet<EntityPK2>& EntityPK2Set() {
         return *entity_pk2_set_;
     }
@@ -51,6 +76,7 @@ protected:
 private:
     std::optional<ra::utility::sql::Database> db_;
     std::optional<ra::utility::sql::DataSet<Entity>> entity_set_;
+    std::optional<ra::utility::sql::DataSet<EntityPK1>> entity_pk1_set_;
     std::optional<ra::utility::sql::DataSet<EntityPK2>> entity_pk2_set_;
 };
 
