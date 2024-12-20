@@ -2,6 +2,7 @@
 
 #include "utility/sql/orm/update/primitive_updater_core.h"
 #include "utility/sql/orm/update/updater.h"
+#include "utility/sql/orm/update/where_updater.h"
 
 namespace ra::utility::sql {
 
@@ -10,6 +11,11 @@ class PrimitiveUpdater : public Updater<PrimitiveUpdater<Core>> {
 public:
     explicit PrimitiveUpdater(Core core) : core_(std::move(core)) {
 
+    }
+
+    template<typename Expr>
+    auto Where(Expr expression) const {
+        return WhereUpdater<Core, Expr>(core_, std::move(expression));
     }
 
 private:
