@@ -1,7 +1,5 @@
 #include "module/ai/gpt/storage/gpt_storage.h"
 
-using namespace ra::utility::sql;
-
 namespace ra::mod::ai::gpt {
 
 GPTStorage::GPTStorage(std::filesystem::path db_path) :

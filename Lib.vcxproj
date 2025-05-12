@@ -51,11 +51,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)third_party\everything\ipc;$(SolutionDir)third_party\curlion\src;$(SolutionDir)third_party\curl\include;$(SolutionDir)third_party\sqlite;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)third_party\everything\ipc;$(SolutionDir)third_party\curlion\src;$(SolutionDir)third_party\curl\include;$(SolutionDir)third_party\sqt\third_party\sqlite;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)third_party\everything\ipc;$(SolutionDir)third_party\curlion\src;$(SolutionDir)third_party\curl\include;$(SolutionDir)third_party\sqlite;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)third_party\everything\ipc;$(SolutionDir)third_party\curlion\src;$(SolutionDir)third_party\curl\include;$(SolutionDir)third_party\sqt\third_party\sqlite;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -390,59 +390,6 @@
     <ClInclude Include="src\utility\path_trimming.h" />
     <ClInclude Include="src\utility\preview_text_box.h" />
     <ClInclude Include="src\utility\progress_circle.h" />
-    <ClInclude Include="src\utility\sql\database.h" />
-    <ClInclude Include="src\utility\sql\data_type.h" />
-    <ClInclude Include="src\utility\sql\index_info.h" />
-    <ClInclude Include="src\utility\sql\orm\abstract_column.h" />
-    <ClInclude Include="src\utility\sql\orm\abstract_index.h" />
-    <ClInclude Include="src\utility\sql\orm\abstract_primary_key.h" />
-    <ClInclude Include="src\utility\sql\orm\data_inserter.h" />
-    <ClInclude Include="src\utility\sql\orm\data_set.h" />
-    <ClInclude Include="src\utility\sql\orm\data_set_helpers.h" />
-    <ClInclude Include="src\utility\sql\orm\data_updater.h" />
-    <ClInclude Include="src\utility\sql\orm\delete\deleter.h" />
-    <ClInclude Include="src\utility\sql\orm\delete\primitive_deleter.h" />
-    <ClInclude Include="src\utility\sql\orm\delete\where_deleter.h" />
-    <ClInclude Include="src\utility\sql\orm\expression\assignment.h" />
-    <ClInclude Include="src\utility\sql\orm\expression\expression.h" />
-    <ClInclude Include="src\utility\sql\orm\expression\expression_support.h" />
-    <ClInclude Include="src\utility\sql\orm\expression\operand.h" />
-    <ClInclude Include="src\utility\sql\orm\expression\operator.h" />
-    <ClInclude Include="src\utility\sql\orm\index.h" />
-    <ClInclude Include="src\utility\sql\orm\composite_column.h" />
-    <ClInclude Include="src\utility\sql\orm\macro_utility.h" />
-    <ClInclude Include="src\utility\sql\orm\primary_key_traits.h" />
-    <ClInclude Include="src\utility\sql\orm\select\column_selecter_core.h" />
-    <ClInclude Include="src\utility\sql\orm\select\decorative_selecter_core.h" />
-    <ClInclude Include="src\utility\sql\orm\select\entity_selecter_core.h" />
-    <ClInclude Include="src\utility\sql\orm\select\limit_selecter.h" />
-    <ClInclude Include="src\utility\sql\orm\select\ordering_column.h" />
-    <ClInclude Include="src\utility\sql\orm\select\order_by_selecter.h" />
-    <ClInclude Include="src\utility\sql\orm\select\primitive_selecter.h" />
-    <ClInclude Include="src\utility\sql\orm\select\primitive_selecter_core.h" />
-    <ClInclude Include="src\utility\sql\orm\select\selecter.h" />
-    <ClInclude Include="src\utility\sql\orm\select\where_selecter.h" />
-    <ClInclude Include="src\utility\sql\orm\table_initializer.h" />
-    <ClInclude Include="src\utility\sql\orm\column.h" />
-    <ClInclude Include="src\utility\sql\orm\primary_key.h" />
-    <ClInclude Include="src\utility\sql\orm\table.h" />
-    <ClInclude Include="src\utility\sql\orm\update\column_updater_core.h" />
-    <ClInclude Include="src\utility\sql\orm\update\entity_updater_core.h" />
-    <ClInclude Include="src\utility\sql\orm\update\primitive_updater.h" />
-    <ClInclude Include="src\utility\sql\orm\update\primitive_updater_core.h" />
-    <ClInclude Include="src\utility\sql\orm\update\updater.h" />
-    <ClInclude Include="src\utility\sql\orm\update\where_updater.h" />
-    <ClInclude Include="src\utility\sql\orm\value_type\composite_value_type.h" />
-    <ClInclude Include="src\utility\sql\orm\value_type\data_type_mapping.h" />
-    <ClInclude Include="src\utility\sql\orm\value_type\nullable_value_type.h" />
-    <ClInclude Include="src\utility\sql\orm\value_type\primitive_value_type.h" />
-    <ClInclude Include="src\utility\sql\orm\value_type\value_type_traits.h" />
-    <ClInclude Include="src\utility\sql\orm\orm_support.h" />
-    <ClInclude Include="src\utility\sql\sql_error.h" />
-    <ClInclude Include="src\utility\sql\statement.h" />
-    <ClInclude Include="src\utility\sql\table_info.h" />
-    <ClInclude Include="src\utility\sql\table_schema.h" />
-    <ClInclude Include="src\utility\sql\transaction.h" />
     <ClInclude Include="src\utility\text_utility.h" />
     <ClInclude Include="src\utility\thin_border_window.h" />
     <ClInclude Include="src\utility\thin_scroll_bar.h" />
@@ -458,7 +405,6 @@
     <ClInclude Include="third_party\curlion\src\socket_watcher.h" />
     <ClInclude Include="third_party\curlion\src\timer.h" />
     <ClInclude Include="third_party\everything\ipc\everything_ipc.h" />
-    <ClInclude Include="third_party\sqlite\sqlite3.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\about_window.cpp" />
@@ -692,15 +638,6 @@
     <ClCompile Include="src\utility\path_trimming.cpp" />
     <ClCompile Include="src\utility\preview_text_box.cpp" />
     <ClCompile Include="src\utility\progress_circle.cpp" />
-    <ClCompile Include="src\utility\sql\database.cpp" />
-    <ClCompile Include="src\utility\sql\data_type.cpp" />
-    <ClCompile Include="src\utility\sql\orm\data_set_helpers.cpp" />
-    <ClCompile Include="src\utility\sql\orm\expression\operator.cpp" />
-    <ClCompile Include="src\utility\sql\orm\table_initializer.cpp" />
-    <ClCompile Include="src\utility\sql\sql_error.cpp" />
-    <ClCompile Include="src\utility\sql\statement.cpp" />
-    <ClCompile Include="src\utility\sql\table_schema.cpp" />
-    <ClCompile Include="src\utility\sql\transaction.cpp" />
     <ClCompile Include="src\utility\text_utility.cpp" />
     <ClCompile Include="src\utility\thin_border_window.cpp" />
     <ClCompile Include="src\utility\thin_scroll_bar.cpp" />
@@ -710,14 +647,6 @@
     <ClCompile Include="third_party\curlion\src\http_connection.cpp" />
     <ClCompile Include="third_party\curlion\src\http_form.cpp" />
     <ClCompile Include="third_party\curlion\src\log.cpp" />
-    <ClCompile Include="third_party\sqlite\sqlite3.c">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
-      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-      </ForcedIncludeFiles>
-      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-      </ForcedIncludeFiles>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Page Include="src\about_window.xaml" />

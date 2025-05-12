@@ -88,17 +88,11 @@
     <Filter Include="case\module\ai\gpt">
       <UniqueIdentifier>{4459005f-86ad-4aa6-bf05-a4d2b35cc2f0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="case\utility\sql">
-      <UniqueIdentifier>{974c993d-05ee-4966-8c2a-355b7536b52a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="case\module\ai\gpt\dialog">
       <UniqueIdentifier>{cd0a45b3-00d4-4c77-be24-0c3f4519e12d}</UniqueIdentifier>
     </Filter>
     <Filter Include="case\module\ai\gpt\dialog\list">
       <UniqueIdentifier>{4bbeded6-79ec-4a70-b688-ad49c7b68220}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="case\utility\sql\orm">
-      <UniqueIdentifier>{3e4b6413-3ef1-4880-b57a-2ae6309936ba}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -283,46 +277,10 @@
     <ClCompile Include="case\module\ai\gpt\dialog\list\dialog_data_source_test.cpp">
       <Filter>case\module\ai\gpt\dialog\list</Filter>
     </ClCompile>
-    <ClCompile Include="case\utility\sql\orm\orm_support_test.cpp">
-      <Filter>case\utility\sql\orm</Filter>
-    </ClCompile>
-    <ClCompile Include="case\utility\sql\orm\table_initializer_test.cpp">
-      <Filter>case\utility\sql\orm</Filter>
-    </ClCompile>
-    <ClCompile Include="case\utility\sql\orm\data_inserter_test.cpp">
-      <Filter>case\utility\sql\orm</Filter>
-    </ClCompile>
-    <ClCompile Include="case\utility\sql\orm\data_delete_test.cpp">
-      <Filter>case\utility\sql\orm</Filter>
-    </ClCompile>
-    <ClCompile Include="case\utility\sql\orm\data_updater_test.cpp">
-      <Filter>case\utility\sql\orm</Filter>
-    </ClCompile>
-    <ClCompile Include="case\utility\sql\orm\data_select_test.cpp">
-      <Filter>case\utility\sql\orm</Filter>
-    </ClCompile>
-    <ClCompile Include="case\utility\sql\orm\selecter_test.cpp">
-      <Filter>case\utility\sql\orm</Filter>
-    </ClCompile>
-    <ClCompile Include="case\utility\sql\orm\value_type_traits_test.cpp">
-      <Filter>case\utility\sql\orm</Filter>
-    </ClCompile>
-    <ClCompile Include="case\utility\sql\orm\orm_query_test.cpp">
-      <Filter>case\utility\sql\orm</Filter>
-    </ClCompile>
-    <ClCompile Include="case\utility\sql\orm\deleter_test.cpp">
-      <Filter>case\utility\sql\orm</Filter>
-    </ClCompile>
-    <ClCompile Include="case\utility\sql\orm\updater_test.cpp">
-      <Filter>case\utility\sql\orm</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="case\module\calculator\number_parser_test_utility.h">
       <Filter>case\module\calculator</Filter>
-    </ClInclude>
-    <ClInclude Include="case\utility\sql\orm\orm_query_test.h">
-      <Filter>case\utility\sql\orm</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

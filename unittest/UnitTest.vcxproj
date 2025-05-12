@@ -36,12 +36,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Microsoft-googletest-v140-windesktop-msvcstl-static-rt-dyn-Disable-gtest_main>true</Microsoft-googletest-v140-windesktop-msvcstl-static-rt-dyn-Disable-gtest_main>
     <LibraryPath>$(SolutionDir)\third_party\curl\lib;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(SolutionDir)third_party\sqlite;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)third_party\sqt\third_party\sqlite;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Microsoft-googletest-v140-windesktop-msvcstl-static-rt-dyn-Disable-gtest_main>true</Microsoft-googletest-v140-windesktop-msvcstl-static-rt-dyn-Disable-gtest_main>
     <LibraryPath>$(SolutionDir)\third_party\curl\lib;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(SolutionDir)third_party\sqlite;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)third_party\sqt\third_party\sqlite;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Lib.vcxproj">
@@ -114,24 +114,12 @@
     <ClCompile Include="case\utility\markdown\parse\parse_context_test.cpp" />
     <ClCompile Include="case\utility\markdown\render\styled_text_builder_test.cpp" />
     <ClCompile Include="case\utility\numeric_text_formatting_test.cpp" />
-    <ClCompile Include="case\utility\sql\orm\data_delete_test.cpp" />
-    <ClCompile Include="case\utility\sql\orm\data_inserter_test.cpp" />
-    <ClCompile Include="case\utility\sql\orm\data_select_test.cpp" />
-    <ClCompile Include="case\utility\sql\orm\data_updater_test.cpp" />
-    <ClCompile Include="case\utility\sql\orm\deleter_test.cpp" />
-    <ClCompile Include="case\utility\sql\orm\orm_support_test.cpp" />
-    <ClCompile Include="case\utility\sql\orm\orm_query_test.cpp" />
-    <ClCompile Include="case\utility\sql\orm\selecter_test.cpp" />
-    <ClCompile Include="case\utility\sql\orm\table_initializer_test.cpp" />
-    <ClCompile Include="case\utility\sql\orm\updater_test.cpp" />
-    <ClCompile Include="case\utility\sql\orm\value_type_traits_test.cpp" />
     <ClCompile Include="case\utility\text_utility_test.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="case\module\calculator\number_parser_test_utility.h" />
     <ClCompile Include="case\module\tool\json\json_command_parsing_test.cpp" />
-    <ClInclude Include="case\utility\sql\orm\orm_query_test.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\src\res.rc" />

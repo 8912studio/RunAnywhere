@@ -1,7 +1,4 @@
 #include "module/ai/gpt/storage/dialog_storage.h"
-#include "utility/sql/table_schema.h"
-
-using namespace ra::utility::sql;
 
 namespace ra::mod::ai::gpt {
 

@@ -4,7 +4,6 @@
 #include <zaf/rx/observable.h>
 #include "module/ai/gpt/storage/dialog_entity.h"
 #include "module/ai/gpt/storage/scheduled_storage_context.h"
-#include "utility/sql/orm/data_set.h"
 
 namespace ra::mod::ai::gpt {
 

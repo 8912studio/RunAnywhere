@@ -151,12 +151,6 @@
     <Filter Include="src\module\ai\gpt\network">
       <UniqueIdentifier>{476a453a-9ea6-4035-94a1-71ca62907d05}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\utility\sql">
-      <UniqueIdentifier>{573b6bec-f8fa-4fb9-9f92-77dba7f2618a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="third_party\sqlite">
-      <UniqueIdentifier>{58c07442-448c-49a3-8353-aa5124e650e5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\module\ai\gpt\storage">
       <UniqueIdentifier>{4e4ca737-4fe1-4acb-b238-826deb230e88}</UniqueIdentifier>
     </Filter>
@@ -171,24 +165,6 @@
     </Filter>
     <Filter Include="src\test\fault_injection">
       <UniqueIdentifier>{8b2b7fef-b291-4ac7-ac77-bf910df8d760}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\utility\sql\orm">
-      <UniqueIdentifier>{5c08a0df-0305-49e1-b296-7406a08840d8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\utility\sql\orm\select">
-      <UniqueIdentifier>{9fd472db-c32a-426e-b6e0-4f47faf39f22}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\utility\sql\orm\expression">
-      <UniqueIdentifier>{e948929b-8889-480a-8628-402264e69db2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\utility\sql\orm\value_type">
-      <UniqueIdentifier>{044494c0-6664-4693-8452-27325055f2c3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\utility\sql\orm\delete">
-      <UniqueIdentifier>{db21d373-2ca5-472f-89f9-3b7a9074ddf3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\utility\sql\orm\update">
-      <UniqueIdentifier>{4a32e6c1-83d4-4a74-b0ed-ea5960656dbb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1026,24 +1002,6 @@
     <ClInclude Include="src\module\ai\gpt\network\socket_timer.h">
       <Filter>src\module\ai\gpt\network</Filter>
     </ClInclude>
-    <ClInclude Include="third_party\sqlite\sqlite3.h">
-      <Filter>third_party\sqlite</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\sql\database.h">
-      <Filter>src\utility\sql</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\sql\sql_error.h">
-      <Filter>src\utility\sql</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\sql\statement.h">
-      <Filter>src\utility\sql</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\sql\table_schema.h">
-      <Filter>src\utility\sql</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\sql\data_type.h">
-      <Filter>src\utility\sql</Filter>
-    </ClInclude>
     <ClInclude Include="src\module\ai\gpt\storage\dialog_entity.h">
       <Filter>src\module\ai\gpt\storage</Filter>
     </ClInclude>
@@ -1140,152 +1098,8 @@
     <ClInclude Include="src\test\fault_injection\probability_editor.h">
       <Filter>src\test\fault_injection</Filter>
     </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\orm_support.h">
-      <Filter>src\utility\sql\orm</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\column.h">
-      <Filter>src\utility\sql\orm</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\primary_key.h">
-      <Filter>src\utility\sql\orm</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\data_set.h">
-      <Filter>src\utility\sql\orm</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\table.h">
-      <Filter>src\utility\sql\orm</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\data_set_helpers.h">
-      <Filter>src\utility\sql\orm</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\sql\table_info.h">
-      <Filter>src\utility\sql</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\table_initializer.h">
-      <Filter>src\utility\sql\orm</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\sql\transaction.h">
-      <Filter>src\utility\sql</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\data_inserter.h">
-      <Filter>src\utility\sql\orm</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\primary_key_traits.h">
-      <Filter>src\utility\sql\orm</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\data_updater.h">
-      <Filter>src\utility\sql\orm</Filter>
-    </ClInclude>
     <ClInclude Include="src\module\ai\gpt\storage\scheduled_storage_context.h">
       <Filter>src\module\ai\gpt\storage</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\abstract_primary_key.h">
-      <Filter>src\utility\sql\orm</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\abstract_column.h">
-      <Filter>src\utility\sql\orm</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\composite_column.h">
-      <Filter>src\utility\sql\orm</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\abstract_index.h">
-      <Filter>src\utility\sql\orm</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\index.h">
-      <Filter>src\utility\sql\orm</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\macro_utility.h">
-      <Filter>src\utility\sql\orm</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\sql\index_info.h">
-      <Filter>src\utility\sql</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\select\selecter.h">
-      <Filter>src\utility\sql\orm\select</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\select\primitive_selecter.h">
-      <Filter>src\utility\sql\orm\select</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\select\limit_selecter.h">
-      <Filter>src\utility\sql\orm\select</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\select\order_by_selecter.h">
-      <Filter>src\utility\sql\orm\select</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\select\where_selecter.h">
-      <Filter>src\utility\sql\orm\select</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\select\decorative_selecter_core.h">
-      <Filter>src\utility\sql\orm\select</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\select\primitive_selecter_core.h">
-      <Filter>src\utility\sql\orm\select</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\select\entity_selecter_core.h">
-      <Filter>src\utility\sql\orm\select</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\select\column_selecter_core.h">
-      <Filter>src\utility\sql\orm\select</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\expression\operator.h">
-      <Filter>src\utility\sql\orm\expression</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\expression\expression.h">
-      <Filter>src\utility\sql\orm\expression</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\expression\operand.h">
-      <Filter>src\utility\sql\orm\expression</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\select\ordering_column.h">
-      <Filter>src\utility\sql\orm\select</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\expression\expression_support.h">
-      <Filter>src\utility\sql\orm\expression</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\value_type\primitive_value_type.h">
-      <Filter>src\utility\sql\orm\value_type</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\value_type\data_type_mapping.h">
-      <Filter>src\utility\sql\orm\value_type</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\value_type\nullable_value_type.h">
-      <Filter>src\utility\sql\orm\value_type</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\value_type\composite_value_type.h">
-      <Filter>src\utility\sql\orm\value_type</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\value_type\value_type_traits.h">
-      <Filter>src\utility\sql\orm\value_type</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\delete\deleter.h">
-      <Filter>src\utility\sql\orm\delete</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\delete\primitive_deleter.h">
-      <Filter>src\utility\sql\orm\delete</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\delete\where_deleter.h">
-      <Filter>src\utility\sql\orm\delete</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\update\updater.h">
-      <Filter>src\utility\sql\orm\update</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\update\primitive_updater.h">
-      <Filter>src\utility\sql\orm\update</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\update\primitive_updater_core.h">
-      <Filter>src\utility\sql\orm\update</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\update\entity_updater_core.h">
-      <Filter>src\utility\sql\orm\update</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\update\column_updater_core.h">
-      <Filter>src\utility\sql\orm\update</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\expression\assignment.h">
-      <Filter>src\utility\sql\orm\expression</Filter>
-    </ClInclude>
-    <ClInclude Include="src\utility\sql\orm\update\where_updater.h">
-      <Filter>src\utility\sql\orm\update</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1910,26 +1724,11 @@
     <ClCompile Include="src\module\ai\gpt\network\socket_timer.cpp">
       <Filter>src\module\ai\gpt\network</Filter>
     </ClCompile>
-    <ClCompile Include="third_party\sqlite\sqlite3.c">
-      <Filter>third_party\sqlite</Filter>
-    </ClCompile>
-    <ClCompile Include="src\utility\sql\database.cpp">
-      <Filter>src\utility\sql</Filter>
-    </ClCompile>
-    <ClCompile Include="src\utility\sql\statement.cpp">
-      <Filter>src\utility\sql</Filter>
-    </ClCompile>
-    <ClCompile Include="src\utility\sql\sql_error.cpp">
-      <Filter>src\utility\sql</Filter>
-    </ClCompile>
     <ClCompile Include="src\module\ai\gpt\storage\gpt_storage.cpp">
       <Filter>src\module\ai\gpt\storage</Filter>
     </ClCompile>
     <ClCompile Include="src\module\ai\gpt\storage\storage_context.cpp">
       <Filter>src\module\ai\gpt\storage</Filter>
-    </ClCompile>
-    <ClCompile Include="src\utility\sql\table_schema.cpp">
-      <Filter>src\utility\sql</Filter>
     </ClCompile>
     <ClCompile Include="src\module\ai\gpt\dialog\unified_dialog_window.cpp">
       <Filter>src\module\ai\gpt\dialog</Filter>
@@ -2003,23 +1802,8 @@
     <ClCompile Include="src\test\fault_injection\probability_editor.cpp">
       <Filter>src\test\fault_injection</Filter>
     </ClCompile>
-    <ClCompile Include="src\utility\sql\orm\data_set_helpers.cpp">
-      <Filter>src\utility\sql\orm</Filter>
-    </ClCompile>
-    <ClCompile Include="src\utility\sql\orm\table_initializer.cpp">
-      <Filter>src\utility\sql\orm</Filter>
-    </ClCompile>
-    <ClCompile Include="src\utility\sql\transaction.cpp">
-      <Filter>src\utility\sql</Filter>
-    </ClCompile>
-    <ClCompile Include="src\utility\sql\data_type.cpp">
-      <Filter>src\utility\sql</Filter>
-    </ClCompile>
     <ClCompile Include="src\module\ai\gpt\storage\scheduled_storage_context.cpp">
       <Filter>src\module\ai\gpt\storage</Filter>
-    </ClCompile>
-    <ClCompile Include="src\utility\sql\orm\expression\operator.cpp">
-      <Filter>src\utility\sql\orm\expression</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -8,7 +8,6 @@
 #include "module/ai/gpt/storage/dialog_storage.h"
 #include "module/ai/gpt/storage/round_storage.h"
 #include "module/ai/gpt/storage/scheduled_storage_context.h"
-#include "utility/sql/database.h"
 
 namespace ra::mod::ai::gpt {
 
