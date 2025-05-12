@@ -12,28 +12,28 @@ void StorageContext::Initialize() {
     std::call_once(db_once_flag_, [this]() {
 
         std::filesystem::create_directories(db_path_.parent_path());
-        db_ = utility::sql::Database::Open(db_path_);
-        dialog_data_set_.emplace(*db_);
-        round_data_set_.emplace(*db_);
+        db_ = std::make_shared<sqt::Database>(sqt::Database::Open(db_path_));
+        dialog_data_context_.emplace(db_);
+        round_data_context_.emplace(db_);
     });
 }
 
 
-utility::sql::Database& StorageContext::DB() {
+sqt::Database& StorageContext::DB() {
     Initialize();
     return *db_;
 }
 
 
-utility::sql::DataSet<DialogEntity>& StorageContext::DialogDataSet() {
+sqt::DataContext<DialogEntity>& StorageContext::DialogDataContext() {
     Initialize();
-    return *dialog_data_set_;
+    return *dialog_data_context_;
 }
 
 
-utility::sql::DataSet<RoundEntity>& StorageContext::RoundDataSet() {
+sqt::DataContext<RoundEntity>& StorageContext::RoundDataContext() {
     Initialize();
-    return *round_data_set_;
+    return *round_data_context_;
 }
 
 }

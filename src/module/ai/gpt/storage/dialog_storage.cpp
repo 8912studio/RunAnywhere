@@ -14,7 +14,7 @@ DialogStorage::DialogStorage(std::shared_ptr<ScheduledStorageContext> context) :
 zaf::Observable<std::vector<DialogEntity>> DialogStorage::FetchAllDialogs() {
 
     return context_->Execute<std::vector<DialogEntity>>([this](StorageContext& context) {
-        return context.DialogDataSet().SelectAll();
+        return context.DialogDataContext().SelectAll();
     });
 }
 
@@ -22,7 +22,7 @@ zaf::Observable<std::vector<DialogEntity>> DialogStorage::FetchAllDialogs() {
 zaf::Observable<std::uint64_t> DialogStorage::AddDialog(const DialogEntity& dialog) {
 
     return context_->Execute<std::uint64_t>([this, dialog](StorageContext& context) {
-        return context.DialogDataSet().InsertWithAutoincrement(dialog);
+        return context.DialogDataContext().AutoIncInsert(dialog);
     });
 }
 
@@ -30,7 +30,7 @@ zaf::Observable<std::uint64_t> DialogStorage::AddDialog(const DialogEntity& dial
 zaf::Observable<std::uint64_t> DialogStorage::UpdateDialog(const DialogEntity& dialog) {
 
     return context_->Execute<std::uint64_t>([this, dialog](StorageContext& context) {
-        context.DialogDataSet().Update(dialog);
+        context.DialogDataContext().Update(dialog);
         return dialog.id;
     });
 }
@@ -39,7 +39,7 @@ zaf::Observable<std::uint64_t> DialogStorage::UpdateDialog(const DialogEntity& d
 zaf::Observable<zaf::None> DialogStorage::DeleteDialog(std::uint64_t dialog_id) {
 
     return context_->Execute<zaf::None>([this, dialog_id](StorageContext& context) {
-        context.DialogDataSet().Delete(dialog_id);
+        context.DialogDataContext().Delete(dialog_id);
         return zaf::None{};
     });
 }

@@ -25,10 +25,12 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="..\project_setting\common.props" />
     <Import Project="..\project_setting\zaf.props" />
+    <Import Project="..\project_setting\sqt.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="..\project_setting\common.props" />
     <Import Project="..\project_setting\zaf.props" />
+    <Import Project="..\project_setting\sqt.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

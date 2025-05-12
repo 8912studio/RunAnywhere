@@ -1,7 +1,5 @@
 #include "module/ai/gpt/storage/round_storage.h"
 
-using namespace ra::utility::sql;
-
 namespace ra::mod::ai::gpt {
 
 RoundStorage::RoundStorage(std::shared_ptr<ScheduledStorageContext> context) :
@@ -15,11 +13,19 @@ zaf::Observable<std::vector<RoundEntity>> RoundStorage::FetchAllRoundsInDialog(
 
     return context_->Execute<std::vector<RoundEntity>>([this, dialog_id](StorageContext& context) {
 
-        auto& round_table = RoundEntity::TableType::GetInstance();
+        constexpr auto& round_table = sqt::Table<RoundEntity>;
+        constexpr auto selecter = 
+            sqt::DataContext<RoundEntity>::MakeSelecter().Where(round_table.DialogID == sqt::_);
 
-        return context.RoundDataSet().BeginSelect()
-            .Where(round_table.DialogID == dialog_id)
-            .Execute();
+        auto executor = context.RoundDataContext().Prepare(selecter);
+        executor.BeginBindings().Bind(dialog_id);
+        auto result = executor.Execute();
+
+        std::vector<RoundEntity> rounds;
+        for (auto&& each_round : result) {
+            rounds.push_back(std::move(each_round));
+        }
+        return rounds;
     });
 }
 
@@ -28,7 +34,7 @@ zaf::Observable<std::uint64_t> RoundStorage::AddRound(const RoundEntity& round_e
 
     return context_->Execute<std::uint64_t>([this, round_entity](StorageContext& context) {
 
-        return context.RoundDataSet().InsertWithAutoincrement(round_entity);
+        return context.RoundDataContext().AutoIncInsert(round_entity);
     });
 }
 
@@ -37,20 +43,25 @@ zaf::Observable<std::uint64_t> RoundStorage::UpdateRound(const RoundEntity& roun
 
     return context_->Execute<std::uint64_t>([this, round_entity](StorageContext& context) {
     
-        auto& db = context.DB();
+        constexpr auto& round_table = sqt::Table<RoundEntity>;
+        constexpr auto updater = 
+            sqt::DataContext<RoundEntity>::MakeUpdater(
+                round_table.CreateTime = sqt::_,
+                round_table.UpdateTime = sqt::_,
+                round_table.Question = sqt::_,
+                round_table.Response = sqt::_
+            )
+            .Where(round_table.ID == sqt::_);
 
-        auto sql =
-            "update Round set CreateTime = ?, UpdateTime = ?, Question = ?, Response = ? "
-            "where ID = ?";
+        auto executor = context.RoundDataContext().Prepare(updater);
+        executor.BeginBindings()
+            .Bind(round_entity.create_time)
+            .Bind(round_entity.update_time)
+            .Bind(round_entity.question)
+            .Bind(round_entity.response)
+            .Bind(round_entity.id);
 
-        auto statement = db.PrepareStatement(sql);
-        statement.BindParameter(1, round_entity.create_time);
-        statement.BindParameter(2, round_entity.update_time);
-        statement.BindParameter(3, round_entity.question);
-        statement.BindParameter(4, round_entity.response);
-        statement.BindParameter(5, round_entity.id);
-
-        statement.Step();
+        executor.Execute();
         return round_entity.id;
     });
 }
@@ -60,7 +71,7 @@ zaf::Observable<std::uint64_t> RoundStorage::DeleteRound(std::uint64_t permanent
 
     return context_->Execute<std::uint64_t>([this, permanent_id](StorageContext& context) {
     
-        context.RoundDataSet().Delete(permanent_id);
+        context.RoundDataContext().Delete(permanent_id);
         return permanent_id;
     });
 }
@@ -69,9 +80,15 @@ zaf::Observable<std::uint64_t> RoundStorage::DeleteRound(std::uint64_t permanent
 zaf::Observable<zaf::None> RoundStorage::DeleteAllRoundsInDialog(std::uint64_t dialog_id) {
 
     return context_->Execute<zaf::None>([this, dialog_id](StorageContext& context) {
-    
-        auto& round_table = RoundEntity::TableType::GetInstance();
-        context.RoundDataSet().BeginDelete().Where(round_table.DialogID == dialog_id).Execute();
+
+        constexpr auto& round_table = sqt::Table<RoundEntity>;
+        constexpr auto deleter = 
+            sqt::DataContext<RoundEntity>::MakeDeleter().Where(round_table.DialogID == sqt::_);
+
+        auto executor = context.RoundDataContext().Prepare(deleter);
+        executor.BeginBindings().Bind(dialog_id);
+        executor.Execute();
+
         return zaf::None{};
     });
 }

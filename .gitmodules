@@ -7,3 +7,6 @@
 [submodule "third_party/curlion"]
 	path = third_party/curlion
 	url = git@github.com:Zplutor/curlion.git
+[submodule "third_party/sqt"]
+	path = third_party/sqt
+	url = https://github.com/Zplutor/sqt.git
