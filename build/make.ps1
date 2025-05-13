@@ -60,6 +60,10 @@ Write-Output "Build zaf x64."
 Build-Project "..\third_party\zaf\zaf.sln" "Release-MT" "x64"
 
 Write-Output "============================="
+Write-Output "Build SQT."
+Build-Project "..\third_party\sqt\sqt.sln" "Release-MT" "x64"
+
+Write-Output "============================="
 Write-Output "Build application."
 Build-Project "..\RunAnywhere.sln" "Release"
 

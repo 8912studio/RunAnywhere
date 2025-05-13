@@ -19,13 +19,7 @@ zaf::Observable<std::vector<RoundEntity>> RoundStorage::FetchAllRoundsInDialog(
 
         auto executor = context.RoundDataContext().Prepare(selecter);
         executor.BeginBindings().Bind(dialog_id);
-        auto result = executor.Execute();
-
-        std::vector<RoundEntity> rounds;
-        for (auto&& each_round : result) {
-            rounds.push_back(std::move(each_round));
-        }
-        return rounds;
+        return executor.Execute().ToVector();
     });
 }
 
