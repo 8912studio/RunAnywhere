@@ -166,6 +166,9 @@
     <Filter Include="src\test\fault_injection">
       <UniqueIdentifier>{8b2b7fef-b291-4ac7-ac77-bf910df8d760}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\utility\log">
+      <UniqueIdentifier>{a3e38eff-c79e-48b6-b9f8-5f5d38326c31}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\module\calculator\parse\binary_expression_parser.h">
@@ -528,7 +531,7 @@
     <ClInclude Include="src\context\discover\vscode_discoverer.h">
       <Filter>src\context\discover</Filter>
     </ClInclude>
-    <ClInclude Include="src\utility\data_directory.h">
+    <ClInclude Include="src\utility\app_directory.h">
       <Filter>src\utility</Filter>
     </ClInclude>
     <ClInclude Include="src\module\user_defined\show_window_option.h">
@@ -1101,6 +1104,12 @@
     <ClInclude Include="src\module\ai\gpt\storage\scheduled_storage_context.h">
       <Filter>src\module\ai\gpt\storage</Filter>
     </ClInclude>
+    <ClInclude Include="src\utility\log\log.h">
+      <Filter>src\utility\log</Filter>
+    </ClInclude>
+    <ClInclude Include="src\utility\log\log_manager.h">
+      <Filter>src\utility\log</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -1352,7 +1361,7 @@
     <ClCompile Include="src\context\discover\vscode_discoverer.cpp">
       <Filter>src\context\discover</Filter>
     </ClCompile>
-    <ClCompile Include="src\utility\data_directory.cpp">
+    <ClCompile Include="src\utility\app_directory.cpp">
       <Filter>src\utility</Filter>
     </ClCompile>
     <ClCompile Include="src\module\user_defined\show_window_option.cpp">
@@ -1804,6 +1813,9 @@
     </ClCompile>
     <ClCompile Include="src\module\ai\gpt\storage\scheduled_storage_context.cpp">
       <Filter>src\module\ai\gpt\storage</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\log\log_manager.cpp">
+      <Filter>src\utility\log</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

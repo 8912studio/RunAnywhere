@@ -5,7 +5,7 @@
 #include "module/ai/gpt/gpt_command_parsing.h"
 #include "module/ai/gpt/network/open_ai_client.h"
 #include "module/ai/gpt/storage/gpt_storage.h"
-#include "utility/data_directory.h"
+#include "utility/app_directory.h"
 
 namespace ra::mod::ai::gpt {
 
@@ -32,7 +32,7 @@ void GPTModule::Initialize() {
 
         auto client = std::make_shared<OpenAIClient>();
 
-        auto storage_path = utility::GetDataDirectoryPath() / "GPT" / "GPT.db";
+        auto storage_path = utility::GetUserDataDirectoryPath() / "GPT" / "GPT.db";
         auto storage = std::make_shared<GPTStorage>(storage_path);
 
         auto dialog_service = std::make_shared<DialogService>(

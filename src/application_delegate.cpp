@@ -15,6 +15,8 @@
 #include "registry_define.h"
 #include "resource.h"
 #include "tray_icon.h"
+#include "utility/log/log.h"
+#include "utility/log/log_manager.h"
 
 namespace ra {
 namespace {
@@ -97,6 +99,9 @@ void ApplicationDelegate::ReloadModules() {
 
 
 void ApplicationDelegate::OnBeginRun(const zaf::BeginRunInfo&) {
+
+    utility::LogManager::Instance().Initialize();
+    RA_LOG() << "Application begins run.";
 
     EnvironmentVariableManager::Instance().Initialize();
 
@@ -276,6 +281,8 @@ void ApplicationDelegate::OnEndRun(const zaf::EndRunInfo&) {
     message_window_holder_.reset();
     message_window_->Destroy();
     message_window_.reset();
+
+    utility::LogManager::Instance().Uninitialize();
 }
 
 

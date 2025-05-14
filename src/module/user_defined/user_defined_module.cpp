@@ -7,13 +7,13 @@
 #include "module/user_defined/legacy/legacy_entry_file.h"
 #include "module/user_defined/legacy/legacy_entry_upgrading.h"
 #include "module/user_defined/user_defined_command.h"
-#include "utility/data_directory.h"
+#include "utility/app_directory.h"
 
 namespace ra::mod::user_defined {
 namespace {
 
 std::filesystem::path GetBundleDirectoryPath() {
-    return utility::GetDataDirectoryPath() / "Bundles";
+    return utility::GetUserDataDirectoryPath() / "Bundles";
 }
 
 }
