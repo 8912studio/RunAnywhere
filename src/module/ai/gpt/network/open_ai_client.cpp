@@ -27,11 +27,11 @@ public:
                 OutputDebugStringA(log.c_str());
             });
 
-            io_service_ = std::make_shared<boost::asio::io_service>();
+            io_context_ = std::make_shared<boost::asio::io_context>();
 
-            socket_manager_ = std::make_shared<SocketManager>(io_service_);
-            socket_timer_ = std::make_shared<SocketTimer>(io_service_);
-            scheduler_ = std::make_unique<ASIOScheduler>(io_service_);
+            socket_manager_ = std::make_shared<SocketManager>(io_context_);
+            socket_timer_ = std::make_shared<SocketTimer>(io_context_);
+            scheduler_ = std::make_unique<ASIOScheduler>(io_context_);
 
             connction_manager_ = std::make_unique<curlion::ConnectionManager>(
                 socket_manager_,
@@ -44,7 +44,7 @@ public:
 
 private:
     std::once_flag once_flag_;
-    std::shared_ptr<boost::asio::io_service> io_service_;
+    std::shared_ptr<boost::asio::io_context> io_context_;
     std::shared_ptr<SocketManager> socket_manager_;
     std::shared_ptr<SocketTimer> socket_timer_;
     std::shared_ptr<ASIOScheduler> scheduler_;

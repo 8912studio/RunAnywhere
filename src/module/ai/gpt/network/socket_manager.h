@@ -10,7 +10,7 @@ class SingleSocketWatcher;
 
 class SocketManager : public curlion::SocketFactory, public curlion::SocketWatcher {
 public:
-    explicit SocketManager(std::shared_ptr<boost::asio::io_service>);
+    explicit SocketManager(std::shared_ptr<boost::asio::io_context>);
 
     curl_socket_t Open(curlsocktype socket_type, const curl_sockaddr* address) override;
     bool Close(curl_socket_t socket) override;
@@ -19,7 +19,7 @@ public:
     void StopWatching(curl_socket_t socket) override;
 
 private:
-    std::shared_ptr<boost::asio::io_service> io_service_;
+    std::shared_ptr<boost::asio::io_context> io_context_;
     std::map<curl_socket_t, std::shared_ptr<boost::asio::ip::tcp::socket>> sockets_;
     std::map<curl_socket_t, std::shared_ptr<SingleSocketWatcher>> watchers_;
 };

@@ -2,20 +2,20 @@
 
 namespace ra::mod::ai::gpt {
 
-ASIOScheduler::ASIOScheduler(std::shared_ptr<boost::asio::io_service> io_service) : 
-    io_service_(std::move(io_service)) {
+ASIOScheduler::ASIOScheduler(std::shared_ptr<boost::asio::io_context> io_context) :
+    io_context_(std::move(io_context)) {
 
-    work_ = std::make_unique<boost::asio::io_service::work>(*io_service_);
+    work_guard_.emplace(boost::asio::make_work_guard(*io_context_));
 
-    thread_ = std::make_unique<std::thread>([io_service = io_service_]() {
-        io_service->run();
+    thread_ = std::make_unique<std::thread>([io_context = io_context_]() {
+        io_context->run();
     });
 }
 
 
 ASIOScheduler::~ASIOScheduler() {
 
-    work_.reset();
+    work_guard_.reset();
 
     if (thread_->joinable()) {
         thread_->join();
@@ -24,8 +24,7 @@ ASIOScheduler::~ASIOScheduler() {
 
 
 void ASIOScheduler::Schedule(zaf::Work work) {
-
-    io_service_->dispatch(work);
+    boost::asio::post(*io_context_, std::move(work));
 }
 
 }

@@ -2,10 +2,10 @@
 
 namespace ra::mod::ai::gpt {
 
-SocketTimer::SocketTimer(std::shared_ptr<boost::asio::io_service> io_service) : 
-    io_service_(std::move(io_service)) {
+SocketTimer::SocketTimer(std::shared_ptr<boost::asio::io_context> io_context) :
+    io_context_(std::move(io_context)) {
 
-    timer_ = std::make_unique<boost::asio::deadline_timer>(*io_service_);
+    timer_ = std::make_unique<boost::asio::deadline_timer>(*io_context_);
 }
 
 

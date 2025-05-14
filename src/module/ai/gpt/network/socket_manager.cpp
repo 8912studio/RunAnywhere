@@ -2,8 +2,8 @@
 
 namespace ra::mod::ai::gpt {
 
-SocketManager::SocketManager(std::shared_ptr<boost::asio::io_service> io_service) : 
-    io_service_(std::move(io_service)) {
+SocketManager::SocketManager(std::shared_ptr<boost::asio::io_context> io_context) :
+    io_context_(std::move(io_context)) {
 
 }
 
@@ -14,7 +14,7 @@ curl_socket_t SocketManager::Open(curlsocktype socket_type, const curl_sockaddr*
         return CURL_SOCKET_BAD;
     }
 
-    auto asio_socket = std::make_shared<boost::asio::ip::tcp::socket>(*io_service_);
+    auto asio_socket = std::make_shared<boost::asio::ip::tcp::socket>(*io_context_);
 
     boost::system::error_code error;
     asio_socket->open(boost::asio::ip::tcp::v4(), error);
