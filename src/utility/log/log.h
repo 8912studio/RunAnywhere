@@ -1,5 +1,5 @@
 #pragma once
 
-#include <boost/log/trivial.hpp>
+#include "utility/log/log_record.h"
 
-#define RA_LOG() BOOST_LOG_TRIVIAL(info)
+#define RA_LOG() ra::utility::LogRecord{}

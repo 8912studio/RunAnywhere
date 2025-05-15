@@ -3,6 +3,7 @@
 #include <zaf/base/string/case_conversion.h>
 #include <zaf/base/string/encoding_conversion.h>
 #include "context/discover/window_based_discoverer.h"
+#include "utility/log/log.h"
 
 namespace ra::context {
 namespace {
@@ -67,6 +68,7 @@ ActivePath VSCodeDiscoverer::GetActivePathFromVSCode() {
     };
 
     if (!pipe_handle.IsValid()) {
+        RA_LOG() << "Open pipe failed. " << GetLastError();
         return {};
     }
 
@@ -80,10 +82,12 @@ ActivePath VSCodeDiscoverer::GetActivePathFromVSCode() {
         nullptr);
 
     if (!is_succeeded) {
+        RA_LOG() << "Read response content size failed. " << GetLastError();
         return {};
     }
 
     if (response_content_size == 0) {
+        RA_LOG() << "Response content size is 0.";
         return {};
     }
 
@@ -96,10 +100,13 @@ ActivePath VSCodeDiscoverer::GetActivePathFromVSCode() {
         nullptr);
 
     if (!is_succeeded) {
+        RA_LOG() << "Read response content failed. " << GetLastError();
         return {};
     }
 
     std::string response_content(reinterpret_cast<const char*>(buffer.get()), read_size);
+    RA_LOG() << "Response content from VSCode: " << response_content;
+
     return WindowBasedDiscoverer::DecodeActivePath(zaf::FromUTF8String(response_content));
 }
 

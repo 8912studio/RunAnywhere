@@ -1110,6 +1110,9 @@
     <ClInclude Include="src\utility\log\log_manager.h">
       <Filter>src\utility\log</Filter>
     </ClInclude>
+    <ClInclude Include="src\utility\log\log_record.h">
+      <Filter>src\utility\log</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\module\calculator\parse\binary_expression_parser.cpp">
@@ -1815,6 +1818,9 @@
       <Filter>src\module\ai\gpt\storage</Filter>
     </ClCompile>
     <ClCompile Include="src\utility\log\log_manager.cpp">
+      <Filter>src\utility\log</Filter>
+    </ClCompile>
+    <ClCompile Include="src\utility\log\log_record.cpp">
       <Filter>src\utility\log</Filter>
     </ClCompile>
   </ItemGroup>

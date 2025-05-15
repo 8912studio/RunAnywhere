@@ -349,6 +349,7 @@
     <ClInclude Include="src\utility\link_button.h" />
     <ClInclude Include="src\utility\log\log.h" />
     <ClInclude Include="src\utility\log\log_manager.h" />
+    <ClInclude Include="src\utility\log\log_record.h" />
     <ClInclude Include="src\utility\markdown\element\code_block_element.h" />
     <ClInclude Include="src\utility\markdown\element\element.h" />
     <ClInclude Include="src\utility\markdown\element\element_type.h" />
@@ -602,6 +603,7 @@
     <ClCompile Include="src\utility\general_number_interpreter.cpp" />
     <ClCompile Include="src\utility\link_button.cpp" />
     <ClCompile Include="src\utility\log\log_manager.cpp" />
+    <ClCompile Include="src\utility\log\log_record.cpp" />
     <ClCompile Include="src\utility\markdown\element\code_block_element.cpp" />
     <ClCompile Include="src\utility\markdown\element\element.cpp" />
     <ClCompile Include="src\utility\markdown\element\header_element.cpp" />
