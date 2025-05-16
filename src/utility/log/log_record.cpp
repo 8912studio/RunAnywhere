@@ -3,8 +3,8 @@
 
 namespace ra::utility {
 
-LogRecord::LogRecord() {
-
+LogRecord::LogRecord(const zaf::SourceLocation& source_location) {
+    stream_ << source_location.FileName() << '(' << source_location.Line() << ')' << ' ';
 }
 
 
