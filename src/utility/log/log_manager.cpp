@@ -1,6 +1,7 @@
 #include "utility/log/log_manager.h"
 #include <chrono>
 #include <filesystem>
+#include <zaf/base/string/encoding_conversion.h>
 #include "utility/app_directory.h"
 
 namespace ra::utility {
@@ -76,10 +77,17 @@ void LogManager::WriteLine(std::string_view line) {
     auto now_ms = std::chrono::time_point_cast<std::chrono::milliseconds>(now);
     std::chrono::zoned_time current_time{ std::chrono::current_zone(), now_ms };
 
-    log_file_
-        << std::format("{:%H:%M:%S}", current_time) << ' '
+    std::ostringstream stream;
+    stream << std::format("{:%H:%M:%S}", current_time) << ' '
         << GetCurrentThreadId() << ' '
-        << line << std::endl;
+        << line << "\n";
+
+    log_file_ << stream.view();
+    log_file_.flush();
+
+#ifndef NDEBUG
+    OutputDebugString(zaf::FromUTF8String(stream.view()).c_str());
+#endif
 }
 
 }
