@@ -8,11 +8,10 @@ namespace ra::context {
 
 class CompositeDiscoverer : public Discoverer {
 public:
+    explicit CompositeDiscoverer(std::vector<std::unique_ptr<Discoverer>> discoverers) noexcept;
+
     std::optional<ActivePath> Discover(
         const ForegroundWindowInfo& foreground_window_info) override;
-
-private:
-    void TryToInitializeDiscoverers();
 
 private:
     std::vector<std::unique_ptr<Discoverer>> discoverers_;
