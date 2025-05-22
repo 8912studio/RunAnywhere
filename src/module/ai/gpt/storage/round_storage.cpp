@@ -48,13 +48,7 @@ zaf::Observable<std::uint64_t> RoundStorage::UpdateRound(const RoundEntity& roun
             .Where(round_table.ID == sqt::_);
 
         auto executor = context.RoundDataContext().Prepare(updater);
-        executor.BeginBindings()
-            .Bind(round_entity.create_time)
-            .Bind(round_entity.update_time)
-            .Bind(round_entity.question)
-            .Bind(round_entity.response)
-            .Bind(round_entity.id);
-
+        executor.BeginBindings().BindAllFromEntity(round_entity);
         executor.Execute();
         return round_entity.id;
     });
