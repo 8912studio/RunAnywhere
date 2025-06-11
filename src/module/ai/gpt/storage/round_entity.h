@@ -26,7 +26,7 @@ SQT_COLUMN_FIELD(UpdateTime, update_time)
 SQT_COLUMN_FIELD(Question, question)
 SQT_COLUMN_FIELD(Response, response)
 SQT_PRIMARY_KEY_AUTO_INC(ID)
-SQT_INDEX_NAMED(Index_Round_DialogID, DialogID)
+SQT_INDEX_2(Index_Round_DialogID, Index_DialogID, DialogID)
 SQT_TABLE_END
 
 }
