@@ -14,7 +14,7 @@ class CompositeTextBox : public zaf::Control, public CompositeControl {
 public:
     ZAF_OBJECT;
 
-    zaf::Observable<CompositeTextBoxSelectionChangedInfo> SelectionChangedEvent() const {
+    zaf::rx::Observable<CompositeTextBoxSelectionChangedInfo> SelectionChangedEvent() const {
         return selection_changed_event_.GetObservable();
     }
 

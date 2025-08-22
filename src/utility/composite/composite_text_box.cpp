@@ -79,7 +79,7 @@ void CompositeTextBox::HandleRightButtonDown(const zaf::MouseDownInfo& event_inf
 
     auto copy_menu_item = zaf::Create<zaf::MenuItem>();
     copy_menu_item->SetText(L"Copy");
-    Subscriptions() += copy_menu_item->MouseUpEvent().Subscribe(
+    Disposables() += copy_menu_item->MouseUpEvent().Subscribe(
         [this](const zaf::MouseUpInfo& event_info) {
 
         CopySelectionToClipboard();
@@ -89,7 +89,7 @@ void CompositeTextBox::HandleRightButtonDown(const zaf::MouseDownInfo& event_inf
     auto menu = zaf::Create<zaf::PopupMenu>();
     menu->AddMenuItem(copy_menu_item);
 
-    Subscriptions() += menu->DestroyedEvent().Subscribe(std::bind([this]() {
+    Disposables() += menu->DestroyedEvent().Subscribe(std::bind([this]() {
         this->ChangeFocus(this->IsFocused());
     }));
 

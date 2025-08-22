@@ -1,7 +1,6 @@
 #include "module/ai/gpt/dialog/dialog_window.h"
 #include <zaf/creation.h>
-#include <zaf/rx/creation.h>
-#include <zaf/rx/scheduler.h>
+#include <zaf/rx/thread/main_thread.h>
 
 namespace ra::mod::ai::gpt {
 
@@ -21,7 +20,7 @@ void DialogWindow::AfterParse() {
     this->SetRootControl(view_);
 
     this->SetTitle(view_->Subject());
-    Subscriptions() += view_->SubjectUpdatedEvent().Subscribe(std::bind([this]() {
+    Disposables() += view_->SubjectUpdatedEvent().Subscribe(std::bind([this]() {
         this->SetTitle(view_->Subject());
     }));
 }
@@ -57,10 +56,9 @@ void DialogWindow::Open() {
     //When the window is shown for the first time, there is no window focus by the time this method
     //is called. Therefore, we set focus to the inputEdit in the next message loop, after the 
     //window gets focus.
-    Subscriptions() += zaf::rx::Empty().ObserveOn(zaf::Scheduler::Main()).DoOnTerminated([this]() {
+    Disposables() += zaf::rx::MainThread::Instance()->PostWork([this]() {
         view_->SetFocusToInputEdit();
-    })
-    .Subscribe();
+    });
 }
 
 

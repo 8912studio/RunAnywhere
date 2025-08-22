@@ -1,6 +1,5 @@
 #include "module/ai/gpt/dialog/content/dialog_view.h"
 #include <zaf/input/keyboard.h>
-#include <zaf/rx/creation.h>
 
 namespace ra::mod::ai::gpt {
 
@@ -32,10 +31,10 @@ void DialogView::InitializeRoundListView() {
 
 void DialogView::InitializeInputEdit() {
 
-    Subscriptions() += inputEdit->TextChangedEvent().Subscribe(
+    Disposables() += inputEdit->TextChangedEvent().Subscribe(
         std::bind(&DialogView::ResetControlStates, this));
 
-    Subscriptions() += inputEdit->RectChangedEvent().Subscribe(
+    Disposables() += inputEdit->RectChangedEvent().Subscribe(
         [this](const zaf::RectChangedInfo& event_info) {
 
         if (inputEdit->Width() != event_info.PreviousRect().size.width) {
@@ -43,7 +42,7 @@ void DialogView::InitializeInputEdit() {
         }
     });
 
-    Subscriptions() += inputEdit->KeyDownEvent().Subscribe([this](
+    Disposables() += inputEdit->KeyDownEvent().Subscribe([this](
         const zaf::KeyDownInfo& event_info) {
 
         if (event_info.Message().Key() == zaf::Key::Enter && !zaf::Keyboard::IsShiftDown()) {
@@ -72,7 +71,7 @@ void DialogView::InitializeSendButton() {
         return zaf::Image::FromURI(uri, control.GetDPI());
     });
 
-    Subscriptions() += sendButton->ClickEvent().Subscribe(
+    Disposables() += sendButton->ClickEvent().Subscribe(
         std::bind(&DialogView::StartNewRoundOnPressReturn, this));
 }
 
@@ -142,8 +141,8 @@ std::wstring DialogView::Subject() const {
 }
 
 
-zaf::Observable<zaf::None> DialogView::SubjectUpdatedEvent() const {
-    return zaf::rx::Just<zaf::None>({});
+zaf::rx::Observable<zaf::None> DialogView::SubjectUpdatedEvent() const {
+    return zaf::rx::Observable<zaf::None>::Just({});
 }
 
 }

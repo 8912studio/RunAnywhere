@@ -16,15 +16,15 @@ void UnifiedDialogView::AfterParse() {
 
     __super::AfterParse();
 
-    Subscriptions() += listView->NewDialogButton()->ClickEvent().Subscribe(
+    Disposables() += listView->NewDialogButton()->ClickEvent().Subscribe(
         std::bind(&UnifiedDialogView::OnStartNewDialogClick, this));
 
     listView->SetDataSource(model_->DialogDataSource());
 
-    Subscriptions() += listView->ListControl()->SelectionChangedEvent().Subscribe(
+    Disposables() += listView->ListControl()->SelectionChangedEvent().Subscribe(
         std::bind_front(&UnifiedDialogView::OnListSelectionChanged, this));
 
-    Subscriptions() += listView->ListControl()->ContextMenuEvent().Subscribe(
+    Disposables() += listView->ListControl()->ContextMenuEvent().Subscribe(
         std::bind_front(&UnifiedDialogView::OnListContextMenu, this));
 
     model_->Initialize();
@@ -58,7 +58,7 @@ void UnifiedDialogView::OnListContextMenu(const zaf::ListControlContextMenuInfo&
         auto item = zaf::Create<zaf::MenuItem>();
         item->SetText(L"Delete");
 
-        Subscriptions() += item->MouseUpEvent().Subscribe(std::bind([this, dialog]() {
+        Disposables() += item->MouseUpEvent().Subscribe(std::bind([this, dialog]() {
             model_->DeleteDialog(dialog->ID());
         }));
         return item;

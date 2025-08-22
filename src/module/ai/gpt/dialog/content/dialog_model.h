@@ -3,7 +3,7 @@
 #include <deque>
 #include <zaf/base/non_copyable.h>
 #include <zaf/rx/observable.h>
-#include <zaf/rx/subscription_host.h>
+#include <zaf/rx/disposable_host.h>
 #include "module/ai/gpt/dialog/content/round_data_source.h"
 #include "module/ai/gpt/dialog/dialog.h"
 #include "module/ai/gpt/dialog/dialog_service_event_infos.h"
@@ -12,7 +12,7 @@
 
 namespace ra::mod::ai::gpt {
 
-class DialogModel : zaf::SubscriptionHost, zaf::NonCopyableNonMovable {
+class DialogModel : zaf::rx::DisposableHost, zaf::NonCopyableNonMovable {
 public:
     DialogModel(
         std::shared_ptr<Dialog> dialog,

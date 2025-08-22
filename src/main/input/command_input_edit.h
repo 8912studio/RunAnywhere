@@ -2,7 +2,7 @@
 
 #include <zaf/base/none.h>
 #include <zaf/control/text_box.h>
-#include <zaf/rx/subject.h>
+#include <zaf/rx/subject/subject.h>
 #include "main/command_display_style.h"
 #include "main/input/active_path_object.h"
 #include "main/input/command_input_content.h"
@@ -23,7 +23,7 @@ public:
     void SetInputContent(const CommandInputContent& content);
 
     //Use this event to observe input command changed event, rather than TextChangedEvent.
-    zaf::Observable<zaf::None> CommandChangedEvent();
+    zaf::rx::Observable<zaf::None> CommandChangedEvent();
 
 protected:
     void Initialize() override;
@@ -52,7 +52,7 @@ private:
 
 private:
     CommandDisplayStyle style_{ CommandDisplayStyle::Normal };
-    zaf::Subject<zaf::None> command_changed_event_;
+    zaf::rx::Subject<zaf::None> command_changed_event_;
     bool suppress_text_block_{};
 };
 

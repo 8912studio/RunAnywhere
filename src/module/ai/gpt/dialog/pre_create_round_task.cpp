@@ -93,7 +93,7 @@ void PreCreateRoundTask::CreateChat(
 
     messages.push_back(Message{ question });
 
-    Subscriptions() += client_->CreateChatCompletion(messages).Subscribe(
+    Disposables() += client_->CreateChatCompletion(messages).Subscribe(
         [this](const ChatResult& chat_result) {
             round_finished_event_.AsObserver().OnNext(chat_result.ChatCompletion());
             task_finished_event_.AsObserver().OnNext(chat_result);

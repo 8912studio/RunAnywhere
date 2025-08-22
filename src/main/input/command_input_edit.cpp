@@ -19,7 +19,7 @@ void CommandInputEdit::Initialize() {
     this->SetParagraphAlignment(zaf::dwrite::ParagraphAlignment::Center);
     this->SetMaxLength(1000);
 
-    Subscriptions() += this->FocusLostEvent().Subscribe(std::bind([this]() {
+    Disposables() += this->FocusLostEvent().Subscribe(std::bind([this]() {
         auto selection_range = this->SelectionRange();
         this->SetSelectionRange(zaf::Range{ selection_range.EndIndex(), 0});
     }));
@@ -86,7 +86,7 @@ void CommandInputEdit::SetInputContent(const CommandInputContent& content) {
 }
 
 
-zaf::Observable<zaf::None> CommandInputEdit::CommandChangedEvent() {
+zaf::rx::Observable<zaf::None> CommandInputEdit::CommandChangedEvent() {
     return command_changed_event_.AsObservable();
 }
 
@@ -254,7 +254,7 @@ void CommandInputEdit::OnPasting(const zaf::textual::PastingInfo& event_info) {
 
 void CommandInputEdit::InsertArgumentObject(const std::shared_ptr<ArgumentObject>& object) {
 
-    Subscriptions() += object->TextChangedEvent().Subscribe(
+    Disposables() += object->TextChangedEvent().Subscribe(
         std::bind(&CommandInputEdit::RaiseCommandChangedEvent, this));
 
     object->SetStyle(style_);

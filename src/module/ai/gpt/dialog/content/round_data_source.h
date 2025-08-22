@@ -1,7 +1,7 @@
 #pragma once
 
 #include <zaf/base/non_copyable.h>
-#include <zaf/rx/subject.h>
+#include <zaf/rx/subject/subject.h>
 #include "module/ai/gpt/dialog/round.h"
 
 namespace ra::mod::ai::gpt {
@@ -33,24 +33,24 @@ public:
         return rounds_[index];
     }
 
-    zaf::Observable<RoundPrependedInfo> RoundPrependedEvent() const {
+    zaf::rx::Observable<RoundPrependedInfo> RoundPrependedEvent() const {
         return prepended_event_.AsObservable();
     }
 
-    zaf::Observable<RoundAppendedInfo> RoundAppendedEvent() const {
+    zaf::rx::Observable<RoundAppendedInfo> RoundAppendedEvent() const {
         return appended_event_.AsObservable();
     }
 
-    zaf::Observable<RoundDeletedInfo> RoundDeletedEvent() const {
+    zaf::rx::Observable<RoundDeletedInfo> RoundDeletedEvent() const {
         return deleted_event_.AsObservable();
     }
 
 private:
     RoundList rounds_;
 
-    zaf::Subject<RoundPrependedInfo> prepended_event_;
-    zaf::Subject<RoundAppendedInfo> appended_event_;
-    zaf::Subject<RoundDeletedInfo> deleted_event_;
+    zaf::rx::Subject<RoundPrependedInfo> prepended_event_;
+    zaf::rx::Subject<RoundAppendedInfo> appended_event_;
+    zaf::rx::Subject<RoundDeletedInfo> deleted_event_;
 };
 
 }

@@ -1,6 +1,6 @@
 #include "module/ai/gpt/progress_indicator.h"
 #include <zaf/graphic/canvas.h>
-#include <zaf/rx/scheduler.h>
+#include <zaf/rx/scheduler/main_thread_scheduler.h>
 #include <zaf/rx/timer.h>
 
 namespace ra::mod::ai::gpt {
@@ -22,8 +22,11 @@ void ProgressIndicator::AfterParse() {
 
 void ProgressIndicator::StartAnimation() {
 
-    timer_ = zaf::rx::Interval(std::chrono::milliseconds(800), zaf::Scheduler::Main()).Subscribe(
-        [this](int) {
+    auto timer = zaf::rx::Timer::Interval(
+        std::chrono::milliseconds(800), 
+        zaf::rx::MainThreadScheduler::Instance());
+
+    timer_sub_ = timer.Subscribe([this](std::size_t) {
 
         highlighted_ellipse_index_ = (highlighted_ellipse_index_ + 1) % EllipseCount;
         this->NeedRepaint();
@@ -32,7 +35,10 @@ void ProgressIndicator::StartAnimation() {
 
 
 void ProgressIndicator::StopAnimation() {
-    timer_.Unsubscribe();
+    if (timer_sub_) {
+        timer_sub_->Dispose();
+        timer_sub_.reset();
+    }
 }
 
 

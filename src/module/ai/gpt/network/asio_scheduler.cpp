@@ -1,4 +1,5 @@
 #include "module/ai/gpt/network/asio_scheduler.h"
+#include <zaf/base/error/invalid_operation_error.h>
 
 namespace ra::mod::ai::gpt {
 
@@ -23,8 +24,16 @@ ASIOScheduler::~ASIOScheduler() {
 }
 
 
-void ASIOScheduler::Schedule(zaf::Work work) {
+void ASIOScheduler::ScheduleWork(zaf::Closure work) {
     boost::asio::post(*io_context_, std::move(work));
+}
+
+
+std::shared_ptr<zaf::rx::Disposable> ASIOScheduler::ScheduleDelayedWork(
+    std::chrono::steady_clock::duration delay, 
+    zaf::Closure work) {
+
+    throw zaf::InvalidOperationError{};
 }
 
 }

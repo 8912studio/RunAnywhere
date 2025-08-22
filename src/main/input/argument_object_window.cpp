@@ -1,8 +1,7 @@
 #include "main/input/argument_object_window.h"
 #include <zaf/base/as.h>
 #include <zaf/base/none.h>
-#include <zaf/rx/creation.h>
-#include <zaf/rx/scheduler.h>
+#include <zaf/rx/thread/main_thread.h>
 
 namespace ra::main::input {
 
@@ -11,7 +10,7 @@ void ArgumentObjectWindow::SetObjectPositionInScreen(const zaf::Point& position)
 }
 
 
-zaf::Observable<std::shared_ptr<ArgumentObjectWindow>> ArgumentObjectWindow::TextChangedEvent() {
+zaf::rx::Observable<std::shared_ptr<ArgumentObjectWindow>> ArgumentObjectWindow::TextChangedEvent() {
     return text_changed_event_.AsObservable();
 }
 
@@ -55,13 +54,9 @@ void ArgumentObjectWindow::OnDeactivated(const zaf::DeactivatedInfo& event_info)
     __super::OnDeactivated(event_info);
 
     //Close window at next message loop to avoid focus issues.
-    //TODO: Need more elegant method to schedule task at next message loop.
-    Subscriptions() += zaf::rx::Create<zaf::None>([this](zaf::Observer<zaf::None>) {
+    Disposables() += zaf::rx::MainThread::Instance()->PostWork([this]() {
         this->Close();
-        return zaf::Subscription{};
-    })
-    .SubscribeOn(zaf::Scheduler::Main())
-    .Subscribe();
+    });
 }
 
 

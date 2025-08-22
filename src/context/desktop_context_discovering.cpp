@@ -2,8 +2,8 @@
 #include <Windows.h>
 #include <objbase.h>
 #include <zaf/base/error/com_error.h>
-#include <zaf/rx/creation.h>
-#include <zaf/rx/scheduler.h>
+#include <zaf/rx/scheduler/main_thread_scheduler.h>
+#include <zaf/rx/scheduler/single_thread_scheduler.h>
 #include "context/discover/composite_discoverer.h"
 #include "context/discover/everything_discoverer.h"
 #include "context/discover/explorer_discoverer.h"
@@ -14,14 +14,14 @@
 namespace ra::context {
 namespace {
 
-std::shared_ptr<zaf::Scheduler> GetDiscoverScheduler() {
+std::shared_ptr<zaf::rx::Scheduler> GetDiscoverScheduler() {
 
     static auto discover_scheduler = []() {
 
-        auto scheduler = zaf::Scheduler::CreateOnSingleThread();
+        auto scheduler = std::make_shared<zaf::rx::SingleThreadScheduler>();
 
         //Make the new thread initialize COM first.
-        scheduler->Schedule([]() {
+        scheduler->ScheduleWork([]() {
             HRESULT result = CoInitializeEx(0, COINIT_MULTITHREADED);
             ZAF_THROW_IF_COM_ERROR(result);
         });
@@ -61,7 +61,7 @@ Discoverer& GetAsyncDiscoverer() {
 }
 
 
-zaf::Observable<DesktopContext> DiscoverDesktopContext() {
+zaf::rx::Observable<DesktopContext> DiscoverDesktopContext() {
 
     // We must retrieve foreground window info on main thread, rather than retrieving it on the
     // scheduler thread, as the main window might become the foreground window before the 
@@ -69,7 +69,7 @@ zaf::Observable<DesktopContext> DiscoverDesktopContext() {
     ForegroundWindowInfo foreground_window_info;
     foreground_window_info.window_handle = GetForegroundWindow();
     if (!foreground_window_info.window_handle) {
-        return zaf::rx::Just(DesktopContext{});
+        return zaf::rx::Observable<DesktopContext>::Just({});
     }
 
     GetWindowThreadProcessId(
@@ -85,24 +85,25 @@ zaf::Observable<DesktopContext> DiscoverDesktopContext() {
     if (active_path) {
 
         // Return the result async to keep consistent with the async discoverer.
-        return zaf::rx::Just(DesktopContext{ *active_path })
-            .ObserveOn(zaf::Scheduler::Main());
+        return zaf::rx::Observable<DesktopContext>::Just(DesktopContext{ *active_path })
+            .ObserveOn(zaf::rx::MainThreadScheduler::Instance());
     }
 
     // Some discovers do not need to execute on the main thread, so we execute them on a separate
     // scheduler thread to avoid hanging, which may slow down the popup speed of the main window.
-    return zaf::rx::Create<DesktopContext>(
+    return zaf::rx::Observable<DesktopContext>::CreateOn(
         GetDiscoverScheduler(), 
-        [foreground_window_info](zaf::Observer<DesktopContext> observer) {
+        [foreground_window_info](zaf::rx::Subscriber<DesktopContext> subscriber) {
 
             DesktopContext result;
             auto active_path = GetAsyncDiscoverer().Discover(foreground_window_info);
             if (active_path) {
                 result.active_path = *active_path;
             }
-            observer.OnNext(result);
+            subscriber.OnNext(result);
+            subscriber.OnCompleted();
         }
-    ).ObserveOn(zaf::Scheduler::Main());
+    ).ObserveOn(zaf::rx::MainThreadScheduler::Instance());
 }
 
 }

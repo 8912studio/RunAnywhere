@@ -30,14 +30,14 @@ Round::Round(
     const RoundID& id,
     std::time_t updated_time,
     std::wstring question,
-    zaf::Observable<ChatCompletion> answer) 
+    zaf::rx::Observable<ChatCompletion> answer) 
     :
     id_(id),
     updated_time_(updated_time),
     question_(std::move(question)),
     state_(RoundState::Ongoing) {
 
-    Subscriptions() += answer.Do(
+    Disposables() += answer.Do(
         [this](const ChatCompletion& completion) {
             result_ = completion;
             state_ = RoundState::Completed;
@@ -46,7 +46,7 @@ Round::Round(
             result_ = error;
             state_ = RoundState::Error;
         })
-        .DoOnTerminated([this]() {
+        .DoOnTerminate([this]() {
             state_changed_event_.AsObserver().OnNext(state_);
             state_changed_event_.AsObserver().OnCompleted();
         })

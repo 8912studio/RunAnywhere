@@ -2,7 +2,7 @@
 
 #include <map>
 #include <zaf/base/non_copyable.h>
-#include <zaf/rx/subscription_host.h>
+#include <zaf/rx/disposable_host.h>
 #include "module/ai/gpt/dialog/dialog.h"
 #include "module/ai/gpt/dialog/dialog_service.h"
 #include "module/ai/gpt/dialog/id.h"
@@ -11,7 +11,7 @@
 
 namespace ra::mod::ai::gpt {
 
-class UnifiedDialogModel : zaf::SubscriptionHost {
+class UnifiedDialogModel : zaf::rx::DisposableHost {
 public:
     explicit UnifiedDialogModel(std::shared_ptr<DialogService> service);
 
@@ -25,7 +25,7 @@ public:
         return dialog_data_source_;
     }
 
-    zaf::Observable<RoundList> FetchRoundsInDialog(DialogID dialog_id);
+    zaf::rx::Observable<RoundList> FetchRoundsInDialog(DialogID dialog_id);
 
     void DeleteDialog(DialogID dialog_id);
 

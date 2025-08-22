@@ -10,15 +10,15 @@ void CommandToolbar::AfterParse() {
 
     __super::AfterParse();
 
-    Subscriptions() += executeButton->ClickEvent().Subscribe(std::bind([this]() {
+    Disposables() += executeButton->ClickEvent().Subscribe(std::bind([this]() {
         execute_event_.Raise({});
     }));
 
-    Subscriptions() += preserveButton->ClickEvent().Subscribe(std::bind([this]() {
+    Disposables() += preserveButton->ClickEvent().Subscribe(std::bind([this]() {
         preserve_event_.Raise({});
     }));
 
-    Subscriptions() += closeButton->ClickEvent().Subscribe(std::bind([this]() {
+    Disposables() += closeButton->ClickEvent().Subscribe(std::bind([this]() {
         close_event_.Raise({});
     }));
 }

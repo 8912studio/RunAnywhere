@@ -1,6 +1,6 @@
 #pragma once
 
-#include <zaf/rx/subscription_host.h>
+#include <zaf/rx/disposable_host.h>
 #include "module/ai/gpt/gpt_executor.h"
 #include "module/ai/gpt/gpt_preview_control.h"
 #include "module/ai/gpt/gpt_module_context.h"
@@ -8,7 +8,7 @@
 
 namespace ra::mod::ai::gpt {
 
-class GPTCommand : public Command, zaf::SubscriptionHost {
+class GPTCommand : public Command, zaf::rx::DisposableHost {
 public:
     explicit GPTCommand(std::shared_ptr<GPTModuleContext> context);
     

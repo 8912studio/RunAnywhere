@@ -63,7 +63,7 @@ TEST(MD5CommandTest, CalculateFile) {
         }
         
         bool calculate_finished{};
-        zaf::Application::Instance().Subscriptions() += 
+        zaf::Application::Instance().Disposables() += 
             preview_control->CalculateFinishedEvent().Subscribe([&calculate_finished](zaf::None) {
             calculate_finished = true;
         });

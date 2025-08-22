@@ -38,7 +38,7 @@ TEST(MD5CalculatingTest, File) {
 
 		std::wstring md5;
 
-		zaf::Application::Instance().Subscriptions() += 
+		zaf::Application::Instance().Disposables() += 
 			CalculateFileHash(directory_path / each_item.file_name, MD5Creator).Subscribe(
 			[&md5](const HashResult& result) {
 		

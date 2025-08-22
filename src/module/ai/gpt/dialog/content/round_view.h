@@ -5,7 +5,7 @@
 #include <zaf/control/control_binder.h>
 #include <zaf/control/label.h>
 #include <zaf/control/linear_box.h>
-#include <zaf/rx/subject.h>
+#include <zaf/rx/subject/subject.h>
 #include "module/ai/gpt/dialog/content/answer_view.h"
 #include "module/ai/gpt/dialog/round.h"
 #include "utility/markdown/render/styled_text_box.h"
@@ -26,11 +26,11 @@ public:
         return round_;
     }
 
-    zaf::Observable<RoundID> DeleteEvent() const {
+    zaf::rx::Observable<RoundID> DeleteEvent() const {
         return delete_event_.AsObservable();
     }
 
-    zaf::Observable<RoundID> RetryEvent() const {
+    zaf::rx::Observable<RoundID> RetryEvent() const {
         return retry_event_.AsObservable();
     }
 
@@ -59,8 +59,8 @@ private:
 
     std::shared_ptr<gpt::Round> round_;
 
-    zaf::Subject<RoundID> delete_event_;
-    zaf::Subject<RoundID> retry_event_;
+    zaf::rx::Subject<RoundID> delete_event_;
+    zaf::rx::Subject<RoundID> retry_event_;
 };
 
 ZAF_OBJECT_BEGIN(RoundView);

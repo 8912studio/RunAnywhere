@@ -141,10 +141,10 @@ bool ArgumentObject::InnerOpenWindow() {
         window->SetIsReadOnly(style_ != CommandDisplayStyle::Normal);
         window->SetText(Text());
 
-        Subscriptions() += window->TextChangedEvent().Subscribe(
+        Disposables() += window->TextChangedEvent().Subscribe(
             std::bind(&ArgumentObject::OnTextChanged, this, std::placeholders::_1));
 
-        Subscriptions() += window->DestroyedEvent().Subscribe(
+        Disposables() += window->DestroyedEvent().Subscribe(
             std::bind(&ArgumentObject::OnWindowDestroyed, this));
 
         window->Show();

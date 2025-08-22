@@ -5,8 +5,6 @@
 #include <zaf/base/string/replace.h>
 #include <zaf/control/scroll_bar.h>
 #include <zaf/graphic/dpi.h>
-#include <zaf/rx/scheduler.h>
-#include <zaf/rx/creation.h>
 
 namespace ra::main::input {
 namespace {
@@ -38,11 +36,11 @@ void TextBlockWindow::AfterParse() {
     __super::AfterParse();
 
     for (auto each_option : { &useCRLF, &useCR, &useLF }) {
-        Subscriptions() += (*each_option)->MouseUpEvent().Subscribe(
+        Disposables() += (*each_option)->MouseUpEvent().Subscribe(
             std::bind(&TextBlockWindow::OnLineBreakOptionClick, this, std::placeholders::_1));
     }
 
-    Subscriptions() += textEdit->TextChangedEvent().Subscribe(
+    Disposables() += textEdit->TextChangedEvent().Subscribe(
         [this](const zaf::TextChangedInfo& event_info) {
     
         if (!is_setting_text_) {

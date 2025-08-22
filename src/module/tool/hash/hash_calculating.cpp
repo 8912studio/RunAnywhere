@@ -1,7 +1,6 @@
 #include "module/tool/hash/hash_calculating.h"
 #include <fstream>
-#include <zaf/rx/creation.h>
-#include <zaf/rx/scheduler.h>
+#include <zaf/rx/scheduler/single_thread_scheduler.h>
 #include <zaf/base/error/check.h>
 #include <zaf/base/string/case_conversion.h>
 #include <zaf/base/string/encoding_conversion.h>
@@ -18,19 +17,18 @@ std::wstring GetHashString(zaf::crypto::HashAlgorithm& hash) {
 
 }
 
-zaf::Observable<HashResult> CalculateFileHash(
+zaf::rx::Observable<HashResult> CalculateFileHash(
     const std::filesystem::path& file_path,
     HashAlgorithmCreator hash_algorithm_creator) {
 
-    return zaf::rx::Create<HashResult>(
-        zaf::Scheduler::CreateOnSingleThread(),
+    return zaf::rx::Observable<HashResult>::CreateOn(
+        std::make_shared<zaf::rx::SingleThreadScheduler>(),
         [file_path, hash_creator = std::move(hash_algorithm_creator)](
-            zaf::Observer<HashResult> observer, 
-            zaf::CancelToken cancel_token) {
+            zaf::rx::Subscriber<HashResult> subscriber) {
 
         std::ifstream file_stream{ file_path, std::ios::in | std::ios::binary };
         if (!file_stream) {
-            observer.OnError(std::system_error{ std::make_error_code(std::errc::io_error) });
+            subscriber.OnError(std::system_error{ std::make_error_code(std::errc::io_error) });
             return;
         }
 
@@ -59,7 +57,7 @@ zaf::Observable<HashResult> CalculateFileHash(
 
             auto read_size = file_stream.gcount();
             if (read_size <= 0) {
-                observer.OnError(std::system_error{ std::make_error_code(std::errc::io_error) });
+                subscriber.OnError(std::system_error{ std::make_error_code(std::errc::io_error) });
                 return;
             }
 
@@ -69,19 +67,19 @@ zaf::Observable<HashResult> CalculateFileHash(
 
             if (result.current_size - last_callback_size >= one_percent_size) {
                 last_callback_size = result.current_size;
-                observer.OnNext(result);
+                subscriber.OnNext(result);
             }
 
             remain_size -= read_size;
 
-            if (cancel_token.IsCancelled()) {
+            if (subscriber.IsDisposed()) {
                 return;
             }
         }
 
         result.result = GetHashString(hash);
-        observer.OnNext(result);
-        observer.OnCompleted();
+        subscriber.OnNext(result);
+        subscriber.OnCompleted();
     });
 }
 

@@ -23,11 +23,11 @@ public:
         main::input::CommandInputContent command_input_content,
         std::unique_ptr<mod::Command> command);
 
-    zaf::Observable<std::shared_ptr<PreservedCommandView>> StateUpdatedEvent() const {
+    zaf::rx::Observable<std::shared_ptr<PreservedCommandView>> StateUpdatedEvent() const {
         return state_updated_event_.GetObservable();
     }
 
-    zaf::Observable<std::shared_ptr<PreservedCommandView>> CloseEvent() const {
+    zaf::rx::Observable<std::shared_ptr<PreservedCommandView>> CloseEvent() const {
         return close_event_.GetObservable();
     }
 

@@ -30,7 +30,7 @@ private:
 	ZAF_BIND_CONTROL(utility::PreviewTextBox, textBox);
 
 	DateCommandParseResult parse_result_;
-	std::optional<zaf::Subscription> timer_subscription_;
+	std::shared_ptr<zaf::rx::Disposable> timer_subscription_;
 	std::time_t base_time_value_{};
 };
 

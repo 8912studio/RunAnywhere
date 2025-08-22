@@ -2,7 +2,7 @@
 #include <format>
 #include <zaf/base/container/utility/contain.h>
 #include <zaf/base/string/encoding_conversion.h>
-#include <zaf/rx/subject.h>
+#include <zaf/rx/subject/subject.h>
 #include "utility/clipboard.h"
 
 using namespace ra::utility::markdown::render;
@@ -32,7 +32,7 @@ void RoundView::InitializeRoundState() {
 
     UpdateViewByRoundState();
 
-    Subscriptions() += round_->StateChangedEvent().Subscribe([this](RoundState) {
+    Disposables() += round_->StateChangedEvent().Subscribe([this](RoundState) {
         UpdateViewByRoundState();
     });
 }
@@ -114,15 +114,15 @@ void RoundView::UpdateToolbarState() {
 
 void RoundView::SubscribeButtonEvents() {
 
-    Subscriptions() += copyButton->ClickEvent().Subscribe(std::bind([this]() {
+    Disposables() += copyButton->ClickEvent().Subscribe(std::bind([this]() {
         utility::SetStringToClipboard(round_->Answer().Message().Content());
     }));
 
-    Subscriptions() += deleteButton->ClickEvent().Subscribe(std::bind([this]() {
+    Disposables() += deleteButton->ClickEvent().Subscribe(std::bind([this]() {
         delete_event_.AsObserver().OnNext(round_->ID());
     }));
 
-    Subscriptions() += retryButton->ClickEvent().Subscribe(std::bind([this]() {
+    Disposables() += retryButton->ClickEvent().Subscribe(std::bind([this]() {
         retry_event_.AsObserver().OnNext(round_->ID());
     }));
 }

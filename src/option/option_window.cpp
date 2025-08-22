@@ -55,19 +55,19 @@ void OptionWindow::AfterParse() {
     UpdateAutoHideCheckBoxState();
     UpdateRememberLastCommandCheckBoxState();
 
-    Subscriptions() += hotKeyBox->HotKeyChangedEvent().Subscribe(
+    Disposables() += hotKeyBox->HotKeyChangedEvent().Subscribe(
         std::bind(&OptionWindow::OnHotKeyChanged, this, std::placeholders::_1));
 
-    Subscriptions() += autoRunCheckBox->CheckStateChangedEvent().Subscribe(
+    Disposables() += autoRunCheckBox->CheckStateChangedEvent().Subscribe(
         std::bind(&OptionWindow::OnAutoRunCheckBoxStateChanged, this));
 
-    Subscriptions() += autoHideCheckBox->CheckStateChangedEvent().Subscribe(
+    Disposables() += autoHideCheckBox->CheckStateChangedEvent().Subscribe(
         std::bind(&OptionWindow::OnAutoHideCheckBoxStateChanged, this));
 
-    Subscriptions() += rememberLastCommandCheckBox->CheckStateChangedEvent().Subscribe(
+    Disposables() += rememberLastCommandCheckBox->CheckStateChangedEvent().Subscribe(
         std::bind(&OptionWindow::OnRememberLastCommandCheckBoxStateChanged, this));
 
-    Subscriptions() += registerFileAssociationButton->ClickEvent().Subscribe(
+    Disposables() += registerFileAssociationButton->ClickEvent().Subscribe(
         std::bind(&OptionWindow::OnRegisterFileAssociationButtonClick, this));
 }
 
@@ -96,7 +96,7 @@ void OptionWindow::InitializeMaxPreservedCount() {
     maxPreservedCount->SetValue(
         static_cast<int>(OptionStorage::Instance().MaxPreservedCommandCount()));
 
-    Subscriptions() += maxPreservedCount->ValueChangedEvent().Subscribe(std::bind([this]() {
+    Disposables() += maxPreservedCount->ValueChangedEvent().Subscribe(std::bind([this]() {
         OptionStorage::Instance().SetMaxPreservedCommandCount(maxPreservedCount->Value());
     }));
 }
@@ -106,7 +106,7 @@ void OptionWindow::InitializeOpenAIAPIServer() {
 
     apiServerEdit->SetText(OptionStorage::Instance().OpenAIAPIServer());
 
-    Subscriptions() += apiServerEdit->ValueChangedEvent().Subscribe([](const std::wstring& value) {
+    Disposables() += apiServerEdit->ValueChangedEvent().Subscribe([](const std::wstring& value) {
         OptionStorage::Instance().SetOpenAIAPIServer(value);
     });
 }
@@ -116,7 +116,7 @@ void OptionWindow::InitializeOpenAIAPIKey() {
 
     apiKeyEdit->SetText(OptionStorage::Instance().OpenAIAPIKey());
 
-    Subscriptions() += apiKeyEdit->ValueChangedEvent().Subscribe([](const std::wstring& value) {
+    Disposables() += apiKeyEdit->ValueChangedEvent().Subscribe([](const std::wstring& value) {
         OptionStorage::Instance().SetOpenAIAPIKey(value);
     });
 }
@@ -126,7 +126,7 @@ void OptionWindow::InitializeProxy() {
 
     proxyEdit->SetText(OptionStorage::Instance().Proxy());
 
-    Subscriptions() += proxyEdit->ValueChangedEvent().Subscribe([](const std::wstring& value) {
+    Disposables() += proxyEdit->ValueChangedEvent().Subscribe([](const std::wstring& value) {
         OptionStorage::Instance().SetProxy(value);
     });
 }

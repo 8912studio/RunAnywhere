@@ -2,7 +2,7 @@
 
 #include <zaf/base/non_copyable.h>
 #include <zaf/object/object.h>
-#include <zaf/rx/subscription_host.h>
+#include <zaf/rx/disposable_host.h>
 #include "module/ai/gpt/dialog/id.h"
 #include "module/ai/gpt/storage/dialog_entity.h"
 

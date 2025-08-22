@@ -2,7 +2,6 @@
 #include <zaf/base/container/utility/erase.h>
 #include <zaf/base/container/utility/sort.h>
 #include <zaf/base/string/encoding_conversion.h>
-#include <zaf/rx/creation.h>
 #include "module/ai/gpt/network/response_parsing.h"
 
 namespace ra::mod::ai::gpt {
@@ -28,13 +27,13 @@ void DialogModel::SubscribeToServiceEvents() {
 
     const auto& service = unified_dialog_model_->DialogService();
 
-    Subscriptions() += service->DialogUpdatedEvent().Subscribe(
+    Disposables() += service->DialogUpdatedEvent().Subscribe(
         std::bind_front(&DialogModel::OnDialogUpdated, this));
 
-    Subscriptions() += service->RoundCreatedEvent().Subscribe(
+    Disposables() += service->RoundCreatedEvent().Subscribe(
         std::bind_front(&DialogModel::OnRoundCreated, this));
 
-    Subscriptions() += service->RoundPersistedEvent().Subscribe(
+    Disposables() += service->RoundPersistedEvent().Subscribe(
         std::bind_front(&DialogModel::OnRoundPersisted, this));
 }
 
@@ -64,7 +63,7 @@ void DialogModel::OnRoundPersisted(const RoundPersistedInfo& event_info) {
 
 void DialogModel::FetchInitialRounds() {
 
-    Subscriptions() += unified_dialog_model_->FetchRoundsInDialog(dialog_->ID()).Subscribe(
+    Disposables() += unified_dialog_model_->FetchRoundsInDialog(dialog_->ID()).Subscribe(
         [this](const RoundList& rounds) {
     
         round_data_source_.PrependRounds(rounds);

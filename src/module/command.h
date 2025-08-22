@@ -70,7 +70,7 @@ public:
     Some commands might have interior logic and change preview controls and executors once their
     states are updated, use this event to get notified.
     */
-    zaf::Observable<Command*> StateUpdatedEvent() const {
+    zaf::rx::Observable<Command*> StateUpdatedEvent() const {
         return state_updated_event_.GetObservable();
     }
 

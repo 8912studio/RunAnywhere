@@ -82,7 +82,7 @@ void HotKeyManager::RegisterHotKey() {
 
         hot_key_message_window_ = std::make_unique<zaf::MessageOnlyWindow>();
 
-        Subscriptions() +=
+        Disposables() +=
             hot_key_message_window_->MessageReceivedEvent().Subscribe(
                 std::bind(&HotKeyManager::OnHotKeyMessage, this, std::placeholders::_1));
     }

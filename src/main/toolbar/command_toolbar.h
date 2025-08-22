@@ -18,15 +18,15 @@ public:
         CommandDisplayStyle style,
         const std::shared_ptr<mod::CommandExecutor>& executor);
 
-    zaf::Observable<zaf::None> ExecuteEvent() const {
+    zaf::rx::Observable<zaf::None> ExecuteEvent() const {
         return execute_event_.GetObservable();
     }
 
-    zaf::Observable<zaf::None> PreserveEvent() const {
+    zaf::rx::Observable<zaf::None> PreserveEvent() const {
         return preserve_event_.GetObservable();
     }
 
-    zaf::Observable<zaf::None> CloseEvent() const {
+    zaf::rx::Observable<zaf::None> CloseEvent() const {
         return close_event_.GetObservable();
     }
 

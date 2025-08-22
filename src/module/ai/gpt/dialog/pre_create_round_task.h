@@ -1,6 +1,7 @@
 #pragma once
 
-#include <zaf/rx/subscription_host.h>
+#include <zaf/rx/disposable_host.h>
+#include <zaf/rx/subject/replay_subject.h>
 #include "module/ai/gpt/dialog/dialog.h"
 #include "module/ai/gpt/dialog/dialog_service_event_infos.h"
 #include "module/ai/gpt/dialog/round.h"
@@ -16,7 +17,7 @@ struct CreateRoundParameters {
     bool has_ongoing_pre_task{};
 };
 
-class PreCreateRoundTask : zaf::SubscriptionHost {
+class PreCreateRoundTask : zaf::rx::DisposableHost {
 public:
     explicit PreCreateRoundTask(std::shared_ptr<OpenAIClient> client);
 
@@ -30,15 +31,15 @@ public:
         return round_;
     }
 
-    zaf::Observable<DialogUpdatedInfo> DialogUpdatedEvent() const {
+    zaf::rx::Observable<DialogUpdatedInfo> DialogUpdatedEvent() const {
         return dialog_updated_event_.AsObservable();
     }
 
-    zaf::Observable<RoundCreatedInfo> RoundCreatedEvent() const {
+    zaf::rx::Observable<RoundCreatedInfo> RoundCreatedEvent() const {
         return round_created_event_.AsObservable();
     }
 
-    zaf::Observable<ChatResult> TaskFinishedEvent() const {
+    zaf::rx::Observable<ChatResult> TaskFinishedEvent() const {
         return task_finished_event_.AsObservable();
     };
 
@@ -66,10 +67,10 @@ private:
     std::shared_ptr<Dialog> dialog_;
     std::shared_ptr<Round> round_;
 
-    zaf::ReplaySubject<DialogUpdatedInfo> dialog_updated_event_;
-    zaf::ReplaySubject<RoundCreatedInfo> round_created_event_;
-    zaf::ReplaySubject<ChatCompletion> round_finished_event_;
-    zaf::ReplaySubject<ChatResult> task_finished_event_;
+    zaf::rx::ReplaySubject<DialogUpdatedInfo> dialog_updated_event_;
+    zaf::rx::ReplaySubject<RoundCreatedInfo> round_created_event_;
+    zaf::rx::ReplaySubject<ChatCompletion> round_finished_event_;
+    zaf::rx::ReplaySubject<ChatResult> task_finished_event_;
 };
 
 }

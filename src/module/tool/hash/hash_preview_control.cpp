@@ -1,6 +1,6 @@
 #include "module/tool/hash/hash_preview_control.h"
 #include <zaf/base/string/case_conversion.h>
-#include <zaf/rx/scheduler.h>
+#include <zaf/rx/scheduler/main_thread_scheduler.h>
 #include "module/common/error_messages.h"
 #include "module/tool/hash/hash_calculating.h"
 
@@ -135,8 +135,8 @@ void HashPreviewControl::ShowFileHash(const std::filesystem::path& file_path) {
 
 	ChangeLayout(LayoutType::Progress);
 
-	Subscriptions() += CalculateFileHash(file_path, hash_algorithm_info_.algorithm_creator)
-		.ObserveOn(zaf::Scheduler::Main())
+	Disposables() += CalculateFileHash(file_path, hash_algorithm_info_.algorithm_creator)
+		.ObserveOn(zaf::rx::MainThreadScheduler::Instance())
 		.Subscribe([this](const HashResult& hash_result) {
 
 		if (hash_result.result.empty()) {

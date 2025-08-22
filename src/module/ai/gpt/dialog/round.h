@@ -4,8 +4,8 @@
 #include <string>
 #include <zaf/base/non_copyable.h>
 #include <zaf/rx/observable.h>
-#include <zaf/rx/subject.h>
-#include <zaf/rx/subscription_host.h>
+#include <zaf/rx/subject/subject.h>
+#include <zaf/rx/disposable_host.h>
 #include "module/ai/gpt/dialog/id.h"
 #include "module/ai/gpt/network/chat_completion.h"
 #include "module/ai/gpt/storage/round_entity.h"
@@ -27,7 +27,7 @@ enum class RoundState {
     Completed,
 };
 
-class Round : zaf::SubscriptionHost, zaf::NonCopyableNonMovable {
+class Round : zaf::rx::DisposableHost, zaf::NonCopyableNonMovable {
 public:
     //Constructs a round in Pending state.
     Round(const RoundID& id, std::time_t updated_time, std::wstring question);
@@ -44,7 +44,7 @@ public:
         const RoundID& id, 
         std::time_t updated_time, 
         std::wstring question, 
-        zaf::Observable<ChatCompletion> answer);
+        zaf::rx::Observable<ChatCompletion> answer);
 
     ~Round();
 
@@ -72,7 +72,7 @@ public:
         return std::get<std::exception_ptr>(result_);
     }
 
-    zaf::Observable<RoundState> StateChangedEvent() const {
+    zaf::rx::Observable<RoundState> StateChangedEvent() const {
         return state_changed_event_.AsObservable();
     }
 
@@ -81,7 +81,7 @@ private:
     std::time_t updated_time_{};
     std::wstring question_;
     RoundState state_{ RoundState::Pending };
-    zaf::Subject<RoundState> state_changed_event_;
+    zaf::rx::Subject<RoundState> state_changed_event_;
     std::variant<std::monostate, ChatCompletion, std::exception_ptr> result_;
 };
 

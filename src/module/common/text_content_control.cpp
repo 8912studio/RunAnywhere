@@ -35,7 +35,7 @@ void TextContentControl::AfterParse() {
 
     __super::AfterParse();
 
-    Subscriptions() += textBox->FocusLostEvent().Subscribe(std::bind([this]() {
+    Disposables() += textBox->FocusLostEvent().Subscribe(std::bind([this]() {
         textBox->SetSelectionRange(zaf::Range{ textBox->CaretIndex(), 0 });
     }));
 }

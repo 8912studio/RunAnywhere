@@ -2,13 +2,13 @@
 
 #include <zaf/base/none.h>
 #include <zaf/window/message_only_window.h>
-#include <zaf/rx/subject.h>
-#include <zaf/rx/subscription_host.h>
+#include <zaf/rx/subject/subject.h>
+#include <zaf/rx/disposable_host.h>
 #include "hot_key.h"
 
 namespace ra {
 
-class HotKeyManager : public zaf::SubscriptionHost {
+class HotKeyManager : public zaf::rx::DisposableHost {
 public:
     static HotKeyManager& Instance();
 
@@ -28,7 +28,7 @@ public:
         return is_hot_key_valid_;
     }
 
-    zaf::Observable<zaf::None> HotKeyPressedEvent() {
+    zaf::rx::Observable<zaf::None> HotKeyPressedEvent() {
         return hot_key_pressed_subject_.AsObservable();
     }
 
@@ -46,7 +46,7 @@ private:
     bool is_hot_key_valid_{};
 
     std::unique_ptr<zaf::MessageOnlyWindow> hot_key_message_window_;
-    zaf::Subject<zaf::None> hot_key_pressed_subject_;
+    zaf::rx::Subject<zaf::None> hot_key_pressed_subject_;
 };
 
 }

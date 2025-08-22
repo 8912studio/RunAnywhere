@@ -1,6 +1,5 @@
 #include "module/ai/gpt/dialog/post_create_round_task_queue.h"
 #include <zaf/base/container/utility/erase.h>
-#include <zaf/rx/creation.h>
 
 namespace ra::mod::ai::gpt {
 namespace {
@@ -16,7 +15,7 @@ void PostCreateRoundTaskQueue::AddTask(std::shared_ptr<PostCreateRoundTask> task
 
     tasks_.push_back(std::move(task));
 
-    std::vector<zaf::Observable<WrapTaskFinishedInfo>> all_finished_events;
+    std::vector<zaf::rx::Observable<WrapTaskFinishedInfo>> all_finished_events;
     for (const auto& each_task : tasks_) {
 
         std::weak_ptr<PostCreateRoundTask> weak_task = each_task;
@@ -29,7 +28,7 @@ void PostCreateRoundTaskQueue::AddTask(std::shared_ptr<PostCreateRoundTask> task
         all_finished_events.push_back(wrap_event);
     }
 
-    concat_finished_sub_ = zaf::rx::Concat<WrapTaskFinishedInfo>(all_finished_events)
+    concat_finished_sub_ = zaf::rx::Observable<WrapTaskFinishedInfo>::Concat(all_finished_events)
         .Do([this](const WrapTaskFinishedInfo& event_info) {
             
             if (!first_finished_info_) {

@@ -34,7 +34,7 @@ void gpt::AnswerView::SetRound(std::shared_ptr<Round> round) {
     round_ = std::move(round);
 
     UpdateViewByRoundState();
-    Subscriptions() += round_->StateChangedEvent().Subscribe(std::bind([this]() {
+    Disposables() += round_->StateChangedEvent().Subscribe(std::bind([this]() {
         UpdateViewByRoundState();
     }));
 }

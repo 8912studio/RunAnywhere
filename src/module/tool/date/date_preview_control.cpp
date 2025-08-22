@@ -1,6 +1,6 @@
 #include "module/tool/date/date_preview_control.h"
 #include <sstream>
-#include <zaf/rx/scheduler.h>
+#include <zaf/rx/scheduler/main_thread_scheduler.h>
 #include <zaf/rx/timer.h>
 
 using namespace std::literals;
@@ -122,7 +122,7 @@ void DatePreviewControl::OnStyleChanged() {
 
 void DatePreviewControl::InitializeTextBox() {
 
-	Subscriptions() += textBox->SelectionChangedEvent().Subscribe(
+	Disposables() += textBox->SelectionChangedEvent().Subscribe(
 		[this](const zaf::textual::SelectionChangedInfo&) {
 	
 		auto selection_range = textBox->SelectionRange();
@@ -130,7 +130,10 @@ void DatePreviewControl::InitializeTextBox() {
 			StartTimerIfNeeded();
 		}
 		else {
-			timer_subscription_.reset();
+			if (timer_subscription_) {
+				timer_subscription_->Dispose();
+				timer_subscription_.reset();
+			}
 		}
 	});
 }
@@ -142,11 +145,12 @@ void DatePreviewControl::StartTimerIfNeeded() {
 		return;
 	}
 
-	if (timer_subscription_.has_value()) {
+	if (timer_subscription_) {
 		return;
 	}
 
-	timer_subscription_ = zaf::rx::Interval(1s, zaf::Scheduler::Main()).Subscribe([this](int) {
+	auto timer = zaf::rx::Timer::Interval(1s, zaf::rx::MainThreadScheduler::Instance());
+	timer_subscription_ = timer.Subscribe([this](std::size_t) {
 
 		base_time_value_ = std::time(nullptr);
 		UpdateTextBox();

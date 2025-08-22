@@ -8,7 +8,7 @@
 #include <zaf/control/linear_box.h>
 #include <zaf/control/rich_edit.h>
 #include <zaf/base/none.h>
-#include <zaf/rx/subject.h>
+#include <zaf/rx/subject/subject.h>
 #include "module/command_preview_control.h"
 #include "module/common/content_status_bar.h"
 #include "module/common/error_view.h"
@@ -38,7 +38,7 @@ public:
 	zaf::Frame GetExpectedMargin() override;
 
 	//For unittest.
-	zaf::Observable<zaf::None> CalculateFinishedEvent() const {
+	zaf::rx::Observable<zaf::None> CalculateFinishedEvent() const {
 		return calculate_finished_event_.AsObservable();
 	}
 
@@ -71,7 +71,7 @@ private:
 	HashAlgorithmInfo hash_algorithm_info_;
 	bool use_upper_case_{};
 
-	zaf::Subject<zaf::None> calculate_finished_event_;
+	zaf::rx::Subject<zaf::None> calculate_finished_event_;
 };
 
 ZAF_OBJECT_BEGIN(HashPreviewControl)

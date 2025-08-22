@@ -40,7 +40,7 @@ void CodeBlockRegion::AfterParse() {
 
     __super::AfterParse();
 
-    Subscriptions() += copyCodeBlockButton->ClickEvent().Subscribe(std::bind([this]() {
+    Disposables() += copyCodeBlockButton->ClickEvent().Subscribe(std::bind([this]() {
          utility::SetStringToClipboard(textBox->Text());
     }));
 }

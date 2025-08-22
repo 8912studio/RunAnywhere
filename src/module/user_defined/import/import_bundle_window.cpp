@@ -39,7 +39,7 @@ void ImportBundleWindow::OnHandleCreated(const zaf::HandleCreatedInfo& event_inf
 
 void ImportBundleWindow::InitializeControls() {
 
-    Subscriptions() += okButton->ClickEvent().Subscribe(std::bind([this]() {
+    Disposables() += okButton->ClickEvent().Subscribe(std::bind([this]() {
 
         auto state = importer_->GetState();
         if (state == BundleImporter::State::Pending) {
@@ -58,11 +58,11 @@ void ImportBundleWindow::InitializeControls() {
         }
     }));
 
-    Subscriptions() += cancelButton->ClickEvent().Subscribe(std::bind([this]() {
+    Disposables() += cancelButton->ClickEvent().Subscribe(std::bind([this]() {
         this->Close();
     }));
 
-    Subscriptions() += container->RectChangedEvent().Subscribe(
+    Disposables() += container->RectChangedEvent().Subscribe(
         std::bind(&ImportBundleWindow::UpdateWindowHeight, this));
 }
 

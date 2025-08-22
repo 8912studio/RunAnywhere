@@ -12,15 +12,15 @@ void OptionTextBox::AfterParse() {
     this->SetIsMultiline(false);
     this->SetBorder(zaf::Frame{ 1 });
 
-    Subscriptions() += TextChangedEvent().Subscribe(std::bind([this]() {
+    Disposables() += TextChangedEvent().Subscribe(std::bind([this]() {
         value_changed_ = true;
     }));
 
-    Subscriptions() += FocusLostEvent().Subscribe(std::bind([this]() {
+    Disposables() += FocusLostEvent().Subscribe(std::bind([this]() {
         CommitValueChanged();
     }));
 
-    Subscriptions() += KeyDownEvent().Subscribe([this](const zaf::KeyDownInfo& event_info) {
+    Disposables() += KeyDownEvent().Subscribe([this](const zaf::KeyDownInfo& event_info) {
         if (event_info.Message().Key() == zaf::Key::Enter) {
             CommitValueChanged();
             event_info.MarkAsHandled();

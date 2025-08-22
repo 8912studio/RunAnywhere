@@ -21,11 +21,11 @@ public:
     OpenAIClient();
     ~OpenAIClient();
 
-    zaf::Observable<ChatResult> CreateChatCompletion(
+    zaf::rx::Observable<ChatResult> CreateChatCompletion(
         const std::vector<Message>& messages);
 
 private:
-    static zaf::Observable<ChatResult> CreateMockChatCompletion();
+    static zaf::rx::Observable<ChatResult> CreateMockChatCompletion();
 
     static std::string CreateRequestBody(const std::vector<Message>& messages);
 

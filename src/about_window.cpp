@@ -43,7 +43,7 @@ void AboutWindow::InitializeVersionText() {
 
 void AboutWindow::InitializeGithubButton() {
 
-    Subscriptions() += githubButton->ClickEvent().Subscribe(std::bind([this]() {
+    Disposables() += githubButton->ClickEvent().Subscribe(std::bind([this]() {
     
         ShellExecute(
             this->Handle(),
@@ -58,7 +58,7 @@ void AboutWindow::InitializeGithubButton() {
 
 void AboutWindow::InitializeLicenseButton() {
 
-    Subscriptions() += licenseButton->ClickEvent().Subscribe(std::bind([this]() {
+    Disposables() += licenseButton->ClickEvent().Subscribe(std::bind([this]() {
         LicenseWindow::ShowInstance();
     }));
 }

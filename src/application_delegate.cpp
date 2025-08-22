@@ -129,7 +129,7 @@ void ApplicationDelegate::InitializeTrayIconWindow() {
     message_window_->SetRect(zaf::Rect{});
     message_window_holder_ = message_window_->CreateHandle();
 
-    Subscriptions() += message_window_->MessageReceivedEvent().Subscribe(
+    Disposables() += message_window_->MessageReceivedEvent().Subscribe(
         [this](const zaf::MessageReceivedInfo& event_info) {
 
         if (event_info.Message().ID() == WM_COPYDATA) {
@@ -244,7 +244,7 @@ void ApplicationDelegate::InitializeHotKey() {
     auto& hot_key_manager = ra::HotKeyManager::Instance();
     hot_key_manager.Initialize();
 
-    Subscriptions() += hot_key_manager.HotKeyPressedEvent().Subscribe([this](zaf::None) {
+    Disposables() += hot_key_manager.HotKeyPressedEvent().Subscribe([this](zaf::None) {
 
         if (main_window_->IsVisible() && main_window_->IsFocused()) {
             main_window_->Hide();

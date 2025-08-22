@@ -1,5 +1,5 @@
 #include "module/ai/gpt/storage/scheduled_storage_context.h"
-#include <zaf/rx/creation.h>
+#include <zaf/rx/scheduler/single_thread_scheduler.h>
 
 namespace ra::mod::ai::gpt {
 
@@ -9,18 +9,18 @@ ScheduledStorageContext::ScheduledStorageContext(std::filesystem::path db_path) 
 }
 
 
-zaf::Observable<StorageContext*> ScheduledStorageContext::GetContextOnScheduler() {
+zaf::rx::Observable<StorageContext*> ScheduledStorageContext::GetContextOnScheduler() {
 
     std::call_once(scheduler_once_flag_, [this]() {
-        scheduler_ = zaf::Scheduler::CreateOnSingleThread();
+        scheduler_ = std::make_shared<zaf::rx::SingleThreadScheduler>();
     });
 
-    return zaf::rx::Create<StorageContext*>(
+    return zaf::rx::Observable<StorageContext*>::CreateOn(
         scheduler_,
-        [this](zaf::Observer<StorageContext*> observer) {
+        [this](zaf::rx::Subscriber<StorageContext*> subscriber) {
 
-        observer.OnNext(&context_);
-        observer.OnCompleted();
+        subscriber.OnNext(&context_);
+        subscriber.OnCompleted();
     });
 }
 

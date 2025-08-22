@@ -1,6 +1,5 @@
 #include "module/ai/gpt/gpt_command.h"
 #include <zaf/creation.h>
-#include <zaf/rx/creation.h>
 #include "module/ai/gpt/gpt_command_parsing.h"
 #include "utility/markdown/element/factory.h"
 

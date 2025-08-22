@@ -25,7 +25,7 @@ public:
     void SetFocusToInputEdit();
 
     std::wstring Subject() const;
-    zaf::Observable<zaf::None> SubjectUpdatedEvent() const;
+    zaf::rx::Observable<zaf::None> SubjectUpdatedEvent() const;
 
 protected:
     void AfterParse() override;

@@ -10,7 +10,7 @@ struct RoundTaskFinishedInfo {
     std::optional<RoundPersistedInfo> round_persisted_info;
 };
 
-class PostCreateRoundTask : zaf::SubscriptionHost {
+class PostCreateRoundTask : zaf::rx::DisposableHost {
 public:
     PostCreateRoundTask(
         std::shared_ptr<GPTStorage> storage,
@@ -26,7 +26,7 @@ public:
         return persisted_round_id_;
     }
 
-    zaf::Observable<RoundTaskFinishedInfo> FinishedEvent() const {
+    zaf::rx::Observable<RoundTaskFinishedInfo> FinishedEvent() const {
         return finished_event_.AsObservable();
     }
 
@@ -43,9 +43,9 @@ private:
     std::optional<DialogPermanentID> persisted_dialog_id_;
     std::optional<RoundPermanentID> persisted_round_id_;
 
-    zaf::ReplaySubject<std::uint64_t> dialog_saved_signal_;
-    zaf::ReplaySubject<std::shared_ptr<RoundEntity>> round_saved_signal_;
-    zaf::ReplaySubject<RoundTaskFinishedInfo> finished_event_;
+    zaf::rx::ReplaySubject<std::uint64_t> dialog_saved_signal_;
+    zaf::rx::ReplaySubject<std::shared_ptr<RoundEntity>> round_saved_signal_;
+    zaf::rx::ReplaySubject<RoundTaskFinishedInfo> finished_event_;
 };
 
 }

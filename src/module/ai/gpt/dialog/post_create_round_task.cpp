@@ -17,13 +17,13 @@ void PostCreateRoundTask::Run() {
 
     ZAF_EXPECT(pre_task_);
 
-    Subscriptions() += pre_task_->DialogUpdatedEvent().Subscribe(
+    Disposables() += pre_task_->DialogUpdatedEvent().Subscribe(
         std::bind_front(&PostCreateRoundTask::OnDialogUpdated, this));
 
-    Subscriptions() += pre_task_->RoundCreatedEvent().Subscribe(
+    Disposables() += pre_task_->RoundCreatedEvent().Subscribe(
         std::bind_front(&PostCreateRoundTask::OnRoundCreated, this));
 
-    Subscriptions() += pre_task_->TaskFinishedEvent().Subscribe(
+    Disposables() += pre_task_->TaskFinishedEvent().Subscribe(
         std::bind_front(&PostCreateRoundTask::OnPreTaskFinished, this),
         [this](const std::exception_ptr&) {
             RaiseFinishEvent();
@@ -37,7 +37,7 @@ void PostCreateRoundTask::OnDialogUpdated(const DialogUpdatedInfo& event_info) {
 
     if (entity.id == 0) {
 
-        Subscriptions() += storage_->DialogStorage()->AddDialog(entity).Do(
+        Disposables() += storage_->DialogStorage()->AddDialog(entity).Do(
             [this](std::uint64_t permanent_id) {
 
             persisted_dialog_id_ = DialogPermanentID{ permanent_id };
@@ -45,7 +45,7 @@ void PostCreateRoundTask::OnDialogUpdated(const DialogUpdatedInfo& event_info) {
         .Subscribe(dialog_saved_signal_.AsObserver());
     }
     else {
-        Subscriptions() += storage_->DialogStorage()->UpdateDialog(entity).Subscribe(
+        Disposables() += storage_->DialogStorage()->UpdateDialog(entity).Subscribe(
             dialog_saved_signal_.AsObserver());
     }
 }
@@ -58,7 +58,7 @@ void PostCreateRoundTask::OnRoundCreated(const RoundCreatedInfo& event_info) {
     round_entity->update_time = event_info.round->UpdatedTime();
     round_entity->question = zaf::ToUTF8String(event_info.round->Question());
 
-    Subscriptions() += dialog_saved_signal_.AsObservable()
+    Disposables() += dialog_saved_signal_.AsObservable()
         .FlatMap<std::shared_ptr<RoundEntity>>([this, round_entity](std::uint64_t dialog_id) {
 
             persisted_round_id_ = RoundPermanentID{ dialog_id };
@@ -77,14 +77,14 @@ void PostCreateRoundTask::OnRoundCreated(const RoundCreatedInfo& event_info) {
 
 void PostCreateRoundTask::OnPreTaskFinished(const ChatResult& chat_result) {
 
-    Subscriptions() += round_saved_signal_.AsObservable()
+    Disposables() += round_saved_signal_.AsObservable()
         .FlatMap<std::uint64_t>(
             [this, response = chat_result.Response()](const std::shared_ptr<RoundEntity>& entity) {
 
             entity->response = std::move(response);
             return storage_->RoundStorage()->UpdateRound(*entity);
         })
-        .DoOnTerminated([this]() {
+        .DoOnTerminate([this]() {
             RaiseFinishEvent();
         })
         .Subscribe();

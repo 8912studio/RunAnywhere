@@ -2,7 +2,7 @@
 
 #include <zaf/base/none.h>
 #include <zaf/control/textual/active_inline_object.h>
-#include <zaf/rx/subject.h>
+#include <zaf/rx/subject/subject.h>
 #include <zaf/window/window.h>
 #include "main/command_display_style.h"
 #include "main/input/argument_data.h"
@@ -24,7 +24,7 @@ public:
 
     void OpenWindow();
 
-    zaf::Observable<zaf::None> TextChangedEvent() {
+    zaf::rx::Observable<zaf::None> TextChangedEvent() {
         return text_changed_event_.AsObservable();
     }
 
@@ -53,7 +53,7 @@ private:
 private:
     CommandDisplayStyle style_{ CommandDisplayStyle::Normal };
     std::shared_ptr<ArgumentData> data_;
-    zaf::Subject<zaf::None> text_changed_event_;
+    zaf::rx::Subject<zaf::None> text_changed_event_;
 };
 
 }

@@ -10,12 +10,12 @@ class RoundStorage {
 public:
     explicit RoundStorage(std::shared_ptr<ScheduledStorageContext> context);
 
-    zaf::Observable<std::vector<RoundEntity>> FetchAllRoundsInDialog(std::uint64_t dialog_id);
+    zaf::rx::Observable<std::vector<RoundEntity>> FetchAllRoundsInDialog(std::uint64_t dialog_id);
 
-    zaf::Observable<std::uint64_t> AddRound(const RoundEntity& round_entity);
-    zaf::Observable<std::uint64_t> UpdateRound(const RoundEntity& round_entity);
-    zaf::Observable<std::uint64_t> DeleteRound(std::uint64_t permanent_id);
-    zaf::Observable<zaf::None> DeleteAllRoundsInDialog(std::uint64_t dialog_id);
+    zaf::rx::Observable<std::uint64_t> AddRound(const RoundEntity& round_entity);
+    zaf::rx::Observable<std::uint64_t> UpdateRound(const RoundEntity& round_entity);
+    zaf::rx::Observable<std::uint64_t> DeleteRound(std::uint64_t permanent_id);
+    zaf::rx::Observable<zaf::None> DeleteAllRoundsInDialog(std::uint64_t dialog_id);
 
 private:
     std::shared_ptr<ScheduledStorageContext> context_;

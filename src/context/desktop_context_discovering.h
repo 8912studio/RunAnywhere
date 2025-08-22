@@ -5,6 +5,6 @@
 
 namespace ra::context {
 
-zaf::Observable<DesktopContext> DiscoverDesktopContext();
+zaf::rx::Observable<DesktopContext> DiscoverDesktopContext();
 
 }

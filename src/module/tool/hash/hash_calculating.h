@@ -15,7 +15,7 @@ public:
 	std::wstring result;
 };
 
-zaf::Observable<HashResult> CalculateFileHash(
+zaf::rx::Observable<HashResult> CalculateFileHash(
 	const std::filesystem::path& file_path,
 	HashAlgorithmCreator hash_algorithm_creator);
 

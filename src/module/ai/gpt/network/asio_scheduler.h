@@ -3,16 +3,20 @@
 #include <optional>
 #include <thread>
 #include <boost/asio.hpp>
-#include <zaf/rx/scheduler.h>
+#include <zaf/rx/scheduler/scheduler.h>
 
 namespace ra::mod::ai::gpt {
 
-class ASIOScheduler : public zaf::Scheduler {
+class ASIOScheduler : public zaf::rx::Scheduler {
 public:
     explicit ASIOScheduler(std::shared_ptr<boost::asio::io_context> io_context);
     ~ASIOScheduler();
 
-    void Schedule(zaf::Work work) override;
+    void ScheduleWork(zaf::Closure work) override;
+
+    std::shared_ptr<zaf::rx::Disposable> ScheduleDelayedWork(
+        std::chrono::steady_clock::duration delay,
+        zaf::Closure work) override;
 
 private:
     std::unique_ptr<std::thread> thread_;

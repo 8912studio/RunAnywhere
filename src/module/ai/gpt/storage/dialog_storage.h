@@ -11,10 +11,10 @@ class DialogStorage {
 public:
     explicit DialogStorage(std::shared_ptr<ScheduledStorageContext> context);
 
-    zaf::Observable<std::vector<DialogEntity>> FetchAllDialogs();
-    zaf::Observable<std::uint64_t> AddDialog(const DialogEntity& dialog);
-    zaf::Observable<std::uint64_t> UpdateDialog(const DialogEntity& dialog);
-    zaf::Observable<zaf::None> DeleteDialog(std::uint64_t dialog_id);
+    zaf::rx::Observable<std::vector<DialogEntity>> FetchAllDialogs();
+    zaf::rx::Observable<std::uint64_t> AddDialog(const DialogEntity& dialog);
+    zaf::rx::Observable<std::uint64_t> UpdateDialog(const DialogEntity& dialog);
+    zaf::rx::Observable<zaf::None> DeleteDialog(std::uint64_t dialog_id);
     
 private:
     std::shared_ptr<ScheduledStorageContext> context_;

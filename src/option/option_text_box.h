@@ -1,7 +1,7 @@
 #pragma once
 
 #include <zaf/control/text_box.h>
-#include <zaf/rx/subject.h>
+#include <zaf/rx/subject/subject.h>
 
 namespace ra::option {
 
@@ -9,7 +9,7 @@ class OptionTextBox : public zaf::TextBox {
 public:
     ZAF_OBJECT;
 
-    zaf::Observable<std::wstring> ValueChangedEvent() const {
+    zaf::rx::Observable<std::wstring> ValueChangedEvent() const {
         return value_changed_event_.AsObservable();
     }
 
@@ -20,7 +20,7 @@ private:
     void CommitValueChanged();
 
 private:
-    zaf::Subject<std::wstring> value_changed_event_;
+    zaf::rx::Subject<std::wstring> value_changed_event_;
     bool value_changed_{};
 };
 

@@ -8,7 +8,7 @@ void ActivePathWindow::AfterParse() {
 
     __super::AfterParse();
 
-    Subscriptions() += edit->TextChangedEvent().Subscribe(std::bind([this]() {
+    Disposables() += edit->TextChangedEvent().Subscribe(std::bind([this]() {
     
         Relayout();
         RaiseTextChangedEvent();

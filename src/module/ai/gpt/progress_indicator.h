@@ -17,7 +17,7 @@ protected:
 
 private:
     std::size_t highlighted_ellipse_index_{};
-    zaf::Subscription timer_;
+    std::shared_ptr<zaf::rx::Disposable> timer_sub_;
 };
 
 ZAF_OBJECT_BEGIN(ProgressIndicator)

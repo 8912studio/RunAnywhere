@@ -16,7 +16,7 @@ void GPTQuestionView::AfterParse() {
     display_mode.word_wrapping = zaf::dwrite::WordWrapping::Wrap;
     questionControl->SetDisplayMode(display_mode);
 
-    Subscriptions() += openOptionButton->ClickEvent().Subscribe(std::bind([]() {
+    Disposables() += openOptionButton->ClickEvent().Subscribe(std::bind([]() {
         ApplicationDelegate::GetFromApplication()->HideMainWindow();
         option::OptionWindow::ShowInstance();
     }));

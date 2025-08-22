@@ -22,15 +22,15 @@ public:
 
     std::shared_ptr<PostCreateRoundTask> GetTask(RoundID round_id);
 
-    zaf::Observable<RoundTaskQueueFinishedInfo> AllFinishedEvent() const {
+    zaf::rx::Observable<RoundTaskQueueFinishedInfo> AllFinishedEvent() const {
         return all_finished_event_.AsObservable();
     }
 
 private:
     std::deque<std::shared_ptr<PostCreateRoundTask>> tasks_;
-    zaf::Subscription concat_finished_sub_;
+    std::shared_ptr<zaf::rx::Disposable> concat_finished_sub_;
     std::optional<RoundTaskFinishedInfo> first_finished_info_;
-    zaf::Subject<RoundTaskQueueFinishedInfo> all_finished_event_;
+    zaf::rx::Subject<RoundTaskQueueFinishedInfo> all_finished_event_;
 };
 
 }

@@ -41,7 +41,7 @@ void MainWindow::AfterParse() {
     InitializeHelpButton();
     InitializeToolbar();
 
-    Subscriptions() += preservedCommandListView->RectChangedEvent().Subscribe(
+    Disposables() += preservedCommandListView->RectChangedEvent().Subscribe(
         [this](const zaf::RectChangedInfo& event_info) {
     
         if (preservedCommandListView->IsVisibleInContext() && 
@@ -57,25 +57,25 @@ void MainWindow::InitializeTextBox() {
 
     inputEdit->SetStyle(CommandDisplayStyle::Normal);
 
-    Subscriptions() += inputEdit->CommandChangedEvent().Subscribe(
+    Disposables() += inputEdit->CommandChangedEvent().Subscribe(
         std::bind(&MainWindow::OnCommandChanged, this));
 }
 
 
 void MainWindow::InitializeHelpButton() {
 
-    Subscriptions() += helpButton->MouseUpEvent().Subscribe(
+    Disposables() += helpButton->MouseUpEvent().Subscribe(
         std::bind(&MainWindow::OnHelpButtonClick, this));
 }
 
 
 void MainWindow::InitializeToolbar() {
     
-    Subscriptions() += toolbar->ExecuteEvent().Subscribe(std::bind([this]() {
+    Disposables() += toolbar->ExecuteEvent().Subscribe(std::bind([this]() {
         ExecuteCommand();
     }));
 
-    Subscriptions() += toolbar->PreserveEvent().Subscribe(std::bind([this]() {
+    Disposables() += toolbar->PreserveEvent().Subscribe(std::bind([this]() {
         PreserveCurrentCommand();
     }));
 }
@@ -85,7 +85,7 @@ void MainWindow::ShowOnTop() {
 
     desktop_context_ = context::DesktopContext{}; 
 
-    Subscriptions() += context::DiscoverDesktopContext().Subscribe(
+    Disposables() += context::DiscoverDesktopContext().Subscribe(
         [this](const context::DesktopContext& context) {
     
         desktop_context_ = context;
@@ -391,7 +391,7 @@ void MainWindow::PreserveCurrentCommand() {
         inputEdit->GetInputContent(),
         std::move(current_command_));
 
-    Subscriptions() += preserved_command_view->CloseEvent().Subscribe(
+    Disposables() += preserved_command_view->CloseEvent().Subscribe(
         [this](const std::shared_ptr<PreservedCommandView>& view) {
     
         preservedCommandListView->RemoveView(view);

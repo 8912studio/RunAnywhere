@@ -8,7 +8,7 @@ RoundStorage::RoundStorage(std::shared_ptr<ScheduledStorageContext> context) :
 }
 
 
-zaf::Observable<std::vector<RoundEntity>> RoundStorage::FetchAllRoundsInDialog(
+zaf::rx::Observable<std::vector<RoundEntity>> RoundStorage::FetchAllRoundsInDialog(
     std::uint64_t dialog_id) {
 
     return context_->Execute<std::vector<RoundEntity>>([this, dialog_id](StorageContext& context) {
@@ -24,7 +24,7 @@ zaf::Observable<std::vector<RoundEntity>> RoundStorage::FetchAllRoundsInDialog(
 }
 
 
-zaf::Observable<std::uint64_t> RoundStorage::AddRound(const RoundEntity& round_entity) {
+zaf::rx::Observable<std::uint64_t> RoundStorage::AddRound(const RoundEntity& round_entity) {
 
     return context_->Execute<std::uint64_t>([this, round_entity](StorageContext& context) {
 
@@ -33,7 +33,7 @@ zaf::Observable<std::uint64_t> RoundStorage::AddRound(const RoundEntity& round_e
 }
 
 
-zaf::Observable<std::uint64_t> RoundStorage::UpdateRound(const RoundEntity& round_entity) {
+zaf::rx::Observable<std::uint64_t> RoundStorage::UpdateRound(const RoundEntity& round_entity) {
 
     return context_->Execute<std::uint64_t>([this, round_entity](StorageContext& context) {
     
@@ -55,7 +55,7 @@ zaf::Observable<std::uint64_t> RoundStorage::UpdateRound(const RoundEntity& roun
 }
 
 
-zaf::Observable<std::uint64_t> RoundStorage::DeleteRound(std::uint64_t permanent_id) {
+zaf::rx::Observable<std::uint64_t> RoundStorage::DeleteRound(std::uint64_t permanent_id) {
 
     return context_->Execute<std::uint64_t>([this, permanent_id](StorageContext& context) {
     
@@ -65,7 +65,7 @@ zaf::Observable<std::uint64_t> RoundStorage::DeleteRound(std::uint64_t permanent
 }
 
 
-zaf::Observable<zaf::None> RoundStorage::DeleteAllRoundsInDialog(std::uint64_t dialog_id) {
+zaf::rx::Observable<zaf::None> RoundStorage::DeleteAllRoundsInDialog(std::uint64_t dialog_id) {
 
     return context_->Execute<zaf::None>([this, dialog_id](StorageContext& context) {
 

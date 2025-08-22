@@ -3,8 +3,6 @@
 #include <zaf/control/layout/linear_layouter.h>
 #include <zaf/control/scroll_bar.h>
 #include <zaf/graphic/alignment.h>
-#include <zaf/rx/creation.h>
-#include <zaf/rx/scheduler.h>
 #include "help/help_style_config.h"
 
 using namespace ra::utility::markdown::render;
@@ -25,7 +23,7 @@ void HelpWindow::AfterParse() {
     scroll_bar->SetArrowLength(0);
     scroll_bar->SetPadding(zaf::Frame{ 0, 2, 0, 2 });
     scroll_bar->SetSmallChange(22);
-    Subscriptions() += scroll_bar->ScrollEvent().Subscribe(std::bind(&HelpWindow::OnScroll, this));
+    Disposables() += scroll_bar->ScrollEvent().Subscribe(std::bind(&HelpWindow::OnScroll, this));
 
     auto content_layouter = zaf::Create<zaf::VerticalLayouter>();
     content_layouter->SetAxisAlignment(zaf::AxisAlignment::Center);
@@ -45,15 +43,15 @@ void HelpWindow::InitializeScrollControls() {
 void HelpWindow::InitializeScrollButtonContainer() {
 
     const auto& root_control = this->RootControl();
-    Subscriptions() += root_control->RectChangedEvent().Subscribe(
+    Disposables() += root_control->RectChangedEvent().Subscribe(
         std::bind(&HelpWindow::LayoutScrollButtonContainer, this));
 
-    Subscriptions() += root_control->MouseEnterEvent().Subscribe(std::bind([this]() {
+    Disposables() += root_control->MouseEnterEvent().Subscribe(std::bind([this]() {
 
         scrollButtonContainer->SetIsVisible(true);
     }));
 
-    Subscriptions() += root_control->MouseLeaveEvent().Subscribe(std::bind([this]() {
+    Disposables() += root_control->MouseLeaveEvent().Subscribe(std::bind([this]() {
 
         const auto& root_control = this->RootControl();
         if (!root_control->ContainsMouse()) {
@@ -65,16 +63,16 @@ void HelpWindow::InitializeScrollButtonContainer() {
 
 void HelpWindow::InitializeScrollButtons() {
 
-    Subscriptions() += lineDownButton->MouseUpEvent().Subscribe(
+    Disposables() += lineDownButton->MouseUpEvent().Subscribe(
         std::bind(&HelpWindow::ScrollLine, this, false));
 
-    Subscriptions() += lineUpButton->MouseUpEvent().Subscribe(
+    Disposables() += lineUpButton->MouseUpEvent().Subscribe(
         std::bind(&HelpWindow::ScrollLine, this, true));
 
-    Subscriptions() += pageDownButton->MouseUpEvent().Subscribe(
+    Disposables() += pageDownButton->MouseUpEvent().Subscribe(
         std::bind(&HelpWindow::ScrollPage, this, false));
 
-    Subscriptions() += pageUpButton->MouseUpEvent().Subscribe(
+    Disposables() += pageUpButton->MouseUpEvent().Subscribe(
         std::bind(&HelpWindow::ScrollPage, this, true));
 }
 

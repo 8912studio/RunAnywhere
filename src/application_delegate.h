@@ -8,7 +8,7 @@
 
 namespace ra {
 
-class ApplicationDelegate : public zaf::ApplicationDelegate, zaf::SubscriptionHost {
+class ApplicationDelegate : public zaf::ApplicationDelegate, zaf::rx::DisposableHost {
 public:
 	static std::shared_ptr<ApplicationDelegate> GetFromApplication();
 

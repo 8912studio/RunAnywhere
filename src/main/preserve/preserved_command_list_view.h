@@ -24,7 +24,7 @@ private:
     class ViewItem {
     public:
         std::shared_ptr<PreservedCommandView> view;
-        zaf::SubscriptionSet subscriptions;
+        zaf::rx::DisposeBag subscriptions;
     };
 
     void RemoveExcessViews();

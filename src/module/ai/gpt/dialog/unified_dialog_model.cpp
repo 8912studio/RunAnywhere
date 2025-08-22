@@ -2,7 +2,6 @@
 #include <zaf/base/container/utility/find.h>
 #include <zaf/base/error/contract_error.h>
 #include <zaf/base/string/encoding_conversion.h>
-#include <zaf/rx/creation.h>
 
 namespace ra::mod::ai::gpt {
 
@@ -17,7 +16,7 @@ void UnifiedDialogModel::Initialize() {
 
     SubscribeToServiceEvents();
 
-    Subscriptions() += service_->FetchDialogs().Subscribe([this](const DialogList& dialogs) {
+    Disposables() += service_->FetchDialogs().Subscribe([this](const DialogList& dialogs) {
 
             DialogList new_dialogs;
             for (const auto& each_dialog : dialogs) {
@@ -40,13 +39,13 @@ void UnifiedDialogModel::Initialize() {
 
 void UnifiedDialogModel::SubscribeToServiceEvents() {
 
-    Subscriptions() += service_->DialogCreatedEvent().Subscribe(
+    Disposables() += service_->DialogCreatedEvent().Subscribe(
         std::bind_front(&UnifiedDialogModel::OnDialogCreated, this));
 
-    Subscriptions() += service_->DialogPersistedEvent().Subscribe(
+    Disposables() += service_->DialogPersistedEvent().Subscribe(
         std::bind_front(&UnifiedDialogModel::OnDialogPersisted, this));
 
-    Subscriptions() += service_->DialogUpdatedEvent().Subscribe(
+    Disposables() += service_->DialogUpdatedEvent().Subscribe(
         std::bind_front(&UnifiedDialogModel::OnDialogUpdated, this));
 }
 
@@ -68,7 +67,7 @@ void UnifiedDialogModel::OnDialogUpdated(const DialogUpdatedInfo& event_info) {
 }
 
 
-zaf::Observable<RoundList> UnifiedDialogModel::FetchRoundsInDialog(DialogID dialog_id) {
+zaf::rx::Observable<RoundList> UnifiedDialogModel::FetchRoundsInDialog(DialogID dialog_id) {
     return service_->FetchRoundsInDialog(MapToPermanentID(dialog_id));
 }
 

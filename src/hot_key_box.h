@@ -2,7 +2,7 @@
 
 #include <optional>
 #include <zaf/control/clickable_control.h>
-#include <zaf/rx/subject.h>
+#include <zaf/rx/subject/subject.h>
 #include "hot_key.h"
 
 namespace ra {
@@ -17,7 +17,7 @@ public:
 
     void SetHotKey(const HotKey& hot_key);
 
-    zaf::Observable<HotKey> HotKeyChangedEvent() {
+    zaf::rx::Observable<HotKey> HotKeyChangedEvent() {
         return hot_key_changed_subject_.AsObservable();
     }
 
@@ -36,7 +36,7 @@ private:
     HotKey hot_key_;
     bool is_waiting_input_{};
 
-    zaf::Subject<HotKey> hot_key_changed_subject_;
+    zaf::rx::Subject<HotKey> hot_key_changed_subject_;
 };
 
 ZAF_OBJECT_BEGIN(HotKeyBox);

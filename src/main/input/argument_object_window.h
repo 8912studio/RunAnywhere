@@ -1,7 +1,7 @@
 #pragma once
 
 #include <zaf/control/rich_edit.h>
-#include <zaf/rx/subject.h>
+#include <zaf/rx/subject/subject.h>
 #include "utility/thin_border_window.h"
 
 namespace ra::main::input {
@@ -9,7 +9,7 @@ namespace ra::main::input {
 class ArgumentObjectWindow : public utility::ThinBorderWindow {
 public:
     void SetObjectPositionInScreen(const zaf::Point& position);
-    zaf::Observable<std::shared_ptr<ArgumentObjectWindow>> TextChangedEvent();
+    zaf::rx::Observable<std::shared_ptr<ArgumentObjectWindow>> TextChangedEvent();
 
     virtual void SetIsReadOnly(bool is_read_only) = 0;
     virtual std::wstring GetText() = 0;
@@ -30,7 +30,7 @@ protected:
 
 private:
     zaf::Point object_position_in_screen_;
-    zaf::Subject<std::shared_ptr<ArgumentObjectWindow>> text_changed_event_;
+    zaf::rx::Subject<std::shared_ptr<ArgumentObjectWindow>> text_changed_event_;
 };
 
 }

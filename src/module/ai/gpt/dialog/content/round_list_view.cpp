@@ -22,7 +22,7 @@ void RoundListView::AfterParse() {
 
 void RoundListView::InitializeRoundList() {
 
-    Subscriptions() += roundList->SelectionChangedEvent().Subscribe([this](
+    Disposables() += roundList->SelectionChangedEvent().Subscribe([this](
         const utility::composite::CompositeTextBoxSelectionChangedInfo& event_info) {
 
         const auto& selection_y = event_info.PositionRange().End().y;
@@ -47,13 +47,13 @@ void RoundListView::InitializeRoundList() {
 void RoundListView::SubscribeToModelEvents() {
 
     const auto& data_source = model_->RoundDataSource();
-    Subscriptions() += data_source.RoundPrependedEvent().Subscribe(
+    Disposables() += data_source.RoundPrependedEvent().Subscribe(
         std::bind_front(&RoundListView::OnRoundPrepended, this));
 
-    Subscriptions() += data_source.RoundAppendedEvent().Subscribe(
+    Disposables() += data_source.RoundAppendedEvent().Subscribe(
         std::bind_front(&RoundListView::OnRoundAppended, this));
 
-    Subscriptions() += data_source.RoundDeletedEvent().Subscribe(
+    Disposables() += data_source.RoundDeletedEvent().Subscribe(
         std::bind_front(&RoundListView::OnRoundDeleted, this));
 }
 
@@ -132,10 +132,10 @@ std::shared_ptr<RoundView> RoundListView::CreateRoundView(std::shared_ptr<Round>
 
     auto round_view = zaf::Create<RoundView>(round);
 
-    Subscriptions() += round_view->DeleteEvent().Subscribe(
+    Disposables() += round_view->DeleteEvent().Subscribe(
         std::bind_front(&RoundListView::DeleteRound, this));
 
-    Subscriptions() += round_view->RetryEvent().Subscribe(
+    Disposables() += round_view->RetryEvent().Subscribe(
         std::bind_front(&RoundListView::RetryRound, this));
 
     return round_view;
@@ -146,17 +146,17 @@ void RoundListView::SubscribeToRoundStateChangedEvent(const Round& round) {
 
     auto is_list_in_bottom = std::make_shared<bool>();
 
-    Subscriptions() += round.StateChangedEvent().Do(std::bind([this, is_list_in_bottom]() {
+    Disposables() += round.StateChangedEvent().Do(std::bind([this, is_list_in_bottom]() {
 
         //Record whether the scroll bar is at the bottom, this should be done before updating the 
         //answer view.
         auto scroll_bar = scrollBox->VerticalScrollBar();
         *is_list_in_bottom = scroll_bar->Value() == scroll_bar->MaxValue();
     }))
-    .DoOnTerminated([this, is_list_in_bottom, round_id = round.ID()]() {
+    .DoOnTerminate([this, is_list_in_bottom, round_id = round.ID()]() {
         
         //Scroll to the answer content, this should be done after updating the answer view. 
-        //That is why we do it in DoOnTerminated.
+        //That is why we do it in DoOnTerminate.
 
         //Don't scroll the list if it isn't in bottom.
         if (!*is_list_in_bottom) {

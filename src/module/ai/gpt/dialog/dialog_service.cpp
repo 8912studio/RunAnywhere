@@ -2,7 +2,6 @@
 #include <zaf/base/container/utility/erase.h>
 #include <zaf/base/container/utility/find.h>
 #include <zaf/base/string/encoding_conversion.h>
-#include <zaf/rx/creation.h>
 #include "module/ai/gpt/network/response_parsing.h"
 
 namespace ra::mod::ai::gpt {
@@ -17,7 +16,7 @@ DialogService::DialogService(
 }
 
 
-zaf::Observable<DialogList> DialogService::FetchDialogs() {
+zaf::rx::Observable<DialogList> DialogService::FetchDialogs() {
 
     return storage_->DialogStorage()->FetchAllDialogs().Map<DialogList>(
         [this](const std::vector<DialogEntity>& dialog_entities) {
@@ -112,23 +111,24 @@ void DialogService::DeleteDialogFromStorage(DialogPermanentID permanent_id) {
     auto delete_rounds = storage_->RoundStorage()->DeleteAllRoundsInDialog(permanent_id.Value());
     auto delete_dialog = storage_->DialogStorage()->DeleteDialog(permanent_id.Value());
 
-    Subscriptions() += zaf::rx::Concat({ delete_rounds, delete_dialog }).Subscribe();
+    Disposables() += zaf::rx::Observable<zaf::None>::Concat({ delete_rounds, delete_dialog })
+        .Subscribe();
 }
 
 
-zaf::Observable<RoundList> DialogService::FetchRoundsInDialog(DialogID dialog_id) {
+zaf::rx::Observable<RoundList> DialogService::FetchRoundsInDialog(DialogID dialog_id) {
 
-    std::vector<zaf::Observable<RoundList>> observables;
+    std::vector<zaf::rx::Observable<RoundList>> observables;
 
     auto ongoing_info = zaf::Find(ongoing_round_infos_, dialog_id);
     if (ongoing_info) {
 
         if ((*ongoing_info)->is_deleted) {
-            return zaf::rx::Just(RoundList{});
+            return zaf::rx::Observable<RoundList>::Just({});
         }
 
         auto ongoing_rounds = (*ongoing_info)->post_task_queue.GetAllRounds();
-        observables.push_back(zaf::rx::Just(ongoing_rounds));
+        observables.push_back(zaf::rx::Observable<RoundList>::Just(ongoing_rounds));
     }
 
     if (auto permanent_id = dialog_id.PermanentID()) {
@@ -137,11 +137,11 @@ zaf::Observable<RoundList> DialogService::FetchRoundsInDialog(DialogID dialog_id
             ongoing_info ? *ongoing_info : nullptr));
     }
 
-    return zaf::rx::Concat<RoundList>(observables);
+    return zaf::rx::Observable<RoundList>::Concat(observables);
 }
 
 
-zaf::Observable<RoundList> DialogService::FetchRoundsFromStorage(
+zaf::rx::Observable<RoundList> DialogService::FetchRoundsFromStorage(
     DialogPermanentID dialog_id,
     const std::shared_ptr<OngoingRoundInfo>& ongoing_info) {
 
@@ -195,14 +195,14 @@ std::shared_ptr<Round> DialogService::CreateRoundFromEntity(const RoundEntity& e
 }
 
 
-zaf::Observable<ChatCompletion> DialogService::CreateRoundAnswerFromEntity(
+zaf::rx::Observable<ChatCompletion> DialogService::CreateRoundAnswerFromEntity(
     const RoundEntity& entity) {
 
     auto parsed = ParseChatCompletion(entity.response);
     if (parsed) {
-        return zaf::rx::Just(*parsed);
+        return zaf::rx::Observable<ChatCompletion>::Just(*parsed);
     }
-    return zaf::rx::Just(ChatCompletion{ Message{ L"" }, std::nullopt });
+    return zaf::rx::Observable<ChatCompletion>::Just({ Message{ L"" }, std::nullopt });
 }
 
 
@@ -221,7 +221,7 @@ std::shared_ptr<Round> DialogService::CreateNewRound(
     //The post task should be add to the queue before subscribing to its finished event.
     ongoing_info->post_task_queue.AddTask(post_task);
 
-    Subscriptions() += post_task->FinishedEvent().Subscribe(
+    Disposables() += post_task->FinishedEvent().Subscribe(
         [this](const RoundTaskFinishedInfo& event_info) {
 
         if (event_info.round_persisted_info) {
@@ -248,18 +248,18 @@ std::shared_ptr<PreCreateRoundTask> DialogService::CreatePreCreateRoundTask(
 
     auto pre_task = std::make_shared<PreCreateRoundTask>(client_);
 
-    Subscriptions() += pre_task->DialogUpdatedEvent().Subscribe(
+    Disposables() += pre_task->DialogUpdatedEvent().Subscribe(
         [this](const DialogUpdatedInfo& event_info) {
             dialog_updated_event_.AsObserver().OnNext(event_info);
         });
 
-    Subscriptions() += pre_task->RoundCreatedEvent().Subscribe(
+    Disposables() += pre_task->RoundCreatedEvent().Subscribe(
         [this](const RoundCreatedInfo& event_info) {
             round_created_event_.AsObserver().OnNext(event_info);
         });
 
-    Subscriptions() += pre_task->TaskFinishedEvent()
-        .DoOnTerminated([this, dialog, weak_task = std::weak_ptr{ pre_task }]() {
+    Disposables() += pre_task->TaskFinishedEvent()
+        .DoOnTerminate([this, dialog, weak_task = std::weak_ptr{ pre_task }]() {
 
             auto pre_task = weak_task.lock();
             if (!pre_task) {
@@ -288,7 +288,7 @@ DialogService::OngoingRoundInfo* DialogService::GetOngoingRoundInfo(DialogID dia
 
         ongoing_info = std::make_unique<OngoingRoundInfo>();
 
-        Subscriptions() += ongoing_info->post_task_queue.AllFinishedEvent().Subscribe(
+        Disposables() += ongoing_info->post_task_queue.AllFinishedEvent().Subscribe(
             [this, dialog_id](const RoundTaskQueueFinishedInfo& event_info) {
 
             bool is_dialog_deleted{};
@@ -328,7 +328,7 @@ void DialogService::DeleteRound(DialogID dialog_id, RoundID round_id) {
 
     if (auto permanent_id = round_id.PermanentID()) {
 
-        Subscriptions() += 
+        Disposables() += 
             storage_->RoundStorage()->DeleteRound(permanent_id->Value()).Subscribe();
     }
 }
@@ -346,13 +346,13 @@ bool DialogService::TryToDeleteCreatingRound(DialogID dialog_id, RoundID round_i
         return false;
     }
 
-    Subscriptions() += task->FinishedEvent()
+    Disposables() += task->FinishedEvent()
         .FlatMap<std::uint64_t>([this](const RoundTaskFinishedInfo& event_info) {
             if (event_info.round_persisted_info) {
                 return storage_->RoundStorage()->DeleteRound(
                     event_info.round_persisted_info->permanent_id.Value());
             }
-            return zaf::rx::Just<std::uint64_t>(0);
+            return zaf::rx::Observable<std::uint64_t>::Just(0);
         })
         .Subscribe();
 

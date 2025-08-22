@@ -18,7 +18,7 @@ void ProbabilityEditor::Initialize() {
     track_bar_->SetMinValue(Probability::MinValue);
     track_bar_->SetMaxValue(Probability::MaxValue);
 
-    Subscriptions() += track_bar_->ValueChangedEvent().Subscribe(
+    Disposables() += track_bar_->ValueChangedEvent().Subscribe(
         std::bind(&ProbabilityEditor::OnTrackBarValueChanged, this));
 
     AddChild(track_bar_);

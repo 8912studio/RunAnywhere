@@ -27,7 +27,7 @@ void PreservedCommandView::AfterParse() {
 
     UpdateCommandState();
 
-    Subscriptions() += command_->StateUpdatedEvent().Subscribe([this](mod::Command*) {
+    Disposables() += command_->StateUpdatedEvent().Subscribe([this](mod::Command*) {
         UpdateCommandState();
         state_updated_event_.Raise(zaf::As<PreservedCommandView>(shared_from_this()));
     });
@@ -36,21 +36,21 @@ void PreservedCommandView::AfterParse() {
 
 void PreservedCommandView::InitializeToolbar() {
 
-    Subscriptions() += MouseEnterEvent().Subscribe(std::bind([this]() {
+    Disposables() += MouseEnterEvent().Subscribe(std::bind([this]() {
         toolbar->SetIsVisible(true);
     }));
 
-    Subscriptions() += MouseLeaveEvent().Subscribe(std::bind([this]() {
+    Disposables() += MouseLeaveEvent().Subscribe(std::bind([this]() {
         if (!this->ContainsMouse()) {
             toolbar->SetIsVisible(false);
         }
     }));
 
-    Subscriptions() += toolbar->CloseEvent().Subscribe(std::bind([this]() {
+    Disposables() += toolbar->CloseEvent().Subscribe(std::bind([this]() {
         close_event_.Raise(zaf::As<PreservedCommandView>(shared_from_this()));
     }));
 
-    Subscriptions() += toolbar->ExecuteEvent().Subscribe(std::bind([this]() {
+    Disposables() += toolbar->ExecuteEvent().Subscribe(std::bind([this]() {
         command_->GetExecutor()->Execute();
     }));
 }

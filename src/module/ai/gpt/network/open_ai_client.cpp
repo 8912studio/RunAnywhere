@@ -2,9 +2,8 @@
 #include <zaf/application.h>
 #include <zaf/base/error/invalid_data_error.h>
 #include <zaf/base/string/encoding_conversion.h>
-#include <zaf/rx/creation.h>
-#include <zaf/rx/scheduler.h>
-#include <zaf/rx/subject.h>
+#include <zaf/rx/scheduler/main_thread_scheduler.h>
+#include <zaf/rx/subject/replay_subject.h>
 #include <zaf/rx/timer.h>
 #include "module/ai/gpt/network/asio_scheduler.h"
 #include "module/ai/gpt/network/error.h"
@@ -62,14 +61,19 @@ OpenAIClient::~OpenAIClient() {
 }
 
 
-zaf::Observable<ChatResult> OpenAIClient::CreateChatCompletion(
+zaf::rx::Observable<ChatResult> OpenAIClient::CreateChatCompletion(
     const std::vector<Message>& messages) {
 
     auto fault_injection_settings = test::FaultInjectionSettings::Instance();
 
     if (fault_injection_settings->NetworkFailureProbability().Roll()) {
-        return zaf::rx::Timer(std::chrono::seconds(2)).FlatMap<ChatResult>([](int) {
-            return zaf::rx::Throw<ChatResult>(zaf::InvalidOperationError{});
+
+        auto timer = zaf::rx::Timer::Once(
+            std::chrono::seconds(2),
+            zaf::rx::MainThreadScheduler::Instance());
+
+        return timer.FlatMap<ChatResult>([](std::size_t) {
+            return zaf::rx::Single<ChatResult>::Throw(zaf::InvalidOperationError{});
         });
     }
 
@@ -124,7 +128,7 @@ zaf::Observable<ChatResult> OpenAIClient::CreateChatCompletion(
         }
     });
 
-    zaf::ReplaySubject<ChatResult> subject;
+    zaf::rx::ReplaySubject<ChatResult> subject;
     connection->SetFinishedCallback([observer = subject.AsObserver()](
         const std::shared_ptr<curlion::Connection>& connection) {
     
@@ -170,17 +174,20 @@ zaf::Observable<ChatResult> OpenAIClient::CreateChatCompletion(
         });
     }
 
-    return subject.AsObservable().ObserveOn(zaf::Scheduler::Main());
+    return subject.AsObservable().ObserveOn(zaf::rx::MainThreadScheduler::Instance());
 }
 
 
-zaf::Observable<ChatResult> OpenAIClient::CreateMockChatCompletion() {
+zaf::rx::Observable<ChatResult> OpenAIClient::CreateMockChatCompletion() {
 
-    zaf::ReplaySubject<ChatResult> subject;
+    zaf::rx::ReplaySubject<ChatResult> subject;
 
-    zaf::Application::Instance().Subscriptions() +=
-        zaf::rx::Timer(std::chrono::seconds(3), zaf::Scheduler::Main()).Subscribe(
-            [observer = subject.AsObserver()](int) {
+    auto timer = zaf::rx::Timer::Once(
+        std::chrono::seconds(3),
+        zaf::rx::MainThreadScheduler::Instance());
+
+    zaf::Application::Instance().Disposables() += 
+        timer.Subscribe([observer = subject.AsObserver()](std::size_t) {
     
         std::string mock_content =
 R"(Yes, there are several libraries and tools available that can help you generate SQL queries programmatically. Here are some popular ones across different programming languages:
