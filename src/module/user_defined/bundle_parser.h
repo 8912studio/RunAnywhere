@@ -1,21 +1,21 @@
 #pragma once
 
 #include <filesystem>
-#include <zaf/base/error/base_runtime_error.h>
+#include <zaf/base/error/runtime_error_base.h>
 #include "module/user_defined/bundle.h"
 
 namespace ra::mod::user_defined {
 
 class BundleParser {
 public:
-    class ParseError : public zaf::BaseRuntimeError {
+    class ParseError : public zaf::RuntimeErrorBase {
     public:
         ParseError(
             int error_line_number, 
             const std::string& error_line,
             const zaf::SourceLocation& location)
             :
-            BaseRuntimeError(location),
+            RuntimeErrorBase(location),
             error_line_number_(error_line_number), 
             error_line_(error_line) { 
 

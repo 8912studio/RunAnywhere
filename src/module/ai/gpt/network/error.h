@@ -1,14 +1,14 @@
 #pragma once
 
 #include <curl/curl.h>
-#include <zaf/base/error/base_runtime_error.h>
+#include <zaf/base/error/runtime_error_base.h>
 
 namespace ra::mod::ai::gpt {
 
-class CURLError : public zaf::BaseRuntimeError {
+class CURLError : public zaf::RuntimeErrorBase {
 public:
     CURLError(CURLcode code, const std::string& message, const zaf::SourceLocation& location) : 
-        BaseRuntimeError(message, location),
+        RuntimeErrorBase(message, location),
         code_(code) {
 
     }
@@ -22,10 +22,10 @@ private:
 };
 
 
-class CURLMultiSocketError : public zaf::BaseRuntimeError {
+class CURLMultiSocketError : public zaf::RuntimeErrorBase {
 public:
     CURLMultiSocketError(CURLMcode code, const zaf::SourceLocation& location) :
-        BaseRuntimeError(location),
+        RuntimeErrorBase(location),
         code_(code) {
 
     }
@@ -39,10 +39,10 @@ private:
 };
 
 
-class HTTPError : public zaf::BaseRuntimeError {
+class HTTPError : public zaf::RuntimeErrorBase {
 public:
     HTTPError(int status, const std::string& message, const zaf::SourceLocation& location) :
-        BaseRuntimeError(message, location),
+        RuntimeErrorBase(message, location),
         status_(status) {
 
     }

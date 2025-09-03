@@ -12,7 +12,7 @@ public:
     explicit ASIOScheduler(std::shared_ptr<boost::asio::io_context> io_context);
     ~ASIOScheduler();
 
-    void ScheduleWork(zaf::Closure work) override;
+    std::shared_ptr<zaf::rx::Disposable> ScheduleWork(zaf::Closure work) override;
 
     std::shared_ptr<zaf::rx::Disposable> ScheduleDelayedWork(
         std::chrono::steady_clock::duration delay,

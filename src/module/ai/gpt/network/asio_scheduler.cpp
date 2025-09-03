@@ -24,8 +24,9 @@ ASIOScheduler::~ASIOScheduler() {
 }
 
 
-void ASIOScheduler::ScheduleWork(zaf::Closure work) {
+std::shared_ptr<zaf::rx::Disposable> ASIOScheduler::ScheduleWork(zaf::Closure work) {
     boost::asio::post(*io_context_, std::move(work));
+    return zaf::rx::Disposable::Empty();
 }
 
 
