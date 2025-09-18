@@ -1,5 +1,5 @@
 #include "module/ai/gpt/dialog/pre_create_round_task.h"
-#include <zaf/base/error/contract_error.h>
+#include <zaf/base/error/precondition_error.h>
 #include <zaf/base/string/encoding_conversion.h>
 #include <zaf/base/string/trim.h>
 #include "module/ai/gpt/local_error.h"

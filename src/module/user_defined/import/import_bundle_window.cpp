@@ -1,6 +1,6 @@
 #include "module/user_defined/import/import_bundle_window.h"
 #include <cassert>
-#include <zaf/base/error/check.h>
+#include <zaf/base/error/unreachable_error.h>
 #include <zaf/base/string/encoding_conversion.h>
 #include "module/user_defined/bundle_definition.h"
 
@@ -88,7 +88,7 @@ void ImportBundleWindow::ShowImportState() {
         display_info = GetErrorStateDisplayInfo();
         break;
     default:
-        ZAF_NOT_REACHED();
+        ZAF_UNREACHABLE();
     }
 
     iconImage->SetURI(display_info.icon_uri);
@@ -119,7 +119,7 @@ void ImportBundleWindow::ShowButtons(ButtonsStyle style) {
         cancel_button_text = L"No";
         break;
     default:
-        ZAF_NOT_REACHED();
+        ZAF_UNREACHABLE();
     }
 
     okButton->SetText(ok_button_text);

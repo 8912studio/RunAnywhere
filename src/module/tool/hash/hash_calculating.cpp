@@ -1,7 +1,7 @@
 #include "module/tool/hash/hash_calculating.h"
 #include <fstream>
 #include <zaf/rx/scheduler/single_thread_scheduler.h>
-#include <zaf/base/error/check.h>
+#include <zaf/base/error/unreachable_error.h>
 #include <zaf/base/string/case_conversion.h>
 #include <zaf/base/string/encoding_conversion.h>
 
@@ -101,7 +101,7 @@ std::wstring CalculateStringHash(
             string.length() * sizeof(wchar_t));
     }
     else {
-        ZAF_NOT_REACHED();
+        ZAF_UNREACHABLE();
     }
 
     return GetHashString(hash);

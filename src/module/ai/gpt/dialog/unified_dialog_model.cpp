@@ -1,6 +1,6 @@
 #include "module/ai/gpt/dialog/unified_dialog_model.h"
 #include <zaf/base/container/utility/find.h>
-#include <zaf/base/error/contract_error.h>
+#include <zaf/base/error/precondition_error.h>
 #include <zaf/base/string/encoding_conversion.h>
 
 namespace ra::mod::ai::gpt {

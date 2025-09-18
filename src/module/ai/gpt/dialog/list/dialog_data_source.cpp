@@ -2,7 +2,7 @@
 #include <zaf/base/container/utility/append.h>
 #include <zaf/base/container/utility/find.h>
 #include <zaf/base/container/utility/sort.h>
-#include <zaf/base/error/contract_error.h>
+#include <zaf/base/error/precondition_error.h>
 #include <zaf/base/range.h>
 
 namespace ra::mod::ai::gpt {

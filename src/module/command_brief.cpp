@@ -1,5 +1,5 @@
 #include "module/command_brief.h"
-#include <zaf/base/error/contract_error.h>
+#include <zaf/base/error/precondition_error.h>
 #include "utility/markdown/element/factory.h"
 
 namespace ra::mod {

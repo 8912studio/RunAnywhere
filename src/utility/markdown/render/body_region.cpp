@@ -1,6 +1,6 @@
 #include "utility/markdown/render/body_region.h"
 #include <zaf/base/as.h>
-#include <zaf/base/error/check.h>
+#include <zaf/base/error/unreachable_error.h>
 #include <zaf/creation.h>
 #include "utility/markdown/element/header_element.h"
 #include "utility/markdown/render/code_block_region.h"
@@ -52,7 +52,7 @@ std::shared_ptr<RenderRegion> BodyRegion::CreateBlockRegion(
     case element::ElementType::UnorderedList:
         return ListRegion::Create(element, style_config, depth);
     default:
-        ZAF_NOT_REACHED();
+        ZAF_UNREACHABLE();
     }
 }
 

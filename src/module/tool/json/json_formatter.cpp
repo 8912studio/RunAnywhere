@@ -1,6 +1,6 @@
 #include "module/tool/json/json_formatter.h"
 #include <format>
-#include <zaf/base/error/check.h>
+#include <zaf/base/error/unreachable_error.h>
 #include <zaf/base/string/encoding_conversion.h>
 
 using namespace zaf;
@@ -41,7 +41,7 @@ void JSONFormatter::FormatValue(const boost::json::value& value) {
         FormatObject(value.get_object());
         break;
     default:
-        ZAF_NOT_REACHED();
+        ZAF_UNREACHABLE();
     }
 }
 

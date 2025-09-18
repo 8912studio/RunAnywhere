@@ -1,6 +1,6 @@
 #include "utility/markdown/render/styled_text_builder.h"
 #include <zaf/base/as.h>
-#include <zaf/base/error/check.h>
+#include <zaf/base/error/unreachable_error.h>
 #include "utility/markdown/element/header_element.h"
 
 using namespace zaf::textual;
@@ -72,7 +72,7 @@ TextStyle StyledTextBuilder::CreateNewStyleByElement(
         break;
 
     default:
-        ZAF_NOT_REACHED();
+        ZAF_UNREACHABLE();
     }
 
     return new_style;

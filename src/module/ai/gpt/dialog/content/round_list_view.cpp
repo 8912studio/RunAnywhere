@@ -1,5 +1,5 @@
 #include "module/ai/gpt/dialog/content/round_list_view.h"
-#include <zaf/base/error/contract_error.h>
+#include <zaf/base/error/precondition_error.h>
 
 namespace ra::mod::ai::gpt {
 

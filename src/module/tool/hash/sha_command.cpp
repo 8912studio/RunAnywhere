@@ -1,5 +1,5 @@
 #include "module/tool/hash/sha_command.h"
-#include <zaf/base/error/check.h>
+#include <zaf/base/error/unreachable_error.h>
 #include <zaf/crypto/sha.h>
 #include "help/built_in_help_content_manager.h"
 #include "module/tool/hash/sha_algorithm_type_parsing.h"
@@ -57,7 +57,7 @@ HashAlgorithmInfo SHACommand::GetHashAlgorithmInfo() {
 		result.algorithm_creator = []() { return zaf::crypto::SHA512{}; };
 		break;
 	default:
-		ZAF_NOT_REACHED();
+		ZAF_UNREACHABLE();
 	}
 
 	return result;
