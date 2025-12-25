@@ -124,8 +124,7 @@ void ApplicationDelegate::InitializeTrayIconWindow() {
 
     message_window_ = zaf::Create<zaf::Window>(IPCWindowClassName);
     message_window_->SetIsToolWindow(true);
-    message_window_->SetActivateOption(zaf::ActivateOption::NoActivate);
-    message_window_->SetInitialRectStyle(zaf::InitialRectStyle::Custom);
+    message_window_->SetActivateOptions(zaf::ActivateOptions::NoActivate);
     message_window_->SetRect(zaf::Rect{});
     message_window_holder_ = message_window_->CreateHandle();
 

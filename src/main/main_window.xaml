@@ -1,6 +1,5 @@
 <MainWindow 
     IsTopmost="true"
-    InitialRectStyle="Custom"
     Size="600,60">
     
     <MainWindow.RootControl>

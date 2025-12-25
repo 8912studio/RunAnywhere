@@ -24,9 +24,8 @@ void FaultInjectorWindow::ShowWindow() {
     GetMonitorInfo(monitor_handle, &monitor_info);
 
     auto work_rect = zaf::Rect::FromRECT(monitor_info.rcWork);
-    work_rect = zaf::ToDIPs(work_rect, this->GetDPI());
+    work_rect = zaf::ToDIPs(work_rect, this->DPI());
 
-    this->SetInitialRectStyle(zaf::InitialRectStyle::Custom);
     zaf::Rect window_rect;
     window_rect.size = zaf::Size{ 500, work_rect.size.height };
     window_rect.position.x = work_rect.Right() - window_rect.size.width;

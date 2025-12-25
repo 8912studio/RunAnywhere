@@ -2,7 +2,7 @@
 #include <zaf/base/auto_reset.h>
 #include <zaf/control/layout/linear_layouter.h>
 #include <zaf/control/scroll_bar.h>
-#include <zaf/graphic/alignment.h>
+#include <zaf/graphic/pixel_snapping.h>
 #include "help/help_style_config.h"
 
 using namespace ra::utility::markdown::render;

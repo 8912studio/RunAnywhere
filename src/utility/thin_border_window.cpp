@@ -12,8 +12,6 @@ void ThinBorderWindow::Initialize() {
     SetCanMaximize(false);
     SetCanMinimize(false);
     SetIsToolWindow(true);
-    SetHasTitleBar(false);
-    SetHasSystemMenu(false);
 }
 
 
@@ -47,7 +45,7 @@ void ThinBorderWindow::HandleCalculateNonClientSizeMessage(const zaf::Message& m
     //work on Windows 10. So we use this work around: set top border to 0 to remove it completely,
     //and call DwmExtendFrameIntoClientArea() to extend a little non client area into top border.
 
-    auto nc_border_in_pixels = static_cast<int>(zaf::FromDIPs(1, this->GetDPI()));
+    auto nc_border_in_pixels = static_cast<int>(zaf::FromDIPs(1, this->DPI()));
 
     RECT* adjusted_rect{};
     if (message.WParam() == TRUE) {
@@ -77,7 +75,7 @@ void ThinBorderWindow::ExtendNonClientArea(bool is_active) {
 
     MARGINS extended_margins{};
     extended_margins.cyTopHeight =
-        static_cast<int>(zaf::FromDIPs(extended_thickness, this->GetDPI()));
+        static_cast<int>(zaf::FromDIPs(extended_thickness, this->DPI()));
 
     DwmExtendFrameIntoClientArea(this->Handle(), &extended_margins);
 }
@@ -91,7 +89,7 @@ void ThinBorderWindow::OnMessageHandled(const zaf::MessageHandledInfo& event_inf
 
         RECT paint_rect{};
         GetClientRect(this->Handle(), &paint_rect);
-        paint_rect.bottom = static_cast<LONG>(zaf::FromDIPs(1, this->GetDPI()));
+        paint_rect.bottom = static_cast<LONG>(zaf::FromDIPs(1, this->DPI()));
 
         HDC dc = GetDC(this->Handle());
         FillRect(dc, &paint_rect, reinterpret_cast<HBRUSH>(GetStockObject(BLACK_BRUSH)));

@@ -119,7 +119,7 @@ void MainWindow::AdjustPositionOnFirstShow(){
     }
 
     auto window_size = this->Size();
-    auto dpi = this->GetDPI();
+    auto dpi = this->DPI();
 
     auto screen_width = zaf::ToDIPs(
         static_cast<float>(work_area_rect.right - work_area_rect.left),
@@ -158,7 +158,7 @@ zaf::Rect MainWindow::EnsureRectInVisibleArea(const zaf::Rect& rect) const {
         return rect;
     }
 
-    auto screen_rect = zaf::ToDIPs(zaf::Rect::FromRECT(monitor_info.rcWork), this->GetDPI());
+    auto screen_rect = zaf::ToDIPs(zaf::Rect::FromRECT(monitor_info.rcWork), this->DPI());
     auto result = rect;
 
     //Adjust horizontal coordinations.

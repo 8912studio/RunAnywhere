@@ -1,5 +1,5 @@
 #include "module/ai/gpt/gpt_preview_control.h"
-#include <zaf/graphic/alignment.h>
+#include <zaf/graphic/pixel_snapping.h>
 #include "module/ai/gpt/gpt_question_view.h"
 
 namespace ra::mod::ai::gpt {

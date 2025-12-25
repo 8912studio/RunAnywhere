@@ -26,7 +26,7 @@ ExecuteResult GPTExecutor::Execute() {
     }
 
     unified_dialog_window->Show();
-    unified_dialog_window->Activate();
+    unified_dialog_window->BringToForeground();
 
     unified_dialog_window->View()->StartNewDialog(std::move(question_));
     return PostExecuteAction::Dispose;

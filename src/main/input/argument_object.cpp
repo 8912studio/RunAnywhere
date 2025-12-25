@@ -131,11 +131,10 @@ bool ArgumentObject::InnerOpenWindow() {
 
         auto position_in_window = *this->PositionInHost();
         position_in_window.AddOffset(*host->PositionInWindow());
-        auto position_in_screen = host_window->TranslateToScreen(position_in_window);
+        auto position_in_screen = host_window->TransformToScreen(position_in_window);
 
         auto window = CreateArgumentObjectWindow();
         window->SetOwner(host_window);
-        window->SetInitialRectStyle(zaf::InitialRectStyle::Custom);
 
         window->SetObjectPositionInScreen(position_in_screen);
         window->SetIsReadOnly(style_ != CommandDisplayStyle::Normal);

@@ -1,6 +1,5 @@
 <LicenseWindow
     Title="License"
-    InitialRectStyle="CenterInScreen"
     Size="620,500">
 
     <LicenseWindow.RootControl>
